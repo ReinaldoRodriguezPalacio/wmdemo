@@ -1,0 +1,249 @@
+//
+//  IPASearchProductViewController.swift
+//  WalMart
+//
+//  Created by Gerardo Ramirez on 10/13/14.
+//  Copyright (c) 2014 BCG Inc. All rights reserved.
+//
+
+import Foundation
+
+class IPASearchProductViewController : SearchProductViewController, UIPopoverControllerDelegate {
+    var frameTitle : CGRect = CGRectZero
+    var viewAnimated : Bool = false
+    var currentCellSelected : NSIndexPath!
+    var filterController: FilterProductsViewController?
+    var sharePopover: UIPopoverController?
+    var imageBackground : UIImage? = nil
+    
+    override func viewDidLoad() {
+        self.maxResult = 23
+        super.viewDidLoad()
+        self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
+        collection?.registerClass(IPASearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductSearch")
+
+        collection?.frame = self.view.bounds
+    }
+
+    override func viewWillLayoutSubviews() {
+        self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        if !viewAnimated {
+//            if  self.filterView != nil {
+//               self.removeFilter()
+//            }
+            super.viewWillLayoutSubviews()
+            var bounds = self.view.bounds
+            self.titleLabel!.sizeToFit()
+            self.titleLabel!.frame = CGRectMake((bounds.width - self.titleLabel!.frame.width) / 2,  0, titleLabel!.frame.width , self.header!.frame.height)
+            frameTitle = self.titleLabel!.frame
+        }
+        self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 16, 320, 28)
+        self.btnSuper.frame = CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2)
+        self.btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
+        self.btnSuper.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        
+        self.btnTech.frame = CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2)
+        self.btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
+        self.btnTech.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+        return CGSizeMake(self.view.bounds.width / 3, 254);
+    }
+    
+    override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+        if indexPath.row < self.allProducts!.count {
+
+            var paginatedProductDetail = IPAProductDetailPageViewController()
+            paginatedProductDetail.ixSelected = indexPath.row
+            paginatedProductDetail.itemsToShow = []
+            for product in self.allProducts! {
+                let upc = product["upc"] as NSString
+                let desc = product["description"] as NSString
+                let type = product["type"] as NSString
+                paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":type ])
+            }
+            
+            //var contDetail = IPAProductDetailViewController()
+            //contDetail.upc = upc
+            //contDetail.name = desc
+            
+            let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as IPASearchProductCollectionViewCell!
+            currentCellSelected = indexPath
+            let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
+            //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
+            paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
+            paginatedProductDetail.animationController.originPoint =  pontInView
+            paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
+            currentCell.hideImageView()
+            
+            self.navigationController?.delegate = paginatedProductDetail
+            self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
+            
+            
+        }
+    }
+    
+    func reloadSelectedCell() {
+        let currentCell = collection!.cellForItemAtIndexPath(currentCellSelected) as IPASearchProductCollectionViewCell!
+        currentCell.showImageView()
+    }
+    
+    override func filter(sender:UIButton){
+        self.filterController = FilterProductsViewController()
+        self.filterController!.facet = self.facet
+        self.filterController!.hiddenBack = true
+        self.filterController!.textToSearch = self.textToSearch
+        self.filterController!.selectedOrder = self.idSort!
+        self.filterController!.delegate = self
+        self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
+        self.filterController!.searchContext = self.searchContextType
+        self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
+        self.filterController!.view.backgroundColor = UIColor.clearColor()
+        self.filterController!.successCallBack  = { () in
+            self.sharePopover?.dismissPopoverAnimated(true)
+            return
+        }
+        
+        let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
+
+        //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
+        var controller = UIViewController()
+        controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
+        controller.view.addSubview(self.filterController!.view)
+        controller.view.backgroundColor = UIColor.clearColor()
+        
+        self.sharePopover = UIPopoverController(contentViewController: controller)
+        self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 390.0)
+        self.sharePopover!.delegate = self
+        self.sharePopover!.backgroundColor = UIColor.whiteColor()
+        //var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)//
+        
+        self.sharePopover!.presentPopoverFromRect(CGRectMake(self.filterButton!.frame.minX , pointPop.y , 0, 0), inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+    }
+
+    
+    //MARK: - UIPopoverControllerDelegate
+    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+        self.sharePopover = nil
+        self.filterController = nil
+    }
+    
+
+    //TODO: VERIFICAR LA VISUALIZACION DE FILTROS EN IPAD - ANAH
+    /*
+    override func filter(sender:UIButton){
+        let widthFilter : CGFloat =  320
+        var minFilter = self.header!.frame.maxX - widthFilter
+        var frameLabelTo = self.titleLabel!.frame
+        var minLabel = frameTitle.minX
+        
+        if filterView==nil{
+            self.filterView = HeaderFilterView (frame: CGRectMake(self.header!.frame.maxX - 16, 0 , widthFilter, self.header!.frame.height))
+            self.filterView?.delegate = self
+        }//if filterView==nil{
+        
+        self.header?.addSubview(filterView!)
+        var view = UIView(frame:CGRectMake(self.header!.frame.maxX - 16, 0, 16, 46))
+        view.backgroundColor = WMColor.navigationHeaderBgColor
+        self.header?.addSubview(view)
+        
+        self.viewAnimated = true
+        
+        if  self.frameTitle.maxX > minFilter {
+            minLabel =   frameTitle.minX - (self.frameTitle.maxX  - minFilter)
+            if minLabel > 46 {
+                frameLabelTo = CGRectMake(minLabel , 0 , self.titleLabel!.frame.width, self.titleLabel!.frame.height )
+            }else{
+                 frameLabelTo = CGRectMake(46 , 0 ,  minFilter - 46 , self.titleLabel!.frame.height )
+            }
+            
+            var headerFrame = self.header!.frame
+            
+            UIView.animateWithDuration(0.25, animations: {
+                self.filterView!.frame = CGRectMake(self.titleLabel!.frame.maxX, headerFrame.minY , 313, headerFrame.height)
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        UIView.animateWithDuration(0.25, animations: {
+                            self.filterView!.frame = CGRectMake(minFilter, headerFrame.minY , 313, headerFrame.height)
+                            self.titleLabel!.frame  = frameLabelTo
+                            }, completion: {(bool : Bool) in
+                                if bool {
+                                    view.removeFromSuperview()
+                                     self.viewAnimated = false
+                                }
+                        })
+                    }
+            })
+            
+        }
+        else {
+            var headerFrame = self.header!.frame
+            UIView.animateWithDuration(0.5, animations: {
+                self.filterView!.frame = CGRectMake(minFilter, headerFrame.minY , 313, headerFrame.height)
+                self.titleLabel!.frame  = frameLabelTo
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        view.removeFromSuperview()
+                        self.viewAnimated = false
+                    }
+            })
+        }
+    }
+
+    override func removeFilter(){
+        var view = UIView(frame:CGRectMake(self.header!.frame.maxX - 16, 0, 16, 46))
+        view.backgroundColor = WMColor.navigationHeaderBgColor
+        self.header?.addSubview(view)
+        self.viewAnimated = true
+        
+        if  self.frameTitle.width > self.titleLabel!.frame.width{
+            UIView.animateWithDuration(0.25, animations: {
+                    self.filterView!.frame = CGRectMake(self.frameTitle.maxX, 0 , 320, self.header!.frame.height)
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        UIView.animateWithDuration(0.25, animations: {
+                            self.filterView!.frame = CGRectMake(self.header!.frame.maxX - 16, 0 , 320, self.header!.frame.height)
+                             self.titleLabel!.frame = self.frameTitle
+                            }, completion: {(bool : Bool) in
+                                if bool {
+                                    view.removeFromSuperview()
+                                    self.filterView!.removeFromSuperview()
+                                    self.viewAnimated = false
+                                }
+                        })
+                    }
+            })
+        }
+        else {
+            UIView.animateWithDuration(0.5, animations: {
+                self.titleLabel!.frame = self.frameTitle
+                self.filterView!.frame = CGRectMake(self.header!.frame.maxX - 16, 0 , 320
+                , self.header!.frame.height)
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        view.removeFromSuperview()
+                        self.filterView!.removeFromSuperview()
+                        self.viewAnimated = false
+                    }
+            })
+        }
+        
+    }
+    */
+    
+    
+    
+    override func productCellIdentifier() -> String {
+        return "iPAProductSearch"
+    }
+    
+}

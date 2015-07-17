@@ -1,0 +1,487 @@
+/*
+ Localizable.strings
+ WalMart
+ 
+ Created by Gerardo Ramirez on 8/28/14.
+ Copyright (c) 2014 BCG Inc. All rights reserved.
+ */
+
+//App version 
+"app.version" = "Versión 2.0.4";
+
+//More Options
+"moreoptions.title.Profile" = "Perfil y contraseña";
+"moreoptions.title.Recents" = "Artículos más comprados";
+"moreoptions.title.Address" = "Direcciones";
+"moreoptions.title.Orders" = "Pedidos anteriores";
+
+"moreoptions.title.StoreLocator" = "Localizador de Tiendas";
+
+"moreoptions.title.Help" = "¿Como usar el app?";
+"moreoptions.title.Terms" = "Términos y condiciones";
+"moreoptions.title.Contact" = "Soporte";
+
+
+//Detalle de producto
+"product.detail.msi" = "Mensualidades";
+"product.detail.description" = "Descripción del Artículo";
+"product.detail.detail" = "Detalles";
+"product.detail.list" = "Listas";
+"productdetail.paiments" = "Pagos";
+"productdetail.of" = "de";
+"productdetail.msitext" = "Meses sin intereses";
+"productdetail.characteristics" = "Características del Artículo";
+"productdetail.bundleitems" = "Artículos del paquete";
+"productdetail.related" = "Artículos Relacionados";
+"productdetail.notaviable" = "Artículo no disponible";
+"productdetail.notaviableinventory" = "Lo sentimos, por el momento\n sólo puedes ordenar hasta un\n máximo de ";
+"productdetail.notaviableinventoryart" = "artículos";
+"productdetail.notaviableinventorywe" = "gramos";
+"productdetail.shop" = "Comprar";
+"productdetail.shopna" = "No disponible";
+"productdetail.cancel" = "Cancelar";
+
+"product.searh.field.barcode" = "Escanea código de barras";
+"product.searh.help.barcode" = "Para escanear enfoca el código de barras del artículo";
+"product.searh.shown.recent" = "Mostrados recientemente";
+"product.searh.shown.categories" = "Categorias";
+"product.search.loading" = "Cargando productos";
+"product.searh.all" = "Ver Todos";
+"product.searh.cancel" = "Cancelar";
+"product.search.scann.help" = "También puedes buscar escaneando un código de barras";
+"product.search.minimum" = "Ingrese mínimo 3 caractéres";
+
+//filter
+"filter.title" = "Filtrar";
+"filter.apply" = "Aplicar";
+"filter.button.title" = "Filtrar";
+"filter.button.clean" = "Sin filtros";
+"filter.section.order" = "Ordenar";
+"filter.section.categories" = "Elige una Categoría";
+"descriptionASC" = "A - Z";
+"descriptionDESC" = "Z - A";
+"priceASC" = "$ - $$$";
+"priceDESC" = "$$$ - $";
+"popularity" = "Por Popularidad";
+
+//Shoping cart
+"shoppingcart.title" = "Carrito";
+"shoppingcart.return" = "Regresar";
+"shoppingcart.subtotal" = "Subtotal";
+"shoppingcart.iva" = "IVA";
+"shoppingcart.total" = "Total Estimado";
+"shoppingcart.saving" = "Total Ahorrado";
+"shoppingcart.beforeleave" = "Antes de irte";
+"shoppingcart.additemswishlist" = "Agregando todos los artículos disponibles de tu lista";
+"shoppingcart.shop" = "Comprar ";
+"shoppingcart.loading" = "Actualizando carrito";
+"shoppingcart.ready" = "¡Listo!";
+"shoppingcart.alreadyincart" = "Los artícuos ya se encuentran en tu carrito";
+"shoppingcart.articles" = "artículos";
+"shoppingcart.noarticles" = "Sin artículos";
+"shoppingcart.noarticles.gr" = "Sin artículos\nToca aquí para hacer tu Súper";
+"shoppingcart.noarticles.mg" = "Sin artículos\nToca aquí para hacer tus compras";
+"shoppingcart.quantity.piece" = "%@ pieza";
+"shoppingcart.quantity.pieces" = "%@ piezas";
+"shoppingcart.quantity.gr" = "%@ gr";
+"shoppingcart.quantity.kg" = "%@ kg";
+"shoppingcart.note" = "Nota";
+"shoppingcart.addNote" = "Agregar Nota para Envío";
+"shoppingcart.updateNote" = "Editar Nota para Envío";
+"shoppingcart.saveNote" = "Guardando Nota...";
+"shoppingcart.deleteNote" = "Eliminando Nota...";
+"shoppingcart.noteTile" = "Nota de Envío";
+//WishList
+"wishlist.title" = "Wishlist";
+"wishlist.edit" = "editar";
+"wishlist.delete" = "Eliminar";
+"wishlist.deleteall" = "Eliminar todo";
+"wishlist.endedit" = "ok";
+"wishlist.ready" = "¡Artículo añadido a tu Wishlist!";
+"wishlist.deleted" = "¡Artículo eliminado de tu Wishlist!";
+"wishlist.loading" = "Actualizando Wishlist";
+"wishlist.readyload" = "¡Listo!";
+"wishlist.shop" = "Comprar todo";
+"wishlist.articles" = "artículos";
+"wishlist.lists" = "listas";
+"wishlist.message.help" = "Los artículos que has agregado a tu Wishlist se encuentran aquí";
+
+//My list
+"list.title" = "Listas";
+"list.edit" = "Editar";
+"list.endedit" = "Ok";
+"list.new" = "Nueva";
+"list.endnew" = "Cancelar";
+"list.copy" = "Duplicar";
+"list.copy.inProcess" = "Duplicando Lista";
+"list.copy.done" = "Lista duplicada correctamente";
+"list.new.save" = "Ok";
+"list.new.placeholder" = "Nueva Lista";
+"list.new.keyboard.cancel" = "Cancelar";
+"list.new.keyboard.save" = "Crear";
+"list.articles" = "%@ artículos";
+"list.empty" = "Aún no has creado una Lista de Súper";
+"list.search.placeholder" = "Buscar";
+"list.selector.title" = "Añadir a Lista de Súper";
+"list.selector.openDetail" = "Abrir";
+"list.selector.new.placeholder" = "Nueva Lista";
+
+"list.detail.quantity.piece" = "%@ pieza";
+"list.detail.quantity.pieces" = "%@ piezas";
+"list.detail.quantity.gr" = "%@ gr";
+"list.detail.quantity.kg" = "%@ kg";
+"list.detail.buy" = "Comprar %@";
+"list.detail.empty.header" = "Tu Lista está vacía.";
+"list.detail.empty.text" = "Toca el ícono         de cada artículo para agregarlo.";
+"list.detail.empty.back" = "Regresar";
+
+"list.message.help" = "También puedes escanear un ticket de papel para crear una lista";
+"list.message.creatingList" = "Creando Lista";
+"list.message.listDone" = "Lista Creada";
+"list.message.deletingList" = "Eliminando Lista";
+"list.message.deleteListDone" = "Lista Eliminada";
+"list.message.addingProductToList" = "Agregando producto a lista";
+"list.message.addProductToListDone" = "Producto agregado a lista";
+"list.message.errorProductToList" = "Error al seleccionar la cantidad";
+"list.message.deleteProductToList" = "Eliminado producto de lista";
+"list.message.deleteProductToListDone" = "Producto eliminado de lista";
+"list.message.deletingAllProductsInList" = "Vaciando lista";
+"list.message.deletingAllProductsInListDone" = "Vaciado de lista finalizado";
+"list.message.updatingProductInList" = "Actualizando producto de lista";
+"list.message.updatingProductInListDone" = "Producto actualizado";
+"list.message.updatingListNames" = "Actualizando nombres de lista";
+"list.message.updatingListNamesDone" = "Actualizado de listas completo";
+"list.message.addingProductInCartToList" = "Agregando productos de carrito a lista";
+"list.message.addingProductInCartToListDone" = "Productos de carrito agregados a lista";
+"list.message.retrieveProductsFromTicket" = "Obteniendo productos del ticket";
+"list.message.noProductsForTicket" = "No se encontraron productos asociados al ticket";
+"list.message.creatingListFromTicket" = "Generando lista con productos del ticket";
+"list.message.creatingListFromTicketDone" = "Lista creada";
+"list.message.help.barcode" = "Para escanear enfoca el código de barras del ticket";
+
+"list.new.validation.name" = "El nombre de la lista no puede estar vacío.";
+"list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
+"list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
+"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, Elimine ó actualice las existentes.";
+
+//ShoppingCart
+"shoppingcart.additem" = "Añadiendo";
+"shoppingcart.additemend" = "al carrito";
+"shoppingcart.ready" = "¡Listo!";
+"shoppingcart.keepshopping" = "Seguir comprando";
+"shoppingcart.goshoppingcart" = "Ir al carrito";
+"shoppingcart.addquantitytitle" = "Número de Artículos";
+"shoppingcart.addweighttitle" = "Cantidad";
+"shoppingcart.edit" = "editar";
+"shoppingcart.keepshoppinginsidecart" = "seguir comprando";
+"shoppingcart.endedit" = "ok";
+"shoppingcart.isincart" = "El artículo ya se encuentra en\n tu carrito";
+"shoppingcart.wishlist.ready" = "¡Artículos añadidos a tu Wishlist!";
+"shoppingcart.selectpices" = "Ordenar por Pieza";
+"shoppingcart.selectgrkg" = "Ordenar por Peso";
+"price.saving" = "Ahorras";
+"shoppingcart.addtoshoppingcart" = "Añadir";
+"order.shop.title.btn" = "Comprar";
+"shoppingcart.multiple.50" = "Solo múltiplos de 50";
+
+//Note
+"note.title" = "Nota para Envío";
+"note.save" = "Agregar";
+"note.delete" = "Eliminar Nota";
+
+//Profile
+"profile.name" = "Nombre";
+"profile.lastname" = "Apellido Paterno";
+"profile.secondlastname" = "Apellido Materno";
+"profile.email" = "Correo Electrónico";
+"profile.birthDate" = "Fecha de Nacimiento";
+"profile.password" = "Contraseña";
+"profile.confirmpassword" = "Confirmar Contraseña";
+"profile.terms" = "Por favor marca el siguiente recuadro si aceptas el envío de publicidad y/o promociones. Te informamos que los datos personales que nos proporciones serán tratados de acuerdo con los términos y condiciones establecidos en el presente ";
+"profile.terms.privacy" = "Aviso de Privacidad.";
+"profile.create.an.account" = "Crear una Cuenta";
+"profile.create.an.continue" = "Continuar";
+"profile.create.an.cancel" = "Cancelar";
+"profile.signIn" = "Ingresar";
+"profile.signOut" = "cerrar sesión";
+"profile.forgot.password" = "Olvidé mi contraseña";
+"profile.privacy.notice" = "Aviso de privacidad";
+"profile.misarticulos" = "Mis Artículos Más Comprados";
+"profile.myAddress" = "Mis Direcciones";
+"profile.myOrders" = "Pedidos Anteriores";
+"profile.no.account" = "¿No Tienes Cuenta?";
+"profile.shipping" = "Direcciones de Entrega";
+"profile.fiscal" = "Direcciones de Facturación";
+"profile.address.new" = "Nueva";
+"profile.address.new.title" = "Nueva Dirección";
+"profile.registration" = "Registro";
+"profile.title" = "Perfil";
+"profile.change.password" = "Cambiar Contraseña";
+"profile.save" = "Guardar";
+"profile.password.current" = "Contraseña Actual";
+"profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
+"profile.login.welcome"= "Bienvenido a Walmart";
+"profile.login"= "Ingresa a tu cuenta";
+"field.validate.password.length" = "Contraseña inválida";
+
+//Preious orders
+"previousorder.status" = "Status";
+"previousorder.date" = "Fecha";
+"previousorder.name" = "Nombre";
+"previousorder.deliverytype" = "Envío";
+"previousorder.address" = "Dirección de Entrega";
+"previousorder.fedex" = "Guía Fedex";
+"previousorder.upc" = "UPC";
+"previousorder.quantity" = "Artículos";
+
+//address
+"profile.address.shortName" = "Nombre Corto";
+"profile.address.street" = "Calle";
+"profile.address.outdoornumber" = "Número Ext";
+"profile.address.indoornumber" = "Número Int";
+"profile.address.zipcode" = "Código Postal";
+"profile.address.suburb" = "Colonia";
+"profile.address.municipality" = "Municipio";
+"profile.address.city" = "Ciudad";
+"profile.address.state" = "Estado";
+"profile.address.field.telephone" = "Teléfono";
+"profile.address.field.telephone.house" = "Teléfono de casa";
+"profile.address.field.telephone.office" = "Teléfono de oficina";
+"profile.address.field.telephone.cell" = "Teléfono celular";
+"profile.address.telephone" = "Teléfono";
+"profile.address.shiping.name" =  "Nombre";
+"profile.address.shiping.lastname" = "Apellidos";
+"profile.address.person.name"= "Nombre";
+"profile.address.person.name.moral"= "Nombre de la Empresa";
+"profile.address.person.lastName" = "Apellido Paterno";
+"profile.address.person.lastName2" = "Apellido Materno";
+"profile.address.rfc" = "RFC";
+"profile.address.ieps" = "número IEPS";
+"profile.address.email" = "Correo electrónico";
+"profile.address.moral.name" = "Corporativo";
+"profile.address.shiping" = "Entrega";
+"profile.address.fiscal" = "Facturación";
+"profile.address.fiscal.section" = "Datos Fiscales";
+"profile.address.personal.data" = "Datos Personales";
+"profile.address" = "Dirección";
+"profile.address.person" = "Persona Física";
+"profile.address.corporate" = "Persona Moral";
+"profile.address.prefered" = "Preferida";
+"profile.message.save" = "Guardando...";
+"profile.message.logout" = "Cerrando sesión...";
+"profile.message.registry" = "Registrando...";
+"profile.message.delete" = "Borrando...";
+"profile.message.entering" = "Ingresando...";
+"profile.message.sending" = "Enviando solicitud...";
+"profile.address.super" = "Súper";
+"profile.address.tech" = "Tecnología, Hogar y más";
+"profile.address.already.exist" = "La dirección ya existe";
+
+//field
+"field.validate.required" = " es requerido";
+"field.validate.text.invalid" = " Texto no válido";
+"field.validate.text.invalid.rfc" = " Formato invalido";
+"field.validate.password" = " La contraseña debería tener al menos 8 caracteres";
+"field.validate.password.empty" = " La contraseña es requerida";
+"field.validate.confirm.password" = "debe ser idéntico a la contraseña";
+"field.validate.maxlength" = " la longitud no puede ser mayor a ";
+"field.validate.minlength" = " la longitud no puede ser menor a ";
+"field.validate.minmaxlength.characters" = "caractéres";
+"field.validate.minmaxlength.digit" = "dígitos";
+"signup.validate.terms.conditions" = "Para registrarte debes aceptar los términos y condiciones";
+"field.validate.minmaxlength.gender" = "El genero es requerido";
+"field.validate.zipcode" = "Código postal inválido";
+"field.validate.telephone.invalid" = "Teléfono no válido";
+
+
+//help
+"help.item.support.comments" = "Soporte y Comentarios";
+"help.item.about.walmart" = "Acerca de Walmart";
+"help.item.title" = "Centro de Ayuda";
+"help.item.term.conditions" = "Términos de uso";
+"help.item.privacy.notice" = "Aviso de Privacidad";
+"help.item.productsAvailability" = "Disponibilidad de Productos";
+"help.item.howToBuy" = "¿Cómo puedo comprar?";
+"help.item.paymentsType" =  "Pago Seguro";
+"help.item.shippingCosts" = "Costos de envío y tiempo de entrega";
+"help.item.returnPolicies" = "Política de Devoluciones";
+"help.item.cancelPolicies" = "Política de cancelación";
+"help.item.terms.condition" = "Términos y Condiciones";
+"help.item.terms.qualifies" = "Califica esta App";
+"help.item.terms.support" = "Soporte";
+"help.item.howto.tutorial" = "Tutorial";
+//suport
+"Support.label.question.comment" = "¿Necesitas ayuda?";
+"Support.label.home.more" = "Tecnología hogar y más";
+"Support.label.write.to" = "Escribir a ...";
+"Support.label.super" = "Súper";
+"Support.label.title.by" = "Motivo";
+"Support.label.list.reason.fail" = "Falló la entrega";
+"Support.label.list.reason.close" = "Se cerro la aplicación";
+"Support.label.list.reason.other" = "Otro";
+
+"help.buttom.title.call" = "Llámanos";
+"help.buttom.title.text" = "Escríbenos";
+"help.buttom.title.callto" = "Llama al ";
+
+
+
+
+
+//Empty
+"empty.shoppingcart" = "Tu carrito está vacío.";
+"empty.return" = "Regresar";
+"empty.orders" = "No has realizado pedidos online.";
+"empty.wishlist.title" = "Tu Wishlist está vacía";
+"empty.wishlist.text" = "Toca el ícono       de cada artículo para agregarlo.";
+"empty.address" = "No hay direcciones en tu perfil.";
+"empty.productdetail.barras" = "Escanea el código de barras de un artículo";
+"empty.productdetail.recent" = "No existen artículos";
+"empty.productdetail.texto" ="Intenta con otro artículo";
+"empty.productdetail.banner" ="Información temporalmente no disponible, estamos trabajando en resolverlo";
+"empty.productdetail.title" = "Artículo no disponible";
+"empty.search.title" = "Artículo no disponible";
+
+
+//Checkout
+"checkout.title" = "Check out";
+"checkout.gr.title" = "Generar Pedido";
+"checkout.gr.totalArt" = "%@ artículos";
+"checkout.gr.totalCost" = "Total";
+"checkout.gr.subtotalCost" = "Subtotal";
+"checkout.title.paymentOptions" = "Opciones de Pago";
+"checkout.field.paymentOptions" = "Opciones de Pago";
+"checkout.title.shipmentOptions" = "Opciones de Envío";
+"checkout.field.address" = "Dirección";
+"checkout.field.new.address" = "Agregar Nueva Dirección";
+"checkout.field.shipmentType" = "Tipo de envío";
+"checkout.field.deliverySchedule" = "Horario de Entrega";
+"checkout.field.deliveryDate" = "Fecha de Entrega";
+"checkout.field.comments" = "Comentarios";
+"checkout.title.confirmation" = "Confirmación";
+"checkout.field.confirmation" = "Confirmación";
+
+//Home super
+"home.youarein" = "Estás en Tecnología, Hogar y más";
+"home.gotosuper" = "Ir al Súper";
+"home.banner.termsandconditions" = "Términos y condiciones";
+
+//Notification
+"noti.keepshopping" = "Seguir comprando";
+"noti.godetail" = "Ver";
+
+//Stores
+"store.telephone" = "Teléfono: %@";
+"store.opens" = "Horario: %@";
+"store.distance" = "A %@ km";
+"store.showmap" = "Mapa";
+"store.showtable" = "Lista";
+"store.selector.map" = "Mapa";
+"store.selector.satelite" = "Satélite";
+
+//GR Category
+"gr.category.colapsar" = "Contraer";
+"gr.category.especiales" = "  Lo más visto";
+"gr.category.open" = "Abrir";
+
+
+//Address Super
+"gr.address.title" = "Nueva Dirección";
+"gr.address.section.title" = "Dirección";
+"gr.address.field.shortname" = "Nombre Corto";
+"gr.address.field.street" = "Calle";
+"gr.address.field.outdoornumber" = "No. Exterior";
+"gr.address.field.indoornumber" = "No. Interior";
+"gr.address.field.zipcode" = "Código Postal";
+"gr.address.field.store" = "Tienda";
+"gr.address.field.suburb" = "Colonia";
+"gr.address.section.between.title" = "Entre las calles";
+"gr.address.section.between.phone" = "Información telefónica";
+"gr.address.field.betweenFisrt" = "Primer calle";
+"gr.address.field.betweenSecond" = "Segunda calle";
+
+//GroceriesCheckout descriptions
+"gr.confirmacall" = "Deseo recibir llamada de confirmación.";
+"gr.not.confirmacall.option" = "No deseo recibir llamada de confirmación";
+"gr.not.confirmacall.option.detail" = "No deseo recibir la llamada de confirmación , envíenme solamente los productos de mi pedido que están disponibles.";
+"gr.not.confirmacall" = "No deseo recibir llamada de confirmación";
+"gr.not.confirmacall.detal" = "No deseo recibir llamada de confirmación , envíenme el sustituto disponible en calidad y precio similar.";
+
+//Checkout
+"gr.confirma.title" = "Tu pedido se realizó con éxito";
+"gr.confirma.trakingnum" = "Pedido No. ";
+"gr.confirma.deliverydate" = "Fecha entrega";
+"gr.confirma.deliveryhour" = "Hora entrega";
+"gr.confirma.paymenttype" = "Tipo de pago";
+"gr.confirma.subtotal" = "Subtotal";
+"gr.confirma.total" = "Total";
+"gr.confirma.generatingorden" = "Generando pedido";
+
+"gr.addtolist.super" = "Añadir todo a una lista de súper";
+
+//Estatus pedidos groceries
+"gr.order.status.1" = "Enviado a tienda";
+"gr.order.status.2" = "Enviado";
+"gr.order.status.3" = "Impreso en tienda";
+"gr.order.status.4" = "Empezado a armar";
+"gr.order.status.5" = "Armado";
+"gr.order.status.6" = "Enviado a domicilio";
+"gr.order.status.7" = "Confirmado";
+"gr.order.status.8" = "Cancelado";
+"gr.order.status.9" = "Pendiente";
+"gr.order.status.0" = "En captura";
+"gr.order.status.-1" = "Todos";
+"gr.order.status.10" = "Regreso a tienda";
+"gr.order.status.11" = "Por confirmar";
+"gr.order.status.12" = "Error de datos";
+"gr.order.status.13" = "Modificado";
+"gr.order.status.14" = "Cobrado";
+"gr.order.status.24" = "Cargo por confirmar";
+"gr.order.status.25" = "Cargo por confirmar";
+"gr.order.status.26" = "Cancelado";
+"gr.order.status.21" = "Completado";
+"gr.order.status.22" = "Finalizado";
+"gr.order.status.23" = "Asignado a embarque";
+
+"gr.shoppingcart.login" = "Para realizar tus compras\ningresa a tu cuenta o crea una nueva";
+"gr.list.samename" = "Ya existe una lista con el mismo nombre";
+
+
+//Product Detail
+"productdetail.ingregients.title" = "Ingredientes";
+"productdetail.infonut.title" = "Información nutrimental";
+
+//Product Detail help
+"help.walmart.nowallWM" = "Ahora todo Walmart en una sola app";
+"help.walmart.search" = "Busca por Código de Barras";
+"help.walmart.backup" = "Consulta tus Pedidos Anteriores y Artículos Más Comprados";
+"help.walmart.list" = "Haz una Lista de Súper escaneando tu Ticket";
+
+//updateview
+"update.title" = "¡Nueva versión disponible!";
+"update.description" = "Actualiza tu app para disfrutar una mejor experiencia de compra.";
+"update.later" = "Más tarde";
+"update.update" = "Actualizar ahora";
+
+
+
+//Signup
+"signup.dateofbirth" = "Fecha de nacimiento";
+"signup.male" = "Hombre";
+"signup.female" = "Mujer";
+
+
+"signup.info" = "Información Legal";
+
+"signup.info.pub" = "Deseo recibir publicidad y/o promociones.";
+"signup.info.provacity" = "He leído y acepto los términos del ";
+
+"signup.info.share" = "¿Consiente usted que sus Datos Personales puedan ser transferidos a terceros con los que tengamos un contrato, como Instituciones Financieras, los cuales podrán llevar a cabo el análisis para ofrecerle y, en su caso, otorgarle productos y/o servicios financieros de conformidad con la regulación aplicable y para realizar cualquier actividad necesaria para tales fines?";
+"signup.info.share.yes" = "Sí lo consiento";
+"signup.info.share.no" = "No lo consiento";
+
+"signup.info.return" = "Regresar";
+"signup.info.registry" = "Crear Cuenta";
+
+
+

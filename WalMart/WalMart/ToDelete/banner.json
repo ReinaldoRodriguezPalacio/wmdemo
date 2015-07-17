@@ -1,0 +1,74 @@
+{
+    "bannerList": [
+                   {
+                   "bannerUrlTablet": "www.walmart.com.mx/images/m_webParts/banners/app_g/normal/300714-master-bts-general-app-iphone.jpg",
+                   "bannerUrlPhone": "www.walmart.com.mx/images/m_webParts/banners/app_g/normal/300714-master-bts-general-app-iphone.jpg",
+                   "eventCode": "yes",
+                   "eventUrl": "UPC_B0000000001549",
+                   "expirationDate": "10/12/2014"
+                   },
+                   {
+                   "bannerUrlTablet": "www.walmart.com.mx/images/m_webParts/banners/app_g/normal/230714-master-bts-general-app-ipad.jpg",
+                   "bannerUrlPhone": "www.walmart.com.mx/images/m_webParts/banners/app_g/normal/230714-master-bts-general-app-iphone.jpg",
+                   "eventCode": "yes",
+                   "eventUrl": "f_regreso-a-clases",
+                   "expirationDate": "10/12/2014"
+                   },
+                   {
+                   "bannerUrlTablet": "www.walmart.com.mx/images/m_webParts/banners/app_g/normal/230714-master-celular-lg-app-ipad.jpg",
+                   "bannerUrlPhone": "www.walmart.com.mx/images/m_webParts/banners/app_g/normal/230714-master-celular-lg-app-iphone.jpg",
+                   "eventCode": "yes",
+                   "eventUrl": "UPC_B0053505000001",
+                   "expirationDate": "10/12/2014"
+                   }
+                   ],
+    "embeddedList": [
+                     {
+                     "urlPhone": "www.walmart.com.mx/images/m_webParts/banners/app_g/estatico/260614-estatico-app.jpg",
+                     "urlTablet": "www.walmart.com.mx/images/m_webParts/banners/app_g/estatico/260614-estatico-app.jpg",
+                     "update": "true"
+                     }
+                     ],
+    "bannerListSmall": [
+                        {
+                        "bannerUrlTablet": "www.walmart.com.mx/images/m_cat-home/App/i-pantalla-sony-box-app.jpg",
+                        "bannerUrlPhone": "www.walmart.com.mx/images/m_cat-home/App/pantalla_sony_iphone_box_app1.jpg",
+                        "eventCode": "yes",
+                        "eventUrl": "UPC_00490552494091",
+                        "expirationDate": "10/12/2014"
+                        },
+                        {
+                        "bannerUrlTablet": "www.walmart.com.mx/images/m_cat-home/App/230714-pantallas-box-app.jpg",
+                        "bannerUrlPhone": "www.walmart.com.mx/images/m_cat-home/App/230714-playstation-box-app-iphone.jpg",
+                        "eventCode": "yes",
+                        "eventUrl": "UPC_00490552491886",
+                        "expirationDate": "10/12/2014"
+                        },
+                        {
+                        "bannerUrlTablet": "www.walmart.com.mx/images/m_cat-home/App/i-alberca-box-app.jpg",
+                        "bannerUrlPhone": "www.walmart.com.mx/images/m_cat-home/App/alberca_iphone_box_app1.jpg",
+                        "eventCode": "yes",
+                        "eventUrl": "UPC_00007825728121",
+                        "expirationDate": "10/12/2014"
+                        },
+                        {
+                        "bannerUrlTablet": "www.walmart.com.mx/images/m_cat-home/App/i-pantalla-samsung-box-app.jpg",
+                        "bannerUrlPhone": "www.walmart.com.mx/images/m_cat-home/App/pantalla_samsung_iphone_box_app1.jpg",
+                        "eventCode": "yes",
+                        "eventUrl": "UPC_00880608595729",
+                        "expirationDate": "10/12/2014"
+                        }
+                        ],
+    "embeddedListSmall": [
+                          {
+                          "urlPhone": "www.walmart.com.mx/images/m_webParts/banners/app_p/estatico/app_p_estatico-1.jpg",
+                          "urlTablet": "www.walmart.com.mx/images/m_cat-home/App/estatico/i-estatico-box-app.jpg",
+                          "update": "true"
+                          }
+                          ],
+    "serverDate": "01/08/14 14:18:31",
+    "message": "Banners encontrados.",
+    "token": null,
+    "codeMessage": 0,
+    "minimumAmount": null
+}

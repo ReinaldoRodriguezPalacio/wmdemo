@@ -1,0 +1,23 @@
+ [
+  {
+  "resource" : "DisponibilidadProductos",
+  "title" : "Disponibilidad de Productos",
+  "type" : "pdf"
+  },
+  {
+  "resource" : "PagoSeguro",
+  "title" : "Pago Seguro",
+  "type" : "pdf"
+  },
+  {
+  "resource" : "Politicasdevolucion",
+  "title" : "Políticas de devolución y cancelación de pedidos",
+  "type" : "pdf"
+  },
+  {
+  "resource" : "TiempoEntrega",
+  "title" : "Tiempo de Entrega",
+  "type" : "pdf"
+  }
+  
+  ]

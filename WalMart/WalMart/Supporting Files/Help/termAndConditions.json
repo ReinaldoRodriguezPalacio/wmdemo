@@ -1,0 +1,47 @@
+ [
+  {
+  "id" : "1",
+  "name" : "Términos de Uso Tecnología, Hogar y más",
+  "line" :[
+           {
+           "resource" : "DisponibilidadProductos",
+           "title" : "Disponibilidad de Productos",
+           "type" : "pdf"
+           },
+           {
+           "resource" : "PagoSeguro",
+           "title" : "Pago Seguro",
+           "type" : "pdf"
+           },
+           {
+           "resource" : "Politicasdevolucion",
+           "title" : "Políticas de devolución y cancelación de pedidos",
+           "type" : "pdf"
+           },
+           {
+           "resource" : "TiempoEntrega",
+           "title" : "Tiempo de Entrega",
+           "type" : "pdf"
+           }
+  ]
+  },
+  {
+  "id" : "2",
+  "name" : "Términos de Uso de Walmart Súper",
+  "line" :[{    
+           "resource" : "TermsSuper",
+           "title" : "Términos y condiciones",
+           "type" : "pdf"
+           }]
+  },
+  {
+  "id" : "3",
+  "name" : "Aviso de Privacidad",
+  "line" :[   {
+           "resource" : "privacy",
+           "title" : "Aviso de Privacidad",
+           "type" : "pdf"
+           }]
+  }
+  
+]

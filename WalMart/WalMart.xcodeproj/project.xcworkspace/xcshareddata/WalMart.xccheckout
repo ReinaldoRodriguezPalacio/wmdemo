@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>CBEF8EA6-28E4-41D9-8EE5-E72441806F7A</string>
+	<key>IDESourceControlProjectName</key>
+	<string>WalMart</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>e4af4e65-474c-7c46-956a-f997f113c08b++1855</key>
+		<string>https://bi.isol.ws:8443/svn/Projects/BCG</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>WalMart/Source Code/iOS/trunk/WalMart/WalMart.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>e4af4e65-474c-7c46-956a-f997f113c08b++1855</key>
+		<string>../../../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>e4af4e65-474c-7c46-956a-f997f113c08b++1855</key>
+		<string>https://bi.isol.ws:8443/svn/Projects</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://bi.isol.ws:8443/svn/Projects/BCG/WalMart/Source%20Code/iOS/trunk/WalMart/WalMart.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>e4af4e65-474c-7c46-956a-f997f113c08b++1855</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>e4af4e65-474c-7c46-956a-f997f113c08b++1855</string>
+			<key>IDESourceControlWCCName</key>
+			<string>BCGSVN</string>
+		</dict>
+	</array>
+</dict>
+</plist>

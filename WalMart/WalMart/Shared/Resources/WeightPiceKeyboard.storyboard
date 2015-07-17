@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="t93-nv-5Lv">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="UCA-YB-fAr">
+            <objects>
+                <navigationController navigationBarHidden="YES" id="t93-nv-5Lv" sceneMemberID="viewController">
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="360"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tLJ-9U-KiZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="dA2-De-oQF" kind="relationship" relationship="rootViewController" id="qSj-qV-3ZX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZdN-OG-YrF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-485" y="296"/>
+        </scene>
+        <!--Keyboard Pices View Controller-->
+        <scene sceneID="AyG-UV-K4f">
+            <objects>
+                <viewController id="Xq0-wE-llx" customClass="KeyboardPicesViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="e1R-2h-xOL"/>
+                        <viewControllerLayoutGuide type="bottom" id="Pv7-mO-SFS"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3z4-AZ-sZv">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rWO-PK-eE2">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DMf-7K-3H5">
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                <state key="normal" image="close">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D5e-g4-SO6">
+                                <rect key="frame" x="60" y="49" width="200" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Waf-dh-Gx9">
+                                <rect key="frame" x="89" y="310" width="142" height="36"/>
+                                <state key="normal" title="Añadir">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pZ5-jX-aOr" customClass="NumericKeyboardView" customModule="WalmartMG" customModuleProvider="target">
+                                <rect key="frame" x="80" y="93" width="160" height="174"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Ts-ck-ds0">
+                                <rect key="frame" x="100" y="15" width="120" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Ordenar por Peso">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="addButton" destination="Waf-dh-Gx9" id="yOo-jg-Czt"/>
+                        <outlet property="backgroundView" destination="rWO-PK-eE2" id="RTq-jL-dqo"/>
+                        <outlet property="closeButton" destination="DMf-7K-3H5" id="6EK-g1-8fz"/>
+                        <outlet property="keyboardView" destination="pZ5-jX-aOr" id="cKR-v1-A1b"/>
+                        <outlet property="orderPiceButton" destination="7Ts-ck-ds0" id="qSX-nH-NLj"/>
+                        <outlet property="viewContainerQ" destination="D5e-g4-SO6" id="5Nx-Cp-r2C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="i5O-g0-f8Q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1032" y="-138"/>
+        </scene>
+        <!--Keyboard Weight View Controller-->
+        <scene sceneID="hgI-dm-vjD">
+            <objects>
+                <viewController storyboardIdentifier="WeightVC" id="dA2-De-oQF" customClass="KeyboardWeightViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="2Jp-jw-jJx"/>
+                        <viewControllerLayoutGuide type="bottom" id="GKn-Wm-CCi"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ki0-9R-dMN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q8j-96-C8r">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="keO-za-EKj">
+                                <rect key="frame" x="89" y="310" width="142" height="36"/>
+                                <state key="normal" title="Añadir">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0yv-ES-zLx">
+                                <rect key="frame" x="60" y="49" width="200" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAM-0N-Sn8">
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                <state key="normal" image="close">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cn5-6I-aIC">
+                                <rect key="frame" x="100" y="15" width="120" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Ordenar por Pieza">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dc5-fL-MXy" customClass="WeightKeyboardView" customModule="WalmartMG" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111" width="288" height="174"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7dq-gF-fqZ">
+                                <rect key="frame" x="240" y="310" width="79" height="40"/>
+                                <state key="normal" image="notes_keyboard">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="0VE-j9-qXA"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="320" height="360"/>
+                    <connections>
+                        <outlet property="addButton" destination="keO-za-EKj" id="wen-3n-aJY"/>
+                        <outlet property="backgroundView" destination="q8j-96-C8r" id="5d6-qr-MQv"/>
+                        <outlet property="btnNote" destination="7dq-gF-fqZ" id="YS1-mn-9s1"/>
+                        <outlet property="closeButton" destination="bAM-0N-Sn8" id="pjh-xd-qTh"/>
+                        <outlet property="keyboardView" destination="dc5-fL-MXy" id="fvx-r5-4s9"/>
+                        <outlet property="orderPiceButton" destination="cn5-6I-aIC" id="kBZ-d0-79c"/>
+                        <outlet property="viewContainerQ" destination="0yv-ES-zLx" id="qHd-pN-ytg"/>
+                        <segue destination="Xq0-wE-llx" kind="show" identifier="pices" id="9Av-bE-bJL"/>
+                        <segue destination="7aE-VH-NHS" kind="show" identifier="kggrams" id="dxh-3L-i6C"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dbX-4h-TyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="255" y="296"/>
+        </scene>
+        <!--Keyboard Grams Kg View Controller-->
+        <scene sceneID="soc-Wp-7JS">
+            <objects>
+                <viewController id="7aE-VH-NHS" customClass="KeyboardGramsKgViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mYt-Ki-M1r"/>
+                        <viewControllerLayoutGuide type="bottom" id="wF3-6T-sno"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="34y-fw-Qdu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uot-JG-57z">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="360"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g23-8g-nmW">
+                                <rect key="frame" x="60" y="49" width="200" height="40"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fA3-Zf-8fS">
+                                <rect key="frame" x="240" y="310" width="79" height="40"/>
+                                <state key="normal" image="notes_keyboard">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PJE-Qv-3kh">
+                                <rect key="frame" x="89" y="310" width="142" height="36"/>
+                                <state key="normal" title="Añadir">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pez-cU-z47">
+                                <rect key="frame" x="100" y="15" width="120" height="18"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <state key="normal" title="Gramos">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g3x-gD-pIT" customClass="NumericKeyboardView" customModule="WalmartMG" customModuleProvider="target">
+                                <rect key="frame" x="80" y="93" width="160" height="174"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QhD-Qe-d8d">
+                                <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                                <state key="normal" image="search_back">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="addButton" destination="PJE-Qv-3kh" id="eeo-iV-5kV"/>
+                        <outlet property="backgroundView" destination="Uot-JG-57z" id="96e-H0-Gzs"/>
+                        <outlet property="btnNote" destination="fA3-Zf-8fS" id="VTc-9c-1Ib"/>
+                        <outlet property="closeButton" destination="QhD-Qe-d8d" id="cia-gG-wYt"/>
+                        <outlet property="keyboardView" destination="g3x-gD-pIT" id="BBc-hx-Jon"/>
+                        <outlet property="orderPiceButton" destination="Pez-cU-z47" id="apA-Iq-4SU"/>
+                        <outlet property="viewContainerQ" destination="g23-8g-nmW" id="4VK-JM-m57"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j8G-ky-CSa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1032" y="535"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="close" width="28" height="28"/>
+        <image name="notes_keyboard" width="24" height="24"/>
+        <image name="search_back" width="28" height="28"/>
+    </resources>
+</document>
