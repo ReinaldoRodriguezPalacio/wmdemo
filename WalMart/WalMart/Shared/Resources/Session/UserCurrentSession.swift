@@ -154,14 +154,15 @@ class UserCurrentSession : NSObject {
         
         if resultProfileJSONGR != nil {
             //Fill profile GR
-            profile.birthDate = resultProfileJSONGR!["birthDate"] as String
+            profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as String
+            profile.birthDate = resultProfileJSONMG["birthdate"] as String
             profile.cellPhone = resultProfileJSONGR!["cellPhone"] as String
             profile.homeNumberExtension = resultProfileJSONGR!["homeNumberExtension"] as String
             profile.maritalStatus = resultProfileJSONGR!["maritalStatus"] as String
             profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as String
             profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as String
             profile.profession = resultProfileJSONGR!["profession"] as String
-            profile.sex = resultProfileJSONGR!["sex"] as String
+            profile.sex = resultProfileJSONMG["gender"] as String
             profile.workNumberExtension = resultProfileJSONGR!["workNumberExtension"] as String
         }
         

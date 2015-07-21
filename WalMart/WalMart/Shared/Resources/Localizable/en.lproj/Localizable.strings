@@ -50,6 +50,7 @@
 "product.searh.cancel" = "Cancelar";
 "product.search.scann.help" = "También puedes buscar escaneando un código de barras";
 "product.search.minimum" = "Ingrese mínimo 3 caractéres";
+"product.search.filterall" = "Seleccionar todos";
 
 //filter
 "filter.title" = "Filtrar";
@@ -223,6 +224,7 @@
 "profile.login.welcome"= "Bienvenido a Walmart";
 "profile.login"= "Ingresa a tu cuenta";
 "field.validate.password.length" = "Contraseña inválida";
+"profile.change.legalinfo" = "Información legal";
 
 //Preious orders
 "previousorder.status" = "Status";
@@ -482,6 +484,8 @@
 
 "signup.info.return" = "Regresar";
 "signup.info.registry" = "Crear Cuenta";
+
+
 
 
 

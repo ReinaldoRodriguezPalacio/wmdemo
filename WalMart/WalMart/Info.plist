@@ -80,7 +80,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -303,7 +303,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://192.168.43.192:8450/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/banners.json</string>
+			<string>https://192.168.43.192:8450/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -341,7 +341,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://192.168.43.192:8450/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://192.168.43.192:8450/walmartmg/login/getItemsBySearching</string>
+			<string>https://192.168.43.192:8450/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>https://192.168.43.192:8450/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -365,14 +365,18 @@
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>https://192.168.43.192:8450/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
-			<string>https://192.168.43.192:8450/walmartmg/list/updateUserProfile</string>
+			<string>https://192.168.43.192:8450/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
 			<string>https://192.168.43.192:8450/walmartmg/list/getWishlistByUser</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://192.168.43.192:8450/walmartmg/login/getInfoByZipCode</string>
+			<key>WalmartMG.SearchItemsByUPCService</key>
+			<string>https://192.168.43.192:8450/walmartmg/login/getSearchingByUpcs</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.SearchItemsByUPCService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -446,7 +450,7 @@
 			<key>WalmartMG.UpdateShippingAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/updateShippingAddress</string>
 			<key>WalmartMG.UpdateUserProfileService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/updateUserProfile</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getWishlistByUser</string>
 			<key>WalmartMG.ZipCodeService</key>

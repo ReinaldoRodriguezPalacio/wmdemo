@@ -67,6 +67,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var btnTech : UIButton!
     var facet : [[String:AnyObject]]!
     
+    var controllerFilter : FilterProductsViewController!
+    
     var firstOpen  = true
     
     override func viewDidLoad() {
@@ -164,6 +166,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.titleLabel?.text = titleHeader
         
         
+         self.getServiceProduct(resetTable: false)
+        
     }
     
     
@@ -184,7 +188,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self)
         
-        self.getServiceProduct(resetTable: false)
+       
         
     }
     
@@ -381,7 +385,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Services
     
     func getServiceProduct(#resetTable:Bool) {
-        self.filterButton?.enabled = false
+        self.filterButton?.alpha = 0
         self.contentCollectionOffset = self.collection?.contentOffset
         
         var sucessBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
@@ -445,9 +449,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.mgResults!.addResults(arrayProduct!)
                     if var sortFacet = facet as? [[String:AnyObject]] {
                         sortFacet.sort { (item, seconditem) -> Bool in
-                            let firstOrder = item["order"] as Int!
-                            let secondOrder = seconditem["order"] as Int!
-                            return firstOrder < secondOrder
+                            let firstOrder = item["order"] as String!
+                            let secondOrder = seconditem["order"] as String!
+                            return firstOrder.toInt() < secondOrder.toInt()
                         }
                         self.facet = sortFacet
                     }
@@ -556,7 +560,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.searchContextType == SearchServiceContextType.WithText {
             
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-            self.filterButton?.enabled = false
+            self.filterButton?.alpha = 1
             //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
             let maxY =  self.viewBgSelectorBtn.frame.maxY + 16.0
             if self.emptyMGGR == nil {
@@ -577,7 +581,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.addSubview(self.emptyMGGR)
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-            self.filterButton?.enabled = false
+            self.filterButton?.alpha = 1
             //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
             
             self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
@@ -642,7 +646,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             self.collection?.reloadData()
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-            self.filterButton?.enabled = true
+            self.filterButton?.alpha = 1
         }
     }
     
@@ -677,15 +681,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Filters
     
     func filter(sender:UIButton){
-        var controller = FilterProductsViewController()
-        controller.facet = self.facet
-        controller.textToSearch = self.textToSearch
-        controller.selectedOrder = self.idSort!
-        controller.isGroceriesSearch = self.btnSuper.selected
-        controller.delegate = self
-        controller.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-        controller.searchContext = self.searchContextType
-        self.navigationController?.pushViewController(controller, animated: true)
+        if controllerFilter == nil {
+            controllerFilter = FilterProductsViewController()
+            controllerFilter.facet = self.facet
+            controllerFilter.textToSearch = self.textToSearch
+            controllerFilter.selectedOrder = self.idSort!
+            controllerFilter.isGroceriesSearch = self.btnSuper.selected
+            controllerFilter.delegate = self
+            controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
+            controllerFilter.searchContext = self.searchContextType
+        }
+        self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
     
@@ -694,7 +700,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
         
-        self.filterButton!.selected = true
+        self.filterButton!.alpha = 1
         if self.originalSort == nil {
             self.originalSort = self.idSort
         }
@@ -720,6 +726,42 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.showLoadingIfNeeded(false)
         self.getServiceProduct(resetTable: true)
+    }
+    
+    func apply(order:String, upcs: [String]) {
+        
+        if upcs.count == 0 {
+            self.allProducts = []
+            self.mgResults?.totalResults = 0
+            self.collection?.reloadData()
+            self.collection?.alpha = 0
+            if self.empty == nil {
+                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                self.empty.returnAction = { () in
+                    self.returnBack()
+                }
+            }
+            self.view.addSubview(self.empty)
+            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
+            
+            return
+        } else {
+            if self.empty != nil {
+                self.empty.removeFromSuperview()
+                self.empty = nil
+            }
+        }
+
+        self.showLoadingIfNeeded(true)
+        var svcSearch = SearchItemsByUPCService()
+        svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
+            self.allProducts = result.arrayObject
+            self.mgResults?.totalResults = self.allProducts!.count
+            self.collection?.reloadData()
+            self.showLoadingIfNeeded(true)
+            }) { (error:NSError) -> Void in
+            println(error)
+        }
     }
     
     func removeFilters() {

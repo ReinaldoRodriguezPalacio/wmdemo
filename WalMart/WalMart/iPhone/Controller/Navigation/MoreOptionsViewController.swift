@@ -30,6 +30,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     @IBOutlet var tableView: UITableView?
     @IBOutlet var userName: UILabel?
     @IBOutlet var signInOrClose: UIButton?
+    var editProfileButton : UIButton!
     
     var alertView: IPOWMAlertViewController?
     
@@ -45,6 +46,13 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         signInOrClose?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         signInOrClose?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0, 0.0)
         signInOrClose?.addTarget(self, action: "openLoginOrProfile", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.editProfileButton = UIButton()
+        self.editProfileButton.addTarget(self, action: "editProfile:", forControlEvents: .TouchUpInside)
+        self.editProfileButton.setImage(UIImage(named: "editProfile"), forState: UIControlState.Normal)
+        self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Selected)
+        self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Highlighted)
+        self.view.addSubview(editProfileButton)
         
         self.reloadButtonSession()
         
@@ -71,6 +79,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     override func viewWillLayoutSubviews() {
         var bounds = self.view.bounds.size
         self.tableView!.frame = CGRectMake(0.0, profileView!.frame.maxY, bounds.width, bounds.height - profileView!.frame.maxY)
+        self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )
     }
 
     override func didReceiveMemoryWarning() {
@@ -328,6 +337,20 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         self.tableView?.reloadData()
     }
+    
+    func editProfile(sender:UIButton) {
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
+                action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
+                label: nil,
+                value: nil).build())
+        }
+        
+        let controller = EditProfileViewController()
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
+    
+    
     
     
 }

@@ -18,7 +18,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.titleLabel?.text = "Pactilistas"
+        self.titleLabel?.text = "Superlistas"
         
         self.tableView = UITableView()
         self.tableView?.delegate = self

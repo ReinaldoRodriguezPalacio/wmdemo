@@ -166,6 +166,8 @@
 		565F1D4F1A1D73D100120953 /* IPASearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565F1D4E1A1D73D100120953 /* IPASearchView.swift */; };
 		56603D2919B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56603D2819B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift */; };
 		56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56603D2A19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift */; };
+		5662252B1B5EBBA1000DE420 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */; };
+		5662252F1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */; };
 		5663A62419DA11AC00EF0B17 /* Wishlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5663A62319DA11AC00EF0B17 /* Wishlist.swift */; };
 		56679E801B3228DE003A8CB9 /* MoreSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56679E7F1B3228DE003A8CB9 /* MoreSectionView.swift */; };
 		56684B311A02A57800DB2570 /* ReviewShoppingCartService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56684B301A02A57800DB2570 /* ReviewShoppingCartService.swift */; };
@@ -217,6 +219,8 @@
 		5684E9AF1A65C89400765833 /* UserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684E9AE1A65C89400765833 /* UserListViewController.swift */; };
 		5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684E9B11A65CB5A00765833 /* GRUserListService.swift */; };
 		5684E9B41A65DDA100765833 /* GRSaveUserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5684E9B31A65DDA000765833 /* GRSaveUserListService.swift */; };
+		5686DA551B59A67B004D4211 /* SearchItemsByUPCService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5686DA541B59A67B004D4211 /* SearchItemsByUPCService.swift */; };
+		5686DA581B59A885004D4211 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5686DA571B59A885004D4211 /* SwiftyJSON.swift */; };
 		5688470419E8630E00D5C45D /* Storyboard_ipad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5688470319E8630E00D5C45D /* Storyboard_ipad.storyboard */; };
 		5688470719E8775A00D5C45D /* IPACustomBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5688470619E8775A00D5C45D /* IPACustomBarViewController.swift */; };
 		5688470A19E87E2800D5C45D /* IPACategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5688470919E87E2800D5C45D /* IPACategoriesViewController.swift */; };
@@ -637,6 +641,8 @@
 		565F1D4E1A1D73D100120953 /* IPASearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASearchView.swift; path = iPad/View/Search/IPASearchView.swift; sourceTree = "<group>"; };
 		56603D2819B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetrailNavCollectionReusableView.swift; path = Shared/View/Product/ProductDetrailNavCollectionReusableView.swift; sourceTree = "<group>"; };
 		56603D2A19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailCurrencyCollectionView.swift; path = Shared/View/Product/ProductDetailCurrencyCollectionView.swift; sourceTree = "<group>"; };
+		5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordViewController.swift; path = iPhone/Controller/Profile/ChangePasswordViewController.swift; sourceTree = "<group>"; };
+		5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeInfoLegalViewController.swift; path = iPhone/Controller/Profile/ChangeInfoLegalViewController.swift; sourceTree = "<group>"; };
 		5663A62319DA11AC00EF0B17 /* Wishlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wishlist.swift; path = Shared/Model/Entity/Wishlist.swift; sourceTree = "<group>"; };
 		56679E7F1B3228DE003A8CB9 /* MoreSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreSectionView.swift; path = iPhone/View/MoreView/MoreSectionView.swift; sourceTree = "<group>"; };
 		56684B301A02A57800DB2570 /* ReviewShoppingCartService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReviewShoppingCartService.swift; path = iPhone/View/ShoppingCart/ReviewShoppingCartService.swift; sourceTree = "<group>"; };
@@ -690,6 +696,8 @@
 		5684E9AE1A65C89400765833 /* UserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListViewController.swift; path = iPhone/Controller/UserList/UserListViewController.swift; sourceTree = "<group>"; };
 		5684E9B11A65CB5A00765833 /* GRUserListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRUserListService.swift; path = Shared/Services/UserList/GRUserListService.swift; sourceTree = "<group>"; };
 		5684E9B31A65DDA000765833 /* GRSaveUserListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRSaveUserListService.swift; path = Shared/Services/UserList/GRSaveUserListService.swift; sourceTree = "<group>"; };
+		5686DA541B59A67B004D4211 /* SearchItemsByUPCService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchItemsByUPCService.swift; path = Shared/Services/Product/SearchItemsByUPCService.swift; sourceTree = "<group>"; };
+		5686DA571B59A885004D4211 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
 		5688470319E8630E00D5C45D /* Storyboard_ipad.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Storyboard_ipad.storyboard; path = iPad/Resources/Storyboard_ipad.storyboard; sourceTree = "<group>"; };
 		5688470619E8775A00D5C45D /* IPACustomBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPACustomBarViewController.swift; path = iPad/Controller/Navigation/IPACustomBarViewController.swift; sourceTree = "<group>"; };
 		5688470919E87E2800D5C45D /* IPACategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPACategoriesViewController.swift; path = iPad/Controller/Categories/IPACategoriesViewController.swift; sourceTree = "<group>"; };
@@ -2150,6 +2158,8 @@
 				AC6AAE9F19CCF3A5004081C4 /* AddressViewController.swift */,
 				ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */,
 				56AAFF941A9257F1007B8D91 /* SuperAddressViewController.swift */,
+				5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */,
+				5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2524,10 +2534,12 @@
 		AC62C9B119B61E4700FFFC74 /* Product */ = {
 			isa = PBXGroup;
 			children = (
+				5686DA571B59A885004D4211 /* SwiftyJSON.swift */,
 				AC62C9B219B61F0B00FFFC74 /* ProductbySearchService.swift */,
 				AC37F6AC19B9008F000BB80D /* ProductDetailService.swift */,
 				AC37F6B319B906FE000BB80D /* CrossSellingProductService.swift */,
 				049CC7CB1A9BAAE000DE2C8D /* LinesForSearchService.swift */,
+				5686DA541B59A67B004D4211 /* SearchItemsByUPCService.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -2837,6 +2849,7 @@
 				5688D7A61B3C566700EDA086 /* DefaultListDetailViewController.swift in Sources */,
 				56CB42D619C1072800C83FAC /* AddItemWishlistService.swift in Sources */,
 				5606BC3B19BA782C002A70ED /* SelectorBandHandler.swift in Sources */,
+				5686DA551B59A67B004D4211 /* SearchItemsByUPCService.swift in Sources */,
 				5669022F1A942C56000D6FA6 /* RecentProductsTableViewCell.swift in Sources */,
 				56DFE4D719D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift in Sources */,
 				AC0918CA19D1DA7700BF48CA /* FiscalAddressPersonM.swift in Sources */,
@@ -2858,6 +2871,7 @@
 				56C2118A1A25049F002D1C91 /* IPAGroceriesView.swift in Sources */,
 				AC59118319DE0D2400EB095C /* FMDatabaseQueue.m in Sources */,
 				5673D13D1A9D500400DCD20B /* RSEANGenerator.swift in Sources */,
+				5686DA581B59A885004D4211 /* SwiftyJSON.swift in Sources */,
 				56AE80EB19D9F4B300D5DDA4 /* UIImage+DHImageAdditions.m in Sources */,
 				04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */,
 				56E54E4319EC42B70004161C /* IPAFamilyTableViewCell.swift in Sources */,
@@ -3052,6 +3066,7 @@
 				AC8793EB19F56E17001BF077 /* IPAOrderViewController.swift in Sources */,
 				AC6AAE9719CC94FB004081C4 /* ProfileViewCell.swift in Sources */,
 				56BB629D1A5F2C3A0008BD1F /* ProductDetailBundleCollectionViewCell.swift in Sources */,
+				5662252F1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift in Sources */,
 				564578EF19AE33AB006A7152 /* AFSecurityPolicy.m in Sources */,
 				564578F519AE33AB006A7152 /* UIImageView+AFNetworking.m in Sources */,
 				561657D919B1423900DA056A /* FamilyViewController.swift in Sources */,
@@ -3169,6 +3184,7 @@
 				8B19FD541AB0F207005A6D9E /* IPAHelpViewController.swift in Sources */,
 				565E5A6C19C0B01400444DF7 /* ImageScrollView.swift in Sources */,
 				AC0918C419D1D59900BF48CA /* AddressView.swift in Sources */,
+				5662252B1B5EBBA1000DE420 /* ChangePasswordViewController.swift in Sources */,
 				56AAFF971A92584B007B8D91 /* FormSuperAddressView.swift in Sources */,
 				5696079119B4D986005D20DC /* RecommendedItemsService.swift in Sources */,
 				56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */,

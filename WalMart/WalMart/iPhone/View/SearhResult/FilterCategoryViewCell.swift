@@ -77,7 +77,7 @@ class FilterCategoryViewCell: UITableViewCell {
                 self.type = .line
                 self.name!.textColor = self.upperTextColor
                 self.check!.image = UIImage(named: "filter_check_blue")
-                self.check!.highlightedImage = UIImage(named: "filter_check_gray_selected")
+                self.check!.highlightedImage = UIImage(named: "check_blue")
             }
         }
 
@@ -96,10 +96,24 @@ class FilterCategoryViewCell: UITableViewCell {
         self.type = .facet
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
-        self.check!.highlightedImage = UIImage(named: "filter_check_gray_selected")
+        self.check!.highlightedImage = UIImage(named: "check_blue")
         
         self.name!.text = item["itemName"] as? String
         self.upcs = item["upcs"] as? [String]
         self.check!.highlighted = selected
     }
+    
+    func setValuesSelectAll( selected:Bool){
+        
+        self.type = .facet
+        self.name!.textColor = self.upperTextColor
+        self.check!.image = UIImage(named: "filter_check_blue")
+        self.check!.highlightedImage = UIImage(named: "radio_full")
+        
+        self.name!.text = NSLocalizedString("product.search.filterall", comment: "")
+        self.check!.highlighted = selected
+    }
+    
+    
+    
 }

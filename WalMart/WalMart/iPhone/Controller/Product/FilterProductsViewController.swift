@@ -10,10 +10,11 @@ import Foundation
 
 protocol FilterProductsViewControllerDelegate {
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
+    func apply(order:String, upcs: [String])
     func removeFilters()
 }
 
-class FilterProductsViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, FilterOrderViewCellDelegate {
+class FilterProductsViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, FilterOrderViewCellDelegate,SliderTableViewCellDelegate {
 
     let ORDERCELL_ID = "orderCellId"
     let CELL_ID = "cellId"
@@ -35,6 +36,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var categories: [AnyObject]?
     var tableElements: [AnyObject]?
     var selectedElements: [Bool]?
+    var selectedElementsFacet: [NSIndexPath:Bool]?
     var selectedOrder: String?
     var isGroceriesSearch: Bool = true
     var facet: NSArray? = nil
@@ -44,6 +46,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     var prices: NSArray?
     var upcPrices: NSArray?
+    var upcByPrice: NSArray?
     
     
     
@@ -54,8 +57,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.titleLabel!.text = NSLocalizedString("filter.title", comment:"")
         
         
-        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.regular_blue, size: CGSizeMake(55, 22), radius: 11)
+        let iconImage = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
+        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11)
         
         self.applyButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.applyButton!.setBackgroundImage(iconImage, forState: .Normal)
@@ -92,8 +95,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.tableView!.registerClass(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
         
+        self.selectedElementsFacet = [:]
         
-
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -137,6 +140,47 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
         }
+        
+        //Filtros de MG Funcionan diferente
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+            //self.successCallBack!()
+            
+            var intIx = 0
+            var upcs : [String] = []
+            for selElement in self.selectedElementsFacet!.keys {
+                let valSelected =  self.selectedElementsFacet?[selElement]
+                if valSelected! {
+                    if selElement.row == 0  {
+                        self.delegate?.apply(self.selectedOrder!, filters: nil, isForGroceries: false)
+                        self.navigationController!.popViewControllerAnimated(true)
+                        return
+                    }
+                    let itemFacet = self.facet![selElement.section - 1] as [String:AnyObject]
+                    if  let typeFacet = itemFacet["type"] as? String {
+                        if typeFacet == "check" {
+                            let allnameFacets = itemFacet["itemsFacet"] as [[String:AnyObject]]
+                            let facet = allnameFacets[selElement.row - 1]
+                            let allUpcs = facet["upcs"] as [String]
+                            for upcVal in allUpcs {
+                                if upcByPrice != nil {
+                                    if  self.upcByPrice!.containsObject(upcVal)  {
+                                        upcs.append(upcVal)
+                                    }
+                                }else {
+                                    upcs.append(upcVal)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
+            self.delegate?.apply(self.selectedOrder!, upcs: upcs)
+            self.navigationController!.popViewControllerAnimated(true)
+            return
+        }
+        
+        
         
         var department = ""
         var family = ""
@@ -216,7 +260,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if  let typeFacet = itemFacet["type"] as? String {
                 if typeFacet == "check" {
                     let allnameFacets = itemFacet["itemsFacet"] as [[String:AnyObject]]
-                    return allnameFacets.count
+                    return allnameFacets.count + 1
                 }
                 if typeFacet == "slide" {
                     return 1
@@ -246,18 +290,35 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if  let typeFacet = facetInfo["type"] as? String {
                 if typeFacet == "check" {
                     let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as FilterCategoryViewCell
-                    let facetitem = facetInfo["itemsFacet"] as [[String:AnyObject]]
-                    //var selected = self.selectedElements![indexPath.row]
-                    var item = facetitem[indexPath.row]
-                    listCell.setValuesFacets(item, selected: false)
+                    
+                    var selected = false
+                    let valSelected =  self.selectedElementsFacet?[indexPath]
+                    if ((valSelected) != nil) {
+                        selected = valSelected!
+                    }
+                    
+                    if indexPath.row > 0 {
+                        let facetitem = facetInfo["itemsFacet"] as [[String:AnyObject]]
+                        var item = facetitem[indexPath.row - 1]
+                        listCell.setValuesFacets(item, selected: selected)
+                    } else {
+                        listCell.setValuesSelectAll(selected)
+                        
+                    }
                     return listCell
+                    
                 }
                 if typeFacet == "slide" {
+                    
+                    
+                    //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                    
                     self.processPriceFacet(facetInfo)
                     let cell = tableView.dequeueReusableCellWithIdentifier(self.sliderCellId) as SliderTableViewCell
                     var sliderCell : SliderTableViewCell = cell as SliderTableViewCell
                     if self.prices != nil {
                         sliderCell.setValues(self.prices!)
+                        sliderCell.delegate = self
                     }
                     //sliderCell.delegate = self
                     return sliderCell
@@ -322,6 +383,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         //Filtros de MG Funcionan diferente
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+            //self.selectedElements![indexPath.row] = true
+            var currentVal = true
+            if let savedVal = self.selectedElementsFacet![indexPath] {
+                currentVal = !savedVal
+            }
+            self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
+            self.tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
             return
         }
         
@@ -639,4 +707,28 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.selectedOrder = order
     }
 
+    
+    func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int) {
+        self.filterProductsByPrice(forLowPrice: low, andHighPrice: high)
+    }
+    
+    func filterProductsByPrice(forLowPrice low:Int, andHighPrice high:Int) {
+        //En caso de que el rango sea completo, no se filtran los upcs
+        if low == 0 && high == self.prices!.count - 1 {
+            self.upcByPrice = nil
+            return
+        }
+        var array = Array<String>()
+        for var idx = low; idx < high; idx++ {
+            if let upcs = self.upcPrices![idx] as? NSArray {
+                for upc in upcs {
+                    if let string = upc as? String {
+                        array.append(string)
+                    }
+                }
+            }
+        }
+        self.upcByPrice = array
+    }
+    
 }

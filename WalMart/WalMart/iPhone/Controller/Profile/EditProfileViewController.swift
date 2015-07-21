@@ -30,10 +30,16 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     var saveButton: UIButton?
     var changePasswordButton: UIButton?
+    var legalInformation: UIButton?
     
     var dateFmt: NSDateFormatter?
     var parseFmt: NSDateFormatter?
     var delegate: EditProfileViewControllerDelegate!
+    
+    var maleButton: UIButton?
+    var femaleButton: UIButton?
+    
+    var dateSelected : NSDate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,23 +92,49 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
         self.birthDate = FormFieldView()
         self.birthDate!.setPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
-        self.birthDate!.keyboardType = UIKeyboardType.EmailAddress
-        self.birthDate!.typeField = .String
+        self.birthDate!.typeField = .None
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
-
+        self.birthDate!.isRequired = true
+        self.birthDate!.disablePaste = true
+        
+        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+            if field != nil {
+                self.dateChanged()
+                field?.resignFirstResponder()
+            }
+        })
+        
         self.inputBirthdateView = UIDatePicker()
         self.inputBirthdateView!.datePickerMode = .Date
         self.inputBirthdateView!.date = NSDate()
         self.inputBirthdateView!.maximumDate = NSDate()
         self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
-        //self.birthDate!.inputView = self.inputBirthdateView!
+        self.birthDate!.inputView = self.inputBirthdateView!
+        self.birthDate!.inputAccessoryView = viewAccess
+        self.dateChanged()
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.bounds.width, 44.0), inputViewStyle: .Keyboard, titleSave:"Ok", save: { (field:UITextField?) -> Void in
-            if field != nil && field!.isFirstResponder() {
-                field!.resignFirstResponder()
-            }
-        })
-        //self.birthDate!.inputAccessoryView = viewAccess
+        
+        
+        self.maleButton = UIButton()
+        self.maleButton?.setTitle(NSLocalizedString("signup.male", comment: ""), forState: UIControlState.Normal)
+        self.maleButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.maleButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.maleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.maleButton!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.maleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.maleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
+        
+        self.femaleButton = UIButton()
+        self.femaleButton?.setTitle(NSLocalizedString("signup.female", comment: ""), forState: UIControlState.Normal)
+        self.femaleButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
+        self.femaleButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
+        self.femaleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.femaleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.femaleButton!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
+    
 
         
         var paragraphStyle = NSMutableParagraphStyle()
@@ -132,8 +164,15 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         changePasswordButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         changePasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.changePasswordButton!.backgroundColor = WMColor.loginProfileSaveBGColor
-        changePasswordButton!.layer.cornerRadius = 4.0
+        changePasswordButton!.layer.cornerRadius = 20.0
         changePasswordButton?.addTarget(self, action: "changePassword", forControlEvents: .TouchUpInside)
+        
+        
+        legalInformation = UIButton()
+        legalInformation!.setTitle(NSLocalizedString("profile.change.legalinfo", comment: ""), forState: UIControlState.Normal)
+        legalInformation!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+        legalInformation!.addTarget(self, action: "infolegal", forControlEvents: .TouchUpInside)
+        legalInformation!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.content.backgroundColor = UIColor.whiteColor()
         
@@ -142,7 +181,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content?.addSubview(self.lastName!)
         self.content?.addSubview(self.email!)
         //self.content?.addSubview(self.birthDate!)
+        self.content?.addSubview(self.birthDate!)
+        self.content?.addSubview(self.maleButton!)
+        self.content?.addSubview(self.femaleButton!)
         self.content?.addSubview(self.changePasswordButton!)
+        self.content?.addSubview(self.legalInformation!)
+        
         self.content.clipsToBounds = false
         self.view.bringSubviewToFront(self.header!)
     }
@@ -167,8 +211,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.lastName?.frame = CGRectMake(horSpace,  self.name!.frame.maxY + topSpace, fieldWidth, fieldHeight)
         self.email?.frame = CGRectMake(horSpace, self.lastName!.frame.maxY + topSpace, fieldWidth, fieldHeight)
         
+        self.birthDate?.frame = CGRectMake(horSpace,  self.email!.frame.maxY + 8, self.view.bounds.width - (horSpace*2), fieldHeight)
+        self.femaleButton!.frame = CGRectMake(84,  birthDate!.frame.maxY + 15,  76 , fieldHeight)
+        self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 15, 76 , fieldHeight)
+        
         //self.birthDate?.frame = CGRectMake(horSpace, self.email!.frame.maxY + topSpace, fieldWidth, fieldHeight)
-        self.changePasswordButton?.frame = CGRectMake(horSpace,  self.email!.frame.maxY + topSpace,  fieldWidth, fieldHeight)
+        self.changePasswordButton?.frame = CGRectMake(horSpace,  self.femaleButton!.frame.maxY + topSpace,  fieldWidth, fieldHeight)
+        self.legalInformation!.frame = CGRectMake(horSpace,  self.changePasswordButton!.frame.maxY + 40,  fieldWidth, fieldHeight)
         
         self.content.contentSize = CGSize(width: bounds.width, height:  self.changePasswordButton!.frame.maxY + 40)
     }
@@ -183,6 +232,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             if let date = self.parseFmt!.dateFromString(user.profile.birthDate) {
                 self.birthDate!.text = self.dateFmt!.stringFromDate(date)
                 self.inputBirthdateView!.date = date
+                if user.profile.sex == "Female" {
+                    self.femaleButton!.selected = true
+                } else {
+                    self.maleButton!.selected = true
+                }
             }
         }
     }
@@ -196,50 +250,24 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     func changePassword() {
-        self.changePasswordButton!.removeFromSuperview()
-        self.passworCurrent = FormFieldView()
-        self.passworCurrent!.setPlaceholder(NSLocalizedString("profile.password.current",comment:""))
-        self.passworCurrent!.secureTextEntry = true
-        self.passworCurrent!.isRequired = true
-        self.passworCurrent!.typeField = TypeField.None
-        self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
-        
-        self.password = FormFieldView()
-        self.password!.setPlaceholder(NSLocalizedString("profile.password",comment:""))
-        self.password!.secureTextEntry = true
-        self.password!.isRequired = true
-        self.password!.typeField = TypeField.Password
-        self.password!.nameField = NSLocalizedString("profile.password",comment:"")
-        self.password!.minLength = 8
-        self.password!.maxLength = 16
-        
-        self.confirmPassword = FormFieldView()
-        self.confirmPassword!.setPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
-        self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.isRequired = true
-        self.confirmPassword!.typeField = TypeField.Password
-        self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
-        self.confirmPassword!.minLength = 8
-        self.confirmPassword!.maxLength = 16
-        
-        self.content?.addSubview(passworCurrent!)
-        self.content?.addSubview(password!)
-        self.content?.addSubview(confirmPassword!)
-        
-        let fieldHeight  : CGFloat = CGFloat(40)
-        let leftRightPadding  : CGFloat = CGFloat(15)
-
-        self.passworCurrent?.frame = CGRectMake(leftRightPadding,  self.email!.frame.maxY + 8,  self.email!.frame.width, fieldHeight)
-        self.password?.frame = CGRectMake(leftRightPadding,  passworCurrent!.frame.maxY + 8,  self.email!.frame.width, fieldHeight)
-        self.confirmPassword?.frame = CGRectMake(leftRightPadding,  password!.frame.maxY + 8,  self.email!.frame.width, fieldHeight)
-        
-        self.content.contentSize = CGSize(width: self.view.bounds.width, height:  self.confirmPassword!.frame.maxY + 40)
-        
+        let changePassword = ChangePasswordViewController()
+        self.navigationController!.pushViewController(changePassword, animated: true)
     }
     
     func dateChanged() {
         var date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
+        self.dateSelected = date
+        if self.saveButton != nil {
+        self.saveButton!.hidden = false
+            UIView.animateWithDuration(0.4, animations: {
+                self.saveButton!.alpha = 1.0
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        self.saveButton!.alpha = 1.0
+                    }
+            })
+        }
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
@@ -273,7 +301,14 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             let service = UpdateUserProfileService()
             var passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text) as String
             var passNew = (self.password==nil ? "" : self.password!.text) as String
-            let params  = service.buildParamsWithMembership(self.email!.text, password: passCurrent, newPassword:passNew, name: self.name!.text, lastName: self.lastName!.text)
+            
+            let dateSlectedStr = self.parseFmt!.stringFromDate(self.dateSelected)
+            let gender = self.femaleButton!.selected ? "Female" : "Male"
+           
+            UserCurrentSession.sharedInstance().userSigned!.profile.birthDate = dateSlectedStr
+            UserCurrentSession.sharedInstance().userSigned!.profile.sex = gender
+            
+            let params  = service.buildParamsWithMembership(self.email!.text, password: passCurrent, newPassword:passNew, name: self.name!.text, lastName: self.lastName!.text,birthdate:dateSlectedStr,gender:gender)
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -377,5 +412,32 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         field.resignFirstResponder()
         return false
     }
+    
+    
+    func changeMF(sender:UIButton) {
+        if sender == self.maleButton {
+            self.maleButton?.selected = true
+            self.femaleButton?.selected = false
+        } else if sender == self.femaleButton  {
+            self.maleButton?.selected = false
+            self.femaleButton?.selected = true
+        }
+        self.saveButton!.hidden = false
+        UIView.animateWithDuration(0.4, animations: {
+            self.saveButton!.alpha = 1.0
+            }, completion: {(bool : Bool) in
+                if bool {
+                    self.saveButton!.alpha = 1.0
+                }
+        })
+    
+    }
+
+    func infolegal() {
+        let changeInfoLegal = ChangeInfoLegalViewController()
+        self.navigationController!.pushViewController(changeInfoLegal, animated: true)
+
+    }
+    
     
 }
