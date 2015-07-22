@@ -24,7 +24,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource {
 
-    let options = [OptionsController.Profile.rawValue,OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    let options = [OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -108,7 +108,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 4
+                return 3
             case 1:
                 return 1
             case 2:
@@ -128,9 +128,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 5
+            currentOption = indexPath.row + 4
         default:
             println("")
         }
@@ -177,9 +177,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 5
+            currentOption = indexPath.row + 4
         default:
             println("")
         }

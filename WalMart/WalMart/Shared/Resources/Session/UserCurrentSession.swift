@@ -22,6 +22,10 @@ class UserCurrentSession : NSObject {
     var itemsMG : NSDictionary? = nil
     var itemsGR : NSDictionary? = nil
     
+    var dateStart : NSDate! = nil
+    var dateEnd : NSDate! = nil
+    var version : String! = ""
+    
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
         struct Static {

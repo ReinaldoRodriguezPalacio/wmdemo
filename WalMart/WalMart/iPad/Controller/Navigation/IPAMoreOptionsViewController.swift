@@ -22,6 +22,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
     }
 
     override func viewWillLayoutSubviews() {
@@ -47,7 +48,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
         case 0:
-            return 4
+            return 3
         case 1:
             return 3
         default:
@@ -66,7 +67,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 5
+            currentOption = indexPath.row + 4
         default:
             println("")
         }
@@ -125,7 +126,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         var currentOption : Int = 0
         switch(indexPath.section) {
         case 0:
-            currentOption = indexPath.row
+            currentOption = indexPath.row + 1
         case 1:
             currentOption = indexPath.row + 4
         default:
@@ -153,9 +154,14 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     }
 
     override func signOut(sender: UIButton?) {
-        self.delegate.selectedDetail(4)
+        self.delegate.selectedDetail(3)
         super.signOut(nil)
     }
 
+    override func editProfile(sender:UIButton) {
+       self.delegate.selectedDetail(0)
+    }
+
+    
     
 }

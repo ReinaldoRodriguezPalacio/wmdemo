@@ -11,23 +11,28 @@ import UIKit
 protocol SearchViewControllerDelegate {
     func selectKeyWord(keyWord:String,upc:String?, truncate:Bool)
     func searchControllerScanButtonClicked(controller: BarCodeViewControllerDelegate!)
+    func searchControllerCamButtonClicked(controller: CameraViewControllerDelegate!)
     func closeSearch(addShoping:Bool, sender:UIButton?)
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType)
 }
 
-class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BarCodeViewControllerDelegate, UIScrollViewDelegate {
+class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BarCodeViewControllerDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
     var elements: [AnyObject]?
     var elementsCategories: [AnyObject]?
     var currentKey: String?
     var header: UIView?
     var field: UITextField?
-    var fieldArrow: UIImageView?
+    //    var fieldArrow: UIImageView?
     var delegate:SearchViewControllerDelegate!
     var scanButton: UIButton?
+    var camButton: UIButton?
+    var scanLabel: UILabel?
+    var camLabel: UILabel?
     var cancelButton: UIButton?
     var clearButton: UIButton?
     var viewTapClose: UIView?
+    var viewBackground: UIView?
     var upsSearch: Bool? = false
     var labelHelpScan : UILabel?
     var headerTable: UIView?
@@ -41,6 +46,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         super.viewDidLoad()
         
         viewTapClose = UIView()
+        self.viewBackground = UIView()
+        self.viewBackground?.backgroundColor = WMColor.productAddToCartBg
+        self.view.addSubview(self.viewBackground!)
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:"handleTap:")
         self.viewTapClose?.addGestureRecognizer(tapGestureRecognizer)
         self.viewTapClose?.backgroundColor = UIColor.clearColor()
@@ -53,7 +62,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.table?.backgroundColor = UIColor.whiteColor()
         self.table?.alpha = 0.8
-
+        
         self.table.separatorStyle = .None
         self.table.autoresizingMask = UIViewAutoresizing.None
         table.delegate = self
@@ -80,21 +89,22 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.field!.autocapitalizationType = .None
         self.field!.autocorrectionType = .No
         self.field!.enablesReturnKeyAutomatically = true
+        self.field!.placeholder = NSLocalizedString("search.info.placeholder",comment:"")
         self.header!.addSubview(self.field!)
         
-        self.fieldArrow = UIImageView(image: UIImage(named: "fieldArrow"))
+        //        self.fieldArrow = UIImageView(image: UIImage(named: "fieldArrow"))
         
-        self.labelHelpScan = UILabel()
-        self.labelHelpScan!.textAlignment = .Right
-        self.labelHelpScan!.numberOfLines = 2
-        self.labelHelpScan!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.labelHelpScan!.textColor = WMColor.searchProductFieldBarCodeColor
-        self.labelHelpScan!.text = NSLocalizedString("product.searh.field.barcode",comment:"")
-        self.labelHelpScan!.backgroundColor = UIColor.clearColor()
+        //        self.labelHelpScan = UILabel()
+        //        self.labelHelpScan!.textAlignment = .Right
+        //        self.labelHelpScan!.numberOfLines = 2
+        //        self.labelHelpScan!.font = WMFont.fontMyriadProRegularOfSize(14)
+        //        self.labelHelpScan!.textColor = WMColor.searchProductFieldBarCodeColor
+        //        self.labelHelpScan!.text = NSLocalizedString("product.searh.field.barcode",comment:"")
+        //        self.labelHelpScan!.backgroundColor = UIColor.clearColor()
         
         //self.header!.addSubview(self.labelHelpScan!)
         //self.header!.addSubview(self.fieldArrow!)
-
+        
         self.clearButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.clearButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
@@ -104,13 +114,35 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.clearButton!.hidden = true
         self.header!.addSubview(self.clearButton!)
         
+        self.camButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
+        self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
+        self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
+        self.camButton!.addTarget(self, action: "showCamera:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view!.addSubview(self.camButton!)
+        
+        self.camLabel = UILabel()
+        self.camLabel!.textAlignment = .Center
+        self.camLabel!.numberOfLines = 2
+        self.camLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.camLabel!.textColor = UIColor.whiteColor()
+        self.camLabel!.text = NSLocalizedString("search.info.button.camera",comment:"")
+        self.view!.addSubview(self.camLabel!)
+        
         self.scanButton = UIButton.buttonWithType(.Custom) as? UIButton
-        self.scanButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
-        self.scanButton!.setImage(UIImage(named:"searchScan"), forState: .Normal)
-        self.scanButton!.setImage(UIImage(named:"searchScan"), forState: .Highlighted)
-        self.scanButton!.setImage(UIImage(named:"searchScan"), forState: .Selected)
+        self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
+        self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
+        self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
         self.scanButton!.addTarget(self, action: "showBarCode:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.header!.addSubview(self.scanButton!)
+        self.view!.addSubview(self.scanButton!)
+        
+        self.scanLabel = UILabel()
+        self.scanLabel!.textAlignment = .Center
+        self.scanLabel!.numberOfLines = 2
+        self.scanLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.scanLabel!.textColor = UIColor.whiteColor()
+        self.scanLabel!.text = NSLocalizedString("search.info.button.barcode",comment:"")
+        self.view!.addSubview(self.scanLabel!)
         
         self.cancelButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.cancelButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
@@ -124,25 +156,30 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.clearSearch()
     }
-
+    
     override func viewDidLayoutSubviews() {
         var bounds = self.view.frame.size
         self.header!.frame = CGRectMake(0.0, 0.0, bounds.width, 97.0 - 24 )
         self.headerTable!.frame = CGRectMake(0.0, 73 , bounds.width, 24.0)
         self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
-        self.labelHelpScan!.frame = CGRectMake(40 , 17.0, self.field!.frame.width  -  49 - 24 - 20, 40.0)
+        //        self.labelHelpScan!.frame = CGRectMake(40 , 17.0, self.field!.frame.width  -  49 - 24 - 20, 40.0)
         
         self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
         self.cancelButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) , 0 , bounds.width - CGRectGetMaxX(self.field!.frame), self.header!.frame.height)
-
-        self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
-        self.fieldArrow!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 - 24 , (self.header!.frame.height - 24.0) / 2, 24 , 24)
         
+        //        self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
+        //        self.fieldArrow!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 - 24 , (self.header!.frame.height - 24.0) / 2, 24 , 24)
         self.resultLabel!.frame = CGRectMake(20, 0, bounds.width - 140.0, self.headerTable!.frame.height)
+        self.viewBackground!.frame = CGRectMake(0, CGRectGetMaxY(self.header!.frame), bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
         self.viewTapClose!.frame = CGRectMake(0, CGRectGetMaxY(self.header!.frame), bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
         
+        self.camButton!.frame = CGRectMake((self.view!.frame.width / 2) - 96, self.header!.frame.height + 38, 64, 64)
+        self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28, self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
+        
+        self.scanButton!.frame = CGRectMake((self.view!.frame.width / 2) + 32, self.header!.frame.height + 38, 64, 64)
+        self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
     }
-
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -169,22 +206,22 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         var bounds = self.view.frame.size
         if (self.elements == nil || self.elements!.count == 0)
             && (self.elementsCategories == nil || self.elementsCategories!.count == 0) {
-           
+                
                 if self.table.frame.minY != 0.0 {
-
+                    
                     self.table?.backgroundColor = UIColor.whiteColor()
                     self.table?.alpha = 0.8
                     self.viewTapClose?.backgroundColor = UIColor.clearColor()
                     
-            UIView.animateWithDuration(0.25,
-                animations: {
-                    self.table.frame = CGRectMake(0.0, 0.0, bounds.width, 64.0)
-                },completion: {(bool : Bool) in
-                    if bool {
-                    }
+                    UIView.animateWithDuration(0.25,
+                        animations: {
+                            self.table.frame = CGRectMake(0.0, 0.0, bounds.width, 64.0)
+                        },completion: {(bool : Bool) in
+                            if bool {
+                            }
+                        }
+                    )
                 }
-            )
-            }
         }
         else {
             
@@ -192,17 +229,17 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 self.viewTapClose?.backgroundColor = UIColor.whiteColor()
                 self.viewTapClose?.alpha = 0.8
                 self.table.backgroundColor = UIColor.clearColor()
-
                 
-            UIView.animateWithDuration(0.25,
-                animations: {
-                    self.table.frame = CGRectMake(0.0, 73, bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
-                },completion: {(bool : Bool) in
-                    if bool {
-                       
+                
+                UIView.animateWithDuration(0.25,
+                    animations: {
+                        self.table.frame = CGRectMake(0.0, 73, bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
+                    },completion: {(bool : Bool) in
+                        if bool {
+                            
+                        }
                     }
-                }
-            )
+                )
             }
             
         }
@@ -215,20 +252,20 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
     }
-
+    
     func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
-//        switch section {
-//        case 0:
-//            if (self.elements == nil || self.elements!.count == 0){
-//                return 0;
-//            }
-//            return 36.0
-//        default:
-            if (self.elementsCategories == nil || self.elementsCategories!.count == 0){
-                return 0;
-            }
-            return 36.0
-//        }
+        //        switch section {
+        //        case 0:
+        //            if (self.elements == nil || self.elements!.count == 0){
+        //                return 0;
+        //            }
+        //            return 36.0
+        //        default:
+        if (self.elementsCategories == nil || self.elementsCategories!.count == 0){
+            return 0;
+        }
+        return 36.0
+        //        }
     }
     
     /*
@@ -240,35 +277,35 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         titleView.textColor = WMColor.searchTitleSectionColor
         titleView.font = WMFont.fontMyriadProRegularOfSize(11)
         titleView.backgroundColor = UIColor.clearColor()
-//        if section == 0 {
-//            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
-//            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
-//            var allButton = UIButton()
-//            allButton.setTitleColor(WMColor.searchCategoriesAllColor , forState: UIControlState.Normal)
-//            allButton.setImage(checkTermOff, forState: UIControlState.Normal)
-//            allButton.setImage(checkTermOn, forState: UIControlState.Selected)
-//            allButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-//            allButton.titleLabel?.textColor = WMColor.searchCategoriesAllColor
-//            allButton.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-//            
-//            allButton.setTitle(NSLocalizedString("product.searh.all",  comment: ""), forState: UIControlState.Normal)
-//            
-//            titleView.text = NSLocalizedString("product.searh.shown.recent",comment:"")
-//            allButton.titleLabel?.sizeToFit()
-//            
-//            allButton.frame = CGRectMake(tableView.frame.width - 110 , 0, 110, 36 )
-//            allButton.selected = self.all
-//            var titleSize = allButton.titleLabel?.frame.size;
-//            
-//            allButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -(titleSize!.width * 2) - 10);
-//            allButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, (checkTermOn.size.width * 2) + 10 );
-//            generic.addSubview(titleView)
-//             generic.addSubview(allButton)
-//        }
-//        else{
-            titleView.text = NSLocalizedString("product.searh.shown.categories",comment:"")
-             generic.addSubview(titleView)
-//        }
+        //        if section == 0 {
+        //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
+        //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
+        //            var allButton = UIButton()
+        //            allButton.setTitleColor(WMColor.searchCategoriesAllColor , forState: UIControlState.Normal)
+        //            allButton.setImage(checkTermOff, forState: UIControlState.Normal)
+        //            allButton.setImage(checkTermOn, forState: UIControlState.Selected)
+        //            allButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        //            allButton.titleLabel?.textColor = WMColor.searchCategoriesAllColor
+        //            allButton.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        //
+        //            allButton.setTitle(NSLocalizedString("product.searh.all",  comment: ""), forState: UIControlState.Normal)
+        //
+        //            titleView.text = NSLocalizedString("product.searh.shown.recent",comment:"")
+        //            allButton.titleLabel?.sizeToFit()
+        //
+        //            allButton.frame = CGRectMake(tableView.frame.width - 110 , 0, 110, 36 )
+        //            allButton.selected = self.all
+        //            var titleSize = allButton.titleLabel?.frame.size;
+        //
+        //            allButton.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, -(titleSize!.width * 2) - 10);
+        //            allButton.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, (checkTermOn.size.width * 2) + 10 );
+        //            generic.addSubview(titleView)
+        //             generic.addSubview(allButton)
+        //        }
+        //        else{
+        titleView.text = NSLocalizedString("product.searh.shown.categories",comment:"")
+        generic.addSubview(titleView)
+        //        }
         generic.backgroundColor =  WMColor.searchProductHeaderTableViewColor
         return generic
     }
@@ -280,63 +317,62 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.table.reloadData()
         }
     }
-
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
-//        if section == 0 {
-//            
-//            if let count = self.elements?.count {
-//                size = count
-//                if !self.all &&  size > 3{
-//                    size = 3
-//                }
-//            }
-//        }else {
-            if let count = self.elementsCategories?.count {
-                size = count
-            }
-//        }
+        //        if section == 0 {
+        //
+        //            if let count = self.elements?.count {
+        //                size = count
+        //                if !self.all &&  size > 3{
+        //                    size = 3
+        //                }
+        //            }
+        //        }else {
+        if let count = self.elementsCategories?.count {
+            size = count
+        }
+        //        }
         return size
     }
     
     func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-//        switch  indexPath.section {
-//        case 0:
-//            return 46.0
-//        default:
-            return 56.0
-//        }
+        //        switch  indexPath.section {
+        //        case 0:
+        //            return 46.0
+        //        default:
+        return 56.0
+        //        }
     }
-
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        switch  indexPath.section {
-//        case 0:
-//            let cell = tableView.dequeueReusableCellWithIdentifier("ProductsCell", forIndexPath: indexPath) as SearchSingleViewCell
-//            if self.elements != nil && self.elements!.count > 0 {
-//                let item = self.elements![indexPath.row] as? NSDictionary
-//                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andPrice:item!["price"] as NSString  )
-//            }
-//            
-//            return cell
-//        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as SearchCategoriesViewCell
-            if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
-                if indexPath.row < self.elementsCategories?.count {
-                    let item = self.elementsCategories![indexPath.row] as? NSDictionary
-                    cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andDepartament:item!["departament"] as NSString  )
-                }
+        //        switch  indexPath.section {
+        //        case 0:
+        //            let cell = tableView.dequeueReusableCellWithIdentifier("ProductsCell", forIndexPath: indexPath) as SearchSingleViewCell
+        //            if self.elements != nil && self.elements!.count > 0 {
+        //                let item = self.elements![indexPath.row] as? NSDictionary
+        //                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andPrice:item!["price"] as NSString  )
+        //            }
+        //
+        //            return cell
+        //        default:
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as SearchCategoriesViewCell
+        if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
+            if indexPath.row < self.elementsCategories?.count {
+                let item = self.elementsCategories![indexPath.row] as? NSDictionary
+                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andDepartament:item!["departament"] as NSString  )
             }
-            
-            return cell
-//        }
-
+        }
+        
+        return cell
+        //        }
+        
     }
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         if textField.text != nil && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            
             let toValidate : NSString = textField.text
             let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
@@ -347,10 +383,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                 showMessageValidation("Texto no permitido")
                 return true
             }
-
+            
             self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
             self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
-            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
+            //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
             
             self.errorView?.removeFromSuperview()
             
@@ -373,9 +409,17 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             }
             delegate.selectKeyWord(textField.text, upc: nil, truncate:false)
         }
+        else{
+            UIView.animateWithDuration(1.0, animations: {
+                self.camButton!.alpha = 1;
+                self.scanButton!.alpha = 1;
+                self.camLabel!.alpha = 1;
+                self.scanLabel!.alpha = 1;
+            })
+        }
         return false
     }
-
+    
     func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
@@ -389,20 +433,20 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
-//        if indexPath.section == 0 {
-//            let item = self.elements![indexPath.row] as? NSDictionary
-//            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
-//        }else{
-            let item = self.elementsCategories![indexPath.row] as? NSDictionary
-            self.delegate.showProducts(forDepartmentId: item!["idDepto"] as NSString, andFamilyId: item!["idFamily"] as NSString, andLineId: item!["idLine"] as NSString, andTitleHeader:item!["title"] as NSString , andSearchContextType:item!["type"] as NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
-//        }
+        //        if indexPath.section == 0 {
+        //            let item = self.elements![indexPath.row] as? NSDictionary
+        //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
+        //        }else{
+        let item = self.elementsCategories![indexPath.row] as? NSDictionary
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as NSString, andFamilyId: item!["idFamily"] as NSString, andLineId: item!["idLine"] as NSString, andTitleHeader:item!["title"] as NSString , andSearchContextType:item!["type"] as NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
+        //        }
     }
     
     func searchProductKeywords(string:String) {
         self.cancelSearch = true
-       
+        
         if  self.field!.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <  2 {
-           
+            
             self.elements = nil
             self.elementsCategories = nil
             self.table.reloadData()
@@ -410,7 +454,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             
             return
         }
-
+        
         var success = { () -> Void in
             dispatch_async(dispatch_get_main_queue(), {
                 self.table.reloadData()
@@ -419,73 +463,73 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         }
         
         dispatch_async(dispatch_get_main_queue(), {
-        self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
-            var select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
-            var load = false
-             self.cancelSearch = false
-            if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
-               
-                var keywords = Array<AnyObject>()
-                while rs.next() {
-                    if  self.cancelSearch {
-                        break
-                    }
-                    var keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
-                    var upc = rs.stringForColumn("upc")
-                    var price = rs.stringForColumn("price")
-                    keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
-                }// while rs.next() {
-                rs.close()
-                rs.setParentDB(nil)
-                self.elements = keywords
-                load = true;
-            }
-            
-            if  !self.cancelSearch {
-            var selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
-            self.cancelSearch = false
-            if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
-                var keywords = Array<AnyObject>()
-                
-                while rs.next() {
-                    if  self.cancelSearch {
-                        break
-                    }
+            self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
+                var select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
+                var load = false
+                self.cancelSearch = false
+                if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                     
-                    let depto = rs.stringForColumn("departament")
-                    let family = rs.stringForColumn("family")
-                    
-                    var keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
-                    var description = "\(depto) > \(family)"
-                    var idLine = rs.stringForColumn("idLine")
-                    var idDepto = rs.stringForColumn("idDepto")
-                    var idFamily = rs.stringForColumn("idFamily")
-                    var type = rs.stringForColumn("type")
-                  
-                    keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
-                }// while rs.next() {
-                rs.close()
-                rs.setParentDB(nil)
-                self.elementsCategories = keywords
-                load = true;
+                    var keywords = Array<AnyObject>()
+                    while rs.next() {
+                        if  self.cancelSearch {
+                            break
+                        }
+                        var keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
+                        var upc = rs.stringForColumn("upc")
+                        var price = rs.stringForColumn("price")
+                        keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
+                    }// while rs.next() {
+                    rs.close()
+                    rs.setParentDB(nil)
+                    self.elements = keywords
+                    load = true;
+                }
                 
                 if  !self.cancelSearch {
-                    if load {
-
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.table.reloadData()
-                            self.showTableIfNeeded()
-                        });
-
-                       
+                    var selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
+                    self.cancelSearch = false
+                    if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
+                        var keywords = Array<AnyObject>()
+                        
+                        while rs.next() {
+                            if  self.cancelSearch {
+                                break
+                            }
+                            
+                            let depto = rs.stringForColumn("departament")
+                            let family = rs.stringForColumn("family")
+                            
+                            var keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
+                            var description = "\(depto) > \(family)"
+                            var idLine = rs.stringForColumn("idLine")
+                            var idDepto = rs.stringForColumn("idDepto")
+                            var idFamily = rs.stringForColumn("idFamily")
+                            var type = rs.stringForColumn("type")
+                            
+                            keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
+                        }// while rs.next() {
+                        rs.close()
+                        rs.setParentDB(nil)
+                        self.elementsCategories = keywords
+                        load = true;
+                        
+                        if  !self.cancelSearch {
+                            if load {
+                                
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    self.table.reloadData()
+                                    self.showTableIfNeeded()
+                                });
+                                
+                                
+                            }
+                        }
                     }
                 }
             }
-            }
-        }
         })
     }
-   
+    
     func clearSearch(){
         upsSearch = false
         self.field!.text = ""
@@ -500,15 +544,23 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     func showClearButtonIfNeeded(forTextValue text:String) {
         if text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0{
-            self.clearButton!.hidden = false
-            self.scanButton!.hidden = true
-            self.fieldArrow!.hidden = true
-            self.labelHelpScan!.hidden = true
+            UIView.animateWithDuration(0.5, animations: {
+                self.clearButton!.alpha = 1
+                self.camButton!.alpha = 0
+                self.scanButton!.alpha = 0
+                self.camLabel!.alpha = 0
+                self.scanLabel!.alpha = 0
+                self.viewBackground!.alpha = 0
+            })
         } else {
-            self.clearButton!.hidden = true
-            self.scanButton!.hidden = false
-            self.fieldArrow!.hidden = false
-            self.labelHelpScan!.hidden = false
+            UIView.animateWithDuration(0.5, animations: {
+                self.clearButton!.alpha = 0
+                self.camButton!.alpha = 1
+                self.scanButton!.alpha = 1
+                self.camLabel!.alpha = 1
+                self.scanLabel!.alpha = 1
+                self.viewBackground!.alpha = 1
+            })
         }
     }
     
@@ -519,8 +571,24 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.delegate?.searchControllerScanButtonClicked(self)
     }
     
+    func showCamera(sender:UIButton) {
+        if self.field!.isFirstResponder() {
+            self.field!.resignFirstResponder()
+        }
+        self.delegate?.searchControllerCamButtonClicked(self)
+    }
+    
     func cancel(sender:UIButton) {
         delegate.closeSearch(false, sender:nil)
+    }
+    
+    // MARK: - CameraViewControllerDelegate
+    func photoCaptured(value: String?) {
+        self.field!.becomeFirstResponder()
+        if value != nil {
+            self.field!.text = value
+            self.textFieldShouldReturn(self.field)
+        }
     }
     
     // MARK: - BarCodeViewControllerDelegate
@@ -530,10 +598,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.delegate.selectKeyWord("", upc: value, truncate:true)
         }
         else if !self.field!.isFirstResponder() {
-                self.field!.becomeFirstResponder()
+            self.field!.becomeFirstResponder()
         }
     }
-
+    
     func handleTap(recognizer:UITapGestureRecognizer){
         delegate.closeSearch(false, sender:nil)
     }
@@ -558,7 +626,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         UIView.animateWithDuration(0.2, animations: {
             self.field!.frame = CGRectMake(16.0, 15, 225, 40.0)
             self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
-            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
+            //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY - 20.0, 48, 40)
             
             self.errorView!.frame =  CGRectMake(self.field!.frame.minX - 5 , self.field!.frame.minY - self.errorView!.frame.height , self.errorView!.frame.width , self.errorView!.frame.height)
             
@@ -573,7 +641,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú ]{0,100}$";
         return validateRegEx(regString,toValidate:toValidate)
     }
-
+    
     func validateRegEx (pattern:String,toValidate:String) -> Bool {
         var error: NSError?
         
@@ -588,7 +656,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     override func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
         super.scrollViewWillBeginDragging(scrollView)
-         self.view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     func isBarCodeUPC(codeUPC:NSString) -> Bool {
@@ -621,6 +689,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return verificationInt == resultVerInt
         
     }
-
+    
     
 }

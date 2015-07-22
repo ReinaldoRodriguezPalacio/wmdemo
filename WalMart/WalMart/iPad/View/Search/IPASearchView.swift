@@ -8,24 +8,25 @@
 
 import Foundation
 
-
-
-class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,UIPopoverControllerDelegate {
+class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate,UIPopoverControllerDelegate {
     
     var closeanimation : (() -> Void)!
     var field : FormFieldSearch!
     var backButton : UIButton!
-    var delegate:SearchViewControllerDelegate!
-    var scanButton: UIButton?
+    var delegate: SearchViewControllerDelegate!
     var clearButton: UIButton?
     var errorView : FormFieldErrorView? = nil
     var viewContent : UIView!
     var popover : UIPopoverController?
     var searchctrl : IPASearchLastViewTableViewController!
     
+    var camButton: UIButton?
+    var camLabel: UILabel?
+    var scanButton: UIButton?
+    var scanLabel: UILabel?
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setup()
     }
     
     override init(frame: CGRect) {
@@ -35,7 +36,6 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
     
     
     func setup() {
-        
         field = FormFieldSearch()
         field.returnKeyType = .Search
         field.autocapitalizationType = .None
@@ -43,6 +43,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
         field.enablesReturnKeyAutomatically = true
         field.delegate = self
         field.frame = CGRectMake( -self.frame.width + 40, (self.frame.height / 2) - 15, self.frame.width - 40,30)
+        self.field!.addTarget(self, action: "setPopOver", forControlEvents: UIControlEvents.EditingDidBegin)
         
         viewContent = UIView()
         viewContent.clipsToBounds = true
@@ -54,62 +55,109 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
         backButton.addTarget(self, action: "closeSearch", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(backButton)
         
-        self.scanButton = UIButton.buttonWithType(.Custom) as? UIButton
-        self.scanButton!.frame = CGRectMake(self.field.frame.width - 30, 0.0, 30, 30)
-        self.scanButton!.setImage(UIImage(named:"searchScan"), forState: .Normal)
-        self.scanButton!.setImage(UIImage(named:"searchScan"), forState: .Highlighted)
-        self.scanButton!.setImage(UIImage(named:"searchScan"), forState: .Selected)
-        self.scanButton!.addTarget(self, action: "showBarCode:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.field.addSubview(self.scanButton!)
-        
         self.clearButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.clearButton!.frame = CGRectMake(self.field.frame.width - 30, 0.0, 30, 30)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
         self.clearButton!.addTarget(self, action: "clearSearch", forControlEvents: UIControlEvents.TouchUpInside)
-        self.clearButton!.hidden = true
+        self.clearButton!.alpha = 0
         self.field.addSubview(self.clearButton!)
         
         viewContent.addSubview(field)
         field.becomeFirstResponder()
-        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        if searchctrl != nil {
-            self.searchctrl.view.frame = CGRectMake(0,0,474,500)
-            self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
-        }
-
+        
+        self.setPopOver()
     }
     
+    func setPopOver() {
+        if searchctrl == nil {
+            searchctrl =  IPASearchLastViewTableViewController()
+            searchctrl.view.frame = CGRectMake(0,0,474,500)
+            searchctrl.delegate = self.delegate
+            searchctrl.modalPresentationStyle = .Popover
+            searchctrl.preferredContentSize = CGSizeMake(474, 500)
+            searchctrl.table.alpha = 0
+            searchctrl.afterselect = {() in
+                self.field.resignFirstResponder()
+                self.closePopOver()
+                self.closeSearch()
+            }
+            searchctrl.endEditing = {() in
+                self.field.resignFirstResponder()
+                self.searchctrl.view.frame = CGRectMake(0,0,474,500)
+                self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
+            }
+            
+            self.camButton = UIButton.buttonWithType(.Custom) as? UIButton
+            self.camButton!.frame = CGRectMake(128, 46, 64, 64)
+            self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
+            self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
+            self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
+            self.camButton!.addTarget(self, action: "showCamera:", forControlEvents: UIControlEvents.TouchUpInside)
+            searchctrl.view!.addSubview(self.camButton!)
+            
+            self.camLabel = UILabel()
+            self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28, self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
+            self.camLabel!.textAlignment = .Center
+            self.camLabel!.numberOfLines = 2
+            self.camLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+            self.camLabel!.textColor = UIColor.whiteColor()
+            self.camLabel!.text = NSLocalizedString("search.info.button.camera",comment:"")
+            searchctrl.view!.addSubview(self.camLabel!)
+            
+            self.scanButton = UIButton.buttonWithType(.Custom) as? UIButton
+            self.scanButton!.frame = CGRectMake(282, 46, 64, 64)
+            self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
+            self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
+            self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
+            self.scanButton!.addTarget(self, action: "showBarCode:", forControlEvents: UIControlEvents.TouchUpInside)
+            searchctrl.view!.addSubview(self.scanButton!)
+            
+            self.scanLabel = UILabel()
+            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
+            self.scanLabel!.textAlignment = .Center
+            self.scanLabel!.numberOfLines = 2
+            self.scanLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+            self.scanLabel!.textColor = UIColor.whiteColor()
+            self.scanLabel!.text = NSLocalizedString("search.info.button.barcode",comment:"")
+            searchctrl.view!.addSubview(self.scanLabel!)
+        }
+        
+        if popover == nil {
+            popover = UIPopoverController(contentViewController: searchctrl)
+            popover!.delegate = self
+            popover!.backgroundColor = WMColor.productAddToCartBg
+            popover!.presentPopoverFromRect(CGRectMake(48, self.frame.maxY - 20 , 0, 0), inView: self, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        }
+        
+        self.showClearButtonIfNeeded(forTextValue: field.text)
+    }
     
     func closeSearch() {
         self.field.resignFirstResponder()
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-           // self.frame =  CGRectMake(-self.frame.width, self.frame.minY, self.frame.width, self.frame.height)
+            // self.frame =  CGRectMake(-self.frame.width, self.frame.minY, self.frame.width, self.frame.height)
             self.field!.frame = CGRectMake(-self.field!.frame.width, self.field!.frame.minY, self.field!.frame.width, self.field!.frame.height)
             }) { (complete:Bool) -> Void in
-               self.removeFromSuperview()
+                self.removeFromSuperview()
                 UIView.animateWithDuration(0.2, animations: { () -> Void in
                     if self.closeanimation != nil {
                         self.closeanimation()
                     }
                 })
         }
-      
+        
     }
     
     func textFieldShouldReturn(textField: UITextField!) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         if textField.text != nil && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            if self.errorView != nil {
-                self.errorView?.removeFromSuperview()
-                self.errorView = nil
-            }
             let toValidate : NSString = textField.text
             let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
@@ -125,8 +173,10 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
                 return true
             }
             
-             if textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
+            self.errorView?.removeFromSuperview()
             
+            if textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
+                
                 let strFieldValue = textField.text as NSString
                 if strFieldValue.integerValue > 0 {
                     var code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -135,49 +185,53 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
                         character = code.substringToIndex(advance(code.startIndex, countElements(code)-1 ))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true)
-                    self.field!.resignFirstResponder()
+                    //                    self.field!.resignFirstResponder()
                     closePopOver()
                     return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     delegate.selectKeyWord("", upc: textField.text, truncate:false)
-                    self.field!.resignFirstResponder()
+                    //                    self.field!.resignFirstResponder()
                     closePopOver()
                     return true
                 }
-
                 
                 /*let strFieldValue = textField.text as NSString
                 if strFieldValue.integerValue > 0 {
-                    var character = textField.text
-                    if self.isBarCodeUPC(character) {
-                        character = character.substringToIndex(advance(character.startIndex, countElements(character)-1 ))
-                    }
-                    delegate.selectKeyWord("", upc: character, truncate:true)
-                    self.field!.resignFirstResponder()
-                    closePopOver()
-                    return true
+                var character = textField.text
+                if self.isBarCodeUPC(character) {
+                character = character.substringToIndex(advance(character.startIndex, countElements(character)-1 ))
+                }
+                delegate.selectKeyWord("", upc: character, truncate:true)
+                self.field!.resignFirstResponder()
+                closePopOver()
+                return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
-                    delegate.selectKeyWord("", upc: textField.text, truncate:false)
-                    self.field!.resignFirstResponder()
-                    closePopOver()
-                    return true
+                delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                self.field!.resignFirstResponder()
+                closePopOver()
+                return true
                 }*/
             }
-            self.field!.resignFirstResponder()
+            //            self.field!.resignFirstResponder()
             delegate.selectKeyWord(textField.text, upc: nil, truncate:false)
             closePopOver()
         }
+        
         return false
     }
     
     func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if keyword.length() > 51{
+            return false
+        }
+        self.field!.text = keyword;
+        searchctrl.searchProductKeywords(keyword)
         self.showClearButtonIfNeeded(forTextValue: keyword)
-        addPopover(keyword)
-        return true
+        return false
     }
     
     func showMessageValidation(message:String){
@@ -201,7 +255,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
         contentView.addSubview(self.errorView!)
         UIView.animateWithDuration(0.2, animations: {
             self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
-            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
+            //            self.scanButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
             
             self.errorView!.frame =  CGRectMake(self.field!.frame.minX + 20 , self.field!.frame.minY - self.errorView!.frame.height , self.errorView!.frame.width , self.errorView!.frame.height)
             
@@ -248,54 +302,103 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
         }
     }
     
+    func showCamera(sender:UIButton) {
+        if self.field!.isFirstResponder() {
+            self.field!.resignFirstResponder()
+        }
+        
+        self.closePopOver()
+        self.delegate.searchControllerCamButtonClicked(self)
+    }
+    
+    // MARK: - CameraViewControllerDelegate
+    func photoCaptured(value: String?) {
+        if value != nil {
+            self.field!.becomeFirstResponder()
+            self.field.text = value
+            self.closeSearch()
+            self.closePopOver()
+            
+            self.textFieldShouldReturn(self.field!)
+        }
+    }
+    
     func showClearButtonIfNeeded(forTextValue text:String) {
         if text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0{
-            self.clearButton!.hidden = false
-            self.scanButton!.hidden = true
-        } else {
-            self.clearButton!.hidden = true
-            self.scanButton!.hidden = false
+            UIView.animateWithDuration(0.5, animations: {
+                self.clearButton!.alpha = 1
+                self.camButton!.alpha = 0
+                self.scanButton!.alpha = 0
+                self.camLabel!.alpha = 0
+                self.scanLabel!.alpha = 0
+                
+                self.popover!.backgroundColor = UIColor.whiteColor()
+                self.searchctrl!.table.alpha = 0.8
+            })
+        }
+        else {
+            UIView.animateWithDuration(0.5, animations: {
+                self.clearButton!.alpha = 0
+                self.camButton!.alpha = 1
+                self.scanButton!.alpha = 1
+                self.camLabel!.alpha = 1
+                self.scanLabel!.alpha = 1
+                
+                if self.popover != nil {
+                    self.popover!.backgroundColor = WMColor.productAddToCartBg
+                }
+                self.searchctrl!.table.alpha = 0
+            })
         }
     }
     
     func clearSearch(){
-        //upsSearch = false
+        //        //upsSearch = false
+        //        self.field!.text = ""
+        //        //self.elements = nil
+        //        self.showClearButtonIfNeeded(forTextValue: self.field!.text)
+        
         self.field!.text = ""
-        //self.elements = nil
+        searchctrl.elements = nil
+        searchctrl.elementsCategories = nil
         self.showClearButtonIfNeeded(forTextValue: self.field!.text)
+        searchctrl.showTableIfNeeded()
+        if self.errorView != nil {
+            self.errorView?.removeFromSuperview()
+        }
     }
     
-    func addPopover(keyword:String){
-        
-        if keyword.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
-            if searchctrl == nil {
-                searchctrl =  IPASearchLastViewTableViewController()
-                searchctrl.view.frame = CGRectMake(0,0,474,500)
-                searchctrl.delegate = self.delegate
-                searchctrl.modalPresentationStyle = .Popover
-                searchctrl.preferredContentSize = CGSizeMake(474, 500)
-                searchctrl.afterselect = {() in
-                    self.field.resignFirstResponder()
-                    self.closePopOver()
-                    self.closeSearch()
-                }
-                searchctrl.endEditing = {() in
-                    self.field.resignFirstResponder()
-                    self.searchctrl.view.frame = CGRectMake(0,0,474,500)
-                    self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
-                }
-                
-            }
-            if popover == nil {
-                popover = UIPopoverController(contentViewController: searchctrl)
-                popover!.delegate = self
-                popover!.presentPopoverFromRect(CGRectMake(48, self.frame.maxY - 20 , 0, 0), inView: self, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
-            }
-          
-            searchctrl.searchProductKeywords(keyword)
-        }
-        
-    }
+    //    func addPopover(keyword:String){
+    //
+    //        if keyword.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+    //            if searchctrl == nil {
+    //                searchctrl =  IPASearchLastViewTableViewController()
+    //                searchctrl.view.frame = CGRectMake(0,0,474,500)
+    //                searchctrl.delegate = self.delegate
+    //                searchctrl.modalPresentationStyle = .Popover
+    //                searchctrl.preferredContentSize = CGSizeMake(474, 500)
+    //                searchctrl.afterselect = {() in
+    //                    self.field.resignFirstResponder()
+    //                    self.closePopOver()
+    //                    self.closeSearch()
+    //                }
+    //                searchctrl.endEditing = {() in
+    //                    self.field.resignFirstResponder()
+    //                    self.searchctrl.view.frame = CGRectMake(0,0,474,500)
+    //                    self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
+    //                }
+    //
+    //            }
+    //            if popover == nil {
+    //                popover = UIPopoverController(contentViewController: searchctrl)
+    //                popover!.delegate = self
+    //                popover!.presentPopoverFromRect(CGRectMake(48, self.frame.maxY - 20 , 0, 0), inView: self, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+    //            }
+    //
+    //            searchctrl.searchProductKeywords(keyword)
+    //        }
+    //
+    //    }
     
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         popover = nil
@@ -338,7 +441,19 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,U
         return verificationInt == resultVerInt
         
     }
-
-
     
+    func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool {
+        self.closeSearch()
+        
+        return true
+    }
+    
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+        self.closeSearch()
+        if popover != nil{
+            self.closePopOver()
+        }
+        
+        return true;
+    }
 }

@@ -62,9 +62,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.content?.addSubview(passworCurrent!)
         self.content?.addSubview(password!)
         self.content?.addSubview(confirmPassword!)
-        
-        let fieldHeight  : CGFloat = CGFloat(40)
-        let leftRightPadding  : CGFloat = CGFloat(15)
+       
         
         self.content.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.content)
@@ -88,9 +86,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
 
         
         
-        self.passworCurrent?.frame = CGRectMake(leftRightPadding,  self.header!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
-        self.password?.frame = CGRectMake(leftRightPadding,  passworCurrent!.frame.maxY + 8, self.view.frame.width - (leftRightPadding * 2), fieldHeight)
-        self.confirmPassword?.frame = CGRectMake(leftRightPadding,  password!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
+        
         
         self.content.contentSize = CGSize(width: self.view.bounds.width, height:  self.confirmPassword!.frame.maxY + 40)
         
@@ -99,10 +95,18 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+        let fieldHeight  : CGFloat = CGFloat(40)
+        let leftRightPadding  : CGFloat = CGFloat(15)
+        
         self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
         
         self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 87, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
+        
+        self.passworCurrent?.frame = CGRectMake(leftRightPadding,  self.header!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
+        self.password?.frame = CGRectMake(leftRightPadding,  passworCurrent!.frame.maxY + 8, self.view.frame.width - (leftRightPadding * 2), fieldHeight)
+        self.confirmPassword?.frame = CGRectMake(leftRightPadding,  password!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate

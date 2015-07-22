@@ -22,6 +22,11 @@ class BaseController : UIViewController {
          return Int(rotation.rawValue)
     }
     
+    //WHITE BAR
+    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+        return UIStatusBarStyle.LightContent
+    }
+
     
     override func shouldAutorotate() -> Bool {
         return true

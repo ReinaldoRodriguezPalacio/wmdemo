@@ -485,6 +485,15 @@
 "signup.info.return" = "Regresar";
 "signup.info.registry" = "Crear Cuenta";
 
+//Camfind
+"search.info.placeholder" = "Busca por texto";
+"search.info.button.camera" = "Busca tomando\nuna foto";
+"search.info.button.barcode" = "Escanea un\nCódigo de Barras";
+"camfind.message.photo" = "Fotografía un artículo";
+"camfind.message.preview" = "Buscaremos este articulo en WalMart";
+
+//AvisoProvacidad
+"privace.notice.message" = "Nuestro Aviso de Privacidad ha cambiado, te invitamos a conocerlo.";
 
 
 

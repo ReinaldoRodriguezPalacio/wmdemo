@@ -407,6 +407,47 @@ class BaseService : NSObject {
         let timestamp = NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .MediumStyle, timeStyle: .ShortStyle)
         println("\(message)"  + timestamp)
     }
+    
+    func callPOSTServiceCam(manager:AFHTTPSessionManager, params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        manager.POST(serviceUrl(), parameters: nil,
+            constructingBodyWithBlock: { (formData: AFMultipartFormData!) in
+                let imgData = params.objectForKey("image_request[image]") as NSData
+                let localeStr = params.objectForKey("image_request[locale]") as String
+                formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
+                formData.appendPartWithFormData(localeStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[locale]")
+            },
+            success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
+                var resultJSON = json as NSDictionary
+                if let errorResult = self.validateCodeMessage(resultJSON) {
+                    if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
+                        if UserCurrentSession.sharedInstance().userSigned != nil {
+                            let loginService = LoginWithEmailService()
+                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+                            let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                            loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                                self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
+                                }, errorBlock: { (error:NSError) -> Void in
+                                    UserCurrentSession.sharedInstance().userSigned = nil
+                                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
+                            })
+                        }
+                        return
+                    }
+                    errorBlock!(errorResult)
+                    return
+                }
+                successBlock!(resultJSON)
+            },
+            failure: {(request:NSURLSessionDataTask!, error:NSError!) in
+                if error.code == -1005 {
+                    println("Response Error : \(error) \n Response \(request.response)")
+                    self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
+                    return
+                }
+                println("Response Error : \(error) \n Response \(request.response)")
+                errorBlock!(error)
+        })
+    }
 
     
 }

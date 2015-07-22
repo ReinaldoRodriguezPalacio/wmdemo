@@ -33,7 +33,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
 
         var recent = IPAHelpViewController()
         self.navigation.pushViewController(recent, animated: true)
-        selected = 0
+        selected = 3
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {

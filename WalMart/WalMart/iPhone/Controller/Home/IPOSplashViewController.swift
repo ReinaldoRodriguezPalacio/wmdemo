@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 struct ShoppingCartParams {
     static var maxProducts : Int = 10
@@ -50,33 +51,80 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         webViewSplash = UIWebView(frame:self.view.bounds)
         webViewSplash.delegate = self
         
-        
-        
         let confServ = ConfigService()
         confServ.callService([:], successBlock: { (result:NSDictionary) -> Void in
             var error: NSError?
             self.configureWebView(result)
-            if error == nil {
-                self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
-            }else{
-                self.gotohomecontroller()
+            //            if error == nil {
+            //                self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
+            //            }else{
+            //                self.gotohomecontroller()
+            //            }
+            if error == nil{
+                //
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "dd/MM/yyyy"
+                let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as String)!
+                let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String)!
+                let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String
+                let versionAP = "AP\(version)" as String!
+                
+                UserCurrentSession.sharedInstance().dateStart = sinceDate
+                UserCurrentSession.sharedInstance().dateEnd = untilDate
+                UserCurrentSession.sharedInstance().version = versionAP
+                
+                var requiredAP = true
+                if let param = self.retrieveParam(versionAP) {
+                    requiredAP = !(param.value == "false")
+                }
+                
+                if requiredAP {
+                    let url = result["privaceNotice"]?.objectAtIndex(0).objectForKey("url") as String
+                    var request = NSURLRequest(URL: NSURL(string:url)!)
+                    let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
+                    let manager = AFURLSessionManager(sessionConfiguration: configuration)
+                    let downloadTask = manager.downloadTaskWithRequest(request, progress: nil, destination: { (url:NSURL!, urlResponse:NSURLResponse!) -> NSURL! in
+                        let file =  NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: NSSearchPathDomainMask.UserDomainMask, appropriateForURL: nil, create: false, error: nil)
+                        return file?.URLByAppendingPathComponent("AvisoPrivacidad.pdf")
+                        }, completionHandler: { (response:NSURLResponse!, fileUrl:NSURL!, error:NSError!) -> Void in
+                            println("File Path : \(fileUrl)")
+                    })
+                    downloadTask.resume()
+                }
+                
             }
-            
             }) { (error:NSError) -> Void in
-            self.gotohomecontroller()
+                self.gotohomecontroller()
         }
         
-            
+        
         self.view.addSubview(webViewSplash)
         self.view.addSubview(splashDefault)
         
         callUpdateServices()
-        
-        
-        
-        
     }
     
+    func retrieveParam(key:String) -> Param? {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        let user = UserCurrentSession.sharedInstance().userSigned
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName("Param", inManagedObjectContext: context)
+        if user != nil {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
+        }
+        else {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
+        }
+        var error: NSError? = nil
+        var result = context.executeFetchRequest(fetchRequest, error: &error) as [Param]?
+        var parameter: Param? = nil
+        if result != nil && result!.count > 0 {
+            parameter = result!.first
+        }
+        return parameter
+    }
     
     func gotohomecontroller(){
         UIView.animateWithDuration(0.4, delay: 0.3, options: UIViewAnimationOptions.AllowAnimatedContent, animations: { () -> Void in
@@ -100,10 +148,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         splashDefault.frame = self.view.bounds
         webViewSplash.frame = self.view.bounds
     }
-
+    
     
     func webView(webView: UIWebView!, shouldStartLoadWithRequest request: NSURLRequest!, navigationType: UIWebViewNavigationType) -> Bool {
-
+        
         
         if request.URL.absoluteString!.hasPrefix("ios:") {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -120,11 +168,11 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-
+        
         
     }
     
-
+    
     
     func connection(connection: NSURLConnection, didFailWithError error: NSError) {
         
@@ -134,7 +182,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     func configureWebView(itemsconfig:NSDictionary) {
-       
+        
         
         if let block = itemsconfig["block"] as? Bool {
             blockScreen = block
@@ -171,7 +219,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             
         }
         
-     
+        
         configureSplash()
     }
     
@@ -205,7 +253,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let serviceURL =  environmentServices.objectForKey(serviceName) as String
         return serviceURL
     }
-
+    
     
     
     func callUpdateServices() {
@@ -215,7 +263,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         recommendedItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
             println("Call service RecommendedItemsService success")
             }) { (error:NSError) -> Void in
-            println("Call service RecommendedItemsService error \(error)")
+                println("Call service RecommendedItemsService error \(error)")
         }
         
         let exclusiveGrItems = GRExclusiveItemsService()
@@ -243,7 +291,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         defaultlist.callService({ (result:NSDictionary) -> Void in
             println("Call DefaultListService sucess")
             }, errorBlock: { (error:NSError) -> Void in
-            println("Call DefaultListService error \(error)")
+                println("Call DefaultListService error \(error)")
         })
         
         let storeService = StoreLocatorService()
@@ -255,7 +303,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 println("Call StoreLocatorService error \(error)")
             }
         )
-       
+        
         IPOSplashViewController.updateUserData()
     }
     
@@ -270,13 +318,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
         println("Call service ShoppingCartProductsService start")
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
-             println("Call service ShoppingCartProductsService success")
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
-            }, errorBlock: { (error:NSError) -> Void in
-                //if error.code != -100 {
-                 println("Call service ShoppingCartProductsService error")
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
-                //}
+        println("Call service ShoppingCartProductsService success")
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
+        }, errorBlock: { (error:NSError) -> Void in
+        //if error.code != -100 {
+        println("Call service ShoppingCartProductsService error")
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
+        //}
         })*/
         
         UserCurrentSession.sharedInstance().loadShoppingCarts { () -> Void in

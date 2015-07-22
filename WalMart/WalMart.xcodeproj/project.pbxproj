@@ -100,6 +100,8 @@
 		562CAAF61A5C6D85007F8584 /* NumericKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562CAAF51A5C6D85007F8584 /* NumericKeyboardView.swift */; };
 		562E2D651A7945B20048191A /* PreShoppingCartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562E2D641A7945B20048191A /* PreShoppingCartView.swift */; };
 		562EB36A1A5CC58400B0C176 /* WeightKeyboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 562EB3691A5CC58400B0C176 /* WeightKeyboardView.swift */; };
+		5633AA631B5F33A7008006B0 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5633AA621B5F33A7008006B0 /* CameraViewController.swift */; };
+		5633AA661B5F3457008006B0 /* CamFindService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5633AA651B5F3456008006B0 /* CamFindService.swift */; };
 		563666391A9688CA00BE2711 /* CommentBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563666381A9688CA00BE2711 /* CommentBubbleView.swift */; };
 		5637DE781A01BE76000E5CD7 /* IPOGroceriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */; };
 		5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */; };
@@ -556,6 +558,8 @@
 		562E2D641A7945B20048191A /* PreShoppingCartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartView.swift; path = iPhone/View/ShoppingCart/PreShoppingCartView.swift; sourceTree = "<group>"; };
 		562EB3691A5CC58400B0C176 /* WeightKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeightKeyboardView.swift; path = Shared/View/Keyboard/WeightKeyboardView.swift; sourceTree = "<group>"; };
 		562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
+		5633AA621B5F33A7008006B0 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraViewController.swift; path = Shared/Controller/CameraViewController.swift; sourceTree = "<group>"; };
+		5633AA651B5F3456008006B0 /* CamFindService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CamFindService.swift; path = Shared/Services/CamFind/CamFindService.swift; sourceTree = "<group>"; };
 		563666381A9688CA00BE2711 /* CommentBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentBubbleView.swift; path = Shared/View/Common/CommentBubbleView.swift; sourceTree = "<group>"; };
 		5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOGroceriesView.swift; path = iPhone/View/Home/IPOGroceriesView.swift; sourceTree = "<group>"; };
 		5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailPriceView.swift; path = iPad/View/ProductDetail/IPAProductDetailPriceView.swift; sourceTree = "<group>"; };
@@ -1215,6 +1219,14 @@
 			name = Keyboard;
 			sourceTree = "<group>";
 		};
+		5633AA641B5F344E008006B0 /* CamFind */ = {
+			isa = PBXGroup;
+			children = (
+				5633AA651B5F3456008006B0 /* CamFindService.swift */,
+			);
+			name = CamFind;
+			sourceTree = "<group>";
+		};
 		5645788D19AE2E00006A7152 = {
 			isa = PBXGroup;
 			children = (
@@ -1370,6 +1382,7 @@
 		564578C219AE300D006A7152 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				5633AA641B5F344E008006B0 /* CamFind */,
 				564D10A91A6DA61800426DD1 /* Splash */,
 				5680A0911A48C55F009C5515 /* Groceries */,
 				04D2A3991A2FD6E6008DAE37 /* StoreLocator */,
@@ -1612,6 +1625,7 @@
 				565E5A6219C0AE9500444DF7 /* Common */,
 				56527DAA19AF9574008032C6 /* BaseController.swift */,
 				AC47BBF519C0E9AD00B459BC /* BarCodeViewController.swift */,
+				5633AA621B5F33A7008006B0 /* CameraViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -2868,6 +2882,7 @@
 				AC6EF06719B1361D00DB28AF /* SearchProductViewController.swift in Sources */,
 				5673D1401A9D500400DCD20B /* RSITF14Generator.swift in Sources */,
 				AC3243511A04D31700414BA5 /* TmpIPAHomeViewController.swift in Sources */,
+				5633AA631B5F33A7008006B0 /* CameraViewController.swift in Sources */,
 				5614A65A1A68674B0048B71A /* GRAddressesByIDService.swift in Sources */,
 				56C2118A1A25049F002D1C91 /* IPAGroceriesView.swift in Sources */,
 				AC59118319DE0D2400EB095C /* FMDatabaseQueue.m in Sources */,
@@ -2982,6 +2997,7 @@
 				04448A391A9E74AF006AFEC4 /* IPAUserListViewController.swift in Sources */,
 				5606BC2C19BA63ED002A70ED /* ShoppingCartUpdateController.swift in Sources */,
 				569BB3121B06352600E8A657 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
+				5633AA661B5F3457008006B0 /* CamFindService.swift in Sources */,
 				04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */,
 				56684B311A02A57800DB2570 /* ReviewShoppingCartService.swift in Sources */,
 				569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */,

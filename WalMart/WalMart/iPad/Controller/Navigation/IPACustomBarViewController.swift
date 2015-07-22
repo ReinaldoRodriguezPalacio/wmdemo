@@ -402,6 +402,46 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
+    override func returnToView() {
+        if shoppingCartVC != nil {
+            self.btnShopping!.selected = false
+            shoppingCartVC.removeFromParentViewController()
+            shoppingCartVC.view.removeFromSuperview()
+            self.btnShopping?.userInteractionEnabled = true
+            if (openSearch){
+                self.openSearchProduct()
+                openSearch = false
+            }
+        }
+        //Tap on Groceries Cart Empty
+        if self.emptyGroceriesTap {
+            buttonSelected(self.buttonList[3])
+            if let navController = self.currentController as? UINavigationController {
+                navController.popToRootViewControllerAnimated(false)
+                if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {
+                    if categoriesVC.currentIndexSelected  != nil {
+                        categoriesVC.closeSelectedDepartment()
+                    }
+                }
+            }
+        }
+        //Tap on MG Cart Empty
+        if self.emptyMgTap {
+            buttonSelected(self.buttonList[1])
+            if let navController = self.currentController as? UINavigationController {
+                navController.popToRootViewControllerAnimated(false)
+                if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {
+                    if categoriesVC.currentIndexSelected  != nil {
+                        categoriesVC.closeSelectedDepartment()
+                    }
+                }
+            }
+        }
+        
+        self.emptyMgTap  = false
+        self.emptyGroceriesTap  = false
+    }
+    
    
     
 
