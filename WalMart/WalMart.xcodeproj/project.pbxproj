@@ -555,6 +555,7 @@
 		562CAAF51A5C6D85007F8584 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		562E2D641A7945B20048191A /* PreShoppingCartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartView.swift; path = iPhone/View/ShoppingCart/PreShoppingCartView.swift; sourceTree = "<group>"; };
 		562EB3691A5CC58400B0C176 /* WeightKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeightKeyboardView.swift; path = Shared/View/Keyboard/WeightKeyboardView.swift; sourceTree = "<group>"; };
+		562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
 		563666381A9688CA00BE2711 /* CommentBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentBubbleView.swift; path = Shared/View/Common/CommentBubbleView.swift; sourceTree = "<group>"; };
 		5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOGroceriesView.swift; path = iPhone/View/Home/IPOGroceriesView.swift; sourceTree = "<group>"; };
 		5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailPriceView.swift; path = iPad/View/ProductDetail/IPAProductDetailPriceView.swift; sourceTree = "<group>"; };
@@ -3365,10 +3366,11 @@
 		56A6153019CC93D1006FFFE5 /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */,
 				5697BD011A6F19A7007F9910 /* WalMart2.1.0.xcdatamodel */,
 				56A6153119CC93D1006FFFE5 /* WalMart.xcdatamodel */,
 			);
-			currentVersion = 5697BD011A6F19A7007F9910 /* WalMart2.1.0.xcdatamodel */;
+			currentVersion = 562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

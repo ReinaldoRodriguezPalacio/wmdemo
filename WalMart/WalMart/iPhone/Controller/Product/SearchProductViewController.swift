@@ -449,8 +449,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.mgResults!.addResults(arrayProduct!)
                     if var sortFacet = facet as? [[String:AnyObject]] {
                         sortFacet.sort { (item, seconditem) -> Bool in
-                            let firstOrder = item["order"] as String!
-                            let secondOrder = seconditem["order"] as String!
+                            var firstOrder = "0"
+                            if let firstOrderVal = item["order"] as? String {
+                                firstOrder = firstOrderVal
+                            }
+                            var secondOrder = "0"
+                            if let secondOrderVal = item["order"] as? String {
+                                secondOrder = secondOrderVal
+                            }
                             return firstOrder.toInt() < secondOrder.toInt()
                         }
                         self.facet = sortFacet

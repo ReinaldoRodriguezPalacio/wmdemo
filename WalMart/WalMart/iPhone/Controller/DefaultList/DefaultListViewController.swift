@@ -23,7 +23,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         self.tableView = UITableView()
         self.tableView?.delegate = self
         self.tableView?.dataSource = self
-        self.tableView?.registerClass(DefaultListTableViewCell.self, forCellReuseIdentifier: "practilistaCell")
+        self.tableView?.registerClass(DefaultListTableViewCell.self, forCellReuseIdentifier: "SuperlistasCell")
         self.tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
         self.view.addSubview(self.tableView!)
         
@@ -79,7 +79,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellreturn = tableView.dequeueReusableCellWithIdentifier("practilistaCell", forIndexPath: indexPath) as DefaultListTableViewCell
+        let cellreturn = tableView.dequeueReusableCellWithIdentifier("SuperlistasCell", forIndexPath: indexPath) as DefaultListTableViewCell
         let itemList = itemsLists[indexPath.row] as NSDictionary
         
         let listName = itemList["name"] as? String

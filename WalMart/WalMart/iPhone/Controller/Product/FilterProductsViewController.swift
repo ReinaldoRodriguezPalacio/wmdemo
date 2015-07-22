@@ -21,6 +21,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     let sliderCellId = "SliderCellView"
     let JSON_KEY_FACET_ITEMS = "itemsFacet"
     let JSON_KEY_FACET_ITEMNAME = "itemName"
+    let JSON_SLIDER = "slider"
     let JSON_KEY_FACET_UPCS = "upcs"
     
     let FILTER_PRICE_ID = "Por Precios"
@@ -262,7 +263,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     let allnameFacets = itemFacet["itemsFacet"] as [[String:AnyObject]]
                     return allnameFacets.count + 1
                 }
-                if typeFacet == "slide" {
+                if typeFacet == JSON_SLIDER {
                     return 1
                 }
             }
@@ -308,7 +309,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     return listCell
                     
                 }
-                if typeFacet == "slide" {
+                if typeFacet == JSON_SLIDER {
                     
                     
                     //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
@@ -368,7 +369,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
             let itemFacet = self.facet![indexPath.section - 1] as [String:AnyObject]
             if  let typeFacet = itemFacet["type"] as? String {
-                if typeFacet == "slide" {
+                if typeFacet == JSON_SLIDER {
                     return 73.0
                 }
             }

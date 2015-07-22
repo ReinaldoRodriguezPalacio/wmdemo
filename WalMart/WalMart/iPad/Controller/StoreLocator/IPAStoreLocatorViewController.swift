@@ -156,35 +156,37 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     override func mapViewUserDidTap(gotoPosition: Bool) {
         if self.viewBgDetailView != nil {
-            self.detailView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
-            UIView.animateWithDuration(0.5,
-                animations: { () -> Void in
-                    self.detailView!.transform = CGAffineTransformMakeScale(0.0, 0.0)
-                },
-                completion: { (finished:Bool) -> Void in
-                    if finished {
-                        self.viewBgDetailView!.removeFromSuperview()
-                        self.viewBgDetailView = nil
-                        self.detailView!.removeFromSuperview()
-                        self.detailView = nil
-                        self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-                        
-                        if gotoPosition && self.clubMap!.userLocation != nil {
-                            self.zoomMapLocation(self.clubMap!.userLocation)
-                        }
-                        else {
-                            if self.clubMap!.overlays != nil && self.clubMap!.overlays.count > 0 {
-                                MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
+             if self.detailView != nil {
+                self.detailView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                UIView.animateWithDuration(0.5,
+                    animations: { () -> Void in
+                        self.detailView!.transform = CGAffineTransformMakeScale(0.0, 0.0)
+                    },
+                    completion: { (finished:Bool) -> Void in
+                        if finished {
+                            self.viewBgDetailView!.removeFromSuperview()
+                            self.viewBgDetailView = nil
+                            self.detailView!.removeFromSuperview()
+                            self.detailView = nil
+                            self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
+                            
+                            if gotoPosition && self.clubMap!.userLocation != nil {
+                                self.zoomMapLocation(self.clubMap!.userLocation)
+                            }
+                            else {
+                                if self.clubMap!.overlays != nil && self.clubMap!.overlays.count > 0 {
+                                    MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
+                                }
+                            }
+                            
+                            var selected = self.clubCollection!.indexPathsForSelectedItems()
+                            for var idx = 0; idx < selected.count; idx++ {
+                                var indexPath = selected[idx] as NSIndexPath
+                                self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
                             }
                         }
-                        
-                        var selected = self.clubCollection!.indexPathsForSelectedItems()
-                        for var idx = 0; idx < selected.count; idx++ {
-                            var indexPath = selected[idx] as NSIndexPath
-                            self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
-                        }
-                    }
-            })
+                })
+            }
         }
     }
 

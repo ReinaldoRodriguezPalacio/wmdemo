@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 class GRAddItemListService: GRBaseService {
-
+    
     func buildParams(#idList:String, upcs:[AnyObject]?) -> [String:AnyObject]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}
         return ["idList":idList, "itemArrImp":upcs!]
@@ -27,7 +27,20 @@ class GRAddItemListService: GRBaseService {
     }
     
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callPOSTService(params,
+        var toSneditem : [String:AnyObject] = [:]
+        let arrayItems = params["itemArrImp"] as NSArray
+        var arrayToSend : [[String:AnyObject]] = []
+        for item in arrayItems {
+            let paramUpc = item["upc"] as String
+            let paramQuantity = item["quantity"] as Int
+            let paramPesable = item["pesable"] as String
+            let toSendUPC = buildProductObject(upc: paramUpc, quantity: paramQuantity, pesable: paramPesable)
+            arrayToSend.append(toSendUPC)
+        }
+        toSneditem["idList"] = params["idList"] as String
+        toSneditem["itemArrImp"] = arrayToSend
+        
+        self.callPOSTService(toSneditem,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 //self.jsonFromObject(resultCall)
                 self.manageList(resultCall)
@@ -39,14 +52,16 @@ class GRAddItemListService: GRBaseService {
                 return
             }
         )
+        
+        
     }
-
+    
     func manageList(list:NSDictionary) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-
-        if  let listId = list["id"] as? String {
         
+        if  let listId = list["id"] as? String {
+            
             let user = UserCurrentSession.sharedInstance().userSigned
             var entity : List?  = nil
             if user!.lists != nil {
@@ -123,6 +138,6 @@ class GRAddItemListService: GRBaseService {
                 
             }
         }
-
+        
     }
 }

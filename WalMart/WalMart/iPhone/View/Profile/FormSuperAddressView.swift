@@ -13,7 +13,7 @@ protocol FormSuperAddressViewDelegate {
     func showNoCPWarning()
 }
 
-class FormSuperAddressView : UIView, AlertPickerViewDelegate {
+class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate {
     var titleLabelAddress : UILabel!
     var titleLabelBetween : UILabel!
     var addressName : FormFieldView!
@@ -56,7 +56,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         super.init(frame: frame)
         setup()
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -115,7 +115,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         self.indoornumber!.minLength = 0
         self.indoornumber!.maxLength = 15
         self.indoornumber!.nameField = NSLocalizedString("gr.address.field.indoornumber",comment:"")
-
+        
         
         self.zipcode = FormFieldView()
         self.zipcode!.setPlaceholder(NSLocalizedString("gr.address.field.zipcode",comment:""))
@@ -126,7 +126,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         self.zipcode!.nameField = NSLocalizedString("gr.address.field.zipcode",comment:"")
         self.zipcode!.keyboardType = UIKeyboardType.NumberPad
         self.zipcode!.inputAccessoryView = viewAccess
-
+        //self.zipcode!.valueDelegate = self
+        self.zipcode!.delegate = self
         
         self.store = FormFieldView()
         self.store!.setPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
@@ -195,7 +196,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         
-       
+        
         if UserCurrentSession.sharedInstance().userSigned != nil {
             self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone
             self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber
@@ -337,7 +338,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
                         self.delegateFormAdd?.showNoCPWarning()
                         return
                         
-                     
+                        
                 })
             } else {
                 self.endEditing(true)
@@ -365,7 +366,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
     }
     
     
-
+    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -408,10 +409,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
             if formFieldObj ==  self.suburb! {
                 self.suburb!.text = selectedStr
                 self.selectedNeighborhood = indexPath
+                if delegateFormAdd != nil {
+                    self.delegateFormAdd.showUpdate()
+                }
             }
         }
     }
-  
+    
     func didDeSelectOption(picker:AlertPickerView) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.store! {
@@ -423,7 +427,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
             }
         }
     }
-
+    
     
     
     func buttomViewSelected(sender: UIButton) {
@@ -438,7 +442,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         let service = GRAddressAddService()
         
         if !delete {
-        
+            
             if self.viewError(self.addressName) {
                 return nil
             }
@@ -457,9 +461,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
             if self.viewError(self.zipcode)  {
                 return nil
             }
-        
-        
-        
+            
+            
+            
             if (self.zipcode!.text ==  "00000") {
                 if self.errorView == nil{
                     self.errorView = FormFieldErrorView()
@@ -467,13 +471,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
                 SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "No Válido" , errorView:self.errorView! ,  becomeFirstResponder: true)
                 return nil
             }
-        
-       
-
+            
+            
+            
             if self.viewError(self.store) {
                 return nil
             }
-        
+            
             if self.viewError(self.suburb)  {
                 return nil
             }
@@ -498,9 +502,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
                 return nil
             }
             if (toValidate == "0000000000" || toValidate.substringToIndex(2) == "00")
-              && !delete {
-                self.viewError(self.phoneWorkNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
-                return nil
+                && !delete {
+                    self.viewError(self.phoneWorkNumber, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
+                    return nil
             }
         }
         if self.phoneHomeNumber.text != ""   && !delete {
@@ -525,7 +529,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         }
         
         UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text, work: self.phoneWorkNumber.text, cellPhone: self.cellPhone.text)
-    
+        
         
         let strCity = resultDict["city"] as String!
         let zipCode = resultDict["zipCode"] as String!
@@ -540,7 +544,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         let referenceOne =  self.betweenFisrt!.text
         let referenceTwo =  self.betweenSecond!.text
         
-         var  storeId = ""
+        var  storeId = ""
         if self.storesDic.count > 0 {
             let storeDict =  self.storesDic[selectedStore.row]
             storeId = storeDict["id"] as String!
@@ -550,8 +554,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
         if delete {
             action = "B"
         }else
-        if addressId != "" {
-            action = "C"
+            if addressId != "" {
+                action = "C"
         }
         return  service.buildParams(strCity, addressID: addressId, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neightId, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: referenceOne, reference2: referenceTwo, storeID: storeId, operationType: action, preferred: preferred)
     }
@@ -632,15 +636,15 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
                 
             }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
             
-                        
-//            self.picker!.selected = self.selectedStore
-//            self.picker!.sender = self.store!
-//            self.picker!.delegate = self
-//            self.picker!.setValues(self.store!.nameField, values: self.stores)
+            
+            //            self.picker!.selected = self.selectedStore
+            //            self.picker!.sender = self.store!
+            //            self.picker!.delegate = self
+            //            self.picker!.setValues(self.store!.nameField, values: self.stores)
             //self.picker!.showPicker()
             
             }, errorBlock: { (error:NSError) -> Void in
-              
+                
         })
     }
     
@@ -659,4 +663,25 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate {
     func saveReplaceViewSelected() {
     }
     
+    //    func fieldChangeValue(value:String) {
+    //        if value != currentZipCode {
+    //            let xipStr = self.zipcode.text as NSString
+    //            self.zipcode.text = String(format: "%05d",xipStr.integerValue)
+    //            self.store.becomeFirstResponder()
+    //        }
+    //    }
+    
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text
+        let zipcode = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if zipcode != currentZipCode {
+            self.suburb!.text = ""
+            self.selectedNeighborhood = nil
+            
+            self.store!.text = ""
+            self.selectedStore = nil
+        }
+        return true
+    }
 }

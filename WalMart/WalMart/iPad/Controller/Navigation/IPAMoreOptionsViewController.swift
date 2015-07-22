@@ -152,7 +152,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         
     }
 
-    
+    override func signOut(sender: UIButton?) {
+        self.delegate.selectedDetail(4)
+        super.signOut(nil)
+    }
 
     
 }

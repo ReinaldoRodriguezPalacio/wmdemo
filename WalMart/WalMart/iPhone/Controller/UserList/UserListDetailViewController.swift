@@ -134,17 +134,15 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                     self.loading = nil
                     
                     
-                    if self.products == nil || self.products!.count == 0  {
-                        self.selectedItems = []
-                    } else {
-                    
-                        self.selectedItems = NSMutableArray()
+                    self.selectedItems = []
+                    self.selectedItems = NSMutableArray()
+                    if self.products != nil  && self.products!.count > 0  {
                         for i in 0...self.products!.count - 1 {
                             self.selectedItems?.addObject(i)
                         }
+                        self.updateTotalLabel()
                     }
-                    self.updateTotalLabel()
-                        
+                    
                     
                 }, reloadList: false)
             }
@@ -678,7 +676,9 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                                 label: upc,
                                 value: nil).build())
                         }
-                        
+                        if self.selectedItems!.containsObject(indexPath.row) {
+                            self.selectedItems?.removeObject(indexPath.row)
+                        }
                         self.invokeDeleteProductFromListService(upc)
                     }
                 }
@@ -818,8 +818,24 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         detailService.buildParams(self.listId)
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
+                
+                
+                
+                
                 self.products = result["items"] as? NSArray
                 self.titleLabel?.text = result["name"] as? String
+                
+                
+                if self.products == nil || self.products!.count == 0  {
+                    self.selectedItems = []
+                } else {
+                    
+                    self.selectedItems = NSMutableArray()
+                    for i in 0...self.products!.count - 1 {
+                        self.selectedItems?.addObject(i)
+                    }
+                }
+                
                 self.layoutTitleLabel()
                 self.tableView!.reloadData()
                 if reloadList {
@@ -855,6 +871,9 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
             service.callService(service.buildParams(upc),
                 successBlock:{ (result:NSDictionary) -> Void in
                     self.invokeDetailListService({ () -> Void in
+                        
+                        
+                        
                         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                         self.alertView!.showDoneIcon()
                         self.deleteProductServiceInvoked = false
@@ -868,9 +887,9 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                             self.showEmptyView()
                         }
                         
-                       
                         
-                    }, reloadList: true)
+                        
+                        }, reloadList: true)
                 },
                 errorBlock:{ (error:NSError) -> Void in
                     println("Error at delete product from user")

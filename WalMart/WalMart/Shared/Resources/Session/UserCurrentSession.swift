@@ -143,6 +143,11 @@ class UserCurrentSession : NSObject {
         profile.lastName = resultProfileJSONMG["lastName"] as String
         profile.lastName2 = resultProfileJSONMG["lastName2"] as String
         profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as String
+        if let valueProfile =  resultProfileJSONMG["allowTransfer"] as? String {
+            profile.allowTransfer = valueProfile
+        }else {
+             profile.allowTransfer = "\(false)"
+        }
         
         if let minimumAmount = resultProfileJSONMG["minimumAmount"] as? Double{
             profile.minimumAmount = minimumAmount
@@ -155,14 +160,22 @@ class UserCurrentSession : NSObject {
         if resultProfileJSONGR != nil {
             //Fill profile GR
             profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as String
-            profile.birthDate = resultProfileJSONMG["birthdate"] as String
+            if let birthDateVal = resultProfileJSONMG["birthdate"] as? String {
+                profile.birthDate = birthDateVal
+            } else {
+                profile.birthDate = "01/01/2015"
+            }
             profile.cellPhone = resultProfileJSONGR!["cellPhone"] as String
             profile.homeNumberExtension = resultProfileJSONGR!["homeNumberExtension"] as String
             profile.maritalStatus = resultProfileJSONGR!["maritalStatus"] as String
             profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as String
             profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as String
             profile.profession = resultProfileJSONGR!["profession"] as String
-            profile.sex = resultProfileJSONMG["gender"] as String
+            if let genderVal = resultProfileJSONMG["gender"] as? String{
+                profile.sex = genderVal
+            } else {
+                profile.sex = "Male"
+            }
             profile.workNumberExtension = resultProfileJSONGR!["workNumberExtension"] as String
         }
         

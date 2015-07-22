@@ -11,8 +11,8 @@ import CoreData
 
 class UpdateUserProfileService : BaseService {
     
-    func buildParamsWithMembership(email:String,password:String,newPassword: String,name:String,lastName:String,birthdate:String,gender:String) -> NSDictionary {
-        return ["email":email,"password":password,"newPassword":newPassword,"profile":["name":name,"lastName":lastName, "birthdate":birthdate,"gender": gender,"allowTransfer": "true","allowMarketingEmail": "false"]]
+    func buildParamsWithMembership(email:String,password:String,newPassword: String,name:String,lastName:String,birthdate:String,gender:String,allowTransfer:String,allowMarketingEmail:String) -> NSDictionary {
+        return ["email":email,"password":password,"newPassword":newPassword,"profile":["name":name,"lastName":lastName, "birthdate":birthdate,"gender": gender,"allowTransfer": allowTransfer,"allowMarketingEmail": allowMarketingEmail]]
     }
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

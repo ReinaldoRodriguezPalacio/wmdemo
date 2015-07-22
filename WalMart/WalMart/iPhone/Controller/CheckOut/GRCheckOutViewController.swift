@@ -150,6 +150,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.deliveryDate!.setImageTypeField()
         self.deliveryDate!.nameField = NSLocalizedString("checkout.field.deliveryDate", comment:"")
         self.deliveryDate!.inputAccessoryView = viewAccess
+        self.deliveryDate!.disablePaste = true
         self.content.addSubview(self.deliveryDate!)
         
         self.deliveryDatePicker = UIDatePicker()

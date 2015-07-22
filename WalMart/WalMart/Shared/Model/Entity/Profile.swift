@@ -12,6 +12,7 @@ class Profile : NSManagedObject {
     
     //Walmart MG
     @NSManaged var allowMarketingEmail: NSString
+    @NSManaged var allowTransfer: NSString
     @NSManaged var idProfile: NSString
     @NSManaged var lastName: NSString
     @NSManaged var lastName2: NSString

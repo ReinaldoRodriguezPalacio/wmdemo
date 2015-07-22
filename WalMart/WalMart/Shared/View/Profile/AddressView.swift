@@ -18,7 +18,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     var item: NSDictionary? = nil
     var idAddress : String? = nil
     var idSuburb : String? = nil
- 
+    
     var shortNameField : FormFieldView? = nil
     var street : FormFieldView? = nil
     var outdoornumber : FormFieldView? = nil
@@ -36,14 +36,14 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     
     var preferedLabel : UILabel? = nil
     var defaultPrefered = false
-
+    
     var viewAddress: UIView!
     var fieldHeight  : CGFloat = CGFloat(40)
     var leftRightPadding  : CGFloat = CGFloat(15)
     var pickerSuburb : UIPickerView? = nil
     var listSuburb : [NSDictionary] = []
     var titleLabel: UILabel!
-
+    
     var viewLoad : WMLoadingView!
     var delegate:AddressViewDelegate!
     var showSuburb : Bool! = false
@@ -58,7 +58,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     override init() {
         super.init()
     }
-
+    
     init(frame: CGRect, isLogin: Bool, isIpad: Bool) {
         super.init(frame: frame)
         self.isLogin! = isLogin
@@ -69,7 +69,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     func setup(){
         viewAddress = UIView()
         var width = self.bounds.width
@@ -91,7 +91,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 }
                 
             }
-             self.delegate.textModify(field)
+            self.delegate.textModify(field)
         })
         
         self.keyboardBar = viewAccess
@@ -172,9 +172,9 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.state!.hidden = true
         
         preferedLabel = UILabel()
-
+        
         self.titleLabel = UILabel()
-       
+        
         self.titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabel!.text =  NSLocalizedString("profile.address", comment: "")
         if !isLogin {
@@ -189,7 +189,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
         /*self.lineView = UIView()
         self.lineView!.backgroundColor = WMColor.loginProfileLineColor*/
-       
+        
         self.addSubview(viewAddress!)
         
         self.preferedLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -233,7 +233,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
         self.preferedLabel?.frame = CGRectMake(self.bounds.width - 80 ,  0, 80 - leftRightPadding , fieldHeight)
         self.titleLabel?.frame = CGRectMake(leftRightPadding,  0, self.bounds.width - (leftRightPadding*2) - 60 , fieldHeight)
-
+        
         self.shortNameField?.frame = CGRectMake(leftRightPadding,  self.titleLabel!.frame.maxY, self.bounds.width - (leftRightPadding*2), fieldHeight)
         self.street?.frame = CGRectMake(leftRightPadding, self.shortNameField!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
         self.outdoornumber?.frame = CGRectMake(leftRightPadding,  street!.frame.maxY + 8, (self.shortNameField!.frame.width / 2) - 5 , fieldHeight)
@@ -247,7 +247,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
         
         self.viewAddress.frame = CGRectMake(0,0, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
-       
+        
     }
     
     func setItem(itemValues: NSDictionary) {
@@ -270,7 +270,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                     }
                 }
                 textFieldDidEndEditing(self.zipcode!)
-                }
+            }
         }
     }
     
@@ -286,7 +286,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             }
         }
     }
-
+    
     func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
@@ -351,7 +351,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         //self.addSubview(viewLoad)
         self.superview?.addSubview(viewLoad)
         viewLoad.startAnnimating(false)
-       
+        
         
         service.buildParams(padding + zipCode)
         service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
@@ -380,7 +380,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 }//if setElement && self.listSuburb.count > 0  {
                 self.pickerSuburb!.reloadAllComponents()
             }
-        }, {(error: NSError) in
+            }, {(error: NSError) in
                 self.listSuburb = []
                 self.pickerSuburb!.reloadAllComponents()
                 self.idSuburb = ""
@@ -438,11 +438,15 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 delegate.setContentSize()
             }
         }
-      
+        
     }
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String {
         if listSuburb.count > 0 {
+            if row == 0 {
+                self.idSuburb = listSuburb[row].objectForKey("id") as? String
+                suburb!.text = listSuburb[row].objectForKey("name") as String
+            }
             return listSuburb[row].objectForKey("name") as String
         }
         return ""
@@ -502,7 +506,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
         return true
     }
-
+    
     func validateShortName()-> Bool {
         var id = self.idAddress == nil ? "-1" : self.idAddress!
         for item in  self.allAddress as [NSDictionary]{
