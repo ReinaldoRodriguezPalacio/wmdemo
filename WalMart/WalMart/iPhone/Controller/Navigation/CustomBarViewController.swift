@@ -224,6 +224,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     },
                     rightText: NSLocalizedString("noti.godetail", comment: ""),
                     rightAction: { () -> Void in
+                        
+                        let controllerToGo = PrivacyViewController()
+                        if let navController = self.currentController as? UINavigationController {
+                            navController.pushViewController(controllerToGo, animated: true)
+                        }
+                        
                         self.addOrUpdateParam(version, value: "true")
                         let ale: ()? = alertNot?.close()
                 })

@@ -763,6 +763,53 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
             self.allProducts = result.arrayObject
             self.mgResults?.totalResults = self.allProducts!.count
+            
+            switch (FilterType(rawValue: self.idSort!)!) {
+            case .descriptionAsc :
+                //println("descriptionAsc")
+                self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+            case .descriptionDesc :
+                //println("descriptionDesc")
+                self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+            case .priceAsc :
+                //println("priceAsc")
+                self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
+                    var priceTwo:Double = self.priceValueFrom(dictionary2 as NSDictionary)
+                    
+                    if priceOne < priceTwo {
+                        return NSComparisonResult.OrderedAscending
+                    }
+                    else if (priceOne > priceTwo) {
+                        return NSComparisonResult.OrderedDescending
+                    }
+                    else {
+                        return NSComparisonResult.OrderedSame
+                    }
+                    
+                })
+            case .none : println("Not sorted")
+            default :
+                //println("priceDesc")
+                self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
+                    var priceTwo:Double = self.priceValueFrom(dictionary2 as NSDictionary)
+                    
+                    if priceOne > priceTwo {
+                        return NSComparisonResult.OrderedAscending
+                    }
+                    else if (priceOne < priceTwo) {
+                        return NSComparisonResult.OrderedDescending
+                    }
+                    else {
+                        return NSComparisonResult.OrderedSame
+                    }
+                    
+                })
+            }
+            
+            
+            
             self.collection?.reloadData()
             self.showLoadingIfNeeded(true)
             }) { (error:NSError) -> Void in
@@ -771,6 +818,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func removeFilters() {
+        
         self.idSort = self.originalSort
         self.searchContextType = self.originalSearchContextType
         if self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
@@ -784,6 +832,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.grResults!.resetResult()
         self.showLoadingIfNeeded(false)
         self.getServiceProduct(resetTable: true)
+        
+        self.controllerFilter = nil
+        
     }
 
 

@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.3</string>
+	<string>3.31</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>15</string>
+	<string>1</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -80,7 +80,7 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -292,8 +292,6 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.CamFindService</key>
-			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://192.168.43.192:8450/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -306,6 +304,8 @@
 			<string>https://192.168.43.192:8450/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
 			<string>https://192.168.43.192:8450/walmartmg/login/getBannersMGSuper</string>
+			<key>WalmartMG.CamFindService</key>
+			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -348,6 +348,8 @@
 			<string>https://192.168.43.192:8450/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://192.168.43.192:8450/walmartmg/list/reviewShoppingCart</string>
+			<key>WalmartMG.SearchItemsByUPCService</key>
+			<string>https://192.168.43.192:8450/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://192.168.43.192:8450/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
@@ -372,15 +374,9 @@
 			<string>https://192.168.43.192:8450/walmartmg/list/getWishlistByUser</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://192.168.43.192:8450/walmartmg/login/getInfoByZipCode</string>
-			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>https://192.168.43.192:8450/walmartmg/login/getSearchingByUpcs</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.CamFindService</key>
-			<string>https://api.cloudsightapi.com/image_requests</string>
-			<key>WalmartMG.SearchItemsByUPCService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -393,6 +389,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/banners.json</string>
+			<key>WalmartMG.CamFindService</key>
+			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -435,6 +433,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/reviewCartToShop</string>
+			<key>WalmartMG.SearchItemsByUPCService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getSearchingByUpcs</string>
 			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addItemToShoppingCart</string>
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>

@@ -107,6 +107,7 @@
 		5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */; };
 		5639DF3B19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */; };
 		563C955119E59DB2001AB7D4 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563C955019E59DB2001AB7D4 /* Product.swift */; };
+		564118681B5FD6BA0009C6CD /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564118671B5FD6BA0009C6CD /* PrivacyViewController.swift */; };
 		5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5645789B19AE2E00006A7152 /* AppDelegate.swift */; };
 		564578A619AE2E00006A7152 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 564578A519AE2E00006A7152 /* Images.xcassets */; };
 		564578CC19AE3231006A7152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564578CB19AE3231006A7152 /* HomeViewController.swift */; };
@@ -565,6 +566,7 @@
 		5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailPriceView.swift; path = iPad/View/ProductDetail/IPAProductDetailPriceView.swift; sourceTree = "<group>"; };
 		5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductHomeCollectionViewCell.swift; path = iPad/View/Home/IPAProductHomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		563C955019E59DB2001AB7D4 /* Product.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Product.swift; path = Shared/Model/Entity/Product.swift; sourceTree = "<group>"; };
+		564118671B5FD6BA0009C6CD /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PrivacyViewController.swift; path = iPhone/Controller/Help/PrivacyViewController.swift; sourceTree = "<group>"; };
 		5645789619AE2E00006A7152 /* WalmartMG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalmartMG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5645789A19AE2E00006A7152 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5645789B19AE2E00006A7152 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -2320,6 +2322,7 @@
 				AC59115F19DDEFCB00EB095C /* PreviewHelpViewController.swift */,
 				8B44A1B21AA7D239008E3CC0 /* TermViewController.swift */,
 				8BCA196F1AA91D2700065072 /* SupportViewController.swift */,
+				564118671B5FD6BA0009C6CD /* PrivacyViewController.swift */,
 			);
 			name = Help;
 			sourceTree = "<group>";
@@ -2852,6 +2855,7 @@
 				569E004E19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift in Sources */,
 				568DA4A31A16851800851B4C /* IPAProductDetailPageViewController.swift in Sources */,
 				5680A0991A48CF50009C5515 /* GRProductDetailViewController.swift in Sources */,
+				564118681B5FD6BA0009C6CD /* PrivacyViewController.swift in Sources */,
 				04312C9B1A6EF4160009A940 /* NewListTableViewCell.swift in Sources */,
 				AC37F6C319B90EC7000BB80D /* AddressByUserService.swift in Sources */,
 				AC3B64ED19BE646000564845 /* SearchViewController.swift in Sources */,
@@ -3314,8 +3318,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3337,8 +3341,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

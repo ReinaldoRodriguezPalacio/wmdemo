@@ -83,8 +83,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
             self.removeButton!.hidden = false
-           
         }
+        
         self.header!.addSubview(self.removeButton!)
 
         self.tableView = UITableView(frame: CGRectMake(0.0, 0.0, 320.0, 480.0), style: .Plain)
@@ -96,7 +96,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.tableView!.registerClass(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
         
-        self.selectedElementsFacet = [:]
+        self.selectedElementsFacet! = [:]
         
     }
     
@@ -225,7 +225,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func removeFilters() {
         self.delegate?.removeFilters()
-        
         if successCallBack != nil {
             self.successCallBack!()
         }else {
@@ -292,6 +291,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 if typeFacet == "check" {
                     let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as FilterCategoryViewCell
                     
+                    if self.selectedElementsFacet!.count == 0 && indexPath.row == 0 {
+                        self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                    }
+                    
                     var selected = false
                     let valSelected =  self.selectedElementsFacet?[indexPath]
                     if ((valSelected) != nil) {
@@ -303,6 +306,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         var item = facetitem[indexPath.row - 1]
                         listCell.setValuesFacets(item, selected: selected)
                     } else {
+                        
                         listCell.setValuesSelectAll(selected)
                         
                     }
@@ -385,12 +389,22 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         //Filtros de MG Funcionan diferente
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
             //self.selectedElements![indexPath.row] = true
+            if indexPath.row == 0 {
+                self.selectedElementsFacet! = [:]
+                self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                self.tableView?.reloadData()
+                return
+            }
+            
             var currentVal = true
             if let savedVal = self.selectedElementsFacet![indexPath] {
                 currentVal = !savedVal
             }
+            self.selectedElementsFacet?.updateValue(false, forKey: NSIndexPath(forRow: 0, inSection: 0))
             self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
             self.tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.removeButton!.hidden = false
+            
             return
         }
         
