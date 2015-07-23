@@ -393,12 +393,16 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     }
     
     func sendPhoto(){
+        let alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+        alertView!.setMessage("Buscando imagen")
+        
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: NSDictionary) -> Void in
                 switch response.objectForKey("status") as String {
                     case ("completed"):
                         self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            alertView!.showDoneIcon()
                             self.delegate!.photoCaptured(response.objectForKey("name") as? String)
                         })
                         break;

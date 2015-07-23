@@ -52,6 +52,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.editProfileButton.setImage(UIImage(named: "editProfile"), forState: UIControlState.Normal)
         self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Selected)
         self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Highlighted)
+        self.editProfileButton.alpha = 0
         self.view.addSubview(editProfileButton)
         
         self.reloadButtonSession()
@@ -327,10 +328,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func reloadButtonSession() {
         if UserCurrentSession.sharedInstance().userSigned == nil {
+            self.editProfileButton.alpha = 0
             userName?.text = "¡Hola!"
             signInOrClose?.backgroundColor = WMColor.green
             signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
         } else {
+            self.editProfileButton.alpha = 1
             userName?.text = UserCurrentSession.sharedInstance().userSigned?.profile.name
             signInOrClose?.backgroundColor = WMColor.regular_blue
             signInOrClose?.setTitle("Cerrar sesión", forState: UIControlState.Normal)

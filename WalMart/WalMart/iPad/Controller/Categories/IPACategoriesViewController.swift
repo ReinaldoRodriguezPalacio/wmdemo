@@ -27,7 +27,10 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         
         let serviceBanner = BannerService()
         if let landingUse = serviceBanner.getLanding() {
-            landingItem = landingUse[0]
+            if landingUse.count > 0 {
+                landingItem = landingUse[0]
+            }
+            
         }
 
         if let tracker = GAI.sharedInstance().defaultTracker {
@@ -148,7 +151,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
                 self.categories.scrollToItemAtIndexPath(self.selectedIndex, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
                 }) { (complete:Bool) -> Void in
                     if complete {
-                        self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName)
+                        self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image)
                     }
             }
         }
@@ -159,6 +162,10 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
 
     func didSelectLine(department:String,family:String,line:String, name:String) {
+        
+    }
+    
+    func didSelectLine(department:String,family:String,line:String, name:String,imageDepartment:UIImage?,imageIcon:UIImage?) {
         if selectedIndex != nil &&  self.selectedLine == false {
             selectedLine = true
             let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as IPACategoryCollectionViewClass
@@ -173,10 +180,10 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             CategoryShouldShowFamily.shouldshowfamily = true
             controllerAnimateView = IPACategoriesResultViewController()
             controllerAnimateView.setValues(department, family: family, line: line, name:name)
-            controllerAnimateView.imgCategory =  UIImage(named: department.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))
+            controllerAnimateView.imgCategory =  imageDepartment
             controllerAnimateView.frameStart = CGRectMake(cellSelected.frame.minX, 0, cellSelected.frame.width, cellSelected.frame.height)
             controllerAnimateView.frameEnd = CGRectMake(0, 0, categories.frame.width, categories.frame.height)
-            controllerAnimateView.imgIcon = UIImage(named: "i_\(department.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))")
+            controllerAnimateView.imgIcon = imageIcon
             controllerAnimateView.titleStr = cellSelected.titleLabel.text
             controllerAnimateView.families = itemsFam
             controllerAnimateView.name = name

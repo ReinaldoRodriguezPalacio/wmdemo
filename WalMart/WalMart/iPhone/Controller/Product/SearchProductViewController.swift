@@ -454,7 +454,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                                 firstOrder = firstOrderVal
                             }
                             var secondOrder = "0"
-                            if let secondOrderVal = item["order"] as? String {
+                            if let secondOrderVal = seconditem["order"] as? String {
                                 secondOrder = secondOrderVal
                             }
                             return firstOrder.toInt() < secondOrder.toInt()
@@ -789,7 +789,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                 })
             case .none : println("Not sorted")
-            default :
+            case .priceDesc :
                 //println("priceDesc")
                 self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
                     var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
@@ -806,6 +806,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     
                 })
+            default :
+                println("default")
             }
             
             

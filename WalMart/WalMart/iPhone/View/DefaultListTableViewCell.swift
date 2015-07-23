@@ -43,7 +43,7 @@ class DefaultListTableViewCell : UITableViewCell {
     func setup(){
         
         self.iconView = UIImageView(frame: CGRectMake(8, 8, 81, 81))
-        self.iconView.image = UIImage(named: "superlistlist")
+        self.iconView.image = UIImage(named: "superlist")
         self.iconView.contentMode = UIViewContentMode.Center
         self.addSubview(self.iconView)
         

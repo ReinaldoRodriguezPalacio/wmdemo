@@ -403,8 +403,12 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
-                    delegate.selectKeyWord("", upc: textField.text, truncate:false)
-                    return true
+                    let validateNumeric = strFieldValue.substringFromIndex(1)
+                    if strFieldValue.integerValue > 0 {
+              
+                        delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                        return true
+                    }
                 }
             }
             delegate.selectKeyWord(textField.text, upc: nil, truncate:false)

@@ -631,7 +631,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         
         currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
         if (indexPath.row == 0 && self.isShowingPractilists ) || (indexPath.row == 1 && self.isShowingPractilists && self.needsToShowWishList) || (indexPath.row == 1 && self.isShowingPractilists && self.newListEnabled && !self.needsToShowWishList) || (indexPath.row == 2 && self.isShowingPractilists && self.newListEnabled)  {
-            listCell.setValues(name: "Practilistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "practilist_list")!,enableEditing: false)
+            listCell.setValues(name: "Superlistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "superlist_list")!,enableEditing: false)
             listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
             listCell.canDelete = false
             listCell.enableDuplicateList(self.newListEnabled)

@@ -95,8 +95,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.tableView!.registerClass(FilterCategoryViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         self.tableView!.registerClass(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
+        self.selectedElementsFacet = [:]
         
-        self.selectedElementsFacet! = [:]
         
     }
     
@@ -177,7 +177,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             self.delegate?.apply(self.selectedOrder!, upcs: upcs)
-            self.navigationController!.popViewControllerAnimated(true)
+            if successCallBack != nil {
+                self.successCallBack!()
+            }else {
+                self.navigationController!.popViewControllerAnimated(true)
+            }
             return
         }
         
@@ -291,9 +295,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 if typeFacet == "check" {
                     let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as FilterCategoryViewCell
                     
-                    if self.selectedElementsFacet!.count == 0 && indexPath.row == 0 {
-                        self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
-                    }
+                   
                     
                     var selected = false
                     let valSelected =  self.selectedElementsFacet?[indexPath]
@@ -306,7 +308,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                         var item = facetitem[indexPath.row - 1]
                         listCell.setValuesFacets(item, selected: selected)
                     } else {
-                        
+                        if self.selectedElementsFacet!.count == 0  {
+                            self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
+                            selected = true
+                        } else {
+                            selected = false
+                        }
                         listCell.setValuesSelectAll(selected)
                         
                     }
@@ -390,9 +397,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
             //self.selectedElements![indexPath.row] = true
             if indexPath.row == 0 {
-                self.selectedElementsFacet! = [:]
-                self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
-                self.tableView?.reloadData()
+                self.selectedElementsFacet = [:]
+                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
                 return
             }
             
@@ -400,9 +406,15 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if let savedVal = self.selectedElementsFacet![indexPath] {
                 currentVal = !savedVal
             }
-            self.selectedElementsFacet?.updateValue(false, forKey: NSIndexPath(forRow: 0, inSection: 0))
+            
+           
             self.selectedElementsFacet!.updateValue(currentVal, forKey: indexPath)
-            self.tableView?.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+            for keyObj in self.selectedElementsFacet!.keys {
+                if keyObj.row == 0 {
+                    self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
+                }
+            }
+            self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
             self.removeButton!.hidden = false
             
             return

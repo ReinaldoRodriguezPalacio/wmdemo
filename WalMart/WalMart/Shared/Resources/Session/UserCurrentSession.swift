@@ -22,8 +22,8 @@ class UserCurrentSession : NSObject {
     var itemsMG : NSDictionary? = nil
     var itemsGR : NSDictionary? = nil
     
-    var dateStart : NSDate! = nil
-    var dateEnd : NSDate! = nil
+    var dateStart : NSDate! = NSDate()
+    var dateEnd : NSDate! = NSDate()
     var version : String! = ""
     
     //Singleton init

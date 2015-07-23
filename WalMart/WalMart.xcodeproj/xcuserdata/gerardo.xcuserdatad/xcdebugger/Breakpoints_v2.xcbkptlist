@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
-            timestampString = "459220107.831464"
+            filePath = "WalMart/iPhone/Controller/Help/PreviewHelpViewController.swift"
+            timestampString = "459266622.856354"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "482"
-            endingLineNumber = "482"
-            landmarkName = "invokeSearchproductsInMG(actionSuccess:actionError:)"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,107 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/Help/PreviewHelpViewController.swift"
-            timestampString = "459266622.856354"
+            filePath = "WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
+            timestampString = "459273309.690617"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "27"
-            endingLineNumber = "27"
-            landmarkName = "viewDidLoad()"
+            startingLineNumber = "796"
+            endingLineNumber = "796"
+            landmarkName = "apply(_:upcs:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
+            timestampString = "459273319.079913"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "794"
+            endingLineNumber = "794"
+            landmarkName = "apply(_:upcs:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.SearchProductViewController.(apply (WalmartMG.SearchProductViewController) -&gt; (Swift.String, upcs : Swift.Array&lt;Swift.String&gt;) -&gt; ()).(closure #2)"
+                  moduleName = "WalmartMG"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
+                  timestampString = "459301982.583952"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "794"
+                  endingLineNumber = "794"
+                  offsetFromSymbolStart = "4996">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.SearchProductViewController.(apply (WalmartMG.SearchProductViewController) -&gt; (Swift.String, upcs : Swift.Array&lt;Swift.String&gt;) -&gt; ()).(closure #2).(closure #2)"
+                  moduleName = "WalmartMG"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
+                  timestampString = "459301982.584125"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "795"
+                  endingLineNumber = "795"
+                  offsetFromSymbolStart = "34">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Search/SearchViewController.swift"
+            timestampString = "459299150.610581"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "601"
+            endingLineNumber = "601"
+            landmarkName = "barcodeCaptured(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPad/View/Search/IPASearchView.swift"
+            timestampString = "459298775.381574"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
+            landmarkName = "textFieldShouldReturn(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPad/View/Search/IPASearchView.swift"
+            timestampString = "459298780.446854"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "181"
+            endingLineNumber = "181"
+            landmarkName = "textFieldShouldReturn(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

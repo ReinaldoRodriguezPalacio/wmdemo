@@ -70,14 +70,18 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     
     func didSelectDeparmentAtIndex(indexPath: NSIndexPath){
         
+        var currentItem = indexPath.row
         if indexPath.row == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
             self.handleLandingEvent(eventUrl!)
             return
         }
         
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
     
-        let item = items![indexPath.row] as [String:AnyObject]
+        let item = items![currentItem] as [String:AnyObject]
         let famArray : AnyObject = item["family"] as AnyObject!
         let itemsFam : [[String:AnyObject]] = famArray as [[String:AnyObject]]
         let descDepartment = item["description"] as? NSString
