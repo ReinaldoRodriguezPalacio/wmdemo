@@ -650,7 +650,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if self.emptyMGGR != nil {
                 self.emptyMGGR.removeFromSuperview()
             }
+            if self.empty != nil {
+                self.empty.removeFromSuperview()
+            }
             self.collection?.reloadData()
+             self.collection?.alpha = 1
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
             self.filterButton?.alpha = 1
         }
