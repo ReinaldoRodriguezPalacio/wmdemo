@@ -735,7 +735,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func apply(order:String, upcs: [String]) {
-        
+        self.collection?.alpha = 100
         if upcs.count == 0 {
             self.allProducts = []
             self.mgResults?.totalResults = 0
