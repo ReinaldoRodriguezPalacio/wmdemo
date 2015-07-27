@@ -64,11 +64,14 @@ class SliderTableViewCell: UITableViewCell {
     }
     
     func setValues(priceValues:NSArray) {
-        self.minValue = priceValues.firstObject as Double
-        self.maxValue = priceValues.lastObject as Double
-        self.values = priceValues
-        self.setAmountLabels(forMinAmount: self.minValue, andMaxAmount: self.maxValue)
-
+        if  self.minValue == 0 && self.maxValue == 0 {
+            self.minValue = priceValues.firstObject as Double
+            self.maxValue = priceValues.lastObject as Double
+            self.values = priceValues
+        
+            self.setAmountLabels(forMinAmount: self.minValue, andMaxAmount: self.maxValue)
+        }
+        
         var step = Float(1.0/Float(self.values!.count - 1))
         self.slider!.minimumRange = step
         self.slider!.stepValue = step
