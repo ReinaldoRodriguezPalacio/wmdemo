@@ -21,7 +21,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     let sliderCellId = "SliderCellView"
     let JSON_KEY_FACET_ITEMS = "itemsFacet"
     let JSON_KEY_FACET_ITEMNAME = "itemName"
-    let JSON_SLIDER = "slider"
+    let JSON_SLIDER = "slide"
     let JSON_KEY_FACET_UPCS = "upcs"
     
     let FILTER_PRICE_ID = "Por Precios"
@@ -294,9 +294,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if  let typeFacet = facetInfo["type"] as? String {
                 if typeFacet == "check" {
                     let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as FilterCategoryViewCell
-                    
-                   
-                    
+
                     var selected = false
                     let valSelected =  self.selectedElementsFacet?[indexPath]
                     if ((valSelected) != nil) {
