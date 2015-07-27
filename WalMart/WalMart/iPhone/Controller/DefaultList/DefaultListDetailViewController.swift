@@ -46,12 +46,14 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         tableView?.dataSource = self
         self.view.addSubview(tableView!)
         
-        if self.detailItems == nil   {
+        if self.detailItems?.count == 0 || self.detailItems == nil {
             selectedItems = []
         }
-        selectedItems = NSMutableArray()
-        for i in 0...self.detailItems!.count - 1 {
-            selectedItems?.addObject(i)
+        else{
+            selectedItems = NSMutableArray()
+            for i in 0...self.detailItems!.count - 1 {
+                selectedItems?.addObject(i)
+            }
         }
         
         self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 177 , self.view.frame.width, 72))

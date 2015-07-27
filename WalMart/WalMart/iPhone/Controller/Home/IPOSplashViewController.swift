@@ -66,7 +66,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 dateFormatter.dateFormat = "dd/MM/yyyy"
                 let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as String)!
                 let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String)!
-                let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String
+                let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("version") as NSNumber
                 let versionAP = "AP\(version)" as String!
                 
                 UserCurrentSession.sharedInstance().dateStart = sinceDate
@@ -79,6 +79,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 }
                 
                 if requiredAP {
+                    var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+                    var filePath = paths.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
+//                    var checkValidation = NSFileManager.defaultManager()
+                    if (NSFileManager.defaultManager().fileExistsAtPath(filePath)) {
+                        let ok:Bool = NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                    }
+                    
                     let url = result["privaceNotice"]?.objectAtIndex(0).objectForKey("url") as String
                     var request = NSURLRequest(URL: NSURL(string:url)!)
                     let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()

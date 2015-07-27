@@ -213,7 +213,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         if requiredAP != "true" {
-            if untilDate.compare(nowDate!) == NSComparisonResult.OrderedDescending && sinceDate.compare(nowDate!) == NSComparisonResult.OrderedAscending {
+            if (untilDate.compare(nowDate!) == NSComparisonResult.OrderedDescending && sinceDate.compare(nowDate!) == NSComparisonResult.OrderedAscending) || untilDate.compare(nowDate!) == NSComparisonResult.OrderedSame || sinceDate.compare(nowDate!) == NSComparisonResult.OrderedSame {
                 self.addOrUpdateParam(version, value: "false")
                 var alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alertNot?.showDoneIconWithoutClose()
