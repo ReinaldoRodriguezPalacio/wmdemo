@@ -15,6 +15,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
     var imageBackground : UIImage? = nil
+     var viewHeader : IPASectionHeaderSearchReusable!
     
     override func viewDidLoad() {
         self.maxResult = 23
@@ -58,6 +59,10 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
         return CGSizeMake(self.view.bounds.width / 3, 254);
     }
+    
+   // override func returnBack() {
+   //    viewHeader.dismissPopover()
+   // }
     
     override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
         if indexPath.row < self.allProducts!.count {

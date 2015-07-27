@@ -153,7 +153,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 if valSelected! {
                     if selElement.row == 0 && upcByPrice == nil {
                         self.delegate?.apply(self.selectedOrder!, filters: nil, isForGroceries: false)
-                        self.navigationController!.popViewControllerAnimated(true)
+                        if successCallBack != nil {
+                            self.successCallBack!()
+                        }else {
+                            self.navigationController!.popViewControllerAnimated(true)
+                        }
                         return
                     }
                     let itemFacet = self.facet![selElement.section - 1] as [String:AnyObject]
