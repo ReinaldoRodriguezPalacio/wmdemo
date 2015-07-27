@@ -173,11 +173,17 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.viewBackground!.frame = CGRectMake(0, CGRectGetMaxY(self.header!.frame), bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
         self.viewTapClose!.frame = CGRectMake(0, CGRectGetMaxY(self.header!.frame), bounds.width, bounds.height - CGRectGetMaxY(self.header!.frame))
         
-        self.camButton!.frame = CGRectMake((self.view!.frame.width / 2) - 96, self.header!.frame.height + 38, 64, 64)
-        self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28, self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
+        if IS_IPHONE_4_OR_LESS {
+            self.camButton!.frame = CGRectMake((self.view!.frame.width / 2) - 96, self.header!.frame.height + 10, 64, 64)
+            self.scanButton!.frame = CGRectMake((self.view!.frame.width / 2) + 32, self.header!.frame.height + 10, 64, 64)
+        }
+        else{
+            self.camButton!.frame = CGRectMake((self.view!.frame.width / 2) - 96, self.header!.frame.height + 38, 64, 64)
+            self.scanButton!.frame = CGRectMake((self.view!.frame.width / 2) + 32, self.header!.frame.height + 38, 64, 64)
+        }
         
-        self.scanButton!.frame = CGRectMake((self.view!.frame.width / 2) + 32, self.header!.frame.height + 38, 64, 64)
-        self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
+        self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28, self.camButton!.frame.origin.y + self.camButton!.frame.height + 16, 120, 34)
+        self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.origin.y + self.scanButton!.frame.height + 16, 120, 34)
     }
     
     

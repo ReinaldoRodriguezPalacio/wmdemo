@@ -20,7 +20,6 @@ enum CameraType {
 }
 
 class CameraViewController : BaseController, UIAlertViewDelegate {
-    var previewView: UIView!
     var capturedImage: UIImageView!
     var captureSession : AVCaptureSession? = nil
     var videoDevice : AVCaptureDevice? = nil
@@ -43,6 +42,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     var didChangeCam: Bool? = false
     
     var camera = CameraType.Back
+    var alertView : IPOWMAlertViewController? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -393,36 +393,99 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     }
     
     func sendPhoto(){
-        let alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-        alertView!.setMessage("Buscando imagen")
+        if alertView == nil {
+            var imgTempRound = self.imageResize(capturedImage.image!) as UIImage
+            self.alertView = IPAWMAlertViewController.showAlert(self, imageWaiting:self.maskRoundedImage(imgTempRound), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage("Buscando imagen")
+        }
         
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: NSDictionary) -> Void in
-                switch response.objectForKey("status") as String {
+                let resp = response.objectForKey("status") as String
+                switch resp {
                     case ("completed"):
+                        let name = response.objectForKey("name") as String
+                        self.alertView!.setMessage("Imagen encontrada\n: \(name)")
+                        self.alertView!.showDoneIcon()
                         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            alertView!.showDoneIcon()
-                            self.delegate!.photoCaptured(response.objectForKey("name") as? String)
+                            self.delegate!.photoCaptured(name)
                         })
                         break;
                     case ("not completed"):
                         self.sendPhoto()
                         break;
                     case ("not found"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("")
+                        })
                         break;
                     case ("skipped"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("")
+                        })
                         break;
                     case ("timeout"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("")
+                        })
+                        break;
+                    case ("error"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("")
+                        })
                         break;
                     default:
                         break;
                 }
             }, errorBlock: { (error:NSError) -> Void in
-                self.reloadCamera()
+                
         })
     }
 
+    func imageResize(imageObj: UIImage) -> UIImage{
+        
+        let hasAlpha = false
+        let scale: CGFloat = 0.0
+        
+        var sizeChange : CGSize
+        if IS_IPHONE_4_OR_LESS {
+            sizeChange = CGSizeMake(80, 80)
+        }
+        else {
+            sizeChange = CGSizeMake(160, 160)
+        }
+        UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
+        imageObj.drawInRect(CGRect(origin: CGPointZero, size: sizeChange))
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        return scaledImage
+    }
+    
+    func maskRoundedImage(image: UIImage) -> UIImage {
+        var imageView: UIImageView = UIImageView(image: image)
+        var layer: CALayer = CALayer()
+        var rad: Float = 0.0
+        layer = imageView.layer
+        
+        //        if IS_IPHONE_4_OR_LESS {
+        //            rad = 40
+        //        }
+        //        else {
+        //            rad = 80
+        //        }
+        
+        layer.masksToBounds = true
+        layer.cornerRadius = CGFloat(imageView.bounds.width / 2)
+        
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        layer.renderInContext(UIGraphicsGetCurrentContext())
+        var roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return roundedImage
+    }
+    
     func startRunning() {
         if running || captureSession == nil {
             return
@@ -495,5 +558,17 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     
     override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
         return UIStatusBarAnimation.Slide
+    }
+    
+    //MARK: Alert delegate
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 1 {
+            if UIApplicationOpenSettingsURLString != nil {
+                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            }
+        } else {
+            self.closeCamera()
+        }
+        
     }
 }
