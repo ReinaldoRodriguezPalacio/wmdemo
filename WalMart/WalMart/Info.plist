@@ -428,7 +428,7 @@
 			<key>WalmartMG.ProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/getItemsBySearchingWithFacets.json</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>

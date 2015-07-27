@@ -81,12 +81,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.removeButton!.hidden = true
         self.removeButton!.layer.cornerRadius = 11
         
-        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
+        /*if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
             self.removeButton!.hidden = false
         }
         
         self.header!.addSubview(self.removeButton!)
-
+*/
         self.tableView = UITableView(frame: CGRectMake(0.0, 0.0, 320.0, 480.0), style: .Plain)
         self.tableView!.separatorStyle = .None
         self.view.addSubview(self.tableView!)
@@ -319,15 +319,16 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                             selected = true
                         } else {
                             selected = false
+                            if ((valSelected) != nil) {
+                                selected = valSelected!
+                            }
                         }
                         listCell.setValuesSelectAll(selected)
-                        
                     }
                     return listCell
                     
                 }
                 if typeFacet == JSON_SLIDER {
-                    
                     
                     //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
                     
@@ -421,7 +422,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
-            self.removeButton!.hidden = false
+            //self.removeButton!.hidden = false
             
             return
         }
