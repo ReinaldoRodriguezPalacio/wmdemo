@@ -21,7 +21,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     let sliderCellId = "SliderCellView"
     let JSON_KEY_FACET_ITEMS = "itemsFacet"
     let JSON_KEY_FACET_ITEMNAME = "itemName"
-    let JSON_SLIDER = "slide"
+    let JSON_SLIDER = "slider"
     let JSON_KEY_FACET_UPCS = "upcs"
     
     let FILTER_PRICE_ID = "Por Precios"
@@ -151,7 +151,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             for selElement in self.selectedElementsFacet!.keys {
                 let valSelected =  self.selectedElementsFacet?[selElement]
                 if valSelected! {
-                    if selElement.row == 0  {
+                    if selElement.row == 0 && upcByPrice == nil {
                         self.delegate?.apply(self.selectedOrder!, filters: nil, isForGroceries: false)
                         self.navigationController!.popViewControllerAnimated(true)
                         return
@@ -160,15 +160,23 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     if  let typeFacet = itemFacet["type"] as? String {
                         if typeFacet == "check" {
                             let allnameFacets = itemFacet["itemsFacet"] as [[String:AnyObject]]
-                            let facet = allnameFacets[selElement.row - 1]
-                            let allUpcs = facet["upcs"] as [String]
-                            for upcVal in allUpcs {
-                                if upcByPrice != nil {
-                                    if  self.upcByPrice!.containsObject(upcVal)  {
+                            
+                            if selElement.row  > 0 {
+                                let facet = allnameFacets[selElement.row - 1]
+                                let allUpcs = facet["upcs"] as [String]
+                                for upcVal in allUpcs {
+                                    if upcByPrice != nil {
+                                        if  self.upcByPrice!.containsObject(upcVal)  {
+                                            upcs.append(upcVal)
+                                        }
+                                    }else {
                                         upcs.append(upcVal)
                                     }
-                                }else {
-                                    upcs.append(upcVal)
+                                }
+                            }
+                            else {
+                                for upcVal in self.upcByPrice! {
+                                      upcs.append(upcVal as String)
                                 }
                             }
                         }
@@ -739,7 +747,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func filterProductsByPrice(forLowPrice low:Int, andHighPrice high:Int) {
         //En caso de que el rango sea completo, no se filtran los upcs
-        if low == 0 && high == self.prices!.count - 1 {
+        let count = (self.prices!.count - 1)
+        if low == 0 && high == count {
             self.upcByPrice = nil
             return
         }
