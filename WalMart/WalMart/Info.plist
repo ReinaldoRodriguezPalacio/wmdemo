@@ -163,7 +163,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/defaultlist.json</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
@@ -250,7 +250,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/defaultlist.json</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>

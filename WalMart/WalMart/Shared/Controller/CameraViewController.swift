@@ -468,13 +468,6 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         var rad: Float = 0.0
         layer = imageView.layer
         
-        //        if IS_IPHONE_4_OR_LESS {
-        //            rad = 40
-        //        }
-        //        else {
-        //            rad = 80
-        //        }
-        
         layer.masksToBounds = true
         layer.cornerRadius = CGFloat(imageView.bounds.width / 2)
         
