@@ -758,6 +758,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 for upc in upcs {
                     if let string = upc as? String {
                         array.append(string)
+                        //if  array.count > 100 {
+                        //    break
+                        //}
                     }
                 }
             }
