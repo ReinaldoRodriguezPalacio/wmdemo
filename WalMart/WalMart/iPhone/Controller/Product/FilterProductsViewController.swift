@@ -51,7 +51,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 

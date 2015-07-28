@@ -15,7 +15,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
     var imageBackground : UIImage? = nil
-     var viewHeader : IPASectionHeaderSearchReusable!
+    var viewHeader : IPASectionHeaderSearchReusable!
     
     override func viewDidLoad() {
         self.maxResult = 23
@@ -103,20 +103,21 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
     
     override func filter(sender:UIButton){
-        self.filterController = FilterProductsViewController()
-        self.filterController!.facet = self.facet
-        self.filterController!.hiddenBack = true
-        self.filterController!.textToSearch = self.textToSearch
-        //self.filterController!.selectedOrder = self.idSort!
-        self.filterController!.selectedOrder =  FilterType.popularity.rawValue
-        self.filterController!.delegate = self
-        self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-        self.filterController!.searchContext = self.searchContextType
-        self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
-        self.filterController!.view.backgroundColor = UIColor.clearColor()
-        self.filterController!.successCallBack  = { () in
-            self.sharePopover?.dismissPopoverAnimated(true)
-            return
+        if self.filterController == nil {
+            self.filterController = FilterProductsViewController()
+            self.filterController!.facet = self.facet
+            self.filterController!.hiddenBack = true
+            self.filterController!.textToSearch = self.textToSearch
+            self.filterController!.selectedOrder = self.idSort!
+            self.filterController!.delegate = self
+            self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
+            self.filterController!.searchContext = self.searchContextType
+            self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
+            self.filterController!.view.backgroundColor = UIColor.clearColor()
+            self.filterController!.successCallBack  = { () in
+                self.sharePopover?.dismissPopoverAnimated(true)
+                return
+            }
         }
         
         let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
@@ -140,7 +141,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     //MARK: - UIPopoverControllerDelegate
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.sharePopover = nil
-        self.filterController = nil
+//        self.filterController = nil
     }
     
 

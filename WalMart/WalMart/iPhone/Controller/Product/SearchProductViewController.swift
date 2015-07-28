@@ -691,17 +691,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Filters
     
     func filter(sender:UIButton){
-        //if controllerFilter == nil {
+        if controllerFilter == nil {
             controllerFilter = FilterProductsViewController()
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
-            //controllerFilter.selectedOrder = self.idSort!
-            controllerFilter.selectedOrder =  FilterType.popularity.rawValue
+            controllerFilter.selectedOrder = self.idSort!
             controllerFilter.isGroceriesSearch = self.btnSuper.selected
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             controllerFilter.searchContext = self.searchContextType
-        //}
+        }
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
@@ -747,8 +746,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.collection?.reloadData()
             self.collection?.alpha = 0
             if self.empty == nil {
+                self.viewBgSelectorBtn.alpha = 0
                 self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 self.empty.returnAction = { () in
+                    self.viewBgSelectorBtn.alpha = 1
                     self.returnBack()
                 }
             }

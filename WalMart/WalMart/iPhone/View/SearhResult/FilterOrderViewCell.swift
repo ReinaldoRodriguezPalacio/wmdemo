@@ -35,6 +35,10 @@ class FilterOrderViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .None
         
+        if IS_IPAD {
+            var oldFrame = self.contentView.frame as CGRect
+            self.contentView.frame = CGRectMake( oldFrame.origin.x,oldFrame.origin.y,oldFrame.size.width,oldFrame.size.height + 60)
+        }
         self.descAscButton = self.buildButton(FilterType.descriptionAsc)
         self.descDescButton = self.buildButton(FilterType.descriptionDesc)
         self.priceAscButton = self.buildButton(FilterType.priceAsc)

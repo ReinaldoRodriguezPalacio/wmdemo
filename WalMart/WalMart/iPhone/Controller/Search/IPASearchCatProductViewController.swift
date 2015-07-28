@@ -140,7 +140,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             self.empty = nil
         }
         
-        
+//        self.dismissCategory()
         self.delegateHeader.closeCategory()
     }
     
