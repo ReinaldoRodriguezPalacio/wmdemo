@@ -695,7 +695,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter = FilterProductsViewController()
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
-            controllerFilter.selectedOrder = self.idSort!
+            //controllerFilter.selectedOrder = self.idSort!
+            controllerFilter.selectedOrder =  FilterType.popularity.rawValue
             controllerFilter.isGroceriesSearch = self.btnSuper.selected
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType

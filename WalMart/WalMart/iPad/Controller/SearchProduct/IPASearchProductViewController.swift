@@ -107,7 +107,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.filterController!.facet = self.facet
         self.filterController!.hiddenBack = true
         self.filterController!.textToSearch = self.textToSearch
-        self.filterController!.selectedOrder = self.idSort!
+        //self.filterController!.selectedOrder = self.idSort!
+        self.filterController!.selectedOrder =  FilterType.popularity.rawValue
         self.filterController!.delegate = self
         self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
         self.filterController!.searchContext = self.searchContextType
