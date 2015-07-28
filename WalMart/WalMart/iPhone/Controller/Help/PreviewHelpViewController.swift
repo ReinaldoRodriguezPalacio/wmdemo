@@ -41,22 +41,34 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
                 self.titleLabel!.text = self.titleText!
             }
             
-            let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource, ofType: self.type)!
-            
-            switch self.type {
-            case "html":
-                var  htmlString : NSString = NSString(contentsOfFile:htmlFile, encoding: NSUTF8StringEncoding, error: nil)!
+            if resource == "privacy" {
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+                let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
+                let manager = NSFileManager.defaultManager()
                 
-                if imgFile != nil{
-                    let imgFilePath  = NSBundle.mainBundle().pathForResource(imgFile, ofType: "jpg")
-                    htmlString = htmlString.stringByReplacingOccurrencesOfString("$pathImage$", withString: imgFilePath!)
+                if (manager.fileExistsAtPath(myFilePath)) {
+                    var request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath)!)
+                    self.webShowDetail.loadRequest(request)
                 }
-                self.webShowDetail.loadHTMLString(htmlString, baseURL: nil)
-            case "pdf":
-                let request = NSURLRequest(URL: NSURL(string: htmlFile)!)
-                self.webShowDetail.loadRequest(request)
-            default :
-                break
+            }
+            else{
+                let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource, ofType: self.type)!
+                
+                switch self.type {
+                case "html":
+                    var  htmlString : NSString = NSString(contentsOfFile:htmlFile, encoding: NSUTF8StringEncoding, error: nil)!
+                    
+                    if imgFile != nil{
+                        let imgFilePath  = NSBundle.mainBundle().pathForResource(imgFile, ofType: "jpg")
+                        htmlString = htmlString.stringByReplacingOccurrencesOfString("$pathImage$", withString: imgFilePath!)
+                    }
+                    self.webShowDetail.loadHTMLString(htmlString, baseURL: nil)
+                case "pdf":
+                    let request = NSURLRequest(URL: NSURL(string: htmlFile)!)
+                    self.webShowDetail.loadRequest(request)
+                default :
+                    break
+                }
             }
         }
     }
