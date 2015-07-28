@@ -313,14 +313,16 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     
     // MARK: - CameraViewControllerDelegate
     func photoCaptured(value: String?) {
-        if value != nil {
-            self.field!.becomeFirstResponder()
+        if value != nil || value == "" {
+//            self.field!.becomeFirstResponder()
             self.field.text = value
             self.closeSearch()
             self.closePopOver()
             
             self.textFieldShouldReturn(self.field!)
         }
+        
+        self.field!.resignFirstResponder()
     }
     
     func showClearButtonIfNeeded(forTextValue text:String) {

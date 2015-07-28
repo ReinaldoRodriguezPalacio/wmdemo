@@ -22,17 +22,27 @@ class CamFindService : BaseService {
         
         self.callPOSTServiceCam(manager, params: paramsDic,
             successBlock: { (resultDic: NSDictionary) -> Void in
-            var tokenStr = resultDic.objectForKey("token") as String
-            let urlStr = "https://api.cloudsightapi.com/image_responses/\(tokenStr)" as String
-                self.callGETService(manager, serviceURL: urlStr, params: [:],
-                successBlock: { (resultF: NSDictionary) -> Void in
-                    //
-                    successBlock!(resultF)
-                }) { (error:NSError) -> Void in
-                    //
-                    errorBlock!(error)
-                }
+                let resDic = [ "token" : resultDic.objectForKey("token") as String] as NSDictionary
+                successBlock!(resDic)
             })
-            { (error:NSError) -> Void in }
+            { (error:NSError) -> Void in
+                //ERROOR
+        }
+    }
+    
+    func checkImg(tokenStr: String, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        var manager = AFHTTPSessionManager()
+        manager.requestSerializer = AFHTTPRequestSerializer() as AFHTTPRequestSerializer
+        manager.requestSerializer!.setValue("CloudSight 9TkLWImiPApnIGSv8NT_sg", forHTTPHeaderField: "Authorization")
+        
+        let urlStr = "https://api.cloudsightapi.com/image_responses/\(tokenStr)" as String
+        self.callGETService(manager, serviceURL: urlStr, params: [:],
+            successBlock: { (resultF: NSDictionary) -> Void in
+                //
+                successBlock!(resultF)
+            }) { (error:NSError) -> Void in
+                //
+                errorBlock!(error)
+        }
     }
 }
