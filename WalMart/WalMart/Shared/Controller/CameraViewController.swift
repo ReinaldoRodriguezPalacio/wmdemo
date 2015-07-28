@@ -402,41 +402,51 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: NSDictionary) -> Void in
+                self.checkPhotoStatus(response.objectForKey("token") as String)
+            }, errorBlock: { (error:NSError) -> Void in
+                //ERROR
+        })
+    }
+    
+    func checkPhotoStatus(token: String){
+        let service = CamFindService()
+        service.checkImg(token,
+            successBlock: { (response: NSDictionary) -> Void in
                 let resp = response.objectForKey("status") as String
                 switch resp {
-                    case ("completed"):
-                        let name = response.objectForKey("name") as String
-                        self.alertView!.setMessage("Imagen encontrada\n: \(name)")
-                        self.alertView!.showDoneIcon()
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured(name)
-                        })
-                        break;
-                    case ("not completed"):
-                        self.sendPhoto()
-                        break;
-                    case ("not found"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("")
-                        })
-                        break;
-                    case ("skipped"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("")
-                        })
-                        break;
-                    case ("timeout"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("")
-                        })
-                        break;
-                    case ("error"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("")
-                        })
-                        break;
-                    default:
-                        break;
+                case ("completed"):
+                    let name = response.objectForKey("name") as String
+                    self.alertView!.setMessage("Imagen encontrada\n: \(name)")
+                    self.alertView!.showDoneIcon()
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured(name)
+                    })
+                    break;
+                case ("not completed"):
+                    self.checkPhotoStatus(token)
+                    break;
+                case ("not found"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("")
+                    })
+                    break;
+                case ("skipped"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("")
+                    })
+                    break;
+                case ("timeout"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("")
+                    })
+                    break;
+                case ("error"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("")
+                    })
+                    break;
+                default:
+                    break;
                 }
             }, errorBlock: { (error:NSError) -> Void in
                 
@@ -448,13 +458,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         let hasAlpha = false
         let scale: CGFloat = 0.0
         
-        var sizeChange : CGSize
-        if IS_IPHONE_4_OR_LESS {
-            sizeChange = CGSizeMake(80, 80)
-        }
-        else {
-            sizeChange = CGSizeMake(160, 160)
-        }
+        var sizeChange = CGSizeMake(80, 80) as CGSize
         UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
         imageObj.drawInRect(CGRect(origin: CGPointZero, size: sizeChange))
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
