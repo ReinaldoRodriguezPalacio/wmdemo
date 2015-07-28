@@ -691,7 +691,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Filters
     
     func filter(sender:UIButton){
-        if controllerFilter == nil {
+        //if controllerFilter == nil {
             controllerFilter = FilterProductsViewController()
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
@@ -700,7 +700,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             controllerFilter.searchContext = self.searchContextType
-        }
+        //}
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
