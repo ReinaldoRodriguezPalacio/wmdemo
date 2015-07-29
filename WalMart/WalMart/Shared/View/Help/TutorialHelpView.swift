@@ -120,7 +120,8 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             viewFinish.addSubview(labelDesc)
             
             let buttonFinish = UIButton(frame: CGRectMake((self.frame.width / 2) - 80, 160, 160, 36))
-            buttonFinish.setTitle("Entiendo", forState: UIControlState.Normal)
+//            buttonFinish.setTitle("Entiendo", forState: UIControlState.Normal)
+            buttonFinish.setTitle("Ok", forState: UIControlState.Normal)
             buttonFinish.layer.cornerRadius = 18
             buttonFinish.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
             buttonFinish.backgroundColor = WMColor.green
