@@ -777,7 +777,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         self.btnSearch!.selected = true
-        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
+//        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
+        self.closeSearch(false, sender: nil)
     }
     
     
@@ -791,9 +792,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.titleHeader = title
         var controllernav = self.currentController as? UINavigationController
         controllernav?.pushViewController(controller, animated: true)
-        self.btnSearch!.selected = false
+//        self.btnSearch!.selected = false
+//        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
         
-        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
+        self.btnSearch!.selected = true
+        self.closeSearch(false, sender: nil)
     }
     
     func navigationController(navigationController: UINavigationController!, didShowViewController viewController: UIViewController!, animated: Bool) {
