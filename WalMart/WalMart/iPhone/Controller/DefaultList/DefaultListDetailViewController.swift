@@ -56,7 +56,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             }
         }
         
-        self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 177 , self.view.frame.width, 72))
+        if TabBarHidden.isTabBarHidden {
+            self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 132 , self.view.frame.width, 72))
+        }
+        else{
+            self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 177 , self.view.frame.width, 72))
+        }
         self.footerSection!.backgroundColor = WMColor.shoppingCartFooter
         self.view.addSubview(footerSection!)
         
@@ -91,9 +96,6 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         }
         
         updateTotalLabel()
-        
-
-        
     }
     
     
@@ -104,8 +106,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         var x = self.shareButton!.frame.maxX + 16.0
         var y = (self.footerSection!.frame.height - 34.0)/2
         addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
-        
-        
+    
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

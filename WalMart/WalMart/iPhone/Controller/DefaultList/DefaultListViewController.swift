@@ -1,4 +1,4 @@
-//
+ //
 //  DefaultListViewController.swift
 //  WalMart
 //
@@ -112,6 +112,5 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 108
     }
-    
     
 }
