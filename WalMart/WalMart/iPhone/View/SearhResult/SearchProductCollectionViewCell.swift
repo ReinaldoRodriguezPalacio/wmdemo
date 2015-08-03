@@ -145,6 +145,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 }
                 
+                //CAMBIA IMAGEN CARRO SELECCIONADO
+                self.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))

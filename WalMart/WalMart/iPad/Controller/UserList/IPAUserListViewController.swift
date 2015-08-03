@@ -164,10 +164,10 @@ class IPAUserListViewController: UserListViewController {
         }
         
         var defaultList = false
-        if indexPath.row == 0 && !self.newListEnabled && self.isShowingPractilists {
+        if indexPath.row == 0 && !self.newListEnabled && self.isShowingSuperlists {
             defaultList = true
         }
-        if indexPath.row == 1 && self.newListEnabled && self.isShowingPractilists {
+        if indexPath.row == 1 && self.newListEnabled && self.isShowingSuperlists {
             defaultList = true
         }
         
@@ -176,7 +176,7 @@ class IPAUserListViewController: UserListViewController {
             return
         }
         
-        var currentRow =   (self.isShowingPractilists ? 1 : 0)
+        var currentRow =   (self.isShowingSuperlists ? 1 : 0)
         currentRow =  currentRow + (self.newListEnabled ? 1 : 0)
         
         let idx =  indexPath.row - currentRow
@@ -233,10 +233,10 @@ class IPAUserListViewController: UserListViewController {
                 successBlock: { (result:NSDictionary) -> Void in
                     self.itemsUserList = result["responseArray"] as? NSArray
                     self.isShowingWishList = false
-                    self.isShowingPractilists = !self.isEdditing
+                    self.isShowingSuperlists = !self.isEditing
                     //println(self.itemsUserList)
                     self.tableuserlist!.reloadData()
-                    if !self.newListEnabled && !self.isEdditing {
+                    if !self.newListEnabled && !self.isEditing {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
                             }, animated:false)
@@ -281,10 +281,10 @@ class IPAUserListViewController: UserListViewController {
             self.itemsUserList = self.retrieveNotSyncList()
             //println(self.itemsUserList)
             self.isShowingWishList = false
-            self.isShowingPractilists = !self.isEdditing
+            self.isShowingSuperlists = !self.isEditing
             //println(self.itemsUserList)
             self.tableuserlist!.reloadData()
-            if !self.newListEnabled && !self.isEdditing {
+            if !self.newListEnabled && !self.isEditing {
                 self.showSearchField({ () -> Void in
                     }, atFinished: { () -> Void in
                     }, animated:false)

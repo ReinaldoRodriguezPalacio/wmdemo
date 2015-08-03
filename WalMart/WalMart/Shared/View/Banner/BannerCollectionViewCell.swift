@@ -54,7 +54,8 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         pageViewController.dataSource = self
         pageViewController.delegate = self
         pageViewController.view.frame = CGRectMake(0, 0, self.frame.width, self.frame.height)
-        pageViewController.view.backgroundColor = UIColor.whiteColor()
+//        pageViewController.view.backgroundColor = UIColor.whiteColor()
+        pageViewController.view.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
         
         
         buttonTerms = UIButton(frame: CGRectMake(self.frame.width - 128, self.frame.height - 18, 120, 16))

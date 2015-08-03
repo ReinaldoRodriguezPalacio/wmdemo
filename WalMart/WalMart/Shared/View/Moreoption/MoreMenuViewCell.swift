@@ -19,8 +19,10 @@ class MoreMenuViewCell : UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.loginProfileSelectedColor
-        viewBgSel.alpha = 0.2
+        viewBgSel.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+//        viewBgSel.backgroundColor = UIColor.yellowColor()
+//        viewBgSel.alpha = 0.2
+        viewBgSel.alpha = 1
         
         self.backgroundColor = UIColor.clearColor()
         self.title = UILabel()

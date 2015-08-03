@@ -142,6 +142,7 @@
 "list.message.help" = "También puedes escanear un ticket de papel para crear una lista";
 "list.message.creatingList" = "Creando Lista";
 "list.message.listDone" = "Lista Creada";
+"list.message.listDuplicated" = "Lista Duplicada";
 "list.message.deletingList" = "Eliminando Lista";
 "list.message.deleteListDone" = "Lista Eliminada";
 "list.message.addingProductToList" = "Agregando producto a lista";

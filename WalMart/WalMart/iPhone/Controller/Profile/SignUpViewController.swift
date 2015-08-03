@@ -136,7 +136,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
-        self.dateChanged()
+//        self.dateChanged()
         
         
         

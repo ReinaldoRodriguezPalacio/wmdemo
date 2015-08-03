@@ -185,14 +185,14 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                         character = code.substringToIndex(advance(code.startIndex, countElements(code)-1 ))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true)
-                    //                    self.field!.resignFirstResponder()
                     closePopOver()
+                    closeSearch()
                     return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     delegate.selectKeyWord("", upc: textField.text, truncate:false)
-                    //                    self.field!.resignFirstResponder()
                     closePopOver()
+                    closeSearch()
                     return true
                 }
                 
@@ -214,9 +214,10 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 return true
                 }*/
             }
-            self.field!.resignFirstResponder()
+//            self.field!.resignFirstResponder()
             delegate.selectKeyWord(textField.text, upc: nil, truncate:false)
             closePopOver()
+            closeSearch()
         }
         
         return false

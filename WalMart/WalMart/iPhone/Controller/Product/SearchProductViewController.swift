@@ -103,11 +103,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.idSort =  FilterType.none.rawValue
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.regular_blue
-            
-            , size: CGSizeMake(55, 22), radius: 11)
-        
-        
+        let iconSelected = UIImage(color: WMColor.regular_blue, size: CGSizeMake(55, 22), radius: 11)
         
         self.filterButton = UIButton()
         self.filterButton!.setImage(iconImage, forState: .Normal)
@@ -566,7 +562,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.searchContextType == SearchServiceContextType.WithText {
             
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-            self.filterButton?.alpha = 1
+            self.filterButton?.alpha = 0
             //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
             let maxY =  self.viewBgSelectorBtn.frame.maxY + 16.0
             if self.emptyMGGR == nil {
@@ -585,9 +581,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             
             self.view.addSubview(self.emptyMGGR)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-            self.filterButton?.alpha = 1
+            self.filterButton?.alpha = 0
             //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
             
             self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
@@ -597,6 +594,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             
             self.view.addSubview(self.empty)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         }
         else {
             

@@ -170,6 +170,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
+            //CAMBIO
+            self.openLoginOrProfile()
             return
         }
         
