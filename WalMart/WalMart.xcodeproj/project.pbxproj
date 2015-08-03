@@ -458,6 +458,7 @@
 		ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */; };
 		ACCBF5CC1A9404C2008D3239 /* SearchCategoriesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */; };
 		ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */; };
+		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -970,6 +971,7 @@
 		ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCategoriesViewCell.swift; path = Shared/View/Search/SearchCategoriesViewCell.swift; sourceTree = "<group>"; };
 		ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = iPhone/Controller/Profile/EditProfileViewController.swift; sourceTree = "<group>"; };
+		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -977,6 +979,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				AC59119A19DE0F0100EB095C /* libz.dylib in Frameworks */,
@@ -2684,6 +2687,7 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */,
 				569BB3151B0635E000E8A657 /* MobileCoreServices.framework */,
 				569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */,
 				04D2A3971A2FD4FF008DAE37 /* MapKit.framework */,
@@ -3247,8 +3251,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3292,8 +3296,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3318,8 +3322,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

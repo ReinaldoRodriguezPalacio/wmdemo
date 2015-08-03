@@ -650,7 +650,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if self.emptyMGGR != nil {
                 self.emptyMGGR.removeFromSuperview()
             }
+            if self.empty != nil {
+                self.empty.removeFromSuperview()
+            }
             self.collection?.reloadData()
+             self.collection?.alpha = 1
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
             self.filterButton?.alpha = 1
         }
@@ -735,15 +739,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func apply(order:String, upcs: [String]) {
-        
+        self.collection?.alpha = 100
         if upcs.count == 0 {
             self.allProducts = []
             self.mgResults?.totalResults = 0
             self.collection?.reloadData()
             self.collection?.alpha = 0
             if self.empty == nil {
+                self.viewBgSelectorBtn.alpha = 0
                 self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 self.empty.returnAction = { () in
+                    self.viewBgSelectorBtn.alpha = 1
                     self.returnBack()
                 }
             }

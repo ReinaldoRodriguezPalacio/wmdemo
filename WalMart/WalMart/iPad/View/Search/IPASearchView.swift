@@ -214,7 +214,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 return true
                 }*/
             }
-            //            self.field!.resignFirstResponder()
+            self.field!.resignFirstResponder()
             delegate.selectKeyWord(textField.text, upc: nil, truncate:false)
             closePopOver()
         }

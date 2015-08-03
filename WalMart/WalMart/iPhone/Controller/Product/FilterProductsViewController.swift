@@ -51,7 +51,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -81,12 +80,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.removeButton!.hidden = true
         self.removeButton!.layer.cornerRadius = 11
         
-        if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
+        /*if self.originalSearchContext != nil && self.originalSearchContext == SearchServiceContextType.WithText && self.originalSearchContext != self.searchContext {
             self.removeButton!.hidden = false
         }
         
         self.header!.addSubview(self.removeButton!)
-
+*/
         self.tableView = UITableView(frame: CGRectMake(0.0, 0.0, 320.0, 480.0), style: .Plain)
         self.tableView!.separatorStyle = .None
         self.view.addSubview(self.tableView!)
@@ -151,24 +150,36 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             for selElement in self.selectedElementsFacet!.keys {
                 let valSelected =  self.selectedElementsFacet?[selElement]
                 if valSelected! {
-                    if selElement.row == 0  {
+                    if selElement.row == 0 && upcByPrice == nil {
                         self.delegate?.apply(self.selectedOrder!, filters: nil, isForGroceries: false)
-                        self.navigationController!.popViewControllerAnimated(true)
+                        if successCallBack != nil {
+                            self.successCallBack!()
+                        }else {
+                            self.navigationController!.popViewControllerAnimated(true)
+                        }
                         return
                     }
                     let itemFacet = self.facet![selElement.section - 1] as [String:AnyObject]
                     if  let typeFacet = itemFacet["type"] as? String {
                         if typeFacet == "check" {
                             let allnameFacets = itemFacet["itemsFacet"] as [[String:AnyObject]]
-                            let facet = allnameFacets[selElement.row - 1]
-                            let allUpcs = facet["upcs"] as [String]
-                            for upcVal in allUpcs {
-                                if upcByPrice != nil {
-                                    if  self.upcByPrice!.containsObject(upcVal)  {
+                            
+                            if selElement.row  > 0 {
+                                let facet = allnameFacets[selElement.row - 1]
+                                let allUpcs = facet["upcs"] as [String]
+                                for upcVal in allUpcs {
+                                    if upcByPrice != nil {
+                                        if  self.upcByPrice!.containsObject(upcVal)  {
+                                            upcs.append(upcVal)
+                                        }
+                                    }else {
                                         upcs.append(upcVal)
                                     }
-                                }else {
-                                    upcs.append(upcVal)
+                                }
+                            }
+                            else {
+                                for upcVal in self.upcByPrice! {
+                                      upcs.append(upcVal as String)
                                 }
                             }
                         }
@@ -294,9 +305,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if  let typeFacet = facetInfo["type"] as? String {
                 if typeFacet == "check" {
                     let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as FilterCategoryViewCell
-                    
-                   
-                    
+
                     var selected = false
                     let valSelected =  self.selectedElementsFacet?[indexPath]
                     if ((valSelected) != nil) {
@@ -313,15 +322,16 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                             selected = true
                         } else {
                             selected = false
+                            if ((valSelected) != nil) {
+                                selected = valSelected!
+                            }
                         }
                         listCell.setValuesSelectAll(selected)
-                        
                     }
                     return listCell
                     
                 }
                 if typeFacet == JSON_SLIDER {
-                    
                     
                     //self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
                     
@@ -415,7 +425,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
-            self.removeButton!.hidden = false
+            //self.removeButton!.hidden = false
             
             return
         }
@@ -741,7 +751,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func filterProductsByPrice(forLowPrice low:Int, andHighPrice high:Int) {
         //En caso de que el rango sea completo, no se filtran los upcs
-        if low == 0 && high == self.prices!.count - 1 {
+        let count = (self.prices!.count - 1)
+        if low == 0 && high == count {
             self.upcByPrice = nil
             return
         }
@@ -751,6 +762,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 for upc in upcs {
                     if let string = upc as? String {
                         array.append(string)
+                        //if  array.count > 100 {
+                        //    break
+                        //}
                     }
                 }
             }

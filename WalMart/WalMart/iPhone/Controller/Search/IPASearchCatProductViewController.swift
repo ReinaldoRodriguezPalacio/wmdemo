@@ -15,7 +15,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     var imageIconCategory : UIImage?
     var titleCategory : String?
     var delegateHeader : IPACategoriesResultViewController!
-    var viewHeader : IPASectionHeaderSearchReusable!
+   
     var delegateImgHeader : IPACatHeaderSearchReusableDelegate!
 
     
@@ -140,8 +140,8 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             self.empty = nil
         }
         
-        
-        //self.delegateHeader.closeCategory()
+//        self.dismissCategory()
+        self.delegateHeader.closeCategory()
     }
     
     

@@ -9,11 +9,14 @@
 import Foundation
 
 
-class PrivacyViewController :  PreviewHelpViewController,UIScrollViewDelegate {
+class PrivacyViewController :  PreviewHelpViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
-        self.titleText = NSLocalizedString("profile.terms.privacy",comment:"")
         super.viewDidLoad()
+        
+        //
+        self.titleLabel!.text = NSLocalizedString("help.item.privacy.notice", comment: "")
+        self.titleText = self.titleLabel!.text
     }
     
     override func loadPreview () {
