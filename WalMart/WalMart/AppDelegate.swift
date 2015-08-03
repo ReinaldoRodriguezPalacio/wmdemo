@@ -229,7 +229,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         
         NSLog("Device token: \(deviceTokenString)")
-        
+        println("Device token: \(deviceTokenString)")
+   
         var idDevice = UIDevice.currentDevice().identifierForVendor.UUIDString
         var notService = NotificationService()
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice)
