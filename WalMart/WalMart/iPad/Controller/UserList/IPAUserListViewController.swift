@@ -33,7 +33,6 @@ class IPAUserListViewController: UserListViewController {
         
         self.isShowingWishList = false
         self.needsToShowWishList = false
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,7 +40,6 @@ class IPAUserListViewController: UserListViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
     /*
     // MARK: - Navigation
 
@@ -241,7 +239,17 @@ class IPAUserListViewController: UserListViewController {
                             }, atFinished: { () -> Void in
                             }, animated:false)
                     }
-                    self.editBtn!.hidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
+//                    self.editBtn!.hidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
+                    if !self.isEditing {
+                        self.changeFrameEditBtn(true, side: "left")
+                        if self.itemsUserList!.count == 0{
+                            self.changeVisibilityBtn(self.editBtn!, visibility: 0)
+                        }
+                        else{
+                            self.changeVisibilityBtn(self.editBtn!, visibility: 1)
+                        }
+                    }
+                    
                     if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
                         self.delegate?.removeEmptyViewForLists()
                         var idxRow = 0
@@ -270,8 +278,8 @@ class IPAUserListViewController: UserListViewController {
                     return
                 },
                 errorBlock: { (error:NSError) -> Void in
-                    
-                    self.editBtn!.hidden = true
+                    self.changeVisibilityBtn(self.editBtn!, visibility: 0)
+                    self.changeFrameEditBtn(true, side: "left")
                     failure?(error: error)
                     return
                 }
@@ -290,6 +298,17 @@ class IPAUserListViewController: UserListViewController {
                     }, animated:false)
             }
             //self.editBtn!.hidden = self.itemsUserList == nil || self.itemsUserList!.count == 0 //????? Deberia de incluirse para cuando no hay sesion
+            
+            if !self.isEditing {
+                self.changeFrameEditBtn(true, side: "left")
+                if self.itemsUserList!.count == 0{
+                    self.changeVisibilityBtn(self.editBtn!, visibility: 0)
+                }
+                else{
+                    self.changeVisibilityBtn(self.editBtn!, visibility: 1)
+                }
+            }
+            
             if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
                 self.delegate?.removeEmptyViewForLists()
                 var idxRow = 0
