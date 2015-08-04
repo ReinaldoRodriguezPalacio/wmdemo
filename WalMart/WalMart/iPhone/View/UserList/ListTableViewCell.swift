@@ -197,8 +197,6 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         if self.enableEditing {
             self.textField!.hidden = !flag
             UIView.animateWithDuration(0.25,
-                delay: 0.0,
-                options: .LayoutSubviews,
                 animations: { () -> Void in
                     self.listName!.alpha = flag ? 0.0 : 1.0
                     self.articlesTitle!.alpha = flag ? 0.0 : 1.0

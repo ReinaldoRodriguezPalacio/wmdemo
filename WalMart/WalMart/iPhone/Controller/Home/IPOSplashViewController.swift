@@ -62,21 +62,23 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             //            }
             if error == nil{
                 //
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "dd/MM/yyyy"
-                let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as String)!
-                let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String)!
-                let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("version") as NSNumber
-                let versionAP = "AP\(version)" as String!
+                if let privateNot = result["privaceNotice"] as? [AnyObject] {
+                    let dateFormatter = NSDateFormatter()
+                    dateFormatter.dateFormat = "dd/MM/yyyy"
+                    let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as String)!
+                    let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String)!
+                    let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("version") as NSNumber
+                    let versionAP = "AP\(version)" as String!
+                    
+                    UserCurrentSession.sharedInstance().dateStart = sinceDate
+                    UserCurrentSession.sharedInstance().dateEnd = untilDate
+                    UserCurrentSession.sharedInstance().version = versionAP
                 
-                UserCurrentSession.sharedInstance().dateStart = sinceDate
-                UserCurrentSession.sharedInstance().dateEnd = untilDate
-                UserCurrentSession.sharedInstance().version = versionAP
+                    var requiredAP = true
+                    if let param = self.retrieveParam(versionAP) {
+                        requiredAP = !(param.value == "false")
+                    }
                 
-                var requiredAP = true
-                if let param = self.retrieveParam(versionAP) {
-                    requiredAP = !(param.value == "false")
-                }
                 
                 if requiredAP {
                     var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
@@ -98,6 +100,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     })
                     downloadTask.resume()
                 }
+                    }
                 
             }
             }) { (error:NSError) -> Void in

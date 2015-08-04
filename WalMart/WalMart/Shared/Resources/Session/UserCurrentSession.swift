@@ -497,10 +497,10 @@ class UserCurrentSession : NSObject {
         var countItems = 0
         let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)?
         if arrayCart != nil {
-            countItems = arrayCart!.count
-//            for prodCart in arrayCart! {
-//                countItems += prodCart.quantity.integerValue
-//            }
+            //countItems = arrayCart!.count
+            for prodCart in arrayCart! {
+                countItems += prodCart.quantity.integerValue
+            }
         }
         //self.updateTotalItemsInCarts(itemsMG:countItems)
         return countItems
@@ -559,14 +559,14 @@ class UserCurrentSession : NSObject {
         var countItems = 0
         let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)?
         if arrayCart != nil {
-            countItems = arrayCart!.count
-//            for prodCart in arrayCart! {
-//                if  prodCart.product.type == 0 {
-//                    countItems += prodCart.quantity.integerValue
-//                } else {
-//                    countItems++
-//                }
-//            }
+            //countItems = arrayCart!.count
+            for prodCart in arrayCart! {
+                if  prodCart.product.type == 0 {
+                    countItems += prodCart.quantity.integerValue
+                } else {
+                    countItems++
+                }
+            }
         }
         self.updateTotalItemsInCarts(itemsInGR:countItems)
         return countItems

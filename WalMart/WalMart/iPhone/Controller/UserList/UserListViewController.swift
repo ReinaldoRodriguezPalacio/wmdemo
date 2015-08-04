@@ -37,7 +37,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     var isShowingTabBar = true
     var isToggleBarEnabled = true
     var enabledHelpView = false
-    var itemsUserList: [AnyObject]?
+    var itemsUserList: [AnyObject]? = []
     var listToUpdate: [String:String]?
     
     var selectedEntityList: List?
@@ -111,16 +111,6 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         
         let defaultListSvc = DefaultListService()
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
-        
-        self.showLoadingView()
-        self.reloadList(
-            success:{() -> Void in
-                self.removeLoadingView()
-            },
-            failure: {(error:NSError) -> Void in
-                self.removeLoadingView()
-            }
-        )
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -220,6 +210,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.isShowingSuperlists = !self.isEditing
                     self.itemsUserList = result["responseArray"] as? NSArray
                     self.tableuserlist!.reloadData()
+                    self.checkEditBtn()
                     if !self.newListEnabled && !self.isEditing {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
@@ -251,6 +242,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             self.isShowingSuperlists = !self.isEditing
             self.itemsUserList = self.retrieveNotSyncList()
             self.tableuserlist!.reloadData()
+            self.checkEditBtn()
             if !self.newListEnabled && !self.isEditing {
                 self.showSearchField({
                     }, atFinished: {
@@ -326,21 +318,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.editBtn?.enabled = false
         
         if !self.isEditing {
-            self.tableuserlist!.beginUpdates()
-            if needsToShowWishList {
-                self.tableuserlist!.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                self.isShowingWishList = false
-            }
-            
-            if self.needsToShowWishList {
-                self.tableuserlist!.deleteRowsAtIndexPaths([NSIndexPath(forRow: 1   , inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-            }
-            if !self.needsToShowWishList {
-                self.tableuserlist!.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0   , inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-            }
-            self.isShowingSuperlists = false
-            self.tableuserlist!.endUpdates()
-            
+
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
@@ -353,20 +331,25 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 self.changeFrameEditBtn(true, side: "right")
                 },
                 atFinished: { () -> Void in
-                    let currentCells = self.tableuserlist!.visibleCells()
-                    var cells = self.tableuserlist!.visibleCells()
-                    for var idx = 0; idx < cells.count; idx++ {
-                        if let cell = cells[idx] as? ListTableViewCell {
-                            cell.textField!.text = cell.listName!.text
-                            cell.setEditing(true, animated: false)
-//                            if cell.enableEditing {
-                                cell.showLeftUtilityButtonsAnimated(true)
+                    self.isShowingWishList = false
+                    self.isShowingSuperlists = false
+                    CATransaction.begin()
+                    CATransaction.setCompletionBlock({ () -> Void in
+                        var cells = self.tableuserlist!.visibleCells()
+                        for cellObj in cells {
+                            if let cell = cellObj as? ListTableViewCell {
+                                cell.enableEditing = true
+                                cell.textField!.text = cell.listName!.text
+                                cell.setEditing(true, animated: false)
                                 cell.enableEditListAnimated(true)
-//                            }
+                                cell.showLeftUtilityButtonsAnimated(false)
+                            }
                         }
-                    }
-                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-                    self.editBtn?.enabled = true
+                        self.newListBtn?.enabled = true
+                        self.editBtn?.enabled = true
+                    })
+                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                    CATransaction.commit()
                 }
             )
         }
@@ -374,17 +357,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             self.showSearchField({
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
-                    let currentCells = self.tableuserlist!.visibleCells()
-                    var cells = self.tableuserlist!.visibleCells()
-                    for var idx = 0; idx < cells.count; idx++ {
-                        if let cell = cells[idx] as? ListTableViewCell {
-                            cell.textField!.text = cell.listName!.text
-                            cell.hideUtilityButtonsAnimated(false)
-                            cell.setEditing(false, animated: false)
-                            cell.enableEditList(false)
-                        }
-                    }
-                    
+
                     if let user = UserCurrentSession.sharedInstance().userSigned {
                         self.alertView = nil
                         self.invokeUpdateListService()
@@ -392,14 +365,27 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     else {
                         self.changeEntityNames()
                     }
-                    if self.needsToShowWishList {
-                        self.isShowingWishList  = true
-                    }
-                    self.isShowingSuperlists = true
                     
-                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-                    self.editBtn?.enabled = true
-                    self.newListBtn?.enabled = true
+                    self.isShowingWishList = true
+                    self.isShowingSuperlists = true
+                    CATransaction.begin()
+                    CATransaction.setCompletionBlock({ () -> Void in
+                        var cells = self.tableuserlist!.visibleCells()
+                        for var idx = 0; idx < cells.count; idx++ {
+                            if let cell = cells[idx] as? ListTableViewCell {
+                                cell.textField!.text = cell.listName!.text
+                                cell.hideUtilityButtonsAnimated(false)
+                                cell.setEditing(false, animated: false)
+                                cell.enableEditList(false)
+                            }
+                        }
+                        self.newListBtn?.enabled = true
+                        self.editBtn?.enabled = true
+                    })
+                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                    CATransaction.commit()
+                    
+                   
                 }, animated:true)
         }
         
@@ -416,16 +402,12 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             self.alertView!.showErrorIcon("Ok")
         }
         else {
-            self.newListEnabled = !self.newListEnabled
-            self.newListBtn!.selected = self.newListEnabled
             
-            let indexTable = NSIndexPath(forRow: 0, inSection: 0)
-
-            if self.newListEnabled {
-                self.editBtn!.enabled = false
-                self.newListBtn!.enabled = false
-                self.changeFrameEditBtn(false,side: "right")
+            self.newListBtn!.enabled = false
+            self.editBtn!.enabled = false
+            if !self.newListEnabled {
                 
+                //Event
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_NEWLIST.rawValue,
@@ -433,81 +415,80 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                         value: nil).build())
                 }
                 
-                self.tableuserlist!.beginUpdates()
-                if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-                    self.tableuserlist!.scrollToRowAtIndexPath(indexTable, atScrollPosition: .Top, animated: true)
-                }
-                if self.isShowingWishList {
-                    self.isShowingWishList = false
-                    self.tableuserlist!.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                }
-                if self.isShowingSuperlists && self.needsToShowWishList {
-                    self.isShowingSuperlists = false
-                    self.tableuserlist!.deleteRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                }
-                if self.isShowingSuperlists && !self.needsToShowWishList {
-                    self.isShowingSuperlists = false
-                    self.tableuserlist!.deleteRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                }
-                self.tableuserlist!.endUpdates()
                 
-                var cells = self.tableuserlist!.visibleCells()
-                for var idx = 0; idx < cells.count; idx++ {
-                    if let cell = cells[idx] as? ListTableViewCell {
-                        cell.enableDuplicateList(true)
-                        cell.canDelete = false
-                    }
-                }
-                
-                self.hideSearchField({
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0xE3E3E5)
-                    }, atFinished: { () -> Void in
-                        self.enabledHelpView = true
-                        
-                        self.editBtn!.enabled = true
-                        self.newListBtn!.enabled = true
+                self.isShowingWishList = false
+                self.isShowingSuperlists = false
+                UIView.animateWithDuration(0.2, animations: { () -> Void in
+                    self.tableuserlist!.setContentOffset(CGPointZero, animated:false)
+                    self.editBtn!.alpha = 0
+                    //self.tableuserlist!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+                    }, completion: { (complete:Bool) -> Void in
+                        self.hideSearchField({
+                           }, atFinished: { () -> Void in
+                                self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0xE3E3E5)
+                                
+                                CATransaction.begin()
+                                CATransaction.setCompletionBlock({ () -> Void in
+                                    
+                                    CATransaction.begin()
+                                    CATransaction.setCompletionBlock({ () -> Void in
+                                        var cells = self.tableuserlist!.visibleCells()
+                                        for var idx = 0; idx < cells.count; idx++ {
+                                            if let cell = cells[idx] as? ListTableViewCell {
+                                                cell.enableDuplicateList(true)
+                                                cell.canDelete = false
+                                            }
+                                        }
+                                        self.newListBtn!.enabled = true
+                                        self.editBtn!.enabled = true
+                                    })
+                                    CATransaction.commit()
+                                    
+                                    self.newListEnabled = !self.newListEnabled
+                                    self.newListBtn!.selected = self.newListEnabled
+                                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
+                                })
+                                self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                                CATransaction.commit()
+                                
+                                //                        self.enabledHelpView = true
+                                //                        self.editBtn!.enabled = false
+                        })
                 })
+                
             }
             else {
-                self.editBtn!.enabled = false
-                self.newListBtn!.enabled = false
-                self.changeFrameEditBtn(true,side: "left")
-                
-                if let cell = self.tableuserlist!.cellForRowAtIndexPath(indexTable) as? NewListTableViewCell {
-                    if cell.inputNameList!.isFirstResponder() {
-                        cell.inputNameList!.resignFirstResponder()
-                    }
-                }
-                
-                self.isShowingSuperlists = true
-                self.tableuserlist!.beginUpdates()
-                self.tableuserlist!.deleteRowsAtIndexPaths([indexTable], withRowAnimation: .Top)
-                if self.needsToShowWishList {
-                    self.isShowingWishList = true
-                    self.tableuserlist!.insertRowsAtIndexPaths([NSIndexPath(forRow:0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                }
-                self.isShowingSuperlists = true
-                if self.isShowingSuperlists && self.needsToShowWishList {
-                    self.tableuserlist!.insertRowsAtIndexPaths([NSIndexPath(forRow: 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                }
-                if self.isShowingSuperlists && !self.needsToShowWishList {
-                    self.tableuserlist!.insertRowsAtIndexPaths([NSIndexPath(forRow: 0, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
-                }
-                self.tableuserlist!.endUpdates()
-                
-                var cells = self.tableuserlist!.visibleCells()
-                for var idx = 0; idx < cells.count; idx++ {
-                    if let cell = cells[idx] as? ListTableViewCell {
-                        cell.enableDuplicateList(false)
-                        cell.canDelete = true
-                    }
-                }
-     
                 self.showSearchField({
+                    self.editBtn!.alpha = 1
+                    
+                    self.newListEnabled = !self.newListEnabled
+                    self.newListBtn!.selected = self.newListEnabled
+                    
+                    CATransaction.begin()
+                    CATransaction.setCompletionBlock({ () -> Void in
+                        CATransaction.begin()
+                        CATransaction.setCompletionBlock({ () -> Void in
+                            var cells = self.tableuserlist!.visibleCells()
+                            for var idx = 0; idx < cells.count; idx++ {
+                                if let cell = cells[idx] as? ListTableViewCell {
+                                    cell.enableDuplicateList(false)
+                                    cell.canDelete = true
+                                }
+                            }
+                            self.newListBtn!.enabled = true
+                        })
+                        self.isShowingWishList = true
+                        self.isShowingSuperlists = true
+                        self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
+                        CATransaction.commit()
+                    })
+                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                    CATransaction.commit()
+                        
                     self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
                     }, atFinished: {
                         self.editBtn!.enabled = true
-                        self.newListBtn!.enabled = true
+                        
                     }, animated:true
                 )
             }
@@ -527,6 +508,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
             successBlock: { (result:NSDictionary) -> Void in
+                self.checkEditBtn()
                 self.newListEnabled = false
                 self.newListBtn!.selected = false
                 self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
@@ -567,14 +549,14 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     
     func duplicateList(cell:ListTableViewCell) {
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
-            let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
-            if let listItem = self.itemsUserList![idx] as? NSDictionary {
+
+            if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                 let listId = listItem["id"] as String
                 var listName = listItem["name"] as String
                 
                 self.invokeSaveListToDuplicateService(forListId: listId, andName: listName)
             }
-            else if let listItem = self.itemsUserList![idx] as? List {
+            else if let listItem = self.itemsUserList![indexPath.row] as? List {
                 if self.itemsUserList!.count <= 11 {
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
@@ -665,12 +647,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         switch index {
         case 0:
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
-                var currentRow = (self.newListEnabled ? 1 : 0)
-                currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
-                currentRow = currentRow + (self.isShowingSuperlists ? 1 : 0)
-                
-                var idx = indexPath.row - currentRow
-                if let listItem = self.itemsUserList![idx] as? NSDictionary {
+                if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
                         //Event
                         if let tracker = GAI.sharedInstance().defaultTracker {
@@ -684,7 +661,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     }
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
-                else if let listEntity = self.itemsUserList![idx] as? List {
+                else if let listEntity = self.itemsUserList![indexPath.row] as? List {
                     self.managedContext!.deleteObject(listEntity)
                     self.saveContext()
                     //No hay que generar acciones adicionales para este caso
@@ -695,9 +672,10 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.tableuserlist!.endUpdates()
                     
                     //EXTRA SI NO HAY MAS LISTAS
-                    if self.itemsUserList!.count == 0{
+                    if self.itemsUserList!.count == 0 && self.isEditing {
                         self.showEditionMode()
                     }
+                    self.checkEditBtn()
                 }
             }
         default:
@@ -736,34 +714,6 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         return !self.isEditing
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     // MARK: - Actions
     
     func showSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?,animated:Bool) {
@@ -793,7 +743,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.isToggleBarEnabled = false
         self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
 //        UIView.animateWithDuration(0.5,
-        UIView.animateWithDuration(0.3,
+        UIView.animateWithDuration(0.2,
             animations: { () -> Void in
                 self.view.layoutIfNeeded()
                 aditionalAnimations?()
@@ -989,62 +939,68 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     
     //MARK: - UITableViewDataSource
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var size = 0
-        if self.itemsUserList != nil {
-            size = self.itemsUserList!.count
-            
+        if section == 1 {
+            return self.itemsUserList!.count
         }
-        size = size + (self.newListEnabled ? 1 : 0)
-        size = size + (self.isShowingWishList ? 1 : 0)
+        var size = (self.newListEnabled ? 1 : 0)
+        size = size + (self.isShowingWishList && needsToShowWishList ? 1 : 0)
         size = size + (self.isShowingSuperlists ? 1 : 0)
         return size
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 && self.newListEnabled {
-            let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID, forIndexPath: indexPath) as NewListTableViewCell
+        //WishList
+        if  indexPath.section == 0 {
+            
+            if indexPath.row == 0 && self.newListEnabled {
+                let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID) as NewListTableViewCell
+                listCell.delegate = self
+                return listCell
+            }
+            var currentRow = (self.newListEnabled ? 1 : 0)
+            
+            let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as ListTableViewCell
             listCell.delegate = self
-            return listCell
-        }
-        var currentRow = (self.newListEnabled ? 1 : 0)
+            listCell.listDelegate = self
         
-        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as ListTableViewCell
+            if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
+                listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance().userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
+                listCell.canDelete = false
+                listCell.enableDuplicateList(self.newListEnabled)
+                listCell.shouldChangeState = !self.isEditing
+                listCell.setEditing(self.isEditing, animated: false)
+                listCell.showLeftUtilityButtonsAnimated(false)
+                listCell.enableEditList(self.isEditing)
+                return listCell
+            }
+            
+            currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
+            if (indexPath.row == 0 && self.isShowingSuperlists ) || (indexPath.row == 1 && self.isShowingSuperlists && self.needsToShowWishList) || (indexPath.row == 1 && self.isShowingSuperlists && self.newListEnabled && !self.needsToShowWishList) || (indexPath.row == 2 && self.isShowingSuperlists && self.newListEnabled)  {
+                listCell.setValues(name: "Superlistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "superlist_list")!,enableEditing: false)
+                listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
+                listCell.canDelete = false
+                listCell.enableDuplicateList(self.newListEnabled)
+                listCell.shouldChangeState = !self.isEditing
+                listCell.setEditing(self.isEditing, animated: false)
+                listCell.showLeftUtilityButtonsAnimated(false)
+                listCell.enableEditList(self.isEditing)
+                return listCell
+            }
+        }
+        
+        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as ListTableViewCell
         listCell.delegate = self
         listCell.listDelegate = self
         
-        //WishList
-        if (indexPath.row == 0 && self.isShowingWishList ) || (indexPath.row == 1 && self.isShowingWishList && self.newListEnabled)  {
-            listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance().userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
-            listCell.canDelete = false
-            listCell.enableDuplicateList(self.newListEnabled)
-            listCell.shouldChangeState = !self.isEditing
-            listCell.setEditing(self.isEditing, animated: false)
-            listCell.showLeftUtilityButtonsAnimated(false)
-            listCell.enableEditList(self.isEditing)
-            return listCell
-        }
-        
-        currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
-        if (indexPath.row == 0 && self.isShowingSuperlists ) || (indexPath.row == 1 && self.isShowingSuperlists && self.needsToShowWishList) || (indexPath.row == 1 && self.isShowingSuperlists && self.newListEnabled && !self.needsToShowWishList) || (indexPath.row == 2 && self.isShowingSuperlists && self.newListEnabled)  {
-            listCell.setValues(name: "Superlistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "superlist_list")!,enableEditing: false)
-            listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
-            listCell.canDelete = false
-            listCell.enableDuplicateList(self.newListEnabled)
-            listCell.shouldChangeState = !self.isEditing
-            listCell.setEditing(self.isEditing, animated: false)
-            listCell.showLeftUtilityButtonsAnimated(false)
-            listCell.enableEditList(self.isEditing)
-            return listCell
-        }
-        
-        currentRow = currentRow + (self.isShowingSuperlists ? 1 : 0)
-        var idx = indexPath.row - currentRow
-        
-        if let listItem = self.itemsUserList![idx] as? NSDictionary {
+        if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             listCell.setValues(listObject:listItem)
-        } else if let listEntity = self.itemsUserList![idx] as? List {
+        } else if let listEntity = self.itemsUserList![indexPath.row] as? List {
             listCell.setValues(listEntity: listEntity)
         }
         listCell.canDelete = true
@@ -1067,50 +1023,28 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        var wishList = false
-//        var defaultList = false
-//        if indexPath.row == 0 && self.newListEnabled {
-//            return
-//        } else if indexPath.row == 0 {
-//            wishList = true
-//        } else if indexPath.row == 1 {
-//            defaultList = true
-//        }
-//        
-//        if indexPath.row == 1 && self.newListEnabled {
-//            wishList = true
-//        }
-//        
-//        if indexPath.row == 2 && self.newListEnabled {
-//            defaultList = true
-//        }
-//        
-//        if wishList {
-//            showWishlist()
-//            return
-//        }
-//        if defaultList {
-//            showDefaultLists()
-//            return
-//        }
         
-        if !self.newListEnabled && !self.isEditing {
-            if indexPath.row == 0 && self.isShowingWishList {
-                showWishlist()
+        
+        if indexPath.section == 0 {
+            if indexPath.row == 0 && self.newListEnabled {
                 return
             }
-            else if indexPath.row == 1 && self.isShowingSuperlists {
-                showDefaultLists()
-                return
+            if !self.newListEnabled {
+                if indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList {
+                    showWishlist()
+                    return
+                }
+                else if indexPath.row == 1 && self.isShowingSuperlists {
+                    showDefaultLists()
+                    return
+                }
             }
+            return
         }
         
-        var currentRow = (self.newListEnabled ? 1 : 0)
-        currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
-        currentRow = currentRow + (self.isShowingSuperlists ? 1 : 0)
-        var idx = indexPath.row - currentRow
+
         
-        if let listItem = self.itemsUserList![idx] as? NSDictionary {
+        if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
@@ -1125,7 +1059,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
         }
-        else if let listEntity = self.itemsUserList![idx] as? List {
+        else if let listEntity = self.itemsUserList![indexPath.row] as? List {
             self.selectedEntityList = listEntity
             self.selectedListId = listEntity.idList
             self.selectedListName = listEntity.name

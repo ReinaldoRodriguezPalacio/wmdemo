@@ -25,7 +25,8 @@ class IPAUserListViewController: UserListViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.itemsUserList = []
+        
         self.tableuserlist!.registerClass(IPAListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
 
         self.showWishlistBtn?.removeFromSuperview()
@@ -156,30 +157,26 @@ class IPAUserListViewController: UserListViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var wishList = false
-        
-        if indexPath.row == 0 && self.newListEnabled {
-            return
+        if indexPath.section == 0 {
+            if indexPath.row == 0 && self.newListEnabled {
+                return
+            }
+            
+            var defaultList = false
+            if indexPath.row == 0 && !self.newListEnabled && self.isShowingSuperlists {
+                defaultList = true
+            }
+            if indexPath.row == 1 && self.newListEnabled && self.isShowingSuperlists {
+                defaultList = true
+            }
+            
+            if defaultList {
+                delegate?.showPractilistViewController()
+                return
+            }
         }
         
-        var defaultList = false
-        if indexPath.row == 0 && !self.newListEnabled && self.isShowingSuperlists {
-            defaultList = true
-        }
-        if indexPath.row == 1 && self.newListEnabled && self.isShowingSuperlists {
-            defaultList = true
-        }
-        
-        if defaultList {
-            delegate?.showPractilistViewController()
-            return
-        }
-        
-        var currentRow =   (self.isShowingSuperlists ? 1 : 0)
-        currentRow =  currentRow + (self.newListEnabled ? 1 : 0)
-        
-        let idx =  indexPath.row - currentRow
-        
-        if let listItem = self.itemsUserList![idx] as? NSDictionary {
+        if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
@@ -197,7 +194,7 @@ class IPAUserListViewController: UserListViewController {
                 
             }
         }
-        else if let listEntity = self.itemsUserList![idx] as? List {
+        else if let listEntity = self.itemsUserList![indexPath.row] as? List {
             self.selectedEntityList = listEntity
             self.selectedListName = listEntity.name
             //event
@@ -251,24 +248,7 @@ class IPAUserListViewController: UserListViewController {
                     }
                     
                     if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-                        self.delegate?.removeEmptyViewForLists()
-                        var idxRow = 0
-                        var selected = self.itemsUserList![0] as [String:AnyObject]
-                        for var index = 0; index < self.itemsUserList!.count; index++ {
-                            var item = self.itemsUserList![index] as [String:AnyObject]
-                            if let countItem = item["countItem"] as? NSNumber {
-                                if countItem.integerValue > 0 {
-                                    idxRow = index
-                                    selected = item
-                                    break
-                                }
-                            }
-                        }
-                        
-                        self.tableuserlist!.selectRowAtIndexPath(NSIndexPath(forRow: idxRow, inSection: 0), animated: true, scrollPosition: .Top)
-                        self.selectedListId = selected["id"] as? String
-                        self.selectedListName = selected["name"] as? String
-                        self.delegate?.showListDetail(forId: self.selectedListId, orEntity: nil, andName: self.selectedListName)
+                         self.delegate?.showPractilistViewController()
                         
                     }
                     else {
@@ -310,23 +290,7 @@ class IPAUserListViewController: UserListViewController {
             }
             
             if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-                self.delegate?.removeEmptyViewForLists()
-                var idxRow = 0
-                var selected = self.itemsUserList![0] as List
-                for var index = 0; index < self.itemsUserList!.count; index++ {
-                    var item = self.itemsUserList![index] as List
-                    if item.countItem.integerValue > 0 {
-                        idxRow = index
-                        selected = item
-                        break
-                    }
-                }
-                
-                self.tableuserlist!.selectRowAtIndexPath(NSIndexPath(forRow: idxRow, inSection: 0), animated: true, scrollPosition: .Top)
-                
-                self.selectedEntityList = selected
-                self.selectedListName = selected.name
-                self.delegate?.showListDetail(forId: nil, orEntity: self.selectedEntityList, andName: self.selectedListName)
+                self.delegate?.showPractilistViewController()
             }
             else {
                 self.delegate?.showEmptyViewForLists()
