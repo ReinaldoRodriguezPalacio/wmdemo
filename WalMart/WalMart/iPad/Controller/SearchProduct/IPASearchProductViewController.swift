@@ -54,6 +54,10 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
+        if currentCellSelected != nil {
+            self.reloadSelectedCell()
+        }
     }
     
     override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
