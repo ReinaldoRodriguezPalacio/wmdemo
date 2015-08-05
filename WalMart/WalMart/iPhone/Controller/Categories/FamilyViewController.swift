@@ -79,7 +79,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             
             if selectedItem == self.departmentId
             {
-                cell.backgroundColor = UIColor.lightGrayColor()
+                cell.backgroundColor = UIColor(red: 236.0/255.0, green: 238.0/255.0, blue: 249.0/255.0, alpha: 1.0)
             }
             else
             {
