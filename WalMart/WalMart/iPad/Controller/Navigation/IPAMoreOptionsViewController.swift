@@ -50,7 +50,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             return 3
         case 1:
-            return 3
+            return 5
         default:
             return 0
         }

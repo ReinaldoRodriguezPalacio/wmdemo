@@ -72,9 +72,19 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             let selectedSection = families[indexPath.section]
             let linesArr = selectedSection["line"] as NSArray
             let itemLine = linesArr[indexPath.row - 1] as NSDictionary
+            let selectedItem = itemLine["id"] as NSString
             cellLine.setTitle(itemLine["name"] as NSString)
             cellLine.showSeparator =  linesArr.count == indexPath.row 
             cell = cellLine
+            
+            if selectedItem == self.departmentId
+            {
+                cell.backgroundColor = UIColor.lightGrayColor()
+            }
+            else
+            {
+                cell.backgroundColor = UIColor.whiteColor()
+            }
         }
         return cell
     }

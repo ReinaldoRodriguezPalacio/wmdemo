@@ -13,8 +13,10 @@ enum OptionsController : String {
     case Recents = "Recents"
     case Address = "Address"
     case Orders = "Orders"
+    case Factura = "Factura"
     
     case StoreLocator = "StoreLocator"
+    case FindCam = "FindCam"
 
     case Help = "Help"
     case Terms = "Terms"
@@ -22,9 +24,9 @@ enum OptionsController : String {
 
 }
 
-class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource {
+class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
-    let options = [OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    let options = [OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.FindCam.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -111,7 +113,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case 0:
                 return 3
             case 1:
-                return 1
+                return 3
             case 2:
                 return 3
         default:
@@ -131,7 +133,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 6
         default:
             println("")
         }
@@ -182,7 +184,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 6
         default:
             println("")
         }
@@ -220,7 +222,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let controller = OrderViewController()
             controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
-
+        case .FindCam:
+            let cameraController = CameraViewController()
+            cameraController.delegate = self
+            self.presentViewController(cameraController, animated: true, completion: nil)
+        case .Factura:
+            let webCtrl = IPOWebViewController()
+            webCtrl.openURLFactura()
+            self.presentViewController(webCtrl,animated:true,completion:nil)
             default :
                 println("option don't exist")
         }
@@ -355,7 +364,20 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
-    
-    
-    
+    //MARK CameraViewControllerDelegate
+    func photoCaptured(value: String?)
+    {
+       if value != nil || value == "" {
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build())
+        }
+        
+        let controller = SearchProductViewController()
+        controller.searchContextType = .WithText
+        controller.titleHeader = value
+        controller.textToSearch = value
+        var controllernav = self.navigationController
+        controllernav?.pushViewController(controller, animated: true)
+      }
+    }
 }
