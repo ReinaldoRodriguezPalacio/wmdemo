@@ -12,7 +12,7 @@ class CamFindService : BaseService {
 
     func buildParams(image: UIImage) -> NSDictionary {
         let data = UIImageJPEGRepresentation(image, 1.0)
-        return ["image_request[image]": data, "image_request[locale]": "es_MX"]
+        return ["image_request[image]": data,"image_request[language]": "es-MX","image_request[locale]": "es-MX"]
     }
     
     func callService(paramsDic: NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

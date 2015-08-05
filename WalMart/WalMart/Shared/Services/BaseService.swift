@@ -413,8 +413,10 @@ class BaseService : NSObject {
             constructingBodyWithBlock: { (formData: AFMultipartFormData!) in
                 let imgData = params.objectForKey("image_request[image]") as NSData
                 let localeStr = params.objectForKey("image_request[locale]") as String
+                let langStr = params.objectForKey("image_request[language]") as String
                 formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
                 formData.appendPartWithFormData(localeStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[locale]")
+                formData.appendPartWithFormData(langStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[language]")
             },
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
                 var resultJSON = json as NSDictionary
