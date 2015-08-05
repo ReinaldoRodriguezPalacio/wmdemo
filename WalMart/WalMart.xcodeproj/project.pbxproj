@@ -1029,8 +1029,8 @@
 		04448A351A9E74AF006AFEC4 /* UserList */ = {
 			isa = PBXGroup;
 			children = (
-				04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */,
 				04448A371A9E74AF006AFEC4 /* IPAUserListViewController.swift */,
+				04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */,
 				04448A3A1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift */,
 			);
 			name = UserList;
@@ -3322,10 +3322,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3335,7 +3333,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 				);
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "0448e815-ae90-4c4f-81c8-558a5bf3caa0";
+				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3347,8 +3345,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3358,7 +3356,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 				);
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "0448e815-ae90-4c4f-81c8-558a5bf3caa0";
+				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
