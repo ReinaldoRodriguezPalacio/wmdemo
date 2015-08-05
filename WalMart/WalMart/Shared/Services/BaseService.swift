@@ -52,16 +52,16 @@ class BaseService : NSObject {
         dispatch_once(&AFStatic.onceToken) {
             AFStatic.manager = AFHTTPSessionManager()
             AFStatic.manager.requestSerializer = AFJSONRequestSerializer() as AFJSONRequestSerializer
-//            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
-//            AFStatic.manager.securityPolicy.validatesCertificateChain = false
-            AFStatic.manager.securityPolicy.allowInvalidCertificates = true
+            AFStatic.manager.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+            AFStatic.manager.securityPolicy.validatesCertificateChain = false
+            AFStatic.manager.securityPolicy.allowInvalidCertificates = false
             
         
             AFStatic.managerGR = AFHTTPSessionManager()
             AFStatic.managerGR.requestSerializer = AFJSONRequestSerializer() as AFJSONRequestSerializer
-//            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
-//            AFStatic.managerGR.securityPolicy.validatesCertificateChain = false
-            AFStatic.managerGR.securityPolicy.allowInvalidCertificates = true
+            AFStatic.managerGR.securityPolicy = AFSecurityPolicy(pinningMode: AFSSLPinningMode.Certificate)
+            AFStatic.managerGR.securityPolicy.validatesCertificateChain = false
+            AFStatic.managerGR.securityPolicy.allowInvalidCertificates = false
         }
         
     }

@@ -193,7 +193,11 @@ class DetailListViewCell: ProductTableViewCell {
             success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.productImage!.contentMode = self.contentModeOrig
                 self.productImage!.image = image
+                self.imageGrayScale = self.convertImageToGrayScale(image)
+                self.imageNormal = image
+                
             }, failure: nil)
+        
         
         self.promoDescription!.text = ""
         self.productShortDescriptionLabel!.text = description
@@ -227,6 +231,7 @@ class DetailListViewCell: ProductTableViewCell {
         }
         self.quantityIndicator!.setTitle(text!, forState: .Normal)
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
+        self.total = formatedPrice
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
         
         checkDisabled(disabled)

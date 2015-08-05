@@ -45,8 +45,11 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let controller = IPAProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems()
+        controller.itemsToShow = getUPCItems(indexPath.section)
         controller.ixSelected = indexPath.row
+        if !showFedexGuide {
+            controller.ixSelected = indexPath.row - 2
+        }
         
         if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
             navCtrl.navigationController!.pushViewController(controller, animated: true)

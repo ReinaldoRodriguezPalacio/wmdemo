@@ -260,21 +260,21 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             return
         default:
             println("Detail product")
-            let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems()
-            controller.ixSelected = indexPath.row - 2
-            self.navigationController!.delegate = nil
-            self.navigationController!.pushViewController(controller, animated: true)
+         
         }
         } else {
-            if indexPath.section == 0 { return }
-            let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems(indexPath.section)
-            controller.ixSelected = indexPath.row
-            self.navigationController!.delegate = nil
-            self.navigationController!.pushViewController(controller, animated: true)
+           
+           
 
         }
+        let controller = ProductDetailPageViewController()
+        controller.itemsToShow = getUPCItems(indexPath.section)
+        controller.ixSelected = indexPath.row
+        if !showFedexGuide {
+            controller.ixSelected = indexPath.row - 2
+        }
+        self.navigationController!.delegate = nil
+        self.navigationController!.pushViewController(controller, animated: true)
     }
     
     
@@ -340,6 +340,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func getUPCItems(section:Int) -> [[String:String]] {
         var upcItems : [[String:String]] = []
+        if !showFedexGuide {
+            return getUPCItems()
+        }
         let shoppingCartProduct  =   itemDetailProducts[section - 1] as [String:AnyObject]
         if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
             for shoppingCartProductDetail in  listUPCItems {
@@ -348,6 +351,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 let type = self.type.rawValue
                 upcItems.append(["upc":upc,"description":desc,"type":type])
             }
+        } else {
+            return getUPCItems()
         }
         
         return upcItems

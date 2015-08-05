@@ -190,10 +190,13 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                     return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
-                    delegate.selectKeyWord("", upc: textField.text, truncate:false)
-                    closePopOver()
-                    closeSearch()
-                    return true
+                    let validateNumeric = strFieldValue.substringFromIndex(1)
+                    if strFieldValue.integerValue > 0 {
+                        delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                        closePopOver()
+                        closeSearch()
+                        return true 
+                    }
                 }
                 
                 /*let strFieldValue = textField.text as NSString
