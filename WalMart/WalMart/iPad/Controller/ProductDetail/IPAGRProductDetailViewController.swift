@@ -156,7 +156,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.bannerImagesProducts.items = self.imageUrl
             self.bannerImagesProducts.collection.reloadData()
             
-            //self.loadCrossSell()
+            self.loadCrossSell()
             
             self.titlelbl.text = self.name
             
@@ -263,7 +263,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     }
                     self.itemsCrossSellUPC = keywords
                     if self.itemsCrossSellUPC.count > 0{
-                        //self.productCrossSell.reloadWithData(self.itemsCrossSellUPC, upc: self.upc)
+                        self.productCrossSell.reloadWithData(self.itemsCrossSellUPC, upc: self.upc)
                     }
                 }
                 

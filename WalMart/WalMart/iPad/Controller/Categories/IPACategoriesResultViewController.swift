@@ -170,7 +170,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     
     func didSelectLine(department:String,family:String,line:String, name:String) {
         
-        
+        familyController.departmentId = line
         let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height - 40 ), toView:self.view)
         searchProduct.loading = WMLoadingView(frame: CGRectMake(0, pointPop.y, self.view.bounds.width, self.view.bounds.height - pointPop.y))
         
@@ -223,9 +223,9 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
     
     
     func showFamilyController() {
-        familyController.departmentId = department
+        //familyController.departmentId = department
         familyController.families = families
-        familyController.selectedFamily = nil
+        //familyController.selectedFamily = nil
         familyController.delegate = self
         
         let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height + 40 ), toView:self.view)

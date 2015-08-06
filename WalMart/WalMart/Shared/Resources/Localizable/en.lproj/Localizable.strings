@@ -14,8 +14,10 @@
 "moreoptions.title.Recents" = "Artículos más comprados";
 "moreoptions.title.Address" = "Direcciones";
 "moreoptions.title.Orders" = "Pedidos anteriores";
+"moreoptions.title.Factura" = "Facturación electónica";
 
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";
+"moreoptions.title.FindCam" = "Busca tomando una foto";
 
 "moreoptions.title.Help" = "¿Como usar el app?";
 "moreoptions.title.Terms" = "Términos y condiciones";

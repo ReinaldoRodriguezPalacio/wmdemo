@@ -1029,8 +1029,8 @@
 		04448A351A9E74AF006AFEC4 /* UserList */ = {
 			isa = PBXGroup;
 			children = (
-				04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */,
 				04448A371A9E74AF006AFEC4 /* IPAUserListViewController.swift */,
+				04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */,
 				04448A3A1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift */,
 			);
 			name = UserList;

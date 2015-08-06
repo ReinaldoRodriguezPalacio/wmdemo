@@ -9,7 +9,7 @@
 import UIKit
 
 
-class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerDelegate, IPAMoreOptionsViewControllerDelegate { // HelpViewControllerDelegate{
+class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerDelegate, IPAMoreOptionsViewControllerDelegate, CameraViewControllerDelegate { // HelpViewControllerDelegate{
 
     var selected : Int? = nil
     var navigation : UINavigationController!
@@ -74,12 +74,24 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             var order = IPAOrderViewController()
             self.navigation.pushViewController(order, animated: true)
         case 4:
+            let webCtrl = IPOWebViewController()
+            webCtrl.openURLFactura()
+            self.presentViewController(webCtrl,animated:true,completion:nil)
+            var recent = IPAHelpViewController()
+            self.navigation.pushViewController(recent, animated: false)
+        case 5:
+            let cameraController = CameraViewController()
+            cameraController.delegate = self
+            self.presentViewController(cameraController, animated: true, completion: nil)
+            var recent = IPAHelpViewController()
+            self.navigation.pushViewController(recent, animated: false)
+        case 6:
             var recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 5:
+        case 7:
             var recent = IPATermViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 6:
+        case 8:
             
             var recent = IPASupportViewController()
             self.navigation.pushViewController(recent, animated: true)
@@ -114,6 +126,27 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
         let storyboard : UIStoryboard = UIStoryboard(name: storyboardName, bundle: nil);
         return storyboard;
+    }
+    
+    // MARK: - CameraViewControllerDelegate
+    func photoCaptured(value: String?) {
+        if value != nil || value == "" {
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build())
+        }
+        
+        let controller = IPASearchProductViewController()
+        controller.searchContextType = .WithText
+        controller.titleHeader = value
+        controller.textToSearch = value
+        var controllernav = self.navigationController
+        if controllernav != nil {
+          //  if controllernav!.delegate != nil {
+            //    controllernav!.delegate = nil
+            //}
+            controllernav?.pushViewController(controller, animated: true)
+        }
+      }
     }
     
 }

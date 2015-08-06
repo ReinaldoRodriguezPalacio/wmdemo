@@ -599,7 +599,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.field!.text = value
             self.textFieldShouldReturn(self.field)
             delegate.closeSearch(false, sender:nil)
+<<<<<<< HEAD
             done()
+=======
         }
     }
     
