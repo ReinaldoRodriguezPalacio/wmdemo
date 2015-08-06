@@ -206,8 +206,6 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.isShowingWishList = !self.isEditing
-                    self.isShowingSuperlists = !self.isEditing
                     self.itemsUserList = result["responseArray"] as? NSArray
                     self.tableuserlist!.reloadData()
                     self.checkEditBtn()

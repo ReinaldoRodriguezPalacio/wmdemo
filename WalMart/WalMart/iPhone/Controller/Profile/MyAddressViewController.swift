@@ -287,7 +287,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         }
         let name = item["name"] as String
         if let pref = item["preferred"] as? NSNumber{
-            if pref == 1{
+            if pref.integerValue == 1 {
                 prefered = true
             }
         }

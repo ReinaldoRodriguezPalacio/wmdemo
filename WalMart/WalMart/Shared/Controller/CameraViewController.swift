@@ -11,7 +11,7 @@ import AVFoundation
 import QuartzCore
 
 protocol CameraViewControllerDelegate{
-    func photoCaptured(value: String?)
+    func photoCaptured(value: String?,done: (() -> Void))
 }
 
 enum CameraType {
@@ -388,15 +388,27 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     
     func closeCamera(){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-            self.delegate!.photoCaptured(nil)
+            self.delegate!.photoCaptured(nil, done: { () -> Void in
+            })
         })
     }
     
+    
+    //TODO: Fix
+    
+    
+    var arrayImages = [NSLocalizedString("camfind.search.messageone",comment:""),
+                        NSLocalizedString("camfind.search.messagetwo",comment:""),
+                        NSLocalizedString("camfind.search.messagetree",comment:""),
+                        NSLocalizedString("camfind.search.messagefour",comment:"")]
+    var currentItem = 0
+    var scheduleTimmer : NSTimer!
+    
     func sendPhoto(){
         if alertView == nil {
-            var imgTempRound = self.imageResize(capturedImage.image!) as UIImage
-            self.alertView = IPAWMAlertViewController.showAlert(self, imageWaiting:self.maskRoundedImage(imgTempRound), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage("Buscando imagen")
+            self.alertView = IPAWMAlertViewController.showAlert(self, imageWaiting:self.maskRoundedImage(capturedImage.image!), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(arrayImages[currentItem])
+            scheduleTimmer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "changeAlertMessage", userInfo: nil, repeats: true)
         }
         
         let service = CamFindService()
@@ -408,6 +420,16 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         })
     }
     
+    
+    func changeAlertMessage() {
+        if currentItem == arrayImages.count - 1 {
+            scheduleTimmer.invalidate()
+            return
+        }
+        
+        self.alertView!.setMessage(arrayImages[++currentItem])
+    }
+    
     func checkPhotoStatus(token: String){
         let service = CamFindService()
         service.checkImg(token,
@@ -416,33 +438,43 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
                 switch resp {
                 case ("completed"):
                     let name = response.objectForKey("name") as String
-                    self.alertView!.setMessage("Imagen encontrada\n: \(name)")
-                    self.alertView!.showDoneIcon()
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured(name)
+//                    self.alertView!.setMessage("Imagen encontrada\n: \(name)")
+//                    self.alertView!.showDoneIcon()
+                  
+                    self.delegate!.photoCaptured(name, done: { () -> Void in
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            
+                        })
                     })
+                    // self.delegate!.photoCaptured(name)
+                    
                     break;
                 case ("not completed"):
                     self.checkPhotoStatus(token)
                     break;
                 case ("not found"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("")
+                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        })
+                        //self.delegate!.photoCaptured("")
                     })
                     break;
                 case ("skipped"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("")
+                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        })
                     })
                     break;
                 case ("timeout"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("")
+                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        })
                     })
                     break;
                 case ("error"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("")
+                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        })
                     })
                     break;
                 default:
@@ -467,16 +499,19 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     }
     
     func maskRoundedImage(image: UIImage) -> UIImage {
-        var imageView: UIImageView = UIImageView(image: image)
-        var layer: CALayer = CALayer()
-        var rad: Float = 0.0
-        layer = imageView.layer
         
-        layer.masksToBounds = true
-        layer.cornerRadius = CGFloat(imageView.bounds.width / 2)
+        let viewBgImage = UIView(frame: CGRectMake(0, 0, 80, 80))
+        viewBgImage.layer.cornerRadius = viewBgImage.frame.width / 2
+        viewBgImage.backgroundColor = UIColor.whiteColor()
+        viewBgImage.clipsToBounds = true
         
-        UIGraphicsBeginImageContext(imageView.bounds.size)
-        layer.renderInContext(UIGraphicsGetCurrentContext())
+        let imageProduct = UIImageView(frame: CGRectMake(-30, -30, viewBgImage.frame.width + 60 , viewBgImage.frame.width  + 60))
+        imageProduct.contentMode = UIViewContentMode.ScaleAspectFit
+        imageProduct.image = image
+        viewBgImage.addSubview(imageProduct)
+        
+        UIGraphicsBeginImageContext(viewBgImage.frame.size)
+        viewBgImage.layer.renderInContext(UIGraphicsGetCurrentContext())
         var roundedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

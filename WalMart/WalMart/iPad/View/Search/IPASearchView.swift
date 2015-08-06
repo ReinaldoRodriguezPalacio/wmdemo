@@ -316,7 +316,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?) {
+    func photoCaptured(value: String?,done: (() -> Void)) {
         if value != nil || value == "" {
 //            self.field!.becomeFirstResponder()
             self.field.text = value
@@ -324,6 +324,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             self.closePopOver()
             
             self.textFieldShouldReturn(self.field!)
+            done()
         }
         
         self.field!.resignFirstResponder()

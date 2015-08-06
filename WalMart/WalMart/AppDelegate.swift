@@ -63,8 +63,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //Log request
-//        AFNetworkActivityLogger.sharedLogger().startLogging()
-//        AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
+        AFNetworkActivityLogger.sharedLogger().startLogging()
+        AFNetworkActivityLogger.sharedLogger().level = AFHTTPRequestLoggerLevel.AFLoggerLevelDebug
 
         
         AFNetworkReachabilityManager.sharedManager().setReachabilityStatusChangeBlock { (status:AFNetworkReachabilityStatus) -> Void in

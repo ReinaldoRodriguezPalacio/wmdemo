@@ -112,7 +112,7 @@ class UIEdgeTextFieldImage : UITextField {
                     //isValid = false
                     //message = NSLocalizedString("field.validate.password",comment:"")
                 }
-                if countElements(self.text) < 5 || countElements(self.text) > 16
+                if countElements(self.text) < 5 || countElements(self.text) > 20
                 {
                     isValid = false
                     message = NSLocalizedString("field.validate.password.length",comment:"")

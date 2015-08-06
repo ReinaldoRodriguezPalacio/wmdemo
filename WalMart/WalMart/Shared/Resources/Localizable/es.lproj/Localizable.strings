@@ -495,6 +495,11 @@
 //AvisoProvacidad
 "privace.notice.message" = "Nuestro Aviso de Privacidad ha cambiado, te invitamos a conocerlo.";
 
+//Bucando imagen
+"camfind.search.messageone" = "Enviando imagen";
+"camfind.search.messagetwo" = "Identificando artículo";
+"camfind.search.messagetree" = "Buscando palabras clave";
+"camfind.search.messagefour" = "Obteniendo resultados";
 
 
 

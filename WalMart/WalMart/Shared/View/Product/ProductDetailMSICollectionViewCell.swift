@@ -15,6 +15,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
     var downBorder : UIView!
     var descLabel = UILabel()
     var priceProduct : NSString!
+    var doneValues : Bool = false
     
     
     required init(coder aDecoder: NSCoder) {
@@ -56,6 +57,10 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
     }
     
     func setValues(msi:NSArray){
+
+        if doneValues  { return }
+        doneValues = true
+        
         var first = true
         var currntY : CGFloat = 45.0
         let lblPagos = NSLocalizedString("productdetail.paiments",comment:"")

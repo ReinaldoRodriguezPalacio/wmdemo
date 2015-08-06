@@ -593,11 +593,13 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?) {
+    func photoCaptured(value: String?,done: (() -> Void)) {
         self.field!.becomeFirstResponder()
         if value != nil {
             self.field!.text = value
             self.textFieldShouldReturn(self.field)
+            delegate.closeSearch(false, sender:nil)
+            done()
         }
     }
     
@@ -675,7 +677,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             let toFill = "".stringByPaddingToLength(14 - codeUPC.length, withString: "0", startingAtIndex: 0)
             fullBarcode = "\(toFill)\(codeUPC)"
         }
-        
+        if fullBarcode.toInt() == nil {
+            return false
+        }
         let firstVal = (fullBarcode.substring(0, length: 1).toInt()! +
             fullBarcode.substring(2, length: 1).toInt()! +
             fullBarcode.substring(4, length: 1).toInt()! +
