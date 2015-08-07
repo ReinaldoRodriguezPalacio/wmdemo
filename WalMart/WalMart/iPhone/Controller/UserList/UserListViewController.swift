@@ -316,15 +316,13 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.editBtn?.enabled = false
         
         if !self.isEditingUserList {
-
-        if !self.isEditing {
             
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_EDITLISTS.rawValue,
                     label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
+                    value: nil).build() as [NSObject:AnyObject])
             }
             
             self.hideSearchField({
@@ -412,7 +410,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_NEWLIST.rawValue,
                         label: nil,
-                        value: nil).build() as [NSObject : AnyObject])
+                        value: nil).build() as [NSObject:AnyObject])
                 }
                 
                 
@@ -524,7 +522,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                                 action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
                                 label: value,
-                                value: nil).build() as [NSObject : AnyObject])
+                                value: nil).build() as [NSObject:AnyObject])
                         }
                     },
                     failure: { (error) -> Void in
@@ -660,7 +658,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                                 action:WMGAIUtils.GR_EVENT_LISTS_DELETE.rawValue,
                                 label: listItem["name"] as? String,
-                                value: nil).build() as [NSObject : AnyObject])
+                                value: nil).build() as [NSObject:AnyObject])
                         }
                         
                         self.invokeDeleteListService(listId)
@@ -1060,7 +1058,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
                         label: self.selectedListName,
-                        value: nil).build() as [NSObject : AnyObject])
+                        value: nil).build() as [NSObject:AnyObject])
                 }
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
@@ -1075,7 +1073,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
                     label: self.selectedListName,
-                    value: nil).build() as [NSObject : AnyObject])
+                    value: nil).build() as [NSObject:AnyObject])
             }
             
             self.performSegueWithIdentifier("showListDetail", sender: self)
@@ -1464,7 +1462,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        var txtAfterUpdate : NSString = textField.text as NSString
+        var txtAfterUpdate : NSString = textField.text as String
         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
         
         self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
@@ -1494,7 +1492,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                 action:WMGAIUtils.GR_EVENT_LISTS_SEARCH.rawValue,
                 label: nil,
-                value: nil).build() as [NSObject : AnyObject])
+                value: nil).build() as [NSObject:AnyObject])
         }
         
         var height = keyboardFrame.size.height
@@ -1525,7 +1523,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
         var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
+        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [List]
         return result
     }
     
@@ -1540,7 +1538,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
         var error: NSError? = nil
-        var result = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Param]?
+        var result = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [Param]
         var parameter: Param? = nil
         if result != nil && result!.count > 0 {
             parameter = result!.first
@@ -1583,17 +1581,17 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         if textUpdate != "" {
             fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)",textUpdate,textUpdate)
         }
-        var labelTracker : NSString = String(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)", textUpdate,textUpdate)
+        var labelTracker : String = String(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)", textUpdate,textUpdate)
         //Event
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                 action:WMGAIUtils.GR_EVENT_LISTS_SEARCHCOMPLETE.rawValue,
-                label: labelTracker as String,
-                value: nil).build() as [NSObject : AnyObject])
+                label: labelTracker,
+                value: nil).build() as [NSObject:AnyObject])
         }
         
         var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
+        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [List]
         println(result)
         
         return result

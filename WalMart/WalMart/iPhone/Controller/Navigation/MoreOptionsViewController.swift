@@ -382,11 +382,11 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?,done: (() -> Void))
+    func photoCaptured(value: String?)
     {
        if value != nil || value == "" {
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
         }
         
         let controller = SearchProductViewController()
@@ -395,7 +395,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         controller.textToSearch = value
         var controllernav = self.navigationController
         controllernav?.pushViewController(controller, animated: true)
-        done()
       }
     }
 }
