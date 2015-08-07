@@ -256,7 +256,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.changeVisibilityBtn(self.editBtn!, visibility: 1)
                 }
             }
-
+            
             success?()
         }
     }
@@ -317,6 +317,8 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         
         if !self.isEditingUserList {
 
+        if !self.isEditing {
+            
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
@@ -355,7 +357,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             self.showSearchField({
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
-
+                    
                     if let user = UserCurrentSession.sharedInstance().userSigned {
                         self.alertView = nil
                         self.invokeUpdateListService()
@@ -371,7 +373,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                         var cells = self.tableuserlist!.visibleCells()
                         for var idx = 0; idx < cells.count; idx++ {
                             if let cell = cells[idx] as? ListTableViewCell {
-                                cell.textField!.text = cell.listName!.text
+                                cell.listName!.text = cell.textField!.text
                                 cell.hideUtilityButtonsAnimated(false)
                                 cell.setEditing(false, animated: false)
                                 cell.enableEditList(false)
@@ -383,7 +385,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                     CATransaction.commit()
                     
-                   
+                    
                 }, animated:true)
         }
         
@@ -422,7 +424,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     //self.tableuserlist!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
                     }, completion: { (complete:Bool) -> Void in
                         self.hideSearchField({
-                           }, atFinished: { () -> Void in
+                            }, atFinished: { () -> Void in
                                 self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0xE3E3E5)
                                 
                                 CATransaction.begin()
@@ -482,7 +484,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     })
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                     CATransaction.commit()
-                        
+                    
                     self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
                     }, atFinished: {
                         self.editBtn!.enabled = true
@@ -492,7 +494,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             }
         }
     }
-
+    
     //MARK: - NewListTableViewCellDelegate
     
     func cancelNewList() {
@@ -502,12 +504,15 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     func createNewList(value:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
-
+        
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
             successBlock: { (result:NSDictionary) -> Void in
                 self.checkEditBtn()
                 self.newListEnabled = false
+                self.isShowingWishList  = true
+                self.isShowingSuperlists = true
+                
                 self.newListBtn!.selected = false
                 self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
                 self.reloadList(
@@ -547,7 +552,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     
     func duplicateList(cell:ListTableViewCell) {
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
-
+            
             if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                 let listId = listItem["id"] as! String
                 var listName = listItem["name"] as! String
@@ -586,6 +591,9 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     
                     self.saveContext()
                     self.newListEnabled = false
+                    self.isShowingWishList  = true
+                    self.isShowingSuperlists = true
+                    
                     self.newListBtn!.selected = false
                     self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
                     self.reloadList(
@@ -663,7 +671,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.managedContext!.deleteObject(listEntity)
                     self.saveContext()
                     //No hay que generar acciones adicionales para este caso
-//                    self.reloadList(success: nil, failure: nil)
+                    //                    self.reloadList(success: nil, failure: nil)
                     self.reloadWithoutTableReload(success: nil, failure: nil)
                     self.tableuserlist!.beginUpdates()
                     self.tableuserlist!.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
@@ -719,7 +727,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.searchContainer!.hidden = false
         self.searchConstraint!.constant = self.SC_HEIGHT
         if animated {
-//            UIView.animateWithDuration(0.5,
+            //            UIView.animateWithDuration(0.5,
             UIView.animateWithDuration(0.4,
                 animations: { () -> Void in
                     self.view.layoutIfNeeded()
@@ -740,7 +748,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     func hideSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
         self.isToggleBarEnabled = false
         self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
-//        UIView.animateWithDuration(0.5,
+        //        UIView.animateWithDuration(0.5,
         UIView.animateWithDuration(0.2,
             animations: { () -> Void in
                 self.view.layoutIfNeeded()
@@ -754,7 +762,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             }
         )
     }
-
+    
     func showHelpTicketView() {
         if self.helpView != nil {
             self.helpView!.removeFromSuperview()
@@ -966,7 +974,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListTableViewCell
             listCell.delegate = self
             listCell.listDelegate = self
-        
+            
             if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
                 listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance().userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
                 listCell.canDelete = false
@@ -1040,7 +1048,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             return
         }
         
-
+        
         
         if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             if let listId = listItem["id"] as? String {
@@ -1222,6 +1230,9 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 service.callService(service.buildParams(copyName, items: items),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.newListEnabled = false
+                        self.isShowingWishList  = true
+                        self.isShowingSuperlists = true
+                        
                         self.newListBtn!.selected = false
                         self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
                         self.reloadList(
@@ -1399,6 +1410,9 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                                 cell.scanning = false
                             }
                             self.newListEnabled = false
+                            self.isShowingWishList  = true
+                            self.isShowingSuperlists = true
+                            
                             self.newListBtn!.selected = false
                             self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
                             self.reloadList(
@@ -1584,5 +1598,5 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         
         return result
     }
- 
+    
 }

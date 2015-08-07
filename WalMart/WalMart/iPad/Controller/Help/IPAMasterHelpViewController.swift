@@ -144,6 +144,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
           //  if controllernav!.delegate != nil {
             //    controllernav!.delegate = nil
             //}
+            done()
             controllernav?.pushViewController(controller, animated: true)
         }
       }
