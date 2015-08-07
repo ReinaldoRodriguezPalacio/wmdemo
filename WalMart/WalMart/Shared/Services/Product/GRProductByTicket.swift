@@ -32,7 +32,7 @@ class GRProductByTicket: GRBaseService {
 
     override func validateCodeMessage(response:NSDictionary) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
-            var message = response["message"] as NSString
+            var message = response["message"] as! NSString
             if codeMessage.integerValue == -12 {
                 println("WARNING : Response with warning \(message)")
                 return nil

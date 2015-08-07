@@ -46,7 +46,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
 
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_STORELACATION.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
         
@@ -294,7 +294,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("club", forIndexPath: indexPath) as ClubLocatorTableViewCell
+        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("club", forIndexPath: indexPath) as! ClubLocatorTableViewCell
         cell.setValues(self.items![indexPath.row], userLocation: self.clubMap!.userLocation?.location)
         cell.delegate = self
         return cell
@@ -306,7 +306,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         return ClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: collectionView.frame.width)
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView!) {
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
     }
 
     //MARK: - Actions
@@ -323,7 +323,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                     action:WMGAIUtils.EVENT_STORELOCATOR_MAP_HIDESTOREDETAIL.rawValue,
                     label: nil,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             self.detailView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
@@ -360,7 +360,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                     action:WMGAIUtils.EVENT_STORELOCATOR_MAP_MODE_MAP.rawValue,
                     label: nil,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             self.clubMap!.mapType = MKMapType.Standard
         }
@@ -371,7 +371,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                     action:WMGAIUtils.EVENT_STORELOCATOR_MAP_MODE_SATELITE.rawValue,
                     label: nil,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             self.clubMap!.mapType = MKMapType.Hybrid
         }
@@ -385,7 +385,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_MAP_USERLOCATION.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         if self.viewBgDetailView != nil {
@@ -404,7 +404,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                     action:WMGAIUtils.EVENT_STORELOCATOR_MAP.rawValue,
                     label: nil,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showmap",comment:""), forState: .Normal)
             self.clubMap!.hidden = true
@@ -418,7 +418,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                     action:WMGAIUtils.EVENT_STORELOCATOR_LIST.rawValue,
                     label: nil,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
             self.clubMap!.hidden = false
@@ -474,14 +474,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             }
         }
 
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: context)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         var error: NSError? = nil
-        var result: [Store] = context.executeFetchRequest(fetchRequest, error: &error) as [Store]
+        var result: [Store] = context.executeFetchRequest(fetchRequest, error: &error) as! [Store]
         self.items = result
         if result.count > 0 {
             for store in result {
@@ -545,7 +545,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_LIST_DIRECTIONS.rawValue,
                 label: store.name,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         var gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)

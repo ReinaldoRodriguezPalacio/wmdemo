@@ -31,25 +31,25 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
          self.type = ResultObjectType.Groceries
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.GR_EVENT_SHOWPRODUCTDETAIL.rawValue, label: upc, value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.GR_EVENT_SHOWPRODUCTDETAIL.rawValue, label: upc as String, value: nil).build() as [NSObject : AnyObject])
         }
 
         let productService = GRProductDetailService()
-        productService.callService(upc, successBlock: { (result: NSDictionary) -> Void in
+        productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
             
             //println("ResultGr \(result)")
             
             
-            self.name = result["description"] as NSString
+            self.name = result["description"] as! NSString
             if let priceR =  result["price"] as? NSNumber {
                 self.price = "\(priceR)"
             }
 
-            self.detail = result["longDescription"] as NSString
+            self.detail = result["longDescription"] as! NSString
             
             if let savingResult = result["promoDescription"] as? NSString {
                 if savingResult != "" {
-                    self.saving = result["promoDescription"] as NSString
+                    self.saving = result["promoDescription"] as! NSString
                 }
             }
             //self.listPrice = result["original_listprice"] as NSString
@@ -76,7 +76,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.msi = []
                 }
             }
-            if let images = result["imageUrl"] as? NSArray {
+            if let images = result["imageUrl"] as? [AnyObject] {
                 self.imageUrl = images
             }
             if let images = result["imageUrl"] as? NSString {
@@ -124,8 +124,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.strisPreorderable  = "false"
             self.isPreorderable = false//"true" == self.strisPreorderable
             
-            self.bundleItems = NSArray()
-            if let bndl = result["bundleItems"] as?  NSArray {
+            self.bundleItems = [AnyObject]()
+            if let bndl = result["bundleItems"] as?  [AnyObject] {
                 self.bundleItems = bndl
             }
             
@@ -150,7 +150,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.detailCollectionView.scrollEnabled = true
             self.gestureCloseDetail.enabled = false
             
-            self.titlelbl.text = self.name
+            self.titlelbl.text = self.name as String
             
             //Nutrimental
             self.ingredients = ""
@@ -173,8 +173,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
                 var product = GAIEcommerceProduct()
                 var builder = GAIDictionaryBuilder.createScreenView()
-                product.setId(self.upc)
-                product.setName(self.name)
+                product.setId(self.upc as String)
+                product.setName(self.name as String)
                 
                 var action = GAIEcommerceProductAction();
                 action.setAction(kGAIPADetail)
@@ -182,10 +182,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 builder.addProduct(product)
                 
                 tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-                tracker.send(builder.build())
+                tracker.send(builder.build() as [NSObject : AnyObject])
             }
             
-            }) { (error:NSError) -> Void in
+            },errorBlock: { (error:NSError) -> Void in
                 var empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
@@ -194,7 +194,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 }
                 self.view.addSubview(empty)
                 self.viewLoad.stopAnnimating()
-        }
+        })
     }
     
    
@@ -202,25 +202,25 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as UICollectionReusableView
+            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! UICollectionReusableView
             
             let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
-            productDetailButtonGR.upc = self.upc
-            productDetailButtonGR.desc = self.name
-            productDetailButtonGR.price = self.price
+            productDetailButtonGR.upc = self.upc as String
+            productDetailButtonGR.desc = self.name as String
+            productDetailButtonGR.price = self.price as String
             productDetailButtonGR.isPesable  = self.isPesable
             productDetailButtonGR.isActive = isActive == true ? self.strisActive! : "false"
-            productDetailButtonGR.onHandInventory = self.onHandInventory
+            productDetailButtonGR.onHandInventory = self.onHandInventory as String
             productDetailButtonGR.isPreorderable = self.strisPreorderable
             productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
-            productDetailButtonGR.validateIsInList(self.upc)
+            productDetailButtonGR.validateIsInList(self.upc as String)
             productDetailButton = productDetailButtonGR
             
             //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as NSString
+                imageUrl = self.imageUrl[0] as! NSString as String
             }
             productDetailButton.image = imageUrl
             productDetailButton.delegate = self
@@ -256,7 +256,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                 action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
                 label: "\(upc)",
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         if self.listSelectorController == nil {
@@ -266,7 +266,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
-            self.listSelectorController!.productUpc = self.upc
+            self.listSelectorController!.productUpc = self.upc as String
             self.addChildViewController(self.listSelectorController!)
             self.listSelectorController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 360.0)
             self.listSelectorContainer!.addSubview(self.listSelectorController!.view)
@@ -347,7 +347,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     
                     
                     let addShopping = ShoppingCartUpdateController()
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton.detailProductCart!.quantity.stringValue) as [String:AnyObject]
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton.detailProductCart!.quantity.stringValue) as! [String:AnyObject]
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
@@ -479,7 +479,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
                 var service = GRAddItemListService()
                 let pesable = self.isPesable ? "1" : "0"
-                var productObject = service.buildProductObject(upc: self.upc, quantity:quantity.toInt()!,pesable:pesable,active:self.isActive)
+                var productObject = service.buildProductObject(upc: self.upc as String, quantity:quantity.toInt()!,pesable:pesable,active:self.isActive)
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
@@ -533,7 +533,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
                 var service = GRDeleteItemListService()
-                service.callService(service.buildParams(self.upc),
+                service.callService(service.buildParams(self.upc as? String),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                         self.alertView!.showDoneIcon()
@@ -545,7 +545,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                                 action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_REMOVEFROMLIST.rawValue ,
                                 label: "\(self.upc) ",
-                                value: nil).build())
+                                value: nil).build() as [NSObject : AnyObject])
                         }
                         
                     }, errorBlock: { (error:NSError) -> Void in
@@ -572,19 +572,19 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.removeListSelector(action: nil)
         }
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
-            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
             var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
-            detail!.upc = self.upc
-            detail!.desc = self.name
+            detail!.upc = self.upc as String
+            detail!.desc = self.name as String
             detail!.price = self.price
             detail!.quantity = NSNumber(integer: quantity.toInt()!)
             detail!.type = NSNumber(bool: self.isPesable)
             detail!.list = list
             
             if self.imageUrl.count > 0 {
-                detail!.img = self.imageUrl[0] as NSString
+                detail!.img = self.imageUrl[0] as! NSString as String
             }
             
             //Event
@@ -592,7 +592,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                     action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLISTCOMPLETE.rawValue ,
                     label: "\(self.upc) - \(list.name)",
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
 
@@ -616,7 +616,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             //TODO: Add message
             self.showMessageWishList("Se agregó a la lista")
             
-            self.productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+            self.productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
             
             
         }
@@ -656,7 +656,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     
     func listSelectorDidDeleteProductLocally(product:Product, inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         context.deleteObject(product)
@@ -707,7 +707,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorContainer = nil
                                 
                                 //self.productDetailButton!.listButton.selected = false
-                                self.productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+                                self.productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
                                 
                                 action?()
                                 self.detailCollectionView.scrollEnabled = true
@@ -749,7 +749,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
-            imageUrlSend = self.imageUrl[0] as NSString
+            imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         var pesable = isPesable ? "1" : "0"
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
@@ -779,7 +779,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_INFORMATION.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_INFORMATION.rawValue) , label: upc, value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_INFORMATION.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_INFORMATION.rawValue) , label: upc as String, value: nil).build() as [NSObject : AnyObject])
         }
         
         self.detailCollectionView.scrollsToTop = true

@@ -38,7 +38,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         var error: NSError?
         let filePath =  NSBundle.mainBundle().pathForResource("termAndConditions", ofType: "json")
         let jsonData = NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-        let resultArray = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as [[String:AnyObject]]
+        let resultArray = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! [[String:AnyObject]]
         
         families = resultArray
 
@@ -74,7 +74,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return families.count + 1
     }
     
@@ -87,7 +87,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         return 1
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 46
     }
     
@@ -95,9 +95,9 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         var cell : UITableViewCell! = nil
         
         if indexPath.section == 3 {
-            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as IPOFamilyTableViewCell
-            let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as String
-            let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as String
+            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
+            let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+            let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
            
             let nameFamily = "Versión \(majorVersion) (\(minorVersion))"
             cellFamily.setTitle(nameFamily)
@@ -107,17 +107,17 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         }
         
         if indexPath.row == 0 {
-            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as IPOFamilyTableViewCell
+            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
             let selectedSection = families[indexPath.section]
-            let nameFamily = selectedSection["name"] as NSString
+            let nameFamily = selectedSection["name"] as! String
             cellFamily.setTitle(nameFamily)
             cell = cellFamily
         } else {
-            let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as IPOLineTableViewCell
+            let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as NSArray
-            let itemLine = linesArr[indexPath.row - 1] as NSDictionary
-            cellLine.setTitle(itemLine["title"] as NSString)
+            let linesArr = selectedSection["line"] as! NSArray
+            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
+            cellLine.setTitle(itemLine["title"] as! String)
             cellLine.showSeparator =  linesArr.count == indexPath.row
             cell = cellLine
         }
@@ -127,7 +127,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     
 
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.row == 0  {
             var changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
@@ -146,18 +146,18 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             self.familyTable.reloadData()
             
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as NSArray
-            let item = linesArr[indexPath.row - 1] as NSDictionary
+            let linesArr = selectedSection["line"] as! NSArray
+            let item = linesArr[indexPath.row - 1] as! NSDictionary
 
             if delegate != nil {
                 delegate!.selectedDetail(indexPath.row, item: item)
             }
             else {
                 let controller = PreviewHelpViewController()
-                let name = item["title"] as String
+                let name = item["title"] as! String
                 controller.titleText = NSLocalizedString(name, comment: "")
-                controller.resource = item["resource"] as String
-                controller.type = item["type"] as String
+                controller.resource = item["resource"] as! String
+                controller.type = item["type"] as! String
                 
                 if  let imgFile = item["imgFile"] as? String{
                     controller.imgFile = imgFile
@@ -170,7 +170,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     func numberOfRowsInSection(section:Int) -> Int {
         if section < families.count {
             let selectedSection = families[section]
-            let nameLine = selectedSection["line"] as NSArray
+            let nameLine = selectedSection["line"] as! NSArray
             return nameLine.count
         }
         

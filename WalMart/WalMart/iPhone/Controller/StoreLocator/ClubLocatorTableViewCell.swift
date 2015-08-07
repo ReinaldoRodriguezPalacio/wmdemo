@@ -124,7 +124,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_LIST_CALLSTORE.rawValue,
                 label: self.store!.name,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         self.delegate?.makeCallForStore(self.store!)
     }
@@ -140,7 +140,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_LIST_DIRECTION.rawValue,
                 label: self.store!.name,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         self.delegate?.showInstructions(self.store!, forCar: true)
@@ -152,7 +152,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
                 label: self.store!.name,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         self.delegate?.showInMap(self.store!)
@@ -170,7 +170,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         var height: CGFloat = 16.0 //Separation
         height += 17.0 //Name
         height += 16.0
-        if let address = store.address? {
+        if let address = store.address {
             var text = "\(address) CP: \(store.zipCode!)"
             var addressSize = ClubLocatorTableViewCell.size(forText: text, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSizeMake(width_, CGFloat.max))
             height += addressSize.height

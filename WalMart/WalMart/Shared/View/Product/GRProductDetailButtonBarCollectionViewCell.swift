@@ -41,7 +41,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue,
                 action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
                 label: upc,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable, added: { (addedTWL:Bool) -> Void in

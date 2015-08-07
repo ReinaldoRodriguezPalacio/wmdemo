@@ -41,7 +41,7 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
                     quanty = "50"
                 }
                 
-                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty,onHandInventory:self.onHandInventory,pesable:"0", type: resultObjectType.rawValue)
+                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty,onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 
             }else{
@@ -61,7 +61,7 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
         super.setValues(upc, productImageURL: productImageURL, productShortDescription: productShortDescription, productPrice: productPrice, saving: "", isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, isInShoppingCart: isInShoppingCart, pesable: pesable)
         
         if saving != "" {
-            productPriceSavingLabelGR.text = saving
+            productPriceSavingLabelGR.text = saving as String
             productPriceSavingLabelGR.hidden = false
         }else{
             productPriceSavingLabelGR.text = ""

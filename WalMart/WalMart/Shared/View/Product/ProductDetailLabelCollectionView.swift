@@ -23,11 +23,6 @@ class ProductDetailLabelCollectionView  : UITableViewCell {
         setup()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
     func setup() {
         titleLabel = UILabel()
     }

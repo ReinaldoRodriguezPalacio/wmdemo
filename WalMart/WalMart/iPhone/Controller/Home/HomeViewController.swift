@@ -30,7 +30,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_HOME.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
@@ -92,7 +92,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if self.categories.count > 0 {
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as [AnyObject]
+            let arrayItemsResult =  arrayItems as! [AnyObject]
             return arrayItemsResult.count
         }
         return 0
@@ -102,29 +102,29 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         var cell : UICollectionViewCell
         switch (indexPath.section,indexPath.row) {
             case (0,0):
-                let bannerCell = collectionView.dequeueReusableCellWithReuseIdentifier(bannerCellIdentifier() , forIndexPath: indexPath) as BannerCollectionViewCell
+                let bannerCell = collectionView.dequeueReusableCellWithReuseIdentifier(bannerCellIdentifier() , forIndexPath: indexPath) as! BannerCollectionViewCell
                 bannerCell.delegate = self
                 bannerCell.dataSource = self.bannerItems
                 bannerCell.setup()
                 cell = bannerCell
                 break;
             case (0,1):
-                let categoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryHome", forIndexPath: indexPath) as CategoryCollectionViewCell
+                let categoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryHome", forIndexPath: indexPath) as! CategoryCollectionViewCell
                 categoryCell.delegate = self
-                categoryCell.setCategories(categories)
+                categoryCell.setCategoriesAndReloadData(categories)
                 cell = categoryCell
                 break;
             default:
-                let productCell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as ProductHomeCollectionViewCell
+                let productCell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as! ProductHomeCollectionViewCell
                 
                 let catNameFilter = self.categories[selectedIndexCategory]
                 let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-                let arrayItemsResult =  arrayItems as [AnyObject]
-                let recommendProduct = arrayItemsResult[indexPath.row] as [String:AnyObject]
+                let arrayItemsResult =  arrayItems as! [AnyObject]
+                let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
                 
-                let desc = recommendProduct["description"] as NSString
+                let desc = recommendProduct["description"] as! String
                 var price = ""
-                if let priceStr = recommendProduct["price"] as? NSString {
+                if let priceStr = recommendProduct["price"] as? String {
                     price = priceStr
                 }else  if let priceNum = recommendProduct["price"] as? NSNumber {
                     price = "\(priceNum)"
@@ -134,9 +134,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 if let imageArray = recommendProduct["imageUrl"] as? NSArray {
                    
                     if imageArray.count > 0 {
-                        imageUrl = imageArray.objectAtIndex(0) as String
+                        imageUrl = imageArray.objectAtIndex(0) as! String
                     }
-                } else if let imageStr = recommendProduct["imageUrl"] as? NSString  {
+                } else if let imageStr = recommendProduct["imageUrl"] as? String  {
                     imageUrl = imageStr
                 }
                 
@@ -157,7 +157,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         switch  (indexPath.section,indexPath.row) {
         case (0,0):
             return CGSizeMake(320, 217)
@@ -169,19 +169,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
        
     
-    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
             
             let controller = ProductDetailPageViewController()
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as [AnyObject]
-            let recommendProduct = arrayItemsResult[indexPath.row] as [String:AnyObject]
+            let arrayItemsResult =  arrayItems as! [AnyObject]
+            let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
             
-            let upc = recommendProduct["upc"] as NSString
-            let desc = recommendProduct["description"] as NSString
-            let type = recommendProduct["type"] as NSString
+            let upc = recommendProduct["upc"] as! String
+            let desc = recommendProduct["description"] as! String
+            let type = recommendProduct["type"] as! String
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
             
             
@@ -189,7 +189,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue ), label: upc , value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue ), label: upc , value: nil).build() as [NSObject : AnyObject])
                 
             }
 
@@ -197,11 +197,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
@@ -235,10 +235,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
        
         if let tracker = GAI.sharedInstance().defaultTracker {
             if type == ResultObjectType.Groceries.rawValue    {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.GR_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.GR_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build() as [NSObject : AnyObject])
             }else
             {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.MG_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.MG_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build() as [NSObject : AnyObject])
             }
         }
         
@@ -272,19 +272,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
     func getCategories() -> [String]{
         
-        var specialsCat : [AnyObject] = RecommendedCategory.cagtegories
+        var specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
         var specialsGRCat : [String:AnyObject] = RecommendedCategory.groceriescategory
         var categories : [String] = []
         self.recommendCategoryItems = [:]
         var itemsInCategories : NSMutableArray  = []
         for key in specialsGRCat.keys {
-            let array = specialsGRCat[key] as [String]
+            let array = specialsGRCat[key] as! [String]
             itemsInCategories.addObjectsFromArray(array)
         }
         
         for itemRec in self.recommendItems! {
             var nameCategory = "Otros"
-            let upc = itemRec["upc"] as String!
+            let upc = itemRec["upc"] as! String!
             var isCategorySpecial = false
             
             if itemsInCategories.containsObject(upc) {
@@ -293,15 +293,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             for special in  specialsCat {
                 
-                let upcs = special["upcs"] as NSArray
+                let upcs = special["upcs"] as! NSArray
                 if upcs.containsObject(upc) {
-                    nameCategory = special["name"] as String!
+                    nameCategory = special["name"] as! String
                     if categories.filter({ (catName) -> Bool in return catName == nameCategory }).count == 0 {
                         categories.append(nameCategory)
                     }
                     
                     if let catItem : AnyObject = recommendCategoryItems[nameCategory] {
-                        var array = catItem as [AnyObject]
+                        var array = catItem as! [AnyObject]
                         array.append(itemRec)
                         recommendCategoryItems.updateValue(array, forKey: nameCategory)
                     } else {
@@ -332,12 +332,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         }
         
         categories.sort { (item, seconditem) -> Bool in
-            let first = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as String!) == item })
-            let second = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as String!) == seconditem })
-            let firstItem = first[0] as NSDictionary
-            let firstOrder = firstItem["order"] as Int!
-            let secondItem = second[0] as NSDictionary
-            let secondOrder = secondItem["order"] as Int!
+            let first = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
+            let second = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
+            let firstItem = first[0] as! NSDictionary
+            let firstOrder = firstItem["order"] as! Int
+            let secondItem = second[0] as! NSDictionary
+            let secondOrder = secondItem["order"] as! Int
             return firstOrder < secondOrder
         }
         
@@ -397,11 +397,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as [AnyObject]
+            let arrayItemsResult =  arrayItems as! [AnyObject]
             
             let catNameFilterNew = self.categories[index]
             let arrayItemsNew : AnyObject = self.recommendCategoryItems[catNameFilterNew]!
-            let arrayItemsResultNew =  arrayItemsNew as [AnyObject]
+            let arrayItemsResultNew =  arrayItemsNew as! [AnyObject]
             
             for ix in 0...arrayItemsResult.count - 1 {
                 if arrayItemsResultNew.count > ix {

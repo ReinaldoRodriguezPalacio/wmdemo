@@ -21,7 +21,7 @@ class PrivacyViewController :  PreviewHelpViewController, UIScrollViewDelegate {
     
     override func loadPreview () {
         
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
             let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
             let manager = NSFileManager.defaultManager()
             

@@ -15,7 +15,7 @@ class PreviousOrdersService : BaseService {
     
     func callService(successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
-            let itemResult = resultCall[self.JSON_ORDERS_RESULT] as NSArray
+            let itemResult = resultCall[self.JSON_ORDERS_RESULT] as! NSArray
             successBlock!(itemResult)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

@@ -14,11 +14,6 @@ class FormFieldErrorView: UIView {
     var viewError : UIView!
     var focusError : UITextField? = nil
     
-    override init(){
-        super.init()
-        setup()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()

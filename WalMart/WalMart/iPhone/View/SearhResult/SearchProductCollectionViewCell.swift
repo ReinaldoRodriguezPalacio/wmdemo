@@ -123,14 +123,14 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
                 if self.type == ResultObjectType.Groceries.rawValue    {
                     
                     if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.GR_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build())
+                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.GR_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
                     }
                     
                     if self.pesable == true {
                         quanty = "50"
                     }
                     
-                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory, type:self.type, pesable: (self.pesable == true ? "1" : "0"))
+                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type, pesable: (self.pesable == true ? "1" : "0"))
                     
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                     
@@ -138,10 +138,10 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
                 else {
 
                     if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.MG_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build())
+                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.MG_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
                     }
                     
-                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory,wishlist:false,type:self.type,pesable:"0")
+                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,wishlist:false,type:self.type,pesable:"0")
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 }
                 

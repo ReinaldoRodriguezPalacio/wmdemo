@@ -77,7 +77,7 @@ class GRLinesForSearchService: GRBaseService {
         
         var strInLines : String = ""
         for var i = 0; i < response.count; i++ {
-            var responseObject = response[i] as [String:AnyObject]
+            var responseObject = response[i] as! [String:AnyObject]
             let id = responseObject["id"] as? String
             if id == nil {
                 continue
@@ -123,7 +123,7 @@ class GRLinesForSearchService: GRBaseService {
                             dictionary[idDepto] = cdepto
                         }
                         
-                        var families = cdepto!["families"] as NSMutableDictionary
+                        var families = cdepto!["families"] as! NSMutableDictionary
                         var cfamily = families[idFamily] as? NSDictionary
                         if cfamily == nil {
                             families[idFamily] = [
@@ -137,7 +137,7 @@ class GRLinesForSearchService: GRBaseService {
                             cfamily = families[idFamily] as? NSDictionary
                         }
                         
-                        var lines = cfamily!["lines"] as NSMutableDictionary
+                        var lines = cfamily!["lines"] as! NSMutableDictionary
                         
                         var cline = [
                             "id" : idLine,

@@ -60,7 +60,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         }
     }
     
-    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake(self.view.bounds.width / 3, 254);
     }
     
@@ -68,16 +68,16 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
    //    viewHeader.dismissPopover()
    // }
     
-    override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row < self.allProducts!.count {
 
             var paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
             for product in self.allProducts! {
-                let upc = product["upc"] as NSString
-                let desc = product["description"] as NSString
-                let type = product["type"] as NSString
+                let upc = product["upc"] as! NSString
+                let desc = product["description"] as! NSString
+                let type = product["type"] as! NSString
                 paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":type ])
             }
             
@@ -85,7 +85,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             //contDetail.upc = upc
             //contDetail.name = desc
             
-            let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as IPASearchProductCollectionViewCell!
+            let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! IPASearchProductCollectionViewCell!
             currentCellSelected = indexPath
             let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
             //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
@@ -102,7 +102,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     }
     
     func reloadSelectedCell() {
-        let currentCell = collection!.cellForItemAtIndexPath(currentCellSelected) as IPASearchProductCollectionViewCell!
+        let currentCell = collection!.cellForItemAtIndexPath(currentCellSelected) as! IPASearchProductCollectionViewCell!
         currentCell.showImageView()
     }
     

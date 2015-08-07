@@ -20,7 +20,7 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
 
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_HELP_DETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         if self.titleLabel == nil {
@@ -38,11 +38,11 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     func loadPreview () {
         if self.type != nil {
             if self.titleText != nil {
-                self.titleLabel!.text = self.titleText!
+                self.titleLabel!.text = self.titleText! as String
             }
             
             if resource == "privacy" {
-                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
                 let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
                 let manager = NSFileManager.defaultManager()
                 
@@ -52,19 +52,19 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
                 }
             }
             else{
-                let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource, ofType: self.type)!
+                let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource as? String, ofType: self.type as? String)!
                 
                 switch self.type {
                 case "html":
-                    var  htmlString : NSString = NSString(contentsOfFile:htmlFile, encoding: NSUTF8StringEncoding, error: nil)!
+                    var  htmlString : NSString = NSString(contentsOfFile:htmlFile as String, encoding: NSUTF8StringEncoding, error: nil)!
                     
                     if imgFile != nil{
-                        let imgFilePath  = NSBundle.mainBundle().pathForResource(imgFile, ofType: "jpg")
+                        let imgFilePath  = NSBundle.mainBundle().pathForResource(imgFile as? String, ofType: "jpg")
                         htmlString = htmlString.stringByReplacingOccurrencesOfString("$pathImage$", withString: imgFilePath!)
                     }
-                    self.webShowDetail.loadHTMLString(htmlString, baseURL: nil)
+                    self.webShowDetail.loadHTMLString(htmlString as String, baseURL: nil)
                 case "pdf":
-                    let request = NSURLRequest(URL: NSURL(string: htmlFile)!)
+                    let request = NSURLRequest(URL: NSURL(string: htmlFile as String)!)
                     self.webShowDetail.loadRequest(request)
                 default :
                     break

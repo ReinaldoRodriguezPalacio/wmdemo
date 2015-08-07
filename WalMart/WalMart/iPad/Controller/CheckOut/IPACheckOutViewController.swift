@@ -13,8 +13,8 @@ class IPACheckOutViewController : CheckOutViewController {
     
     override func writeDeviceInfo(webView:UIWebView){
         
-        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as String
-        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as String
+        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
         let version = "\(majorVersion) (\(minorVersion))"
         
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_channel').value='2';")

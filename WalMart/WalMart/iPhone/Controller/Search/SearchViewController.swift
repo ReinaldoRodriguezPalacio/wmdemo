@@ -255,11 +255,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         super.didReceiveMemoryWarning()
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //        switch section {
         //        case 0:
         //            if (self.elements == nil || self.elements!.count == 0){
@@ -277,7 +277,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     /*
     *@method: Create a section view and return
     */
-    func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36.0))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36.0))
         titleView.textColor = WMColor.searchTitleSectionColor
@@ -343,7 +343,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return size
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         //        switch  indexPath.section {
         //        case 0:
         //            return 46.0
@@ -363,11 +363,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //
         //            return cell
         //        default:
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as SearchCategoriesViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
             if indexPath.row < self.elementsCategories?.count {
                 let item = self.elementsCategories![indexPath.row] as? NSDictionary
-                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:field!.text, andDepartament:item!["departament"] as NSString  )
+                cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:field!.text, andDepartament:item!["departament"] as! String  )
             }
         }
         
@@ -376,7 +376,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
     }
     
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         if textField.text != nil && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
             let toValidate : NSString = textField.text
@@ -403,7 +403,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     var code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                     var character = code
                     if self.isBarCodeUPC(code) {
-                        character = code.substringToIndex(advance(code.startIndex, countElements(code)-1 ))
+                        character = code.substringToIndex(advance(code.startIndex, count(code)-1 ))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true)
                     return true
@@ -430,7 +430,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return false
     }
     
-    func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if keyword.length() > 51{
@@ -442,13 +442,13 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return false
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //        if indexPath.section == 0 {
         //            let item = self.elements![indexPath.row] as? NSDictionary
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false)
         //        }else{
         let item = self.elementsCategories![indexPath.row] as? NSDictionary
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as NSString, andFamilyId: item!["idFamily"] as NSString, andLineId: item!["idLine"] as NSString, andTitleHeader:item!["title"] as NSString , andSearchContextType:item!["type"] as NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
         //        }
     }
     
@@ -597,11 +597,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.field!.becomeFirstResponder()
         if value != nil {
             self.field!.text = value
-            self.textFieldShouldReturn(self.field)
+            self.textFieldShouldReturn(self.field!)
             delegate.closeSearch(false, sender:nil)
-<<<<<<< HEAD
             done()
-=======
         }
     }
     
@@ -660,7 +658,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         var error: NSError?
         
         var regExVal = NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-        let matches = regExVal!.numberOfMatchesInString(toValidate, options: nil, range: NSMakeRange(0, countElements(toValidate)))
+        let matches = regExVal!.numberOfMatchesInString(toValidate, options: nil, range: NSMakeRange(0, count(toValidate)))
         
         if matches > 0 {
             return true
@@ -668,7 +666,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return false
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView){
         super.scrollViewWillBeginDragging(scrollView)
         self.view.endEditing(true)
     }
@@ -682,13 +680,14 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         if fullBarcode.toInt() == nil {
             return false
         }
-        let firstVal = (fullBarcode.substring(0, length: 1).toInt()! +
+        var firstVal = (fullBarcode.substring(0, length: 1).toInt()! +
             fullBarcode.substring(2, length: 1).toInt()! +
             fullBarcode.substring(4, length: 1).toInt()! +
             fullBarcode.substring(6, length: 1).toInt()! +
             fullBarcode.substring(8, length: 1).toInt()! +
             fullBarcode.substring(10, length: 1).toInt()! +
-            fullBarcode.substring(12, length: 1).toInt()!)  * 3
+            fullBarcode.substring(12, length: 1).toInt()!)
+            firstVal = firstVal * 3
         
         let secondVal = fullBarcode.substring(1, length: 1).toInt()! +
             fullBarcode.substring(3, length: 1).toInt()! +

@@ -22,7 +22,7 @@ class CamFindService : BaseService {
         
         self.callPOSTServiceCam(manager, params: paramsDic,
             successBlock: { (resultDic: NSDictionary) -> Void in
-                let resDic = [ "token" : resultDic.objectForKey("token") as String] as NSDictionary
+                let resDic = [ "token" : resultDic.objectForKey("token") as! String] as NSDictionary
                 successBlock!(resDic)
             })
             { (error:NSError) -> Void in

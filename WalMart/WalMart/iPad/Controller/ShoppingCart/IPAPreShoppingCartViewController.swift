@@ -38,7 +38,7 @@ class IPAPreShoppingCartViewController :  BaseController {
         //SCREEN
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         
@@ -261,7 +261,7 @@ class IPAPreShoppingCartViewController :  BaseController {
             self.viewSuper.frame = CGRectMake(-self.viewSuper.frame.width, self.viewSuper.frame.minY, self.viewSuper.frame.width, self.viewSuper.frame.height)
             }) { (complete:Bool) -> Void in
                 
-                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as IPAShoppingCartViewController
+                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartMGVC") as! IPAShoppingCartViewController
                 vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
                 vcResult.onClose = {(isClose:Bool) in
                     
@@ -311,7 +311,7 @@ class IPAPreShoppingCartViewController :  BaseController {
             self.viewMG.frame = CGRectMake(1024+self.viewMG.frame.width, self.viewMG.frame.minY, self.viewMG.frame.width, self.viewMG.frame.height)
             }) { (complete:Bool) -> Void in
                 
-                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartGRVC") as IPAGRShoppingCartViewController
+                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartGRVC") as! IPAGRShoppingCartViewController
                 vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
                 
                 vcResult.onClose = {(isClose:Bool) in

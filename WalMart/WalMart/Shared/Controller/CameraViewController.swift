@@ -176,7 +176,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
             if camera == CameraType.Back {
                 let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
                 for device in videoDevices{
-                    let device = device as AVCaptureDevice
+                    let device = device as! AVCaptureDevice
                     if device.position == AVCaptureDevicePosition.Front {
                         videoDevice = device
                         camera = CameraType.Front
@@ -197,7 +197,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
             else{
                 let videoDevices = AVCaptureDevice.devicesWithMediaType(AVMediaTypeVideo)
                 for device in videoDevices{
-                    let device = device as AVCaptureDevice
+                    let device = device as! AVCaptureDevice
                     if device.position == AVCaptureDevicePosition.Front {
                         videoDevice = device
                         camera = CameraType.Front
@@ -414,7 +414,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: NSDictionary) -> Void in
-                self.checkPhotoStatus(response.objectForKey("token") as String)
+                self.checkPhotoStatus(response.objectForKey("token") as! String)
             }, errorBlock: { (error:NSError) -> Void in
                 //ERROR
         })
@@ -434,10 +434,10 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         let service = CamFindService()
         service.checkImg(token,
             successBlock: { (response: NSDictionary) -> Void in
-                let resp = response.objectForKey("status") as String
+                let resp = response.objectForKey("status") as! String
                 switch resp {
                 case ("completed"):
-                    let name = response.objectForKey("name") as String
+                    let name = response.objectForKey("name") as! String
 //                    self.alertView!.setMessage("Imagen encontrada\n: \(name)")
 //                    self.alertView!.showDoneIcon()
                   
@@ -595,7 +595,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if UIApplicationOpenSettingsURLString != nil {
+            if UIApplicationOpenSettingsURLString.isEmpty {
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             }
         } else {

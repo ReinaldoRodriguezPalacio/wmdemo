@@ -101,7 +101,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         let totalPrice = NSString(format: "%.2f", totalInProducts)
         
-        super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice)
+        super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
 
@@ -109,7 +109,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         
         if saving != "" {
-            productPriceSavingLabel.text = saving
+            productPriceSavingLabel.text = saving as String
             productPriceSavingLabel.hidden = false
         }else{
             self.savingProduct = 0

@@ -89,7 +89,7 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         height += 17.0 //Name
         height += 12.0 //Distance
         height += 16.0
-        if let address = store.address? {
+        if let address = store.address {
             var text = "\(address) CP: \(store.zipCode!)"
             var addressSize = ClubLocatorTableViewCell.size(forText: text, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSizeMake(width_, CGFloat.max))
             height += addressSize.height

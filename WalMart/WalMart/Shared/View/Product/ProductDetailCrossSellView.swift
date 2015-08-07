@@ -78,16 +78,16 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier(self.cellReuseid, forIndexPath: indexPath) as ProductCollectionViewCell
+        let cell = collection.dequeueReusableCellWithReuseIdentifier(self.cellReuseid, forIndexPath: indexPath) as! ProductCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as NSDictionary
+        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
         
-        let desc = itemUPC["description"] as NSString
+        let desc = itemUPC["description"] as! NSString
         
         var price : NSString = ""
         
         if let value = itemUPC["price"] as? NSString {
-            price = itemUPC["price"] as NSString
+            price = itemUPC["price"] as! NSString
         }
         else if let value = itemUPC["price"] as? NSNumber {
             price = "\(value)"
@@ -98,16 +98,16 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         
         if let imageArray = itemUPC["imageUrl"] as? NSArray{
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as String
+                imageUrl = imageArray.objectAtIndex(0) as! String
             }
         }
         else
         if let imageArray = itemUPC["imageUrl"] as? NSString{
-            imageUrl = imageArray
+            imageUrl = imageArray as String
         }
     
         
-        cell.setValues(imageUrl, productShortDescription: desc, productPrice: price)
+        cell.setValues(imageUrl, productShortDescription: desc as String, productPrice: price as String)
         
         
         
@@ -127,12 +127,12 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var upcItems : [[String:String]] = []
-        var cell = collectionView.cellForItemAtIndexPath(indexPath) as ProductCollectionViewCell
+        var cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
         for upcStr in itemsUPC {
-            let upc = upcStr["upc"] as NSString
-            let desc = upcStr["description"] as NSString
+            let upc = upcStr["upc"] as! String
+            let desc = upcStr["description"] as! String
    
             upcItems.append(["upc":upc,"description":desc])
         }
@@ -141,7 +141,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                 action:WMGAIUtils.MG_EVENT_PRODUCTDETAIL_RELATEDPRODUCT.rawValue,
                 label: upc,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         

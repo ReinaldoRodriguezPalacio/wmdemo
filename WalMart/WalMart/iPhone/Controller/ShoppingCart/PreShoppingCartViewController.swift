@@ -37,7 +37,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
         //SCREEN
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         

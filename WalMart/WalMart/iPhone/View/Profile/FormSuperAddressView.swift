@@ -67,7 +67,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 if field! == self.zipcode {
-                    if self.zipcode.text.utf16Count > 0 {
+                    if count(self.zipcode.text.utf16) > 0 {
                         let xipStr = self.zipcode.text as NSString
                         self.zipcode.text = String(format: "%05d",xipStr.integerValue)
                         self.store.becomeFirstResponder()
@@ -85,7 +85,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelAddress!.textColor = WMColor.listAddressHeaderSectionColor
         
         self.addressName = FormFieldView()
-        self.addressName!.setPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.isRequired = true
         self.addressName!.typeField = TypeField.Name
         self.addressName!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
@@ -93,7 +93,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.addressName!.maxLength = 25
         
         self.street = FormFieldView()
-        self.street!.setPlaceholder(NSLocalizedString("gr.address.field.street",comment:""))
+        self.street!.setCustomPlaceholder(NSLocalizedString("gr.address.field.street",comment:""))
         self.street!.isRequired = true
         self.street!.typeField = TypeField.Alphanumeric
         self.street!.nameField = NSLocalizedString("gr.address.field.street",comment:"")
@@ -101,7 +101,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.street!.maxLength = 50
         
         self.outdoornumber = FormFieldView()
-        self.outdoornumber!.setPlaceholder(NSLocalizedString("gr.address.field.outdoornumber",comment:""))
+        self.outdoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.outdoornumber",comment:""))
         self.outdoornumber!.isRequired = true
         self.outdoornumber!.typeField = TypeField.NumAddress
         self.outdoornumber!.minLength = 0
@@ -109,7 +109,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.outdoornumber!.nameField = NSLocalizedString("gr.address.field.outdoornumber",comment:"")
         
         self.indoornumber = FormFieldView()
-        self.indoornumber!.setPlaceholder(NSLocalizedString("gr.address.field.indoornumber",comment:""))
+        self.indoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.indoornumber",comment:""))
         self.indoornumber!.isRequired = false
         self.indoornumber!.typeField = TypeField.NumAddress
         self.indoornumber!.minLength = 0
@@ -118,7 +118,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         
         self.zipcode = FormFieldView()
-        self.zipcode!.setPlaceholder(NSLocalizedString("gr.address.field.zipcode",comment:""))
+        self.zipcode!.setCustomPlaceholder(NSLocalizedString("gr.address.field.zipcode",comment:""))
         self.zipcode!.isRequired = true
         self.zipcode!.typeField = TypeField.Number
         self.zipcode!.minLength = 5
@@ -130,13 +130,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.zipcode!.delegate = self
         
         self.store = FormFieldView()
-        self.store!.setPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
+        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
         self.store!.isRequired = true
         self.store!.typeField = TypeField.List
         self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
         
         self.suburb = FormFieldView()
-        self.suburb!.setPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
+        self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
         self.suburb!.isRequired = true
         self.suburb!.typeField = TypeField.List
         self.suburb!.nameField = NSLocalizedString("gr.address.field.suburb",comment:"")
@@ -149,7 +149,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelBetween!.textColor = WMColor.listAddressHeaderSectionColor
         
         self.betweenFisrt = FormFieldView()
-        self.betweenFisrt!.setPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
+        self.betweenFisrt!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
         self.betweenFisrt!.isRequired = false
         self.betweenFisrt!.typeField = TypeField.Alphanumeric
         self.betweenFisrt!.nameField = NSLocalizedString("gr.address.field.betweenFisrt",comment:"")
@@ -157,7 +157,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.betweenFisrt!.maxLength = 100
         
         self.betweenSecond = FormFieldView()
-        self.betweenSecond!.setPlaceholder(NSLocalizedString("gr.address.field.betweenSecond",comment:""))
+        self.betweenSecond!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenSecond",comment:""))
         self.betweenSecond!.isRequired = false
         self.betweenSecond!.typeField = TypeField.Alphanumeric
         self.betweenSecond!.nameField = NSLocalizedString("gr.address.field.betweenSecond",comment:"")
@@ -170,7 +170,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelPhone!.textColor = WMColor.listAddressHeaderSectionColor
         
         self.phoneHomeNumber = FormFieldView()
-        self.phoneHomeNumber!.setPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
+        self.phoneHomeNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
         self.phoneHomeNumber!.typeField = TypeField.Number
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHomeNumber!.minLength = 10
@@ -179,7 +179,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneHomeNumber!.inputAccessoryView = viewAccess
         
         self.phoneWorkNumber = FormFieldView()
-        self.phoneWorkNumber!.setPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
+        self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
         self.phoneWorkNumber!.typeField = TypeField.Number
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 10
@@ -188,7 +188,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
         
         self.cellPhone = FormFieldView()
-        self.cellPhone!.setPlaceholder(NSLocalizedString("profile.address.field.telephone.cell",comment:""))
+        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.cell",comment:""))
         self.cellPhone!.typeField = TypeField.Number
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
@@ -198,9 +198,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         
         if UserCurrentSession.sharedInstance().userSigned != nil {
-            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone
-            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber
-            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber
+            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
+            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
+            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
         }
         
         
@@ -238,8 +238,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.selectedStore = nil
                 
                 var padding : String = ""
-                if countElements(zipCode) < 5 {
-                    padding =  padding.stringByPaddingToLength( 5 - countElements(zipCode) , withString: "0", startingAtIndex: 0)
+                if count(zipCode) < 5 {
+                    padding =  padding.stringByPaddingToLength( 5 - count(zipCode) , withString: "0", startingAtIndex: 0)
                 }
                 
                 if (padding + zipCode ==  "00000") {
@@ -258,17 +258,17 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     self.neighborhoods = []
                     self.stores = []
                     
-                    let zipreturned = result["zipCode"] as NSString
+                    let zipreturned = result["zipCode"] as! String
                     self.zipcode.text = zipreturned
                     
-                    self.neighborhoodsDic = result["neighborhoods"] as [NSDictionary]
+                    self.neighborhoodsDic = result["neighborhoods"] as! [NSDictionary]
                     for dic in  self.neighborhoodsDic {
-                        self.neighborhoods.append(dic["name"] as String!)
+                        self.neighborhoods.append(dic["name"] as! String!)
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
-                    self.storesDic = result["stores"] as [NSDictionary]
+                    self.storesDic = result["stores"] as! [NSDictionary]
                     for dic in  self.storesDic {
-                        let name = dic["name"] as String!
-                        let cost = dic["cost"] as String!
+                        let name = dic["name"] as! String!
+                        let cost = dic["cost"] as! String!
                         self.stores.append("\(name) - \(cost)")
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                     
@@ -531,14 +531,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text, work: self.phoneWorkNumber.text, cellPhone: self.cellPhone.text)
         
         
-        let strCity = resultDict["city"] as String!
-        let zipCode = resultDict["zipCode"] as String!
+        let strCity = resultDict["city"] as! String!
+        let zipCode = resultDict["zipCode"] as! String!
         let street =  self.street!.text
         let innerNumber =  self.indoornumber!.text
-        let state =  resultDict["state"] as String!
-        let county =  resultDict["county"] as String!
+        let state =  resultDict["state"] as! String!
+        let county =  resultDict["county"] as! String!
         let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
-        let neightId = neightDict["id"] as String!
+        let neightId = neightDict["id"] as! String!
         let name = self.addressName.text
         let outerNumber =  self.outdoornumber!.text
         let referenceOne =  self.betweenFisrt!.text
@@ -547,7 +547,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         var  storeId = ""
         if self.storesDic.count > 0 {
             let storeDict =  self.storesDic[selectedStore.row]
-            storeId = storeDict["id"] as String!
+            storeId = storeDict["id"] as! String!
         }
         
         var action = "A"
@@ -562,9 +562,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func validateShortName(addressId:String)-> Bool {
         var id = addressId == "" ? "-1" : addressId
-        for item in  self.allAddress as [NSDictionary]{
-            var idItem = item["id"] as NSString
-            var name = item["name"] as NSString
+        for item in  self.allAddress as! [NSDictionary]{
+            var idItem = item["id"] as! String
+            var name = item["name"] as! String
             if id != idItem && name.uppercaseString ==  addressName!.text.uppercaseString {
                 self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
@@ -602,10 +602,10 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             self.neighborhoods = []
             self.stores = []
             
-            self.neighborhoodsDic = result["neighborhoods"] as [NSDictionary]
+            self.neighborhoodsDic = result["neighborhoods"] as! [NSDictionary]
             for dic in  self.neighborhoodsDic {
-                self.neighborhoods.append(dic["name"] as String!)
-                let idNeighborhood = dic["id"] as String!
+                self.neighborhoods.append(dic["name"] as! String!)
+                let idNeighborhood = dic["id"] as! String!
                 if neighborhoodID == idNeighborhood {
                     self.suburb!.text = self.neighborhoods[0]
                     self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
@@ -616,14 +616,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 }
             }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
             
-            self.storesDic = result["stores"] as [NSDictionary]
+            self.storesDic = result["stores"] as! [NSDictionary]
             for dic in  self.storesDic {
-                let name = dic["name"] as String!
-                let cost = dic["cost"] as String!
+                let name = dic["name"] as! String!
+                let cost = dic["cost"] as! String!
                 
                 self.stores.append("\(name) - \(cost)")
                 
-                let idStore = dic["id"] as String!
+                let idStore = dic["id"] as! String!
                 if idStore == storeID {
                     self.store!.text = self.stores[self.stores.count - 1]
                     self.selectedStore = NSIndexPath(forRow: self.stores.count - 1, inSection: 0)

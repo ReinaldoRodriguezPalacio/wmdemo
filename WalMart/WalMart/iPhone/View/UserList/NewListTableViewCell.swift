@@ -81,7 +81,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         let strNSString : NSString = textField.text
         let newString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         
-        return (countElements(newString) > 25) ? false : true
+        return (count(newString) > 25) ? false : true
     }
     
     //MARK: - Actions

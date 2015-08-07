@@ -51,7 +51,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ProfileViewCell", forIndexPath: indexPath) as ProfileViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ProfileViewCell", forIndexPath: indexPath) as! ProfileViewCell
         
         if indexPath.row == 0 {
             cell.setValues(NSLocalizedString("profile.misarticulos", comment: ""), image: "topSales", size:16 ,  colorText: UIColor.whiteColor(), colorSeparate: UIColor.whiteColor() )
@@ -66,7 +66,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
         return cell
     }
     
-    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
        selected = indexPath.row
        self.delegate.selectedDetail(indexPath.row)
        self.table.reloadData()
@@ -81,7 +81,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         sender.selected = !sender.selected

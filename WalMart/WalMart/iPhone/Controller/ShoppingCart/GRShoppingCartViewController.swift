@@ -195,7 +195,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func loadGRShoppingCart() {
         if UserCurrentSession.sharedInstance().itemsGR != nil {
-            self.itemsInCart = UserCurrentSession.sharedInstance().itemsGR!["items"] as [AnyObject]
+            self.itemsInCart = UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
             self.tableShoppingCart.reloadData()
             self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
         }
@@ -212,7 +212,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         
         if indexPath.row == itemsInCart.count {
-        var tblTotalCell = tableShoppingCart.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as GRShoppingCartTotalsTableViewCell
+        var tblTotalCell = tableShoppingCart.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             tblTotalCell.setValues("", iva: "",
                 
                 total: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
@@ -222,15 +222,15 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             return tblTotalCell
         }
         
-        var tblShoppingCell = tableShoppingCart.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as GRProductShoppingCartTableViewCell
+        var tblShoppingCell = tableShoppingCart.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! GRProductShoppingCartTableViewCell
         
         tblShoppingCell.selectionStyle = UITableViewCellSelectionStyle.None
         tblShoppingCell.rightUtilityButtons = getRightButton()
         tblShoppingCell.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
         
-        let itemProduct = itemsInCart[indexPath.row] as NSDictionary
+        let itemProduct = itemsInCart[indexPath.row] as! NSDictionary
         
-        let upc = itemProduct["upc"] as String
+        let upc = itemProduct["upc"] as! String
         var quantity : Int = 0
         if  let qIntProd = itemProduct["quantity"] as? Int {
             quantity = qIntProd
@@ -240,7 +240,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         
-        let imgUrl = itemProduct["imageUrl"] as String
+        let imgUrl = itemProduct["imageUrl"] as! String
         var price : Double = 0.0
         
         if  let qIntProd = itemProduct["price"] as? Double {
@@ -251,11 +251,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         var saving = ""
-        if  let savingProd = itemProduct["promoDescription"] as? NSString {
+        if  let savingProd = itemProduct["promoDescription"] as? String {
             saving = savingProd
         }
         
-        let description = itemProduct["description"] as String
+        let description = itemProduct["description"] as! String
         var priceStr = "\(price)"
         var typeProdVal : Int = 0
         if let typeProd = itemProduct["type"] as? NSString {
@@ -317,7 +317,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         return tblShoppingCell
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == itemsInCart.count {
             return 80
         }
@@ -340,7 +340,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_SHOPPINGCART.rawValue,
                 action: WMGAIUtils.EVENT_GR_EVENT_SHOPPINGCART_SHOP.rawValue,
-                label: "", value: nil).build())
+                label: "", value: nil).build() as [NSObject : AnyObject])
         }
         
         self.buttonShop!.enabled = false
@@ -650,8 +650,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  itemsInCart {
-            let upc = shoppingCartProduct["upc"] as NSString
-            let desc = shoppingCartProduct["description"] as NSString
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
             let type = ResultObjectType.Groceries.rawValue
             upcItems.append(["upc":upc,"description":desc,"type":type])
         }
@@ -661,8 +661,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     //MARK: Delete item 
     
     func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemGRSC = itemsInCart[indexPath.row] as [String:AnyObject]
-        let upc = itemGRSC["upc"] as NSString
+        let itemGRSC = itemsInCart[indexPath.row] as! [String:AnyObject]
+        let upc = itemGRSC["upc"] as! String
         
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
@@ -702,7 +702,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
         for itemWishlist in self.itemsInCart {
-            let upc = itemWishlist["upc"] as NSString
+            let upc = itemWishlist["upc"] as! String
            allUPCS.append(upc)
         }
         
@@ -834,9 +834,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         var service = GRAddItemListService()
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
-            let item = self.itemsInCart[idx] as [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as String
+            let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -845,7 +845,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 quantity = qIntProd.integerValue
             }
             var pesable = "0"
-            if  let pesableP = item["type"] as? NSString {
+            if  let pesableP = item["type"] as? String {
                 pesable = pesableP
             }
             var active = true
@@ -874,12 +874,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
-            let item = self.itemsInCart[idx] as [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -903,13 +903,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
 
             var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
-            detail!.upc = item["upc"] as String
-            detail!.desc = item["description"] as String
+            detail!.upc = item["upc"] as! String
+            detail!.desc = item["description"] as! String
             detail!.price = "\(price)"
             detail!.quantity = NSNumber(integer: quantity)
             detail!.type = NSNumber(integer: typeProdVal)
             detail!.list = list
-            detail!.img = item["imageUrl"] as String
+            detail!.img = item["imageUrl"] as! String
         }
         
         var error: NSError? = nil
@@ -967,9 +967,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
-            let item = self.itemsInCart[idx] as [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as String
+            let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
                 quantity = qIntProd.integerValue
@@ -981,15 +981,15 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if  let priceNum = item["price"] as? NSNumber {
                 price = "\(priceNum)"
             }
-            else if  let priceTxt = item["price"] as? NSString {
+            else if  let priceTxt = item["price"] as? String {
                 price = priceTxt
             }
 
             let imgUrl = item["imageUrl"] as? String
             let description = item["description"] as? String
-            let type = item["type"] as? NSString
+            let type = item["type"] as? String
 
-            var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
+            var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
             products.append(serviceItem)
         }
         

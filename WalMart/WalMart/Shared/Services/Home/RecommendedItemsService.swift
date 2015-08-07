@@ -30,7 +30,7 @@ class RecommendedItemsService : BaseService {
         let values = getDataFromFile(fileName)
         if values != nil {
             if values!.count > 0 {
-                response = values![JSON_RECOMMENDED_ITEMS] as [[String:AnyObject]]
+                response = values![JSON_RECOMMENDED_ITEMS] as! [[String:AnyObject]]
             }
         }
         return response

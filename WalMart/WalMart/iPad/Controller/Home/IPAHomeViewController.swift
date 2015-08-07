@@ -21,7 +21,7 @@ class IPAHomeViewController : HomeViewController {
 
     }
     
-    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         switch (indexPath.section,indexPath.row) {
         case (0,0):
             return CGSizeMake(1024, 274)
@@ -32,28 +32,28 @@ class IPAHomeViewController : HomeViewController {
         }
     }
     
-    override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 1 {
             
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as [AnyObject]
+            let arrayItemsResult =  arrayItems as! [AnyObject]
           
             var paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
             for productRecomm  in arrayItemsResult {
-                let upc = productRecomm["upc"] as NSString
-                let desc = productRecomm["description"] as NSString
-                let type = productRecomm["type"] as NSString
+                let upc = productRecomm["upc"] as! String
+                let desc = productRecomm["description"] as! String
+                let type = productRecomm["type"] as! String
                 paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
                 
                 if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue , action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue), label: upc , value: nil).build())
+                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue , action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue), label: upc , value: nil).build() as [NSObject : AnyObject])
                 }
             }
             
-            let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as IPAProductHomeCollectionViewCell!
+            let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! IPAProductHomeCollectionViewCell!
             currentCellSelected = indexPath
             let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
             paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)

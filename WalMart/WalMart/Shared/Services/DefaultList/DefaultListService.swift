@@ -39,7 +39,7 @@ class DefaultListService : GRBaseService {
         var response : [[String:AnyObject]] = []
         let values = self.getDataFromFile(self.fileName)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as [[String:AnyObject]]
+            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
         }
         return response
     }

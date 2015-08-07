@@ -15,11 +15,7 @@ class ShippingAddress: AddressView {
    
     var titleLabelShiping: UILabel!
     //var lineViewShiping : UIView!
-    
-    override init() {
-        super.init()
-    }
-    
+
     override init(frame: CGRect, isLogin: Bool, isIpad:Bool) {
         super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
     }
@@ -31,7 +27,7 @@ class ShippingAddress: AddressView {
     override func setup(){
         super.setup()
         self.name = FormFieldView()
-        self.name!.setPlaceholder(NSLocalizedString("profile.address.shiping.name",comment:""))
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.name",comment:""))
         self.name!.isRequired = true
         self.name!.typeField = TypeField.Name
         self.name!.nameField = NSLocalizedString("profile.address.shiping.name",comment:"")
@@ -39,7 +35,7 @@ class ShippingAddress: AddressView {
         self.name!.maxLength = 25
         
         self.lastName = FormFieldView()
-        self.lastName!.setPlaceholder(NSLocalizedString("profile.address.shiping.lastname",comment:""))
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.lastname",comment:""))
         self.lastName!.isRequired = true
         self.lastName!.typeField = TypeField.String
         self.lastName!.nameField = NSLocalizedString("profile.address.shiping.lastname",comment:"")
@@ -88,12 +84,12 @@ class ShippingAddress: AddressView {
     }
     
     
-    override func setItem(itemValues: NSDictionary) {
-        super.setItem(itemValues)
+    override func setItemWithDictionary(itemValues: NSDictionary) {
+        super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.name!.text = self.item!["firstName"] as String
-            self.lastName!.text = self.item!["lastName"] as String
-            self.telephone!.text = self.item!["phoneNumber"] as String
+            self.name!.text = self.item!["firstName"] as! String
+            self.lastName!.text = self.item!["lastName"] as! String
+            self.telephone!.text = self.item!["phoneNumber"] as! String
         }
     }
     

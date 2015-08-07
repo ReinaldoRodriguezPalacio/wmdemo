@@ -92,8 +92,8 @@ class DetailListViewCell: ProductTableViewCell {
     }
     
 
-    func setValues(product:[String:AnyObject],disabled:Bool) {
-        var imageUrl = product["imageUrl"] as String
+    func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
+        var imageUrl = product["imageUrl"] as! String
         self.productImage!.contentMode = UIViewContentMode.Center
         self.productImage!.setImageWithURL(NSURL(string: imageUrl),
             placeholderImage: UIImage(named:"img_default_table"),
@@ -139,8 +139,8 @@ class DetailListViewCell: ProductTableViewCell {
         }
         
         if let type = product["type"] as? String {
-            let quantity = product["quantity"] as NSNumber
-            var price = product["price"] as NSNumber
+            let quantity = product["quantity"] as! NSNumber
+            var price = product["price"] as! NSNumber
             var text: String? = ""
             var total: Double = 0.0
             //Piezas
@@ -292,7 +292,7 @@ class DetailListViewCell: ProductTableViewCell {
         
         let imageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let colorSpace = CGColorSpaceCreateDeviceGray()
-        let context = CGBitmapContextCreate(nil, UInt(image.size.width),  UInt(image.size.height), 8, 0, colorSpace, CGBitmapInfo.allZeros)
+        let context = CGBitmapContextCreate(nil, Int(image.size.width),  Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo.allZeros)
         CGContextDrawImage(context, imageRect,image.CGImage)
         let imageRef = CGBitmapContextCreateImage(context)
         let newImage = UIImage(CGImage: imageRef)

@@ -52,13 +52,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_LOGIN.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
         self.email = UIEdgeTextFieldImage()
         self.email?.imageSelected = UIImage(named: "fieldEmailOn")
         self.email?.imageNotSelected = UIImage(named: "fieldEmailOn")
-        self.email!.setPlaceholder(NSLocalizedString("profile.email",comment:""))
+        self.email!.setPlaceholderEdge(NSLocalizedString("profile.email",comment:""))
         self.email!.keyboardType = UIKeyboardType.EmailAddress
         self.email!.typeField = TypeField.Email
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
@@ -67,7 +67,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.password = UIEdgeTextFieldImage()
         self.password?.imageNotSelected = UIImage(named: "fieldPasswordOn")
         self.password?.imageSelected = UIImage(named: "fieldPasswordOn")
-        self.password!.setPlaceholder(NSLocalizedString("profile.password",comment:""))
+        self.password!.setPlaceholderEdge(NSLocalizedString("profile.password",comment:""))
         self.password!.secureTextEntry = true
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
@@ -274,7 +274,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SIGNUP.rawValue,
                         action:WMGAIUtils.EVENT_LOGIN_CREATEACCOUNT.rawValue,
                         label: nil ,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 let service = LoginService()
@@ -335,7 +335,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LOGIN.rawValue,
                                 action: WMGAIUtils.EVENT_LOGIN_USERDIDLOGIN.rawValue ,
                                 label: nil,
-                                value: nil).build())
+                                value: nil).build() as [NSObject : AnyObject])
                         }
             
             self.alertView?.okCancelCallBack = self.okCancelCallBack
@@ -376,7 +376,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }
             
             }
-            , {(error: NSError) in
+            , errorBlock: {(error: NSError) in
                 println("error")
                 if error.code == -300 {
                     self.signInButton!.enabled = true
@@ -390,7 +390,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                                 for dictAddress in shippingAddress {
                                     if let pref = dictAddress["preferred"] as? NSNumber{
                                         if pref == 1{
-                                            alertAddress.setData(dictAddress as NSDictionary)
+                                            alertAddress.setData(dictAddress as! NSDictionary)
                                         }
                                     }
                                 }
@@ -479,7 +479,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     func viewError(field: UIEdgeTextFieldImage)-> Bool{
         var message = field.validate()
-        if countElements(message) > 0 {
+        if count(message) > 0 {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }

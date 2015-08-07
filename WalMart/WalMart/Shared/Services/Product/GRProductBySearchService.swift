@@ -44,13 +44,13 @@ class GRProductBySearchService: GRBaseService {
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
                     var newItemsArray = Array<AnyObject>()
                     for var idx = 0; idx < items.count; idx++ {
-                        var item = items[idx] as [String:AnyObject]
+                        var item = items[idx] as! [String:AnyObject]
                         if let promodesc = item["promoDescription"] as? String{
                             if promodesc != "null" {
                                 item["saving"] = promodesc
                             }
                         }
-                        item["pesable"] =  item["type"] as NSString
+                        item["pesable"] =  item["type"] as! NSString
                         item["type"] = ResultObjectType.Groceries.rawValue
                         newItemsArray.append(item)
                     }

@@ -41,12 +41,12 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
     }
 
     
-    func callCoreDataService(upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(buildParams(upc), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataServiceWithString(upc:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callCoreDataService(buildParams(upc), successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         if let parameter = params["parameter"] as? [String] {
@@ -56,7 +56,7 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                     if UserCurrentSession.sharedInstance().userSigned != nil {
                         predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
                     }
-                    let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as [Cart]
+                    let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                     
                     for cartDelete in array {
                         cartDelete.status = NSNumber(integer:CartStatus.Deleted.rawValue)

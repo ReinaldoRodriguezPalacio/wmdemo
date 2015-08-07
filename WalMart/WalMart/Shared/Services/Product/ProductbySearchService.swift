@@ -34,19 +34,19 @@ class ProductbySearchService : BaseService {
                     errorBlock?(error)
                     return
                 }
-                let itemObjectResult = resultJSON[JSON_KEY_RESPONSEOBJECT] as NSDictionary
+                let itemObjectResult = resultJSON[JSON_KEY_RESPONSEOBJECT] as! NSDictionary
                 var newItemsArray = Array<AnyObject>()
                 if let items = itemObjectResult["items"] as? NSArray {
                     //println(items)
                     self.saveKeywords(items) //Creating keywords
                     for var idx = 0; idx < items.count; idx++ {
-                        var item = items[idx] as [String:AnyObject]
+                        var item = items[idx] as! [String:AnyObject]
                         item["type"] = ResultObjectType.Mg.rawValue
                         newItemsArray.append(item)
                     }
                 }
                 var facets = Array<AnyObject>()
-                if let itemsFacets = itemObjectResult["facet"] as? NSArray {
+                if let itemsFacets = itemObjectResult["facet"] as? [AnyObject] {
                     facets = itemsFacets
                 }
                 successBlock?(newItemsArray,facet: facets)

@@ -13,8 +13,8 @@ import Foundation
 class PreShoppingCartAnimationController : UIStoryboardSegue {
     
     override func perform() {
-        let srcViewController = self.sourceViewController as UIViewController
-        let destController = self.destinationViewController as UIViewController
+        let srcViewController = self.sourceViewController as! UIViewController
+        let destController = self.destinationViewController as! UIViewController
         
         var yPointOpen : CGFloat  = 50.0
         if let  srcViewControllerPSC = srcViewController as? PreShoppingCartViewController {

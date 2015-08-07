@@ -55,10 +55,6 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
     }
     
-    override init() {
-        super.init()
-    }
-    
     init(frame: CGRect, isLogin: Bool, isIpad: Bool) {
         super.init(frame: frame)
         self.isLogin! = isLogin
@@ -96,7 +92,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
         self.keyboardBar = viewAccess
         shortNameField = FormFieldView()
-        shortNameField!.setPlaceholder(NSLocalizedString("profile.address.shortName",comment:""))
+        shortNameField!.setCustomPlaceholder(NSLocalizedString("profile.address.shortName",comment:""))
         self.shortNameField!.isRequired = true
         self.shortNameField!.typeField = TypeField.String
         self.shortNameField!.minLength = 3
@@ -104,7 +100,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.shortNameField!.nameField = NSLocalizedString("profile.address.shortName",comment:"")
         
         street = FormFieldView()
-        street!.setPlaceholder(NSLocalizedString("profile.address.street",comment:""))
+        street!.setCustomPlaceholder(NSLocalizedString("profile.address.street",comment:""))
         self.street!.isRequired = true
         self.street!.typeField = TypeField.Alphanumeric
         self.street!.minLength = 2
@@ -112,7 +108,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.street!.nameField = NSLocalizedString("profile.address.street",comment:"")
         
         outdoornumber = FormFieldView()
-        outdoornumber!.setPlaceholder(NSLocalizedString("profile.address.outdoornumber",comment:""))
+        outdoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.outdoornumber",comment:""))
         self.outdoornumber!.isRequired = true
         self.outdoornumber!.typeField = TypeField.NumAddress
         self.outdoornumber!.minLength = 0
@@ -120,7 +116,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.outdoornumber!.nameField = NSLocalizedString("profile.address.outdoornumber",comment:"")
         
         indoornumber = FormFieldView()
-        indoornumber!.setPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
+        indoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
         self.indoornumber!.isRequired = false
         self.indoornumber!.typeField = TypeField.NumAddress
         self.indoornumber!.minLength = 0
@@ -128,7 +124,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.indoornumber!.nameField = NSLocalizedString("profile.address.indoornumber",comment:"")
         
         zipcode = FormFieldView()
-        zipcode!.setPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
+        zipcode!.setCustomPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
         self.zipcode!.isRequired = true
         self.zipcode!.typeField = TypeField.Number
         self.zipcode!.minLength = 5
@@ -139,7 +135,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.zipcode!.inputAccessoryView = self.keyboardBar
         
         suburb = FormFieldView()
-        suburb!.setPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
+        suburb!.setCustomPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
         self.suburb!.isRequired = true
         self.suburb!.typeField = TypeField.List
         self.suburb!.nameField = NSLocalizedString("profile.address.suburb",comment:"")
@@ -148,7 +144,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.suburb!.hidden = true
         
         municipality = FormFieldView()
-        municipality!.setPlaceholder(NSLocalizedString("profile.address.municipality",comment:""))
+        municipality!.setCustomPlaceholder(NSLocalizedString("profile.address.municipality",comment:""))
         self.municipality!.isRequired = true
         self.municipality!.typeField = TypeField.None
         self.municipality!.nameField = NSLocalizedString("profile.address.municipality",comment:"")
@@ -156,7 +152,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.municipality!.hidden = true
         
         city = FormFieldView()
-        city!.setPlaceholder(NSLocalizedString("profile.address.city",comment:""))
+        city!.setCustomPlaceholder(NSLocalizedString("profile.address.city",comment:""))
         self.city!.isRequired = true
         self.city!.typeField = TypeField.None
         self.city!.nameField = NSLocalizedString("profile.address.city",comment:"")
@@ -164,7 +160,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.city!.hidden = true
         
         state = FormFieldView()
-        state!.setPlaceholder(NSLocalizedString("profile.address.state",comment:""))
+        state!.setCustomPlaceholder(NSLocalizedString("profile.address.state",comment:""))
         self.state!.isRequired = true
         self.state!.typeField = TypeField.None
         self.state!.nameField = NSLocalizedString("profile.address.state",comment:"")
@@ -197,7 +193,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.preferedLabel!.textAlignment = .Right
         
         self.telephone = FormFieldView()
-        self.telephone!.setPlaceholder(NSLocalizedString("profile.address.field.telephone",comment:""))
+        self.telephone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone",comment:""))
         self.telephone!.isRequired = true
         self.telephone!.typeField = TypeField.Number
         self.telephone!.nameField = NSLocalizedString("profile.address.telephone",comment:"")
@@ -250,20 +246,20 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
     }
     
-    func setItem(itemValues: NSDictionary) {
+    func setItemWithDictionary(itemValues: NSDictionary) {
         self.item = itemValues
         if self.item != nil{
-            if let id = self.item!["addressID"] as String?{
-                idAddress = self.item!["addressID"] as String?
-                self.shortNameField!.text  = self.item!["name"] as String
-                self.street!.text = self.item!["street"] as String
-                self.zipcode!.text = self.item!["zipCode"] as String
-                self.outdoornumber!.text = self.item!["outerNumber"] as String
-                self.indoornumber!.text = self.item!["innerNumber"] as String
+            if let id = self.item!["addressID"] as! String?{
+                idAddress = self.item!["addressID"] as! String?
+                self.shortNameField!.text  = self.item!["name"] as! String
+                self.street!.text = self.item!["street"] as! String
+                self.zipcode!.text = self.item!["zipCode"] as! String
+                self.outdoornumber!.text = self.item!["outerNumber"] as! String
+                self.indoornumber!.text = self.item!["innerNumber"] as! String
                 idSuburb = self.item!["neighborhoodId"] as? String
-                self.municipality!.text = self.item!["county"] as String
-                self.city!.text = self.item!["city"] as String
-                self.state!.text = self.item!["state"] as String
+                self.municipality!.text = self.item!["county"] as! String
+                self.city!.text = self.item!["city"] as! String
+                self.state!.text = self.item!["state"] as! String
                 if let prefered = self.item!["preferred"] as? NSNumber{
                     if prefered==1{
                         self.preferedLabel!.text = NSLocalizedString("profile.address.prefered",comment:"")
@@ -274,7 +270,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField!) {
+    func textFieldDidEndEditing(textField: UITextField) {
         if textField == zipcode{
             self.callServiceZip(textField.text, showError: true)
         }
@@ -287,20 +283,20 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
     }
     
-    func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         
         if self.delegate != nil{
-            self.delegate!.textModify(textField!)
+            self.delegate!.textModify(textField)
         }
         if textField == self.telephone{
-            if countElements(keyword) == 10{
+            if count(keyword) == 10{
                 textField.text = keyword
                 self.shortNameField?.becomeFirstResponder()
                 return false
             }
-            else  if countElements(keyword) > 10 {
+            else  if count(keyword) > 10 {
                 return false
             }
             else {
@@ -312,10 +308,10 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             if keyword.toInt() == nil && keyword != "" {
                 return false
             }
-            if countElements(keyword) == 5{
+            if count(keyword) == 5{
                 self.callServiceZip(keyword, showError:true)
             }
-            else if countElements(keyword) > 5 {
+            else if count(keyword) > 5 {
                 return false
             }
         }
@@ -325,12 +321,12 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     func callServiceZip(zipCodeUsr: String, showError:Bool){
         
         var zipCode = zipCodeUsr.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        if countElements(zipCode)==0 {
+        if count(zipCode)==0 {
             return
         }
         var padding : String = ""
-        if countElements(zipCode) < 5 {
-            padding =  padding.stringByPaddingToLength( 5 - countElements(zipCode) , withString: "0", startingAtIndex: 0)
+        if count(zipCode) < 5 {
+            padding =  padding.stringByPaddingToLength( 5 - count(zipCode) , withString: "0", startingAtIndex: 0)
         }
         
         if (padding + zipCode ==  "00000") {
@@ -358,29 +354,29 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             self.viewLoad.stopAnnimating()
             if let city = resultCall!["city"] as? String {
                 self.city!.text = city
-                self.municipality!.text = resultCall!["county"] as String
-                self.state!.text = resultCall!["state"] as String
-                self.zipcode!.text = resultCall!["zipCode"] as String
+                self.municipality!.text = resultCall!["county"] as! String
+                self.state!.text = resultCall!["state"] as! String
+                self.zipcode!.text = resultCall!["zipCode"] as! String
                 var setElement = false
                 if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.listSuburb.count == 0  {
-                    for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                    for dic in  resultCall!["neighborhoods"] as! [NSDictionary]{
                         if dic["id"] as? String ==  self.idSuburb{
-                            self.suburb!.text = dic["name"] as String
+                            self.suburb!.text = dic["name"] as! String
                             setElement = true
                             break
                         }// if dic["id"] as? String ==  self.idSuburb{
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 }//if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.listSuburb.count == 0  {
-                self.listSuburb = resultCall!["neighborhoods"] as [NSDictionary]
+                self.listSuburb = resultCall!["neighborhoods"] as! [NSDictionary]
                 self.validateShowField()
                 if !setElement && self.listSuburb.count > 0  {
                     self.suburb?.becomeFirstResponder()
-                    self.suburb!.text = self.listSuburb[0].objectForKey("name") as String
+                    self.suburb!.text = self.listSuburb[0].objectForKey("name") as! String
                     self.idSuburb = self.listSuburb[0].objectForKey("id") as? String
                 }//if setElement && self.listSuburb.count > 0  {
                 self.pickerSuburb!.reloadAllComponents()
             }
-            }, {(error: NSError) in
+            }, errorBlock: {(error: NSError) in
                 self.listSuburb = []
                 self.pickerSuburb!.reloadAllComponents()
                 self.idSuburb = ""
@@ -445,9 +441,9 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         if listSuburb.count > 0 {
             if row == 0 {
                 self.idSuburb = listSuburb[row].objectForKey("id") as? String
-                suburb!.text = listSuburb[row].objectForKey("name") as String
+                suburb!.text = listSuburb[row].objectForKey("name") as! String
             }
-            return listSuburb[row].objectForKey("name") as String
+            return listSuburb[row].objectForKey("name") as! String
         }
         return ""
     }
@@ -456,7 +452,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         if listSuburb.count > 0 {
             delegate.textModify(suburb!)
             self.idSuburb = listSuburb[row].objectForKey("id") as? String
-            suburb!.text = listSuburb[row].objectForKey("name") as String
+            suburb!.text = listSuburb[row].objectForKey("name") as! String
         }
     }
     
@@ -509,9 +505,9 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     
     func validateShortName()-> Bool {
         var id = self.idAddress == nil ? "-1" : self.idAddress!
-        for item in  self.allAddress as [NSDictionary]{
-            var idItem = item["addressID"] as NSString
-            var name = item["name"] as NSString
+        for item in  self.allAddress as! [NSDictionary]{
+            var idItem = item["addressID"] as! NSString
+            var name = item["name"] as! NSString
             if id != idItem && name.uppercaseString ==  shortNameField!.text.uppercaseString {
                 self.viewError(shortNameField!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true

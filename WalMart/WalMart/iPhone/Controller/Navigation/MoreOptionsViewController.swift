@@ -61,7 +61,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MORE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         tableView  = UITableView(frame: CGRectZero)
         tableView!.registerClass(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
@@ -123,7 +123,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as MoreMenuViewCell
+        var cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as! MoreMenuViewCell
         
         
         var currentOption : Int = 0
@@ -200,7 +200,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
                         action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
                         label: nil,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 let controller = EditProfileViewController()
@@ -213,7 +213,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 self.navigationController!.pushViewController(controller, animated: true)
         case .Address:
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
             let controller = MyAddressViewController()
@@ -236,7 +236,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 46.0
     }
     
@@ -304,7 +304,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_CLOSESESSION.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
@@ -336,6 +336,23 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         })
     }
     
+    //MARK CameraViewControllerDelegate
+    func photoCaptured(value: String?,done: (() -> Void))
+    {
+        if value != nil || value == "" {
+            if let tracker = GAI.sharedInstance().defaultTracker {
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
+            }
+            
+            let controller = SearchProductViewController()
+            controller.searchContextType = .WithText
+            controller.titleHeader = value
+            controller.textToSearch = value
+            var controllernav = self.navigationController
+            controllernav?.pushViewController(controller, animated: true)
+        }
+    }
+    
     
     func reloadButtonSession() {
         if UserCurrentSession.sharedInstance().userSigned == nil {
@@ -345,7 +362,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
         } else {
             self.editProfileButton.alpha = 1
-            userName?.text = UserCurrentSession.sharedInstance().userSigned?.profile.name
+            userName?.text = UserCurrentSession.sharedInstance().userSigned?.profile.name as? String
             signInOrClose?.backgroundColor = WMColor.regular_blue
             signInOrClose?.setTitle("Cerrar sesión", forState: UIControlState.Normal)
         }
@@ -357,27 +374,11 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
-    //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?)
-    {
-       if value != nil || value == "" {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build())
-        }
-        
-        let controller = SearchProductViewController()
-        controller.searchContextType = .WithText
-        controller.titleHeader = value
-        controller.textToSearch = value
-        var controllernav = self.navigationController
-        controllernav?.pushViewController(controller, animated: true)
-      }
-    }
 }

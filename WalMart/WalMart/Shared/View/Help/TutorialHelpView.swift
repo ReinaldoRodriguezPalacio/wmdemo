@@ -162,7 +162,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             var x: CGFloat = 0.0
             var sep: CGFloat = 5.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as UIButton
+                var point = UIButton.buttonWithType(.Custom) as! UIButton
                 point.frame = CGRectMake(x, 0, bsize, bsize)
                 point.setImage(UIImage(named: "control_help_inactivo"), forState: .Normal)
                 point.setImage(UIImage(named: "control_help_activo"), forState: .Selected)
@@ -192,7 +192,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         var currentIndex = self.scrollHelp!.contentOffset.x / self.scrollHelp!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray

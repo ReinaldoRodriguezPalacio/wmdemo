@@ -15,7 +15,7 @@ class GRDeleteItemListService: GRAddItemListService {
         return ["parameter":[upc!]]
     }
     
-    func buildParams(upcs:[String]?) -> [String:AnyObject]! {
+    func buildParamsArray(upcs:[String]?) -> [String:AnyObject]! {
         return ["parameter":upcs!]
     }
     

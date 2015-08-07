@@ -29,7 +29,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         
@@ -97,14 +97,14 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as PreviousOrdersTableViewCell
+        let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
-        let item = self.items[indexPath.row] as NSDictionary
-        let dateStr = item["placedDate"] as NSString
-        let trackingStr = item["trackingNumber"] as NSString
-        var statusStr = item["status"] as NSString
-        if (item["type"] as String) == ResultObjectType.Groceries.rawValue {
+        let item = self.items[indexPath.row] as! NSDictionary
+        let dateStr = item["placedDate"] as! String
+        let trackingStr = item["trackingNumber"] as! String
+        var statusStr = item["status"] as! String
+        if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
             statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
         }
         
@@ -114,21 +114,21 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let item = self.items[indexPath.row] as NSDictionary
+        let item = self.items[indexPath.row] as! NSDictionary
         let detailController = OrderDetailViewController()
         
-        if (item["type"] as String) == ResultObjectType.Mg.rawValue {
+        if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
             detailController.type = ResultObjectType.Mg
-            let dateStr = item["placedDate"] as NSString
-            let trackingStr = item["trackingNumber"] as NSString
-            let statusStr = item["status"] as NSString
+            let dateStr = item["placedDate"] as! String
+            let trackingStr = item["trackingNumber"] as! String
+            let statusStr = item["status"] as! String
             
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
                     action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
                     label: trackingStr,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             detailController.trackingNumber = trackingStr
@@ -137,16 +137,16 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             self.navigationController!.pushViewController(detailController, animated: true)
         } else {
             detailController.type = ResultObjectType.Groceries
-            let dateStr = item["placedDate"] as NSString
-            let trackingStr = item["trackingNumber"] as NSString
-            let statusStr = item["status"] as NSString
+            let dateStr = item["placedDate"] as! String
+            let trackingStr = item["trackingNumber"] as! String
+            let statusStr = item["status"] as! String
             
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
                     action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
                     label: trackingStr,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
@@ -174,7 +174,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let servicePrev = PreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                var dictMGOrder = NSMutableDictionary(dictionary: orderPrev as NSDictionary)
+                var dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
                 self.items.append(dictMGOrder)
             }
@@ -189,7 +189,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let servicePrev = GRPreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                var dictGROrder = NSMutableDictionary(dictionary: orderPrev as NSDictionary)
+                var dictGROrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
                 self.items.append(dictGROrder)
             }

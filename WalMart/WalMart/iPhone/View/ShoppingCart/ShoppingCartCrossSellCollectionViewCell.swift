@@ -33,17 +33,17 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
 
         
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("shoppingCartCrossSellCell", forIndexPath: indexPath) as ShoppingCartCrossSellItemCollectionViewCell
+        let cell = collection.dequeueReusableCellWithReuseIdentifier("shoppingCartCrossSellCell", forIndexPath: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as NSDictionary
-        let upc = itemUPC["upc"] as NSString
+        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let upc = itemUPC["upc"] as! String
 
-        let desc = itemUPC["description"] as NSString
-        let price = itemUPC["price"] as NSString
-        let imageArray = itemUPC["imageUrl"] as NSArray
+        let desc = itemUPC["description"] as! String
+        let price = itemUPC["price"] as! String
+        let imageArray = itemUPC["imageUrl"] as! NSArray
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as String
+            imageUrl = imageArray.objectAtIndex(0) as! String
         }
         cell.setValues(imageUrl, productShortDescription: desc, productPrice: price,grayScale: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc))
         
@@ -51,24 +51,24 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     }
     
     
-    override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
-        let itemUPC = itemsUPC[indexPath.row] as NSDictionary
-        let upc = itemUPC["upc"] as NSString
+        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
+        let upc = itemUPC["upc"] as! String
         
         if (!UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)) {
             //let itemUPC = itemsUPC[indexPath.row] as NSDictionary
-            let upc = itemUPC["upc"] as NSString
-            let desc = itemUPC["description"] as NSString
-            let price = itemUPC["price"] as NSString
-            let imageArray = itemUPC["imageUrl"] as NSArray
+            let upc = itemUPC["upc"] as! String
+            let desc = itemUPC["description"] as! String
+            let price = itemUPC["price"] as! String
+            let imageArray = itemUPC["imageUrl"] as! NSArray
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as String
+                imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
-            var numOnHandInventory : NSString = "0"
-            if let numberOf = itemUPC["onHandInventory"] as? NSString{
+            var numOnHandInventory : String = "0"
+            if let numberOf = itemUPC["onHandInventory"] as? String{
                 numOnHandInventory  = numberOf
             }
             

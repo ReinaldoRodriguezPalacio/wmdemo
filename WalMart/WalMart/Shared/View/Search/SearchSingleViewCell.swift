@@ -63,9 +63,9 @@ class SearchSingleViewCell: UITableViewCell {
     
     //MARK: - Utils
     class func attributedText(key:NSString, value:NSString, fontKey:UIFont, fontValue:UIFont) -> NSMutableAttributedString {
-        var attributedTxt = NSMutableAttributedString(string:value)
+        var attributedTxt = NSMutableAttributedString(string:value as String)
         attributedTxt.addAttribute(NSFontAttributeName, value: fontValue, range: NSMakeRange (0, value.length))
-        var range = value.rangeOfString(key, options: .CaseInsensitiveSearch)
+        var range = value.rangeOfString(key as String, options: .CaseInsensitiveSearch)
         if range.location != NSNotFound {
             attributedTxt.addAttribute(NSFontAttributeName, value: fontKey, range: NSMakeRange (range.location, key.length))
         }

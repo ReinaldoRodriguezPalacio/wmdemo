@@ -67,7 +67,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_SHOPPINGCART.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         
@@ -237,12 +237,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as NSArray
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
         }
         if  self.itemsInShoppingCart.count > 0 {
-            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as NSNumber
-            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as NSNumber
-            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as NSNumber
+            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
+            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
+            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
         }else{
             self.subtotal = NSNumber(int: 0)
             self.ivaprod = NSNumber(int: 0)
@@ -283,25 +283,25 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             var ixCount = 1
             for shoppingCartProduct  in self.itemsInShoppingCart {
-                let upc = shoppingCartProduct["upc"] as NSString
-                let desc = shoppingCartProduct["description"] as NSString
-                let price = shoppingCartProduct["price"] as NSString
-                let quantity = shoppingCartProduct["quantity"] as NSString
+                let upc = shoppingCartProduct["upc"] as! String
+                let desc = shoppingCartProduct["description"] as! String
+                let price = shoppingCartProduct["price"] as! String
+                let quantity = shoppingCartProduct["quantity"] as! String
                 
                 var onHandInventory = "0"
-                if let inventory = shoppingCartProduct["onHandInventory"] as? NSString {
+                if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                     onHandInventory = inventory
                 }
                 
-                let imageArray = shoppingCartProduct["imageUrl"] as NSArray
+                let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
                 var imageUrl = ""
                 if imageArray.count > 0 {
-                    imageUrl = imageArray.objectAtIndex(0) as String
+                    imageUrl = imageArray.objectAtIndex(0) as! String
                 }
                 
                 let serviceAdd = AddItemWishlistService()
                 if ixCount < self.itemsInShoppingCart.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: "false", mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: "false", mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
                         //let path = NSIndexPath(forRow: , inSection: 0)
 
                         
@@ -351,33 +351,33 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
         if itemsInShoppingCart.count > indexPath.row {
-            let cellProduct = viewShoppingCart.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as ProductShoppingCartTableViewCell
+            let cellProduct = viewShoppingCart.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! ProductShoppingCartTableViewCell
             cellProduct.delegateProduct = self
             cellProduct.delegate = self
             cellProduct.rightUtilityButtons = getRightButtonDelete()
             cellProduct.leftUtilityButtons = getLeftDelete()
-            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as [String:AnyObject]
-            let upc = shoppingCartProduct["upc"] as NSString
-            let desc = shoppingCartProduct["description"] as NSString
-            let price = shoppingCartProduct["price"] as NSString
-            let quantity = shoppingCartProduct["quantity"] as NSString
+            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
+            let price = shoppingCartProduct["price"] as! String
+            let quantity = shoppingCartProduct["quantity"] as! NSString
             
             var onHandInventory = "0"
-            if let inventory = shoppingCartProduct["onHandInventory"] as? NSString {
+            if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                 onHandInventory = inventory
             }
 
 
-            let imageArray = shoppingCartProduct["imageUrl"] as NSArray
+            let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as String
+                imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
             let savingIndex = shoppingCartProduct.indexForKey("saving")
             var savingVal = "0.0"
             if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as NSString
+                savingVal = shoppingCartProduct["saving"]  as! String
             }
             
             //updateItemSavingForUPC(indexPath,upc:upc)
@@ -396,7 +396,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         else {
             if itemsInShoppingCart.count == indexPath.row  {
-                let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("productTotalsCell", forIndexPath: indexPath) as ShoppingCartTotalsTableViewCell
+                let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("productTotalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
                 
                 let totalsItems = totalItems()
                 
@@ -467,7 +467,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         return toReturn
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if itemsInShoppingCart.count > indexPath.row {
             return 110
         }else{
@@ -560,7 +560,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func endUpdatingShoppingCart(cell:ProductShoppingCartTableViewCell) {
         let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
         
-        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as [String:AnyObject]
+        var itemByUpc  = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
         itemByUpc.updateValue(String(cell.quantity) , forKey: "quantity")
         self.itemsInShoppingCart[indexPath.row] = itemByUpc
         
@@ -609,8 +609,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as [String:AnyObject]
-        let upc = itemWishlist["upc"] as NSString
+        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+        let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             self.itemsInShoppingCart.removeAtIndex(indexPath.row)
@@ -656,8 +656,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var showIva = true
         
         for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as [String:AnyObject]
-            let price = shoppingCartProduct["price"] as NSString
+            let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            let price = shoppingCartProduct["price"] as! NSString
             
             var iva : NSString = ""
             if let ivabase = shoppingCartProduct["ivaAmount"] as? NSString {
@@ -688,7 +688,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let savingIndex = dictShoppingCartProduct.indexForKey("saving")
             var savingVal : NSString = "0.0"
             if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as NSString
+                savingVal = shoppingCartProduct["saving"]  as! String
                 totalSavings += (savingVal.doubleValue * quantity.doubleValue)
             }
             total +=  (price.doubleValue * quantity.doubleValue)
@@ -722,12 +722,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var priceLasiItem = 0.0
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as [String:AnyObject]
-            let price = shoppingCartProduct["price"] as NSString
+            let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            let price = shoppingCartProduct["price"] as! NSString
             if price.doubleValue < priceLasiItem {
                 continue
             }
-            upc = shoppingCartProduct["upc"] as NSString
+            upc = shoppingCartProduct["upc"] as! NSString as String
         }
         return upc
     }
@@ -736,8 +736,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  itemsInShoppingCart {
-            let upc = shoppingCartProduct["upc"] as NSString
-            let desc = shoppingCartProduct["description"] as NSString
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
             upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
         }
         return upcItems
@@ -772,10 +772,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance().userSigned != nil {
             cont!.noAccount?.hidden = true
             cont!.registryButton?.hidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email
+            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
             cont!.email!.enabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email
+            user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
         cont!.closeAlertOnSuccess = false
         cont!.okCancelCallBack = {() in
@@ -992,8 +992,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
                         arrayUPCS.sort({ (before, after) -> Bool in
-                            let priceB = before["price"] as NSString
-                            let priceA = after["price"] as NSString
+                            let priceB = before["price"] as! NSString
+                            let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
                         })
                         var resultArray : [AnyObject] = []
@@ -1047,7 +1047,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs : [String] = []
         for itemSClist in self.itemsInShoppingCart {
-            let upc = itemSClist["upc"] as NSString
+            let upc = itemSClist["upc"] as! String
             upcs.append(upc)
         }
         

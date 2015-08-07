@@ -121,10 +121,10 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         var currentX : CGFloat = 0.0
         for  prod in products {
             let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 176))
-            let imageProd =  prod["imageUrl"] as NSString
-            let descProd =  prod["description"] as NSString
-            let priceProd =  prod["price"] as NSNumber
-            let upcProd =  prod["upc"] as NSString
+            let imageProd =  prod["imageUrl"] as! String
+            let descProd =  prod["description"] as! String
+            let priceProd =  prod["price"] as! NSNumber
+            let upcProd =  prod["upc"] as! String
             
             product.upcProduct = upcProd
             product.setValues(imageProd, productShortDescription: descProd, productPrice: priceProd.stringValue)
@@ -141,7 +141,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
 
     
     func productTap(sender:UITapGestureRecognizer) {
-        let viewC = sender.view as GRProductSpecialCollectionViewCell
+        let viewC = sender.view as! GRProductSpecialCollectionViewCell
         
 
         delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!,imageProduct: viewC.productImage!)

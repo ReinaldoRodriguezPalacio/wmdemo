@@ -102,11 +102,11 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
             resultText = resultText.substringFromIndex(1)
             if resultText.integerValue > 0 && resultText.integerValue <= 10 {
-                lblQuantity.text = resultText
+                lblQuantity.text = resultText as String
             }else {
                 let tmpResult : NSString = "0" + btnSender.titleLabel!.text!
                 if tmpResult.integerValue > 0 {
-                    lblQuantity.text = tmpResult
+                    lblQuantity.text = tmpResult as String
                 }
             }
             
@@ -171,11 +171,11 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         resultText = "\(lblQuantity.text!)\(value)"
         resultText = resultText.substringFromIndex(1)
         if resultText.integerValue > 0 && resultText.integerValue <= 10 {
-            lblQuantity.text = resultText
+            lblQuantity.text = resultText as String
         }else {
             let tmpResult : NSString = "0\(value)"
             if tmpResult.integerValue > 0 {
-                lblQuantity.text = tmpResult
+                lblQuantity.text = tmpResult as String
             }
         }
       

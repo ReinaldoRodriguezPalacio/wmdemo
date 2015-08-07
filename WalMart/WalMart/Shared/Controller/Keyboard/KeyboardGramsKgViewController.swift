@@ -89,7 +89,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         }
         
         if keyboardView.typeKeyboard == NumericKeyboardViewType.Integer {
-            if countElements(resultText as String) > 5 {
+            if count(resultText as String) > 5 {
                 return
             }
             currentValCstmGr = resultText.doubleValue
@@ -115,17 +115,17 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
                 return
             }
             
-            var kg = fullArray[0] as String
-            if countElements(kg) > 2 {
+            var kg = fullArray[0] as! String
+            if count(kg) > 2 {
                 currentValKg = valOrigin
                 currentValCstmGr =  valcurrentOrigin
                 return
             }
             
             if fullArray.count > 1 {
-                var gr = fullArray[1] as String
+                var gr = fullArray[1] as! String
                 
-                if countElements(gr) > 2 {
+                if count(gr) > 2 {
                     currentValKg = valOrigin
                     currentValCstmGr =  valcurrentOrigin
                     return
@@ -150,7 +150,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
     func updateLabelW() {
         if gramsBase {
             let tmpResult : NSString = "\(Int(currentValCstmGr))g"
-            lblQuantity.text = tmpResult
+            lblQuantity.text = tmpResult as String
         } else {
             var formatedString = ""
             let valInKg = currentValGr / 1000

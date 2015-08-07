@@ -25,7 +25,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         //SCREEN
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_PRODUCTSCATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
@@ -58,12 +58,12 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = colCategories.dequeueReusableCellWithReuseIdentifier("cellCategory", forIndexPath: indexPath) as IPAGRCategoryCollectionViewCell
+        let cell = colCategories.dequeueReusableCellWithReuseIdentifier("cellCategory", forIndexPath: indexPath) as! IPAGRCategoryCollectionViewCell
         cell.delegate =  self // new 
         
-        let item = items![indexPath.row] as [String:AnyObject]
-        let descDepartment = item["description"] as NSString
-        var bgDepartment = item["idDepto"] as NSString
+        let item = items![indexPath.row] as! [String:AnyObject]
+        let descDepartment = item["description"] as! String
+        var bgDepartment = item["idDepto"] as! String
         
         bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -82,22 +82,22 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
-        let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as IPAGRCategoryCollectionViewCell!
+        let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as! IPAGRCategoryCollectionViewCell!
         var pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
         pontInViewNuew = pontInView
 
-        let item = self.items![indexPath.row] as [String:AnyObject]
-        let idDepartment = item["idDepto"] as NSString
+        let item = self.items![indexPath.row] as! [String:AnyObject]
+        let idDepartment = item["idDepto"] as! String
         let famArray : AnyObject = item["family"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as [[String:AnyObject]]
+        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
         let famSelected = itemsFam[0]
-        let idFamDefault = famSelected["id"] as NSString
+        let idFamDefault = famSelected["id"] as! String
         
         let lineArray : AnyObject = famSelected["line"] as AnyObject!
-        let itemsLine : [[String:AnyObject]] = lineArray as [[String:AnyObject]]
+        let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
         let lineSelected = itemsLine[0]
-        let idLineDefault = lineSelected["id"] as NSString
-        let nameLineDefault = lineSelected["name"] as NSString
+        let idLineDefault = lineSelected["id"] as! String
+        let nameLineDefault = lineSelected["name"] as! String
         
         CategoryShouldShowFamily.shouldshowfamily = true
         controllerAnimateView = IPACategoriesResultViewController()
@@ -196,10 +196,10 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     func fillConfigData(depto:String) -> [[String:AnyObject]]? {
         var resultDict : [AnyObject] = []
         if (canfigData.keys.filter {$0 == depto }).array.count > 0 {
-            let upcs = canfigData[depto] as [String]
+            let upcs = canfigData[depto] as! [String]
             for upcStr in upcs {
                 let itemsFound = itemsExclusive?.filter({ (dictionUPC) -> Bool in
-                    if dictionUPC["upc"] as String == upcStr {
+                    if dictionUPC["upc"] as! String == upcStr {
                         return true
                     }
                     return false

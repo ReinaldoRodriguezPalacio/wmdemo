@@ -44,7 +44,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     
 
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }()
@@ -202,7 +202,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_EDIT.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             
@@ -233,7 +233,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_ENDEDIT.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             self.backButton!.hidden = false
@@ -273,7 +273,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -337,17 +337,17 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHOPALL.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
-                let idx = idxVal as Int
+                let idx = idxVal as! Int
                 var params: [String:AnyObject] = [:]
                 if let item = self.products![idx] as? [String:AnyObject] {
-                    params["upc"] = item["upc"] as String
-                    params["desc"] = item["description"] as String
-                    params["imgUrl"] = item["imageUrl"] as String
+                    params["upc"] = item["upc"] as! String
+                    params["desc"] = item["description"] as! String
+                    params["imgUrl"] = item["imageUrl"] as! String
                     if let price = item["price"] as? NSNumber {
                         params["price"] = "\(price)"
                     }
@@ -400,7 +400,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_DELETEALL.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             
@@ -514,11 +514,11 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         var total: Double = 0.0
         if selectedItems != nil {
             for idxVal  in selectedItems! {
-                let idx = idxVal as Int
+                let idx = idxVal as! Int
                 if let item = self.products![idx] as? [String:AnyObject] {
                     if let typeProd = item["type"] as? NSString {
-                        let quantity = item["quantity"] as NSNumber
-                        let price = item["price"] as NSNumber
+                        let quantity = item["quantity"] as! NSNumber
+                        let price = item["price"] as! NSNumber
                         
                         if typeProd.integerValue == 0 {
                             total += (quantity.doubleValue * price.doubleValue)
@@ -548,11 +548,11 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     func calculateTotalCount() -> Int {
         var count = 0
         for idxVal  in selectedItems! {
-            let idx = idxVal as Int
+            let idx = idxVal as! Int
             if let item = self.products![idx] as? [String:AnyObject] {
                 if let typeProd = item["type"] as? NSString {
                     if typeProd.integerValue == 0 {
-                        let quantity = item["quantity"] as NSNumber
+                        let quantity = item["quantity"] as! NSNumber
                         count += quantity.integerValue
                     }
                     else {
@@ -599,18 +599,18 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
          println("\(self.products!.count)")
         if indexPath.row == self.products!.count {
-            let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as GRShoppingCartTotalsTableViewCell
+            let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             var total = self.calculateTotalAmount()
             var quantity = self.calculateTotalCount()
             totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
             return totalCell
         }
 
-        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as DetailListViewCell
+        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
         listCell.detailDelegate = self
         listCell.delegate = self
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
-            listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
+            listCell.setValuesDictionary(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
         }
         else if let item = self.products![indexPath.row] as? Product {
             listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
@@ -631,14 +631,14 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         var productsToShow:[AnyObject] = []
         for var idx = 0; idx < self.products!.count; idx++ {
             if let product = self.products![idx] as? [String:AnyObject] {
-                let upc = product["upc"] as NSString
-                let description = product["description"] as NSString
+                let upc = product["upc"] as! String
+                let description = product["description"] as! String
                 //Event
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
                         label: upc,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -649,7 +649,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
                         label:product.upc,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -674,7 +674,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                                 action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_DELETEPRODUCT.rawValue,
                                 label: upc,
-                                value: nil).build())
+                                value: nil).build() as [NSObject : AnyObject])
                         }
                         if self.selectedItems!.containsObject(indexPath.row) {
                             self.selectedItems?.removeObject(indexPath.row)
@@ -822,7 +822,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 
                 
                 
-                self.products = result["items"] as? NSArray
+                self.products = result["items"] as? [AnyObject]
                 self.titleLabel?.text = result["name"] as? String
                 
                 
@@ -905,7 +905,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInList", comment:""))
         var service = GRDeleteItemListService()
-        service.callService(service.buildParams(upcs),
+        service.callService(service.buildParamsArray(upcs),
             successBlock: { (result:NSDictionary) -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.message.deletingAllProductsInListDone", comment:""))
                 self.alertView!.showDoneIcon()
@@ -941,7 +941,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_CHANGEQUANTITY.rawValue,
                     label: "\(upc) - \(quantity)",
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
         
@@ -1016,7 +1016,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     
     //MARK: - IPOBaseController
     
-    override func scrollViewDidScroll(scrollView: UIScrollView!) {
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
         
         if !self.enableScrollUpdateByTabBar {
             return

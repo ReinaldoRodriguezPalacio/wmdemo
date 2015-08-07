@@ -296,11 +296,11 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
     
     func setData(addressPreferred:NSDictionary) {
-        self.sAddredssForm.addressName.text = addressPreferred["name"] as String!
-        self.sAddredssForm.outdoornumber.text = addressPreferred["outerNumber"] as String!
-        self.sAddredssForm.indoornumber.text = addressPreferred["innerNumber"] as String!
-        self.sAddredssForm.zipcode.text = addressPreferred["zipCode"] as String!
-        self.sAddredssForm.street.text = addressPreferred["street"] as String!
+        self.sAddredssForm.addressName.text = addressPreferred["name"] as! String!
+        self.sAddredssForm.outdoornumber.text = addressPreferred["outerNumber"] as! String!
+        self.sAddredssForm.indoornumber.text = addressPreferred["innerNumber"] as! String!
+        self.sAddredssForm.zipcode.text = addressPreferred["zipCode"] as! String!
+        self.sAddredssForm.street.text = addressPreferred["street"] as! String!
         self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text, neighborhoodID: "", storeID: "")
     }
     

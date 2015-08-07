@@ -32,7 +32,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.container!.clipsToBounds = true
         //self.container!.layer.borderColor = WMColor.productAddToCartBorderSelectQuantity.CGColor
         
-        self.button = UIButton.buttonWithType(.Custom) as UIButton
+        self.button = UIButton.buttonWithType(.Custom) as! UIButton
         self.button!.frame = CGRectMake(frame.width - frame.size.height, 0.0 , frame.size.height, frame.size.height)
         self.button!.addTarget(self, action: "showBand:", forControlEvents: .TouchUpInside)
         self.button!.setTitleColor(WMColor.UIColorFromRGB(0xFFFFFF), forState: .Normal)
@@ -145,17 +145,17 @@ class PriceSelectorBandHandler: SelectorBandHandler {
     
     override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         if indexPath.row == 0 {
-            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("Trash", forIndexPath: indexPath) as PriceSelectorTrashCell
+            var cell = collectionView.dequeueReusableCellWithReuseIdentifier("Trash", forIndexPath: indexPath) as! PriceSelectorTrashCell
             return cell
         }
-        var cell: PriceSelectorBandCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as PriceSelectorBandCell
+        var cell: PriceSelectorBandCell = collectionView.dequeueReusableCellWithReuseIdentifier("Cell", forIndexPath: indexPath) as! PriceSelectorBandCell
         cell.normalFont = self.selectorNormalFont
         cell.selectedFont = self.selectorSelectedFont
         cell.setText("\(indexPath.item)", selected: self.selectedOption == indexPath.item)
         return cell
     }
 
-    override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.row == 0 {
             UIView.animateWithDuration(animationSpeed,

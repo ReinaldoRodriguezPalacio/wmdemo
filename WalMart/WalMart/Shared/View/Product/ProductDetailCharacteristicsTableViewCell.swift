@@ -23,11 +23,6 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         setup()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
     func setup() {
         var labelDesc = UILabel()
         labelDesc.numberOfLines = 0
@@ -49,8 +44,8 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         for dicValue in values {
             var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {
-                let strLabel = dicVal["label"] as String
-                let strValue = dicVal["value"] as String
+                let strLabel = dicVal["label"] as! String
+                let strValue = dicVal["value"] as! String
                
                 let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.productDetailMSIBoldTextColor, colorValue:WMColor.productDetailMSITextColor, size: 14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(self.frame.width - 32, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
@@ -82,8 +77,8 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         for dicValue in values {
             var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {
-                let strLabel = dicVal["label"] as String
-                let strValue = dicVal["value"] as String
+                let strLabel = dicVal["label"] as! String
+                let strValue = dicVal["value"] as! String
                 let attrString =  buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.productDetailMSIBoldTextColor, colorValue:WMColor.productDetailMSITextColor, size:14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 heigth += rectSize.height + heightCharacteristic()

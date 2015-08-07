@@ -48,7 +48,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_ADDRESSESDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
         self.content = TPKeyboardAvoidingScrollView()
@@ -117,9 +117,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.setupTypeAddress()
             self.titleLabel!.text = NSLocalizedString("profile.address.new.title", comment: "")
         }else{
-            if let id = self.item!["addressID"] as String?{
+            if let id = self.item!["addressID"] as! String?{
                 self.idAddress = id
-                self.titleLabel!.text = self.item!["name"] as String?
+                self.titleLabel!.text = self.item!["name"] as! String?
                 deleteButton = UIButton()
                 deleteButton?.addTarget(self, action: "deleteAddress:", forControlEvents: .TouchUpInside)
                 deleteButton!.setImage(UIImage(named: "deleteAddress"), forState: UIControlState.Normal)
@@ -130,11 +130,11 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
             switch (typeAddress ) {
             case .Shiping:
-                self.viewAddress!.setItem(self.item!)
+                self.viewAddress!.setItemWithDictionary(self.item!)
             case .FiscalPerson:
-                self.viewAddressFisical!.setItem(self.item!)
+                self.viewAddressFisical!.setItemWithDictionary(self.item!)
             case .FiscalMoral:
-                self.viewAddressMoral!.setItem(self.item!)
+                self.viewAddressMoral!.setItemWithDictionary(self.item!)
             default:
                 break
             }
@@ -522,7 +522,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
                 action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
-                label: "", value: nil).build())
+                label: "", value: nil).build() as [NSObject : AnyObject])
         }
         
         
@@ -582,7 +582,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 }
                 
                 }
-                , {(error: NSError) in
+                , errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
             })
@@ -597,7 +597,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     
     func deleteAddress(sender:UIButton){
         var service = DeleteAddressesByUserService()
-        service.buildParams(self.idAddress!)
+        service.buildParams(self.idAddress! as String)
         self.view.endEditing(true)
         if sender.tag == 100 {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
@@ -613,7 +613,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }//if let message = resultCall!["message"] as? String {
             self.navigationController!.popViewControllerAnimated(true)
             }
-            , {(error: NSError) in
+            , errorBlock: {(error: NSError) in
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
         })

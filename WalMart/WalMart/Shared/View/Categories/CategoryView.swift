@@ -60,10 +60,10 @@ class CategoryView : UITableViewCell {
     }
     
     func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as NSDictionary
-        let environmentServices = services.objectForKey(environment) as NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as String
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
     }
     

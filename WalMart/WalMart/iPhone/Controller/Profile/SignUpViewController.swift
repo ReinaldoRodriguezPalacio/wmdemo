@@ -59,7 +59,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_SIGNUP.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.dateFmt = NSDateFormatter()
@@ -72,7 +72,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         let checkTermOn = UIImage(named:"checkTermOn")
         
         self.name = FormFieldView()
-        self.name!.setPlaceholder(NSLocalizedString("profile.name",comment:""))
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.isRequired = true
         self.name!.typeField = TypeField.Name
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
@@ -80,7 +80,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.name!.maxLength = 25
         
         self.lastName = FormFieldView()
-        self.lastName!.setPlaceholder(NSLocalizedString("profile.lastname",comment:""))
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.isRequired = true
         self.lastName!.typeField = TypeField.String
         self.lastName!.minLength = 2
@@ -88,7 +88,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
        
         self.email = FormFieldView()
-        self.email!.setPlaceholder(NSLocalizedString("profile.email",comment:""))
+        self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
         self.email!.keyboardType = UIKeyboardType.EmailAddress
         self.email!.isRequired = true
         self.email!.typeField = TypeField.Email
@@ -97,7 +97,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.email!.autocapitalizationType = UITextAutocapitalizationType.None
         
         self.password = FormFieldView()
-        self.password!.setPlaceholder(NSLocalizedString("profile.password",comment:""))
+        self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
         self.password!.secureTextEntry = true
         self.password!.isRequired = true
         self.password!.typeField = TypeField.Password
@@ -106,7 +106,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.password!.maxLength = 16
         
         self.confirmPassword = FormFieldView()
-        self.confirmPassword!.setPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
+        self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
         self.confirmPassword!.secureTextEntry = true
         self.confirmPassword!.isRequired = true
         self.confirmPassword!.typeField = TypeField.Password
@@ -116,7 +116,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         
         
         self.birthDate = FormFieldView()
-        self.birthDate!.setPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
+        self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
         self.birthDate!.typeField = .None
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
         self.birthDate!.isRequired = true
@@ -398,7 +398,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 
                 if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SIGNUP.rawValue, action: WMGAIUtils.EVENT_SIGNUP_CREATEUSER.rawValue, label: "", value: nil).build())
+                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SIGNUP.rawValue, action: WMGAIUtils.EVENT_SIGNUP_CREATEUSER.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
                 }
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    
@@ -412,7 +412,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                     })
                     
                     }
-                    , {(error: NSError) in
+                    , errorBlock: {(error: NSError) in
                         
                         self.backRegistry(self.backButton!)
                         self.alertAddress?.removeFromSuperview()
@@ -592,7 +592,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         let regExEmailPattern : String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         
         var regExVal = NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-        let matches = regExVal!.numberOfMatchesInString(email, options: nil, range: NSMakeRange(0, countElements(email)))
+        let matches = regExVal!.numberOfMatchesInString(email, options: nil, range: NSMakeRange(0, count(email)))
         
         if matches > 0 {
             return true

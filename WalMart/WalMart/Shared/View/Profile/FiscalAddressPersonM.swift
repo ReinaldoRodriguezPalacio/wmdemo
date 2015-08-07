@@ -12,10 +12,6 @@ class FiscalAddressPersonM: AddressView {
 
     var corporateName : FormFieldView? = nil
     var rfc : FormFieldView? = nil
- 
-    override init() {
-        super.init()
-    }
     
     override init(frame: CGRect, isLogin: Bool, isIpad:Bool) {
         super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
@@ -29,7 +25,7 @@ class FiscalAddressPersonM: AddressView {
         super.setup()
         
         self.corporateName = FormFieldView()
-        self.corporateName!.setPlaceholder(NSLocalizedString("profile.address.person.name.moral",comment:""))
+        self.corporateName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name.moral",comment:""))
         self.corporateName!.isRequired = true
         self.corporateName!.typeField = TypeField.Name
         self.corporateName!.minLength = 2
@@ -37,7 +33,7 @@ class FiscalAddressPersonM: AddressView {
         self.corporateName!.nameField = NSLocalizedString("profile.address.person.name.moral",comment:"")
         
         self.rfc = FormFieldView()
-        self.rfc!.setPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
+        self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.isRequired = true
         self.rfc!.typeField = TypeField.RFCM
         self.rfc!.minLength = 12
@@ -46,7 +42,7 @@ class FiscalAddressPersonM: AddressView {
         self.rfc!.validMessageText = "field.validate.text.invalid.rfc"
         
         self.ieps = FormFieldView()
-        self.ieps!.setPlaceholder(NSLocalizedString("profile.address.ieps",comment:""))
+        self.ieps!.setCustomPlaceholder(NSLocalizedString("profile.address.ieps",comment:""))
         self.ieps!.typeField = TypeField.Number
         self.ieps!.isRequired = false
         self.ieps!.minLength = 14
@@ -57,7 +53,7 @@ class FiscalAddressPersonM: AddressView {
         
         self.email = FormFieldView()
         self.email!.isRequired = true
-        self.email!.setPlaceholder(NSLocalizedString("profile.address.email",comment:""))
+        self.email!.setCustomPlaceholder(NSLocalizedString("profile.address.email",comment:""))
         self.email!.typeField = TypeField.Email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
         self.email!.maxLength = 45
@@ -83,14 +79,14 @@ class FiscalAddressPersonM: AddressView {
         
     }
     
-    override func setItem(itemValues: NSDictionary) {
-        super.setItem(itemValues)
+    override func setItemWithDictionary(itemValues: NSDictionary) {
+        super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.corporateName!.text = self.item!["corporateName"] as String
-            self.rfc!.text = self.item!["rfc"] as String
-            self.ieps!.text = self.item!["ieps"] as String
-            self.email!.text = self.item!["rfcEmail"] as String
-            self.telephone!.text = self.item!["phoneNumber"] as String
+            self.corporateName!.text = self.item!["corporateName"] as! String
+            self.rfc!.text = self.item!["rfc"] as! String
+            self.ieps!.text = self.item!["ieps"] as! String
+            self.email!.text = self.item!["rfcEmail"] as! String
+            self.telephone!.text = self.item!["phoneNumber"] as! String
         }
     }
  

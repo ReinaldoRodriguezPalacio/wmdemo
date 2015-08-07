@@ -81,7 +81,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
             var x: CGFloat = 0.0
             var sep: CGFloat = 2.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as UIButton
+                var point = UIButton.buttonWithType(.Custom) as! UIButton
                 point.frame = CGRectMake(x, 5, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
@@ -111,7 +111,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         var currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
@@ -134,9 +134,9 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as ProductDetailBannerMediaCollectionViewCell
+        let cell = collection.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as! ProductDetailBannerMediaCollectionViewCell
         
-        var imageURL = items[indexPath.row] as String
+        var imageURL = items[indexPath.row] as! String
         
         var imgLarge = NSString(string: imageURL)
         imgLarge = imgLarge.stringByReplacingOccurrencesOfString("img_small", withString: "img_large")

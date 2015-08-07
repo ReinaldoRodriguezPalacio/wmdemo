@@ -170,7 +170,7 @@ class CurrencyCustomLabel : UIView  {
             formatter.locale = NSLocale(localeIdentifier: "es_MX")
             return formatter.stringFromNumber(NSNumber(double:value.doubleValue))!
         }
-        return value
+        return value as String
        
     }
     

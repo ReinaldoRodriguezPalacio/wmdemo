@@ -42,7 +42,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var hiddenOpenList : Bool = false
     
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }()
@@ -168,21 +168,21 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
-            let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID, forIndexPath: indexPath) as NewListSelectorViewCell
+            let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID, forIndexPath: indexPath) as! NewListSelectorViewCell
             listCell.backgroundColor = UIColor.clearColor()
             listCell.contentView.backgroundColor = UIColor.clearColor()
             listCell.delegate = self
             return listCell
         }
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as ListSelectorViewCell
+        var cell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListSelectorViewCell
         cell.delegate = self
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
         cell.hiddenOpenList = self.hiddenOpenList
         let idx = indexPath.row - 1
         if let item = self.list![idx] as? NSDictionary {
-            var isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as String)
+            var isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
             cell.setListObject(item, productIncluded: isIncluded)
         }
         
@@ -252,7 +252,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "registryDate", ascending: false)]
         var error: NSError? = nil
-        var result: [List] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [List]
+        var result: [List] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]
         return result
     }
 
@@ -261,7 +261,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
         var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [List]?
+        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
         return result
     }
 
@@ -269,7 +269,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         let userListsService = GRUserListService()
         userListsService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
-                self.list = result["responseArray"] as? NSArray
+                self.list = result["responseArray"] as? [AnyObject]
                 //println(self.itemsUserList)
                 self.tableView!.reloadData()
             },
@@ -291,7 +291,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list.idList == %@", upc!, listId)
             var error: NSError? = nil
-            var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [Product]
+            var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -311,7 +311,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list == %@", upc!, entity)
             var error: NSError? = nil
-            var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [Product]
+            var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -333,7 +333,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         if let indexPath = self.tableView!.indexPathForCell(cell) {
             let idx = indexPath.row - 1
             if let item = self.list![idx] as? NSDictionary {
-                self.delegate!.listSelectorDidShowList(item["id"] as String, andName: item["name"] as String)
+                self.delegate!.listSelectorDidShowList(item["id"] as! String, andName: item["name"] as! String)
             }
             else if let entity = self.list![idx] as? List {
                 if entity.idList == nil {
@@ -371,7 +371,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
                         label: value,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 self.loadLocalList()
@@ -394,7 +394,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
     
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.view.endEditing(true)
     }
 

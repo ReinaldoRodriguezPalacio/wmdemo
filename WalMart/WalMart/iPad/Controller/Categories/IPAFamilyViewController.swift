@@ -22,16 +22,16 @@ class IPAFamilyViewController : FamilyViewController {
     }
     
     
-    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0  {
             super.tableView(tableView, didSelectRowAtIndexPath: indexPath)
         }else
         {
             let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as NSArray
-            let itemLine = linesArr[indexPath.row - 1] as NSDictionary
-            let name = itemLine["name"] as NSString
-            delegate.didSelectLine(departmentId,family: selectedSection["id"] as NSString,line: itemLine["id"] as NSString, name: name)
+            let linesArr = selectedSection["line"] as! NSArray
+            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
+            let name = itemLine["name"] as! String
+            delegate.didSelectLine(departmentId,family: selectedSection["id"] as! String,line: itemLine["id"] as! String, name: name)
         }
     }
     

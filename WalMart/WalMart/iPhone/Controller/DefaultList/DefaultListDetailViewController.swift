@@ -118,8 +118,8 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         
-        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as DetailListViewCell
-        listCell.setValues(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
+        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
         listCell.detailDelegate = self
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
@@ -132,14 +132,14 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         var productsToShow:[AnyObject] = []
         for var idx = 0; idx < self.detailItems!.count; idx++ {
             let product = self.detailItems![idx]
-            let upc = product["upc"] as NSString
-            let description = product["description"] as NSString
+            let upc = product["upc"] as! NSString
+            let description = product["description"] as! NSString
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                    label: upc,
-                    value: nil).build())
+                    label: upc as String,
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -253,7 +253,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
                     label: self.defaultListName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -307,17 +307,17 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHOPALL.rawValue,
                     label: self.defaultListName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
-                let idx = idxVal as Int
+                let idx = idxVal as! Int
                 var params: [String:AnyObject] = [:]
                 let item = self.detailItems![idx]
-                params["upc"] = item["upc"] as String
-                params["desc"] = item["description"] as String
-                params["imgUrl"] = item["imageUrl"] as String
+                params["upc"] = item["upc"] as! String
+                params["desc"] = item["description"] as! String
+                params["imgUrl"] = item["imageUrl"] as! String
                 if let price = item["price"] as? NSNumber {
                     params["price"] = "\(price)"
                 }
@@ -359,11 +359,11 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
         for idxVal  in selectedItems! {
-            let idx = idxVal as Int
+            let idx = idxVal as! Int
             let item = self.detailItems![idx]
             if let typeProd = item["type"] as? NSString {
-                let quantity = item["quantity"] as NSNumber
-                let price = item["price"] as NSNumber
+                let quantity = item["quantity"] as! NSNumber
+                let price = item["price"] as! NSNumber
                 
                 if typeProd.integerValue == 0 {
                     total += (quantity.doubleValue * price.doubleValue)
@@ -380,11 +380,11 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     func calculateTotalCount() -> Int {
         var count = 0
         for idxVal  in selectedItems! {
-            let idx = idxVal as Int
+            let idx = idxVal as! Int
             let item = self.detailItems![idx]
             if let typeProd = item["type"] as? NSString {
                 if typeProd.integerValue == 0 {
-                    let quantity = item["quantity"] as NSNumber
+                    let quantity = item["quantity"] as! NSNumber
                     count += quantity.integerValue
                 }
                 else {

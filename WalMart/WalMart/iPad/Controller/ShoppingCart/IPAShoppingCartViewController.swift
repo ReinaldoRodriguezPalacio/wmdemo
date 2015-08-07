@@ -122,8 +122,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     override func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as [String:AnyObject]
-        let upc = itemWishlist["upc"] as NSString
+        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+        let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             self.itemsInShoppingCart.removeAtIndex(indexPath.row)
@@ -163,10 +163,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.sharedInstance().userSigned != nil {
             cont!.noAccount?.hidden = true
             cont!.registryButton?.hidden = true
-            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email
-            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email
+            cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+            cont!.email?.text = UserCurrentSession.sharedInstance().userSigned!.email as String
             cont!.email!.enabled = false
-            user = UserCurrentSession.sharedInstance().userSigned!.email
+            user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
         cont!.successCallBack = {() in
             
@@ -228,8 +228,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
                         arrayUPCS.sort({ (before, after) -> Bool in
-                            let priceB = before["price"] as NSString
-                            let priceA = after["price"] as NSString
+                            let priceB = before["price"] as! NSString
+                            let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
                         })
                         var resultArray : [AnyObject] = []
@@ -274,8 +274,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  itemsInShoppingCart {
-            let upc = shoppingCartProduct["upc"] as NSString
-            let desc = shoppingCartProduct["description"] as NSString
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
             upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
         }
         
@@ -284,10 +284,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
     func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as NSDictionary
-        let environmentServices = services.objectForKey(environment) as NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as String
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
     }
     
@@ -301,7 +301,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs : [String] = []
         for itemSClist in self.itemsInShoppingCart {
-            let upc = itemSClist["upc"] as NSString
+            let upc = itemSClist["upc"] as! String
             upcs.append(upc)
         }
         

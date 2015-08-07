@@ -87,7 +87,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         self.imageURL = productImageURL
         self.price = productPrice
         self.onHandInventory = String(onHandInventory)
-        self.isPesable = pesable
+        self.isPesable = pesable as String
 
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
@@ -128,7 +128,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         if !isDisabled {
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
             if !hasUPC {
-                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory,pesable:"0", type: resultObjectType.rawValue)
+                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 
             }else{

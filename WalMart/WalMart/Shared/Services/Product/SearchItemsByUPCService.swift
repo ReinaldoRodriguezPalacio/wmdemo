@@ -24,7 +24,7 @@ class SearchItemsByUPCService : BaseService {
                 //println(items)
                 self.saveKeywords(items) //Creating keywords
                 for var idx = 0; idx < items.count; idx++ {
-                    var item = items[idx] as [String:AnyObject]
+                    var item = items[idx] as! [String:AnyObject]
                     item["type"] = ResultObjectType.Mg.rawValue
                     newItemsArray.append(item)
                 }

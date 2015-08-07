@@ -132,8 +132,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
     }
     
     func setValues(title:NSString,values:[String]) {
-        self.titleHeader = title
-        self.titleLabel.text = title
+        self.titleHeader = title as String
+        self.titleLabel.text = title as String
         self.itemsToShow = values
 
         tableData.reloadData()
@@ -147,7 +147,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as SelectItemTableViewCell!
+        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
         cell.textLabel?.text = itemsToShow[indexPath.row]
         if self.selected != nil {
             cell.setSelected(indexPath.row == self.selected.row, animated: true)

@@ -23,11 +23,11 @@ class WalMartSqliteDB: NSObject {
     
     lazy var dataBase: FMDatabaseQueue = {
         var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray!
-        var docPath = paths[0] as NSString
+        var docPath = paths[0] as! NSString
         var dbPath = docPath.stringByAppendingPathComponent(self.DB_NAME)
         
         var error : NSError? = nil
-        let todeletecloud =  NSURL(fileURLWithPath: docPath)
+        let todeletecloud =  NSURL(fileURLWithPath: docPath as String)
         if todeletecloud != nil {
             todeletecloud!.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey, error: &error)
         }

@@ -46,7 +46,7 @@ class ShoppingCartUpdateController : UIViewController {
         
         if multipleItems != nil {
             if multipleItems?.count > 0 {
-                let allItems = multipleItems!["allitems"] as NSArray
+                let allItems = multipleItems!["allitems"] as! NSArray
                 params = allItems[currentIndex] as? [String:AnyObject]
             }
         }
@@ -80,10 +80,10 @@ class ShoppingCartUpdateController : UIViewController {
         imageProduct = UIImageView(frame: CGRectMake(viewBgImage.frame.width / 4, viewBgImage.frame.width / 4, viewBgImage.frame.width - (viewBgImage.frame.width / 2), viewBgImage.frame.width - (viewBgImage.frame.width / 2)))
         
         if multipleItems == nil {
-            let imageUrl = params["imgUrl"] as NSString
+            let imageUrl = params["imgUrl"] as! NSString
             
             self.imageProduct!.contentMode = UIViewContentMode.Center
-            self.imageProduct!.setImageWithURL(NSURL(string: imageUrl), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageProduct!.setImageWithURL(NSURL(string: imageUrl as String), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageProduct!.contentMode = self.contentModeOrig
                 self.imageProduct!.image = image
                 }, failure: nil)
@@ -107,7 +107,7 @@ class ShoppingCartUpdateController : UIViewController {
         if multipleItems == nil {
             let startTitleAddShoppingCart = NSLocalizedString("shoppingcart.additem",comment:"")
             let startTitleAddShoppingCartEnd = NSLocalizedString("shoppingcart.additemend",comment:"")
-            let descItem = params["desc"] as NSString
+            let descItem = params["desc"] as! NSString
             labelTitleResult = "\(startTitleAddShoppingCart) \(descItem) \(startTitleAddShoppingCartEnd)"
         }else{
             labelTitleResult = NSLocalizedString("shoppingcart.additemswishlist",comment:"")
@@ -169,7 +169,7 @@ class ShoppingCartUpdateController : UIViewController {
             /*if multipleItems?.count > 0 {
             callItemsService()
             }*/
-            let allItems = multipleItems!["allitems"] as NSArray
+            let allItems = multipleItems!["allitems"] as! NSArray
             let serviceAddProduct = GRShoppingCartAddProductsService()
             var paramsitems : [AnyObject] = []
             
@@ -196,17 +196,17 @@ class ShoppingCartUpdateController : UIViewController {
                 }
                 
                 if let commentsParams = itemToShop["comments"] as? NSString{
-                    self.comments = commentsParams
+                    self.comments = commentsParams as String
                 }
                 
                 var pesable : NSString = "0"    
                 if let pesableP = itemToShop["pesable"] as? NSString{
                     pesable = pesableP
                 }
-                upcs  = itemToShop["upc"] as NSString
-                quantities = itemToShop["quantity"] as NSString
+                upcs  = itemToShop["upc"] as! String
+                quantities = itemToShop["quantity"] as! String
                 
-                let param = serviceAddProduct.builParam(itemToShop["upc"] as NSString, quantity: itemToShop["quantity"] as NSString, comments: self.comments ,desc:itemToShop["desc"] as NSString,price:itemToShop["price"] as NSString,imageURL:itemToShop["imgUrl"] as NSString,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable)
+                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable)
                 
                 paramsitems.append(param)
             }
@@ -221,7 +221,7 @@ class ShoppingCartUpdateController : UIViewController {
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                         action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue ,
-                        label: " \(upcs) - \(quantities)", value: nil).build())
+                        label: " \(upcs) - \(quantities)", value: nil).build() as [NSObject : AnyObject])
                 }
                 if self.timmer == nil {
                     self.showDoneIcon()
@@ -229,7 +229,7 @@ class ShoppingCartUpdateController : UIViewController {
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
                 }
                 
-                }, { (error:NSError) -> Void in
+                }, errorBlock: { (error:NSError) -> Void in
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
                    
@@ -248,7 +248,7 @@ class ShoppingCartUpdateController : UIViewController {
                     if let tracker = GAI.sharedInstance().defaultTracker {
                         tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                             action:WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue ,
-                            label: " \(upcs) - \(quantities)", value: nil).build())
+                            label: " \(upcs) - \(quantities)", value: nil).build() as [NSObject : AnyObject])
                     }
                     if self.timmer == nil {
                         self.showDoneIcon()
@@ -256,7 +256,7 @@ class ShoppingCartUpdateController : UIViewController {
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
                     }
                     
-                    }, { (error:NSError) -> Void in
+                    }, errorBlock: { (error:NSError) -> Void in
                         self.spinImage.layer.removeAllAnimations()
                         self.spinImage.hidden = true
                         
@@ -282,12 +282,12 @@ class ShoppingCartUpdateController : UIViewController {
                     var serviceAddProduct = GRShoppingCartAddProductsService()
                     
                     if let commentsParams = params["comments"] as? NSString{
-                        self.comments = commentsParams
+                        self.comments = commentsParams as String
                     }
-                    var upcs:NSString = params["upc"] as NSString
-                    var quantities:NSString = params["quantity"] as NSString
+                    var upcs:NSString = params["upc"] as! NSString
+                    var quantities:NSString = params["quantity"] as! NSString
                     
-                    serviceAddProduct.callService(params["upc"] as NSString, quantity:params["quantity"] as NSString, comments: self.comments ,desc:params["desc"] as NSString,price:params["price"] as NSString,imageURL:params["imgUrl"] as NSString,onHandInventory:numOnHandInventory,pesable:params["pesable"] as NSString, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString, successBlock: { (result:NSDictionary) -> Void in
                         
                         self.finishCall = true
                         if self.timmer == nil {
@@ -297,7 +297,7 @@ class ShoppingCartUpdateController : UIViewController {
                             if let tracker = GAI.sharedInstance().defaultTracker {
                                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                                     action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue ,
-                                    label: " \(upcs) - \(quantities)", value: nil).build())
+                                    label: " \(upcs) - \(quantities)", value: nil).build() as [NSObject : AnyObject])
                             }
 
                             
@@ -328,7 +328,7 @@ class ShoppingCartUpdateController : UIViewController {
             
             typeProduct = ResultObjectType.Mg
             
-            serviceAddProduct.callService(params["upc"] as NSString, quantity:params["quantity"] as NSString, comments: "",desc:params["desc"] as NSString,price:params["price"] as NSString,imageURL:params["imgUrl"] as NSString,onHandInventory:numOnHandInventory, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory, successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
                 if self.timmer == nil {
@@ -358,22 +358,22 @@ class ShoppingCartUpdateController : UIViewController {
     
     
     func callItemsService() {
-        let allItems = multipleItems!["allitems"] as NSArray
+        let allItems = multipleItems!["allitems"] as! NSArray
         if allItems.count > currentIndex {
             params = allItems[currentIndex] as? [String:AnyObject]
             
-            let imageUrl = params["imgUrl"] as NSString
+            let imageUrl = params["imgUrl"] as! String
             imageProduct.setImageWithURL(NSURL(string: imageUrl))
             
             //Change label 
             let startTitleAddShoppingCart = NSLocalizedString("shoppingcart.additem",comment:"")
             let startTitleAddShoppingCartEnd = NSLocalizedString("shoppingcart.additemend",comment:"")
-            let descItem = params["desc"] as NSString
+            let descItem = params["desc"] as! String
             let labelTitleResult : NSString = "\(startTitleAddShoppingCart) \(descItem) \(startTitleAddShoppingCartEnd)"
             let size =  labelTitleResult.boundingRectWithSize(CGSizeMake(titleLabel.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
             
             titleLabel.frame = CGRectMake(titleLabel.frame.minX, titleLabel.frame.minY, titleLabel.frame.width, size.height)
-            titleLabel.text = labelTitleResult
+            titleLabel.text = labelTitleResult as String
             
             var numOnHandInventory : NSString = "0"
             if let numberOf = params["onHandInventory"] as? NSString{
@@ -381,7 +381,7 @@ class ShoppingCartUpdateController : UIViewController {
             }
             
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["upc"] as NSString, quantity: "1", comments: "",desc:params["desc"] as NSString,price:params["price"] as NSString,imageURL:params["imgUrl"] as NSString,onHandInventory:numOnHandInventory, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory, successBlock: { (result:NSDictionary) -> Void in
                 self.currentIndex++
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
@@ -539,9 +539,9 @@ class ShoppingCartUpdateController : UIViewController {
                             if let numberOf = self.params["onHandInventory"] as? NSString{
                                 numOnHandInventory  = numberOf
                             }
-                            let pesable = self.params["pesable"] as NSString
+                            let pesable = self.params["pesable"] as! NSString
                             var serviceAddProduct = GRShoppingCartAddProductsService()
-                            serviceAddProduct.callService(self.params["upc"] as NSString, quantity:self.params["quantity"] as NSString, comments: self.comments ,desc:self.params["desc"] as NSString,price:self.params["price"] as NSString,imageURL:self.params["imgUrl"] as NSString,onHandInventory:numOnHandInventory,pesable:pesable, successBlock: { (result:NSDictionary) -> Void in
+                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable, successBlock: { (result:NSDictionary) -> Void in
                                 
                                 self.finishCall = true
                                 
@@ -666,7 +666,7 @@ class ShoppingCartUpdateController : UIViewController {
                                 if let tracker = GAI.sharedInstance().defaultTracker {
                                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                                         action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTADDCOMMENT.rawValue ,
-                                        label:self.comments, value: nil).build())
+                                        label:self.comments, value: nil).build() as [NSObject : AnyObject])
                                 }
                                 
                                 

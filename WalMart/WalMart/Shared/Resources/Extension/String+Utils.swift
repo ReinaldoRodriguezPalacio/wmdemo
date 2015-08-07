@@ -15,7 +15,7 @@ extension String{
     //
     var listIconString : String {
         
-        if self.utf16Count <= 1 {
+        if count(self.utf16) <= 1 {
             return self.uppercaseString
         }
         
@@ -68,7 +68,7 @@ extension String{
             scanner.scanString("&", intoString: nil)
 
             if key != nil && value != nil {
-                parameters.updateValue(value!, forKey: key!)
+                parameters.updateValue(value! as String, forKey: key! as String)
             }
         }
         

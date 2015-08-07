@@ -57,11 +57,11 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
        
-        if request.URL.absoluteString != nil {
-             println("URL shouldStartLoadWithRequest ::: \(request.URL.absoluteString)")
+        if request.URL!.absoluteString != nil {
+             println("URL shouldStartLoadWithRequest ::: \(request.URL!.absoluteString)")
             
             
-            var string = request.URL.absoluteString! as NSString
+            var string = request.URL!.absoluteString! as NSString
             var range = string.rangeOfString("/m_inicio.aspx")
             if range.location != NSNotFound {
                 
@@ -108,8 +108,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        println("URL::: \(webView.request?.URL.absoluteString)")
-        var string = webView.request!.URL.absoluteString! as NSString
+        println("URL::: \(webView.request?.URL!.absoluteString)")
+        var string = webView.request!.URL!.absoluteString! as NSString
         var range = string.rangeOfString("www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)")
         if range.location != NSNotFound {
             //CheckoutiPad
@@ -132,7 +132,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         if rangeEnd.location != NSNotFound && !didLoginWithEmail {
             didLoginWithEmail = true
             let loginService = LoginWithEmailService()
-            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
             loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
                 }, errorBlock: { (error:NSError) -> Void in
@@ -191,13 +191,13 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView!) {
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
     }
     
     func writeDeviceInfo(webView:UIWebView){
         
-        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as String
-        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as String
+        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
         let version = "\(majorVersion) (\(minorVersion))"
         
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_channel').value='2';")

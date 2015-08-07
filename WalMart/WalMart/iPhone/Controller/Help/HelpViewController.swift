@@ -25,7 +25,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_HELP.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.table = UITableView()
@@ -40,7 +40,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         var error: NSError?
         let filePath =  NSBundle.mainBundle().pathForResource("help", ofType: "json")
         let jsonData = NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-        let resultArray = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as NSArray
+        let resultArray = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! NSArray
         
         array = resultArray
         
@@ -87,7 +87,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
        return self.array!.count + 2
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height: CGFloat = 46
         return height
     }
@@ -126,15 +126,15 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             return cell!
         }
 
-        var item = self.array![0] as NSDictionary
-        let name = item["title"] as String
+        var item = self.array![0] as! NSDictionary
+        let name = item["title"] as! String
         
         cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.lineTextColor, padding: 12,align:NSTextAlignment.Left)
 
         return cell!
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         selected = indexPath.row
 
         if  indexPath.row  == 2 {
@@ -146,16 +146,16 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         else  if  indexPath.row  == 0 {
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHelp.rawValue, object: nil)
         } else {
-            var item = self.array![0] as NSDictionary
+            var item = self.array![0] as! NSDictionary
             if delegate != nil {
                 delegate!.selectedDetail(indexPath.row, item: item)
             }
             else {
                 let controller = PreviewHelpViewController()
-                let name = item["title"] as String
+                let name = item["title"] as! String
                 controller.titleText = NSLocalizedString(name, comment: "")
-                controller.resource = item["resource"] as String
-                controller.type = item["type"] as String
+                controller.resource = item["resource"] as! String
+                controller.type = item["type"] as! String
         
                 if  let imgFile = item["imgFile"] as? String{
                     controller.imgFile = imgFile
@@ -166,7 +166,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HELP.rawValue,
                         action:WMGAIUtils.EVENT_HELP_DETAIL.rawValue,
                         label: name,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
         
                 self.navigationController!.pushViewController(controller, animated: true)

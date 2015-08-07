@@ -118,10 +118,10 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
     }
     
     func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as NSDictionary
-        let environmentServices = services.objectForKey(environment) as NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as String
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
     }
     
@@ -147,7 +147,7 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
     
     func getImagePath(fileName:String) -> String {
         let fileManager = NSFileManager.defaultManager()
-        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0] as String
+        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0] as! String
         paths = paths.stringByAppendingPathComponent("catimg")
         var isDir : ObjCBool = true
         if fileManager.fileExistsAtPath(paths, isDirectory: &isDir) == false {

@@ -45,11 +45,11 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     
     func selectedDetail(row: Int) {
         
-        if selected == row {
+        if selected == row && selected != 4 && selected != 5 {
             return
         }
     
-        if selected == row{
+        if selected == row && selected != 4 && selected != 5 {
             self.navigation.popToRootViewControllerAnimated(true)
             return
         }
@@ -66,7 +66,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.navigation.pushViewController(recent, animated: true)
         case 2:
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             var myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)
@@ -129,10 +129,10 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?) {
+   func photoCaptured(value: String?,done: (() -> Void)) {
         if value != nil || value == "" {
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
         }
         
         let controller = IPASearchProductViewController()

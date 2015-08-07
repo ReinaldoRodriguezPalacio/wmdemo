@@ -92,7 +92,7 @@ class AlertButtomView : AlertPickerView {
     
     override func setValues(title:NSString,values:[String]) {
         
-        self.titleLabel.text = title
+        self.titleLabel.text = title as String
         self.itemsToShow = values
     }
     
@@ -129,8 +129,8 @@ class AlertButtomView : AlertPickerView {
     
     func setNameBtn(titleBtnUp:NSString,titleBtnDown:NSString){
     
-        self.buttonGroceries.setTitle(NSLocalizedString(titleBtnUp, comment: ""), forState: UIControlState.Normal)
-        self.buttonMG.setTitle(NSLocalizedString(titleBtnDown, comment: ""), forState: UIControlState.Normal) 
+        self.buttonGroceries.setTitle(NSLocalizedString(titleBtnUp as String, comment: ""), forState: UIControlState.Normal)
+        self.buttonMG.setTitle(NSLocalizedString(titleBtnDown as String, comment: ""), forState: UIControlState.Normal) 
     
     }
     

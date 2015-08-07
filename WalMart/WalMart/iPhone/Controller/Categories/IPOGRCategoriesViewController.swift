@@ -26,7 +26,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_CATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.categoriesTable.registerClass(IPOGRDepartmentSpecialTableViewCell.self, forCellReuseIdentifier: "cellspecials")
@@ -99,16 +99,16 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell
         if indexPath.row % 2 == 0 || collapsed {
-            let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: indexPath) as GRDepartmentTableViewCell
+            let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: indexPath) as! GRDepartmentTableViewCell
             var rowforsearch = indexPath.row
             if !collapsed {
                 rowforsearch = Int(indexPath.row / 2)
             }
             
-            let item = items![rowforsearch] as [String:AnyObject]
-            let descDepartment = item["description"] as NSString
-            let bgDepartment = item["idDepto"] as NSString
-            let departmentId = item["idDepto"] as NSString
+            let item = items![rowforsearch] as! [String:AnyObject]
+            let descDepartment = item["description"] as! String
+            let bgDepartment = item["idDepto"] as! String
+            let departmentId = item["idDepto"] as! String
             
             cellDept.setValues(descDepartment,collapsed:collapsed)
 
@@ -125,12 +125,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             
 
         } else {
-            let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: indexPath) as IPOGRDepartmentSpecialTableViewCell
+            let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: indexPath) as! IPOGRDepartmentSpecialTableViewCell
             cellSpecials.delegate = self
             
             let rowforsearch = Int(indexPath.row / 2)
-            let item = items![rowforsearch] as [String:AnyObject]
-            var bgDepartment = item["idDepto"] as NSString
+            let item = items![rowforsearch] as! [String:AnyObject]
+            var bgDepartment = item["idDepto"] as! String
             bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             
             
@@ -148,7 +148,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         return cell
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row % 2 == 0 || collapsed {
             return 56
         }else {
@@ -183,12 +183,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                         rowforsearch = Int(indexPath.row / 2)
                     }
                     
-                    let item = self.items![rowforsearch] as [String:AnyObject]
+                    let item = self.items![rowforsearch] as! [String:AnyObject]
                     let famArray : AnyObject = item["family"] as AnyObject!
-                    let itemsFam : [[String:AnyObject]] = famArray as [[String:AnyObject]]
-                    let descDepartment = item["description"] as? NSString
+                    let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
+                    let descDepartment = item["description"] as? String
                    
-                    self.familyController.departmentId = item["idDepto"] as NSString
+                    self.familyController.departmentId = item["idDepto"] as! String
                     self.familyController.families = itemsFam
                     self.familyController.selectedFamily = nil
                     self.familyController.familyTable.reloadData()
@@ -330,10 +330,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func fillConfigData(depto:String) -> [[String:AnyObject]]? {
         var resultDict : [AnyObject] = []
         if (canfigData.keys.filter {$0 == depto }).array.count > 0 {
-            let upcs = canfigData[depto] as [String]
+            let upcs = canfigData[depto] as! [String]
             for upcStr in upcs {
                 let itemsFound = itemsExclusive?.filter({ (dictionUPC) -> Bool in
-                    if dictionUPC["upc"] as String == upcStr {
+                    if dictionUPC["upc"] as! String == upcStr {
                         return true
                     }
                     return false

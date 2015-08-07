@@ -152,7 +152,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             var x: CGFloat = 0.0
             var sep: CGFloat = 5.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as UIButton
+                var point = UIButton.buttonWithType(.Custom) as! UIButton
                 point.frame = CGRectMake(x, 0, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)

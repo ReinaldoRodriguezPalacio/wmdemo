@@ -21,21 +21,21 @@ class UpdateUserProfileService : BaseService {
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {
                   
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     var usr : User
                     
-                    let email = params.objectForKey("email") as String;
+                    let email = params.objectForKey("email") as! String;
                     let predicate = NSPredicate(format: "email == %@ ", email)
-                    let array =  self.retrieve("User"  as NSString ,sortBy:nil,isAscending:true,predicate:predicate) as NSArray
+                    let array =  self.retrieve("User" ,sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
         
                     if array.count > 0{
-                        usr = array[0] as User
+                        usr = array[0] as! User
                         
-                        var resultProfileJSON = params["profile"] as NSDictionary
+                        var resultProfileJSON = params["profile"] as! NSDictionary
                         
-                        usr.profile.name = resultProfileJSON["name"] as String
-                        usr.profile.lastName = resultProfileJSON["lastName"] as String
+                        usr.profile.name = resultProfileJSON["name"] as! String
+                        usr.profile.lastName = resultProfileJSON["lastName"] as! String
 
                         var error: NSError? = nil
                         context.save(&error)
@@ -45,7 +45,7 @@ class UpdateUserProfileService : BaseService {
                 }
                 else{
                     let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    let message = resultCall["message"] as String
+                    let message = resultCall["message"] as! String
                     var error = NSError()
                     //error.setValue(message, forKey:codeMessage)
                     errorBlock!(error)

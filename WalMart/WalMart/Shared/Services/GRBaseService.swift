@@ -14,14 +14,14 @@ class GRBaseService : BaseService {
     var urlForSession = false
     
     override func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as String
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
         var serviceConfigDictionary = "WMGroceriesURLServices"
         if self.urlForSession {
             serviceConfigDictionary = UserCurrentSession.sharedInstance().userSigned != nil ? "WMGroceriesURLServicesSession" : "WMGroceriesURLServices"
         }
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as NSDictionary
-        let environmentServices = services[environment] as [String:AnyObject]
-        let serviceURL =  environmentServices[serviceName] as String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
+        let environmentServices = services[environment] as! [String:AnyObject]
+        let serviceURL =  environmentServices[serviceName] as! String
         //println(serviceURL)
         return serviceURL
     }

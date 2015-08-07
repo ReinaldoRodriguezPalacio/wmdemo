@@ -56,7 +56,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         
         let service = GRRecentProductsService()
         service.callService({ (resultado:NSDictionary) -> Void in
-            self.recentProductItems = resultado["responseArray"] as [AnyObject]
+            self.recentProductItems = resultado["responseArray"] as! [AnyObject]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -76,14 +76,14 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell{
-        let cellRecentProducts = tableView.dequeueReusableCellWithIdentifier("recentCell") as RecentProductsTableViewCell
-        let objProduct = recentProductItems[indexPath.row] as NSDictionary
-        let img = objProduct["imageUrl"] as NSString
-        let description = objProduct["description"] as NSString
-        let price = objProduct["price"] as NSNumber
-        let upc = objProduct["upc"] as NSString
-        let pesable = objProduct["pesable"] as NSString
-        let promoDescription = objProduct["promoDescription"] as NSString
+        let cellRecentProducts = tableView.dequeueReusableCellWithIdentifier("recentCell") as! RecentProductsTableViewCell
+        let objProduct = recentProductItems[indexPath.row] as! NSDictionary
+        let img = objProduct["imageUrl"] as! String
+        let description = objProduct["description"] as! String
+        let price = objProduct["price"] as! NSNumber
+        let upc = objProduct["upc"] as! String
+        let pesable = objProduct["pesable"] as! NSString
+        let promoDescription = objProduct["promoDescription"] as! NSString
         var isActive = true
         
         if let active = objProduct["stock"] as? Bool {
@@ -115,8 +115,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
 
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  recentProductItems {
-            let upc = shoppingCartProduct["upc"] as NSString
-            let desc = shoppingCartProduct["description"] as NSString
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
             upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Groceries.rawValue])
         }
         return upcItems

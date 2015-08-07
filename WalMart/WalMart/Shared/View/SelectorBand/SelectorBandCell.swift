@@ -32,7 +32,7 @@ class SelectorBandCell: UICollectionViewCell {
     }
     
     func setText(text:NSString, selected:Bool) {
-        self.label!.text = text
+        self.label!.text = text as String
         if selected {
             self.label!.font = WMFont.fontMyriadProBlackOfSize(14)
         }else{

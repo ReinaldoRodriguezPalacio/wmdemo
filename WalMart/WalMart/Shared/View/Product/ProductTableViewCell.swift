@@ -27,10 +27,10 @@ class ProductTableViewCell :SWTableViewCell {
         setup()
     }
     
-    override init(frame: CGRect) {
+    /*override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-    }
+    }*/
     
     func setup() {
         

@@ -57,14 +57,14 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         var reusableView : UICollectionReusableView? = nil
         
         if kind == CSStickyHeaderParallaxHeader {
-            let view = collection?.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as IPACatHeaderSearchReusable
+            let view = collection?.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! IPACatHeaderSearchReusable
             
             view.setValues(imageBgCategory,imgIcon: imageIconCategory,titleStr: titleCategory!)
             view.delegate = delegateImgHeader
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
-            let view = collection?.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as IPASectionHeaderSearchReusable
+            let view = collection?.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! IPASectionHeaderSearchReusable
             self.header!.frame = CGRectMake(0, 0, 1024, 44)
             
             self.filterButton!.frame = CGRectMake(1024 - 87, 0 , 87, 46)
@@ -110,7 +110,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         return UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
     }
     
-    override func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake(341.33 , 254);
     }
     

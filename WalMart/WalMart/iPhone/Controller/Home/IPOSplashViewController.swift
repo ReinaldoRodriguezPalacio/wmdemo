@@ -65,9 +65,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 if let privateNot = result["privaceNotice"] as? [AnyObject] {
                     let dateFormatter = NSDateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
-                    let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as String)!
-                    let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as String)!
-                    let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("version") as NSNumber
+                    let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as! String)!
+                    let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as! String)!
+                    let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("version") as! NSNumber
                     let versionAP = "AP\(version)" as String!
                     
                     UserCurrentSession.sharedInstance().dateStart = sinceDate
@@ -81,14 +81,14 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 
                 
                 if requiredAP {
-                    var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+                    var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
                     var filePath = paths.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
 //                    var checkValidation = NSFileManager.defaultManager()
                     if (NSFileManager.defaultManager().fileExistsAtPath(filePath)) {
                         let ok:Bool = NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
                     }
                     
-                    let url = result["privaceNotice"]?.objectAtIndex(0).objectForKey("url") as String
+                    let url = result["privaceNotice"]?.objectAtIndex(0).objectForKey("url") as! String
                     var request = NSURLRequest(URL: NSURL(string:url)!)
                     let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
                     let manager = AFURLSessionManager(sessionConfiguration: configuration)
@@ -115,7 +115,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     func retrieveParam(key:String) -> Param? {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let user = UserCurrentSession.sharedInstance().userSigned
@@ -128,7 +128,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
         var error: NSError? = nil
-        var result = context.executeFetchRequest(fetchRequest, error: &error) as [Param]?
+        var result = context.executeFetchRequest(fetchRequest, error: &error) as! [Param]?
         var parameter: Param? = nil
         if result != nil && result!.count > 0 {
             parameter = result!.first
@@ -160,10 +160,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     
-    func webView(webView: UIWebView!, shouldStartLoadWithRequest request: NSURLRequest!, navigationType: UIWebViewNavigationType) -> Bool {
+    func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
         
         
-        if request.URL.absoluteString!.hasPrefix("ios:") {
+        if request.URL!.absoluteString!.hasPrefix("ios:") {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.splashDefault.alpha = 0
                 }) { (response:Bool) -> Void in
@@ -257,10 +257,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     }
     
     func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as NSDictionary
-        let environmentServices = services.objectForKey(environment) as NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as String
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
     }
     
@@ -321,7 +321,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_STORELACATION.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         /*let shoppingCartUpdateBg = ShoppingCartProductsService()

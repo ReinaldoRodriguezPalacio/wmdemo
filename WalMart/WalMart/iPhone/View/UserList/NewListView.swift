@@ -95,11 +95,6 @@ class NewListView: UIControl, UITextFieldDelegate {
 }
 
 class ListFieldSearch: UITextField {
-    
-    override init() {
-        super.init()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()

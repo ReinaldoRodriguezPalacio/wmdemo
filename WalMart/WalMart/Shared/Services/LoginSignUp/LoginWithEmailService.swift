@@ -30,7 +30,7 @@ class LoginWithEmailService : BaseService {
                             UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
                             successBlock!(resultCall!)
                             }
-                            , {(error: NSError) in
+                            , errorBlock: {(error: NSError) in
                                 errorBlock!(error)
                         })
                     }else {
@@ -40,7 +40,7 @@ class LoginWithEmailService : BaseService {
                 }
                 else{
                     let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    let message = resultCall["message"] as String
+                    let message = resultCall["message"] as! String
                     var error = NSError()
                     //error.setValue(message, forKey:codeMessage)
                     errorBlock!(error)

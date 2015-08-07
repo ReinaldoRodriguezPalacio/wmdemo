@@ -111,10 +111,10 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
             }
             
             let tmpResult : NSString = "\(formatedString)kg"
-            lblQuantity.text = tmpResult
+            lblQuantity.text = tmpResult as String
         }else {
             let tmpResult : NSString = "\(Int(currentValGr))g"
-            lblQuantity.text = tmpResult
+            lblQuantity.text = tmpResult as String
         }
         let rectSize =  lblQuantity.attributedText.boundingRectWithSize(CGSizeMake(lblQuantity.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         quantityWAnimate.frame = CGRectMake((lblQuantity.bounds.width / 2) + (rectSize.width / 2) + 3, 0, 1, lblQuantity.frame.height)

@@ -16,12 +16,12 @@ class IPOBaseController : BaseController {
     var lastContentOffset: CGFloat? = 0
     var isVisibleTab: Bool = true
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.startContentOffset = scrollView.contentOffset.y
         self.lastContentOffset = scrollView.contentOffset.y
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView!) {
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         var currentOffset: CGFloat = scrollView.contentOffset.y
         var differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
         var differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset

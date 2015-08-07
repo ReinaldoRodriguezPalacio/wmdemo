@@ -63,10 +63,10 @@ class SliderTableViewCell: UITableViewCell {
 
     }
     
-    func setValues(priceValues:NSArray) {
+    func setValuesSlider(priceValues:NSArray) {
         if  self.minValue == 0 && self.maxValue == 0 {
-            self.minValue = priceValues.firstObject as Double
-            self.maxValue = priceValues.lastObject as Double
+            self.minValue = priceValues.firstObject as! Double
+            self.maxValue = priceValues.lastObject as! Double
             self.values = priceValues
         
             self.setAmountLabels(forMinAmount: self.minValue, andMaxAmount: self.maxValue)
@@ -145,7 +145,7 @@ class SliderTableViewCell: UITableViewCell {
 //        println("values: self.slider!.lowerValue:\(self.slider!.lowerValue) -> \(lower)")
 //        println("values: self.slider!.upperValue:\(self.slider!.upperValue) -> \(upper)")
         
-        self.setAmountLabels(forMinAmount: self.values![lower] as Double, andMaxAmount: self.values![upper] as Double)
+        self.setAmountLabels(forMinAmount: self.values![lower] as! Double, andMaxAmount: self.values![upper] as! Double)
         self.layoutMounts()
 
         self.delegate?.rangerSliderDidChangeValues(forLowPrice: lower, andHighPrice: upper)

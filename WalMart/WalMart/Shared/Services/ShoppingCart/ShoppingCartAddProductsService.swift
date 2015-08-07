@@ -52,10 +52,10 @@ class ShoppingCartAddProductsService : BaseService {
             var itemsWishList : [String] = []
            
             var upcSend = ""
-            for itemSvc in params as NSArray {
-                let upc = itemSvc["upc"] as NSString
+            for itemSvc in params as! NSArray {
+                let upc = itemSvc["upc"] as! String
                 upcSend = upc
-                let quantity = itemSvc["quantity"] as NSString
+                let quantity = itemSvc["quantity"] as! String
                 itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:""))
                 
                 let wlValue =  itemSvc["wishlist"] as? Bool
@@ -121,25 +121,25 @@ class ShoppingCartAddProductsService : BaseService {
     
     func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        for product in params as NSArray {
+        for product in params as! NSArray {
             
             var cartProduct : Cart
-            var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as NSString)
+            var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! String)
             if UserCurrentSession.sharedInstance().userSigned != nil {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as NSString,UserCurrentSession.sharedInstance().userSigned!)
+                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! String,UserCurrentSession.sharedInstance().userSigned!)
             }
-            let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as [Cart]
+            let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
-                cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart" as NSString, inManagedObjectContext: context) as Cart
-                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product" as NSString, inManagedObjectContext: context) as Product
+                cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
+                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
                 cartProduct.product = productBD
             }else{
                 cartProduct = array[0]
             }
-            let quantityStr = product["quantity"] as NSString
+            let quantityStr = product["quantity"] as! NSString
             if  quantityStr.integerValue <= ShoppingCartAddProductsService.maxItemsInShoppingCart() {
                 cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
             } else {
@@ -148,11 +148,11 @@ class ShoppingCartAddProductsService : BaseService {
             
             println("Product in shopping cart: \(product)")
             
-            cartProduct.product.upc = product["upc"] as NSString
-            cartProduct.product.price = product["price"] as NSString
-            cartProduct.product.desc = product["desc"] as NSString
-            cartProduct.product.img = product["imageURL"] as NSString
-            cartProduct.product.onHandInventory = product["onHandInventory"] as NSString
+            cartProduct.product.upc = product["upc"] as! String
+            cartProduct.product.price = product["price"] as! String
+            cartProduct.product.desc = product["desc"] as! String
+            cartProduct.product.img = product["imageURL"] as! String
+            cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
             cartProduct.status = NSNumber(integer: statusForProduct())

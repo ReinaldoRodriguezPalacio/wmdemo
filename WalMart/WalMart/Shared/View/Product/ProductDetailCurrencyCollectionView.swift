@@ -17,11 +17,6 @@ class ProductDetailCurrencyCollectionView : UITableViewCell {
         setup()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
-    
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setup()

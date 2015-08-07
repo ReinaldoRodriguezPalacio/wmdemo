@@ -38,7 +38,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_WISHLIST.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.titleLabel!.textColor = WMColor.wishlistTitleTextColor
@@ -149,7 +149,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-       let cell = wishlist.dequeueReusableCellWithIdentifier("product", forIndexPath: indexPath) as WishlistProductTableViewCell
+       let cell = wishlist.dequeueReusableCellWithIdentifier("product", forIndexPath: indexPath) as! WishlistProductTableViewCell
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.rightUtilityButtons = getRightButtonDelete()
@@ -159,12 +159,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
 
         
-        let itemWishlist = items[indexPath.row] as [String:AnyObject]
-        let upc = itemWishlist["upc"] as NSString
+        let itemWishlist = items[indexPath.row] as! [String:AnyObject]
+        let upc = itemWishlist["upc"] as! String
         var pesable = "" //itemWishlist["pesable"] as NSString
         
         if let pesables = itemWishlist["type"] as?  NSString {
-            pesable = pesables
+            pesable = pesables as String
         }else{
             pesable == "false"
         }
@@ -173,21 +173,21 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         //self.updateItemSavingForUPC(indexPath,upc:upc)
         
         
-        let desc = itemWishlist["description"] as NSString
-        let price = itemWishlist["price"] as NSString
-        let imageArray = itemWishlist["imageUrl"] as NSArray
+        let desc = itemWishlist["description"] as! String
+        let price = itemWishlist["price"] as! NSString
+        let imageArray = itemWishlist["imageUrl"]as! NSArray
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as String
+            imageUrl = imageArray.objectAtIndex(0) as! String
         }
         
         let savingIndex = itemWishlist.indexForKey("saving")
         var savingVal = "0.0"
         if savingIndex != nil {
-             savingVal = itemWishlist["saving"]  as NSString
+             savingVal = itemWishlist["saving"]  as! String
         }
         
-        let active  = itemWishlist["isActive"] as NSString
+        let active  = itemWishlist["isActive"] as! String
         var isActive = "true" == active
         
         if isActive == true {
@@ -200,11 +200,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             isPreorderable = "true" == preordeable
         }
         
-        let onHandInventory = itemWishlist["onHandInventory"] as NSString
+        let onHandInventory = itemWishlist["onHandInventory"] as! NSString
 
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
         
-        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
+        cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
        
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
 
@@ -254,10 +254,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         for itemWishlist in self.items {
             println("Wishlist : \(itemWishlist)")
-            let upc = itemWishlist["upc"] as NSString
-            let desc = itemWishlist["description"] as NSString
+            let upc = itemWishlist["upc"] as! String
+            let desc = itemWishlist["description"] as! String
             let type = ResultObjectType.Mg.rawValue
-            itemsToSend.append(["upc":upc,"description":desc,"type":type])
+            let dict = ["upc":upc,"description":desc,"type":type]
+            itemsToSend.append(dict)
 
         }
         
@@ -340,8 +341,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         var total : Double = 0
         for itemWishList in self.items {
-            let price = itemWishList["price"] as NSString
-            let active  = itemWishList["isActive"] as NSString
+            let price = itemWishList["price"] as! NSString
+            let active  = itemWishList["isActive"] as! NSString
             var isActive = "true" == active
             var isPreorderable = false
             
@@ -353,7 +354,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 isPreorderable = "true" == preordeable
             }
             
-            let onHandInventory = itemWishList["onHandInventory"] as NSString
+            let onHandInventory = itemWishList["onHandInventory"] as! NSString
             
             if isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false {
                 total = total + price.doubleValue
@@ -493,8 +494,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
     
     func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = items[indexPath.row] as [String:AnyObject]
-        let upc = itemWishlist["upc"] as NSString
+        let itemWishlist = items[indexPath.row] as! [String:AnyObject]
+        let upc = itemWishlist["upc"] as! String
         let deleteWishListService = DeleteItemWishlistService()
         deleteWishListService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             self.items.removeAtIndex(indexPath.row)
@@ -507,7 +508,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                     action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_REMOVEFROMWISHLIST.rawValue ,
                     label: upc,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             if self.items.count == 0 {
@@ -598,12 +599,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         var params : [AnyObject] =  []
         for itemWishList in self.items {
             
-            let upc = itemWishList["upc"] as NSString
-            let desc = itemWishList["description"] as NSString
-            let price = itemWishList["price"] as NSString
-            let imageArray = itemWishList["imageUrl"] as NSArray
+            let upc = itemWishList["upc"] as! NSString
+            let desc = itemWishList["description"] as! NSString
+            let price = itemWishList["price"] as! NSString
+            let imageArray = itemWishList["imageUrl"] as! NSArray
             
-            let active  = itemWishList["isActive"] as NSString
+            let active  = itemWishList["isActive"] as! NSString
             var isActive = "true" == active
             
             if isActive == true {
@@ -624,15 +625,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as String
+                imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
             
             
             if isActive == true && numOnHandInventory.integerValue > 0 && isPreorderable == false {
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1",onHandInventory:numOnHandInventory,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0")
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0")
                     println(paramsItem)
                     params.append(paramsItem)
                 }
@@ -641,7 +642,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }
         
     }
@@ -650,10 +651,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let serviceWishDelete = DeleteItemWishlistService()
         var upcsWL : [String]  = []
         for itemWishlist in self.items {
-            let upc = itemWishlist["upc"] as NSString
-            upcsWL.append(upc)
+            let upc = itemWishlist["upc"] as! NSString
+            upcsWL.append(upc as String)
         }
-        serviceWishDelete.callService(["parameter":upcsWL], successBlock: { (result:NSDictionary) -> Void in
+        serviceWishDelete.callServiceWithParams(["parameter":upcsWL], successBlock: { (result:NSDictionary) -> Void in
                 self.reloadWishlist()
                 self.editAction(self.edit)
             }) { (error:NSError) -> Void in
@@ -669,7 +670,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         var service = UserWishlistService()
         service.callService(
             { (wishlist:NSDictionary) -> Void in
-                self.items = wishlist["items"] as [AnyObject]
+                self.items = wishlist["items"] as! [AnyObject]
             
                 self.emptyView.hidden = self.items.count > 0
                 if self.items.count == 0 {
@@ -679,8 +680,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
                 var total : Double = 0
                 for itemWishList in self.items {
-                    let price = itemWishList["price"] as NSString
-                    let active  = itemWishList["isActive"] as NSString
+                    let price = itemWishList["price"] as! NSString
+                    let active  = itemWishList["isActive"] as! NSString
                     var isActive = "true" == active
                     var isPreorderable = false
                 
@@ -692,7 +693,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                         isPreorderable = "true" == preordeable
                     }
                 
-                    let onHandInventory = itemWishList["onHandInventory"] as NSString
+                    let onHandInventory = itemWishList["onHandInventory"] as! NSString
                 
                     if isActive && onHandInventory.integerValue > 0 && !isPreorderable {
                         total = total + price.doubleValue

@@ -233,8 +233,8 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     
     func buttomViewSelected(sender: UIButton) {
         
-        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as String
-        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as String
+        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
         var ver  = "(IOS \(UIDevice.currentDevice().systemVersion), V App \(majorVersion) \(minorVersion))"
         var device = UIDevice.currentDevice().model.lowercaseString.uppercaseString
         var status = AFNetworkReachabilityManager.sharedManager().reachableViaWiFi ? "Wifi" : "WWAN"

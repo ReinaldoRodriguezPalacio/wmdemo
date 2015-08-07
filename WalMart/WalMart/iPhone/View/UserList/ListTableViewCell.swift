@@ -242,7 +242,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
 
-        if (countElements(keyword) > 25) {
+        if (count(keyword) > 25) {
             return false
         }
         

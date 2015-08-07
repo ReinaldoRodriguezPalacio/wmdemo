@@ -43,12 +43,12 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as DepartmentCollectionViewCell
+        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
         
-        let item = items![indexPath.row] as [String:AnyObject]
-        let descDepartment = item["description"] as NSString
-        let bgDepartment = item["idDepto"] as NSString
-        let departmentId = item["idDepto"] as NSString
+        let item = items![indexPath.row] as! [String:AnyObject]
+        let descDepartment = item["description"] as! String
+        let bgDepartment = item["idDepto"] as! String
+        let departmentId = item["idDepto"] as! String
         
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()

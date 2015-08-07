@@ -32,10 +32,10 @@ class AddressViewCell: SWTableViewCell {
         setup()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setup()
-    }
+    //override init(frame: CGRect) {
+      //  super.init(frame: frame)
+      //  setup()
+    //}
     
     func setup() {
         titleLabel = UILabel()

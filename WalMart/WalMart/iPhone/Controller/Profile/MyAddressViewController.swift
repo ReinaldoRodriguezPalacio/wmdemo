@@ -264,7 +264,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
     }
 
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height: CGFloat = 46
         return height
     }
@@ -276,16 +276,16 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         var item : NSDictionary
         if indexPath.section == 0{
             if btnSuper.selected {
-                item = self.arrayAddressShippingGR![indexPath.item] as NSDictionary
+                item = self.arrayAddressShippingGR![indexPath.item] as! NSDictionary
                 isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
             } else {
-                item = self.arrayAddressShipping![indexPath.item] as NSDictionary
+                item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
                 isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
             }
         }else{
-            item = self.arrayAddressFiscal![indexPath.item] as NSDictionary
+            item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
         }
-        let name = item["name"] as String
+        let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
             if pref.integerValue == 1 {
                 prefered = true
@@ -332,16 +332,16 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 var addressId = ""
                 var item : NSDictionary
                 if self.btnSuper.selected {
-                    item = self.arrayAddressShippingGR![indexPath!.row] as NSDictionary
+                    item = self.arrayAddressShippingGR![indexPath!.row] as! NSDictionary
                     if let addId =  item["id"] as? String {
                         addressId = addId
                         self.deleteAddressGR(addressId)
                     }
                 }else{
                     if indexPath!.section == 0{
-                        item = self.arrayAddressShipping![indexPath!.row] as NSDictionary
+                        item = self.arrayAddressShipping![indexPath!.row] as! NSDictionary
                     }else{
-                        item = self.arrayAddressFiscal![indexPath!.row] as NSDictionary
+                        item = self.arrayAddressFiscal![indexPath!.row] as! NSDictionary
                     }
                     if let addId =  item["addressID"] as? String {
                         addressId = addId
@@ -365,7 +365,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     /*
     *@method: Create a section view and return
     */
-    func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36))
         titleView.textColor = WMColor.listAddressHeaderSectionColor
@@ -384,21 +384,21 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         return generic
     }
     
-    func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 36
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if btnSuper.selected {
             self.superAddressController = SuperAddressViewController()
             self.superAddressController!.allAddress =  self.arrayAddressShippingGR
-            let item = self.arrayAddressShippingGR![indexPath.item] as NSDictionary
-            self.superAddressController.addressId = item["id"] as NSString
+            let item = self.arrayAddressShippingGR![indexPath.item] as! NSDictionary
+            self.superAddressController.addressId = item["id"] as! String
             self.superAddressController!.view.frame = self.view.frame
-            self.superAddressController.setValues(item["id"] as NSString)
+            self.superAddressController.setValues(item["id"] as! String)
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_GR.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
             self.navigationController!.pushViewController(self.superAddressController, animated: true)
@@ -407,14 +407,14 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController = AddressViewController()
             }
             var item: NSDictionary!
-            var allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal)
+            var allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as! [AnyObject])
             self.addressController!.allAddress =  allArray
             
             if indexPath.section == 0{
-                item = self.arrayAddressShipping![indexPath.item] as NSDictionary
+                item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
                 self.addressController!.typeAddress = TypeAddress.Shiping
             }else{
-                item = self.arrayAddressFiscal![indexPath.item] as NSDictionary
+                item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
                 if let type = item["corporateName"] as? String{
                     if type == "" {
                         self.addressController!.typeAddress = TypeAddress.FiscalPerson
@@ -427,7 +427,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             //self.addressController!.view.frame = self.view.frame
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_MG.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
             self.navigationController!.pushViewController(self.addressController!, animated: true)
@@ -440,7 +440,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                self.superAddressController!.allAddress =  self.arrayAddressShippingGR
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
             self.navigationController!.pushViewController(self.superAddressController, animated: true)
@@ -451,13 +451,13 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             if arrayAddressShipping.count == 0{
                 self.addressController!.defaultPrefered = true
             }
-            var allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal)
+            var allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as! [AnyObject])
             self.addressController!.allAddress =  allArray
             self.addressController!.typeAddress = TypeAddress.Shiping
             
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
 
             self.navigationController!.pushViewController(self.addressController!, animated: true)
@@ -477,19 +477,19 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             serviceAddress.addressId = addressID
             serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 
-                let name = result["name"] as String!
-                let outerNumber = result["outerNumber"] as String!
-                let innerNumber = result["innerNumber"] as String!
-                let reference1 = result["reference1"] as String!
-                let reference2 = result["reference2"] as String!
-                let zipCode = result["zipCode"] as String!
-                let street = result["street"] as String!
-                let city = result["city"] as String!
-                let state = result["state"] as String!
-                let county = result["county"] as String!
+                let name = result["name"] as! String!
+                let outerNumber = result["outerNumber"] as! String!
+                let innerNumber = result["innerNumber"] as! String!
+                let reference1 = result["reference1"] as! String!
+                let reference2 = result["reference2"] as! String!
+                let zipCode = result["zipCode"] as! String!
+                let street = result["street"] as! String!
+                let city = result["city"] as! String!
+                let state = result["state"] as! String!
+                let county = result["county"] as! String!
                 
-                let neighborhoodID = result["neighborhoodID"] as String!
-                let storeID = result["storeID"] as String!
+                let neighborhoodID = result["neighborhoodID"] as! String!
+                let storeID = result["storeID"] as! String!
                 
                 let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID, operationType: "C", preferred: true)
                 
@@ -508,7 +508,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
                 println("success")
                 self.callServiceAddress()
-                }, {(error: NSError) in
+                }, errorBlock: {(error: NSError) in
                     self.viewLoad.stopAnnimating()
                     self.viewLoad = nil
                     println("error")
@@ -526,19 +526,19 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         serviceAddress.addressId = idAddress
         serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
             
-            let name = result["name"] as String!
-            let outerNumber = result["outerNumber"] as String!
-            let innerNumber = result["innerNumber"] as String!
-            let reference1 = result["reference1"] as String!
-            let reference2 = result["reference2"] as String!
-            let zipCode = result["zipCode"] as String!
-            let street = result["street"] as String!
-            let city = result["city"] as String!
-            let state = result["state"] as String!
-            let county = result["county"] as String!
+            let name = result["name"] as! String!
+            let outerNumber = result["outerNumber"] as! String!
+            let innerNumber = result["innerNumber"] as! String!
+            let reference1 = result["reference1"] as! String!
+            let reference2 = result["reference2"] as! String!
+            let zipCode = result["zipCode"] as! String!
+            let street = result["street"] as! String!
+            let city = result["city"] as! String!
+            let state = result["state"] as! String!
+            let county = result["county"] as! String!
             
-            let neighborhoodID = result["neighborhoodID"] as String!
-            let storeID = result["storeID"] as String!
+            let neighborhoodID = result["neighborhoodID"] as! String!
+            let storeID = result["storeID"] as! String!
             
             let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID, operationType: "B", preferred: false)
             
@@ -597,7 +597,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.callServiceAddress()
             }
             }
-            , {(error: NSError) in
+            , errorBlock: {(error: NSError) in
                 println("error")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
@@ -615,10 +615,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue)
-                tracker.send(GAIDictionaryBuilder.createScreenView().build())
+                tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
             }
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_GR.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
             table.reloadData()
@@ -630,11 +630,11 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue)
-                tracker.send(GAIDictionaryBuilder.createScreenView().build())
+                tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
             }
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_MG.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
             table.reloadData()

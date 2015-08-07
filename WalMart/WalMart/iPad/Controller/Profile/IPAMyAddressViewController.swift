@@ -20,7 +20,7 @@ class IPAMyAddressViewController: MyAddressViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.addressController = IPAAddressViewController()
         super.tableView(tableView, didSelectRowAtIndexPath:indexPath)
     }

@@ -155,7 +155,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         
     }
     
-    func textFieldShouldReturn(textField: UITextField!) -> Bool {
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         if textField.text != nil && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
             let toValidate : NSString = textField.text
@@ -182,7 +182,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                     var code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                     var character = code
                     if self.isBarCodeUPC(code) {
-                        character = code.substringToIndex(advance(code.startIndex, countElements(code)-1 ))
+                        character = code.substringToIndex(advance(code.startIndex, count(code)-1 ))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true)
                     closePopOver()
@@ -226,7 +226,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         return false
     }
     
-    func textField(textField: UITextField!, shouldChangeCharactersInRange range: NSRange, replacementString string: String!) -> Bool {
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if keyword.length() > 51{
@@ -280,7 +280,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         var error: NSError?
         
         var regExVal = NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-        let matches = regExVal!.numberOfMatchesInString(toValidate, options: nil, range: NSMakeRange(0, countElements(toValidate)))
+        let matches = regExVal!.numberOfMatchesInString(toValidate, options: nil, range: NSMakeRange(0, count(toValidate)))
         
         if matches > 0 {
             return true
@@ -425,13 +425,14 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             fullBarcode = "\(toFill)\(codeUPC)"
         }
         
-        let firstVal = (fullBarcode.substring(0, length: 1).toInt()! +
+        var firstVal = (fullBarcode.substring(0, length: 1).toInt()! +
             fullBarcode.substring(2, length: 1).toInt()! +
             fullBarcode.substring(4, length: 1).toInt()! +
             fullBarcode.substring(6, length: 1).toInt()! +
             fullBarcode.substring(8, length: 1).toInt()! +
             fullBarcode.substring(10, length: 1).toInt()! +
-            fullBarcode.substring(12, length: 1).toInt()!)  * 3
+            fullBarcode.substring(12, length: 1).toInt()!)
+        firstVal *= 3
         
         let secondVal = fullBarcode.substring(1, length: 1).toInt()! +
             fullBarcode.substring(3, length: 1).toInt()! +

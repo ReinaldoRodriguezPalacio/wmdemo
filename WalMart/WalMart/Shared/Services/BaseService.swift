@@ -73,10 +73,10 @@ class BaseService : NSObject {
     }
     
     func serviceUrl(serviceName:String) -> String {
-        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as String
-        var services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as NSDictionary
-        let environmentServices = services.objectForKey(environment) as NSDictionary
-        let serviceURL =  environmentServices.objectForKey(serviceName) as String
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        var services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
     }
     
@@ -125,9 +125,9 @@ class BaseService : NSObject {
     
     func retrieve(entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil,expression :NSExpressionDescription?) -> AnyObject {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    =  NSFetchRequest(entityName: entityName as NSString)
+        let request    =  NSFetchRequest(entityName: entityName as NSString as String)
         
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
@@ -154,12 +154,12 @@ class BaseService : NSObject {
         let afManager = getManager()
      
         afManager.POST(serviceUrl(), parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-            var resultJSON = json as NSDictionary
+            var resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.sharedInstance().userSigned != nil {
                         let loginService = LoginWithEmailService()
-                        loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+                        loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
                         loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
@@ -198,7 +198,7 @@ class BaseService : NSObject {
     
     func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.GET(serviceURL, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-            var resultJSON = json as NSDictionary
+            var resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -237,7 +237,7 @@ class BaseService : NSObject {
     
     func validateCodeMessage(response:NSDictionary) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
-            var message = response["message"] as NSString
+            var message = response["message"] as! NSString
             if codeMessage.integerValue != 0  {
                 println("error : Response with error \(message)")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:message])
@@ -250,7 +250,7 @@ class BaseService : NSObject {
     
     func getFilePath(fileName:String) -> String {
         var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray!
-        var docPath = paths[0] as NSString
+        var docPath = paths[0] as! NSString
         var path = docPath.stringByAppendingPathComponent(fileName)
         return path
     }
@@ -276,13 +276,13 @@ class BaseService : NSObject {
         if NSFileManager.defaultManager().fileExistsAtPath(path) {
             var error: NSError?
             var jsonData = NSData(contentsOfFile:path, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-            var values = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as NSDictionary
+            var values = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! NSDictionary
             return values
         }else {
             if let pathResource = NSBundle.mainBundle().pathForResource(fileName.lastPathComponent.stringByDeletingPathExtension, ofType:fileName.pathExtension ) {
                 var error: NSError?
                 var jsonData = NSData(contentsOfFile:pathResource, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-                var values = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as NSDictionary
+                var values = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! NSDictionary
                 return values
             }
         }
@@ -365,18 +365,18 @@ class BaseService : NSObject {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
-                for item in items as [AnyObject] {
-                    var name = item["description"] as NSString
-                    var idDepto = item["idDepto"] as NSString
+                for item in items as! [AnyObject] {
+                    var name = item["description"] as! String
+                    var idDepto = item["idDepto"] as! String
                     let famArray : AnyObject = item["family"] as AnyObject!
                     
-                    for itemFamily in famArray as [AnyObject] {
-                        var idFamily = itemFamily["id"] as NSString
+                    for itemFamily in famArray as! [AnyObject] {
+                        var idFamily = itemFamily["id"] as! String
                         let lineArray : AnyObject = itemFamily["line"] as AnyObject!
-                        var namefamily = itemFamily["name"] as NSString
-                        for itemLine in lineArray as [AnyObject] {
-                            let idLine =  itemLine["id"] as NSString
-                            let nameLine =  itemLine["name"] as NSString
+                        var namefamily = itemFamily["name"] as! String
+                        for itemLine in lineArray as! [AnyObject] {
+                            let idLine =  itemLine["id"] as! String
+                            let nameLine =  itemLine["name"] as! String
                             var select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
                             if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                                 var exist = false
@@ -411,20 +411,20 @@ class BaseService : NSObject {
     func callPOSTServiceCam(manager:AFHTTPSessionManager, params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.POST(serviceUrl(), parameters: nil,
             constructingBodyWithBlock: { (formData: AFMultipartFormData!) in
-                let imgData = params.objectForKey("image_request[image]") as NSData
-                let localeStr = params.objectForKey("image_request[locale]") as String
-                let langStr = params.objectForKey("image_request[language]") as String
+                let imgData = params.objectForKey("image_request[image]") as! NSData
+                let localeStr = params.objectForKey("image_request[locale]") as! String
+                let langStr = params.objectForKey("image_request[language]") as! String
                 formData.appendPartWithFileData(imgData, name: "image_request[image]", fileName: "image.jpg", mimeType: "image/jpeg")
                 formData.appendPartWithFormData(localeStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[locale]")
                 formData.appendPartWithFormData(langStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[language]")
             },
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-                var resultJSON = json as NSDictionary
+                var resultJSON = json as! NSDictionary
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.sharedInstance().userSigned != nil {
                             let loginService = LoginWithEmailService()
-                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
                             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
                             loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)

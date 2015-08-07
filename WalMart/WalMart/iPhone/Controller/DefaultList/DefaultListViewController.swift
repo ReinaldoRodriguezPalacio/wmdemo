@@ -43,7 +43,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
        
         let svcDefaulLists = DefaultListService()
         svcDefaulLists.callService({ (result:NSDictionary) -> Void in
-                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as [[String:AnyObject]]
+                self.itemsLists = result[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
                 self.tableView?.reloadData()
                 self.removeLoadingView()
             }, errorBlock: { (error:NSError) -> Void in
@@ -79,8 +79,8 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cellreturn = tableView.dequeueReusableCellWithIdentifier("SuperlistasCell", forIndexPath: indexPath) as DefaultListTableViewCell
-        let itemList = itemsLists[indexPath.row] as NSDictionary
+        let cellreturn = tableView.dequeueReusableCellWithIdentifier("SuperlistasCell", forIndexPath: indexPath) as! DefaultListTableViewCell
+        let itemList = itemsLists[indexPath.row] as! NSDictionary
         
         let listName = itemList["name"] as? String
         let items = itemList["items"] as? [[String:AnyObject]]
@@ -99,7 +99,7 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let itemList = itemsLists[indexPath.row] as [String:AnyObject]
+        let itemList = itemsLists[indexPath.row] as! [String:AnyObject]
         
         let destDetailList =  DefaultListDetailViewController()
         destDetailList.defaultListName = itemList["name"] as? String

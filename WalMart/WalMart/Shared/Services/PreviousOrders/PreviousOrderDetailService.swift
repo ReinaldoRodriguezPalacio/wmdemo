@@ -15,7 +15,7 @@ class PreviousOrderDetailService : BaseService {
     func callService(trackingNumber:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let serviceURL = "\(serviceUrl())/\(trackingNumber)"
         self.callGETService(serviceURL,params:[:], successBlock: { (resultCall:NSDictionary) -> Void in
-            let itemResult = resultCall[self.JSON_ORDERSDETAIL_RESULT] as NSDictionary
+            let itemResult = resultCall[self.JSON_ORDERSDETAIL_RESULT] as! NSDictionary
             successBlock!(itemResult)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

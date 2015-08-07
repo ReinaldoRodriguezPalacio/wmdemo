@@ -85,11 +85,11 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         }
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(tableView: UITableView!, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         //        switch section {
         //        case 0:
         //            if (self.elements == nil || self.elements!.count == 0){
@@ -107,7 +107,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     /*
     *@method: Create a section view and return
     */
-    func tableView(tableView: UITableView!, viewForHeaderInSection section: Int) -> UIView! {
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,self.view.frame.width,36.0))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,self.view.frame.width,36.0))
         titleView.textColor = WMColor.searchTitleSectionColor
@@ -172,7 +172,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         return size
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         //        switch  indexPath.section {
         //        case 0:
         //            return 46.0
@@ -192,10 +192,10 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //
         //            return cell
         //        default:
-        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as SearchCategoriesViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("SearchCell", forIndexPath: indexPath) as! SearchCategoriesViewCell
         if self.elementsCategories != nil && self.elementsCategories!.count > 0 {
             let item = self.elementsCategories![indexPath.row] as? NSDictionary
-            cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as NSString, forKey:searchText, andDepartament:item!["departament"] as NSString  )
+            cell.setValueTitle(item![KEYWORD_TITLE_COLUMN] as! String, forKey:searchText, andDepartament:item!["departament"] as! String  )
         }
         
         return cell
@@ -336,13 +336,13 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         })
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         //        if indexPath.section == 0 {
         //            let item = self.elements![indexPath.row] as? NSDictionary
         //            self.delegate.selectKeyWord(item![KEYWORD_TITLE_COLUMN] as NSString, upc: item!["upc"] as NSString, truncate:false )
         //        }else{
         let item = self.elementsCategories![indexPath.row] as? NSDictionary
-        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as NSString, andFamilyId: item!["idFamily"] as NSString, andLineId: item!["idLine"] as NSString, andTitleHeader:item!["title"] as NSString , andSearchContextType:item!["type"] as NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
+        self.delegate.showProducts(forDepartmentId: item!["idDepto"] as! NSString as String, andFamilyId: item!["idFamily"] as! NSString as String, andLineId: item!["idLine"] as! NSString as String, andTitleHeader:item!["title"] as! NSString as String , andSearchContextType:item!["type"] as? NSString == ResultObjectType.Mg.rawValue ? .WithCategoryForMG: .WithCategoryForGR )
         
         //        }
         //        let item = self.elements![indexPath.row] as? NSDictionary
@@ -351,7 +351,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         }
     }
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         if endEditing != nil {
             endEditing!()
         }

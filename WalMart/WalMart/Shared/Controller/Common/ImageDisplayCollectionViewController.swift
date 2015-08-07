@@ -33,9 +33,9 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
         if let tracker = GAI.sharedInstance().defaultTracker {
            
             tracker.set(kGAIScreenName, value: (type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_SCREEN_SHOWLARTEIMAGES.rawValue : WMGAIUtils.MG_SCREEN_SHOWLARTEIMAGES.rawValue ))
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
             
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory((type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_SCREEN_SHOWLARTEIMAGES.rawValue : WMGAIUtils.MG_SCREEN_SHOWLARTEIMAGES.rawValue ), action: (type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_PRODUCTDETAIL_SHOWLARGEIMAGE.rawValue : WMGAIUtils.MG_EVENT_PRODUCTDETAIL_SHOWLARGEIMAGE.rawValue ), label: "", value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory((type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_SCREEN_SHOWLARTEIMAGES.rawValue : WMGAIUtils.MG_SCREEN_SHOWLARTEIMAGES.rawValue ), action: (type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_PRODUCTDETAIL_SHOWLARGEIMAGE.rawValue : WMGAIUtils.MG_EVENT_PRODUCTDETAIL_SHOWLARGEIMAGE.rawValue ), label: "", value: nil).build() as [NSObject : AnyObject])
         }
 
         self.collectionFlowLayout =  UICollectionViewFlowLayout()
@@ -113,7 +113,7 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
             var x: CGFloat = 0.0
             var sep: CGFloat = 5.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as UIButton
+                var point = UIButton.buttonWithType(.Custom) as! UIButton
                 point.frame = CGRectMake(x, 0, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
@@ -150,7 +150,7 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         var currentIndex = self.collectionView!.contentOffset.x / self.collectionView!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
@@ -182,7 +182,7 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
     }
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as ImageDisplayCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! ImageDisplayCollectionViewCell
         
         var indexView = indexPath.row
         
@@ -201,13 +201,13 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
 
     // MARK: UICollectionViewDelegate
 
-    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
        
     }
 
     // MARK: - UICollectionViewDelegateFlowLayout
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 //        return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
         return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
     }

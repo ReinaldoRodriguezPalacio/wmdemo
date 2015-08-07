@@ -41,7 +41,7 @@ class BannerService : BaseService {
         
       
         
-        bannerItems = values![JSON_BANNER_EMBEDDEDLIST] as [[String:String]]
+        bannerItems = values![JSON_BANNER_EMBEDDEDLIST] as! [[String:String]]
         if var moreBanner = values![JSON_BANNER_BANNERLIST] as? [[String:String]] {
             moreBanner.sort({ (one:[String : String], second:[String : String]) -> Bool in
                 let firstString = one["order"] as String?

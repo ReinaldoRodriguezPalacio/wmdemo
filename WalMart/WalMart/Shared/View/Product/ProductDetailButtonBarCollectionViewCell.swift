@@ -32,7 +32,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var onHandInventory : String!
     var isPreorderable : String!
     var spaceBetweenButtons : CGFloat = 12.0
-    let widthButtons : CGFloat = 57.0
+    var widthButtons : CGFloat = 57.0
     var detailProductCart: Cart?
     
     var isAviableToShoppingCart : Bool = true {
@@ -51,7 +51,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
         }()
@@ -70,7 +70,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             fetchRequest.predicate = predicate
             
             var error: NSError? = nil
-            var result: [Cart] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [Cart]
+            var result: [Cart] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Cart]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -173,7 +173,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue,
                 action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
                 label: upc,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         

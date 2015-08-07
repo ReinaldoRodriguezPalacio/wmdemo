@@ -84,7 +84,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
         }()
@@ -238,7 +238,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func retrieveParam(key:String) -> Param? {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let user = UserCurrentSession.sharedInstance().userSigned
@@ -251,7 +251,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
         var error: NSError? = nil
-        var result = context.executeFetchRequest(fetchRequest, error: &error) as [Param]?
+        var result = context.executeFetchRequest(fetchRequest, error: &error) as! [Param]?
         var parameter: Param? = nil
         if result != nil && result!.count > 0 {
             parameter = result!.first
@@ -260,7 +260,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func addOrUpdateParam(key:String, value:String) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         if let param = self.retrieveParam(key) {
@@ -290,11 +290,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             var x: CGFloat = ((self.view.bounds.width / 2) - (320 / 2))  + CGFloat(space)
             for image in images {
                 var title = NSString(format: "tabbar.%@", image)
-                title = NSLocalizedString(title, comment: "")
+                title = NSLocalizedString(title as String, comment: "")
                 var button = UIButton()
                 button.setImage(UIImage(named: image), forState: .Normal)
-                button.setImage(UIImage(named: NSString(format: "%@_active", image)), forState: .Selected)
-                button.setImage(UIImage(named: NSString(format: "%@_active", image)), forState: .Highlighted)
+                button.setImage(UIImage(named: NSString(format: "%@_active", image) as String), forState: .Selected)
+                button.setImage(UIImage(named: NSString(format: "%@_active", image) as String), forState: .Highlighted)
                 button.imageView!.contentMode =  UIViewContentMode.Center
                 button.addTarget(self, action: "buttonSelected:", forControlEvents: .TouchUpInside)
                 button.selected = image == "tabBar_home"
@@ -473,11 +473,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func hideTabBar(notification:NSNotification) {
-        self.setTabBarHidden(true, animated: true, delegate:notification.object as CustomBarDelegate?)
+        self.setTabBarHidden(true, animated: true, delegate:notification.object as! CustomBarDelegate?)
     }
     
     func showTabBar(notification:NSNotification) {
-        self.setTabBarHidden(false, animated: true, delegate:notification.object as CustomBarDelegate?)
+        self.setTabBarHidden(false, animated: true, delegate:notification.object as! CustomBarDelegate?)
     }
     
     class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String) -> [NSObject:AnyObject] {
@@ -506,7 +506,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.showShoppingCart(self.btnShopping!)
             }
         }
-        let params = notification.userInfo as [String:AnyObject]
+        let params = notification.userInfo as! [String:AnyObject]
         
         addShopping.params = params
         let type = params["type"] as? String
@@ -528,7 +528,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func addItemsToShoppingCart(notification:NSNotification) {
         let addShopping = ShoppingCartUpdateController()
         
-        let params = notification.userInfo as [String:AnyObject]
+        let params = notification.userInfo as! [String:AnyObject]
         let type = params["type"] as? String
         if type == nil {
             addShopping.typeProduct = ResultObjectType.Mg
@@ -570,7 +570,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             if self.searchController == nil  {
                 
                 if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build())
+                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()as [NSObject : AnyObject])
                 }
                 
                 if self.imageBlurView != nil {
@@ -733,7 +733,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func selectKeyWord(keyWord:String, upc:String?, truncate:Bool ){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build() as [NSObject : AnyObject])
             }
             
             
@@ -745,7 +745,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            svcValidate.callService(paddedUPC, successBlock: { (result:NSDictionary) -> Void in
+            svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 var controllernav = self.currentController as? UINavigationController
                 controllernav?.pushViewController(controller, animated: true)
@@ -765,7 +765,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else{
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as [NSObject : AnyObject])
             }
             
             let controller = SearchProductViewController()
@@ -799,7 +799,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeSearch(false, sender: nil)
     }
     
-    func navigationController(navigationController: UINavigationController!, didShowViewController viewController: UIViewController!, animated: Bool) {
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         self.btnSearch!.selected =  false
         //self.clearSearch()
     }
@@ -834,7 +834,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     
-    func navigationController(navigationController: UINavigationController!, willShowViewController viewController: UIViewController!, animated: Bool) {
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
     }
     
     func searchControllerScanButtonClicked(controller: BarCodeViewControllerDelegate!) {
@@ -969,8 +969,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func notificaUpdateBadge(notification:NSNotification){
         if notification.object != nil {
-            let params = notification.object as NSDictionary
-            let number = params["quantity"] as Int!
+            let params = notification.object as! NSDictionary
+            let number = params["quantity"] as! Int
             updateBadge(number)
             self.endUpdatingShoppingCart(notification)
         }
@@ -992,12 +992,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         var storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         var cookies = storage.cookiesForURL(NSURL(string: "https://www.walmart.com.mx")!)
         for var idx = 0; idx < cookies!.count; idx++ {
-            var cookie = cookies![idx] as NSHTTPCookie
+            var cookie = cookies![idx] as! NSHTTPCookie
             storage.deleteCookie(cookie)
         }
         cookies =   storage.cookiesForURL(NSURL(string: "https://www.aclaraciones.com.mx")!)
         for var idx = 0; idx < cookies!.count; idx++ {
-            var cookie = cookies![idx] as NSHTTPCookie
+            var cookie = cookies![idx] as! NSHTTPCookie
             storage.deleteCookie(cookie)
         }
     }

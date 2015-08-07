@@ -39,8 +39,8 @@ class AddItemWishlistService : BaseService {
             //Se actualza la lista del usuario
             var itemsSvc : [[String:AnyObject]] = []
             for itemSvc in params as NSArray {
-                let upc = itemSvc["upc"] as NSString
-                let quantity = itemSvc["quantity"] as NSString
+                let upc = itemSvc["upc"] as! String
+                let quantity = itemSvc["quantity"] as! String
                 itemsSvc.append(self.builParamSvc(upc,quantity:quantity,comments:""))
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
@@ -64,10 +64,10 @@ class AddItemWishlistService : BaseService {
     
     func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        for product in params as NSArray {
+        for product in params as! NSArray {
             //Se actualza la lista del usuario
             
             let serviceWish = UserWishlistService()
@@ -76,27 +76,27 @@ class AddItemWishlistService : BaseService {
                 }, errorBlock: { (error:NSError) -> Void in
             })
             var wishlistProduct : Wishlist
-            var predicate = NSPredicate(format: "product.upc == %@ && user == nil",product["upc"] as NSString)
+            var predicate = NSPredicate(format: "product.upc == %@ && user == nil",product["upc"] as! NSString)
             if UserCurrentSession.sharedInstance().userSigned != nil {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as NSString,UserCurrentSession.sharedInstance().userSigned!)
+                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
             }
-            let array : [Wishlist] =  self.retrieve("Wishlist" as NSString,sortBy:nil,isAscending:true,predicate:predicate) as [Wishlist]
+            let array : [Wishlist] =  self.retrieve("Wishlist",sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]
             if array.count == 0 {
-                wishlistProduct = NSEntityDescription.insertNewObjectForEntityForName("Wishlist" as NSString, inManagedObjectContext: context) as Wishlist
-                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product" as NSString, inManagedObjectContext: context) as Product
+                wishlistProduct = NSEntityDescription.insertNewObjectForEntityForName("Wishlist", inManagedObjectContext: context) as! Wishlist
+                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
                 wishlistProduct.product = productBD
             }else{
                 wishlistProduct = array[0]
             }
 
-            wishlistProduct.product.upc = product["upc"] as NSString
-            wishlistProduct.product.price = product["price"] as NSString
-            wishlistProduct.product.desc = product["desc"] as NSString
-            wishlistProduct.product.img = product["imageURL"] as NSString
+            wishlistProduct.product.upc = product["upc"] as! String
+            wishlistProduct.product.price = product["price"] as! String
+            wishlistProduct.product.desc = product["desc"] as! String
+            wishlistProduct.product.img = product["imageURL"] as! String
             
-            wishlistProduct.product.isActive = product["isActive"] as NSString
-            wishlistProduct.product.isPreorderable = product["isPreordeable"] as NSString
-            wishlistProduct.product.onHandInventory = product["onHandInventory"] as NSString
+            wishlistProduct.product.isActive = product["isActive"] as! String
+            wishlistProduct.product.isPreorderable = product["isPreordeable"] as! String
+            wishlistProduct.product.onHandInventory = product["onHandInventory"] as! String
             
             wishlistProduct.status = NSNumber(integer: WishlistStatus.Created.rawValue)
             if UserCurrentSession.sharedInstance().userSigned != nil {

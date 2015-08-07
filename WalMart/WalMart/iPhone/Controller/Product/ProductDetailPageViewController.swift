@@ -27,10 +27,10 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         self.pageController.dataSource = self
         self.pageController.view.frame = self.view.bounds
         
-        let selected = itemsToShow[ixSelected] as NSDictionary
-        let upc = selected["upc"] as NSString
-        let name = selected["description"] as NSString
-        let type = selected["type"] as NSString
+        let selected = itemsToShow[ixSelected] as! NSDictionary
+        let upc = selected["upc"] as! String
+        let name = selected["description"] as! String
+        let type = selected["type"] as! String
         let saving = selected["saving"] as? String
         
         var ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving)
@@ -93,10 +93,10 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         if ixSelected > 0 {
             ixSelected = ixSelected - 1
             
-            let selected = itemsToShow[ixSelected] as NSDictionary
-            let upc = selected["upc"] as NSString
-            let name = selected["description"] as NSString
-            let type = selected["type"] as NSString
+            let selected = itemsToShow[ixSelected] as! NSDictionary
+            let upc = selected["upc"] as! String
+            let name = selected["description"] as! String
+            let type = selected["type"] as! String
             let saving = selected["saving"] as? String
             
             let controllerBefore = getControllerToShow(upc,descr:name,type:type)
@@ -111,10 +111,10 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         if ixSelected + 1 < itemsToShow.count {
             ixSelected = ixSelected + 1
             
-            let selected = itemsToShow[ixSelected] as NSDictionary
-            let upc = selected["upc"] as NSString
-            let name = selected["description"] as NSString
-            let type = selected["type"] as NSString
+            let selected = itemsToShow[ixSelected] as! NSDictionary
+            let upc = selected["upc"] as! String
+            let name = selected["description"] as! String
+            let type = selected["type"] as! String
             let saving = selected["saving"] as? String
             
             let controllerBefore = getControllerToShow(upc,descr:name,type:type)

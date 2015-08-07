@@ -52,7 +52,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.dateFmt = NSDateFormatter()
@@ -66,7 +66,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content.scrollDelegate = self
 
         self.name = FormFieldView()
-        self.name!.setPlaceholder(NSLocalizedString("profile.name",comment:""))
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.isRequired = true
         self.name!.typeField = TypeField.Name
         self.name!.minLength = 2
@@ -74,7 +74,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
         
         self.lastName = FormFieldView()
-        self.lastName!.setPlaceholder(NSLocalizedString("profile.lastname",comment:""))
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.isRequired = true
         self.lastName!.typeField = TypeField.String
         self.lastName!.minLength = 2
@@ -82,7 +82,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
         
         self.email = FormFieldView()
-        self.email!.setPlaceholder(NSLocalizedString("profile.email",comment:""))
+        self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
         self.email!.keyboardType = UIKeyboardType.EmailAddress
         self.email!.isRequired = true
         self.email!.typeField = TypeField.Email
@@ -91,7 +91,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.email!.enabled = false
 
         self.birthDate = FormFieldView()
-        self.birthDate!.setPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
+        self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
         self.birthDate!.typeField = .None
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
         self.birthDate!.isRequired = true
@@ -226,10 +226,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     func setValues() {
         if let user = UserCurrentSession.sharedInstance().userSigned {
-            self.name!.text = user.profile.name
-            self.email!.text = user.email
-            self.lastName!.text = user.profile.lastName
-            if let date = self.parseFmt!.dateFromString(user.profile.birthDate) {
+            self.name!.text = user.profile.name as String
+            self.email!.text = user.email as String
+            self.lastName!.text = user.profile.lastName as String
+            if let date = self.parseFmt!.dateFromString(user.profile.birthDate as String) {
                 self.birthDate!.text = self.dateFmt!.stringFromDate(date)
                 self.inputBirthdateView!.date = date
                 if user.profile.sex == "Female" {
@@ -311,7 +311,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
             let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
             
-            let params  = service.buildParamsWithMembership(self.email!.text, password: passCurrent, newPassword:passNew, name: self.name!.text, lastName: self.lastName!.text,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer!,allowMarketingEmail:allowMarketing!)
+            let params  = service.buildParamsWithMembership(self.email!.text, password: passCurrent, newPassword:passNew, name: self.name!.text, lastName: self.lastName!.text,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -326,7 +326,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
                         action:WMGAIUtils.EVENT_PROFILE_CHANGEPASSWORD.rawValue,
                         label: nil,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
             }
             
@@ -351,7 +351,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                     self.delegate.finishSave()
                 }
                 }
-                , {(error: NSError) in
+                , errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
             })
@@ -370,9 +370,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         if self.passworCurrent != nil{
             
-            if countElements(self.passworCurrent!.text) > 0 ||
-                countElements(self.password!.text) > 0 ||
-                countElements(self.confirmPassword!.text) > 0 {
+            if count(self.passworCurrent!.text) > 0 ||
+                count(self.password!.text) > 0 ||
+                count(self.confirmPassword!.text) > 0 {
                 if !error{
                     error = viewError(passworCurrent!)
                 }

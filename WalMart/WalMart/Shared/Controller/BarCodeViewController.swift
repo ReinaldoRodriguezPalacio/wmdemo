@@ -180,7 +180,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     if self.applyPadding {
                         var code = metaObj.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        var character = code.substringToIndex(advance(code.startIndex, countElements(code)-1 ))
+                        var character = code.substringToIndex(advance(code.startIndex, count(code)-1 ))
                         self.delegate!.barcodeCaptured(character)
                     }
                     else {
@@ -217,7 +217,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if UIApplicationOpenSettingsURLString != nil {
+            if UIApplicationOpenSettingsURLString.isEmpty {
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             }
         } else {

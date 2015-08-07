@@ -77,6 +77,18 @@ static NSString * const kTableViewCellContentView = @"UITableViewCellContentView
     return self;
 }
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    
+    if (self)
+    {
+        [self initializer];
+    }
+    
+    return self;
+}
+
 - (void)initializer
 {
     // Set up scroll view that will host our cell content

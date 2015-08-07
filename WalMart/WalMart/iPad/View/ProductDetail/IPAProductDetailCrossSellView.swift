@@ -11,16 +11,16 @@ import Foundation
 class IPAProductDetailCrossSellView : ProductDetailCrossSellView {
     
     
-    override func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         var upcItems : [[String:String]] = []
-        var cell = collectionView.cellForItemAtIndexPath(indexPath) as ProductCollectionViewCell
+        var cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
         for upcStr in itemsUPC {
-            let upc = upcStr["upc"] as NSString
-            let desc = upcStr["description"] as NSString
+            let upc = upcStr["upc"] as! String
+            let desc = upcStr["description"] as! String
             
-            var typeProdVal :  NSString = ResultObjectType.Mg.rawValue
-            if let myType = upcStr["type"] as?  NSString {
+            var typeProdVal :  String = ResultObjectType.Mg.rawValue
+            if let myType = upcStr["type"] as?  String {
                 typeProdVal = myType
             }
             
@@ -34,7 +34,7 @@ class IPAProductDetailCrossSellView : ProductDetailCrossSellView {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                 action:WMGAIUtils.MG_EVENT_PRODUCTDETAIL_RELATEDPRODUCT.rawValue,
                 label: upc,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:pontInView)

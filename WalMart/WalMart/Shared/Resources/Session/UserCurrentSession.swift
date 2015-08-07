@@ -47,9 +47,9 @@ class UserCurrentSession : NSObject {
     
     func searchForCurrentUser(){
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "User" as NSString)
+        let request    = NSFetchRequest(entityName: "User" as NSString as String)
         
         request.returnsObjectsAsFaults = false
         
@@ -90,38 +90,38 @@ class UserCurrentSession : NSObject {
   
     func createUpdateUser(userDictionaryMG:NSDictionary, userDictionaryGR:NSDictionary) {
         
-        var resultProfileJSONMG = userDictionaryMG["profile"] as NSDictionary
+        var resultProfileJSONMG = userDictionaryMG["profile"] as! NSDictionary
         var resultProfileJSONGR : [String:AnyObject]? = nil
         if let userDictPrGR = userDictionaryGR["profile"] as? [String:AnyObject] {
             resultProfileJSONGR = userDictPrGR
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var usr : User
-        let idUser = userDictionaryMG["idUser"] as String
+        let idUser = userDictionaryMG["idUser"] as! String
         let predicate = NSPredicate(format: "idUser == %@ ", idUser)
         
-        let array =  self.retrieve("User" as NSString,sortBy:nil,isAscending:true,predicate:predicate) as NSArray
+        let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
         
         var profile : Profile
         if array.count > 0{
-            usr = array[0] as User
+            usr = array[0] as! User
             profile = usr.profile
         }else{
-            usr = NSEntityDescription.insertNewObjectForEntityForName("User" as NSString, inManagedObjectContext: context) as User
-            profile = NSEntityDescription.insertNewObjectForEntityForName("Profile" as NSString, inManagedObjectContext: context) as Profile
+            usr = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: context) as! User
+            profile = NSEntityDescription.insertNewObjectForEntityForName("Profile", inManagedObjectContext: context) as! Profile
         }
         
         usr.profile = profile
         usr.idUser = idUser
         
         //Fill user MG
-        usr.email = userDictionaryMG["email"] as String
-        usr.idUser = userDictionaryMG["idUser"] as String
-        usr.cartId = userDictionaryMG["cartId"] as String
-        usr.login = userDictionaryMG["login"] as String
+        usr.email = userDictionaryMG["email"] as! String
+        usr.idUser = userDictionaryMG["idUser"] as! String
+        usr.cartId = userDictionaryMG["cartId"] as! String
+        usr.login = userDictionaryMG["login"] as! String
         if let token = userDictionaryMG["token"] as? String{
             usr.token = token
         }
@@ -143,10 +143,10 @@ class UserCurrentSession : NSObject {
         if let idProfile = resultProfileJSONMG["id"] as? String{
             profile.idProfile = idProfile
         }
-        profile.name = resultProfileJSONMG["name"] as String
-        profile.lastName = resultProfileJSONMG["lastName"] as String
-        profile.lastName2 = resultProfileJSONMG["lastName2"] as String
-        profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as String
+        profile.name = resultProfileJSONMG["name"] as! String
+        profile.lastName = resultProfileJSONMG["lastName"] as! String
+        profile.lastName2 = resultProfileJSONMG["lastName2"] as! String
+        profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as! String
         if let valueProfile =  resultProfileJSONMG["allowTransfer"] as? String {
             profile.allowTransfer = valueProfile
         }else {
@@ -163,24 +163,24 @@ class UserCurrentSession : NSObject {
         
         if resultProfileJSONGR != nil {
             //Fill profile GR
-            profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as String
+            profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as! String
             if let birthDateVal = resultProfileJSONMG["birthdate"] as? String {
                 profile.birthDate = birthDateVal
             } else {
                 profile.birthDate = "01/01/2015"
             }
-            profile.cellPhone = resultProfileJSONGR!["cellPhone"] as String
-            profile.homeNumberExtension = resultProfileJSONGR!["homeNumberExtension"] as String
-            profile.maritalStatus = resultProfileJSONGR!["maritalStatus"] as String
-            profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as String
-            profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as String
-            profile.profession = resultProfileJSONGR!["profession"] as String
+            profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
+            profile.homeNumberExtension = resultProfileJSONGR!["homeNumberExtension"] as! String
+            profile.maritalStatus = resultProfileJSONGR!["maritalStatus"] as! String
+            profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
+            profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
+            profile.profession = resultProfileJSONGR!["profession"] as! String
             if let genderVal = resultProfileJSONMG["gender"] as? String{
                 profile.sex = genderVal
             } else {
                 profile.sex = "Male"
             }
-            profile.workNumberExtension = resultProfileJSONGR!["workNumberExtension"] as String
+            profile.workNumberExtension = resultProfileJSONGR!["workNumberExtension"] as! String
         }
         
         
@@ -213,9 +213,9 @@ class UserCurrentSession : NSObject {
     }
     
     func deleteAllObjectsNamed(namedb:String) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: namedb as NSString)
+        let request    = NSFetchRequest(entityName: namedb as NSString as String)
         
         
         var error: NSError? = nil
@@ -225,7 +225,7 @@ class UserCurrentSession : NSObject {
         }
         if fetchedResult != nil {
             for objDelete in fetchedResult! {
-                context.deleteObject(objDelete as NSManagedObject)
+                context.deleteObject(objDelete as! NSManagedObject)
             }
         }
         context.save(&error)
@@ -238,9 +238,9 @@ class UserCurrentSession : NSObject {
         }else {
             predicate = NSPredicate(format: "user == nil &&  status != %@",NSNumber(integer:WishlistStatus.Deleted.rawValue))
         }
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Wishlist" as NSString)
+        let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
         request.predicate = predicate!
         
         var error: NSError? = nil
@@ -260,9 +260,9 @@ class UserCurrentSession : NSObject {
         }else {
             predicate = NSPredicate(format: "user == nil && product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
         }
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Wishlist" as NSString)
+        let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
         request.predicate = predicate!
         
         var error: NSError? = nil
@@ -281,9 +281,9 @@ class UserCurrentSession : NSObject {
         }else {
             predicate = NSPredicate(format: "user == nil && ANY products.upc == %@ ", upc)
         }
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "List" as NSString)
+        let request    = NSFetchRequest(entityName: "List" as NSString as String)
         request.predicate = predicate!
         
         var error: NSError? = nil
@@ -306,9 +306,9 @@ class UserCurrentSession : NSObject {
             
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString)
+        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
         request.predicate = predicate
         
         
@@ -333,9 +333,9 @@ class UserCurrentSession : NSObject {
             
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString)
+        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
         request.predicate = predicate
         
         
@@ -363,9 +363,9 @@ class UserCurrentSession : NSObject {
     func WishlistWithoutUser() -> [Wishlist]? {
         let predicate = NSPredicate(format: "user == nil && status != %@",NSNumber(integer:WishlistStatus.Deleted.rawValue))
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Wishlist" as NSString)
+        let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
         request.predicate = predicate
         
         var error: NSError? = nil
@@ -385,9 +385,9 @@ class UserCurrentSession : NSObject {
     
     func retrieve(entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil,expression :NSExpressionDescription?) -> AnyObject {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    =  NSFetchRequest(entityName: entityName as NSString)
+        let request    =  NSFetchRequest(entityName: entityName as NSString as String)
         
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
@@ -495,7 +495,7 @@ class UserCurrentSession : NSObject {
     
     func numberOfArticlesMG() -> Int {
         var countItems = 0
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)?
+        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)
         if arrayCart != nil {
             //countItems = arrayCart!.count
             for prodCart in arrayCart! {
@@ -528,7 +528,7 @@ class UserCurrentSession : NSObject {
     func estimateTotalGR() -> Double {
         var totalGR = 0.0
         
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)?
+        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
         if arrayCart != nil {
             for prodCart in arrayCart! {
                 if  prodCart.product.type == 0 {
@@ -557,7 +557,7 @@ class UserCurrentSession : NSObject {
     
     func numberOfArticlesGR() -> Int {
         var countItems = 0
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)?
+        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
         if arrayCart != nil {
             //countItems = arrayCart!.count
             for prodCart in arrayCart! {
@@ -595,9 +595,9 @@ class UserCurrentSession : NSObject {
     
     func coreDataShoppingCart(predicate:NSPredicate) -> [Cart] {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString)
+        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
         request.predicate = predicate
         
         
@@ -607,7 +607,7 @@ class UserCurrentSession : NSObject {
             println("errore: \(error)")
         }
         
-        return fetchedResult as [Cart]
+        return fetchedResult as! [Cart]
         
 
     }
@@ -623,9 +623,9 @@ class UserCurrentSession : NSObject {
             
         }
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        let request    = NSFetchRequest(entityName: "Cart" as NSString)
+        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
         request.predicate = predicate
         
         
@@ -636,7 +636,7 @@ class UserCurrentSession : NSObject {
         }
         
         if  fetchedResult?.count != 0 {
-            return fetchedResult? as? [Cart]
+            return fetchedResult as? [Cart]
         }
         return nil
         
@@ -666,8 +666,8 @@ class UserCurrentSession : NSObject {
             
             let svcProfile = GRUpdateUserProfileService()
             let profileParams = svcProfile.buildParams(
-                UserCurrentSession.sharedInstance().userSigned!.profile.name,
-                lastName: UserCurrentSession.sharedInstance().userSigned!.profile.lastName,
+                UserCurrentSession.sharedInstance().userSigned!.profile.name as String,
+                lastName: UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String,
                 sex: "",
                 birthDate: "",
                 maritalStatus: "",

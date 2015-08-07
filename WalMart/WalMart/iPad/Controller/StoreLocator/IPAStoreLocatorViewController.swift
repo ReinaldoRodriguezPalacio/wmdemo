@@ -135,7 +135,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
                 label: store.name!,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         self.detailView?.removeFromSuperview()
@@ -181,7 +181,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                             
                             var selected = self.clubCollection!.indexPathsForSelectedItems()
                             for var idx = 0; idx < selected.count; idx++ {
-                                var indexPath = selected[idx] as NSIndexPath
+                                var indexPath = selected[idx] as! NSIndexPath
                                 self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
                             }
                         }
@@ -232,7 +232,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
                 action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
                 label: store.name!,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         var controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
@@ -246,7 +246,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-        if let index = find(self.items!, (self.currentSelected!.annotation as StoreAnnotation).storeEntity!) {
+        if let index = find(self.items!, (self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
             var indexPath = NSIndexPath(forRow: index, inSection: 0)
             self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
         }
@@ -264,7 +264,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         println("Action selected \(buttonIndex)")
         super.actionSheet(actionSheet, didDismissWithButtonIndex: buttonIndex)
         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-        if let index = find(self.items!, (self.currentSelected!.annotation as StoreAnnotation).storeEntity!) {
+        if let index = find(self.items!, (self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
             var indexPath = NSIndexPath(forRow: index, inSection: 0)
             self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
         }

@@ -16,7 +16,7 @@ struct SearchResult {
     
     mutating func addResults(otherProducts:NSArray) {
         if self.products != nil {
-            self.products = self.products!.arrayByAddingObjectsFromArray(otherProducts)
+            self.products = self.products!.arrayByAddingObjectsFromArray(otherProducts as [AnyObject])
         }
         else {
             self.products = otherProducts
@@ -81,12 +81,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             case .WithCategoryForMG :
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_CATEGORY.rawValue)
-                    tracker.send(GAIDictionaryBuilder.createScreenView().build())
+                    tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
                 }
             case .WithCategoryForGR :
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_CATEGORY.rawValue)
-                    tracker.send(GAIDictionaryBuilder.createScreenView().build())
+                    tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
                 }
             default :
                 break
@@ -256,18 +256,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
         if indexPath.row == self.allProducts!.count && self.allProducts!.count <= commonTotal  {
-            let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath) as UICollectionViewCell
+            let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath) as! UICollectionViewCell
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
         }
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as SearchProductCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(productCellIdentifier(), forIndexPath: indexPath) as! SearchProductCollectionViewCell
         if self.allProducts?.count <= indexPath.item {
             return cell
         }
-        let item = self.allProducts![indexPath.item] as NSDictionary
+        let item = self.allProducts![indexPath.item] as! NSDictionary
         
-        let upc = item["upc"] as String
+        let upc = item["upc"] as! String
         let description = item["description"] as? String
         
         var price: NSString?
@@ -313,7 +313,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             onHandDefault = onHandInventory.integerValue
         }
         
-        let type = item["type"] as NSString
+        let type = item["type"] as! NSString
         
         var isPesable = false
         if let pesable = item["pesable"] as?  NSString {
@@ -324,13 +324,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         cell.setValues(upc,
             productImageURL: imageUrl!,
             productShortDescription: description!,
-            productPrice: price!,
-            productPriceThrough: through!,
+            productPrice: price! as String,
+            productPriceThrough: through! as String,
             isActive: isActive,
             onHandInventory: onHandDefault,
             isPreorderable:isPreorderable,
             isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),
-            type:type,
+            type:type as String,
             pesable : isPesable
         )
         
@@ -339,7 +339,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
 
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         var size = CGSizeMake(self.view.bounds.maxX/2, 190)
         var commonTotal = self.mgResults!.totalResults + self.grResults!.totalResults
         if indexPath.row == self.allProducts!.count && self.allProducts!.count < commonTotal {
@@ -348,27 +348,27 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return size
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
     
     //MARK: - UICollectionViewDelegate
     
-    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row < self.allProducts!.count {
             let controller = ProductDetailPageViewController()
             var productsToShow : [[String:String]] = []
             for strUPC in self.allProducts! {
-                let upc = strUPC["upc"] as NSString
-                let description = strUPC["description"] as NSString
-                let type = strUPC["type"] as NSString
+                let upc = strUPC["upc"] as! String
+                let description = strUPC["description"] as! String
+                let type = strUPC["type"] as! String
                 var through = ""
-                if let priceThr = strUPC["saving"] as? NSString {
-                    through = priceThr
+                if let priceThr = strUPC["saving"] as? String {
+                    through = priceThr as String
                 }
                 productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
             }
@@ -611,8 +611,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     case .priceAsc :
                         //println("priceAsc")
                         self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                            var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
-                            var priceTwo:Double = self.priceValueFrom(dictionary2 as NSDictionary)
+                            var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                            var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                             
                             if priceOne < priceTwo {
                                 return NSComparisonResult.OrderedAscending
@@ -629,8 +629,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     default :
                         //println("priceDesc")
                         self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                            var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
-                            var priceTwo:Double = self.priceValueFrom(dictionary2 as NSDictionary)
+                            var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                            var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                             
                             if priceOne > priceTwo {
                                 return NSComparisonResult.OrderedAscending
@@ -725,7 +725,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_FILTER.rawValue, action: flag ? WMGAIUtils.GR_EVENT_FILTERDATA.rawValue : WMGAIUtils.MG_EVENT_FILTERDATA.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-", value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_FILTER.rawValue, action: flag ? WMGAIUtils.GR_EVENT_FILTERDATA.rawValue : WMGAIUtils.MG_EVENT_FILTERDATA.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-", value: nil).build() as [NSObject : AnyObject])
         }
         
         self.allProducts = []
@@ -778,8 +778,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             case .priceAsc :
                 //println("priceAsc")
                 self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                    var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
-                    var priceTwo:Double = self.priceValueFrom(dictionary2 as NSDictionary)
+                    var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                    var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
                     if priceOne < priceTwo {
                         return NSComparisonResult.OrderedAscending
@@ -796,8 +796,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             case .priceDesc :
                 //println("priceDesc")
                 self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                    var priceOne:Double = self.priceValueFrom(dictionary1 as NSDictionary)
-                    var priceTwo:Double = self.priceValueFrom(dictionary2 as NSDictionary)
+                    var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                    var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
                     if priceOne > priceTwo {
                         return NSComparisonResult.OrderedAscending

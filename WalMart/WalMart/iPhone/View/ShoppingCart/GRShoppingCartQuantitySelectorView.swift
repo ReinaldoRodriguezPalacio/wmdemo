@@ -41,7 +41,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         super.init(frame: frame)
         self.priceProduct = priceProduct
         setup()
-        var text = countElements(String(quantity)) < 2 ? "0" : ""
+        var text = count(String(quantity)) < 2 ? "0" : ""
         lblQuantity.text = "\(text)"+"\(quantity)"
         self.updateQuantityBtn()
     }
@@ -147,11 +147,11 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
             resultText = resultText.substringFromIndex(1)
             if resultText.integerValue > 0 && resultText.integerValue <= 10 {
-                lblQuantity.text = resultText
+                lblQuantity.text = resultText as String
             }else {
                 let tmpResult : NSString = "0" + btnSender.titleLabel!.text!
                 if tmpResult.integerValue > 0 {
-                    lblQuantity.text = tmpResult
+                    lblQuantity.text = tmpResult as String
                 }
             }
             
@@ -212,18 +212,18 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         if first {
             let tmpResult : NSString = "0\(value)"
             if tmpResult != "00"{
-            lblQuantity.text = tmpResult
+            lblQuantity.text = tmpResult as String
                 first = false
             }
         } else {
             resultText = "\(lblQuantity.text!)\(value)"
             resultText = resultText.substringFromIndex(1)
             if resultText.integerValue > 0 && resultText.integerValue <= 99 {
-                lblQuantity.text = resultText
+                lblQuantity.text = resultText as String
             }else {
                 let tmpResult : NSString = "0\(value)"
                 if tmpResult.integerValue > 0 {
-                    lblQuantity.text = tmpResult
+                    lblQuantity.text = tmpResult as String
                 }
             }
         }

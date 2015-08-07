@@ -41,7 +41,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
@@ -151,8 +151,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if section == 0 {
                 return 1
             }
-            let arrayProds = self.itemDetailProducts[section - 1] as [String:AnyObject]
-            let arrayProdsItems = arrayProds["items"] as [AnyObject]
+            let arrayProds = self.itemDetailProducts[section - 1] as! [String:AnyObject]
+            let arrayProdsItems = arrayProds["items"] as! [AnyObject]
             return arrayProdsItems.count
         }
         return 2 + self.itemDetailProducts.count
@@ -166,7 +166,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         switch (indexPath.section, indexPath.row) {
             case (0,0):
-                let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as PreviousDetailTableViewCell
+                let cellDetail = tableDetailOrder.dequeueReusableCellWithIdentifier("detailOrder") as! PreviousDetailTableViewCell
                 cellDetail.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellDetail.frame.height)
                 cellDetail.setValues(self.detailsOrder)
                 cell = cellDetail
@@ -175,22 +175,22 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 cellCharacteristicsTitle!.setValues("Artículos de mi compra", font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
             default:
-                let cellOrderProduct = tableDetailOrder.dequeueReusableCellWithIdentifier("orderCell", forIndexPath: indexPath) as OrderProductTableViewCell
+                let cellOrderProduct = tableDetailOrder.dequeueReusableCellWithIdentifier("orderCell", forIndexPath: indexPath) as! OrderProductTableViewCell
                 cellOrderProduct.frame = CGRectMake(0, 0, self.tableDetailOrder.frame.width, cellOrderProduct.frame.height)
                 cellOrderProduct.type = self.type
                 var dictProduct = [:]
                 if showFedexGuide {
-                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as [String:AnyObject]
-                    let productsArray = arrayProductsFed["items"] as [AnyObject]
-                    dictProduct = productsArray[indexPath.row ] as NSDictionary
+                    let arrayProductsFed = itemDetailProducts[indexPath.section - 1] as! [String:AnyObject]
+                    let productsArray = arrayProductsFed["items"] as! [AnyObject]
+                    dictProduct = productsArray[indexPath.row ] as! NSDictionary
                 } else {
-                    dictProduct = itemDetailProducts[indexPath.row - 2] as NSDictionary
+                    dictProduct = itemDetailProducts[indexPath.row - 2] as! NSDictionary
                 }
                 
-                let upcProduct = dictProduct["upc"] as NSString
-                let descript = dictProduct["description"] as NSString
+                let upcProduct = dictProduct["upc"] as! String
+                let descript = dictProduct["description"] as! String
                 var quantityStr = ""
-                if let quantityProd = dictProduct["quantity"] as? NSString {
+                if let quantityProd = dictProduct["quantity"] as? String {
                     quantityStr = quantityProd
                 }
                 if let quantityProd = dictProduct["quantity"] as? NSNumber {
@@ -199,15 +199,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 var urlImage = ""
                 if let imageURLArray = dictProduct["imageUrl"] as? NSArray {
                     if imageURLArray.count > 0 {
-                        urlImage = imageURLArray[0] as NSString
+                        urlImage = imageURLArray[0] as! String
                     }
                 }
                 if let imageURLArray = dictProduct["imageUrl"] as? NSString {
-                    urlImage = imageURLArray
+                    urlImage = imageURLArray as String
                 }
                 var priceStr = ""
                 if let price = dictProduct["price"] as? NSString {
-                    priceStr = price
+                    priceStr = price as String
                 }
                 if let price = dictProduct["price"] as? NSNumber {
                     priceStr = price.stringValue
@@ -220,7 +220,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 
                 var onHandDefault = "10"
                 if let onHandInventory = dictProduct["onHandInventory"] as? NSString {
-                    onHandDefault = onHandInventory
+                    onHandDefault = onHandInventory as String
                 }
                 
                 var isActive = true
@@ -288,9 +288,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section > 0 {
             
-            let arrayProductsFed = itemDetailProducts[section - 1] as [String:AnyObject]
-            let guide = arrayProductsFed["fedexGuide"] as String
-            let guideurl = arrayProductsFed["urlfedexGuide"] as String
+            let arrayProductsFed = itemDetailProducts[section - 1] as! [String:AnyObject]
+            let guide = arrayProductsFed["fedexGuide"] as! String
+            let guideurl = arrayProductsFed["urlfedexGuide"] as! String
             let viewFedex = UIView()
             viewFedex.backgroundColor = WMColor.light_light_gray
             
@@ -317,8 +317,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func didSelectItem(sender:UIButton) {
-        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as [String:AnyObject]
-        let guideurl = arrayProductsFed["urlfedexGuide"] as String
+        let arrayProductsFed = itemDetailProducts[sender.tag - 1] as! [String:AnyObject]
+        let guideurl = arrayProductsFed["urlfedexGuide"] as! String
         
         
         let webCtrl = IPOWebViewController()
@@ -330,8 +330,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func getUPCItems() -> [[String:String]] {
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  itemDetailProducts {
-            let upc = shoppingCartProduct["upc"] as NSString
-            let desc = shoppingCartProduct["description"] as NSString
+            let upc = shoppingCartProduct["upc"] as! String
+            let desc = shoppingCartProduct["description"] as! String
             let type = self.type.rawValue
             upcItems.append(["upc":upc,"description":desc,"type":type])
         }
@@ -343,11 +343,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if !showFedexGuide {
             return getUPCItems()
         }
-        let shoppingCartProduct  =   itemDetailProducts[section - 1] as [String:AnyObject]
+        let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:AnyObject]
         if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
             for shoppingCartProductDetail in  listUPCItems {
-                let upc = shoppingCartProductDetail["upc"] as NSString
-                let desc = shoppingCartProductDetail["description"] as NSString
+                let upc = shoppingCartProductDetail["upc"] as! String
+                let desc = shoppingCartProductDetail["description"] as! String
                 let type = self.type.rawValue
                 upcItems.append(["upc":upc,"description":desc,"type":type])
             }
@@ -369,11 +369,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.itemDetail = result
                 
                 var details : [[String:String]] = []
-                let deliveryType = result["deliveryType"] as NSString
-                let name = result["name"] as NSString
-                let address = result["deliveryAddress"] as NSString
+                let deliveryType = result["deliveryType"] as! String
+                let name = result["name"] as! String
+                let address = result["deliveryAddress"] as! String
                 var guide = ""
-                if let fedexGuide = result["guide"] as? NSString {
+                if let fedexGuide = result["guide"] as? String {
                     guide = fedexGuide
                 }
                 
@@ -395,14 +395,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
                 var itemsFedex : [[String:AnyObject]] = []
                 self.detailsOrder = details
-                let resultsProducts =  result["items"] as NSArray
+                let resultsProducts =  result["items"] as! NSArray
                 
                 for itemProduct in resultsProducts {
-                    let guide = itemProduct["fedexGuide"] as String
-                    var urlGuide = itemProduct["urlfedexGuide"] as String
+                    let guide = itemProduct["fedexGuide"] as! String
+                    var urlGuide = itemProduct["urlfedexGuide"] as! String
                     
                     let itemFedexFound = itemsFedex.filter({ (itemFedexFilter) -> Bool in
-                        let itemTwo =  itemFedexFilter["fedexGuide"] as String
+                        let itemTwo =  itemFedexFilter["fedexGuide"] as! String
                         return guide == itemTwo
                     })
                     
@@ -414,7 +414,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                         itemsFedex.append(itmNewProduct)
                     } else {
                         var itemFound = itemFedexFound[0] as  [String:AnyObject]
-                        var itemsFound = itemFound["items"] as  [AnyObject]
+                        var itemsFound = itemFound["items"] as!  [AnyObject]
                         itemsFound.append(itemProduct)
                     }
                 }
@@ -432,12 +432,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.tableDetailOrder.delegate = self
             
             var details : [[String:String]] = []
-            let deliveryType = detailsOrderGroceries["deliveryType"] as NSString
-            let deliveryDate = detailsOrderGroceries["deliveryDate"] as NSString
+            let deliveryType = detailsOrderGroceries["deliveryType"] as! String
+            let deliveryDate = detailsOrderGroceries["deliveryDate"] as! String
             //let name = detailsOrderGroceries["name"] as NSString
             
-            var statusGR = detailsOrderGroceries["status"] as NSString
-            if (detailsOrderGroceries["type"] as String) == ResultObjectType.Groceries.rawValue {
+            var statusGR = detailsOrderGroceries["status"] as! String
+            if (detailsOrderGroceries["type"] as! String) == ResultObjectType.Groceries.rawValue {
                 statusGR = NSLocalizedString("gr.order.status.\(statusGR)", comment: "")
             }
             
@@ -460,7 +460,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
            // details.append(["label":fedexLbl,"value":""])
             
             self.detailsOrder = details
-            self.itemDetailProducts = detailsOrderGroceries["items"] as NSArray
+            self.itemDetailProducts = detailsOrderGroceries["items"] as! NSArray
             self.tableDetailOrder.reloadData()
             self.viewLoad.stopAnnimating()
             
@@ -518,27 +518,27 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             var upcs: [AnyObject] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
-                    upcs.append(getItemToShoppingCart(item as NSDictionary))
+                    upcs.append(getItemToShoppingCart(item as! NSDictionary))
                     //Event
                     if let tracker = GAI.sharedInstance().defaultTracker {
                         tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
                             action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
-                            label: item["upc"] as String ,
-                            value: nil).build())
+                            label: item["upc"] as! String ,
+                            value: nil).build() as [NSObject : AnyObject])
                     }
                     
                 }
             } else {
                 for item in self.itemDetailProducts! {
-                    let itmProdVal = item["items"] as [[String:AnyObject]]
+                    let itmProdVal = item["items"] as! [[String:AnyObject]]
                     for itemProd in itmProdVal {
                         upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
                         //Event
                         if let tracker = GAI.sharedInstance().defaultTracker {
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
                                 action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
-                                label: itemProd["upc"] as String ,
-                                value: nil).build())
+                                label: itemProd["upc"] as! String ,
+                                value: nil).build() as [NSObject : AnyObject])
                         }
                     }
                 }
@@ -551,15 +551,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func getItemToShoppingCart(item:NSDictionary) ->  [String:AnyObject] {
 
         var params: [String:AnyObject] = [:]
-        params["upc"] = item["upc"] as String
-        params["desc"] = item["description"] as String
+        params["upc"] = item["upc"] as! String
+        params["desc"] = item["description"] as! String
         
         
         if let images = item["imageUrl"] as? NSArray {
-            params["imgUrl"] = images[0] as String
+            params["imgUrl"] = images[0] as! String
         }else
         {
-            params["imgUrl"] = item["imageUrl"] as String
+            params["imgUrl"] = item["imageUrl"] as! String
         }
         if let price = item["price"] as? NSNumber {
             params["price"] = "\(price)"
@@ -676,9 +676,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         var service = GRAddItemListService()
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemDetailProducts.count; idx++ {
-            let item = self.itemDetailProducts[idx] as [String:AnyObject]
+            let item = self.itemDetailProducts[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as String
+            let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -688,7 +688,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             }
             
             var pesable = "0"
-            if  let pesableP = item["type"] as? NSString {
+            if  let pesableP = item["type"] as? String {
                 pesable = pesableP
             }
             var active = true
@@ -758,9 +758,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemDetailProducts.count; idx++ {
-            let item = self.itemDetailProducts[idx] as [String:AnyObject]
+            let item = self.itemDetailProducts[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as String
+            let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
                 quantity = qIntProd.integerValue
@@ -772,13 +772,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             if  let priceNum = item["price"] as? NSNumber {
                 price = "\(priceNum)"
             }
-            else if  let priceTxt = item["price"] as? NSString {
+            else if  let priceTxt = item["price"] as? String {
                 price = priceTxt
             }
             
             let imgUrl = item["imageUrl"] as? String
             let description = item["description"] as? String
-            let type = item["type"] as? NSString
+            let type = item["type"] as? String
             
             var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
             products.append(serviceItem)

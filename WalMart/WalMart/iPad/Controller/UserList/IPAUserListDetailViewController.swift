@@ -129,7 +129,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_EDIT.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             self.deleteAllBtn!.hidden = false
@@ -151,7 +151,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_ENDEDIT.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
 
             
@@ -190,7 +190,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
                     label: self.listName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -245,14 +245,14 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         for product  in self.products! {
             for var idx = 0; idx < self.products!.count; idx++ {
                 if let product = self.products![idx] as? [String:AnyObject] {
-                    let upc = product["upc"] as NSString
-                    let description = product["description"] as NSString
+                    let upc = product["upc"] as! String
+                    let description = product["description"] as! String
                     //Event
                     if let tracker = GAI.sharedInstance().defaultTracker {
                         tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                             action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
                             label: upc,
-                            value: nil).build())
+                            value: nil).build() as [NSObject : AnyObject])
                     }
                     
                     productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
@@ -264,7 +264,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                         tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
                             action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
                             label: product.upc,
-                            value: nil).build())
+                            value: nil).build() as [NSObject : AnyObject])
                     }
                     
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])

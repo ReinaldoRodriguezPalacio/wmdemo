@@ -107,7 +107,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func openSearchProduct(){
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
         }
 
         if (self.btnShopping!.selected){
@@ -154,7 +154,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func selectKeyWord(keyWord:String, upc:String?, truncate:Bool){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build() as [NSObject : AnyObject])
             }
             
             var contDetail = IPAProductDetailPageViewController()
@@ -169,7 +169,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            svcValidate.callService(paddedUPC, successBlock: { (result:NSDictionary) -> Void in
+            svcValidate.callService(paddedUPC as String, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 var controllernav = self.currentController as? UINavigationController
                 controllernav?.pushViewController(contDetail, animated: true)
@@ -188,7 +188,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         else{
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as [NSObject : AnyObject])
             }
             
             let controller = IPASearchProductViewController()

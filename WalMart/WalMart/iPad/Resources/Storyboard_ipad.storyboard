@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14E46" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
         <!--TmpIPA Home View Controller-->
@@ -307,7 +307,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellCategory" id="tYC-4w-O6N" customClass="IPAGRCategoryCollectionViewCell" customModule="WalmartMG" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <rect key="frame" x="16" y="16" width="488" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="488" height="216"/>

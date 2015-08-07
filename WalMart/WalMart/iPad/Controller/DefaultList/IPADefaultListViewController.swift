@@ -20,7 +20,7 @@ class IPADefaultListViewController : DefaultListViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        let itemList = itemsLists[indexPath.row] as [String:AnyObject]
+        let itemList = itemsLists[indexPath.row] as! [String:AnyObject]
         
         let destDetailList =  IPADefaultListDetailViewController()
         destDetailList.defaultListName = itemList["name"] as? String

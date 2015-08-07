@@ -59,7 +59,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as MoreMenuViewCell
+        var cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as! MoreMenuViewCell
         
         
         var currentOption : Int = 0
@@ -104,7 +104,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //
 //
     
-    override func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 46.0
     }
     

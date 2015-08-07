@@ -31,7 +31,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
         imageBG = UIImageView()
@@ -135,8 +135,8 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         var user: User?
         if UserCurrentSession.sharedInstance().userSigned != nil {
             user = UserCurrentSession.sharedInstance().userSigned!
-            self.nameLabel!.text = user!.profile.name + " " + user!.profile.lastName
-            self.emailLabel!.text = user!.email
+            self.nameLabel!.text = (user!.profile.name as String) + " " + (user!.profile.lastName as String)
+            self.emailLabel!.text = user!.email as String
         }//if UserCurrentSession.sharedInstance().userSigned != nil
        
     }
@@ -145,13 +145,13 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         return 3
     }
     
-    func tableView(tableView: UITableView!, heightForRowAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         var height: CGFloat = 65
         return height
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ProfileViewCell", forIndexPath: indexPath) as ProfileViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ProfileViewCell", forIndexPath: indexPath) as! ProfileViewCell
         
         //cell.selectionStyle = .None
         if indexPath.row == 0 {
@@ -169,13 +169,13 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         return cell
     }
     
-    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0 {
             let controller = RecentProductsViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         }else if indexPath.row == 1 {
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
         
             let controller = MyAddressViewController()
@@ -201,7 +201,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_CLOSESESSION.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         signOutButton?.enabled = false
@@ -244,7 +244,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         let controller = EditProfileViewController()

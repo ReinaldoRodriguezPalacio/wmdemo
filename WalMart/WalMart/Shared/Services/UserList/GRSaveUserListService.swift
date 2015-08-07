@@ -56,12 +56,12 @@ class GRSaveUserListService : GRBaseService {
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if let user = UserCurrentSession.sharedInstance().userSigned {
             
-            var cleaned:[String:AnyObject] = ["name":(params["name"] as String)]
+            var cleaned:[String:AnyObject] = ["name":(params["name"] as! String)]
             //Se remueven atributos de los productos que sean innecesarios
             if let items = params["items"] as? [AnyObject] {
                 var cleanedItems:[AnyObject] = []
                 for var idx = 0; idx < items.count; idx++ {
-                    var item = items[idx] as [String:AnyObject]
+                    var item = items[idx] as! [String:AnyObject]
                     item.removeValueForKey("imageUrl")
                     item.removeValueForKey("description")
                     item.removeValueForKey("price")
@@ -86,7 +86,7 @@ class GRSaveUserListService : GRBaseService {
         }
         else {
             println("Saving list without user")
-            if !self.includeListInDB(params as [String:AnyObject]) {
+            if !self.includeListInDB(params as! [String:AnyObject]) {
                 successBlock?([:])
             } else {
                 let message = NSLocalizedString("gr.list.samename",  comment: "")
@@ -97,27 +97,27 @@ class GRSaveUserListService : GRBaseService {
     }
     
     func manageListData(list:NSDictionary)  {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let user = UserCurrentSession.sharedInstance().userSigned
-        let listId = list["id"] as String
+        let listId = list["id"] as! String
         
         var entity = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List
         entity!.registryDate = NSDate()
         entity!.idList = listId
         entity!.user = UserCurrentSession.sharedInstance().userSigned!
-        entity!.name = list["name"] as String
+        entity!.name = list["name"] as! String
         entity!.countItem = NSNumber(integer: 0)
         
         if let items = list["items"] as? [AnyObject] {
             entity!.countItem = NSNumber(integer: items.count)
             for var idx = 0; idx < items.count; idx++ {
-                var item = items[idx] as [String:AnyObject]
+                var item = items[idx] as! [String:AnyObject]
                 var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
-                detail!.upc = item["upc"] as String
-                detail!.img = item["imageUrl"] as String
-                detail!.desc = item["description"] as String
+                detail!.upc = item["upc"] as! String
+                detail!.img = item["imageUrl"] as! String
+                detail!.desc = item["description"] as! String
                 if let quantity = item["quantity"] as? NSNumber {
                     detail!.quantity = quantity
                 }
@@ -147,10 +147,10 @@ class GRSaveUserListService : GRBaseService {
     
     func includeListInDB(list:[String:AnyObject]) -> Bool {
         var existsList = false
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
-        let name = list["name"] as String
+        let name = list["name"] as! String
         let items = list["items"] as? [AnyObject]
         var localList = self.retrieveListNotSync(name: name, inContext:context)
         if localList == nil {
@@ -164,9 +164,9 @@ class GRSaveUserListService : GRBaseService {
         if items != nil && items!.count > 0 {
             countItem = items!.count
             for var idx = 0; idx < items!.count; idx++ {
-                var item = items![idx] as [String:AnyObject]
+                var item = items![idx] as! [String:AnyObject]
                 var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
-                detail!.upc = item["upc"] as String
+                detail!.upc = item["upc"] as! String
                 if let imageUrl = item["imageUrl"] as? String {
                     detail!.img = imageUrl
                 }
@@ -210,7 +210,7 @@ class GRSaveUserListService : GRBaseService {
         fetchRequest.predicate = NSPredicate(format: "name == %@ && idList == nil", name)
         var error: NSError? = nil
         var list: List? = nil
-        var result: [List]? = context.executeFetchRequest(fetchRequest, error: &error) as [List]?
+        var result: [List]? = context.executeFetchRequest(fetchRequest, error: &error) as! [List]?
         if result != nil && result!.count > 0 {
             list = result!.first
         }

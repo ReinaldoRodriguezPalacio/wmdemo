@@ -109,7 +109,7 @@ class IPOWMAlertViewController : UIViewController {
     func setMessage(message:NSString){
         let size =  message.boundingRectWithSize(CGSizeMake(titleLabel.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
         titleLabel.frame = CGRectMake(titleLabel.frame.minX, titleLabel.frame.minY, 232, size.height)
-        titleLabel.text = message
+        titleLabel.text = message as String
     }
     
     class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertViewController? {

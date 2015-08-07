@@ -35,14 +35,14 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         
         
         self.passworCurrent = FormFieldView()
-        self.passworCurrent!.setPlaceholder(NSLocalizedString("profile.password.current",comment:""))
+        self.passworCurrent!.setCustomPlaceholder(NSLocalizedString("profile.password.current",comment:""))
         self.passworCurrent!.secureTextEntry = true
         self.passworCurrent!.isRequired = true
         self.passworCurrent!.typeField = TypeField.None
         self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
         
         self.password = FormFieldView()
-        self.password!.setPlaceholder(NSLocalizedString("profile.password",comment:""))
+        self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
         self.password!.secureTextEntry = true
         self.password!.isRequired = true
         self.password!.typeField = TypeField.Password
@@ -51,7 +51,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.password!.maxLength = 16
         
         self.confirmPassword = FormFieldView()
-        self.confirmPassword!.setPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
+        self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
         self.confirmPassword!.secureTextEntry = true
         self.confirmPassword!.isRequired = true
         self.confirmPassword!.typeField = TypeField.Password
@@ -161,7 +161,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
             let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
             
-            let params  = service.buildParamsWithMembership(mail, password: passCurrent, newPassword:passNew, name: name, lastName: lastMame,birthdate:birthDate,gender:gender,allowTransfer:allowTransfer!,allowMarketingEmail:allowMarketing!)
+            let params  = service.buildParamsWithMembership(mail as String, password: passCurrent, newPassword:passNew, name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -176,7 +176,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
                         action:WMGAIUtils.EVENT_PROFILE_CHANGEPASSWORD.rawValue,
                         label: nil,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
             }
             
@@ -189,7 +189,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
                 }//if let message = resultCall!["message"] as? String {
                 self.navigationController!.popViewControllerAnimated(true)
                 }
-                , {(error: NSError) in
+                , errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
             })

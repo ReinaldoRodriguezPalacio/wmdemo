@@ -24,7 +24,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_ADDRESSESDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         
@@ -130,7 +130,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
                 action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue,
-                label: "", value: nil).build())
+                label: "", value: nil).build() as [NSObject : AnyObject])
         }
         
         let service = GRAddressAddService()
@@ -155,7 +155,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     }
     
     func setValues(addressId:NSString) {
-        self.addressId = addressId
+        self.addressId = addressId as String
         self.viewLoad = WMLoadingView(frame: self.view.bounds)
         self.viewLoad.backgroundColor = UIColor.whiteColor()
         
@@ -163,25 +163,25 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         self.viewLoad.startAnnimating(true)
 
         let serviceAddress = GRAddressesByIDService()
-        serviceAddress.addressId = addressId
+        serviceAddress.addressId = addressId as String
         serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
           
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
             }
             self.viewLoad = nil
-            self.titleLabel?.text = result["name"] as String!
-            self.sAddredssForm.addressName.text = result["name"] as String!
-            self.sAddredssForm.outdoornumber.text = result["outerNumber"] as String!
-            self.sAddredssForm.indoornumber.text = result["innerNumber"] as String!
-            self.sAddredssForm.betweenFisrt.text = result["reference1"] as String!
-            self.sAddredssForm.betweenSecond.text = result["reference2"] as String!
-            self.sAddredssForm.zipcode.text = result["zipCode"] as String!
-            self.sAddredssForm.street.text = result["street"] as String!
+            self.titleLabel?.text = result["name"] as! String!
+            self.sAddredssForm.addressName.text = result["name"] as! String!
+            self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+            self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+            self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+            self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+            self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
+            self.sAddredssForm.street.text = result["street"] as! String!
             //self.sAddredssForm.defaultPrefered = result["prefered"] as String
             //self.sAddredssForm.defaultPrefered = false
-            let neighborhoodID = result["neighborhoodID"] as String!
-            let storeID = result["storeID"] as String!
+            let neighborhoodID = result["neighborhoodID"] as! String!
+            let storeID = result["storeID"] as! String!
             self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text, neighborhoodID: neighborhoodID, storeID: storeID)
             }) { (error:NSError) -> Void in
         }

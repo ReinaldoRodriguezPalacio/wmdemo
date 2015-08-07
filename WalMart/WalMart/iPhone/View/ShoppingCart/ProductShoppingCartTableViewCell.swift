@@ -96,7 +96,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
         
-        super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice)
+        super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
         productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
         
@@ -141,7 +141,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
             
-            updateService.callCoreDataService(upc, quantity: String(quantity), comments: "", desc:desc,price:price,imageURL:imageurl,onHandInventory:self.onHandInventory,successBlock: { (result:NSDictionary) -> Void in
+            updateService.callCoreDataService(upc, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,successBlock: { (result:NSDictionary) -> Void in
                 
                 let totalInProducts = self.priceProduct * Double(quantity)
                 let totalPrice = NSString(format: "%.2f", totalInProducts)

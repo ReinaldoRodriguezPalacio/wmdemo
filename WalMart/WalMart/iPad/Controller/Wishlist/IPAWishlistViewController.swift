@@ -32,7 +32,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     var emptyView : IPAEmptyWishlistView!
     
-    var isEditing = false
+    var isEditingWishList = false
     var closewl : (() -> Void)!
     
     
@@ -133,9 +133,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
     
     func editWishlist(sender:AnyObject) {
-        isEditing = !isEditing
+        isEditingWishList = !isEditingWishList
         
-        if isEditing {
+        if isEditingWishList {
             editWishlist.selected = true
             editWishlist.backgroundColor = WMColor.wishlistEndEditButtonBgColor
             editWishlist.tintColor = WMColor.wishlistEndEditButtonBgColor
@@ -186,12 +186,12 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let serviceWish = UserWishlistService()
         
         serviceWish.callService({ (wishlist:NSDictionary) -> Void in
-            self.items = wishlist["items"] as [AnyObject]
+            self.items = wishlist["items"] as! [AnyObject]
             
             var total : Double = 0
             for itemWishList in self.items {
                 if let priceStrUse = itemWishList["price"] as? String {
-                    let price = itemWishList["price"] as NSString
+                    let price = itemWishList["price"] as! NSString
                     total = total + price.doubleValue
                 }
             }
@@ -220,7 +220,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     func updateShopButton() {
         var total : Double = 0
         for itemWishList in self.items {
-            let price = itemWishList["price"] as NSString
+            let price = itemWishList["price"] as! NSString
             total = total + price.doubleValue
         }
         let totalStr = String(format: "%.2f",total)
@@ -234,7 +234,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let productCell = collectionView.dequeueReusableCellWithReuseIdentifier("productwishlist", forIndexPath: indexPath) as IPAWishListProductCollectionViewCell
+        let productCell = collectionView.dequeueReusableCellWithReuseIdentifier("productwishlist", forIndexPath: indexPath) as! IPAWishListProductCollectionViewCell
         loadViewCellCollection(productCell,indexPath:indexPath)
         return productCell
         
@@ -245,19 +245,19 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     }
     
    
-    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
         var paginatedProductDetail = IPAProductDetailPageViewController()
         paginatedProductDetail.ixSelected = indexPath.row
         paginatedProductDetail.itemsToShow = []
         for productRecomm  in items {
-            let upc = productRecomm["upc"] as NSString
-            let desc = productRecomm["description"] as NSString
+            let upc = productRecomm["upc"] as! NSString
+            let desc = productRecomm["description"] as! NSString
             paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type": ResultObjectType.Mg.rawValue])
         }
         
-        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as ProductCollectionViewCell!
+        let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
         currentCellSelected = indexPath
         let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
         paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
@@ -273,10 +273,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     func deleteProductWishList(cell:IPAWishListProductCollectionViewCell) {
         
         let indexPath = self.wishlist.indexPathForCell(cell)
-        let itemWishlist = items[indexPath!.row] as [String:AnyObject]
-        let upc = itemWishlist["upc"] as NSString
+        let itemWishlist = items[indexPath!.row] as! [String:AnyObject]
+        let upc = itemWishlist["upc"] as! NSString
         let deleteWishListService = DeleteItemWishlistService()
-        deleteWishListService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
+        deleteWishListService.callCoreDataService(upc as String, successBlock: { (result:NSDictionary) -> Void in
             self.items.removeAtIndex(indexPath!.row)
             self.wishlist.deleteItemsAtIndexPaths([indexPath!])
             //self.wishlist.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
@@ -296,12 +296,12 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         var params : [AnyObject] =  []
         for itemWishList in self.items {
             
-            let upc = itemWishList["upc"] as NSString
-            let desc = itemWishList["description"] as NSString
-            let price = itemWishList["price"] as NSString
-            let imageArray = itemWishList["imageUrl"] as NSArray
+            let upc = itemWishList["upc"] as! String
+            let desc = itemWishList["description"] as! String
+            let price = itemWishList["price"] as! NSString
+            let imageArray = itemWishList["imageUrl"] as! NSArray
             
-            let active  = itemWishList["isActive"] as NSString
+            let active  = itemWishList["isActive"] as! String
             var isActive = "true" == active
             
             if isActive == true {
@@ -317,21 +317,21 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             //let onHandInventory = itemWishList["onHandInventory"] as NSString
             
             var numOnHandInventory : NSString = "0"
-            if let numberOf = itemWishList["onHandInventory"] as? NSString{
+            if let numberOf = itemWishList["onHandInventory"] as? String{
                 numOnHandInventory  = numberOf
             }
             
             var imageUrl = ""
             if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as String
+                imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
             
             
             if isActive == true && numOnHandInventory.integerValue > 0 && isPreorderable == false {
-                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+                let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1",onHandInventory:numOnHandInventory,pesable:"0")
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,pesable:"0")
                     params.append(paramsItem)
                 }
                 
@@ -339,7 +339,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"    ]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }else {
             if self.items.count > 0 {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
@@ -443,24 +443,24 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
         productCell.delegate = self
         
-        let itemWishlist = items[indexPath.row] as [String:AnyObject]
-        let upc = itemWishlist["upc"] as NSString
+        let itemWishlist = items[indexPath.row] as! [String:AnyObject]
+        let upc = itemWishlist["upc"] as! String
         
-        let desc = itemWishlist["description"] as NSString
-        let price = itemWishlist["price"] as NSString
-        let imageArray = itemWishlist["imageUrl"] as NSArray
+        let desc = itemWishlist["description"] as! String
+        let price = itemWishlist["price"] as! NSString
+        let imageArray = itemWishlist["imageUrl"] as! NSArray
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as String
+            imageUrl = imageArray.objectAtIndex(0) as! String
         }
         
         let savingIndex = itemWishlist.indexForKey("saving")
         var savingVal = "0.0"
         if savingIndex != nil {
-            savingVal = itemWishlist["saving"]  as NSString
+            savingVal = itemWishlist["saving"]  as! String
         }
         
-        let active  = itemWishlist["isActive"] as NSString
+        let active  = itemWishlist["isActive"] as! String
         var isActive = "true" == active
         
         if isActive == true {
@@ -468,15 +468,15 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         
         var isPreorderable = false
-        if  let preordeable  = itemWishlist["isPreorderable"] as? NSString {
+        if  let preordeable  = itemWishlist["isPreorderable"] as? String {
             isPreorderable = "true" == preordeable
         }
         
-        let onHandInventory = itemWishlist["onHandInventory"] as NSString
+        let onHandInventory = itemWishlist["onHandInventory"] as! NSString
         
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
         
-        productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price, productPriceThrough: savingVal,isEditting:self.isEditing, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart)
+        productCell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, productPriceThrough: savingVal,isEditting:self.isEditingWishList, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart)
         
     }
     
@@ -495,8 +495,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let serviceWishDelete = DeleteItemWishlistService()
         
         for itemWishlist in self.items {
-            let upc = itemWishlist["upc"] as NSString
-            serviceWishDelete.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
+            let upc = itemWishlist["upc"] as! NSString
+            serviceWishDelete.callCoreDataService(upc as String, successBlock: { (result:NSDictionary) -> Void in
                 }) { (error:NSError) -> Void in
             }
         }

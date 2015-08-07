@@ -170,7 +170,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         return cell!
     }
     
-    func collectionView(collectionView: UICollectionView!, didSelectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SelectorBandCell {
             cell.setText("\(indexPath.item + 1)", selected: true)
@@ -192,17 +192,17 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         }
     }
     
-    func collectionView(collectionView: UICollectionView!, didDeselectItemAtIndexPath indexPath: NSIndexPath!) {
+    func collectionView(collectionView: UICollectionView, didDeselectItemAtIndexPath indexPath: NSIndexPath) {
         if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SelectorBandCell {
             cell.setText("\(indexPath.item + 1)", selected: false)
         }
     }
 
-    func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         self.isScrolling = true
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         self.isScrolling = false
     }
     

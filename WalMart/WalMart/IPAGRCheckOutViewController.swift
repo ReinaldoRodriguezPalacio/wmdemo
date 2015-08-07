@@ -168,9 +168,9 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         var service = GRAddItemListService()
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
-            let item = self.itemsInCart[idx] as [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as String
+            let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
                 quantity = qIntProd
@@ -181,7 +181,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
             
             var pesable = "0"
             if  let qIntProd = item["type"] as? NSString {
-                pesable = qIntProd
+                pesable = qIntProd as String
             }
             
             var isActive = true
@@ -211,12 +211,12 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
-            let item = self.itemsInCart[idx] as [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? Int {
@@ -240,13 +240,13 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
             }
             
             var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
-            detail!.upc = item["upc"] as String
-            detail!.desc = item["description"] as String
+            detail!.upc = item["upc"] as! String
+            detail!.desc = item["description"] as! String
             detail!.price = "\(price)"
             detail!.quantity = NSNumber(integer: quantity)
             detail!.type = NSNumber(integer: typeProdVal)
             detail!.list = list
-            detail!.img = item["imageUrl"] as String
+            detail!.img = item["imageUrl"] as! String
         }
         
         var error: NSError? = nil
@@ -304,9 +304,9 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
-            let item = self.itemsInCart[idx] as [String:AnyObject]
+            let item = self.itemsInCart[idx] as! [String:AnyObject]
             
-            let upc = item["upc"] as String
+            let upc = item["upc"] as! String
             var quantity: Int = 0
             if  let qIntProd = item["quantity"] as? NSNumber {
                 quantity = qIntProd.integerValue
@@ -319,14 +319,14 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
                 price = "\(priceNum)"
             }
             else if  let priceTxt = item["price"] as? NSString {
-                price = priceTxt
+                price = priceTxt as String
             }
             
             let imgUrl = item["imageUrl"] as? String
             let description = item["description"] as? String
-            let type = item["type"] as? NSString
+            let type = item["type"] as! String
             
-            var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
+            var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
             products.append(serviceItem)
         }
         

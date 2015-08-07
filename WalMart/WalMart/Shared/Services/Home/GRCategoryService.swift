@@ -17,7 +17,7 @@ class GRCategoryService: GRBaseService {
                 //self.jsonFromObject(resultCall)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                 successBlock?(resultCall)
-                 self.loadKeyFieldCategories( resultCall[JSON_KEY_RESPONSEARRAY] as [[String:AnyObject]], type: ResultObjectType.Groceries.rawValue);
+                 self.loadKeyFieldCategories( resultCall[JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]], type: ResultObjectType.Groceries.rawValue);
                 return
             },
             errorBlock: { (error:NSError) -> Void in
@@ -32,10 +32,10 @@ class GRCategoryService: GRBaseService {
         var response : [[String:AnyObject]] = []
         let values = self.getDataFromFile(self.fileName)
         if values != nil {
-            response = values![JSON_KEY_RESPONSEARRAY] as [[String:AnyObject]]
+            response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
             response.sort({ (one:[String : AnyObject], second:[String : AnyObject]) -> Bool in
-                let firstString = one["description"] as String?
-                let secondString = second["description"] as String?
+                let firstString = one["description"] as! String?
+                let secondString = second["description"] as! String?
                 return firstString!.localizedCaseInsensitiveCompare(secondString!) == NSComparisonResult.OrderedAscending
             })
         }

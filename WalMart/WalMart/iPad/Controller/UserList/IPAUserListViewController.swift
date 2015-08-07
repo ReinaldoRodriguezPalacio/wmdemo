@@ -186,7 +186,7 @@ class IPAUserListViewController: UserListViewController {
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
                         label: self.selectedListName ,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 self.delegate?.showListDetailAnimated(forId: self.selectedListId, orEntity: nil, andName: self.selectedListName)
@@ -202,7 +202,7 @@ class IPAUserListViewController: UserListViewController {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
                     label: self.selectedListName ,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             self.delegate?.showListDetailAnimated(forId: nil, orEntity: listEntity, andName: listEntity.name)
@@ -226,18 +226,18 @@ class IPAUserListViewController: UserListViewController {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.itemsUserList = result["responseArray"] as? NSArray
+                    self.itemsUserList = result["responseArray"] as? [AnyObject]
                     self.isShowingWishList = false
-                    self.isShowingSuperlists = !self.isEditing
+                    self.isShowingSuperlists = !self.isEditingUserList
                     //println(self.itemsUserList)
                     self.tableuserlist!.reloadData()
-                    if !self.newListEnabled && !self.isEditing {
+                    if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
                             }, animated:false)
                     }
 //                    self.editBtn!.hidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
-                    if !self.isEditing {
+                    if !self.isEditingUserList {
                         self.changeFrameEditBtn(true, side: "left")
                         if self.itemsUserList!.count == 0{
                             self.changeVisibilityBtn(self.editBtn!, visibility: 0)
@@ -269,17 +269,17 @@ class IPAUserListViewController: UserListViewController {
             self.itemsUserList = self.retrieveNotSyncList()
             //println(self.itemsUserList)
             self.isShowingWishList = false
-            self.isShowingSuperlists = !self.isEditing
+            self.isShowingSuperlists = !self.isEditingUserList
             //println(self.itemsUserList)
             self.tableuserlist!.reloadData()
-            if !self.newListEnabled && !self.isEditing {
+            if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({ () -> Void in
                     }, atFinished: { () -> Void in
                     }, animated:false)
             }
             //self.editBtn!.hidden = self.itemsUserList == nil || self.itemsUserList!.count == 0 //????? Deberia de incluirse para cuando no hay sesion
             
-            if !self.isEditing {
+            if !self.isEditingUserList {
                 self.changeFrameEditBtn(true, side: "left")
                 if self.itemsUserList!.count == 0{
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)

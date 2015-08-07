@@ -35,7 +35,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
 
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_CATEGORIES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         
@@ -54,7 +54,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as IPACategoryCollectionViewClass
+        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
         
         var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
@@ -65,10 +65,10 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             
         }// if indexPath.item == 0 {
         
-        let item = items[currentItem] as [String:AnyObject]
-        let descDepartment = item["description"] as NSString
-        let bgDepartment = item["idDepto"] as NSString
-        let departmentId = item["idDepto"] as NSString
+        let item = items[currentItem] as! [String:AnyObject]
+        let descDepartment = item["description"] as! String
+        let bgDepartment = item["idDepto"] as! String
+        let departmentId = item["idDepto"] as! String
         /*var selected = false
         if selectedIndex != nil {
         selected = indexPath.row == selectedIndex.row
@@ -125,18 +125,18 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         if self.selectedIndex == nil {
             self.selectedIndex = indexPath
             
-            let item = items[indexPath.row] as [String:AnyObject]
-            let idDepartment = item["idDepto"] as NSString
+            let item = items[indexPath.row] as! [String:AnyObject]
+            let idDepartment = item["idDepto"] as! String
             let famArray : AnyObject = item["family"] as AnyObject!
-            let itemsFam : [[String:AnyObject]] = famArray as [[String:AnyObject]]
+            let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
             let famSelected = itemsFam[0]
-            let idFamDefault = famSelected["id"] as NSString
+            let idFamDefault = famSelected["id"] as! String
             
             let lineArray : AnyObject = famSelected["line"] as AnyObject!
-            let itemsLine : [[String:AnyObject]] = lineArray as [[String:AnyObject]]
+            let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
             let lineSelected = itemsLine[0]
-            let idLineDefault = lineSelected["id"] as NSString
-            let nameLineDefault = lineSelected["name"] as NSString
+            let idLineDefault = lineSelected["id"] as! String
+            let nameLineDefault = lineSelected["name"] as! String
             
             
             
@@ -146,7 +146,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             selName = nameLineDefault
             
             self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
-            let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as IPACategoryCollectionViewClass
+            let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
             UIView.animateWithDuration(0.35, animations: { () -> Void in
                 self.categories.scrollToItemAtIndexPath(self.selectedIndex, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
                 }) { (complete:Bool) -> Void in
@@ -168,12 +168,12 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     func didSelectLine(department:String,family:String,line:String, name:String,imageDepartment:UIImage?,imageIcon:UIImage?) {
         if selectedIndex != nil &&  self.selectedLine == false {
             selectedLine = true
-            let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as IPACategoryCollectionViewClass
+            let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
             
-            let item = items[selectedIndex.row] as [String:AnyObject]
-            let idDepartment = item["idDepto"] as NSString
+            let item = items[selectedIndex.row] as! [String:AnyObject]
+            let idDepartment = item["idDepto"] as! NSString
             let famArray : AnyObject = item["family"] as AnyObject!
-            let itemsFam : [[String:AnyObject]] = famArray as [[String:AnyObject]]
+            let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
             
             categories.scrollEnabled = false
        
@@ -209,7 +209,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     
     func reloadSelectedCell() {
         if controllerAnimateView != nil {
-            let currentCell = controllerAnimateView.searchProduct.collection!.cellForItemAtIndexPath(controllerAnimateView.searchProduct.currentCellSelected) as IPASearchProductCollectionViewCell!
+            let currentCell = controllerAnimateView.searchProduct.collection!.cellForItemAtIndexPath(controllerAnimateView.searchProduct.currentCellSelected) as! IPASearchProductCollectionViewCell!
             currentCell.showImageView()
         }
     }

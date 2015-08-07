@@ -62,7 +62,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
@@ -99,7 +99,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         titlelbl = UILabel(frame: CGRectMake(46, 0, self.view.frame.width - (46 * 2), 46))
         titlelbl.textAlignment = .Center
-        titlelbl.text = self.name
+        titlelbl.text = self.name as String
         titlelbl.numberOfLines = 2
         titlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
         titlelbl.textColor = WMColor.navigationTilteTextColor
@@ -197,21 +197,21 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             
             productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
-            productDetailButton.upc = self.upc
-            productDetailButton.desc = self.name
-            productDetailButton.price = self.price
-            productDetailButton.price = self.price
+            productDetailButton.upc = self.upc as String
+            productDetailButton.desc = self.name as String
+            productDetailButton.price = self.price as String
+            productDetailButton.price = self.price as String
             
             productDetailButton.isActive = self.strisActive
-            productDetailButton.onHandInventory = self.onHandInventory
+            productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
-            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)
+            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as NSString
+                imageUrl = self.imageUrl[0] as! NSString as String
             }
             productDetailButton.image = imageUrl
             productDetailButton.delegate = self
@@ -264,7 +264,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(self.upc, successBlock: { (result:NSArray?) -> Void in
+        crossService.callService(requestParams:self.upc, successBlock: { (result:NSArray?) -> Void in
                 if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0  {
@@ -299,7 +299,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_INFORMATION.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_INFORMATION.rawValue) , label: upc, value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_INFORMATION.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_INFORMATION.rawValue) , label: upc as String, value: nil).build() as [NSObject : AnyObject])
         }
 
         self.detailCollectionView.scrollsToTop = true
@@ -353,7 +353,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             
                         //Event
                         if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue) , label: "\(self.upc) - \(self.name)", value: nil).build())
+                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue) , label: "\(self.upc) - \(self.name)", value: nil).build() as [NSObject : AnyObject])
                         }
 
                         
@@ -401,7 +401,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
                                 action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_REMOVEFROMWISHLIST.rawValue ,
                                 label: upc,
-                                value: nil).build())
+                                value: nil).build() as [NSObject : AnyObject])
                         }
                         
                         
@@ -499,7 +499,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         
                         //Event
                         if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue) , label: "\(self.upc) - \(self.name)", value: nil).build())
+                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue) , label: "\(self.upc) - \(self.name)", value: nil).build() as [NSObject : AnyObject])
                         }
 
                 
@@ -579,7 +579,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
     }
     
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView!) {
+    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
        
         if isShowProductDetail == true &&  isShowShoppingCart == false{
             if viewDetail == nil {
@@ -619,7 +619,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         viewDetail = ProductDetailTextDetailView(frame: CGRectMake(0,360, 320, 0))
         viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
         self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
-        viewDetail.setTextDetail(detail)
+        viewDetail.setTextDetail(detail as String)
         viewDetail.closeDetail = { () in
             self.closeProductDetail()
         }
@@ -659,7 +659,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func sleectedImage(indexPath: NSIndexPath) {
         var controller = ImageDisplayCollectionViewController()
-        controller.name = self.name
+        controller.name = self.name as String
         controller.imagesToDisplay = imageUrl
         controller.currentItem = indexPath.row
         controller.type = self.type.rawValue
@@ -688,15 +688,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.type = ResultObjectType.Mg
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.MG_EVENT_SHOWPRODUCTDETAIL.rawValue, label: "\(upc) - \(name)", value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.MG_EVENT_SHOWPRODUCTDETAIL.rawValue, label: "\(upc) - \(name)", value: nil).build() as [NSObject : AnyObject])
         }
         
         let productService = ProductDetailService()
-        productService.callService(upc, successBlock: { (result: NSDictionary) -> Void in
+        productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
             
-            self.name = result["description"] as NSString
-            self.price = result["price"] as NSString
-            self.detail = result["detail"] as NSString
+            self.name = result["description"] as! NSString
+            self.price = result["price"] as! NSString
+            self.detail = result["detail"] as! NSString
             self.saving = ""
             if let savingResult = result["saving"] as? NSString {
                 if savingResult != "" {
@@ -710,10 +710,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             println(self.saving)
             
-            self.listPrice = result["original_listprice"] as NSString
+            self.listPrice = result["original_listprice"] as! NSString
             self.characteristics = []
             if let cararray = result["characteristics"] as? NSArray {
-                self.characteristics = cararray
+                self.characteristics = cararray as [AnyObject]
             }
             
             var allCharacteristics : [AnyObject] = []
@@ -735,10 +735,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.msi = []
                 }
             }
-            if let images = result["imageUrl"] as? NSArray {
+            if let images = result["imageUrl"] as? [AnyObject] {
                 self.imageUrl = images
             }
-            let freeShippingStr  = result["freeShippingItem"] as NSString
+            let freeShippingStr  = result["freeShippingItem"] as! NSString
             self.freeShipping = "true" == freeShippingStr
             
             var numOnHandInventory : NSString = "0"
@@ -747,18 +747,18 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             self.onHandInventory  = numOnHandInventory
             
-            self.strisActive  = result["isActive"] as NSString
+            self.strisActive  = result["isActive"] as! String
             self.isActive = "true" == self.strisActive
             
             if self.isActive == true {
                 self.isActive = self.price.doubleValue > 0
             }
             
-            self.strisPreorderable  = result["isPreorderable"] as NSString
+            self.strisPreorderable  = result["isPreorderable"] as! String
             
             self.isPreorderable = "true" == self.strisPreorderable
-            self.bundleItems = NSArray()
-            if let bndl = result["bundleItems"] as?  NSArray {
+            self.bundleItems = [AnyObject]()
+            if let bndl = result["bundleItems"] as?  [AnyObject] {
                 self.bundleItems = bndl
             }
             
@@ -770,7 +770,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             //self.tabledetail.scrollEnabled = true
             //self.gestureCloseDetail.enabled = false
             if self.titlelbl != nil {
-                self.titlelbl.text = self.name
+                self.titlelbl.text = self.name as String
             }
             
             self.loadCrossSell()
@@ -781,8 +781,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 
                 var product = GAIEcommerceProduct()
                 var builder = GAIDictionaryBuilder.createScreenView()
-                product.setId(self.upc)
-                product.setName(self.name)
+                product.setId(self.upc as String)
+                product.setName(self.name as String)
                 
                 var action = GAIEcommerceProductAction();
                 action.setAction(kGAIPADetail)
@@ -790,7 +790,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 builder.addProduct(product)
                 
                 tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-                tracker.send(builder.build())
+                tracker.send(builder.build() as [NSObject : AnyObject])
             }
             
             }) { (error:NSError) -> Void in
@@ -808,7 +808,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: - Collection view Data Source
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView!) -> Int {
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }
     
@@ -831,7 +831,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        var cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath) as UICollectionViewCell
+        var cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath) as! UICollectionViewCell
         var cell : UICollectionViewCell? = nil
         let point = (indexPath.section,indexPath.row)
         if isLoading {
@@ -870,34 +870,34 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         var reusableView : UICollectionReusableView? = nil
         
         if kind == CSStickyHeaderParallaxHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as ProductDetailBannerCollectionViewCell
+            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
             view.items = self.imageUrl
             view.delegate = self
             view.collection.reloadData()
             
-            view.setAdditionalValues(listPrice, price: price, saving: saving)
+            view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
             currentHeaderView = view
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as UICollectionReusableView
+            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! UICollectionReusableView
             
             productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
-            productDetailButton.upc = self.upc
-            productDetailButton.desc = self.name
-            productDetailButton.price = self.price
+            productDetailButton.upc = self.upc as String
+            productDetailButton.desc = self.name as String
+            productDetailButton.price = self.price as String
             productDetailButton.isPesable  = self.isPesable
 
             productDetailButton.isActive = self.strisActive
-            productDetailButton.onHandInventory = self.onHandInventory
+            productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
-            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)
+            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
-                imageUrl = self.imageUrl[0] as NSString
+                imageUrl = self.imageUrl[0] as! NSString as String
             }
             productDetailButton.image = imageUrl
             productDetailButton.delegate = self
@@ -949,7 +949,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         case (0,1) :
             if  msi.count != 0 {
-                let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("msiCell", forIndexPath: indexPath) as ProductDetailMSICollectionViewCell
+                let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("msiCell", forIndexPath: indexPath) as! ProductDetailMSICollectionViewCell
                 cellPromotion.priceProduct = self.price
                 cellPromotion.setValues(msi)
                 cell = cellPromotion
@@ -959,7 +959,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         case (0,2) :
             if characteristics.count != 0 {
                 if cellCharacteristics == nil {
-                    let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as ProductDetailCharacteristicsCollectionViewCell
+                    let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
                     cellCharacteristics.setValues(characteristics)
                     cell = cellCharacteristics
                 }
@@ -1037,7 +1037,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
-            imageUrlSend = self.imageUrl[0] as NSString
+            imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         var pesable = isPesable ? "1" : "0"
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,pesable:pesable]
@@ -1056,7 +1056,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         //Event
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_SHAREPRODUCT.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_SHAREPRODUCT.rawValue) , label: self.upc, value: nil).build())
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_SHAREPRODUCT.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_SHAREPRODUCT.rawValue) , label: self.upc as String, value: nil).build() as [NSObject : AnyObject])
         }
         
         //let screen = self.detailCollectionView.screenshotOfHeadersAtSections( NSSet(array:headers), footersAtSections: nil, rowsAtIndexPaths: NSSet(array: items))
@@ -1083,7 +1083,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             toUseName = self.name.substringToIndex(32)
             toUseName = "\(toUseName)..."
         }else {
-            toUseName = self.name
+            toUseName = self.name as String
         }
         
         if activityType == UIActivityTypeMail {

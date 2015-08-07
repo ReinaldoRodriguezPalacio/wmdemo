@@ -14,11 +14,6 @@ class FiscalAddressPersonF: AddressView {
     var lastName : FormFieldView!
     var lastName2 : FormFieldView!
     var rfc : FormFieldView!
-   
-   
-    override init() {
-        super.init()
-    }
     
     override init(frame: CGRect, isLogin: Bool, isIpad:Bool) {
         super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
@@ -32,7 +27,7 @@ class FiscalAddressPersonF: AddressView {
         super.setup()
         
         self.name = FormFieldView()
-        self.name!.setPlaceholder(NSLocalizedString("profile.address.person.name",comment:""))
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name",comment:""))
         self.name!.isRequired = true
         self.name!.typeField = TypeField.Name
         self.name!.minLength = 2
@@ -40,7 +35,7 @@ class FiscalAddressPersonF: AddressView {
         self.name!.nameField = NSLocalizedString("profile.address.person.name",comment:"")
         
         self.lastName = FormFieldView()
-        self.lastName!.setPlaceholder(NSLocalizedString("profile.address.person.lastName",comment:""))
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName",comment:""))
         self.lastName!.isRequired = true
         self.lastName!.typeField = TypeField.String
         self.lastName!.minLength = 2
@@ -48,7 +43,7 @@ class FiscalAddressPersonF: AddressView {
         self.lastName!.nameField = NSLocalizedString("profile.address.person.lastName",comment:"")
         
         self.lastName2 = FormFieldView()
-        self.lastName2!.setPlaceholder(NSLocalizedString("profile.address.person.lastName2",comment:""))
+        self.lastName2!.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName2",comment:""))
         self.lastName2!.isRequired = false
         self.lastName2!.typeField = TypeField.String
         self.lastName2!.minLength = 2
@@ -56,7 +51,7 @@ class FiscalAddressPersonF: AddressView {
         self.lastName2!.nameField = NSLocalizedString("profile.address.person.lastName2",comment:"")
         
         self.rfc = FormFieldView()
-        self.rfc!.setPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
+        self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.isRequired = true
         self.rfc!.typeField = TypeField.RFC
         self.rfc!.minLength = 10
@@ -65,7 +60,7 @@ class FiscalAddressPersonF: AddressView {
         self.rfc!.nameField = NSLocalizedString("profile.address.rfc",comment:"")
         
         self.ieps = FormFieldView()
-        self.ieps!.setPlaceholder(NSLocalizedString("profile.address.ieps",comment:""))
+        self.ieps!.setCustomPlaceholder(NSLocalizedString("profile.address.ieps",comment:""))
         self.ieps!.typeField = TypeField.Number
         self.ieps!.isRequired = false
         self.ieps!.minLength = 14
@@ -75,7 +70,7 @@ class FiscalAddressPersonF: AddressView {
         self.ieps!.nameField = NSLocalizedString("profile.address.ieps",comment:"")
         
         self.email = FormFieldView()
-        self.email!.setPlaceholder(NSLocalizedString("profile.address.email",comment:""))
+        self.email!.setCustomPlaceholder(NSLocalizedString("profile.address.email",comment:""))
         self.email!.isRequired = true
         self.email!.typeField = TypeField.Email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
@@ -105,16 +100,16 @@ class FiscalAddressPersonF: AddressView {
         self.viewAddress.frame = CGRectMake(0, self.telephone!.frame.maxY + 8, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
     }
     
-    override func setItem(itemValues: NSDictionary) {
-        super.setItem(itemValues)
+    override func setItemWithDictionary(itemValues: NSDictionary) {
+        super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.name!.text = self.item!["firstName"] as String
-            self.lastName!.text = self.item!["lastName"] as String
-            self.lastName2!.text = self.item!["lastName2"] as String
-            self.rfc!.text = self.item!["rfc"] as String
-            self.ieps!.text = self.item!["ieps"] as String
-            self.email!.text = self.item!["rfcEmail"] as String
-            self.telephone!.text = self.item!["phoneNumber"] as String
+            self.name!.text = self.item!["firstName"] as! String
+            self.lastName!.text = self.item!["lastName"] as! String
+            self.lastName2!.text = self.item!["lastName2"] as! String
+            self.rfc!.text = self.item!["rfc"] as! String
+            self.ieps!.text = self.item!["ieps"] as! String
+            self.email!.text = self.item!["rfcEmail"] as! String
+            self.telephone!.text = self.item!["phoneNumber"] as! String
         }
     }
     

@@ -33,7 +33,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         //screen
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_CATEGORIES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
         self.viewFamily = UIView()
@@ -81,13 +81,13 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             currentItem = currentItem - 1
         }
     
-        let item = items![currentItem] as [String:AnyObject]
+        let item = items![currentItem] as! [String:AnyObject]
         let famArray : AnyObject = item["family"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as [[String:AnyObject]]
+        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
         let descDepartment = item["description"] as? NSString
         let tracker = GAI.sharedInstance().defaultTracker
       
-        familyController.departmentId = item["idDepto"] as NSString
+        familyController.departmentId = item["idDepto"] as! String
         familyController.families = itemsFam
         familyController.selectedFamily = nil
         familyController.familyTable.reloadData()
@@ -127,19 +127,19 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     func openGroceriesCategories() {
-        let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory") as UIViewController
+        let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory") as! UIViewController
         self.navigationController?.pushViewController(grController, animated: true)
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_PRODUCTSCATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         return
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as DepartmentCollectionViewCell
+        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
         
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()
@@ -161,10 +161,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             currentItem = currentItem - 1
         }
         
-        let item = items![currentItem] as [String:AnyObject]
-        let descDepartment = item["description"] as NSString
-        let bgDepartment = item["idDepto"] as NSString
-        let departmentId = item["idDepto"] as NSString
+        let item = items![currentItem] as! [String:AnyObject]
+        let descDepartment = item["description"] as! String
+        let bgDepartment = item["idDepto"] as! String
+        let departmentId = item["idDepto"] as! String
         
         categoryCell.setValues(descDepartment,imageBackgroundURL: bgDepartment + ".png",keyBgUrl:svcUrlCar!,imageIconURL:"i_" + bgDepartment + ".png",keyIconUrl:svcUrl!,hideImage:hideView)
         

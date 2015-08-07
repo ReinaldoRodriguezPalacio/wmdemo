@@ -33,15 +33,15 @@ class ProductDetailBundleCollectionViewCell : ProductDetailCrossSellCollectionVi
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("productBundleCell", forIndexPath: indexPath) as ProductDetailBundleItemCollectionViewCell
+        let cell = collection.dequeueReusableCellWithReuseIdentifier("productBundleCell", forIndexPath: indexPath) as! ProductDetailBundleItemCollectionViewCell
         
-        let itemUPC = itemsUPC[indexPath.row] as NSDictionary
+        let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
         
-        let desc = itemUPC["description"] as NSString
-        let imageArray = itemUPC["imageUrl"] as NSArray
+        let desc = itemUPC["description"] as! String
+        let imageArray = itemUPC["imageUrl"] as! NSArray
         var imageUrl = ""
         if imageArray.count > 0 {
-            imageUrl = imageArray.objectAtIndex(0) as String
+            imageUrl = imageArray.objectAtIndex(0) as! String
         }
         
         cell.setValues(imageUrl, productShortDescription: desc)

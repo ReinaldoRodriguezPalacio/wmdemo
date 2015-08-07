@@ -12,7 +12,7 @@ import CoreData
 class GRUserListService : GRBaseService {
 
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
     }()
@@ -50,7 +50,7 @@ class GRUserListService : GRBaseService {
             let currentLists = response["responseArray"] as? [AnyObject]
             if currentLists != nil && currentLists!.count > 0 {
                 for var idx = 0; idx < currentLists!.count; idx++ {
-                    var innerList = currentLists![idx] as [String:AnyObject]
+                    var innerList = currentLists![idx] as! [String:AnyObject]
                     if let name = innerList["name"] as? String {
                         if name == list!.name {
                             listToMerge = innerList
@@ -66,7 +66,7 @@ class GRUserListService : GRBaseService {
                 var items:[AnyObject] = []
                 list!.products.enumerateObjectsUsingBlock({ (obj:AnyObject!, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
                     if let product = obj as? Product {
-                        var param = service.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue, image: product.img, description: product.desc, price: product.price, type: "\(product.type)")
+                        var param = service.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)")
                         items.append(param)
                     }
                 })
@@ -94,9 +94,9 @@ class GRUserListService : GRBaseService {
                 )
             }
             else {
-                var listId = listToMerge!["id"] as String
+                var listId = listToMerge!["id"] as! String
                 //Con la invocacion del mismo servicio se puede hacer add/update del producto
-                var array = list!.products.allObjects as [Product]
+                var array = list!.products.allObjects as! [Product]
                 var addItemService = GRAddItemListService()
                 var params:[AnyObject] = []
                 for product in array {
@@ -138,7 +138,7 @@ class GRUserListService : GRBaseService {
             for entity in userList {
                 var exist = false
                 for serviceList in list {
-                    let listId = serviceList["id"] as String
+                    let listId = serviceList["id"] as! String
                     if entity.idList == listId {
                         exist = true
                         break
@@ -152,11 +152,11 @@ class GRUserListService : GRBaseService {
         }
 
         for serviceList in list {
-            let listId = serviceList["id"] as String
+            let listId = serviceList["id"] as! String
             
             var toUseList : List?  = nil
             if user!.lists != nil {
-                var userLists : [List] = user!.lists!.allObjects as [List]
+                var userLists : [List] = user!.lists!.allObjects as! [List]
                 
                 let resultLists = userLists.filter({ (list:List) -> Bool in
                     return list.idList == listId
@@ -196,7 +196,7 @@ class GRUserListService : GRBaseService {
                 fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", toUseList!)
                 var error: NSError? = nil
-                var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [Product]
+                var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Product]
                 if result.count > 0 {
                     for listDetail in result {
                         //println("Delete product list \(listDetail.upc)")
@@ -223,11 +223,11 @@ class GRUserListService : GRBaseService {
                             }
                             
                             for var idx = 0; idx < items.count; idx++ {
-                                var item = items[idx] as [String:AnyObject]
+                                var item = items[idx] as! [String:AnyObject]
                                 var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
-                                detail!.upc = item["upc"] as String
-                                detail!.img = item["imageUrl"] as String
-                                detail!.desc = item["description"] as String
+                                detail!.upc = item["upc"] as! String
+                                detail!.img = item["imageUrl"] as! String
+                                detail!.desc = item["description"] as! String
                                 if let price = item["price"] as? NSNumber {
                                     detail!.price = "\(price)"
                                 }
@@ -274,7 +274,7 @@ class GRUserListService : GRBaseService {
         var user = UserCurrentSession.sharedInstance().userSigned
         if user != nil {
             let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString, inManagedObjectContext: self.managedContext!)
+            fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString as String, inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
             var error: NSError? = nil
             userList = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [List]
@@ -284,10 +284,10 @@ class GRUserListService : GRBaseService {
     
     func findListById(listId:String) -> List? {
         let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString, inManagedObjectContext: self.managedContext!)
+        fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString as String, inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == %@", listId)
         var error: NSError? = nil
-        var result: [List] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [List]
+        var result: [List] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]
         var list: List? = nil
         if result.count > 0 {
             list = result[0]
@@ -300,7 +300,7 @@ class GRUserListService : GRBaseService {
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
         var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [List]?
+        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
         return result
     }
 

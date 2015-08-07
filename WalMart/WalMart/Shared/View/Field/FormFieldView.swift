@@ -43,14 +43,13 @@ class FormFieldView : UIEdgeTextField {
     var delegateCustom : CustomFormFIeldDelegate!
     
     
-    override init() {
-        super.init()
-        setup()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func setup(){
@@ -65,7 +64,7 @@ class FormFieldView : UIEdgeTextField {
         self.isValid = true
     }
    
-    func setPlaceholder(placeholder : String){
+    func setCustomPlaceholder(placeholder : String){
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
     }
     
@@ -115,7 +114,7 @@ class FormFieldView : UIEdgeTextField {
                 message =  NSLocalizedString("field.validate.required",comment:"")
             }
         }
-        let elementsInText = countElements(self.text)
+        let elementsInText = count(self.text)
         if maxLength > 0 && elementsInText > 0 {
             if elementsInText > maxLength {
                 self.isValid = false
@@ -161,7 +160,7 @@ class FormFieldView : UIEdgeTextField {
                 case .Alphanumeric:
                     validate = self.validateAlphanumeric()
                 case .Password:
-                    validate = self.validatePass()
+                    validate = self.validatePass() as String
                 case .RFC:
                     validate = self.validateRFC()
                 case .RFCM:
@@ -176,7 +175,7 @@ class FormFieldView : UIEdgeTextField {
             if validate != nil {
                 var error: NSError?
                 var regExVal = NSRegularExpression(pattern: validate!, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-                let matches = regExVal!.numberOfMatchesInString(self.text, options: nil, range: NSMakeRange(0, countElements(self.text)))
+                let matches = regExVal!.numberOfMatchesInString(self.text, options: nil, range: NSMakeRange(0, count(self.text)))
                 
                 if matches > 0 {
                     self.isValid = true
@@ -238,7 +237,7 @@ class FormFieldView : UIEdgeTextField {
     }
     
     
-    func setDelegate(delegate:UITextFieldDelegate?){
+    func setCustomDelegate(delegate:UITextFieldDelegate?){
         self.delegateCustom.delegateOnChange = delegate
         super.delegate = delegateCustom
     }

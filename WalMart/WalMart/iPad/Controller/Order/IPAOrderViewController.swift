@@ -53,16 +53,16 @@ class IPAOrderViewController: OrderViewController {
     //MARK: - TableViewDelegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let item = self.items[indexPath.row] as NSDictionary
+        let item = self.items[indexPath.row] as! NSDictionary
         let detailController = IPAOrderDetailViewController()
         
-        if (item["type"] as String) == ResultObjectType.Mg.rawValue {
+        if (item["type"] as! String) == ResultObjectType.Mg.rawValue {
             detailController.type = ResultObjectType.Mg
-            let dateStr = item["placedDate"] as NSString
-            let trackingStr = item["trackingNumber"] as NSString
+            let dateStr = item["placedDate"] as! String
+            let trackingStr = item["trackingNumber"] as! String
             
-            var statusStr = item["status"] as NSString
-            if (item["type"] as String) == ResultObjectType.Groceries.rawValue {
+            var statusStr = item["status"] as! String
+            if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
             
@@ -71,7 +71,7 @@ class IPAOrderViewController: OrderViewController {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
                     action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
                     label: trackingStr,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             detailController.trackingNumber = trackingStr
@@ -80,16 +80,16 @@ class IPAOrderViewController: OrderViewController {
             self.navigationController!.pushViewController(detailController, animated: true)
         } else {
             detailController.type = ResultObjectType.Groceries
-            let dateStr = item["placedDate"] as NSString
-            let trackingStr = item["trackingNumber"] as NSString
-            let statusStr = item["status"] as NSString
+            let dateStr = item["placedDate"] as! String
+            let trackingStr = item["trackingNumber"] as! String
+            let statusStr = item["status"] as! String
             
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
                     action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
                     label: trackingStr,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             

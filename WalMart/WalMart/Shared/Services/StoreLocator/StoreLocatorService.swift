@@ -74,7 +74,7 @@ class StoreLocatorService: BaseService {
             fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: self.managedObjectContext!)
             fetchRequest.predicate = NSPredicate(format: "storeID == %@", storeId!)
             var error: NSError? = nil
-            var result: [Store] = self.managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as [Store]
+            var result: [Store] = self.managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [Store]
             if result.count > 0 {
                 store = result[0]
             }
@@ -86,7 +86,7 @@ class StoreLocatorService: BaseService {
     
     func loadContext() {
         if self.managedObjectContext == nil {
-            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+            let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             self.managedObjectContext = context
         }

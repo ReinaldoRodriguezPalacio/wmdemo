@@ -83,7 +83,7 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
 
     //MARK: - UIScrollView delegate methods
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView!) -> UIView! {
+    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return self.imageView!
     }
     

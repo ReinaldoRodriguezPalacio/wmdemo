@@ -59,7 +59,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         
     }
     
-    func setCategories(cat:[String]){
+    func setCategoriesAndReloadData(cat:[String]){
         categories = cat
         carousel.reloadData()
     }
@@ -165,7 +165,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
                         tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue,
                             action: WMGAIUtils.EVENT_SPECIALCHANGE.rawValue ,
                             label: self.selectedCat!.title!.text!,
-                            value: nil).build())
+                            value: nil).build() as [NSObject : AnyObject])
                     }
                     
                     

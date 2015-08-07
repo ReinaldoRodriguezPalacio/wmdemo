@@ -34,19 +34,6 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
         setup()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        println("frale:\(frame)")
-        setup()
-    }
-    
-    
-    init(frame: CGRect,items:[AnyObject]) {
-        super.init(frame: frame)
-        self.items = items
-        setup()
-    }
-    
     func setup() {
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
@@ -95,7 +82,7 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
             var x: CGFloat = 0.0
             var sep: CGFloat = 2.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as UIButton
+                var point = UIButton.buttonWithType(.Custom) as! UIButton
                 point.frame = CGRectMake(x, 5, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
@@ -125,7 +112,7 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
         }
     }
     
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView!) {
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         var currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
@@ -148,8 +135,8 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collection.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as ProductDetailBannerMediaCollectionViewCell
-        let imageURL = items[indexPath.row] as String
+        let cell = collection.dequeueReusableCellWithReuseIdentifier("imageCell", forIndexPath: indexPath) as! ProductDetailBannerMediaCollectionViewCell
+        let imageURL = items[indexPath.row] as! String
         
         cell.imageView!.contentMode = UIViewContentMode.Center
         cell.imageView!.setImageWithURL(NSURL(string: imageURL), placeholderImage: UIImage(named:"img_default_cell"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in

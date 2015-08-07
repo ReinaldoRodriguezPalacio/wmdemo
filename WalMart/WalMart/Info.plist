@@ -78,7 +78,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>

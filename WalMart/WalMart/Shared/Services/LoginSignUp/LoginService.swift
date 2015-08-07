@@ -33,7 +33,7 @@ class LoginService : BaseService {
                 }
                 else{
                     let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    let message = resultCall["message"] as String
+                    let message = resultCall["message"] as! String
                     var error = NSError()
                     errorBlock!(error)
                 }

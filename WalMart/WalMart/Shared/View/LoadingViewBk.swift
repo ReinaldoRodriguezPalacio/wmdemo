@@ -15,7 +15,7 @@ class LoadingViewBk: UIView {
 
     var text: NSString? {
         didSet {
-            self.label?.text = self.text
+            self.label?.text = self.text as? String
         }
     }
     

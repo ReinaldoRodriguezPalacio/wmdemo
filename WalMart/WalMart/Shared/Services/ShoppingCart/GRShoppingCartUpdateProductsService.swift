@@ -22,11 +22,11 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
         if UserCurrentSession.sharedInstance().userSigned != nil {
             var itemsSvc : [[String:AnyObject]] = []
             var upcSend = ""
-            for itemSvc in params as NSArray {
-                let upc = itemSvc["upc"] as NSString
+            for itemSvc in params as! NSArray {
+                let upc = itemSvc["upc"] as! String
                 upcSend = upc
-                let quantity = itemSvc["quantity"] as NSString
-                let comments = itemSvc["comments"] as NSString
+                let quantity = itemSvc["quantity"] as! String
+                let comments = itemSvc["comments"] as! String
                 itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:comments))
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in

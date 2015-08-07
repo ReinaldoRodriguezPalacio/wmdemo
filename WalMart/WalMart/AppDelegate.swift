@@ -16,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var imgView: UIImageView? = nil
     var alertNoInternet: IPOWMAlertViewController? = nil
 
-    func application(application: UIApplication!, didFinishLaunchingWithOptions launchOptions: NSDictionary!) -> Bool {
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
        
@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      
         var error : NSError? = nil
         var paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true) as NSArray!
-        var docPath = paths[0] as NSString
+        var docPath = paths[0] as! String
         let todeletecloud =  NSURL(fileURLWithPath: docPath)
         if todeletecloud != nil {
             todeletecloud!.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey, error: &error)
@@ -103,11 +103,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var storyboard = loadStoryboardDefinition()
         var vc : AnyObject! = storyboard!.instantiateViewControllerWithIdentifier("principalVC")
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
-        self.window!.rootViewController = vc as UIViewController!
+        self.window!.rootViewController = vc as! UIViewController!
         self.window!.makeKeyAndVisible()
         
         if launchOptions != nil {
-            if let remoteNotifParam = launchOptions.objectForKey(UIApplicationLaunchOptionsRemoteNotificationKey) as? [NSObject : AnyObject] {
+            if let remoteNotifParam = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject:AnyObject] {
                 handleNotification(application,userInfo: remoteNotifParam)
             }
         }
@@ -116,7 +116,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillResignActive(application: UIApplication!) {
+    func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
@@ -127,17 +127,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         controller!.view.addSubview(imgView!)
     }
 
-    func applicationDidEnterBackground(application: UIApplication!) {
+    func applicationDidEnterBackground(application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         IPOSplashViewController.updateUserData()
     }
 
-    func applicationWillEnterForeground(application: UIApplication!) {
+    func applicationWillEnterForeground(application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     }
 
-    func applicationDidBecomeActive(application: UIApplication!) {
+    func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         if imgView != nil {
             imgView!.removeFromSuperview()
@@ -145,7 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    func applicationWillTerminate(application: UIApplication!) {
+    func applicationWillTerminate(application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
@@ -156,7 +156,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.bcg.dev.WalMart" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -180,7 +180,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain:"YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            error = NSError(domain:"YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as [NSObject : AnyObject])
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
@@ -244,7 +244,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         println("deviceTokenString \(deviceTokenString)" )
     }
     
-    func application( application: UIApplication!, didFailToRegisterForRemoteNotificationsWithError error: NSError! ) {
+    func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
         
         println( error.localizedDescription )
     }
@@ -268,21 +268,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
-        let notiicationInfo = userInfo["notification"] as NSDictionary
-        let notiicationAPS = userInfo["aps"] as NSDictionary
+        let notiicationInfo = userInfo["notification"] as! NSDictionary
+        let notiicationAPS = userInfo["aps"] as! NSDictionary
         
-        let type = notiicationInfo["type"] as String!
-        let name = notiicationInfo["name"] as String!
-        let value = notiicationInfo["value"] as String!
-        let message = notiicationAPS["alert"] as String!
+        let type = notiicationInfo["type"] as! String
+        let name = notiicationInfo["name"] as! String
+        let value = notiicationInfo["value"] as! String
+        let message = notiicationAPS["alert"] as! String
         
         if let customBar = self.window!.rootViewController as? CustomBarViewController {
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue, action: WMGAIUtils.EVENT_PUSHNOTIFICATION.rawValue, label: value, value: nil).build())
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue, action: WMGAIUtils.EVENT_PUSHNOTIFICATION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
             }
             
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
@@ -329,7 +329,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             var components = strAction.componentsSeparatedByString("_")
             if(components.count > 1){
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
-                    let cmpStr  = components[0] as String
+                    let cmpStr  = components[0] as! String
                     let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
                     customBar.handleNotification(cmpStr,name:"",value:strValue)
                 }

@@ -31,7 +31,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     var alertView: IPOWMAlertViewController?
     
     var newListEnabled = false
-    var isEditing  = false
+    var isEditingUserList  = false
     var isShowingWishList  = true
     var isShowingSuperlists = true
     var isShowingTabBar = true
@@ -56,7 +56,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     var numberOfDefaultLists = 0
     
     lazy var managedContext: NSManagedObjectContext? = {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         return context
         }()
@@ -67,7 +67,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_LISTS.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build())
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
         self.titleLabel?.text = NSLocalizedString("list.title",comment:"")
@@ -101,7 +101,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.searchField = FormFieldView()
         self.searchField!.maxLength = 100
         self.searchField!.delegate = self
-        self.searchField!.setPlaceholder(NSLocalizedString("list.search.placeholder",comment:""))
+        self.searchField!.setCustomPlaceholder(NSLocalizedString("list.search.placeholder",comment:""))
         self.searchField!.typeField = .String
         self.searchField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
         self.searchContainer!.addSubview(self.searchField!)
@@ -206,16 +206,16 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.itemsUserList = result["responseArray"] as? NSArray
+                    self.itemsUserList = result["responseArray"] as? [AnyObject]
                     self.tableuserlist!.reloadData()
                     self.checkEditBtn()
-                    if !self.newListEnabled && !self.isEditing {
+                    if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
                             }, animated:false)
                     }
                     
-                    if !self.isEditing {
+                    if !self.isEditingUserList {
                         self.changeFrameEditBtn(true, side: "left")
                         if self.itemsUserList!.count == 0{
                             self.changeVisibilityBtn(self.editBtn!, visibility: 0)
@@ -236,18 +236,18 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             )
         }
         else {
-            self.isShowingWishList = !self.isEditing
-            self.isShowingSuperlists = !self.isEditing
+            self.isShowingWishList = !self.isEditingUserList
+            self.isShowingSuperlists = !self.isEditingUserList
             self.itemsUserList = self.retrieveNotSyncList()
             self.tableuserlist!.reloadData()
             self.checkEditBtn()
-            if !self.newListEnabled && !self.isEditing {
+            if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
                     }, animated:false)
             }
             
-            if !self.isEditing {
+            if !self.isEditingUserList {
                 self.changeFrameEditBtn(true, side: "left")
                 if self.itemsUserList!.count == 0{
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
@@ -266,10 +266,10 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.isShowingWishList = !self.isEditing
-                    self.isShowingSuperlists = !self.isEditing
-                    self.itemsUserList = result["responseArray"] as? NSArray
-                    if !self.newListEnabled && !self.isEditing {
+                    self.isShowingWishList = !self.isEditingUserList
+                    self.isShowingSuperlists = !self.isEditingUserList
+                    self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
                             }, atFinished: { () -> Void in
                             }, animated:false)
@@ -286,16 +286,16 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             )
         }
         else {
-            self.isShowingWishList = !self.isEditing
-            self.isShowingSuperlists = !self.isEditing
+            self.isShowingWishList = !self.isEditingUserList
+            self.isShowingSuperlists = !self.isEditingUserList
             self.itemsUserList = self.retrieveNotSyncList()
-            if !self.newListEnabled && !self.isEditing {
+            if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
                     }, animated:false)
             }
             
-            if !self.isEditing {
+            if !self.isEditingUserList {
                 self.changeFrameEditBtn(true, side: "left")
                 if self.itemsUserList!.count == 0{
                     self.changeVisibilityBtn(self.editBtn!, visibility: 0)
@@ -315,14 +315,14 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.newListBtn?.enabled = false
         self.editBtn?.enabled = false
         
-        if !self.isEditing {
+        if !self.isEditingUserList {
 
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_EDITLISTS.rawValue,
                     label: nil,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             self.hideSearchField({
@@ -387,8 +387,8 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 }, animated:true)
         }
         
-        self.isEditing = !self.isEditing
-        self.editBtn!.selected = self.isEditing
+        self.isEditingUserList = !self.isEditingUserList
+        self.editBtn!.selected = self.isEditingUserList
     }
     
     //MARK: - NewList
@@ -410,7 +410,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_NEWLIST.rawValue,
                         label: nil,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 
                 
@@ -519,7 +519,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                                 action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
                                 label: value,
-                                value: nil).build())
+                                value: nil).build() as [NSObject : AnyObject])
                         }
                     },
                     failure: { (error) -> Void in
@@ -549,8 +549,8 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
 
             if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
-                let listId = listItem["id"] as String
-                var listName = listItem["name"] as String
+                let listId = listItem["id"] as! String
+                var listName = listItem["name"] as! String
                 
                 self.invokeSaveListToDuplicateService(forListId: listId, andName: listName)
             }
@@ -616,8 +616,8 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             
             let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
             if let listItem = self.itemsUserList![idx] as? NSDictionary {
-                let listId = listItem["id"] as String
-                var listName = listItem["name"] as String
+                let listId = listItem["id"] as! String
+                var listName = listItem["name"] as! String
                 
                 if text == nil || text!.isEmpty {
                     self.listToUpdate!.removeValueForKey(listId)
@@ -652,7 +652,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                                 action:WMGAIUtils.GR_EVENT_LISTS_DELETE.rawValue,
                                 label: listItem["name"] as? String,
-                                value: nil).build())
+                                value: nil).build() as [NSObject : AnyObject])
                         }
                         
                         self.invokeDeleteListService(listId)
@@ -670,7 +670,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.tableuserlist!.endUpdates()
                     
                     //EXTRA SI NO HAY MAS LISTAS
-                    if self.itemsUserList!.count == 0 && self.isEditing {
+                    if self.itemsUserList!.count == 0 && self.isEditingUserList {
                         self.showEditionMode()
                     }
                     self.checkEditBtn()
@@ -693,23 +693,23 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     func swipeableTableViewCell(cell: SWTableViewCell!, canSwipeToState state: SWCellState) -> Bool {
         switch state {
         case SWCellState.CellStateLeft:
-            return self.isEditing
+            return self.isEditingUserList
         case SWCellState.CellStateRight:
-            if self.isEditing { return true }
+            if self.isEditingUserList { return true }
             if let validateCanDelete = cell as? ListTableViewCell {
                 return validateCanDelete.canDelete
             } else {
                 return true
             }
         case SWCellState.CellStateCenter:
-            return !self.isEditing
+            return !self.isEditingUserList
         default:
-            return !self.isEditing
+            return !self.isEditingUserList
         }
     }
     
     func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
-        return !self.isEditing
+        return !self.isEditingUserList
     }
     
     // MARK: - Actions
@@ -957,13 +957,13 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         if  indexPath.section == 0 {
             
             if indexPath.row == 0 && self.newListEnabled {
-                let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID) as NewListTableViewCell
+                let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID) as! NewListTableViewCell
                 listCell.delegate = self
                 return listCell
             }
             var currentRow = (self.newListEnabled ? 1 : 0)
             
-            let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as ListTableViewCell
+            let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListTableViewCell
             listCell.delegate = self
             listCell.listDelegate = self
         
@@ -971,10 +971,10 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance().userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
                 listCell.canDelete = false
                 listCell.enableDuplicateList(self.newListEnabled)
-                listCell.shouldChangeState = !self.isEditing
-                listCell.setEditing(self.isEditing, animated: false)
+                listCell.shouldChangeState = !self.isEditingUserList
+                listCell.setEditing(self.isEditingUserList, animated: false)
                 listCell.showLeftUtilityButtonsAnimated(false)
-                listCell.enableEditList(self.isEditing)
+                listCell.enableEditList(self.isEditingUserList)
                 return listCell
             }
             
@@ -984,15 +984,15 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
                 listCell.canDelete = false
                 listCell.enableDuplicateList(self.newListEnabled)
-                listCell.shouldChangeState = !self.isEditing
-                listCell.setEditing(self.isEditing, animated: false)
+                listCell.shouldChangeState = !self.isEditingUserList
+                listCell.setEditing(self.isEditingUserList, animated: false)
                 listCell.showLeftUtilityButtonsAnimated(false)
-                listCell.enableEditList(self.isEditing)
+                listCell.enableEditList(self.isEditingUserList)
                 return listCell
             }
         }
         
-        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as ListTableViewCell
+        let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListTableViewCell
         listCell.delegate = self
         listCell.listDelegate = self
         
@@ -1003,11 +1003,11 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         }
         listCell.canDelete = true
         listCell.enableDuplicateList(self.newListEnabled)
-        listCell.shouldChangeState = !self.isEditing
-        listCell.setEditing(self.isEditing, animated: false)
+        listCell.shouldChangeState = !self.isEditingUserList
+        listCell.setEditing(self.isEditingUserList, animated: false)
         listCell.showLeftUtilityButtonsAnimated(false)
-        listCell.enableEditList(self.isEditing)
-        if self.isEditing {
+        listCell.enableEditList(self.isEditingUserList)
+        if self.isEditingUserList {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
         
@@ -1052,7 +1052,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
                         label: self.selectedListName,
-                        value: nil).build())
+                        value: nil).build() as [NSObject : AnyObject])
                 }
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
@@ -1067,7 +1067,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                     action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
                     label: self.selectedListName,
-                    value: nil).build())
+                    value: nil).build() as [NSObject : AnyObject])
             }
             
             self.performSegueWithIdentifier("showListDetail", sender: self)
@@ -1087,7 +1087,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         }
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView!) {
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
         if self.isToggleBarEnabled {
             super.scrollViewDidScroll(scrollView)
         }
@@ -1110,7 +1110,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             for var idx = 0; idx < self.itemsUserList!.count; idx++ {
                 var name:String? = nil
                 if let innerList = self.itemsUserList![idx] as? [String:AnyObject] {
-                    let innerListId = innerList["id"] as String
+                    let innerListId = innerList["id"] as! String
                     if innerListId == listId! {
                         continue
                     }
@@ -1209,8 +1209,8 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 var items: [AnyObject] = []
                 if let products = result["items"] as? NSArray {
                     for var idx = 0; idx < products.count; idx++ {
-                        var product = products[idx] as [String:AnyObject]
-                        let quantity = product["quantity"] as NSNumber
+                        var product = products[idx] as! [String:AnyObject]
+                        let quantity = product["quantity"] as! NSNumber
                         if let upc = product["upc"] as? String {
                             var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
                             items.append(item)
@@ -1366,9 +1366,9 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     
                     var products:[AnyObject] = []
                     for var idx = 0; idx < items.count; idx++ {
-                        var item = items[idx] as [String:AnyObject]
-                        var upc = item["upc"] as String
-                        var quantity = item["quantity"] as NSNumber
+                        var item = items[idx] as! [String:AnyObject]
+                        var upc = item["upc"] as! String
+                        var quantity = item["quantity"] as! NSNumber
                         var param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
                         products.append(param)
                     }
@@ -1379,7 +1379,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     var number = 0;
                     
                     if self.itemsUserList != nil {
-                        for item in  self.itemsUserList as [NSDictionary]{
+                        for item in  self.itemsUserList as! [NSDictionary]{
                             if let nameList = item["name"] as? String {
                                 if nameList.uppercaseString.hasPrefix(name.uppercaseString) {
                                     number = number+1
@@ -1453,7 +1453,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         var txtAfterUpdate : NSString = textField.text as NSString
         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
         
-        self.itemsUserList = self.searchForItems(txtAfterUpdate)
+        self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
         self.tableuserlist!.reloadData()
         self.editBtn!.hidden = self.itemsUserList == nil || self.itemsUserList!.count == 0
         
@@ -1480,7 +1480,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                 action:WMGAIUtils.GR_EVENT_LISTS_SEARCH.rawValue,
                 label: nil,
-                value: nil).build())
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         var height = keyboardFrame.size.height
@@ -1511,7 +1511,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
         var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [List]?
+        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
         return result
     }
     
@@ -1526,7 +1526,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
         var error: NSError? = nil
-        var result = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [Param]?
+        var result = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Param]?
         var parameter: Param? = nil
         if result != nil && result!.count > 0 {
             parameter = result!.first
@@ -1557,7 +1557,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         }
     }
     
-    override func scrollViewWillBeginDragging(scrollView: UIScrollView!) {
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         super.scrollViewWillBeginDragging(scrollView)
         self.view.endEditing(true)
     }
@@ -1574,12 +1574,12 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                 action:WMGAIUtils.GR_EVENT_LISTS_SEARCHCOMPLETE.rawValue,
-                label: labelTracker,
-                value: nil).build())
+                label: labelTracker as String,
+                value: nil).build() as [NSObject : AnyObject])
         }
         
         var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as [List]?
+        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
         println(result)
         
         return result

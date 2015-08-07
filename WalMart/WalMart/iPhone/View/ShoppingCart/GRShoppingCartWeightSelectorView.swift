@@ -435,7 +435,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             }
             
             if keyboardN.typeKeyboard == NumericKeyboardViewType.Integer {
-                if countElements(resultText as String) > 5 {
+                if count(resultText as String) > 5 {
                     return
                 }
                 currentValCstmGr = resultText.doubleValue
@@ -461,17 +461,17 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
                     return
                 }
                 
-                var kg = fullArray[0] as String
-                if countElements(kg) > 2 {
+                var kg = fullArray[0] as! String
+                if count(kg) > 2 {
                     currentValKg = valOrigin
                     currentValCstmGr =  valcurrentOrigin
                     return
                 }
                 
                 if fullArray.count > 1 {
-                    var gr = fullArray[1] as String
+                    var gr = fullArray[1] as! String
                     
-                        if countElements(gr) > 2 {
+                        if count(gr) > 2 {
                             currentValKg = valOrigin
                             currentValCstmGr =  valcurrentOrigin
                             return
@@ -532,7 +532,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
                     if valInKgString.length > 0 {
                         let valKgTotal : NSString = valInKgString.substringToIndex(valInKgString.length - 1)
                         if valKgTotal.length > 0 {
-                            currentValKg = valKgTotal
+                            currentValKg = valKgTotal as String
                         } else {
                             currentValKg = "0"
                         }
@@ -587,10 +587,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             }
             
             let tmpResult : NSString = "\(formatedString)kg"
-            lblQuantityW.text = tmpResult
+            lblQuantityW.text = tmpResult as String
         }else {
             let tmpResult : NSString = "\(Int(currentValGr))g"
-            lblQuantityW.text = tmpResult
+            lblQuantityW.text = tmpResult as String
         }
         let rectSize =  lblQuantityW.attributedText.boundingRectWithSize(CGSizeMake(lblQuantityW.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         quantityWAnimate.frame = CGRectMake((lblQuantityW.bounds.width / 2) + (rectSize.width / 2) + 3, 0, 1, lblQuantityW.frame.height)
@@ -605,7 +605,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     func updateLabelN() {
         if gramsBase {
             let tmpResult : NSString = "\(Int(currentValCstmGr))g"
-            lblQuantityN.text = tmpResult
+            lblQuantityN.text = tmpResult as String
         } else {
             var formatedString = ""
             let valInKg = currentValGr / 1000
@@ -687,7 +687,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         }
     }
     
-    func setBackAction(backAction:(() -> Void)) {
+    func setBackActionShoppingCart(backAction:(() -> Void)) {
         let backButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         backButton.setImage(UIImage(named: "search_back"), forState: UIControlState.Normal)
         backButton.addTarget(self, action: "backActionUpInside", forControlEvents: UIControlEvents.TouchUpInside)
