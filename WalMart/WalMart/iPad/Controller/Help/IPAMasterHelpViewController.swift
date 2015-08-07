@@ -129,7 +129,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?) {
+    func photoCaptured(value: String?,done:(() -> Void)) {
         if value != nil || value == "" {
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build())
@@ -144,6 +144,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
           //  if controllernav!.delegate != nil {
             //    controllernav!.delegate = nil
             //}
+            done()
             controllernav?.pushViewController(controller, animated: true)
         }
       }

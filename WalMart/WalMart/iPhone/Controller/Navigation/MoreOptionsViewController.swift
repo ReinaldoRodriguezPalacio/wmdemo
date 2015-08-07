@@ -365,7 +365,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?)
+    func photoCaptured(value: String?,done: (() -> Void))
     {
        if value != nil || value == "" {
         if let tracker = GAI.sharedInstance().defaultTracker {
@@ -378,6 +378,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         controller.textToSearch = value
         var controllernav = self.navigationController
         controllernav?.pushViewController(controller, animated: true)
+        done()
       }
     }
 }
