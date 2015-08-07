@@ -96,14 +96,14 @@
     _label = textField;
     if(scrollDelegate != nil) {
         if  ([scrollDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)])
-             return [scrollDelegate textFieldDidBeginEditingTP:textField];
+             return [scrollDelegate textFieldDidBeginEditing:textField];
     }
     [self scrollToActiveTextField];
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
     if(scrollDelegate != nil) {
-        return [scrollDelegate textFieldDidEndEditingTP:textField];
+        return [scrollDelegate textFieldDidEndEditing:textField];
     }
 }
 
