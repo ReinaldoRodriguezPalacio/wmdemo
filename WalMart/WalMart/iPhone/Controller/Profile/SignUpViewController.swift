@@ -295,7 +295,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
           return CGSizeMake(self.view.frame.width, content.contentSize.height)
     }
     
-    func textFieldDidEndEditing(textField: UITextField!) {
+    func textFieldDidEndEditingSW(textField: UITextField!) {
         if errorView != nil{
             if (errorView!.focusError == textField || errorView!.focusError == nil ) &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -307,7 +307,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
 //        acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
     }
     
-    func textFieldDidBeginEditing(textField: UITextView!) {
+    func textFieldDidBeginEditingSW(textField: UITextView!) {
         if errorView != nil && errorView!.focusError == nil {
             errorView?.removeFromSuperview()
             errorView!.focusError = nil

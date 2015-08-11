@@ -11,8 +11,8 @@
 @protocol TPKeyboardAvoidingScrollViewDelegate <NSObject>
 
 @optional -(CGSize)contentSizeForScrollView:(id)sender;
-@optional -(void)textFieldDidEndEditingTP:(UITextField *)sender;
-@optional -(void)textFieldDidBeginEditingTP:(UITextField *)sender;
+@optional -(void)textFieldDidEndEditing:(UITextField *)sender;
+@optional -(void)textFieldDidBeginEditing:(UITextField *)sender;
 @optional -(void)textModify:(UITextField *)sender;
 @end
 
