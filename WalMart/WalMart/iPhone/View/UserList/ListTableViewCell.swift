@@ -69,7 +69,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         
         self.articlesTitle = UILabel()
         self.articlesTitle!.font = self.articlesTitleFont
-        self.articlesTitle!.textColor = WMColor.UIColorFromRGB(0x999999)
+        self.articlesTitle!.textColor = WMColor.regular_gray
         self.articlesTitle!.text = NSLocalizedString("list.articles",comment:"")
         self.contentView.addSubview(self.articlesTitle!)
         
@@ -108,7 +108,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         super.layoutSubviews()
         var bounds = self.frame.size
         var sep: CGFloat = 16.0
-        self.iconView!.frame = CGRectMake(sep, sep, 46.0, 46.0)
+        self.iconView!.frame = CGRectMake(sep, 12, 40.0, 40.0)
         var x = self.iconView!.frame.maxX + sep
         var width = bounds.width - x
         var copyWidth: CGFloat = 55.0

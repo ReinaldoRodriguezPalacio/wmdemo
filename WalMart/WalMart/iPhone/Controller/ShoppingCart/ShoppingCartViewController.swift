@@ -107,7 +107,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
         //closeButton.setTitle(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""), forState: UIControlState.Normal)
-        closeButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        closeButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
         //closeButton.backgroundColor = WMColor.shoppingCartEditButtonBgColor
         //closeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         //closeButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)

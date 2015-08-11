@@ -69,6 +69,10 @@ class FormFieldView : UIEdgeTextField {
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
     }
     
+    func setCustomPlaceholderRegular(placeholder : String){
+        self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+    }
+    
     func setImageTypeField(){
         if typeField == TypeField.List{
             if self.imageList == nil {

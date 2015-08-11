@@ -10,7 +10,7 @@ import Foundation
 
 struct WMColor {
     
-    static var savingTextColor: UIColor{return UIColorFromRGB(0x8EBB37)}
+    static var savingTextColor: UIColor{return UIColorFromRGB(0x00C000)}
     
     static var headerViewBgCollor: UIColor{return UIColorFromRGB(0x2870C9)}
     static var gotosuperBgColor: UIColor{return UIColorFromRGB(0x62C900)}
@@ -213,6 +213,7 @@ struct WMColor {
     static var light_gray: UIColor{return UIColorFromRGB(0xEDEDEE)}
     static var light_light_gray: UIColor{return UIColorFromRGB(0xF8F7F7)}
     static var disabled_light_gray: UIColor{return UIColorFromRGB(0xC4C7CB)}
+    
     
     
     static var lineSaparatorColor: UIColor{return UIColorFromRGB(0xEFEFF0)}

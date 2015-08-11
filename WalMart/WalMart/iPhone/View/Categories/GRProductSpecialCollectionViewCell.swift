@@ -12,6 +12,8 @@ import Foundation
 class GRProductSpecialCollectionViewCell : ProductCollectionViewCell {
     
     
+    var jsonItemSelected : JSON!
+    
     override func setup() {
         super.setup()
         
@@ -20,6 +22,7 @@ class GRProductSpecialCollectionViewCell : ProductCollectionViewCell {
         self.productImage!.frame = CGRectMake((self.frame.width / 2) - (75 / 2), 15, 75, 75)
         
         self.productPriceLabel!.frame = CGRectMake(4, self.productImage!.frame.maxY  , self.frame.width - 8 , 14)
+        self.productPriceLabel!.alpha = 0
         
         self.productShortDescriptionLabel!.frame = CGRectMake(16, self.productPriceLabel!.frame.maxY  , self.frame.width - 32, 33)
         self.productShortDescriptionLabel!.textAlignment = .Center

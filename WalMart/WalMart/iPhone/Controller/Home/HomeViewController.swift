@@ -276,20 +276,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         var specialsGRCat : [String:AnyObject] = RecommendedCategory.groceriescategory
         var categories : [String] = []
         self.recommendCategoryItems = [:]
-        var itemsInCategories : NSMutableArray  = []
-        for key in specialsGRCat.keys {
-            let array = specialsGRCat[key] as! [String]
-            itemsInCategories.addObjectsFromArray(array)
-        }
         
         for itemRec in self.recommendItems! {
             var nameCategory = "Otros"
             let upc = itemRec["upc"] as! String!
             var isCategorySpecial = false
-            
-            if itemsInCategories.containsObject(upc) {
-                continue
-            }
             
             for special in  specialsCat {
                 

@@ -113,7 +113,7 @@
 "wishlist.message.help" = "Los artículos que has agregado a tu Wishlist se encuentran aquí";
 
 //My list
-"list.title" = "Listas";
+"list.title" = "Mis Listas";
 "list.edit" = "Editar";
 "list.endedit" = "Ok";
 "list.new" = "Nueva";
@@ -127,7 +127,7 @@
 "list.new.keyboard.save" = "Crear";
 "list.articles" = "%@ artículos";
 "list.empty" = "Aún no has creado una Lista de Súper";
-"list.search.placeholder" = "Buscar";
+"list.search.placeholder" = "Buscar en Listas";
 "list.selector.title" = "Añadir a Lista de Súper";
 "list.selector.openDetail" = "Abrir";
 "list.selector.new.placeholder" = "Nueva Lista";
@@ -392,9 +392,9 @@
 
 //GR Category
 "gr.category.colapsar" = "Contraer";
-"gr.category.especiales" = " Destacado ";
+"gr.category.especiales" = " Destacados ";
 "gr.category.open" = "Abrir";
-
+"gr.category.all" = "Ver más";
 
 //Address Super
 "gr.address.title" = "Nueva Dirección";
