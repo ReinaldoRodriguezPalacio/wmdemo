@@ -131,11 +131,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let rowforsearch = Int(indexPath.row / 2)
             let item = items![rowforsearch] as! [String:AnyObject]
             var bgDepartment = item["idDepto"] as! String
+            var families = JSON(item["family"] as! [[String:AnyObject]])
             bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             
             
-            if let resultProducts = fillConfigData(bgDepartment) {
-                cellSpecials.setProducts(resultProducts,width:self.view.frame.width / 3)
+            if let resultProducts = fillConfigData(bgDepartment,families:families) {
+                cellSpecials.setLines(resultProducts,width:self.view.frame.width / 3)
             }else {
                 cellSpecials.withOutProducts()
             }
@@ -319,30 +320,49 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MArk: Delegate 
     
-    func didTapProduct(upcProduct:String,descProduct:String) {
-        let controller = ProductDetailPageViewController()
-        controller.itemsToShow = [["upc":upcProduct,"description":descProduct,"type":"groceries"]]
-
+    func didTapLine(name:String,department:String,family:String,line:String) {
+        
+        let controller = SearchProductViewController()
+        controller.searchContextType = .WithCategoryForGR
+        
+        controller.titleHeader = name
+        controller.idDepartment = department
+        controller.idFamily = family
+        controller.idLine = line
+        
         self.navigationController!.pushViewController(controller, animated: true)
+    
+    }
+
+    
+    func didTapProduct(upcProduct:String,descProduct:String){
+        
     }
     
-    
-    func fillConfigData(depto:String) -> [[String:AnyObject]]? {
+    func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {
         var resultDict : [AnyObject] = []
         if (canfigData.keys.filter {$0 == depto }).array.count > 0 {
-            let upcs = canfigData[depto] as! [String]
-            for upcStr in upcs {
-                let itemsFound = itemsExclusive?.filter({ (dictionUPC) -> Bool in
-                    if dictionUPC["upc"] as! String == upcStr {
-                        return true
+            let linesToShow = JSON(canfigData[depto] as! [[String:String]])
+            for lineDest in linesToShow.arrayValue {
+                for family in families.arrayValue {
+                    for line in family["line"].arrayValue {
+                        let lineOne = line["id"].stringValue
+                        let lineTwo = lineDest["line"].stringValue
+                        if line["id"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                            == lineDest["line"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
+                            var itemToShow = ["name": line["name"].stringValue,
+                                            "imageUrl": lineDest["imageUrl"].stringValue,
+                                            "line": lineDest["line"].stringValue ,
+                                            "family": family["id"].stringValue ,
+                                            "department":depto]
+                            resultDict.append(itemToShow)
+                            
+                        }
                     }
-                    return false
-                })
-                if itemsFound?.count > 0 {
-                    resultDict.append(itemsFound![0])
                 }
             }
         }
+        
         return resultDict as? [[String:AnyObject]]
     }
 

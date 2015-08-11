@@ -14,7 +14,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
     
-    let SC_HEIGHT:CGFloat = 51.0
+    let SC_HEIGHT:CGFloat = 46.0
     
     @IBOutlet var searchContainer: UIView?
     @IBOutlet var tableuserlist: UITableView?
@@ -26,6 +26,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     var editBtn: UIButton?
     var newListBtn: UIButton?
     var showWishlistBtn: UIButton?
+    var viewSeparator : UIView!
     
     var helpView: UIView?
     var alertView: IPOWMAlertViewController?
@@ -70,8 +71,12 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
+        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22) // UIImage(named:"button_bg")
+        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
+        
         self.titleLabel?.text = NSLocalizedString("list.title",comment:"")
         self.titleLabel?.textAlignment = .Left
+        self.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.newListBtn = UIButton.buttonWithType(.Custom) as? UIButton
         self.newListBtn!.setTitle(NSLocalizedString("list.new", comment:""), forState: .Normal)
@@ -80,7 +85,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.newListBtn!.setTitleColor(WMColor.UIColorFromRGB(0x2970CA), forState: .Selected)
         self.newListBtn!.addTarget(self, action: "showNewListField", forControlEvents: .TouchUpInside)
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+        self.newListBtn!.backgroundColor = WMColor.green
         self.newListBtn!.layer.cornerRadius = 11.0
         self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.header!.addSubview(self.newListBtn!)
@@ -88,10 +93,13 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.editBtn = UIButton.buttonWithType(.Custom) as? UIButton
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
+        self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
+        self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
+        self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
         self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.editBtn!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
+        //self.editBtn!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
         self.editBtn!.layer.cornerRadius = 11.0
         self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.header!.addSubview(self.editBtn!)
@@ -101,10 +109,15 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.searchField = FormFieldView()
         self.searchField!.maxLength = 100
         self.searchField!.delegate = self
-        self.searchField!.setCustomPlaceholder(NSLocalizedString("list.search.placeholder",comment:""))
+        self.searchField!.setCustomPlaceholderRegular(NSLocalizedString("list.search.placeholder",comment:""))
         self.searchField!.typeField = .String
         self.searchField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
-        self.searchContainer!.addSubview(self.searchField!)
+        
+        viewSeparator = UIView()
+        viewSeparator.backgroundColor = WMColor.lineSaparatorColor
+        
+        self.searchContainer!.addSubview(viewSeparator)
+        self.searchContainer!.addSubview(searchField!)
         
         self.tableuserlist!.registerClass(ListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         self.tableuserlist!.registerClass(NewListTableViewCell.self, forCellReuseIdentifier: self.NEWCELL_ID)
@@ -152,7 +165,9 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         }
         
         var bounds = self.view.frame.size
-        self.searchField!.frame = CGRectMake(16.0, 16.0, bounds.width - 32.0, 40.0)
+        self.searchField!.frame = CGRectMake(16.0, 12.0, bounds.width - 32.0, 40.0)
+        
+        self.viewSeparator.frame = CGRectMake(0, searchContainer!.frame.height  - AppDelegate.separatorHeigth() , searchContainer!.frame.width,   AppDelegate.separatorHeigth())
     }
     
     func reloadListFormUpdate (){
@@ -312,6 +327,9 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     //MARK: - Edit
     
     func showEditionMode() {
+        
+
+        
         self.newListBtn?.enabled = false
         self.editBtn?.enabled = false
         
@@ -1023,7 +1041,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return 72.0
+        return 64.0
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

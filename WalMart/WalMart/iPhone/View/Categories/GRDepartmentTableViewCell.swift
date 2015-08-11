@@ -15,6 +15,8 @@ class GRDepartmentTableViewCell : UITableViewCell {
     var buttonDepartment : UIButton!
     var titleDepartment : String!
     
+    var moreLabel : UILabel!
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -39,6 +41,15 @@ class GRDepartmentTableViewCell : UITableViewCell {
         
         
         self.addSubview(buttonDepartment)
+        
+        
+        moreLabel = UILabel(frame: CGRectMake(self.frame.width - 116, 28, 100, 12))
+        moreLabel.text = NSLocalizedString("gr.category.all", comment: "")
+        moreLabel.textColor = WMColor.light_blue
+        moreLabel.textAlignment = NSTextAlignment.Right
+        moreLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.addSubview(moreLabel)
+        
         
     }
     

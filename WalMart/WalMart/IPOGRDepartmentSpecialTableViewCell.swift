@@ -10,13 +10,16 @@ import Foundation
 
 protocol IPOGRDepartmentSpecialTableViewCellDelegate {
     func didTapProduct(upcProduct:String,descProduct:String)
+    func didTapLine(name:String,department:String,family:String,line:String)
 }
 
 class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     
     var delegate: IPOGRDepartmentSpecialTableViewCellDelegate!
     
-    func setProducts(products:[[String:AnyObject]],width:CGFloat) {
+    func setLines(lines:[[String:AnyObject]],width:CGFloat) {
+        
+        let jsonLines = JSON(lines)
         
         for sView in   self.contentView.subviews {
             sView.removeFromSuperview()
@@ -24,15 +27,15 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         
         var currentX : CGFloat = 0.0
-        for  prod in products {
+        for  lineToShow in jsonLines.arrayValue {
             let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 0, width, 150))
-            let imageProd =  prod["imageUrl"] as! String
-            let descProd =  prod["description"] as! String
-            let priceProd =  prod["price"] as! NSNumber
-            let upcProd =  prod["upc"] as! String
+            let imageProd =  lineToShow["imageUrl"].stringValue
+            let descProd =  lineToShow["name"].stringValue
             
-            product.upcProduct = upcProd
-            product.setValues(imageProd, productShortDescription: descProd, productPrice: priceProd.stringValue)
+            product.jsonItemSelected = lineToShow
+            product.setValues(imageProd,
+                                productShortDescription: descProd,
+                                productPrice: "")
             self.contentView.addSubview(product)
             
             let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
@@ -62,9 +65,12 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     }
     
     func productTap(sender:UITapGestureRecognizer) {
+        //let viewC = sender.view as! GRProductSpecialCollectionViewCell
+//        
+//        delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!)
+
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
-        
-        delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!)
+        delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
     }
     
     
