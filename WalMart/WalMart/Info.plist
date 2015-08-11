@@ -85,6 +85,8 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.GRDiscountAssociateService</key>
+			<string>https://192.168.43.192:8450/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://192.168.43.192:8450/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -160,6 +162,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.GRDiscountAssociateService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>

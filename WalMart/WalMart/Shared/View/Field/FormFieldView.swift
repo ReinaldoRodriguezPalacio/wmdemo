@@ -20,6 +20,7 @@ enum TypeField {
     case RFCM
     case Email
     case List
+    case Check
     case None
 }
 
@@ -77,7 +78,18 @@ class FormFieldView : UIEdgeTextField {
                 self.imageList!.frame = CGRectMake(self.frame.width - 30  , (self.frame.height - 16 ) / 2  ,16,16)
             }
         }
+        if typeField == TypeField.Check{
+            self.borderStyle = UITextBorderStyle.None
+            self.backgroundColor = UIColor.whiteColor()
+            if self.imageList == nil {
+                self.imageList = UIImageView()
+                self.addSubview(self.imageList!)
+                self.imageList!.image = UIImage(named: "checkTerm")
+                self.imageList!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
+            }
+        }
     }
+    
     
     override func becomeFirstResponder() -> Bool {
         if (onBecomeFirstResponder != nil) {

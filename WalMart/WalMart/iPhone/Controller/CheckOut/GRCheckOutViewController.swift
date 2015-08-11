@@ -19,6 +19,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var errorView : FormFieldErrorView? = nil
     
     var paymentOptions: FormFieldView?
+    var discountAssociate: FormFieldView?
     var address: FormFieldView?
     var shipmentType: FormFieldView?
     var deliveryDate: FormFieldView?
@@ -122,8 +123,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.paymentOptions!.setImageTypeField()
         self.paymentOptions!.nameField = NSLocalizedString("checkout.field.paymentOptions", comment:"")
         self.content.addSubview(self.paymentOptions!)
+
+        //Descuentos
+        sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.discounts", comment:""), frame: CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, width, lheight))
+        self.content.addSubview(sectionTitle)
         
-        sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.shipmentOptions", comment:""), frame: CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, width, lheight))
+        self.discountAssociate = FormFieldView(frame: CGRectMake(margin,sectionTitle.frame.maxY + 10.0,width,fheight))
+        self.discountAssociate!.setCustomPlaceholder(NSLocalizedString("checkout.field.discountAssociate", comment:""))
+        self.discountAssociate!.isRequired = true
+        self.discountAssociate!.typeField = TypeField.Check
+        self.discountAssociate!.setImageTypeField()
+        self.discountAssociate!.nameField = NSLocalizedString("checkout.field.discountAssociate", comment:"")
+        self.content.addSubview(self.discountAssociate!)
+        
+        sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.shipmentOptions", comment:""), frame: CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, width, lheight))
         self.content.addSubview(sectionTitle)
 
         self.address = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + 10.0, width, fheight))
@@ -232,6 +245,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.picker!.delegate = self
                     self.picker!.setValues(self.paymentOptions!.nameField, values: itemsPayments)
                     self.picker!.hiddenRigthActionButton(true)
+                    self.picker!.cellType = TypeField.Check
                     self.picker!.showPicker()
                     
                     self.removeViewLoad()
@@ -239,6 +253,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
             }
             
+            self.discountAssociate!.onBecomeFirstResponder = { () in
+                let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.startDate", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
+                self.picker!.sender = self.discountAssociate!
+                self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
+                self.picker!.delegate = self
+                self.picker!.selected = self.selectedConfirmation
+                self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
+                self.picker!.hiddenRigthActionButton(true)
+                self.picker!.cellType = TypeField.Alphanumeric
+                self.picker!.showPicker()
+                
+                self.removeViewLoad()
+            }
             
             self.reloadUserAddresses()
         
@@ -271,6 +298,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.delegate = self
                 self.picker!.setValues(self.confirmation!.nameField, values: itemsOrderOptions)
                 self.picker!.hiddenRigthActionButton(true)
+                self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
                 
             }
@@ -302,6 +330,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         var lheight: CGFloat = 25.0
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
+        self.discountAssociate!.frame = CGRectMake(margin, self.discountAssociate!.frame.minY, widthField, fheight)
         self.address!.frame = CGRectMake(margin, self.address!.frame.minY, widthField, fheight)
         self.shipmentType!.frame = CGRectMake(margin, self.address!.frame.maxY + 5.0, widthField, fheight)
         self.deliveryDate!.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, widthField, fheight)
@@ -440,6 +469,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.delegate = self
                 self.picker!.setValues(self.deliverySchedule!.nameField, values: itemsSlots)
                 self.picker!.hiddenRigthActionButton(true)
+                self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
             }
             
@@ -479,6 +509,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 endCallPaymentOptions()
             }
         )
+    }
+    
+    func invokeDiscountAssociateService(pickerValues: [String:String], discountAssociateItems: [String])
+    {
+        if pickerValues.count == discountAssociateItems.count
+        {
+            let discountAssociateService = GRDiscountAssociateService()
+            discountAssociateService.setParams(pickerValues)
+            discountAssociateService.callService(requestParams: pickerValues, succesBlock: { (resultCall:NSDictionary) -> Void in
+                println("AssociateDiscount")
+                }, errorBlock: {(error: NSError) -> Void in
+                println("Error")
+            })
+        }
     }
     
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
@@ -535,6 +579,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.delegate = self
                 self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
                 self.picker!.hiddenRigthActionButton(true)
+                self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
             }
             
@@ -603,6 +648,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.addRigthActionButton(btnNewAddress)
                 self.picker!.setValues(self.address!.nameField, values: itemsAddress)
                 self.picker!.hiddenRigthActionButton(false)
+                self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
                 
                 self.removeViewLoad()
@@ -701,8 +747,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.selectedConfirmation = indexPath
 
             }
-            
-            
+            if formFieldObj == self.discountAssociate!{
+                self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+            }
         }
     }
     
@@ -729,6 +776,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if formFieldObj ==  self.deliverySchedule! {
             self.deliverySchedule!.text = ""
         }
+        if formFieldObj == self.discountAssociate!{
+           self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+        }
+            
         }
     }
     
