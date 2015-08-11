@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class UserListViewController : NavigationViewController, UITableViewDelegate, UITableViewDataSource, NewListTableViewCellDelegate, SWTableViewCellDelegate, UITextFieldDelegate, ListTableViewCellDelegate, BarCodeViewControllerDelegate, UIScrollViewDelegate {
+class UserListViewController : UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, NewListTableViewCellDelegate, SWTableViewCellDelegate, UITextFieldDelegate, ListTableViewCellDelegate, BarCodeViewControllerDelegate, UIScrollViewDelegate {
     
     let CELL_ID = "listCell"
     let NEWCELL_ID = "newlistCell"
@@ -94,6 +94,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
         self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
+        self.editBtn!.setBackgroundImage(iconSelected, forState: .Highlighted)
         self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
         self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
@@ -335,6 +336,11 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         
         if !self.isEditingUserList {
             
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.newListBtn?.alpha = 0
+            })
+            
+            
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
@@ -395,6 +401,11 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                                 cell.enableEditList(false)
                             }
                         }
+                        
+                        UIView.animateWithDuration(0.2, animations: { () -> Void in
+                            self.newListBtn?.alpha = 1
+                        })
+                        
                         self.newListBtn?.enabled = true
                         self.editBtn?.enabled = true
                     })
@@ -501,7 +512,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                     CATransaction.commit()
                     
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                    self.newListBtn!.backgroundColor = WMColor.green
                     }, atFinished: {
                         self.editBtn!.enabled = true
                         
@@ -530,7 +541,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                 self.isShowingSuperlists = true
                 
                 self.newListBtn!.selected = false
-                self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                self.newListBtn!.backgroundColor = WMColor.green
                 self.reloadList(
                     success: { () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
@@ -572,15 +583,17 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
             if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                 let listId = listItem["id"] as! String
                 var listName = listItem["name"] as! String
-                
-                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName)
+//                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
+//                    println("pase por acas")
+//                }, itemsUserList: self.itemsUserList!)
+                //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
             }
             else if let listItem = self.itemsUserList![indexPath.row] as? List {
                 if self.itemsUserList!.count <= 11 {
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
                     
-                    var copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+                    var copyName = self.buildDuplicateNameList(listItem.name, forListId: nil,itemsUserList: self.itemsUserList!)
                     var clist = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: self.managedContext!) as? List
                     clist!.name = copyName
                     clist!.registryDate = NSDate()
@@ -611,7 +624,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                     self.isShowingSuperlists = true
                     
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                    self.newListBtn!.backgroundColor = WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
@@ -668,6 +681,10 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
         case 0:
+            if let cellList = cell as? ListTableViewCell {
+                cellList.duplicate()
+            }
+        case 1:
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
@@ -1120,47 +1137,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
     
     
     //MARK: - Utils
-    
-    func buildDuplicateNameList(theName:String, forListId listId:String?) -> String {
-        var listName = "\(theName)" //Se crea una nueva instancia
-        var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
-        if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-            listName = listName.substringToIndex(range.startIndex)
-        }
-        listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
-        
-        var lastIdx = 1
-        if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-            for var idx = 0; idx < self.itemsUserList!.count; idx++ {
-                var name:String? = nil
-                if let innerList = self.itemsUserList![idx] as? [String:AnyObject] {
-                    let innerListId = innerList["id"] as! String
-                    if innerListId == listId! {
-                        continue
-                    }
-                    name = innerList["name"] as? String
-                }
-                else if let listEntity = self.itemsUserList![idx] as? List {
-                    name = listEntity.name
-                }
-                
-                if name != nil {
-                    if let range = name!.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-                        name = name!.substringToIndex(range.startIndex)
-                    }
-                    name = name!.stringByTrimmingCharactersInSet(whitespaceset)
-                    
-                    if name!.hasPrefix(listName) {
-                        lastIdx++
-                    }
-                }
-            }
-        }
-        
-        var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
-        return "\(listName) \(idxTxt)"
-    }
-    
+  
     func changeEntityNames() {
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
             let array = Array(self.listToUpdate!.keys)
@@ -1220,64 +1197,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
         }
     }
     
-    func invokeSaveListToDuplicateService(forListId listId:String, andName listName:String) {
-        var alert = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
-        alert!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
-        
-        let detailService = GRUserListDetailService()
-        detailService.buildParams(listId)
-        detailService.callService([:],
-            successBlock: { (result:NSDictionary) -> Void in
-                
-                var service = GRSaveUserListService()
-                var items: [AnyObject] = []
-                if let products = result["items"] as? NSArray {
-                    for var idx = 0; idx < products.count; idx++ {
-                        var product = products[idx] as! [String:AnyObject]
-                        let quantity = product["quantity"] as! NSNumber
-                        if let upc = product["upc"] as? String {
-                            var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
-                            items.append(item)
-                        }
-                    }
-                }
-                
-                var copyName = self.buildDuplicateNameList(listName, forListId: listId)
-                service.callService(service.buildParams(copyName, items: items),
-                    successBlock: { (result:NSDictionary) -> Void in
-                        self.newListEnabled = false
-                        self.isShowingWishList  = true
-                        self.isShowingSuperlists = true
-                        
-                        self.newListBtn!.selected = false
-                        self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
-                        self.reloadList(
-                            success: { () -> Void in
-                                alert!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-                                alert!.showDoneIcon()
-                            },
-                            failure: { (error) -> Void in
-                                self.alertView!.setMessage(error.localizedDescription)
-                                self.alertView!.showErrorIcon("Ok")
-                            }
-                        )
-                    },
-                    errorBlock: { (error:NSError) -> Void in
-                        println("Error at duplicate list")
-                        alert!.setMessage(error.localizedDescription)
-                        alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-                    }
-                )
-                
-            },
-            errorBlock: { (error:NSError) -> Void in
-                println("Error at retrieve list detail")
-                alert!.setMessage(error.localizedDescription)
-                alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-            }
-        )
-        
-    }
+   
     
     func invokeUpdateListService() {
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
@@ -1430,7 +1350,7 @@ class UserListViewController : NavigationViewController, UITableViewDelegate, UI
                             self.isShowingSuperlists = true
                             
                             self.newListBtn!.selected = false
-                            self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                            self.newListBtn!.backgroundColor = WMColor.green
                             self.reloadList(
                                 success: { () -> Void in
                                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicketDone", comment:""))

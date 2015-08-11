@@ -220,7 +220,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.navigationController!.pushViewController(controller, animated: true)
         case .Orders :
             let controller = OrderViewController()
-            controller.reloadPreviousOrders()
+            //controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
         case .FindCam:
             let cameraController = CameraViewController()

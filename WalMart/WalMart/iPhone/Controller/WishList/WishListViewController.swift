@@ -21,7 +21,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     var edit: UIButton!
     var deleteall: UIButton!
-    
+    let leftBtnWidth:CGFloat = 48.0
     
     
    
@@ -153,7 +153,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.rightUtilityButtons = getRightButtonDelete()
-        cell.leftUtilityButtons = getRightLeftDelete()
+        
+        cell.setLeftUtilityButtons(getRightLeftDelete(), withButtonWidth: self.leftBtnWidth)
+        
         cell.delegateProduct = self
         cell.delegate = self
         
@@ -237,7 +239,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func getRightLeftDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
+        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 36, 109))
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: UIControlState.Normal)
         buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
         toReturn.append(buttonDelete)

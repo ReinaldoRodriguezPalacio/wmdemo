@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate{
+class UserListDetailViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -20,10 +20,12 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     @IBOutlet var footerConstraint: NSLayoutConstraint?
 
     var editBtn: UIButton?
+    var copyBtn: UIButton?
     var deleteAllBtn: UIButton?
     var shareButton: UIButton?
     var addToCartButton: UIButton?
     var customLabel: CurrencyCustomLabel?
+    var nameField: FormFieldView?
     
     var loading: WMLoadingView?
     var emptyView: UIView?
@@ -42,6 +44,8 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     var equivalenceByPiece : NSNumber! = NSNumber(int:0)
     var selectedItems : NSMutableArray? = nil
     
+    var containerEditName: UIView?
+    
 
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -52,11 +56,17 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22)
+        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
+        
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
 
         self.editBtn = UIButton.buttonWithType(.Custom) as? UIButton
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
+        self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
+        self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
         self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.editBtn!.layer.cornerRadius = 11
         self.editBtn!.backgroundColor = WMColor.UIColorFromRGB(0x525B66b)
@@ -78,6 +88,18 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         self.deleteAllBtn!.addTarget(self, action: "deleteAll", forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.deleteAllBtn!)
 
+        
+        self.copyBtn = UIButton.buttonWithType(.Custom) as? UIButton
+        self.copyBtn!.setTitle(NSLocalizedString("list.copy",comment:""), forState: .Normal)
+        self.copyBtn!.backgroundColor = WMColor.light_blue
+        self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.copyBtn!.layer.cornerRadius = 11
+        self.copyBtn!.alpha = 0
+        self.copyBtn!.hidden = true
+        self.header!.addSubview(self.copyBtn!)
+        
+        
         self.titleLabel?.text = self.listName
         self.tableView!.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
@@ -116,9 +138,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
             self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
         }
         
-       
-
-        
+         buildEditNameSection()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -173,6 +193,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
             var buttonHeight: CGFloat = 22.0
             self.editBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
             self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
+            self.copyBtn!.frame = CGRectMake(self.deleteAllBtn!.frame.minX - (65.0 + 8.0), (headerBounds.height - buttonHeight)/2, 65.0, buttonHeight)
         }
     }
 
@@ -195,66 +216,86 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     //MARK: - Actions
     
     func showEditionMode() {
+        
+        
+        
         if !self.isEdditing {
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_EDIT.rawValue,
-                    label: self.listName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
-            
-            
-            self.deleteAllBtn!.hidden = false
-            UIView.animateWithDuration(0.5,
-                animations: { () -> Void in
-                    var frame = self.titleLabel!.frame
-                    self.titleLabel!.frame = CGRectMake(16.0, frame.origin.y, frame.width, frame.height)
-                    self.backButton!.alpha = 0.0
-                    self.deleteAllBtn!.alpha = 1.0
-                }, completion: { (finished:Bool) -> Void in
-                    if finished {
-                        self.backButton!.hidden = true
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.tableView!.frame = CGRectMake(0, self.header!.frame.maxY + 64, self.tableView!.frame.width, self.tableView!.frame.height)
+                self.containerEditName!.alpha = 1
+                self.footerSection!.alpha = 0
+            }, completion: { (complete:Bool) -> Void in
+                //Event
+                if let tracker = GAI.sharedInstance().defaultTracker {
+                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_EDIT.rawValue,
+                        label: self.listName,
+                        value: nil).build() as [NSObject : AnyObject])
+                }
+                
+                
+                self.deleteAllBtn!.hidden = false
+                self.copyBtn!.hidden = false
+                UIView.animateWithDuration(0.5,
+                    animations: { () -> Void in
+                        var frame = self.titleLabel!.frame
+                        self.titleLabel!.alpha = 0.0
+                        self.deleteAllBtn!.alpha = 1.0
+                        self.copyBtn!.alpha = 1.0
+                    }, completion: { (finished:Bool) -> Void in
+                        
+                    }
+                )
+                var cells = self.tableView!.visibleCells()
+                for var idx = 0; idx < cells.count; idx++ {
+                    if let cell = cells[idx] as? DetailListViewCell {
+                        cell.setEditing(true, animated: false)
+                        cell.showLeftUtilityButtonsAnimated(true)
                     }
                 }
-            )
-            var cells = self.tableView!.visibleCells()
-            for var idx = 0; idx < cells.count; idx++ {
-                if let cell = cells[idx] as? DetailListViewCell {
-                    cell.setEditing(true, animated: false)
-                    cell.showLeftUtilityButtonsAnimated(true)
-                }
-            }
+            })
         }
         else {
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_ENDEDIT.rawValue,
-                    label: self.listName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
             
-            self.backButton!.hidden = false
-            UIView.animateWithDuration(0.5,
-                animations: { () -> Void in
-                    self.backButton!.alpha = 1.0
-                    self.deleteAllBtn!.alpha = 0.0
-                    self.titleLabel!.center = CGPointMake(self.header!.frame.width/2, self.header!.frame.height/2)
-                }, completion: { (finished:Bool) -> Void in
-                    if finished {
-                        self.deleteAllBtn!.hidden = true
+            
+            UIView.animateWithDuration(0.3, animations: { () -> Void in
+                
+                
+                //Event
+                if let tracker = GAI.sharedInstance().defaultTracker {
+                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_ENDEDIT.rawValue,
+                        label: self.listName,
+                        value: nil).build() as [NSObject : AnyObject])
+                }
+                
+                UIView.animateWithDuration(0.5,
+                    animations: { () -> Void in
+                        self.titleLabel!.alpha = 1.0
+                        self.deleteAllBtn!.alpha = 0.0
+                        self.copyBtn!.alpha = 0.0
+                    }, completion: { (finished:Bool) -> Void in
+                        if finished {
+                            self.deleteAllBtn!.hidden = true
+                        }
+                    }
+                )
+                var cells = self.tableView!.visibleCells()
+                for var idx = 0; idx < cells.count; idx++ {
+                    if let cell = cells[idx] as? DetailListViewCell {
+                        cell.hideUtilityButtonsAnimated(false)
+                        cell.setEditing(false, animated: false)
                     }
                 }
-            )
-            var cells = self.tableView!.visibleCells()
-            for var idx = 0; idx < cells.count; idx++ {
-                if let cell = cells[idx] as? DetailListViewCell {
-                    cell.hideUtilityButtonsAnimated(false)
-                    cell.setEditing(false, animated: false)
-                }
-            }
+                }, completion: { (completition:Bool) -> Void in
+                    self.tableView!.frame = CGRectMake(0, self.header!.frame.maxY , self.tableView!.frame.width, self.tableView!.frame.height)
+                    self.containerEditName!.alpha = 0
+                    self.footerSection!.alpha = 1
+            })
+            
+           
+         
         }
         
         self.isEdditing = !self.isEdditing
@@ -472,6 +513,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         button!.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
         button!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button!.addTarget(self, action: "back", forControlEvents: .TouchUpInside)
+        button!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button!.layer.cornerRadius = 20.0
         self.emptyView!.addSubview(button!)
     }
@@ -1081,5 +1123,31 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         self.updateTotalLabel()
 
     }
+    
+    
+    func buildEditNameSection() {
+        
+        containerEditName = UIView()
+        containerEditName?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 64)
+        
+        let separator = UIView(frame:CGRectMake(0, containerEditName!.frame.maxY - AppDelegate.separatorHeigth(), self.view.frame.width, AppDelegate.separatorHeigth()))
+        separator.backgroundColor = WMColor.lineSaparatorColor
+        
+        self.nameField = FormFieldView()
+        self.nameField!.maxLength = 100
+        self.nameField!.delegate = self
+        self.nameField!.typeField = .String
+        self.nameField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
+        self.nameField!.frame = CGRectMake(16.0, 12.0, self.view.bounds.width - 32.0, 40.0)
+        self.nameField!.text = listName
+        
+        containerEditName?.addSubview(separator)
+        containerEditName?.addSubview(nameField!)
+        self.view.addSubview(containerEditName!)
+        containerEditName?.alpha = 0
+        
+        
+    }
+    
 
 }
