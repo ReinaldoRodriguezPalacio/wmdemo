@@ -102,7 +102,7 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField {
-    if(scrollDelegate != nil) {
+    if(scrollDelegate != nil && [scrollDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
         return [scrollDelegate textFieldDidEndEditing:textField];
     }
 }

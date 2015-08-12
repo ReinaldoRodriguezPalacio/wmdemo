@@ -261,6 +261,7 @@
 		569BB3121B06352600E8A657 /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 569BB3111B06352600E8A657 /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */; };
 		569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 569BB3151B0635E000E8A657 /* MobileCoreServices.framework */; };
+		569D122A1B7AB84B0048EC22 /* UserListNavigationBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569D12291B7AB84B0048EC22 /* UserListNavigationBaseViewController.swift */; };
 		569E004B19BE2DB700756B88 /* ShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E004A19BE2DB700756B88 /* ShoppingCartViewController.swift */; };
 		569E004E19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E004D19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift */; };
 		569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E004F19BE438300756B88 /* ProductTableViewCell.swift */; };
@@ -747,6 +748,7 @@
 		569BB3111B06352600E8A657 /* ALAssetsLibrary+CustomPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ALAssetsLibrary+CustomPhotoAlbum.m"; sourceTree = "<group>"; };
 		569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		569BB3151B0635E000E8A657 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		569D12291B7AB84B0048EC22 /* UserListNavigationBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListNavigationBaseViewController.swift; path = Shared/Controller/List/UserListNavigationBaseViewController.swift; sourceTree = "<group>"; };
 		569E004A19BE2DB700756B88 /* ShoppingCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartViewController.swift; path = iPhone/Controller/ShoppingCart/ShoppingCartViewController.swift; sourceTree = "<group>"; };
 		569E004D19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductShoppingCartTableViewCell.swift; path = iPhone/View/ShoppingCart/ProductShoppingCartTableViewCell.swift; sourceTree = "<group>"; };
 		569E004F19BE438300756B88 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductTableViewCell.swift; path = Shared/View/Product/ProductTableViewCell.swift; sourceTree = "<group>"; };
@@ -1636,6 +1638,7 @@
 				56527DAA19AF9574008032C6 /* BaseController.swift */,
 				AC47BBF519C0E9AD00B459BC /* BarCodeViewController.swift */,
 				5633AA621B5F33A7008006B0 /* CameraViewController.swift */,
+				569D12291B7AB84B0048EC22 /* UserListNavigationBaseViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -3070,6 +3073,7 @@
 				AC6BC2C619EEC3B100835D03 /* IPAWMAlertViewController.swift in Sources */,
 				56F86FD11A8BD8F1002181D2 /* SelectItemTableViewCell.swift in Sources */,
 				56D157AA1B31E38C00E26955 /* GRDepartmentTableViewCell.swift in Sources */,
+				569D122A1B7AB84B0048EC22 /* UserListNavigationBaseViewController.swift in Sources */,
 				AC880A1919EC341A00C01920 /* FormFieldSearch.swift in Sources */,
 				56527DF619B00953008032C6 /* CurrencyCustomLabel.swift in Sources */,
 				AC44BCDE19D5CCE70055DE71 /* FieldInputView.swift in Sources */,

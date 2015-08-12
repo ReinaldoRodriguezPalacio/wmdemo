@@ -93,8 +93,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete", comment:""), forState: .Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        
+        var buttonDuplicate = UIButton()
+        buttonDuplicate.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
+        buttonDuplicate.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        buttonDuplicate.backgroundColor = WMColor.light_blue
 
-        self.rightUtilityButtons = [buttonDelete]
+        self.rightUtilityButtons = [buttonDuplicate,buttonDelete]
         
         buttonDelete = UIButton()
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)

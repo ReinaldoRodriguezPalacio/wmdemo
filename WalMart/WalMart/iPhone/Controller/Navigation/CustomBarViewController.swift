@@ -414,7 +414,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func displayContentController(content: UIViewController) {
         self.addChildViewController(content)
         content.view.frame = self.container!.bounds
-        self.container!.addSubview(content.view)
+        self.container?.addSubview(content.view)
         content.didMoveToParentViewController(self)
     }
     

@@ -59,6 +59,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
 
         tabFooterView()
 
+        
+        
 
     }
     
@@ -66,6 +68,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         super.viewWillAppear(animated)
         
         isShowingTabBar = !TabBarHidden.isTabBarHidden
+        
+        self.reloadPreviousOrders()
         
     }
     
