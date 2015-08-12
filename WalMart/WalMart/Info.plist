@@ -163,7 +163,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.GRDiscountAssociateService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getSaving</string>
+			<string>https://dl.dropboxusercontent.com/u/10098759/saving.json</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
