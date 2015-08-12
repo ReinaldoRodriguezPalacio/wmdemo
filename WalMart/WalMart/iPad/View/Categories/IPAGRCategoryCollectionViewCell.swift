@@ -10,6 +10,7 @@ import Foundation
 
 protocol IPAGRCategoryCollectionViewCellDelegate {
     func didTapProduct(upcProduct:String,descProduct:String,imageProduct :UIImageView)
+    func didTapLine(name:String,department:String,family:String,line:String)
 }
 
 class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
@@ -117,17 +118,17 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             }
         }
         
-        
+        let jsonLines = JSON(products)
         var currentX : CGFloat = 0.0
-        for  prod in products {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 176))
-            let imageProd =  prod["imageUrl"] as! String
-            let descProd =  prod["description"] as! String
-            let priceProd =  prod["price"] as! NSNumber
-            let upcProd =  prod["upc"] as! String
+        for  lineToShow in jsonLines.arrayValue {
+            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 150))
+            let imageProd =  lineToShow["imageUrl"].stringValue
+            let descProd =  lineToShow["name"].stringValue
             
-            product.upcProduct = upcProd
-            product.setValues(imageProd, productShortDescription: descProd, productPrice: priceProd.stringValue)
+            product.jsonItemSelected = lineToShow
+            product.setValues(imageProd,
+                productShortDescription: descProd,
+                productPrice: "")
             self.addSubview(product)
             
             let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
@@ -137,6 +138,25 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             
         }
         
+//        var currentX : CGFloat = 0.0
+//        for  prod in products {
+//            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 176))
+//            let imageProd =  prod["imageUrl"] as! String
+//            let descProd =  prod["description"] as! String
+//            let priceProd =  prod["price"] as! NSNumber
+//            let upcProd =  prod["upc"] as! String
+//            
+//            product.upcProduct = upcProd
+//            product.setValues(imageProd, productShortDescription: descProd, productPrice: priceProd.stringValue)
+//            self.addSubview(product)
+//            
+//            let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
+//            product.addGestureRecognizer(tapOnProdut)
+//            
+//            currentX = currentX + width
+//            
+//        }
+        
     }
 
     
@@ -144,7 +164,11 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         
 
-        delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!,imageProduct: viewC.productImage!)
+        delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
+        //delegate.didTapLine(<#name: String#>, department: <#String#>, family: <#String#>, line: <#String#>)
+        
+        
+        //delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!,imageProduct: viewC.productImage!)
         //self.getControllerToShow(upc,descr:name,type:type,saving:saving)
        
     }

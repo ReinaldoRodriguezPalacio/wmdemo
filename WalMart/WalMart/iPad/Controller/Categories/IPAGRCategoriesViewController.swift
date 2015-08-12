@@ -64,11 +64,12 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         var bgDepartment = item["idDepto"] as! String
+        var families = JSON(item["family"] as! [[String:AnyObject]])
         
         bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         
-        if let resultProducts = fillConfigData(bgDepartment) {
+        if let resultProducts = fillConfigData(bgDepartment,families:families) {
             cell.setValues(bgDepartment, categoryTitle: descDepartment,products:resultProducts)
         }else {
             cell.setValues(bgDepartment, categoryTitle: descDepartment)
@@ -193,24 +194,41 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
    
     
-    func fillConfigData(depto:String) -> [[String:AnyObject]]? {
+    func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {
         var resultDict : [AnyObject] = []
         if (canfigData.keys.filter {$0 == depto }).array.count > 0 {
-            let upcs = canfigData[depto] as! [String]
-            for upcStr in upcs {
-                let itemsFound = itemsExclusive?.filter({ (dictionUPC) -> Bool in
-                    if dictionUPC["upc"] as! String == upcStr {
-                        return true
+            let linesToShow = JSON(canfigData[depto] as! [[String:String]])
+            for lineDest in linesToShow.arrayValue {
+                for family in families.arrayValue {
+                    for line in family["line"].arrayValue {
+                        let lineOne = line["id"].stringValue
+                        let lineTwo = lineDest["line"].stringValue
+                        if line["id"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                            == lineDest["line"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
+                                var itemToShow = ["name": line["name"].stringValue,
+                                    "imageUrl": lineDest["imageUrl"].stringValue,
+                                    "line": lineDest["line"].stringValue ,
+                                    "family": family["id"].stringValue ,
+                                    "department":depto]
+                                resultDict.append(itemToShow)
+                                
+                        }
                     }
-                    return false
-                })
-                if itemsFound?.count > 0 {
-                    resultDict.append(itemsFound![0])
                 }
             }
         }
+        
         return resultDict as? [[String:AnyObject]]
     }
     
+    func didTapLine(name:String,department:String,family:String,line:String) {
+        let controller = IPASearchProductViewController()
+        controller.searchContextType = SearchServiceContextType.WithCategoryForGR
+        controller.idFamily  = family
+        controller.idDepartment = department
+        controller.idLine = line
+        controller.titleHeader = name
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
 
 }
