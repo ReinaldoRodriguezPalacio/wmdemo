@@ -442,7 +442,7 @@
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/userRegistry</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/userRegistry</string>
 			<key>WalmartMG.Splash</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
