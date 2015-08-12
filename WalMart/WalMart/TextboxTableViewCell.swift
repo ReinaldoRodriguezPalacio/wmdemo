@@ -34,7 +34,7 @@ class TextboxTableViewCell: UITableViewCell{
         textbox!.isRequired = true;
         textbox!.typeField = TypeField.String
         self.addSubview(textbox!)
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.frame.width , 44),
+        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width , 44),
             inputViewStyle: .Keyboard,
             titleSave: "Ok",
             save: { (field:UITextField?) -> Void in

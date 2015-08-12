@@ -88,7 +88,7 @@ class FormFieldView : UIEdgeTextField {
             if self.imageList == nil {
                 self.imageList = UIImageView()
                 self.addSubview(self.imageList!)
-                self.imageList!.image = UIImage(named: "checkTerm")
+                self.imageList!.image = UIImage(named: "checkTermOff")
                 self.imageList!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
             }
         }

@@ -16,7 +16,7 @@ enum OptionsController : String {
     case Factura = "Factura"
     
     case StoreLocator = "StoreLocator"
-    case FindCam = "FindCam"
+    case CamFind = "CamFind"
 
     case Help = "Help"
     case Terms = "Terms"
@@ -26,7 +26,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
-    let options = [OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.FindCam.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    let options = [OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.CamFind.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -147,6 +147,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Address : image = "Address-icon"
         case .Orders : image = "Orders-icon"
         case .StoreLocator : image = "StoreLocator-icon"
+        case .Factura : image = "Factura-icon"
+        case .CamFind : image = "Camfind-icon"
         default :
             println("option don't exist")
         }      
@@ -222,7 +224,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let controller = OrderViewController()
             controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
-        case .FindCam:
+        case .CamFind:
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
