@@ -81,6 +81,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case .Address : image = "Address-icon"
         case .Orders : image = "Orders-icon"
         case .StoreLocator : image = "StoreLocator-icon"
+        case .Factura : image = "Factura-icon"
+        case .CamFind : image = "Camfind-icon"
         default :
             println("option don't exist")
         }

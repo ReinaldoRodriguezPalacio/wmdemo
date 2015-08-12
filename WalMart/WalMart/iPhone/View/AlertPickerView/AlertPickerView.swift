@@ -20,7 +20,7 @@ protocol AlertPickerViewDelegate {
     
 }
 
-class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
+class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
     
     
     var itemsToShow : [String] = []
@@ -47,7 +47,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
     
     var lastTitle : String! = ""
     var titleHeader : String! = ""
-
+    var cellType: TypeField! = TypeField.Check
+    var textboxValues: [String:String]? = [:]
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -96,6 +98,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
         
         tableData = UITableView(frame: CGRectMake(0, 0, viewContentOptions.frame.width,viewContentOptions.frame.height - 64))
         tableData.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
 
@@ -135,7 +138,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
         self.titleHeader = title as String
         self.titleLabel.text = title as String
         self.itemsToShow = values
-
         tableData.reloadData()
     }
     
@@ -147,12 +149,35 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
-        cell.textLabel?.text = itemsToShow[indexPath.row]
-        if self.selected != nil {
-            cell.setSelected(indexPath.row == self.selected.row, animated: true)
+        if cellType == TypeField.Alphanumeric
+        {
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
+            
+            var cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
+            cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
+            cell.textbox!.delegate = self
+            cell.textbox!.nameField = itemsToShow[indexPath.row]
+            cell.textLabel?.text = itemsToShow[indexPath.row]
+            if self.selected != nil {
+                cell.setSelected(indexPath.row == self.selected.row, animated: true)
+            }
+            
+            if itemsToShow[indexPath.row] == NSLocalizedString("checkout.discount.startDate", comment:"") {
+                cell.setDatePickerInputView()
+            }
+            
+            return cell
         }
-        return cell
+        else
+        {
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            var cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
+            cell.textLabel?.text = itemsToShow[indexPath.row]
+            if self.selected != nil {
+                cell.setSelected(indexPath.row == self.selected.row, animated: true)
+            }
+            return cell
+        }
     }
     
     
@@ -183,7 +208,30 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
         self.removeFromSuperview()
     }
     
+    //MARK TextField delegate
     
+    func textField(textField: UITextField,
+        shouldChangeCharactersInRange range: NSRange,
+        replacementString string: String) -> Bool
+    {
+        let formField = textField as! FormFieldView
+        let textValue = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString:string)
+    
+        textboxValues?[formField.nameField] = textValue as String
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        let formField = textField as! FormFieldView
+        var text = formField.text
+        
+        if NSLocalizedString("checkout.discount.startDate", comment:"") == formField.nameField! && !text.isEmpty
+        {
+            text = TextboxTableViewCell.parseDateString(text)
+        }
+        
+        textboxValues?[formField.nameField] = text
+    }
     //MARK Show alerts
     
     class func initPicker()  -> AlertPickerView? {
@@ -354,6 +402,4 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate {
                 self.viewButtonClose.removeFromSuperview()
         }
     }
-    
-    
 }

@@ -17,7 +17,7 @@
 "moreoptions.title.Factura" = "Facturación electónica";
 
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";
-"moreoptions.title.FindCam" = "Busca tomando una foto";
+"moreoptions.title.CamFind" = "Busca tomando una foto";
 
 "moreoptions.title.Help" = "¿Como usar el app?";
 "moreoptions.title.Terms" = "Términos y condiciones";
@@ -365,6 +365,11 @@
 "checkout.field.comments" = "Comentarios";
 "checkout.title.confirmation" = "Confirmación";
 "checkout.field.confirmation" = "Confirmación";
+"checkout.title.discounts" = "Descuentos";
+"checkout.field.discountAssociate" = "Descuento de Asociado";
+"checkout.discount.associateNumber" = "Numero Asociado";
+"checkout.discount.startDate" = "Fecha Ingreso";
+"checkout.discount.determinant" = "Determinante";
 
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";
