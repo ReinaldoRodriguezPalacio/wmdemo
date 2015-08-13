@@ -206,7 +206,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if let specials = itemsconfig["specials"] as? NSArray {
             RecommendedCategory.cagtegories = specials
         }
-        if let groceriescategory = itemsconfig["groceriescategory"] as? [String:AnyObject] {
+        if let groceriescategory = itemsconfig["groceriescategoryproduct"] as? [String:AnyObject] {
             RecommendedCategory.groceriescategory = groceriescategory
         }
         

@@ -75,7 +75,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.onHandInventory = String(onHandInventory)
         
         isDisabled = false
-        if isActive == false || onHandInventory == 0 || isPreorderable == true {
+        if isActive == false || onHandInventory == 0  {
             self.addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart_disabled"), forState: UIControlState.Normal)
             isDisabled = true
         }else{

@@ -105,7 +105,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         }
         
         isDisabled = false
-        if isActive == false || onHandInventory == 0 || isPreorderable == true {
+        if isActive == false || onHandInventory == 0  {
             self.btnShoppingCart.setImage(UIImage(named: "wishlist_cart_disabled"), forState: UIControlState.Normal)
             isDisabled = true
         }else{

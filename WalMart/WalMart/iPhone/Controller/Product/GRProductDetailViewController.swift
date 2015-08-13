@@ -212,7 +212,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             productDetailButtonGR.isActive = isActive == true ? self.strisActive! : "false"
             productDetailButtonGR.onHandInventory = self.onHandInventory as String
             productDetailButtonGR.isPreorderable = self.strisPreorderable
-            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
+            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButtonGR.validateIsInList(self.upc as String)
             productDetailButton = productDetailButtonGR
             

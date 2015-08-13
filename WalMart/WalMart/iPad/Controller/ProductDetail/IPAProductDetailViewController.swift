@@ -484,7 +484,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isActive = self.strisActive as String
             productDetailButton.isPreorderable = self.strisPreorderable as String
-            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
+            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""

@@ -358,7 +358,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             let onHandInventory = itemWishList["onHandInventory"] as! NSString
             
-            if isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false {
+            if isActive == true && onHandInventory.integerValue > 0  { //&& isPreorderable == false
                 total = total + price.doubleValue
             }
         }
@@ -632,7 +632,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             
             
-            if isActive == true && numOnHandInventory.integerValue > 0 && isPreorderable == false {
+            if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0")

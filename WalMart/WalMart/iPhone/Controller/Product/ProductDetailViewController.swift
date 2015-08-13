@@ -206,7 +206,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
             
-            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
+            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""
@@ -892,7 +892,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
             
-            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
+            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""

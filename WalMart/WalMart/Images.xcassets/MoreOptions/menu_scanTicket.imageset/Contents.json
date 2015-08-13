@@ -3,12 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "menu_icon_orders_signout.png"
+      "filename" : "menu_scanTicket.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "menu_icon_orders_signout@2x.png"
+      "filename" : "menu_scanTicket@2x.png"
     },
     {
       "idiom" : "universal",

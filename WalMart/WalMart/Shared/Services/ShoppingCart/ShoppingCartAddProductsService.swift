@@ -121,6 +121,13 @@ class ShoppingCartAddProductsService : BaseService {
     
     func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
+        if (UserCurrentSession.sharedInstance().hasPreorderable()) {
+            let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
+            let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+            errorBlock?(error)
+        }
+        
+        
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         

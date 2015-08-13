@@ -328,7 +328,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             
             
-            if isActive == true && numOnHandInventory.integerValue > 0 && isPreorderable == false {
+            if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,pesable:"0")

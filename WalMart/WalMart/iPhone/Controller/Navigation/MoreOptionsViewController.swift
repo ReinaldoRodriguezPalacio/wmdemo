@@ -14,9 +14,10 @@ enum OptionsController : String {
     case Address = "Address"
     case Orders = "Orders"
     case Factura = "Factura"
-    
+
     case StoreLocator = "StoreLocator"
     case CamFind = "CamFind"
+    case TicketList = "TicketList"
 
     case Help = "Help"
     case Terms = "Terms"
@@ -24,9 +25,9 @@ enum OptionsController : String {
 
 }
 
-class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
+class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate,BarCodeViewControllerDelegate {
 
-    let options = [OptionsController.Recents.rawValue,OptionsController.Address.rawValue,OptionsController.Orders.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.CamFind.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -113,7 +114,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case 0:
                 return 3
             case 1:
-                return 3
+                return 4
             case 2:
                 return 3
         default:
@@ -133,7 +134,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 6
+            currentOption = indexPath.row + 7
         default:
             println("")
         }
@@ -149,6 +150,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .StoreLocator : image = "StoreLocator-icon"
         case .Factura : image = "Factura-icon"
         case .CamFind : image = "Camfind-icon"
+        case .TicketList : image = "menu_scanTicket"
         default :
             println("option don't exist")
         }      
@@ -186,7 +188,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 6
+            currentOption = indexPath.row + 7
         default:
             println("")
         }
@@ -232,8 +234,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
+        case .TicketList:
+            scanTicket()
             default :
                 println("option don't exist")
+       
+            
         }
         
     }
@@ -399,4 +405,75 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         controllernav?.pushViewController(controller, animated: true)
       }
     }
+    
+    //Ticket
+    
+    func scanTicket() {
+        let barCodeController = IPABarCodeViewController()
+        barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
+        barCodeController.delegate = self
+        barCodeController.applyPadding = false
+        self.presentViewController(barCodeController, animated: true, completion: nil)
+    }
+    
+    //MARK: - BarCodeViewControllerDelegate
+    func barcodeCaptured(value:String?) {
+        if value == nil {
+            return
+        }
+        println("Code \(value)")
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
+        var service = GRProductByTicket()
+        service.callService(service.buildParams(value!),
+            successBlock: { (result: NSDictionary) -> Void in
+                if let items = result["items"] as? [AnyObject] {
+                    
+                    if items.count == 0 {
+                        self.alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
+                        self.alertView!.showErrorIcon("Ok")
+                        return
+                    }
+                    
+                    let saveService = GRSaveUserListService()
+                    
+                    self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
+                    
+                    var products:[AnyObject] = []
+                    for var idx = 0; idx < items.count; idx++ {
+                        var item = items[idx] as! [String:AnyObject]
+                        var upc = item["upc"] as! String
+                        var quantity = item["quantity"] as! NSNumber
+                        var param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        products.append(param)
+                    }
+                    
+                    var fmt = NSDateFormatter()
+                    fmt.dateFormat = "MMM d"
+                    var name = fmt.stringFromDate(NSDate())
+                    var number = 0;
+                    
+                    
+                    
+                    
+                    
+                    saveService.callService(saveService.buildParams(name, items: products),
+                        successBlock: { (result:NSDictionary) -> Void in
+                            //TODO
+                        },
+                        errorBlock: { (error:NSError) -> Void in
+                            self.alertView!.setMessage(error.localizedDescription)
+                            self.alertView!.showErrorIcon("Ok")
+                        }
+                    )
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
+            }
+        )
+    }
+    
+    
+    
 }

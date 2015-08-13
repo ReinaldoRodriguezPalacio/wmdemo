@@ -214,7 +214,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             productDetailButtonGR.onHandInventory = self.onHandInventory as String
             productDetailButtonGR.isActive = self.strisActive as String
             productDetailButtonGR.isPreorderable = self.strisPreorderable as String
-            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 && isPreorderable == false
+            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButtonGR.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             var imageUrl = ""
             if self.imageUrl.count > 0 {

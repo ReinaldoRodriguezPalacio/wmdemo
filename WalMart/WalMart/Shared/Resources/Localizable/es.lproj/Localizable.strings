@@ -12,12 +12,13 @@
 //More Options
 "moreoptions.title.Profile" = "Perfil y contraseña";
 "moreoptions.title.Recents" = "Artículos más comprados";
-"moreoptions.title.Address" = "Direcciones";
+"moreoptions.title.Address" = "Mis Direcciones";
 "moreoptions.title.Orders" = "Pedidos anteriores";
 "moreoptions.title.Factura" = "Facturación electónica";
 
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";
-"moreoptions.title.CamFind" = "Busca tomando una foto";
+"moreoptions.title.CamFind" = "Busca un artículo por foto";
+"moreoptions.title.TicketList" = "Crea lista de Súper escaneando un ticket";
 
 "moreoptions.title.Help" = "¿Como usar el app?";
 "moreoptions.title.Terms" = "Términos y condiciones";
@@ -510,4 +511,4 @@
 "camfind.search.messagefour" = "Obteniendo resultados";
 
 
-
+"mg.preorderanble.item" = "No se pueden agregar artículos hasta que completes tu compra de preventa";

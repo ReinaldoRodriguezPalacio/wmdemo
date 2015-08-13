@@ -497,23 +497,10 @@ class UserCurrentSession : NSObject {
         var countItems = 0
         let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)
         if arrayCart != nil {
-            //countItems = arrayCart!.count
-            for prodCart in arrayCart! {
-                countItems += prodCart.quantity.integerValue
-            }
+            countItems = arrayCart!.count
+            
         }
-        //self.updateTotalItemsInCarts(itemsMG:countItems)
         return countItems
-        
-//        if self.itemsMG != nil {
-//            if let itemsInShoppingCart = self.itemsMG!["items"] as? NSArray {
-//                for shoppingCartProduct in itemsInShoppingCart {
-//                    let quantity = shoppingCartProduct["quantity"] as NSString
-//                    countItems += quantity.integerValue
-//                }
-//            }
-//        }
-//        return countItems
     }
     
     func estimateTotalMG() -> Double {
@@ -559,14 +546,7 @@ class UserCurrentSession : NSObject {
         var countItems = 0
         let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
         if arrayCart != nil {
-            //countItems = arrayCart!.count
-            for prodCart in arrayCart! {
-                if  prodCart.product.type == 0 {
-                    countItems += prodCart.quantity.integerValue
-                } else {
-                    countItems++
-                }
-            }
+            countItems = arrayCart!.count
         }
         self.updateTotalItemsInCarts(itemsInGR:countItems)
         return countItems
@@ -700,5 +680,28 @@ class UserCurrentSession : NSObject {
         return strResult
     }
     
+    
+    
+    func hasPreorderable() -> Bool {
+        var predicate : NSPredicate? = nil
+        if userSigned != nil {
+            predicate = NSPredicate(format: "product.isPreorderable == %@ && status != %@", "true",NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        }else {
+            predicate = NSPredicate(format: "product.isPreorderable == %@ && status != %@",  "true",NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        }
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let request    = NSFetchRequest(entityName: "Cart" as NSString as String)
+        request.predicate = predicate!
+        
+        var error: NSError? = nil
+        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        if error != nil {
+            println("errore: \(error)")
+        }
+        
+        return fetchedResult?.count != 0
+    }
+
     
 }
