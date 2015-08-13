@@ -30,6 +30,7 @@ class TextboxTableViewCell: UITableViewCell{
         self.textLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textLabel?.textColor = WMColor.selectorPickerText
         self.textLabel?.numberOfLines = 0
+        self.textLabel?.hidden = true
         textbox = FormFieldView(frame: CGRectMake(5,3, self.frame.width - 12, self.frame.height - 6))
         textbox!.isRequired = true;
         textbox!.typeField = TypeField.String
