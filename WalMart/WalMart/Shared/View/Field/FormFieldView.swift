@@ -39,6 +39,7 @@ class FormFieldView : UIEdgeTextField {
     var maxLength : Int! = 0
     var disablePaste : Bool = false
     var imageList : UIImageView? = nil
+    var imageCheck : UIImageView? = nil
     var onBecomeFirstResponder : (() -> Void)? = nil
     
     var delegateCustom : CustomFormFIeldDelegate!
@@ -73,6 +74,23 @@ class FormFieldView : UIEdgeTextField {
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
+    func setSelectedCheck(){
+        if typeField == TypeField.Check{
+            if self.imageList == nil {
+                self.imageList = UIImageView()
+                self.addSubview(self.imageList!)
+            }
+            self.imageList!.image = UIImage(named: "search_edit")
+            self.imageList!.frame = CGRectMake(self.frame.width - 30  , (self.frame.height - 16 ) / 2  ,16,16)
+            if self.imageCheck == nil {
+                self.imageCheck = UIImageView()
+                self.addSubview(self.imageCheck!)
+            }
+            self.imageCheck!.image = UIImage(named: "checkAddressOn")
+            self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
+        }
+    }
+    
     func setImageTypeField(){
         if typeField == TypeField.List{
             if self.imageList == nil {
@@ -85,11 +103,11 @@ class FormFieldView : UIEdgeTextField {
         if typeField == TypeField.Check{
             self.borderStyle = UITextBorderStyle.None
             self.backgroundColor = UIColor.whiteColor()
-            if self.imageList == nil {
-                self.imageList = UIImageView()
-                self.addSubview(self.imageList!)
-                self.imageList!.image = UIImage(named: "checkTermOff")
-                self.imageList!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
+            if self.imageCheck == nil {
+                self.imageCheck = UIImageView()
+                self.addSubview(self.imageCheck!)
+                self.imageCheck!.image = UIImage(named: "checkTermOff")
+                self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
             }
         }
     }

@@ -60,6 +60,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var selectedTimeSlotTypeIx : NSIndexPath!
     var selectedConfirmation : NSIndexPath!
     var selectedDate : NSDate!
+    var amountDiscountAssociate: Double!
     
     var scrollForm : TPKeyboardAvoidingScrollView!
     
@@ -79,7 +80,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         //self.invokePaymentService()
         //self.invokeAddressUserService()
-        
+        self.amountDiscountAssociate = 0.0
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
@@ -254,7 +255,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             
             self.discountAssociate!.onBecomeFirstResponder = { () in
-                let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.startDate", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
+                let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.dateAdmission", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
                 self.picker!.sender = self.discountAssociate!
                 self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
                 self.picker!.delegate = self
@@ -515,12 +516,34 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     {
         if pickerValues.count == discountAssociateItems.count
         {
+            self.addViewLoad()
+            var paramsDic: [String:String] = pickerValues
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
             let discountAssociateService = GRDiscountAssociateService()
-            discountAssociateService.setParams(pickerValues)
-            discountAssociateService.callService(requestParams: pickerValues, succesBlock: { (resultCall:NSDictionary) -> Void in
-                println("AssociateDiscount")
+            discountAssociateService.setParams(paramsDic)
+            discountAssociateService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
+                self.removeViewLoad()
+                if resultCall["codeMessage"] as! Int == 0
+                {
+                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                    if let savingGR = items["saving"] as? NSNumber {
+                        items["saving"] = savingGR.doubleValue + (resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    }
+                    else{
+                        items["saving"] = (resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    }
+                    self.amountDiscountAssociate = (resultCall["totalDiscounts"] as! NSString).doubleValue
+                    UserCurrentSession.sharedInstance().itemsGR = items as NSDictionary
+                    
+                    self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+                        subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
+                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
+                    self.discountAssociate!.setSelectedCheck()
+                }
                 }, errorBlock: {(error: NSError) -> Void in
-                println("Error")
+                self.removeViewLoad()
+                println("Error at invoke address user service")
             })
         }
     }

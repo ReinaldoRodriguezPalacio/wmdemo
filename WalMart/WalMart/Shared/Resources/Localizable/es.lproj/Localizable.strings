@@ -368,8 +368,9 @@
 "checkout.title.discounts" = "Descuentos";
 "checkout.field.discountAssociate" = "Descuento de Asociado";
 "checkout.discount.associateNumber" = "Numero Asociado";
-"checkout.discount.startDate" = "Fecha Ingreso";
-"checkout.discount.determinat" = "Determinante";
+"checkout.discount.dateAdmission" = "Fecha Ingreso";
+"checkout.discount.determinant" = "Determinante";
+"checkout.discount.total" = "Total";
 
 
 //Home super

@@ -162,7 +162,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
                 cell.setSelected(indexPath.row == self.selected.row, animated: true)
             }
             
-            if itemsToShow[indexPath.row] == NSLocalizedString("checkout.discount.startDate", comment:"") {
+            if itemsToShow[indexPath.row] == NSLocalizedString("checkout.discount.dateAdmission", comment:"") {
                 cell.setDatePickerInputView()
             }
             
@@ -225,7 +225,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         let formField = textField as! FormFieldView
         var text = formField.text
         
-        if NSLocalizedString("checkout.discount.startDate", comment:"") == formField.nameField! && !text.isEmpty
+        if NSLocalizedString("checkout.discount.dateAdmission", comment:"") == formField.nameField! && !text.isEmpty
         {
             text = TextboxTableViewCell.parseDateString(text)
         }
