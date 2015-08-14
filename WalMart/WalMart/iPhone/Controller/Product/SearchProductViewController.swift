@@ -194,7 +194,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.header?.addSubview(self.filterButton!)
         self.view.addSubview(collection!)
-        self.setTitleWithEdit()
+        if self.searchContextType == SearchServiceContextType.WithText
+        {
+            self.setTitleWithEdit()
+        }
+        else
+        {
+            self.titleLabel?.text = titleHeader
+        }
+        
         if loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
             self.loading!.backgroundColor = UIColor.whiteColor()

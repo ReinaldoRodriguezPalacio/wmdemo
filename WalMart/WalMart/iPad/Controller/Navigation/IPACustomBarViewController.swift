@@ -107,6 +107,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         let searchKey = notification.object as! String
         self.openSearchProduct()
         self.searchView.field.text = searchKey
+        self.isEditingSearch = true
     }
     
     override func openSearchProduct(){
@@ -196,11 +197,17 @@ class IPACustomBarViewController :  CustomBarViewController {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as [NSObject : AnyObject])
             }
             
+            
             let controller = IPASearchProductViewController()
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
             var controllernav = self.currentController as? UINavigationController
+            let controllersInNavigation = controllernav?.viewControllers.count
+            if (controllernav?.topViewController as? SearchProductViewController != nil && isEditingSearch){
+                controllernav?.popViewControllerAnimated(false)
+                isEditingSearch = false
+            }
             if controllernav != nil {
                 if controllernav!.delegate != nil {
                     controllernav!.delegate = nil
