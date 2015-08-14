@@ -274,6 +274,11 @@ class ShoppingCartUpdateController : UIViewController {
                 numOnHandInventory  = numberOf
             }
             
+            var isPreorderable = "false"
+            if let isPreorderableVal = params["isPreorderable"] as? String{
+                isPreorderable = isPreorderableVal
+            }
+            
             if let type = params["type"] as?  String {
                 if type == ResultObjectType.Groceries.rawValue {
                     typeProduct = ResultObjectType.Groceries
@@ -328,7 +333,7 @@ class ShoppingCartUpdateController : UIViewController {
             
             typeProduct = ResultObjectType.Mg
             
-            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
                 if self.timmer == nil {
@@ -380,8 +385,13 @@ class ShoppingCartUpdateController : UIViewController {
                 numOnHandInventory  = numberOf
             }
             
+            var isPreorderable = "false"
+            if let isPreorderableVal = params["isPreorderable"] as? String{
+                isPreorderable = isPreorderableVal
+            }
+            
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
                 self.currentIndex++
                 self.callItemsService()
                 }) { (error:NSError) -> Void in

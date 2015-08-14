@@ -26,6 +26,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     var imageURL : String!
     var isDisabled : Bool = false
     var onHandInventory : NSString = "0"
+    var isPreorderable : String! = "false"
     
     override func setup() {
         super.setup()
@@ -73,6 +74,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.price = productPrice
         self.deleteProduct.hidden = !isEditting
         self.onHandInventory = String(onHandInventory)
+        self.isPreorderable = "\(isPreorderable)"
         
         isDisabled = false
         if isActive == false || onHandInventory == 0  {
@@ -92,7 +94,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         if !isDisabled {
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
             if !hasUPC {
-                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0")
+                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0",isPreorderable:isPreorderable)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
             }else{
                 let alert = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))

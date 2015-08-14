@@ -72,7 +72,12 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
                 numOnHandInventory  = numberOf
             }
             
-            let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1",onHandInventory:numOnHandInventory,pesable:"0")
+            var isPreorderable : String = "false"
+            if let isPreorderableVal = itemUPC["isPreorderable"] as? String{
+                isPreorderable  = isPreorderableVal
+            }
+            
+            let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price, quantity: "1",onHandInventory:numOnHandInventory,pesable:"0",isPreorderable:isPreorderable)
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
         }else {
             

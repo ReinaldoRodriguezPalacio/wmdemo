@@ -170,7 +170,9 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.emptyView.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         self.viewLoad.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        viewLoad = WMLoadingView(frame: self.view.bounds)
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+        }
         viewLoad.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(viewLoad)
         viewLoad.startAnnimating(self.isVisibleTab)

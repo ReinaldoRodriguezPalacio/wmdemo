@@ -613,9 +613,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 isActive = price.doubleValue > 0
             }
             
-            var isPreorderable = false
-            if  let preordeable  = itemWishList["isPreorderable"] as? NSString {
-                isPreorderable = "true" == preordeable
+            var isPreorderable = "false"
+            if  let preordeable  = itemWishList["isPreorderable"] as? String {
+                isPreorderable =  preordeable
             }
             
             //let onHandInventory = itemWishList["onHandInventory"] as NSString
@@ -635,7 +635,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0")
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
                     println(paramsItem)
                     params.append(paramsItem)
                 }

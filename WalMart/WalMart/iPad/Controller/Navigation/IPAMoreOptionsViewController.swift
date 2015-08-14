@@ -125,7 +125,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
+        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
             return
         }
         

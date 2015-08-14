@@ -15,6 +15,12 @@ struct ShoppingCartParams {
 
 
 
+struct ConfigServices {
+    static var ConfigIdMG : String = "WMURLServices"
+    static var ConfigIdGRSign : String = "WMGroceriesURLServicesSession"
+    static var ConfigIdGR : String = "WMGroceriesURLServices"
+}
+
 
 struct RecommendedCategory {
     static var cagtegories : NSArray = []
@@ -210,6 +216,13 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             RecommendedCategory.groceriescategory = groceriescategory
         }
         
+        if let serviceapp = itemsconfig["serviceUrl"] as? String {
+            if serviceapp == "cluster" {
+                ConfigServices.ConfigIdMG = "clusterWMURLServices"
+                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
+                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
+            }
+        }
         
         if let currentVersionVal = itemsconfig["currentVersion"] as? Double {
             currentVersion = currentVersionVal

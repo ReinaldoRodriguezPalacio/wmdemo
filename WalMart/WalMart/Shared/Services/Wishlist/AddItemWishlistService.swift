@@ -14,7 +14,7 @@ class AddItemWishlistService : BaseService {
     var mustUpdateWishList : Bool = true
     
     func buildParams(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String) -> NSArray {
-        return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":onHandInventory,"onHandInventory":onHandInventory]]
+        return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory]]
     }
     
     func callService(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {

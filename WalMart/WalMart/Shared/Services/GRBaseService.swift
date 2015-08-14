@@ -15,9 +15,9 @@ class GRBaseService : BaseService {
     
     override func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        var serviceConfigDictionary = "WMGroceriesURLServices"
+        var serviceConfigDictionary = ConfigServices.ConfigIdGR
         if self.urlForSession {
-            serviceConfigDictionary = UserCurrentSession.sharedInstance().userSigned != nil ? "WMGroceriesURLServicesSession" : "WMGroceriesURLServices"
+            serviceConfigDictionary = UserCurrentSession.sharedInstance().userSigned != nil ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdGR
         }
         let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
         let environmentServices = services[environment] as! [String:AnyObject]

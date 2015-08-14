@@ -1040,7 +1040,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         var pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,pesable:pesable]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,pesable:pesable,"isPreorderable":self.strisPreorderable]
     }
     
     

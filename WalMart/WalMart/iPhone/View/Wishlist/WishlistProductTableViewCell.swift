@@ -26,6 +26,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     var isDisabled : Bool = false
     var onHandInventory : NSString = "0"
     var isPesable : String!
+    var isPreorderable : String!
     
     
     override func setup() {
@@ -88,7 +89,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         self.price = productPrice
         self.onHandInventory = String(onHandInventory)
         self.isPesable = pesable as String
-
+        self.isPreorderable = "\(isPreorderable)"
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
@@ -128,7 +129,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         if !isDisabled {
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
             if !hasUPC {
-                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue)
+                let params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,pesable:"0", type: resultObjectType.rawValue,isPreorderable: isPreorderable)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 
             }else{

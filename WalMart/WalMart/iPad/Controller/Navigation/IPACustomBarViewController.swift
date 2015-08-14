@@ -415,7 +415,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         //Tap on Groceries Cart Empty
         if self.emptyGroceriesTap {
-            buttonSelected(self.buttonList[3])
+            buttonSelected(self.buttonList[4])
             if let navController = self.currentController as? UINavigationController {
                 navController.popToRootViewControllerAnimated(false)
                 if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {
@@ -442,6 +442,10 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.emptyGroceriesTap  = false
     }
     
+    
+    override func showListsGR() {
+        buttonSelected(self.buttonList[4])
+    }
    
     
 

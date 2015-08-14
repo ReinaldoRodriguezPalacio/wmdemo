@@ -73,6 +73,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var serviceDetail : OrderConfirmDetailView? = nil
     
     var totalView : IPOCheckOutTotalView!
+    var sectionTitleDiscount : UILabel!
+    var sectionTitleShipment : UILabel!
+    var sectionTitleConfirm : UILabel!
+    
+    
+    var showDiscountAsociate : Bool = false
+    var asociateDiscount : Bool = false
+    var discountsFreeShippingAssociated : Bool = false
+    var discountsFreeShippingNotAssociated : Bool = false
     
 
     override func viewDidLoad() {
@@ -126,10 +135,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.paymentOptions!)
 
         //Descuentos
-        sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.discounts", comment:""), frame: CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, width, lheight))
-        self.content.addSubview(sectionTitle)
+        sectionTitleDiscount = self.buildSectionTitle(NSLocalizedString("checkout.title.discounts", comment:""), frame: CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, width, lheight))
+        self.content.addSubview(sectionTitleDiscount)
         
-        self.discountAssociate = FormFieldView(frame: CGRectMake(margin,sectionTitle.frame.maxY + 10.0,width,fheight))
+        self.discountAssociate = FormFieldView(frame: CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,width,fheight))
         self.discountAssociate!.setCustomPlaceholder(NSLocalizedString("checkout.field.discountAssociate", comment:""))
         self.discountAssociate!.isRequired = true
         self.discountAssociate!.typeField = TypeField.Check
@@ -137,10 +146,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.discountAssociate!.nameField = NSLocalizedString("checkout.field.discountAssociate", comment:"")
         self.content.addSubview(self.discountAssociate!)
         
-        sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.shipmentOptions", comment:""), frame: CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, width, lheight))
-        self.content.addSubview(sectionTitle)
+        sectionTitleShipment = self.buildSectionTitle(NSLocalizedString("checkout.title.shipmentOptions", comment:""), frame: CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, width, lheight))
+        self.content.addSubview(sectionTitleShipment)
 
-        self.address = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + 10.0, width, fheight))
+        self.address = FormFieldView(frame: CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, width, fheight))
         self.address!.setCustomPlaceholder(NSLocalizedString("checkout.field.address", comment:""))
         self.address!.isRequired = true
         self.address!.typeField = TypeField.List
@@ -200,10 +209,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.comments!)
         self.comments!.inputAccessoryView = viewAccess
 
-        sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirmation", comment:""), frame: CGRectMake(margin, self.comments!.frame.maxY + 20.0, width, lheight))
-        self.content.addSubview(sectionTitle)
+        sectionTitleConfirm = self.buildSectionTitle(NSLocalizedString("checkout.title.confirmation", comment:""), frame: CGRectMake(margin, self.comments!.frame.maxY + 20.0, width, lheight))
+        self.content.addSubview(sectionTitleConfirm)
 
-        self.confirmation = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + 10.0, width, fheight))
+        self.confirmation = FormFieldView(frame: CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, width, fheight))
         self.confirmation!.setCustomPlaceholder(NSLocalizedString("checkout.field.confirmation", comment:""))
         self.confirmation!.isRequired = true
         self.confirmation!.typeField = TypeField.List
@@ -230,47 +239,54 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         self.addViewLoad();
         
-        self.invokePaymentService { () -> Void in
-            self.paymentOptions!.onBecomeFirstResponder = {() in
-                if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
-                    var itemsPayments : [String] = []
-                    for option in self.paymentOptionsItems! {
-                        if let text = option["paymentType"] as? String {
-                            itemsPayments.append(text)
+        
+        
+        self.invokeDiscountActiveService { () -> Void in
+            self.invokePaymentService { () -> Void in
+                self.paymentOptions!.onBecomeFirstResponder = {() in
+                    if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
+                        var itemsPayments : [String] = []
+                        for option in self.paymentOptionsItems! {
+                            if let text = option["paymentType"] as? String {
+                                itemsPayments.append(text)
+                            }
                         }
+                        
+                        
+                        self.picker!.selected = self.selectedPaymentType
+                        self.picker!.sender = self.paymentOptions!
+                        self.picker!.delegate = self
+                        self.picker!.setValues(self.paymentOptions!.nameField, values: itemsPayments)
+                        self.picker!.hiddenRigthActionButton(true)
+                        self.picker!.cellType = TypeField.Check
+                        self.picker!.showPicker()
+                        
+                        
                     }
-                    
-                    
-                    self.picker!.selected = self.selectedPaymentType
-                    self.picker!.sender = self.paymentOptions!
+                }
+                
+                self.discountAssociate!.onBecomeFirstResponder = { () in
+                    let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.dateAdmission", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
+                    self.picker!.sender = self.discountAssociate!
+                    self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
                     self.picker!.delegate = self
-                    self.picker!.setValues(self.paymentOptions!.nameField, values: itemsPayments)
+                    self.picker!.selected = self.selectedConfirmation
+                    self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
                     self.picker!.hiddenRigthActionButton(true)
-                    self.picker!.cellType = TypeField.Check
+                    self.picker!.cellType = TypeField.Alphanumeric
                     self.picker!.showPicker()
                     
-                    self.removeViewLoad()
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
                     
+                    self.removeViewLoad()
                 }
-            }
-            
-            self.discountAssociate!.onBecomeFirstResponder = { () in
-                let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.dateAdmission", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
-                self.picker!.sender = self.discountAssociate!
-                self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
-                self.picker!.delegate = self
-                self.picker!.selected = self.selectedConfirmation
-                self.picker!.setValues(self.discountAssociate!.nameField, values: discountAssociateItems)
-                self.picker!.hiddenRigthActionButton(true)
-                self.picker!.cellType = TypeField.Alphanumeric
-                self.picker!.showPicker()
                 
-                self.removeViewLoad()
+                self.reloadUserAddresses()
+                
             }
-            
-            self.reloadUserAddresses()
-        
         }
+        
         
         //Fill orders
         self.orderOptionsItems = self.optionsConfirmOrder()
@@ -307,6 +323,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
     }
     
+    
+    
+    
+    //Keyboart
+    func keyBoardWillShow() {
+        self.picker!.viewContent.center = CGPointMake(self.picker!.center.x, self.picker!.center.y - 100)
+    }
+    
+    func keyBoardWillHide() {
+        self.picker!.viewContent.center = self.picker!.center
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         var bounds = self.view.frame.size
@@ -330,9 +358,28 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         var fheight: CGFloat = 44.0
         var lheight: CGFloat = 25.0
         
+
+        
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
-        self.discountAssociate!.frame = CGRectMake(margin, self.discountAssociate!.frame.minY, widthField, fheight)
-        self.address!.frame = CGRectMake(margin, self.address!.frame.minY, widthField, fheight)
+        if showDiscountAsociate {
+            self.discountAssociate!.alpha = 1
+            self.sectionTitleDiscount!.alpha = 1
+            
+            self.sectionTitleDiscount.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,widthField,fheight)
+            self.sectionTitleShipment.frame =  CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, widthField, lheight)
+            self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+            self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
+            self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
+        } else {
+            self.discountAssociate!.alpha = 0
+            self.sectionTitleDiscount!.alpha = 0
+            self.sectionTitleShipment.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+            self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
+            self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
+        }
+        
         self.shipmentType!.frame = CGRectMake(margin, self.address!.frame.maxY + 5.0, widthField, fheight)
         self.deliveryDate!.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, widthField, fheight)
         self.deliverySchedule!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, widthField, fheight)
@@ -481,6 +528,24 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
     //MARK: - Services
     
+    func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
+        let discountActive  = GRDiscountActiveService()
+        discountActive.callService({ (result:NSDictionary) -> Void in
+            if let result = result["discountsFreeShippingAssociated"] as? Bool {
+                self.discountsFreeShippingAssociated = result
+            }
+            if let result = result["discountsFreeShippingNotAssociated"] as? Bool {
+                self.discountsFreeShippingNotAssociated = result
+            }
+            if let result = result["discountsAssociated"] as? Bool {
+                self.showDiscountAsociate = result
+            }
+            endCallDiscountActive()
+            }, errorBlock: { (error:NSError) -> Void in
+                endCallDiscountActive()
+        })
+    }
+    
     func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
         self.addViewLoad()
         
@@ -498,15 +563,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                    
                     
                 }
-                
                 self.removeViewLoad()
-                
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
                 println("Error at invoke payment type service")
                 self.removeViewLoad()
-
                 endCallPaymentOptions()
             }
         )
@@ -516,13 +578,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     {
         if pickerValues.count == discountAssociateItems.count
         {
-            self.addViewLoad()
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+            self.alertView!.setMessage("Validando descuentos")
+            
+            //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
             paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
             let discountAssociateService = GRDiscountAssociateService()
             discountAssociateService.setParams(paramsDic)
             discountAssociateService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
-                self.removeViewLoad()
+               // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
                     var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
@@ -540,10 +606,25 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
                     self.discountAssociate!.setSelectedCheck()
+                    self.asociateDiscount = true
+                    
+                    self.invokeDeliveryTypesService({ () -> Void in
+                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                        self.alertView!.showDoneIcon()
+                    })
+                    
+                  
+                    
+                    
+                    
+                    
+                    
                 }
                 }, errorBlock: {(error: NSError) -> Void in
-                self.removeViewLoad()
-                println("Error at invoke address user service")
+                //self.removeViewLoad()
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    println("Error at invoke address user service")
             })
         }
     }
@@ -614,7 +695,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeDeliveryTypesService(endCallTypeService:(() -> Void)) {
         self.addViewLoad()
         var service = GRDeliveryTypeService()
-        service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!)
+        let shouldFreeShepping = (discountsFreeShippingAssociated && asociateDiscount) || (discountsFreeShippingNotAssociated && !asociateDiscount)
+        service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
         service.callService(requestParams: [:],
             successBlock: { (result:NSDictionary) -> Void in
                 self.shipmentItems = []
@@ -930,7 +1012,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let serviceCheck = GRSendOrderService()
             
-            let total = UserCurrentSession.sharedInstance().estimateTotalGR()
+            let total = UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()
             
             let components : NSDateComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit|NSCalendarUnit.MonthCalendarUnit|NSCalendarUnit.DayCalendarUnit, fromDate: self.selectedDate)
             

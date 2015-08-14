@@ -128,7 +128,7 @@ class UserWishlistService : BaseService {
         var subtotal : Double = 0.0
         var totalQuantity = 0
         for itemWL in array {
-            let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory]
+            let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable]
             items.append(dictItem)
         }
         

@@ -462,7 +462,6 @@ class UserCurrentSession : NSObject {
         let service = GRShoppingCartProductsService()
         service.callService(requestParams: [:],
             successBlock: { (resultCall:NSDictionary) -> Void in
-                println(resultCall)
                 self.itemsGR = resultCall
                 endLoadSC()
             },

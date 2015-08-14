@@ -18,28 +18,28 @@ class ShoppingCartAddProductsService : BaseService {
     }
     
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory]
+    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [String:AnyObject] {
+        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [[String:AnyObject]] {
-        return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory]]
+    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [[String:AnyObject]] {
+        return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]]
     }
     
     func builParamSvc(upc:String,quantity:String,comments:String) -> [String:AnyObject] {
         return ["comments":comments,"quantity":quantity,"upc":upc]
     }
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool) -> [String:AnyObject] {
+    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
     }
 
     
-    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable), successBlock: successBlock, errorBlock: errorBlock)
     }
-    func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory), successBlock: successBlock, errorBlock: errorBlock)
+    func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable), successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -125,7 +125,20 @@ class ShoppingCartAddProductsService : BaseService {
             let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
             let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
             errorBlock?(error)
+            return
+        } else {
+            for product in params as! NSArray {
+                let preorderable = product["isPreorderable"] as! String
+                if preorderable == "true" && !UserCurrentSession.sharedInstance().isEmptyMG() {
+                    let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
+                    let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+                    errorBlock?(error)
+                    return
+                }
+            }
         }
+        
+        
         
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -162,9 +175,10 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
+            cartProduct.product.isPreorderable = product["isPreorderable"] as! String
             cartProduct.status = NSNumber(integer: statusForProduct())
             cartProduct.type = ResultObjectType.Mg.rawValue
-            
+
             if UserCurrentSession.sharedInstance().userSigned != nil {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }

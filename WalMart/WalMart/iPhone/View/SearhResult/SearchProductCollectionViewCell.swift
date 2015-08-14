@@ -20,6 +20,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
     var isDisabled : Bool = false
     var type : String!
     var pesable : Bool!
+    var isPreorderable: String!
     
     override func setup() {
         super.setup()
@@ -98,6 +99,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
         self.onHandInventory = String(onHandInventory)
         self.type = type
         self.pesable = pesable
+        self.isPreorderable = "\(isPreorderable)"
         
         isDisabled = false
         if isActive == false || onHandInventory == 0  {
@@ -130,7 +132,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
                         quanty = "50"
                     }
                     
-                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type, pesable: (self.pesable == true ? "1" : "0"))
+                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type, pesable: (self.pesable == true ? "1" : "0"),isPreorderable:"false")
                     
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                     
@@ -141,7 +143,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
                         tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.MG_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
                     }
                     
-                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,wishlist:false,type:self.type,pesable:"0")
+                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,wishlist:false,type:self.type,pesable:"0",isPreorderable:self.isPreorderable)
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 }
                 

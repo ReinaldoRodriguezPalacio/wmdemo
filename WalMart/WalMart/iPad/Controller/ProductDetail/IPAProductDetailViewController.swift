@@ -675,7 +675,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                         
                         var pesable = self.isPesable ? "1" : "0"
                         
-                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable)
+                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable,isPreorderable:"\(self.isPreorderable)")
                         params.updateValue(comments, forKey: "comments")
                         params.updateValue(self.type, forKey: "type")
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)

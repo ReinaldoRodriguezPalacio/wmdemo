@@ -513,3 +513,6 @@
 
 
 "mg.preorderanble.item" = "No se pueden agregar artículos hasta que completes tu compra de preventa";
+"mg.preorderanble.item.add" = "No se pueden agregar artículos de preventa en tu carrito";
+
+"gr.checkout.discount" = "Descuento aplicado";

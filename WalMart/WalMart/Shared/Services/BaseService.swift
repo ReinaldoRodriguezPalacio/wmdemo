@@ -74,7 +74,7 @@ class BaseService : NSObject {
     
     func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        var services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        var services = NSBundle.mainBundle().objectForInfoDictionaryKey(ConfigServices.ConfigIdMG) as! NSDictionary
         let environmentServices = services.objectForKey(environment) as! NSDictionary
         let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL

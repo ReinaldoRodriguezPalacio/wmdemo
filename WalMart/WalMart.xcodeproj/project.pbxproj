@@ -91,6 +91,7 @@
 		56152F7F19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */; };
 		561657D919B1423900DA056A /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561657D819B1423900DA056A /* FamilyViewController.swift */; };
 		561657DD19B143C300DA056A /* IPOFamilyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561657DC19B143C300DA056A /* IPOFamilyTableViewCell.swift */; };
+		5618F0411B7D4C0F000338C7 /* GRDiscountActiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5618F0401B7D4C0F000338C7 /* GRDiscountActiveService.swift */; };
 		56253D8419D2066A002E128A /* PreviousOrdersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56253D8319D2066A002E128A /* PreviousOrdersService.swift */; };
 		56253D8719D20963002E128A /* PreviousOrdersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56253D8619D20963002E128A /* PreviousOrdersTableViewCell.swift */; };
 		56253D8919D211A5002E128A /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56253D8819D211A5002E128A /* OrderDetailViewController.swift */; };
@@ -553,6 +554,7 @@
 		56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartDeleteProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartDeleteProductsService.swift; sourceTree = "<group>"; };
 		561657D819B1423900DA056A /* FamilyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyViewController.swift; path = iPhone/Controller/Categories/FamilyViewController.swift; sourceTree = "<group>"; };
 		561657DC19B143C300DA056A /* IPOFamilyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOFamilyTableViewCell.swift; path = iPhone/View/Categories/IPOFamilyTableViewCell.swift; sourceTree = "<group>"; };
+		5618F0401B7D4C0F000338C7 /* GRDiscountActiveService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountActiveService.swift; sourceTree = "<group>"; };
 		56253D8319D2066A002E128A /* PreviousOrdersService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviousOrdersService.swift; path = Shared/Services/PreviousOrders/PreviousOrdersService.swift; sourceTree = "<group>"; };
 		56253D8619D20963002E128A /* PreviousOrdersTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviousOrdersTableViewCell.swift; path = iPhone/View/Order/PreviousOrdersTableViewCell.swift; sourceTree = "<group>"; };
 		56253D8819D211A5002E128A /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderDetailViewController.swift; path = iPhone/Controller/Order/OrderDetailViewController.swift; sourceTree = "<group>"; };
@@ -1193,6 +1195,7 @@
 		5614A6621A6887450048B71A /* Checkout */ = {
 			isa = PBXGroup;
 			children = (
+				5618F0401B7D4C0F000338C7 /* GRDiscountActiveService.swift */,
 				5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */,
 				56B044AD1A6DB5E300BA173A /* GRTimeBands.swift */,
 				5614A6691A69CA740048B71A /* GROrderByEmailService.swift */,
@@ -3125,6 +3128,7 @@
 				0424BA6F1A78303F0069323B /* GRProductDetailButtonBarCollectionViewCell.swift in Sources */,
 				04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */,
 				5696079319B4E8BC005D20DC /* IPOSplashViewController.swift in Sources */,
+				5618F0411B7D4C0F000338C7 /* GRDiscountActiveService.swift in Sources */,
 				569607A119B5139D005D20DC /* ProductDetailBannerMediaCollectionViewCell.swift in Sources */,
 				56CCE9FE19DB0D3B0071D990 /* CheckOutViewController.swift in Sources */,
 				5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */,

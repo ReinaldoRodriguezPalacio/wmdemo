@@ -223,12 +223,17 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     onHandDefault = onHandInventory as String
                 }
                 
+                var isPreorderable = "false"
+                if let isPreorderableVal = dictProduct["isPreorderable"] as? String {
+                    isPreorderable = isPreorderableVal
+                }
+                
                 var isActive = true
                 if let stockSvc = dictProduct["stock"] as?  Bool {
                    isActive = stockSvc
                 }
                 
-                cellOrderProduct.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive)
+                cellOrderProduct.setValues(upcProduct,productImageURL:urlImage,productShortDescription:descript,productPrice:priceStr,quantity:quantityStr , type: self.type, pesable:isPesable, onHandInventory: onHandDefault, isActive:isActive,isPreorderable:isPreorderable)
                 cell = cellOrderProduct
 
         }

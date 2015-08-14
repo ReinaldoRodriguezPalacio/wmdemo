@@ -78,6 +78,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.navigation.pushViewController(recent, animated: false)
         case 4:
             scanTicket()
+            return
         case 5:
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
@@ -158,7 +159,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     //Ticket
     
     func scanTicket() {
-        let barCodeController = BarCodeViewController()
+        let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.delegate = self
         barCodeController.applyPadding = false
@@ -198,7 +199,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                     }
                     
                     var fmt = NSDateFormatter()
-                    fmt.dateFormat = "MMM d"
+                    fmt.dateFormat = "MMM d hh:mm:ss"
                     var name = fmt.stringFromDate(NSDate())
                     var number = 0;
                     
@@ -209,6 +210,9 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                     saveService.callService(saveService.buildParams(name, items: products),
                         successBlock: { (result:NSDictionary) -> Void in
                             //TODO
+                            alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
+                            alertView!.showDoneIcon()
+                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
                         },
                         errorBlock: { (error:NSError) -> Void in
                             alertView!.setMessage(error.localizedDescription)

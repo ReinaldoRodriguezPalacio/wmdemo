@@ -27,9 +27,13 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
     func callService(requestParams params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if UserCurrentSession.sharedInstance().userSigned != nil {
             self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-                if successBlock != nil {
-                    successBlock!(resultCall)
-                }
+                UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
+                    UserCurrentSession.sharedInstance().updateTotalItemsInCarts()
+                    if successBlock != nil {
+                        successBlock!(resultCall)
+                    }
+                })
+               
                 }) { (error:NSError) -> Void in
                     if errorBlock != nil {
                         errorBlock!(error)

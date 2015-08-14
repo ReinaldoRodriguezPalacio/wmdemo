@@ -153,19 +153,20 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .TicketList : image = "menu_scanTicket"
         default :
             println("option don't exist")
-        }      
-        if UserCurrentSession.sharedInstance().userSigned != nil || indexPath.section != 0 {
-            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
-        } else if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
+        }
+         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
             switch (OptionsController(rawValue: srtOption)!) {
             case .Profile : image = "Profile-disable-icon"
             case .Recents : image = "Recents-disable-icon"
             case .Address : image = "Address-disable-icon"
             case .Orders : image = "Orders-disable-icon"
+            case .TicketList : image = "menu_scanTicket_disable"
             default :
                 println("option don't exist")
             }
             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.regular_gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+        } else  {
+             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
         }
         
 
@@ -175,7 +176,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
+        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
             //CAMBIO
             self.openLoginOrProfile()
             return
@@ -409,7 +410,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     //Ticket
     
     func scanTicket() {
-        let barCodeController = IPABarCodeViewController()
+        let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.delegate = self
         barCodeController.applyPadding = false
@@ -449,7 +450,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     }
                     
                     var fmt = NSDateFormatter()
-                    fmt.dateFormat = "MMM d"
+                    fmt.dateFormat = "MMM d hh:mm:ss"
                     var name = fmt.stringFromDate(NSDate())
                     var number = 0;
                     
@@ -460,6 +461,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     saveService.callService(saveService.buildParams(name, items: products),
                         successBlock: { (result:NSDictionary) -> Void in
                             //TODO
+                            self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
+                            self.alertView!.showDoneIcon()
+                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
                         },
                         errorBlock: { (error:NSError) -> Void in
                             self.alertView!.setMessage(error.localizedDescription)

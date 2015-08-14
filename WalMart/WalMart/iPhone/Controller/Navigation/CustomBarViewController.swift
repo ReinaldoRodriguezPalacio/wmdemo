@@ -30,6 +30,8 @@ enum CustomBarNotification : String {
     case ClearShoppingCartGR = "kClearShoppingCartGR"
     case ClearShoppingCartMG = "kClearShoppingCartMG"
     
+    case ShowGRLists = "kShowGRLists"
+    
 }
 
 struct TabBarHidden {
@@ -113,6 +115,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShoppingCartEmptyGroceries", name: CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShoppingCartEmptyMG", name: CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showListsGR", name: CustomBarNotification.ShowGRLists.rawValue, object: nil)
+        
+        
         
         
         self.isTabBarHidden = false
@@ -480,22 +486,22 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.setTabBarHidden(false, animated: true, delegate:notification.object as! CustomBarDelegate?)
     }
     
-    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String) -> [NSObject:AnyObject] {
-        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable]
+    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String,isPreorderable:String) -> [NSObject:AnyObject] {
+        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable,"isPreorderable":isPreorderable]
     }
     
-    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String) -> [NSObject:AnyObject] {
-        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable]
+    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String,isPreorderable:String) -> [NSObject:AnyObject] {
+        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable]
         
     }
     
-    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String) -> [NSObject:AnyObject] {
+    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,comments:String,onHandInventory:String,type:String,pesable:String,isPreorderable:String) -> [NSObject:AnyObject] {
         return
-            ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"comments":comments,"onHandInventory":onHandInventory,"wishlist":false,"type":type,"pesable":pesable]
+            ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"comments":comments,"onHandInventory":onHandInventory,"wishlist":false,"type":type,"pesable":pesable,"isPreorderable":isPreorderable]
     }
     
-    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String, type:String ) -> [NSObject:AnyObject] {
-        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type]
+    class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,pesable:String, type:String ,isPreorderable:String) -> [NSObject:AnyObject] {
+        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type,"isPreorderable":isPreorderable]
     }
     
     
@@ -932,7 +938,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         //Tap on Groceries Cart Empty
         if self.emptyGroceriesTap {
-            buttonSelected(self.buttonList[3])
+            buttonSelected(self.buttonList[2])
             if let navController = self.currentController as? UINavigationController {
                 navController.popToRootViewControllerAnimated(false)
                 if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {
@@ -957,6 +963,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         self.emptyMgTap  = false
         self.emptyGroceriesTap  = false
+    }
+    
+    
+    func showListsGR() {
+        buttonSelected(self.buttonList[3])
     }
     
     

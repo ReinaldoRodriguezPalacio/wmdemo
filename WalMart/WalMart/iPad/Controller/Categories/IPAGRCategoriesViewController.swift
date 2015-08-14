@@ -21,6 +21,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.backButton?.hidden = true
         
         //SCREEN
         if let tracker = GAI.sharedInstance().defaultTracker {
