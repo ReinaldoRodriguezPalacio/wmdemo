@@ -166,15 +166,35 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
     
+    func setTitleWithEdit(){
+        var titleText = titleHeader!
+        if titleText.length() > 47
+        {
+            titleText = titleText.substring(0, length: 44) + "..."
+        }
+        
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(named: "search_edit")
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let myString = NSMutableAttributedString(string: "\(titleText) ")
+        myString.appendAttributedString(attachmentString)
+        self.titleLabel?.numberOfLines = 2;
+        self.titleLabel?.attributedText = myString;
+        self.titleLabel?.userInteractionEnabled = true;
+        let tapGesture = UITapGestureRecognizer(target: self, action: "editSearch")
+        self.titleLabel?.addGestureRecognizer(tapGesture)
+    }
     
+    func editSearch(){
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+    }
+
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
         self.header?.addSubview(self.filterButton!)
-        
         self.view.addSubview(collection!)
-        self.titleLabel?.text = titleHeader
-        
+        self.setTitleWithEdit()
         if loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
             self.loading!.backgroundColor = UIColor.whiteColor()
@@ -869,6 +889,4 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
     }
-    
-    
 }

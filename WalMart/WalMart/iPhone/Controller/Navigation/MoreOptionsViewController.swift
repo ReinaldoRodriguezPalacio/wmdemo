@@ -479,5 +479,4 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     
-    
 }
