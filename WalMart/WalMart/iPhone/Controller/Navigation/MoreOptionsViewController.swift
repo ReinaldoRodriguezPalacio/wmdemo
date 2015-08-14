@@ -382,21 +382,4 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }
-    
-    //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?)
-    {
-       if value != nil || value == "" {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
-        }
-        
-        let controller = SearchProductViewController()
-        controller.searchContextType = .WithText
-        controller.titleHeader = value
-        controller.textToSearch = value
-        var controllernav = self.navigationController
-        controllernav?.pushViewController(controller, animated: true)
-      }
-    }
 }

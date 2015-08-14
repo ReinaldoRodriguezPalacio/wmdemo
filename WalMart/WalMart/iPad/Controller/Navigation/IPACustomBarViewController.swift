@@ -103,6 +103,11 @@ class IPACustomBarViewController :  CustomBarViewController {
         })
     }*/
     
+    override func editSearch(notification:NSNotification){
+        let searchKey = notification.object as! String
+        self.openSearchProduct()
+        self.searchView.field.text = searchKey
+    }
     
     override func openSearchProduct(){
         

@@ -29,6 +29,7 @@ enum CustomBarNotification : String {
     case SuccessAddUpdateCommentCart = "kSuccessAddUpdateCommentCart"
     case ClearShoppingCartGR = "kClearShoppingCartGR"
     case ClearShoppingCartMG = "kClearShoppingCartMG"
+    case EditSearch = "kEditSearch"
     
 }
 
@@ -113,6 +114,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShoppingCartEmptyGroceries", name: CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShoppingCartEmptyMG", name: CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "editSearch:", name: CustomBarNotification.EditSearch.rawValue, object: nil)
         
         
         self.isTabBarHidden = false
@@ -562,6 +564,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else{
             self.closeSearch(false, sender: nil)
         }
+    }
+    
+    func editSearch(notification:NSNotification){
+        let searchKey = notification.object as! String
+        self.openSearchProduct()
+        self.searchController!.field!.text = searchKey
     }
     
     func openSearchProduct(){

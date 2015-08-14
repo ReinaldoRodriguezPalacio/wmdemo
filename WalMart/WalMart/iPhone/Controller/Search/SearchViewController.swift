@@ -452,6 +452,8 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //        }
     }
     
+    //func
+    
     func searchProductKeywords(string:String) {
         self.cancelSearch = true
         
