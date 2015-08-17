@@ -55,7 +55,6 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.quantityIndicator!.setTitleColor(UIColor.blueColor(), forState: .Disabled)
         self.quantityIndicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14.0)
         self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
         self.quantityIndicator!.addTarget(self, action: "changeQuantity", forControlEvents: .TouchUpInside)
@@ -108,26 +107,6 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription!.text = product["promoDescription"] as? String
         self.productShortDescriptionLabel!.text = product["description"] as? String
 
-        if let stock = product["stock"] as? NSString {
-            if stock.integerValue == 0 {
-                self.quantityIndicator!.enabled = false
-                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
-            } else {
-                self.quantityIndicator!.enabled = true
-                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
-            }
-        }
-        
-        if let stock = product["stock"] as? Bool {
-            if stock {
-                self.quantityIndicator!.enabled = true
-                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
-            } else {
-                self.quantityIndicator!.enabled = false
-                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
-            }
-        }
-        
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
             self.equivalenceByPiece = equivalence
         }
@@ -180,6 +159,28 @@ class DetailListViewCell: ProductTableViewCell {
         
         
         checkDisabled(disabled)
+        
+        if let stock = product["stock"] as? NSString {
+            if stock.integerValue == 0 {
+                self.quantityIndicator!.enabled = false
+                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+            } else {
+                self.quantityIndicator!.enabled = true
+                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+            }
+        }
+        
+        if let stock = product["stock"] as? Bool {
+            if stock {
+                self.quantityIndicator!.enabled = true
+                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+            } else {
+                self.quantityIndicator!.enabled = false
+                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+            }
+        }
+        
+
         
     }
     

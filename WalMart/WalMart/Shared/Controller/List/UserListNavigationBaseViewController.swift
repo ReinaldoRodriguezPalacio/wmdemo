@@ -12,9 +12,12 @@ import Foundation
 class UserListNavigationBaseViewController :  NavigationViewController {
     
     
-    func invokeSaveListToDuplicateService(forListId listId:String, andName listName:String,successDuplicateList:(() -> Void),itemsUserList:[[String:AnyObject]]) {
-        var alert = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
-        alert!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
+    var itemsUserList: [AnyObject]? = []
+    var alertView: IPOWMAlertViewController?
+    
+    func invokeSaveListToDuplicateService(forListId listId:String, andName listName:String,successDuplicateList:(() -> Void)) {
+        alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         
         let detailService = GRUserListDetailService()
         detailService.buildParams(listId)
@@ -34,23 +37,23 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                     }
                 }
                 
-                var copyName = self.buildDuplicateNameList(listName, forListId: listId, itemsUserList:itemsUserList)
+                var copyName = self.buildDuplicateNameList(listName, forListId: listId)
                 service.callService(service.buildParams(copyName, items: items),
                     successBlock: { (result:NSDictionary) -> Void in
                         successDuplicateList()
                     },
                     errorBlock: { (error:NSError) -> Void in
                         println("Error at duplicate list")
-                        alert!.setMessage(error.localizedDescription)
-                        alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                     }
                 )
                 
             },
             errorBlock: { (error:NSError) -> Void in
                 println("Error at retrieve list detail")
-                alert!.setMessage(error.localizedDescription)
-                alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             }
         )
         
@@ -58,7 +61,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     
     
     
-    func buildDuplicateNameList(theName:String, forListId listId:String?,itemsUserList:[AnyObject]) -> String {
+    func buildDuplicateNameList(theName:String, forListId listId:String?) -> String {
         var listName = "\(theName)" //Se crea una nueva instancia
         var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
         if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
@@ -67,17 +70,17 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
         
         var lastIdx = 1
-        if itemsUserList.count > 0 {
-            for var idx = 0; idx < itemsUserList.count; idx++ {
+        if itemsUserList!.count > 0 {
+            for var idx = 0; idx < itemsUserList!.count; idx++ {
                 var name:String? = nil
-                if let innerList = itemsUserList[idx] as? [String:AnyObject] {
+                if let innerList = itemsUserList![idx] as? [String:AnyObject] {
                     let innerListId = innerList["id"] as! String
                     if innerListId == listId! {
                         continue
                     }
                     name = innerList["name"] as? String
                 }
-                else if let listEntity = itemsUserList[idx] as? List {
+                else if let listEntity = itemsUserList![idx] as? List {
                     name = listEntity.name
                 }
                 

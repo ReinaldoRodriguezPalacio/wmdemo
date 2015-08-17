@@ -29,7 +29,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var viewSeparator : UIView!
     
     var helpView: UIView?
-    var alertView: IPOWMAlertViewController?
+    //var alertView: IPOWMAlertViewController?
     
     var newListEnabled = false
     var isEditingUserList  = false
@@ -38,7 +38,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var isShowingTabBar = true
     var isToggleBarEnabled = true
     var enabledHelpView = false
-    var itemsUserList: [AnyObject]? = []
     var listToUpdate: [String:String]?
     
     var selectedEntityList: List?
@@ -587,13 +586,30 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //                    println("pase por acas")
 //                }, itemsUserList: self.itemsUserList!)
                 //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
+                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
+                    self.newListEnabled = false
+                    self.isShowingWishList  = true
+                    self.isShowingSuperlists = true
+                    self.newListBtn!.selected = false
+                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                    self.reloadList(
+                        success: { () -> Void in
+                            self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                            self.alertView!.showDoneIcon()
+                        },
+                        failure: { (error) -> Void in
+                            self.alertView!.setMessage(error.localizedDescription)
+                            self.alertView!.showErrorIcon("Ok")
+                        }
+                    )
+                })
             }
             else if let listItem = self.itemsUserList![indexPath.row] as? List {
                 if self.itemsUserList!.count <= 11 {
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
                     
-                    var copyName = self.buildDuplicateNameList(listItem.name, forListId: nil,itemsUserList: self.itemsUserList!)
+                    var copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
                     var clist = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: self.managedContext!) as? List
                     clist!.name = copyName
                     clist!.registryDate = NSDate()
@@ -969,6 +985,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showListDetail" {
             if let controller = segue.destinationViewController as? UserListDetailViewController {
+                controller.itemsUserList = self.itemsUserList
                 controller.listId = self.selectedListId
                 controller.listName = self.selectedListName
                 controller.listEntity = self.selectedEntityList

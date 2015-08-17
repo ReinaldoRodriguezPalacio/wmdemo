@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate {
+class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -30,7 +30,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
     var loading: WMLoadingView?
     var emptyView: UIView?
     var quantitySelector: GRShoppingCartQuantitySelectorView?
-    var alertView: IPOWMAlertViewController?
+    //var alertView: IPOWMAlertViewController?
     
     var listId: String?
     var listName: String?
@@ -97,6 +97,7 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         self.copyBtn!.layer.cornerRadius = 11
         self.copyBtn!.alpha = 0
         self.copyBtn!.hidden = true
+        self.copyBtn!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.copyBtn!)
         
         
@@ -1032,6 +1033,10 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
             if reloadList {
                 self.reloadTableListUser()
             }
+            
+           
+            
+            
             self.updateTotalLabel()
         }else
         {
@@ -1044,8 +1049,15 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
 
 
         if self.products == nil || self.products!.count == 0 {
+            self.editBtn!.hidden = true
             self.showEmptyView()
+        } else {
+            self.editBtn!.hidden = false
+            self.removeEmpyView()
         }
+        
+      
+        
     }
     
     func saveContext() {
@@ -1147,6 +1159,13 @@ class UserListDetailViewController: NavigationViewController, UITableViewDelegat
         containerEditName?.alpha = 0
         
         
+    }
+    
+    
+    func duplicate() {
+        self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+            
+        })
     }
     
 
