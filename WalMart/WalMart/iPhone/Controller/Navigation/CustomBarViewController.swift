@@ -83,7 +83,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var emptyGroceriesTap : Bool = false
     var emptyMgTap : Bool = false
     var updateAviable : UpdateViewController!
-    
+    var isEditingSearch: Bool = false
     
     
     lazy var managedContext: NSManagedObjectContext? = {
@@ -576,6 +576,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let searchKey = notification.object as! String
         self.openSearchProduct()
         self.searchController!.field!.text = searchKey
+        self.isEditingSearch = true
     }
     
     func openSearchProduct(){
@@ -781,12 +782,16 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as [NSObject : AnyObject])
             }
-            
+            let controllernav = self.currentController as? UINavigationController
+            let controllersInNavigation = controllernav?.viewControllers.count
+            if (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil && isEditingSearch){
+                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+                isEditingSearch = false
+            }
             let controller = SearchProductViewController()
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
-            var controllernav = self.currentController as? UINavigationController
             controllernav?.pushViewController(controller, animated: true)
         }
         
