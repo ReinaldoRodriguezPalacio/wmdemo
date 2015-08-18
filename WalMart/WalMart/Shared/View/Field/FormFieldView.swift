@@ -76,11 +76,11 @@ class FormFieldView : UIEdgeTextField {
     
     func setSelectedCheck(){
         if typeField == TypeField.Check{
-            let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "search_edit")
-            let attachmentString = NSAttributedString(attachment: attachment)
+//            let attachment = NSTextAttachment()
+//            attachment.image = UIImage(named: "search_edit")
+//            let attachmentString = NSAttributedString(attachment: attachment)
             let myString = NSMutableAttributedString(string: "\(self.placeholder!)  ")
-            myString.appendAttributedString(attachmentString)
+            //myString.appendAttributedString(attachmentString)
             myString.addAttribute(NSForegroundColorAttributeName, value:UIColor.darkGrayColor(), range:NSMakeRange(0, myString.length))
             self.attributedPlaceholder = myString
             if self.imageCheck == nil {

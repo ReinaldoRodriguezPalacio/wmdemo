@@ -155,6 +155,16 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             
             var cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
             cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
+            cell.textbox!.maxLength = 0
+            
+            if indexPath.row == 0 {
+                cell.textbox!.maxLength = 8
+                cell.textbox!.setCustomDelegate(self)
+            }
+            if indexPath.row == 2 {
+                cell.textbox!.maxLength = 4
+                cell.textbox!.setCustomDelegate(self)
+            }
             cell.textbox!.delegate = self
             cell.textbox!.nameField = itemsToShow[indexPath.row]
             cell.textLabel?.text = itemsToShow[indexPath.row]
@@ -227,7 +237,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         if NSLocalizedString("checkout.discount.dateAdmission", comment:"") == formField.nameField! && !text.isEmpty
         {
-            text = TextboxTableViewCell.parseDateString(text)
+            text = TextboxTableViewCell.parseDateString(text,format:"d MMMM yyyy")
         }
         
         textboxValues?[formField.nameField] = text
