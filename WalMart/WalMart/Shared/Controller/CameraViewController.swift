@@ -19,15 +19,21 @@ enum CameraType {
     case Back
 }
 
-class CameraViewController : BaseController, UIAlertViewDelegate {
+class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerControllerDelegate, UINavigationControllerDelegate, IPAWMAlertViewControllerDelegate {
+    var imagePickerController: UIImagePickerController? = nil
     var capturedImage: UIImageView!
+    var imagePickerCaptured: UIImageView!
     var captureSession : AVCaptureSession? = nil
     var videoDevice : AVCaptureDevice? = nil
     var videoInput : AVCaptureDeviceInput? = nil
     var previewLayer : AVCaptureVideoPreviewLayer? = nil
     var running : Bool = false
     var delegate : CameraViewControllerDelegate? = nil
+    var popover: UIPopoverController? = nil
     var topBarView: UIView?
+    var topBackgroundView: UIView?
+    var bottomBarView:UIView?
+    var bottomBackgroundView: UIView?
     var IPAPreviewBarView: UIView?
     
     var stillImageOutput: AVCaptureStillImageOutput?
@@ -36,6 +42,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     var camFlashButton: UIButton?
     var messageLabel: UILabel?
     var camChangeButton: UIButton?
+    var loadImageButton: UIButton?
     
     var repeatButton: UIButton?
     var okButton: UIButton?
@@ -43,17 +50,24 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     
     var camera = CameraType.Back
     var alertView : IPOWMAlertViewController? = nil
+    var continueSearch:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupCaptureSession()
-        
+        self.imagePickerController = UIImagePickerController()
+        self.imagePickerController?.delegate = self
         self.capturedImage = UIImageView()
+        self.imagePickerCaptured = UIImageView()
+        self.imagePickerCaptured.hidden = true
+        self.view.addSubview(imagePickerCaptured)
         
         self.topBarView = UIView()
-        self.topBarView?.backgroundColor = WMColor.productAddToCartBg
-        self.topBarView!.alpha = 0.8
+        self.topBackgroundView = UIView()
+        self.topBackgroundView?.backgroundColor = WMColor.productAddToCartBg
+        self.topBackgroundView!.alpha = 0.7
+        self.topBarView!.addSubview(topBackgroundView!)
         self.view.addSubview(self.topBarView!)
         
         self.camFlashButton = UIButton.buttonWithType(.Custom) as? UIButton
@@ -74,6 +88,14 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         self.camChangeButton!.addTarget(self, action: "changeCamera", forControlEvents: UIControlEvents.TouchUpInside)
         self.topBarView!.addSubview(self.camChangeButton!)
         
+        self.bottomBarView = UIView()
+        self.bottomBackgroundView = UIView()
+        self.bottomBackgroundView?.backgroundColor = UIColor.blackColor()
+        self.bottomBackgroundView!.alpha = 0.2
+        self.bottomBarView!.addSubview(bottomBackgroundView!)
+        self.view.addSubview(self.bottomBarView!)
+        
+        
         self.cancelButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.cancelButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
@@ -88,6 +110,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto_active"), forState: .Highlighted)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto_active"), forState: .Selected)
         self.camButton!.addTarget(self, action: "takePhoto", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.getLastImageFromLibrary()
+        self.loadImageButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.loadImageButton!.setImage(self.getImageWithColor(UIColor.blackColor(), size: CGSizeMake(40.0, 40.0)), forState: .Normal)
+        self.loadImageButton!.addTarget(self, action: "loadImageFromLibrary:", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.repeatButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.repeatButton!.setTitle("Repetir Foto", forState: UIControlState.Normal)
@@ -121,13 +148,15 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
             self.cancelButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
             self.camFlashButton!.hidden = true;
             self.IPAPreviewBarView!.addSubview(self.messageLabel!)
+            self.topBarView!.addSubview(self.loadImageButton!)
             self.topBarView!.addSubview(self.camButton!)
 
         }
         else{
             self.topBarView!.addSubview(self.messageLabel!)
-            self.view!.addSubview(self.cancelButton!)
-            self.view!.addSubview(self.camButton!)
+            self.bottomBarView!.addSubview(self.cancelButton!)
+            self.bottomBarView!.addSubview(self.camButton!)
+            self.bottomBarView!.addSubview(self.loadImageButton!)
         }
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRunning", name: UIApplicationWillEnterForegroundNotification, object: nil)
@@ -136,24 +165,33 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-    
+        self.imagePickerCaptured!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             self.topBarView!.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 64)
-            self.camFlashButton!.frame = CGRectMake(8, 18, 28, 28)
-            self.messageLabel!.frame = CGRectMake((self.view.bounds.width / 2) - 120, 18, 240, 28)
-            self.camChangeButton!.frame = CGRectMake(284, 18, 28, 28)
-            self.camButton!.frame = CGRectMake((self.view.bounds.width / 2) - 32, self.view.bounds.height - 80, 64, 64)
-            self.cancelButton!.frame = CGRectMake(40.0, self.camButton!.frame.origin.y + 16, 55.0, 32.0)
+            self.topBackgroundView!.frame = self.topBarView!.frame
+            self.camFlashButton!.frame = CGRectMake(8, 31, 28, 28)
+            self.messageLabel!.frame = CGRectMake((self.view.bounds.width / 2) - 120, 31, 240, 28)
+            self.camChangeButton!.frame = CGRectMake(284, 31, 28, 28)
+            
+            self.bottomBarView!.frame = CGRectMake(0.0, self.view.bounds.height - 92, self.view.bounds.width, 92)
+            self.bottomBackgroundView!.frame = CGRectMake(0, 0, self.view.bounds.width, 92)
+            self.camButton!.frame = CGRectMake((self.view.bounds.width / 2) - 32, 16, 64, 64)
+            self.cancelButton!.frame = CGRectMake(16, self.camButton!.center.y - 16, 55.0, 32.0)
+            self.loadImageButton!.frame = CGRectMake(self.view.bounds.width - 56, self.camButton!.center.y - 20, 40, 40)
             
             self.repeatButton!.frame = CGRectMake(44, self.view.bounds.height - 72, 100, 36)
             self.okButton!.frame = CGRectMake((self.view!.frame.width / 2) + 16, self.view.bounds.height - 72, 100, 36)
+            self.imagePickerCaptured!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+            self.view.bringSubviewToFront(self.bottomBarView!)
         }
         else{
             self.topBarView!.frame = CGRectMake(self.view.bounds.width - 102, 0.0, 102, self.view.bounds.height)
+            self.topBackgroundView!.frame = self.topBarView!.frame
             self.camChangeButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 14, 32, 28, 28)
             self.camFlashButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 14, self.camChangeButton!.frame.origin.y + self.camChangeButton!.frame.size.height + 24, 28, 28)
             self.camButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 32, (self.topBarView!.bounds.height / 2) - 32, 64, 64)
             self.cancelButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 32, self.view.bounds.height - 64, 64.0, 32.0)
+            self.loadImageButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 20, 620, 40.0, 40.0)
 
             self.IPAPreviewBarView!.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 64)
             self.messageLabel!.frame = CGRectMake((self.IPAPreviewBarView!.bounds.width / 2) - 150, 18, 300, 28)
@@ -322,7 +360,6 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
                     
                     var image = UIImage(CGImage: cgImageRef, scale: 1.0, orientation: UIImageOrientation.Right)
                     self.capturedImage.image = image
-                    
                     self.stopRunning()
                     self.showPreview()
                 }
@@ -339,8 +376,10 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
             self.camFlashButton!.alpha = 0
             self.cancelButton!.alpha = 0
             self.camButton!.alpha = 0
+            self.loadImageButton!.alpha = 0
+            self.bottomBarView!.alpha = 0
             }, completion: {(completed : Bool) in
-                if completed {
+                //if completed {
                     self.messageLabel!.text = NSLocalizedString("camfind.message.preview",comment:"")
                     UIView.animateWithDuration(0.3, animations: { () -> Void in
                         if IS_IPAD {
@@ -350,7 +389,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
                         self.repeatButton!.alpha = 1
                         self.okButton!.alpha = 1
                     })
-                }
+                //}
         })
     }
     
@@ -368,7 +407,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
                     self.messageLabel!.text = NSLocalizedString("camfind.message.photo",comment:"")
                     UIView.animateWithDuration(0.3, animations: { () -> Void in
                         if IS_IPAD {
-                            self.topBarView!.alpha = 0.8;
+                            self.topBarView!.alpha = 1;
                         }
                         
                         if self.camera == CameraType.Front{
@@ -381,6 +420,10 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
                         self.camChangeButton!.alpha = 1
                         self.cancelButton!.alpha = 1
                         self.camButton!.alpha = 1
+                        self.loadImageButton!.alpha = 1
+                        self.bottomBarView!.alpha = 1
+                        self.imagePickerCaptured!.hidden = true
+                        self.previewLayer?.hidden = false
                     })
                 }
         })
@@ -406,11 +449,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     
     func sendPhoto(){
         if alertView == nil {
-            self.alertView = IPAWMAlertViewController.showAlert(self, imageWaiting:self.maskRoundedImage(capturedImage.image!), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView = IPAWMAlertViewController.showAlertWithCancelButton(self, delegate: self,imageWaiting:self.maskRoundedImage(capturedImage.image!), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(arrayImages[currentItem])
             scheduleTimmer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "changeAlertMessage", userInfo: nil, repeats: true)
         }
-        
+        self.continueSearch = true
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: NSDictionary) -> Void in
@@ -431,6 +474,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     }
     
     func checkPhotoStatus(token: String){
+       if(self.continueSearch){
         let service = CamFindService()
         service.checkImg(token,
             successBlock: { (response: NSDictionary) -> Void in
@@ -440,11 +484,9 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
                     let name = response.objectForKey("name") as! String
 //                    self.alertView!.setMessage("Imagen encontrada\n: \(name)")
 //                    self.alertView!.showDoneIcon()
-                  
+                    self.dismissViewControllerAnimated(true, completion: nil)
                     self.delegate!.photoCaptured(name, done: { () -> Void in
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            
-                        })
+                        
                     })
                     // self.delegate!.photoCaptured(name)
                     
@@ -483,6 +525,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
             }, errorBlock: { (error:NSError) -> Void in
                 
         })
+       }
     }
 
     func imageResize(imageObj: UIImage) -> UIImage{
@@ -575,17 +618,17 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
     override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         if IS_IPAD {
             if self.interfaceOrientation == UIInterfaceOrientation.LandscapeLeft {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft;
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft;
             }
             else if self.interfaceOrientation == UIInterfaceOrientation.LandscapeRight {
-                previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight;
+                previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight;
             }
         }
     }
     
     //MARK: - StatusBar
     override func prefersStatusBarHidden() -> Bool {
-        return true
+        return false
     }
     
     override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
@@ -602,5 +645,88 @@ class CameraViewController : BaseController, UIAlertViewDelegate {
             self.closeCamera()
         }
         
+    }
+    
+    func loadImageFromLibrary(sender: UIButton) {
+        imagePickerController!.allowsEditing = false
+        imagePickerController!.sourceType = .PhotoLibrary
+        
+        if IS_IPAD{
+            self.popover = UIPopoverController(contentViewController: imagePickerController!)
+            self.popover!.presentPopoverFromRect(loadImageButton!.frame, inView: self.topBarView!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+        }
+        else{
+            presentViewController(imagePickerController!, animated: true, completion: nil)
+        }
+        
+    }
+    
+    func getLastImageFromLibrary(){
+        let assets = ALAssetsLibrary()
+        assets.getLastImageFromPhotos({(image:UIImage!, error:NSError!) -> Void in
+            if image != nil{
+             self.loadImageButton!.setImage(image, forState: .Normal)
+            }
+        })
+    }
+    
+    func getImageWithColor(color: UIColor, size: CGSize) -> UIImage {
+        let rect = CGRectMake(0, 0, size.width, size.height)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        UIRectFill(rect)
+        let image: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
+    func imageResize(imageObj:UIImage, sizeChange:CGSize)-> UIImage {
+        
+        let hasAlpha = false
+        let scale: CGFloat = 0.0 // Automatically use scale factor of main screen
+        
+        UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
+        imageObj.drawInRect(CGRect(origin: CGPointZero, size: sizeChange))
+        
+        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext() // !!!
+        return scaledImage
+    }
+    
+    // MARK: - UIImagePickerControllerDelegate Methods
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        if IS_IPAD{
+            self.popover!.dismissPopoverAnimated(true)
+        }
+        else{
+            dismissViewControllerAnimated(true, completion: nil)
+        }
+        if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            self.capturedImage.contentMode = UIViewContentMode.ScaleAspectFit
+            self.capturedImage.image = pickedImage
+            self.stopRunning()
+            self.capturedImage.contentMode = UIViewContentMode.ScaleToFill
+            self.imagePickerCaptured.image = pickedImage
+            self.previewLayer?.hidden = true
+            self.imagePickerCaptured.hidden = false
+            self.showPreview()
+        }
+    }
+    
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        if IS_IPAD{
+            self.popover!.dismissPopoverAnimated(true)
+        }
+        else{
+             dismissViewControllerAnimated(true, completion: nil)
+        }
+    }
+    
+    // MARK: - IPAWMAlertViewControllerDelegate
+    
+    func cancelButtonTapped() {
+        self.returnCamera()
+        self.continueSearch = false
     }
 }

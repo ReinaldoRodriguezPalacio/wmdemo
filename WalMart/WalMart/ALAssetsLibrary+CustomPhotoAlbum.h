@@ -69,4 +69,9 @@
 - (void)loadImagesFromAlbum:(NSString *)albumName
                  completion:(void (^)(NSMutableArray *images, NSError *error))completion;
 
+/*! Loads last image from the photo library
+ * \param completion Block to be executed when succeed or failed to load image from library
+ */
+- (void) getLastImageFromPhotos:(void (^)(UIImage *, NSError *))completion;
+
 @end

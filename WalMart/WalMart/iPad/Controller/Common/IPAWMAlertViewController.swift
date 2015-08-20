@@ -8,8 +8,14 @@
 
 import UIKit
 
+protocol IPAWMAlertViewControllerDelegate {
+    
+    func cancelButtonTapped()
+}
+
 class IPAWMAlertViewController: IPOWMAlertViewController {
-   
+   var delegate:IPAWMAlertViewControllerDelegate?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x2870c9, alpha: 0.5)
@@ -35,5 +41,42 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         newAlert.didMoveToParentViewController(controller)
         return newAlert
     }
+    
+    class func showAlertWithCancelButton(controller:UIViewController,delegate:IPAWMAlertViewControllerDelegate,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
+       let newAlert = showAlert(controller, imageWaiting: imageWaiting, imageDone: imageDone, imageError: imageError)
+        newAlert?.delegate = delegate
+        newAlert!.showOkButton("Cancelar", colorButton:WMColor.loginSignOutButonBgColor)
+        return newAlert
+    }
+    
+    override func showOkButton(titleDone:String, colorButton: UIColor) {
+        if  self.doneButton != nil{
+            self.doneButton.removeFromSuperview()
+        }
+        
+        self.doneButton = UIButton()
+        self.doneButton.setTitle(titleDone, forState: UIControlState.Normal)
+        self.doneButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.doneButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        
+        self.doneButton.backgroundColor = colorButton
+        
+        self.doneButton.addTarget(self, action: "cancelBtn", forControlEvents: .TouchUpInside)
+        self.doneButton.layer.cornerRadius = 16
+        
+        var bounds = self.view.bounds
+        if self.view.superview != nil {
+            bounds = self.view.superview!.bounds
+        }
+        
+        self.doneButton.frame = CGRectMake(0, 0, 160 , 32)
+        self.view.addSubview(doneButton)
+    }
+    
+    func cancelBtn(){
+        self.close()
+        delegate?.cancelButtonTapped()
+    }
+
 
 }
