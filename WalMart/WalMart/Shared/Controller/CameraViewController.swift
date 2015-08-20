@@ -728,5 +728,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     func cancelButtonTapped() {
         self.returnCamera()
         self.continueSearch = false
+        self.alertView = nil
+        self.scheduleTimmer.invalidate()
     }
 }
