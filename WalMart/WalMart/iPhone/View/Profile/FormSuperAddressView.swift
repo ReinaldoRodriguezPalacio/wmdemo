@@ -46,9 +46,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var errorView : FormFieldErrorView? = nil
     var delegateFormAdd : FormSuperAddressViewDelegate!
     
-    
-    
-    
     var currentZipCode = ""
     var picker : AlertPickerView!
     
@@ -272,7 +269,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         self.stores.append("\(name) - \(cost)")
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                     
-                    if self.stores.count == 0 {
+                    /*if self.stores.count == 0 {
                         
                         self.zipcode.text = ""
                         
@@ -281,7 +278,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         
                         self.delegateFormAdd?.showNoCPWarning()
                         return
-                    }
+                    }*/
                     
                     //Default Values
                     if self.neighborhoods.count > 0 {
@@ -300,14 +297,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                             self.errorView?.removeFromSuperview()
                             self.errorView = nil
                         }
+                        self.picker!.selected = self.selectedStore
+                        self.picker!.sender = self.store!
+                        self.picker!.delegate = self
+                        self.picker!.setValues(self.store!.nameField, values: self.stores)
+                        self.picker!.showPicker()
                     }
                     
                     self.endEditing(true)
-                    self.picker!.selected = self.selectedStore
-                    self.picker!.sender = self.store!
-                    self.picker!.delegate = self
-                    self.picker!.setValues(self.store!.nameField, values: self.stores)
-                    self.picker!.showPicker()
                     
                     if self.errorView != nil {
                         if  self.errorView?.focusError == self.zipcode {

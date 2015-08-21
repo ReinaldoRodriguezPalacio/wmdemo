@@ -51,6 +51,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     var camera = CameraType.Back
     var alertView : IPOWMAlertViewController? = nil
     var continueSearch:Bool = false
+    var allowsLibrary:Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -638,7 +639,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if UIApplicationOpenSettingsURLString.isEmpty {
+            if !UIApplicationOpenSettingsURLString.isEmpty {
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             }
         } else {
@@ -650,6 +651,12 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     func loadImageFromLibrary(sender: UIButton) {
         imagePickerController!.allowsEditing = false
         imagePickerController!.sourceType = .PhotoLibrary
+        
+        if !self.allowsLibrary
+        {
+            UIAlertView(title: "Permisos", message: "Walmart necesita permiso para accesar a las fotos", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Settings").show()
+            return
+        }
         
         if IS_IPAD{
             self.popover = UIPopoverController(contentViewController: imagePickerController!)
@@ -664,9 +671,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     func getLastImageFromLibrary(){
         let assets = ALAssetsLibrary()
         assets.getLastImageFromPhotos({(image:UIImage!, error:NSError!) -> Void in
-            if image != nil{
+            self.allowsLibrary = (image != nil)
+            if self.allowsLibrary {
              self.loadImageButton!.setImage(image, forState: .Normal)
             }
+            
         })
     }
     

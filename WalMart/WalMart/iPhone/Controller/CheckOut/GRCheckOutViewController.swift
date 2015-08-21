@@ -422,7 +422,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     //MARK: - Field Utils
-    
+    //TODO: quitar Paypal Harcoded
     func paymentOption(atIndex index:Int) -> String {
         if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
             var option = self.paymentOptionsItems![index] as! [String:AnyObject]
@@ -564,7 +564,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.paymentOptions!.text = text
                         self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
                     }
-                    
+                    self.paymentOptionsItems?.append(["id":"100","paymentType":"PayPal"])
                    
                     
                 }

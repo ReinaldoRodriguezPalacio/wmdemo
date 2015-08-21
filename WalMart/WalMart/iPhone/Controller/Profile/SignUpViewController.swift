@@ -433,7 +433,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
               self.alertAddress?.closePicker()
             }
             
-            alertAddress?.showMessageCP = {() in
+            /*alertAddress?.showMessageCP = {() in
                 let alertViewAV = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 alertViewAV?.setMessage("Para crear una cuenta es necesario capturar un C.P. con cobertura, te invitamos a registrar uno diferente")
                 alertViewAV?.showicon(alertViewAV?.imageError)
@@ -446,7 +446,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                         println("")
                         alertViewAV?.close()
                 })
-            }
+            }*/
 //            alertAddress.cancelPress = {() in
 //                if alertViewService != nil {
 //                    alertViewService!.setMessage("Es necesario capturar una dirección")
