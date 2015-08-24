@@ -286,7 +286,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     
                     self.removeViewLoad()
                 }
-                
                 self.reloadUserAddresses()
                 
             }
@@ -982,8 +981,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     
     func sendOrder() {
-        
-        
+
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
                 action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_SENDORDER.rawValue,
@@ -1018,6 +1016,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
             }
             
+            //PayPal
+            //TODO: Verificar el Id de Paypal
+            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
+            let paymentSelectedId = paymentSel["id"] as! String
+            if paymentSelectedId == "100"{
+                //showPayPalController()
+                return
+            }
+            
             let serviceCheck = GRSendOrderService()
             
             let total = UserCurrentSession.sharedInstance().estimateTotalGR()
@@ -1028,9 +1035,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let dateMonth = components.month
             let dateYear = components.year
             let dateDay = components.day
-            
-            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
-            let paymentSelectedId = paymentSel["id"] as! String
             
             let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! NSDictionary
             let slotSelectedId = slotSel["id"] as! Int
@@ -1171,5 +1175,32 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
     }
+    
+    /*func showPayPalController()
+    {
+        var item1 = PayPalItem(name: "Old jeans with holes", withQuantity: 2, withPrice: NSDecimalNumber(string: "84.99"), withCurrency: "USD", withSku: "Hip-0037")
+        var item2 = PayPalItem(name: "Free rainbow patch", withQuantity: 1, withPrice: NSDecimalNumber(string: "0.00"), withCurrency: "USD", withSku: "Hip-00066")
+        var item3 = PayPalItem(name: "Long-sleeve plaid shirt (mustache not included)", withQuantity: 1, withPrice: NSDecimalNumber(string: "37.99"), withCurrency: "USD", withSku: "Hip-00291")
+        
+        let items = [item1, item2, item3]
+        let subtotal = PayPalItem.totalPriceForItems(items)
+        
+        // Optional: include payment details
+        let shipping = NSDecimalNumber(string: "5.99")
+        let tax = NSDecimalNumber(string: "2.50")
+        let paymentDetails = PayPalPaymentDetails(subtotal: subtotal, withShipping: shipping, withTax: tax)
+        
+        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+        
+        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Hipster Clothing", intent: .Sale)
+        
+        payment.items = items
+        payment.paymentDetails = paymentDetails
+        
+        if (payment.processable) {
+            let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: payPalConfig, delegate: self)
+             self.presentViewController(paymentViewController, animated: true, completion: nil)
+        }
+    }*/
     
 }

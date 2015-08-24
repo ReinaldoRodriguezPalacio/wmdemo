@@ -15,7 +15,9 @@ class GRDeliveryTypeService : GRBaseService {
     var isFreeShiping: String?
     
     func buildParams(numProducts:String,addressId:String,nightHours:String,isFreeShiping:String) -> NSDictionary {
-        return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours,"isFreeShiping":isFreeShiping]
+        //return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours,"isFreeShiping":isFreeShiping]
+        //TODO: Enviar parametro isFreeShiping
+        return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours]
     }
     
     func setParams(numProducts:String, addressId:String,isFreeShiping:String) {
