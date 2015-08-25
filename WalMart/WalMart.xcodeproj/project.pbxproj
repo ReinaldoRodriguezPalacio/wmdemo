@@ -366,8 +366,9 @@
 		6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
-		6CEB11801B8B6AD20013FE44 /* PayPalMobile in Resources */ = {isa = PBXBuildFile; fileRef = 6CEB117F1B8B6AD20013FE44 /* PayPalMobile */; };
 		6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */; };
+		6CEB11841B8B74D30013FE44 /* PayPalMobile in Resources */ = {isa = PBXBuildFile; fileRef = 6CEB11831B8B74D30013FE44 /* PayPalMobile */; };
+		6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11851B8B7D880013FE44 /* AdSupport.framework */; };
 		8B19FD541AB0F207005A6D9E /* IPAHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */; };
 		8B19FD561AB0F367005A6D9E /* IPATermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */; };
 		8B19FD581AB0F3AC005A6D9E /* IPASupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD571AB0F3AC005A6D9E /* IPASupportViewController.swift */; };
@@ -875,8 +876,9 @@
 		6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
 		6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextboxTableViewCell.swift; sourceTree = "<group>"; };
-		6CEB117F1B8B6AD20013FE44 /* PayPalMobile */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PayPalMobile; path = Shared/Library/PayPalMobile; sourceTree = "<group>"; };
 		6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPayPalMobile.a; path = WalMart/Shared/Library/PayPalMobile/libPayPalMobile.a; sourceTree = "<group>"; };
+		6CEB11831B8B74D30013FE44 /* PayPalMobile */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PayPalMobile; path = Shared/Library/PayPalMobile; sourceTree = "<group>"; };
+		6CEB11851B8B7D880013FE44 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpViewController.swift; path = iPad/Controller/Help/IPAHelpViewController.swift; sourceTree = "<group>"; };
 		8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPATermViewController.swift; path = iPad/Controller/Help/IPATermViewController.swift; sourceTree = "<group>"; };
 		8B19FD571AB0F3AC005A6D9E /* IPASupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASupportViewController.swift; path = iPad/Controller/Help/IPASupportViewController.swift; sourceTree = "<group>"; };
@@ -1006,6 +1008,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
 				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
@@ -1367,7 +1370,7 @@
 		564578BF19AE2F9C006A7152 /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				6CEB117F1B8B6AD20013FE44 /* PayPalMobile */,
+				6CEB11831B8B74D30013FE44 /* PayPalMobile */,
 				56E1DFA51B556171001F42DF /* NMRangeSlider */,
 				569BB30F1B06350D00E8A657 /* CustomPhoto */,
 				5673D1231A9D4FA400DCD20B /* BarcodeGenerator */,
@@ -2727,6 +2730,7 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6CEB11851B8B7D880013FE44 /* AdSupport.framework */,
 				6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */,
 				6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */,
 				6C3180981B87CA150015FC2E /* MessageUI.framework */,
@@ -2837,7 +2841,7 @@
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
 				AC59115C19DDEEB700EB095C /* privacy.pdf in Resources */,
 				564578A619AE2E00006A7152 /* Images.xcassets in Resources */,
-				6CEB11801B8B6AD20013FE44 /* PayPalMobile in Resources */,
+				6CEB11841B8B74D30013FE44 /* PayPalMobile in Resources */,
 				56527DCC19AFA8C2008032C6 /* MyriadPro-BoldCond.otf in Resources */,
 				56527DCD19AFA8C2008032C6 /* MyriadPro-BoldIt.otf in Resources */,
 				AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */,
@@ -3374,10 +3378,15 @@
 		564578B619AE2E00006A7152 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3388,21 +3397,31 @@
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = WalMart/Shared/Library/PayPalMobile;
 			};
 			name = Debug;
 		};
 		564578B719AE2E00006A7152 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+				);
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -3413,11 +3432,16 @@
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
 				);
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lc++",
+				);
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = WalMart/Shared/Library/PayPalMobile;
 			};
 			name = Release;
 		};

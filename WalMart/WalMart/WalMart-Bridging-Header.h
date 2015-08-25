@@ -61,5 +61,5 @@
 #import "NMRangeSlider.h"
 
 //PayPal
-//#import "PayPalMobile.h"
+#import "PayPalMobile.h"
 

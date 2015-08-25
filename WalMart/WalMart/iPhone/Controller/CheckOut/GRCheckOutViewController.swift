@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate {
+class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate {
     
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -88,6 +88,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var dateAdmission : String! = ""
     var determinant : String! = ""
     
+    var environment:String = PayPalEnvironmentSandbox {
+        willSet(newEnvironment) {
+            if (newEnvironment != environment) {
+                PayPalMobile.preconnectWithEnvironment(newEnvironment)
+            }
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -289,6 +296,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.reloadUserAddresses()
                 
             }
+            //PayPal
+            PayPalMobile.preconnectWithEnvironment(self.environment)
         }
         
         
@@ -1021,7 +1030,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
             let paymentSelectedId = paymentSel["id"] as! String
             if paymentSelectedId == "100"{
-                //showPayPalController()
+                showPayPalController()
                 return
             }
             
@@ -1176,31 +1185,93 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     override func scrollViewDidScroll(scrollView: UIScrollView) {
     }
     
-    /*func showPayPalController()
+    //MARK: - PayPal
+    func showPayPalController()
     {
-        var item1 = PayPalItem(name: "Old jeans with holes", withQuantity: 2, withPrice: NSDecimalNumber(string: "84.99"), withCurrency: "USD", withSku: "Hip-0037")
-        var item2 = PayPalItem(name: "Free rainbow patch", withQuantity: 1, withPrice: NSDecimalNumber(string: "0.00"), withCurrency: "USD", withSku: "Hip-00066")
-        var item3 = PayPalItem(name: "Long-sleeve plaid shirt (mustache not included)", withQuantity: 1, withPrice: NSDecimalNumber(string: "37.99"), withCurrency: "USD", withSku: "Hip-00291")
+        let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+        var payPalItems: [PayPalItem] = []
         
-        let items = [item1, item2, item3]
-        let subtotal = PayPalItem.totalPriceForItems(items)
+        for item in items {
+            var itemPrice = item["price"] as! Double
+            var quantity = item["quantity"] as! UInt
+            if item["type"] as! String == "1"
+            {
+                //(prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
+                itemPrice = (Double(quantity) / 1000.0) * itemPrice
+                quantity = 1
+            }
+            var payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
+            payPalItems.append(payPalItem)
+        }
+        
+        let subtotal = PayPalItem.totalPriceForItems(payPalItems)
         
         // Optional: include payment details
-        let shipping = NSDecimalNumber(string: "5.99")
-        let tax = NSDecimalNumber(string: "2.50")
-        let paymentDetails = PayPalPaymentDetails(subtotal: subtotal, withShipping: shipping, withTax: tax)
+        //let shipping = NSDecimalNumber(string: "5.99")
+        //let tax = NSDecimalNumber(string: "2.50")
+        //let paymentDetails = PayPalPaymentDetails(subtotal: subtotal, withShipping: shipping, withTax: tax)
+        //let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
         
-        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+        let payment = PayPalPayment(amount: subtotal, currencyCode: "MXN", shortDescription: "Walmart", intent: .Sale)
         
-        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Hipster Clothing", intent: .Sale)
-        
-        payment.items = items
-        payment.paymentDetails = paymentDetails
+        payment.items = payPalItems
+        //payment.paymentDetails = paymentDetails
         
         if (payment.processable) {
-            let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: payPalConfig, delegate: self)
-             self.presentViewController(paymentViewController, animated: true, completion: nil)
+            let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
+            paymentViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            self.presentViewController(paymentViewController, animated: true, completion: nil)
         }
-    }*/
+    }
+    
+    func initPayPalConfig() -> PayPalConfiguration{
+        // Set up payPalConfig
+        var payPalConfig = PayPalConfiguration()// default
+        payPalConfig.acceptCreditCards = false;
+        payPalConfig.merchantName = "Walmart"
+        payPalConfig.merchantPrivacyPolicyURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
+        payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
+        // Setting the languageOrLocale property is optional.
+        //
+        // If you do not set languageOrLocale, then the PayPalPaymentViewController will present
+        // its user interface according to the device's current language setting.
+        //
+        // Setting languageOrLocale to a particular language (e.g., @"es" for Spanish) or
+        // locale (e.g., @"es_MX" for Mexican Spanish) forces the PayPalPaymentViewController
+        // to use that language/locale.
+        //
+        // For full details, including a list of available languages and locales, see PayPalPaymentViewController.h.
+        
+        payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] as! String
+        
+        // Setting the payPalShippingAddressOption property is optional.
+        //
+        // See PayPalConfiguration.h for details.
+        
+        payPalConfig.payPalShippingAddressOption = .PayPal;
+        return payPalConfig
+    }
+    
+    // PayPalPaymentDelegate
+    
+    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
+        println("PayPal Payment Cancelled")
+        buttonShop?.enabled = true
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
+        //paymentViewController?.dismissViewControllerAnimated(true, completion: { () -> Void in
+            // send completed confirmaion to your server
+         //   println("Here is your proof of payment:\n\n\(completedPayment.confirmation)\n\nSend this to your server for confirmation and fulfillment.")
+            
+           // self.resultText = completedPayment!.description
+          //  self.showSuccess()
+       // })
+        println("PayPal Payment Success !")
+        println(completedPayment!.description)
+        buttonShop?.enabled = true
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
     
 }
