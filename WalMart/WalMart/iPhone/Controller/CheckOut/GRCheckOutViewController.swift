@@ -88,14 +88,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var dateAdmission : String! = ""
     var determinant : String! = ""
     
-    var environment:String = PayPalEnvironmentSandbox {
-        willSet(newEnvironment) {
-            if (newEnvironment != environment) {
-                PayPalMobile.preconnectWithEnvironment(newEnvironment)
-            }
-        }
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -297,7 +289,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
             }
             //PayPal
-            PayPalMobile.preconnectWithEnvironment(self.environment)
+            PayPalMobile.preconnectWithEnvironment(self.getPayPalEnvironment())
         }
         
         
@@ -1203,14 +1195,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             var payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
             payPalItems.append(payPalItem)
         }
-        
+        // Los cupones y descuentos se agregan como item negativo.
+        let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
+        if discounts < 0
+        {
+            payPalItems.append(PayPalItem(name: "discounts", withQuantity:1 , withPrice: NSDecimalNumber(double:discounts), withCurrency: "MXN", withSku: "0000000000001"))
+        }
         let subtotal = PayPalItem.totalPriceForItems(payPalItems)
-        
         // Optional: include payment details
         //let shipping = NSDecimalNumber(string: "5.99")
         //let tax = NSDecimalNumber(string: "2.50")
         //let paymentDetails = PayPalPaymentDetails(subtotal: subtotal, withShipping: shipping, withTax: tax)
         //let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+        
         
         let payment = PayPalPayment(amount: subtotal, currencyCode: "MXN", shortDescription: "Walmart", intent: .Sale)
         
@@ -1231,6 +1228,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         payPalConfig.merchantName = "Walmart"
         payPalConfig.merchantPrivacyPolicyURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
         payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
+        payPalConfig.rememberUser = true
         // Setting the languageOrLocale property is optional.
         //
         // If you do not set languageOrLocale, then the PayPalPaymentViewController will present
@@ -1250,6 +1248,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         payPalConfig.payPalShippingAddressOption = .PayPal;
         return payPalConfig
+    }
+    
+    func getPayPalEnvironment() -> String{
+        let payPalEnvironment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMPayPalEnvironment") as! NSDictionary
+        let environment = payPalEnvironment.objectForKey("PayPalEnvironment") as! String
+        
+        if environment == "SANDBOX"{
+            return PayPalEnvironmentSandbox
+        }
+        else if  environment == "PRODUCTION"{
+             return PayPalEnvironmentProduction
+        }
+        
+        return PayPalEnvironmentNoNetwork
     }
     
     // PayPalPaymentDelegate

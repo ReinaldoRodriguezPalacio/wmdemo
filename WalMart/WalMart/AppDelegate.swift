@@ -113,8 +113,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //PayPal
-        PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:"ATET63CfCh9OWTs5Q6EhP5qv5seIOM_08ey8yYEBfVMgd8QuTsiNSiOgEPfZWc3vRr6N4ZG8fCjNczXu",PayPalEnvironmentSandbox:"ATET63CfCh9OWTs5Q6EhP5qv5seIOM_08ey8yYEBfVMgd8QuTsiNSiOgEPfZWc3vRr6N4ZG8fCjNczXu"])
-
+        let payPalEnvironment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMPayPalEnvironment") as! NSDictionary
+        let sandboxClientID = payPalEnvironment.objectForKey("SandboxClientID") as! String
+        let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
+        PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         return true
     }
 
