@@ -197,8 +197,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
 
             self.IPAPreviewBarView!.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 64)
             self.messageLabel!.frame = CGRectMake((self.IPAPreviewBarView!.bounds.width / 2) - 150, 18, 300, 28)
-            self.repeatButton!.frame = CGRectMake((self.view!.bounds.width / 2) - 116, self.view.bounds.height - 68, 100, 36)
-            self.okButton!.frame = CGRectMake((self.view!.bounds.width / 2) + 16, self.view.bounds.height - 68, 100, 36)
+            self.repeatButton!.frame = CGRectMake((self.view!.bounds.width / 2) - 141, self.view.bounds.height - 68, 150, 36)
+            self.okButton!.frame = CGRectMake((self.view!.bounds.width / 2) + 41, self.view.bounds.height - 68, 150, 36)
         }
     }
     
