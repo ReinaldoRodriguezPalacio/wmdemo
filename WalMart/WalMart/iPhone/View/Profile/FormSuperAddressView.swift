@@ -49,6 +49,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var currentZipCode = ""
     var picker : AlertPickerView!
     
+    var idAddress : String!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()

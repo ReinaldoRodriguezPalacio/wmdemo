@@ -49,6 +49,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var titleHeader : String! = ""
     var cellType: TypeField! = TypeField.Check
     var textboxValues: [String:String]? = [:]
+    var stopRemoveView: Bool? = false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -119,7 +120,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         self.viewContentOptions.addSubview(viewFooter)
         self.viewContent.addSubview(self.viewContentOptions)
-        
+        self.stopRemoveView! = false
         self.addSubview(viewContent)
         
     
@@ -210,7 +211,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }else {
              delegate?.didDeSelectOption(self)
         }
-        self.removeFromSuperview()
+        if !self.stopRemoveView!
+        {
+          self.removeFromSuperview()
+        }
+        self.stopRemoveView! = false
     }
     
     
