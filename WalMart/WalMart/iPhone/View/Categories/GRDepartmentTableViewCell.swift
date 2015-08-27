@@ -75,6 +75,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
         buttonDepartment.setTitle(titleDepartment, forState: UIControlState.Normal)
         self.buttonDepartment.frame = CGRectMake(startx, 20, sizeDep, 28)
         
+        moreLabel.hidden = collapsed
         
     }
     

@@ -32,7 +32,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
     @IBOutlet var userName: UILabel?
-    @IBOutlet var signInOrClose: UIButton?
+    @IBOutlet var emailLabel: UILabel?
+    @IBOutlet var passwordLabel: UILabel?
+    
+    var signInOrClose: WMRoundButton?
     var editProfileButton : UIButton!
     
     var alertView: IPOWMAlertViewController?
@@ -45,10 +48,27 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         userName?.font = WMFont.fontMyriadProLightOfSize(25)
         userName?.textColor = UIColor.whiteColor()
         
-        signInOrClose?.layer.cornerRadius = 12.0
-        signInOrClose?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        signInOrClose?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0, 0.0)
-        signInOrClose?.addTarget(self, action: "openLoginOrProfile", forControlEvents: UIControlEvents.TouchUpInside)
+        emailLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
+        emailLabel?.textColor = UIColor.whiteColor()
+        
+        let circleLetter: Character = "\u{25CF}"
+        let finalPassword = "\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)\(circleLetter)"
+        passwordLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        passwordLabel?.textColor = UIColor.whiteColor()
+        passwordLabel?.text = finalPassword
+        
+        
+        self.signInOrClose = WMRoundButton()
+        let sizeImage = CGSizeMake(90, 24)
+        self.signInOrClose?.setFontTitle(WMFont.fontMyriadProRegularOfSize(12))
+        self.signInOrClose?.setBackgroundColor(WMColor.regular_blue, size: sizeImage, forUIControlState: UIControlState.Selected)
+        self.signInOrClose?.setTitle("cerrar sesión", forState: UIControlState.Selected)
+        self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
+        self.signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
+        self.signInOrClose?.setTitle(" ", forState: UIControlState.Highlighted)
+        self.signInOrClose?.addTarget(self, action: "openLoginOrProfile", forControlEvents: UIControlEvents.TouchUpInside)
+        self.view.addSubview(signInOrClose!)
+       
         
         self.editProfileButton = UIButton()
         self.editProfileButton.addTarget(self, action: "editProfile:", forControlEvents: .TouchUpInside)
@@ -84,6 +104,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         var bounds = self.view.bounds.size
         self.tableView!.frame = CGRectMake(0.0, profileView!.frame.maxY, bounds.width, bounds.height - profileView!.frame.maxY)
         self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )
+         signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45, 109, 90, 24)
     }
 
     override func didReceiveMemoryWarning() {
@@ -366,14 +387,23 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func reloadButtonSession() {
         if UserCurrentSession.sharedInstance().userSigned == nil {
             self.editProfileButton.alpha = 0
+            self.emailLabel?.alpha = 0
+            self.passwordLabel?.alpha = 0
             userName?.text = "¡Hola!"
-            signInOrClose?.backgroundColor = WMColor.green
-            signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
+            
+            signInOrClose?.selected = false
         } else {
             self.editProfileButton.alpha = 1
-            userName?.text = UserCurrentSession.sharedInstance().userSigned?.profile.name as? String
-            signInOrClose?.backgroundColor = WMColor.regular_blue
-            signInOrClose?.setTitle("Cerrar sesión", forState: UIControlState.Normal)
+            self.emailLabel?.alpha = 1
+            self.passwordLabel?.alpha = 1
+            let userNameStr = UserCurrentSession.sharedInstance().userSigned?.profile.name as? String
+            let userLastNameStr = UserCurrentSession.sharedInstance().userSigned?.profile.lastName as? String
+            let emailStr = UserCurrentSession.sharedInstance().userSigned?.email as? String
+            userName?.text = "\(userNameStr!) \(userLastNameStr!)"
+            
+            emailLabel?.text = emailStr
+            
+            signInOrClose?.selected = true
         }
         self.tableView?.reloadData()
     }

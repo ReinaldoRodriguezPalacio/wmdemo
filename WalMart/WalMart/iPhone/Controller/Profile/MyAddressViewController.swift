@@ -15,7 +15,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     var arrayAddressShippingGR : NSArray!
     var arrayAddressFiscal : NSArray!
     
-    var newAddressButton : UIButton? = nil
+    var newAddressButton : WMRoundButton? = nil
     var viewLoad : WMLoadingView!
     var emptyView : IPOAddressEmptyView!
     var addressController : AddressViewController? = nil
@@ -48,14 +48,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let iconImage = UIImage(named:"button_bg")
         let iconSelected = UIImage(named:"button_bg_active")
         
-        self.newAddressButton = UIButton()
+        
+        self.newAddressButton = WMRoundButton()
+        self.newAddressButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
+        self.newAddressButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
         self.newAddressButton!.addTarget(self, action: "newAddress", forControlEvents: UIControlEvents.TouchUpInside)
         self.newAddressButton!.setTitle(NSLocalizedString("profile.address.new", comment:"" ) , forState: UIControlState.Normal)
-        self.newAddressButton?.tintColor = WMColor.navigationFilterTextColor
-        self.newAddressButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.newAddressButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
-        self.newAddressButton!.layer.cornerRadius = 11
-        self.newAddressButton!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
         self.newAddressButton!.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)
         
         self.header?.addSubview(self.newAddressButton!)
@@ -190,7 +188,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     
     func callServiceAddressGR(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
             viewLoad.backgroundColor = UIColor.whiteColor()
             self.alertView = nil
             self.view.addSubview(viewLoad)
@@ -465,7 +463,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
     
     func applyPrefered (addressID: String){
-        viewLoad = WMLoadingView(frame: self.view.bounds)
+        viewLoad = WMLoadingView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
         viewLoad.backgroundColor = UIColor.whiteColor()
         self.alertView = nil
         self.view.addSubview(viewLoad)

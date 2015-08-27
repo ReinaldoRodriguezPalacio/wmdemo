@@ -299,6 +299,7 @@
 		56C5B22319AE877A00BB81DE /* WMColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5B22219AE877A00BB81DE /* WMColor.swift */; };
 		56C5B22519AE879600BB81DE /* BaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C5B22419AE879600BB81DE /* BaseService.swift */; };
 		56C616BF1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */; };
+		56C94C3E1B877F26006E2443 /* UIButton+Walmart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C94C3D1B877F26006E2443 /* UIButton+Walmart.swift */; };
 		56CB42D419C0FFDF00C83FAC /* DeleteItemWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CB42D319C0FFDF00C83FAC /* DeleteItemWishlistService.swift */; };
 		56CB42D619C1072800C83FAC /* AddItemWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CB42D519C1072800C83FAC /* AddItemWishlistService.swift */; };
 		56CCE9FE19DB0D3B0071D990 /* CheckOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56CCE9FD19DB0D3B0071D990 /* CheckOutViewController.swift */; };
@@ -792,6 +793,7 @@
 		56C5B22219AE877A00BB81DE /* WMColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WMColor.swift; path = Shared/Style/WMColor.swift; sourceTree = "<group>"; };
 		56C5B22419AE879600BB81DE /* BaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseService.swift; path = Shared/Services/BaseService.swift; sourceTree = "<group>"; };
 		56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOSearchResultEmptyView.swift; path = iPhone/View/EmptyView/IPOSearchResultEmptyView.swift; sourceTree = "<group>"; };
+		56C94C3D1B877F26006E2443 /* UIButton+Walmart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIButton+Walmart.swift"; path = "Shared/View/Extention/UIButton+Walmart.swift"; sourceTree = "<group>"; };
 		56CB42D319C0FFDF00C83FAC /* DeleteItemWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteItemWishlistService.swift; path = Shared/Services/Wishlist/DeleteItemWishlistService.swift; sourceTree = "<group>"; };
 		56CB42D519C1072800C83FAC /* AddItemWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddItemWishlistService.swift; path = Shared/Services/Wishlist/AddItemWishlistService.swift; sourceTree = "<group>"; };
 		56CCE9FD19DB0D3B0071D990 /* CheckOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CheckOutViewController.swift; path = iPhone/Controller/CheckOut/CheckOutViewController.swift; sourceTree = "<group>"; };
@@ -1375,6 +1377,7 @@
 		564578C119AE2FE8006A7152 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				56C94C3C1B877EC9006E2443 /* Extention */,
 				56E1DFA21B5560BC001F42DF /* Filter */,
 				568B8E131B0A88CA007A8596 /* Help */,
 				569733E61A71A5D200C9A09F /* Moreoption */,
@@ -2169,6 +2172,14 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
+		56C94C3C1B877EC9006E2443 /* Extention */ = {
+			isa = PBXGroup;
+			children = (
+				56C94C3D1B877F26006E2443 /* UIButton+Walmart.swift */,
+			);
+			name = Extention;
+			sourceTree = "<group>";
+		};
 		56CCE9FC19DB0D120071D990 /* CheckOut */ = {
 			isa = PBXGroup;
 			children = (
@@ -2735,6 +2746,7 @@
 		5645788E19AE2E00006A7152 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0600;
 				ORGANIZATIONNAME = "BCG Inc";
 				TargetAttributes = {
@@ -3166,6 +3178,7 @@
 				8B19FD561AB0F367005A6D9E /* IPATermViewController.swift in Sources */,
 				5614A64D1A6830D50048B71A /* GRShoppingCartProductsService.swift in Sources */,
 				5673D13E1A9D500400DCD20B /* RSExtendedCode39Generator.swift in Sources */,
+				56C94C3E1B877F26006E2443 /* UIButton+Walmart.swift in Sources */,
 				AC0918C819D1DA5E00BF48CA /* FiscalAddressPersonF.swift in Sources */,
 				56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */,
 				56DFE4CE19D057C9001811F5 /* NSMutableArray+SWUtilityButtons.m in Sources */,

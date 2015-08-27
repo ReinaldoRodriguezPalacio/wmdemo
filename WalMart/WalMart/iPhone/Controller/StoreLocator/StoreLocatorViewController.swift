@@ -26,7 +26,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var detailView : StoreView?
     var actionSheet: UIActionSheet?
 
-    var toggleViewBtn: UIButton?
+    var toggleViewBtn: WMRoundButton?
     var clubCollection: UICollectionView?
     var clubCollectionLayout: UICollectionViewFlowLayout?
 
@@ -97,16 +97,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Selected, barMetrics:.Default)
         
         
-        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.regular_blue, size: CGSizeMake(55, 22), radius: 11)
+
         
-        self.toggleViewBtn = UIButton.buttonWithType(.Custom) as? UIButton
-        self.toggleViewBtn!.setImage(iconImage, forState: .Normal)
-        self.toggleViewBtn!.setImage(iconSelected, forState: .Selected)
+        self.toggleViewBtn = WMRoundButton()
+        self.toggleViewBtn?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
+        self.toggleViewBtn?.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.toggleViewBtn!.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
         self.toggleViewBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.toggleViewBtn!.addTarget(self, action: "showTableView:", forControlEvents: .TouchUpInside)
-        self.toggleViewBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.toggleViewBtn!.backgroundColor = UIColor.clearColor()
         self.header!.addSubview(self.toggleViewBtn!)
 
@@ -150,10 +148,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame
             height = bounds.height - 20.0
-            var icon = self.toggleViewBtn!.imageForState(.Normal)
-            self.toggleViewBtn!.frame = CGRectMake(bounds.width - 87.0, 10.0, 77.0, height)
-            self.toggleViewBtn!.titleEdgeInsets = UIEdgeInsetsMake(4.0, -icon!.size.width, 0, 0.0);
-            self.toggleViewBtn!.imageEdgeInsets = UIEdgeInsetsMake(0, (77.0 - icon!.size.width) / 2 , 0.0, 0.0)
+            self.toggleViewBtn!.frame = CGRectMake(bounds.width - 87.0, 10.0, 71.0, height)
         }
 
     }

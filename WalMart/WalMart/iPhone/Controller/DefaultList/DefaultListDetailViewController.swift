@@ -24,6 +24,9 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     var customLabel: CurrencyCustomLabel?
     var enableScrollUpdateByTabBar = true
     var isShowingTabBar : Bool = true
+    var duplicateButton: UIButton?
+    
+    var alertView : IPOWMAlertViewController?
     
     
     let CELL_ID = "listDefaultCell"
@@ -66,14 +69,22 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         self.view.addSubview(footerSection!)
         
         var y = (self.footerSection!.frame.height - 34.0)/2
-        self.shareButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
+        self.duplicateButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
+        self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), forState: .Normal)
+        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Selected)
+        self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Highlighted)
+        self.duplicateButton!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
+        self.footerSection!.addSubview(self.duplicateButton!)
+        
+        var x = self.duplicateButton!.frame.maxX + 16.0
+        self.shareButton = UIButton(frame: CGRectMake(x, y, 34.0, 34.0))
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
         self.shareButton!.addTarget(self, action: "shareList", forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.shareButton!)
         
-        var x = self.shareButton!.frame.maxX + 16.0
+        x = self.shareButton!.frame.maxX + 16.0
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
         self.addToCartButton!.backgroundColor = WMColor.shoppingCartShopBgColor
         self.addToCartButton!.layer.cornerRadius = 17.0
@@ -181,10 +192,10 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             let selectorFrame = CGRectMake(0, self.view.frame.height, width, height)
             
             if isPesable {
-                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!)
+                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
             }
             else {
-                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price)
+                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
             }
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
@@ -412,6 +423,110 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         })
     }
     
+
+    func duplicate() {
+        self.invokeSaveListToDuplicateService(defaultListName!, successDuplicateList: { () -> Void in
+            self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+            self.alertView!.showDoneIcon()
+        })
+    }
+    
+    
+    func invokeSaveListToDuplicateService(listName:String,successDuplicateList:(() -> Void)) {
+        
+        alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
+        
+        
+        let service = GRUserListService()
+        service.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            
+          let  itemsUserList = result["responseArray"] as? [AnyObject]
+        
+        
+            
+                var service = GRSaveUserListService()
+                var items: [AnyObject] = []
+                if self.detailItems != nil {
+                    for var idx = 0; idx < self.detailItems!.count; idx++ {
+                        var product = self.detailItems![idx]
+                        let quantity = product["quantity"] as! NSNumber
+                        if let upc = product["upc"] as? String {
+                            var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
+                            items.append(item)
+                        }
+                    }
+                }
+                
+                var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList!)
+                service.callService(service.buildParams(copyName, items: items),
+                    successBlock: { (result:NSDictionary) -> Void in
+                        successDuplicateList()
+                    },
+                    errorBlock: { (error:NSError) -> Void in
+                        println("Error at duplicate list")
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                    }
+                )
+            
+            
+            }) { (error:NSError) -> Void in
+                
+                println("Error at retrieve list detail")
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                
+        }
+
+        
+    }
+    
+    
+    
+    func buildDuplicateNameList(theName:String, forListId listId:String?,itemsUserList:[AnyObject]) -> String {
+     
+            
+            var listName = "\(theName)" //Se crea una nueva instancia
+            var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+            if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
+                listName = listName.substringToIndex(range.startIndex)
+            }
+            listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
+            
+            var lastIdx = 1
+            if itemsUserList.count > 0 {
+                for var idx = 0; idx < itemsUserList.count; idx++ {
+                    var name:String? = nil
+                    if let innerList = itemsUserList[idx] as? [String:AnyObject] {
+                        let innerListId = innerList["id"] as! String
+                        if innerListId == listId! {
+                            continue
+                        }
+                        name = innerList["name"] as? String
+                    }
+                    else if let listEntity = itemsUserList[idx] as? List {
+                        name = listEntity.name
+                    }
+                    
+                    if name != nil {
+                        if let range = name!.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
+                            name = name!.substringToIndex(range.startIndex)
+                        }
+                        name = name!.stringByTrimmingCharactersInSet(whitespaceset)
+                        
+                        if name!.hasPrefix(listName) {
+                            lastIdx++
+                        }
+                    }
+                }
+            }
+            
+            var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+            return "\(listName) \(idxTxt)"
+
+            
+        }
 
     
 

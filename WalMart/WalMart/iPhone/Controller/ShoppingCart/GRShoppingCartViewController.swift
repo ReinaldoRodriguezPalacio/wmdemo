@@ -53,7 +53,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         
         closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
-        closeButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        closeButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
         closeButton.addTarget(self, action: "closeShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         viewHerader.addSubview(closeButton)
@@ -371,10 +371,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         if self.isEdditing == false {
             let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
             if cell.typeProd == 1 {
-                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece)
+                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
                 
             }else{
-                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity)
+                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.upc)
             }
             
             

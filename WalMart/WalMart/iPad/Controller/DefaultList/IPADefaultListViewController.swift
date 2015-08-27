@@ -30,6 +30,12 @@ class IPADefaultListViewController : DefaultListViewController {
     }
     
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        self.viewLoad?.center =  CGPointMake(self.view.center.x, self.view.center.y + self.header!.frame.maxY)
+        
+    }
     
     
 }

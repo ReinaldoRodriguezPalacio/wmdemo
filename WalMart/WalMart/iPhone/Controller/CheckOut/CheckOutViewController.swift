@@ -118,6 +118,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             webView.stringByEvaluatingJavaScriptFromString("document.getElementById('UserName').value='\(self.username.lowercaseString)';")
             webView.stringByEvaluatingJavaScriptFromString("document.getElementById('Password').value='\(self.password)';")
             webView.stringByEvaluatingJavaScriptFromString("WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"btnLogin\", \"\", true, \"loginControl\", \"\", false, true))")
+            
+            
+            
             return
         } else {
             range = string.rangeOfString("www.walmart.com.mx/m_Mi-Cuenta.aspx")
@@ -201,7 +204,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let version = "\(majorVersion) (\(minorVersion))"
         
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_channel').value='2';")
-        webView.stringByEvaluatingJavaScriptFromString("documentwriteDeviceInfo.getElementById('_subchannel').value='4';")
+        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_subchannel').value='4';")
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osVersion').value='\(version)';")
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osName').value='iOS \(UIDevice.currentDevice().systemVersion)';")
     }

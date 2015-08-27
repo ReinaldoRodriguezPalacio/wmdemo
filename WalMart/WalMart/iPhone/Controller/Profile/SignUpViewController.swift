@@ -103,7 +103,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.minLength = 8
-        self.password!.maxLength = 16
+        self.password!.maxLength = 20
         
         self.confirmPassword = FormFieldView()
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
@@ -112,7 +112,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.confirmPassword!.typeField = TypeField.Password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
         self.confirmPassword!.minLength = 8
-        self.confirmPassword!.maxLength = 16
+        self.confirmPassword!.maxLength = 20
         
         
         self.birthDate = FormFieldView()

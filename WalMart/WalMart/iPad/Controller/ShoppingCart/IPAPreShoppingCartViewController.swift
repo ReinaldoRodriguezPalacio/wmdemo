@@ -9,7 +9,7 @@
 import Foundation
 
 
-class IPAPreShoppingCartViewController :  BaseController {
+class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelegate {
     
     var viewSuper : PreShoppingCartView!
     var viewMG : PreShoppingCartView!
@@ -32,6 +32,7 @@ class IPAPreShoppingCartViewController :  BaseController {
     var emptyView : IPAShoppingCartEmptyView!
     
     var controllerShowing : UIViewController? = nil
+    var finishAnimation : (() -> Void)? = nil
     
     override func viewDidLoad() {
         
@@ -217,6 +218,7 @@ class IPAPreShoppingCartViewController :  BaseController {
         
         animator = UIDynamicAnimator(referenceView: self.view)
         animator2 = UIDynamicAnimator(referenceView: self.view)
+        animator.delegate = self
         
         gravity = UIGravityBehavior(items: [viewSuper])
         gravity.magnitude = 2.0
@@ -235,6 +237,8 @@ class IPAPreShoppingCartViewController :  BaseController {
 
         animator.addBehavior(collision)
         animator2.addBehavior(collision2)
+        
+        
         
     }
 
@@ -359,6 +363,16 @@ class IPAPreShoppingCartViewController :  BaseController {
                         
                 })
         }
+    }
+    
+    
+    
+    func dynamicAnimatorDidPause(animator: UIDynamicAnimator) {
+        
+        self.view.userInteractionEnabled = true
+        
+        self.finishAnimation?()
+        
     }
     
     

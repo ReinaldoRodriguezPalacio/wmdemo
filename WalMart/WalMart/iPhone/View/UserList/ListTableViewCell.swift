@@ -33,6 +33,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     var enableEditing = true
     var canDelete = true
     
+    var viewBgSel : UIView?
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -107,6 +109,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         buttonDelete.backgroundColor = UIColor.whiteColor()
 
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
+        
+        viewBgSel = UIView()
+        viewBgSel?.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+        viewBgSel?.alpha = 1
+        self.addSubview(self.viewBgSel!)
+        self.sendSubviewToBack(viewBgSel!)
+        
     }
     
     override func layoutSubviews() {
@@ -131,6 +140,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         
         self.listName!.frame = CGRectMake(x, sep, width, 20.0)
         self.articlesTitle!.frame = CGRectMake(x, self.listName!.frame.maxY, width, 20.0)
+        self.viewBgSel?.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
     }
     
     
@@ -270,5 +280,17 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         textField.resignFirstResponder()
         return true
     }
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        // super.setSelected(selected, animated: true)
+        viewBgSel?.hidden = !selected
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        //super.setHighlighted(highlighted, animated: highlighted)
+        viewBgSel?.hidden = true
+    }
+    
+    
 
 }

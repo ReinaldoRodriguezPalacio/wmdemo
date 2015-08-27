@@ -11,7 +11,7 @@ import UIKit
 class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate, IPAUserListDetailDelegate {
 
     var listController: IPAUserListViewController?
-    var detailController: IPAUserListDetailViewController?
+    var detailController: UIViewController?
     var separatorView: UIView?
     var viewLoad: WMLoadingView?
     var emptyView: UIView?
@@ -82,21 +82,16 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         
         self.addChildViewController(navController)
         self.view.addSubview(navController.view)
-        navController.view.frame = CGRectMake(1024.0, 0.0, 704.0, 658.0)
+        self.view.bringSubviewToFront(self.separatorView!)
         navController.didMoveToParentViewController(self)
-
-        UIView.animateWithDuration(0.5, delay: 0.0,
-            options: UIViewAnimationOptions.LayoutSubviews,
-            animations: { () -> Void in
-                navController.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
-            },
-            completion: { (finished:Bool) -> Void in
-                if finished {
-                    //self.isDetailOpen = true
-                }
-            }
-        )
+        self.currentListId = nil
+        navController.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+        self.detailController = navController
+        
     }
+    
+    
+    
     
     func showListDetailAnimated(forId idList:String?, orEntity entity:List?, andName name:String?) {
         
@@ -110,47 +105,16 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         if self.detailController == nil {
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
             self.view.bringSubviewToFront(self.separatorView!)
-            UIView.animateWithDuration(0.5, delay: 0.0,
-                options: UIViewAnimationOptions.LayoutSubviews,
-                animations: { () -> Void in
-                    self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
-                },
-                completion: { (finished:Bool) -> Void in
-                    if finished {
-                        //self.isDetailOpen = true
-                    }
-                }
-            )
+            self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+           
         }
         else {
             var oldDetailContainer = self.detailController
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
+            self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
             self.view.bringSubviewToFront(self.separatorView!)
-            UIView.animateWithDuration(0.25, delay: 0.0,
-                options: UIViewAnimationOptions.LayoutSubviews,
-                animations: { () -> Void in
-                    oldDetailContainer?.view.transform = CGAffineTransformMakeScale(0.85, 0.85)
-                    return
-                },
-                completion: { (finished:Bool) -> Void in
-                    if finished {
-                        UIView.animateWithDuration(0.25, delay: 0.0,
-                            options: UIViewAnimationOptions.LayoutSubviews,
-                            animations: { () -> Void in
-                                self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
-                            },
-                            completion: { (finished:Bool) -> Void in
-                                if finished {
-                                    //self.isDetailOpen = true
-                                    oldDetailContainer?.view.removeFromSuperview()
-                                }
-                            }
-                        )
-                    }
-                }
-            )
+            oldDetailContainer?.view.removeFromSuperview()
             
-            //self.isDetailOpen = true
         }
 
     }

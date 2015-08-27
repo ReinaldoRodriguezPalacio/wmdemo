@@ -61,9 +61,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func viewWillLayoutSubviews() {
         
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
-        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {
-            self.layoutTitleLabel()
-        }
+//        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {
+//            self.layoutTitleLabel()
+//        }
         self.backButton?.frame = CGRectMake(0, (self.header!.frame.height - 46.0)/2, 46.0, 46.0)
         if CGRectEqualToRect(self.editBtn!.frame, CGRectZero) {
             var headerBounds = self.header!.frame.size
@@ -304,10 +304,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
 
         if isPesable {
-            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:equivalenceByPiece)
+            self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:equivalenceByPiece,upcProduct:cell.upcVal!)
         }
         else {
-            self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price)
+            self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,upcProduct:cell.upcVal!)
         }
         self.quantitySelector!.closeAction = { () in
             self.sharePopover?.dismissPopoverAnimated(true)

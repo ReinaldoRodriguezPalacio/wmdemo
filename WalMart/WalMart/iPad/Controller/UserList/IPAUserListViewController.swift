@@ -61,8 +61,8 @@ class IPAUserListViewController: UserListViewController {
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
                     self.view.layoutIfNeeded()
-                    self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 56.0)
-                    self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 56.0))
+                    self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
+                    self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
                     aditionalAnimations?()
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
@@ -73,8 +73,8 @@ class IPAUserListViewController: UserListViewController {
             )
         } else {
             self.view.layoutIfNeeded()
-            self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 56.0)
-            self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 56.0))
+            self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
+            self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
             self.isToggleBarEnabled = true
         }
     }
@@ -84,7 +84,7 @@ class IPAUserListViewController: UserListViewController {
         //self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
         UIView.animateWithDuration(0.5,
             animations: { () -> Void in
-                self.searchContainer!.frame = CGRectMake(0.0, -0.5, self.view.frame.width, 56.0)
+                self.searchContainer!.frame = CGRectMake(0.0, -0.5, self.view.frame.width, 64.0)
                 self.tableuserlist!.frame = CGRectMake(0.0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.height)
                 aditionalAnimations?()
             }, completion: { (finished:Bool) -> Void in
@@ -248,7 +248,8 @@ class IPAUserListViewController: UserListViewController {
                     }
                     
                     if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-                         self.delegate?.showPractilistViewController()
+                        self.tableuserlist?.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.Top)
+                        self.delegate?.showPractilistViewController()
                         
                     }
                     else {
@@ -314,6 +315,7 @@ class IPAUserListViewController: UserListViewController {
     }
     
     
+
 
     
 }

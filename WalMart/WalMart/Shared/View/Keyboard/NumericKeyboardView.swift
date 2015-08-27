@@ -141,7 +141,8 @@ class NumericKeyboardView : UIView {
             tempView.backgroundColor = colorImage
             tempView.layer.cornerRadius = size.width / 2
             
-            UIGraphicsBeginImageContext(size);
+            //UIGraphicsBeginImageContext(size);
+            UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
             tempView.layer.renderInContext(UIGraphicsGetCurrentContext())
             screenShot = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();

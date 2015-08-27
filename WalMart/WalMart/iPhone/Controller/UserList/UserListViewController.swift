@@ -222,7 +222,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
                     self.itemsUserList = result["responseArray"] as? [AnyObject]
-                    self.tableuserlist!.reloadData()
+                    self.tableuserlist?.reloadData()
                     self.checkEditBtn()
                     if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in

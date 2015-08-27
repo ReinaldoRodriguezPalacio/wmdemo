@@ -462,7 +462,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             isShowShoppingCart = true
              let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
             
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRectMake(0, 360, 320, 360),priceProduct:NSNumber(double:self.price.doubleValue))
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRectMake(0, 360, 320, 360),priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:upc)
             //selectQuantity!.priceProduct = NSNumber(double:self.price.doubleValue)
             selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
             selectQuantity!.closeAction =

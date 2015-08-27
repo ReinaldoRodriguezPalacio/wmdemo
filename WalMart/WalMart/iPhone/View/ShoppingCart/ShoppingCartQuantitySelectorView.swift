@@ -16,13 +16,16 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var addToCartAction : ((String) -> Void)!
     var closeAction : (() -> Void)!
     var priceProduct : NSNumber!
+    var upcProduct : String!
     var btnOkAdd : UIButton!
+    var isUpcInShoppingCart : Bool = false
     
     
     
-    init(frame: CGRect, priceProduct : NSNumber!) {
+    init(frame: CGRect, priceProduct : NSNumber!,upcProduct:String) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
+        self.upcProduct = upcProduct
         setup()
     }
 
@@ -68,12 +71,32 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
+        let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
         let strPrice = CurrencyCustomLabel.formatString(priceProduct.stringValue)
-        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+        
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
         btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        var rectSize = CGRectZero
+        
+        if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
+            btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+            isUpcInShoppingCart = true
+            
+        } else {
+            btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+            isUpcInShoppingCart = false
+        }
+        
+        
+        btnOkAdd.frame =  CGRectMake((self.frame.width / 2) - ((rectSize.width + 32) / 2), keyboard.frame.maxY + 15 , rectSize.width + 32, 36)
+        
         
         
         
@@ -110,17 +133,17 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
                 }
             }
             
-            let intQuantity = lblQuantity.text?.toInt()
-            var result = priceProduct.doubleValue * Double(intQuantity!)
-            let strPrice = CurrencyCustomLabel.formatString("\(result)")
-            let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-            btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+            
+            
+            
+            //btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
             
             btnSender.imageView!.alpha = 0.35
             btnSender.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 btnSender.imageView!.alpha = 0.1
                 btnSender.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Normal)
+                
             })
             
         }
@@ -198,7 +221,23 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         var result = priceProduct.doubleValue * Double(intQuantity!)
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+        let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
+        
+        var rectSize = CGRectZero
+        if isUpcInShoppingCart {
+            btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+            
+        } else {
+            btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        }
+        
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.btnOkAdd.frame =  CGRectMake((self.frame.width / 2) - ((rectSize.width + 32) / 2),self.btnOkAdd.frame.minY , rectSize.width + 32, 36)
+        })
     }
     
     

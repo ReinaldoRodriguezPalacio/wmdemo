@@ -326,10 +326,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             let frameDetail = CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail)
             if self.isPesable {
-                let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece)
+                let selectQuantityGRW = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
                 selectQuantityGR = selectQuantityGRW
             }else{
-                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue))
+                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
             }
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
@@ -447,9 +447,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func instanceOfQuantitySelector(frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
         var instance: GRShoppingCartQuantitySelectorView? = nil
         if self.isPesable {
-            instance = GRShoppingCartWeightSelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece)
+            instance = GRShoppingCartWeightSelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
         } else {
-            instance = GRShoppingCartQuantitySelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue))
+            instance = GRShoppingCartQuantitySelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
         }
         return instance
     }

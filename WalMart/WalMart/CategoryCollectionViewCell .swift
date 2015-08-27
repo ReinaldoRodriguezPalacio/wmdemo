@@ -66,11 +66,14 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     
     // MARK: - iCarouselDataSource
     
-    func numberOfItemsInCarousel(carousel: iCarousel!) -> UInt {
-        return UInt(categories.count)
+    func numberOfItemsInCarousel(carousel: iCarousel) -> Int {
+        return categories.count
     }
     
-    func carousel(carousel: iCarousel!, viewForItemAtIndex index: UInt, reusingView view: UIView!) -> UIView! {
+    
+    
+    
+    func carousel(carousel: iCarousel, viewForItemAtIndex index: Int, reusingView view: UIView?) -> UIView {
         let ix = Int(index)//Int(index)
         var lblView : CategorySelectorItemView? = nil
         let maxStrCat =  "Especiales " + categories[ix]
@@ -97,7 +100,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
             categoriesLabel[ix] = lblView!
             lblView!.deleteEspeciales()
         }
-        return lblView
+        return lblView!
     }
     
     func carousel(carousel: iCarousel!, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {

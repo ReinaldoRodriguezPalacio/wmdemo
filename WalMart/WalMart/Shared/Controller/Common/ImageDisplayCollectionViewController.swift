@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class ImageDisplayCollectionViewController: BaseController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
     let reuseIdentifier = "Cell"
     var collectionView: UICollectionView?
@@ -86,7 +86,7 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
     override func viewWillLayoutSubviews() {
         var bounds = self.view.frame.size
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.maxX, 66)
-        self.collectionView!.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
+        self.collectionView!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.maxY - self.pointSection!.frame.height)
         self.pointSection?.frame = CGRectMake(0, bounds.height - 46 , bounds.width, 46)
         self.close!.frame = CGRectMake(bounds.width - 40.0, 20, 40.0, 40.0)
         self.titleLabel!.frame =  CGRectMake(0 , 20, bounds.width - 40 , 46)
@@ -208,15 +208,14 @@ class ImageDisplayCollectionViewController: UIViewController, UICollectionViewDe
     // MARK: - UICollectionViewDelegateFlowLayout
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-//        return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
-        return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height)
+        return self.collectionView!.frame.size
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        let rotation = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.Landscape
-        return Int(rotation.rawValue)
-        
-    }
+//    override func supportedInterfaceOrientations() -> Int {
+//        let rotation = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.Landscape
+//        return Int(rotation.rawValue)
+//        
+//    }
 
     
 }

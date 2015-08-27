@@ -22,6 +22,7 @@ class DetailListViewCell: ProductTableViewCell {
     var quantityIndicator: UIButton?
     var check: UIButton?
     
+    
     var equivalenceByPiece: NSNumber? = NSNumber(int:0)
     
     var detailDelegate: DetailListViewCellDelegate?
@@ -30,6 +31,7 @@ class DetailListViewCell: ProductTableViewCell {
     var imageNormal: UIImage? = nil
     
     var total: String? = ""
+    var upcVal: String? = ""
     
     
     override func setup() {
@@ -106,7 +108,8 @@ class DetailListViewCell: ProductTableViewCell {
         
         self.promoDescription!.text = product["promoDescription"] as? String
         self.productShortDescriptionLabel!.text = product["description"] as? String
-
+        self.upcVal = product["upc"] as! String
+ 
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
             self.equivalenceByPiece = equivalence
         }
@@ -199,7 +202,7 @@ class DetailListViewCell: ProductTableViewCell {
                 
             }, failure: nil)
         
-        
+         self.upcVal = product.upc
         self.promoDescription!.text = ""
         self.productShortDescriptionLabel!.text = description
         

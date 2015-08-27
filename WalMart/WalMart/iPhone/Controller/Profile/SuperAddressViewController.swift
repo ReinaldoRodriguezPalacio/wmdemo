@@ -11,7 +11,7 @@ import Foundation
 class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingScrollViewDelegate,FormSuperAddressViewDelegate {
     
     var scrollForm : TPKeyboardAvoidingScrollView!
-    var saveButton: UIButton?
+    var saveButton: WMRoundButton?
     var deleteButton: UIButton?
     var addressId: String! = ""
     var sAddredssForm : FormSuperAddressView!
@@ -30,20 +30,11 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.view.backgroundColor = UIColor.whiteColor()
         
-        let iconImage = UIImage(named:"button_bg")
-        let iconSelected = UIImage(named:"button_bg_active")
-        
-        self.saveButton = UIButton()
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton = WMRoundButton()
+        self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton!.tintColor = WMColor.navigationFilterTextColor
-        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.saveButton!.titleLabel!.textColor = WMColor.navigationFilterTextColor
-        self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
-        self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
-        self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width + 1, 0, 0.0);
-        self.saveButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (77 - iconImage!.size.width)/2 , 0.0, 0.0)
-        self.saveButton!.titleLabel!.frame = self.saveButton!.frame
+        self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.hidden = true
         self.saveButton!.alpha = 0
         self.saveButton!.tag = 1
@@ -80,8 +71,8 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             left = left + 54
         }
 
-        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 87, self.header!.frame.height)
-        self.titleLabel!.frame = CGRectMake(87, 0, (bounds.width - self.saveButton!.frame.width * 2), self.header!.frame.maxY)
+        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
+        self.titleLabel!.frame = CGRectMake(16, 0, (bounds.width - 32), self.header!.frame.maxY)
         
         sAddredssForm.frame = CGRectMake(0, 0,  self.view.bounds.width, 700)
         scrollForm.contentSize = CGSizeMake( self.view.bounds.width, 720)
