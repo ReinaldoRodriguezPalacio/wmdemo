@@ -33,7 +33,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
 
         var recent = IPAHelpViewController()
         self.navigation.pushViewController(recent, animated: true)
-        selected = 3
+        selected = 5
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {
@@ -45,11 +45,11 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     
     func selectedDetail(row: Int) {
         
-        if selected == row && selected != 4 && selected != 5 {
+        if selected == row && selected != 3 && selected != 5 {
             return
         }
     
-        if selected == row && selected != 4 && selected != 5 {
+        if selected == row && selected != 3 && selected != 5 {
             self.navigation.popToRootViewControllerAnimated(true)
             return
         }

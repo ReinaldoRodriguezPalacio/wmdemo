@@ -18,7 +18,7 @@ class CamFindService : BaseService {
     func callService(paramsDic: NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         var manager = AFHTTPSessionManager()
         manager.requestSerializer = AFHTTPRequestSerializer() as AFHTTPRequestSerializer
-        manager.requestSerializer!.setValue("CloudSight 9TkLWImiPApnIGSv8NT_sg", forHTTPHeaderField: "Authorization")
+        manager.requestSerializer!.setValue("CloudSight \(self.getCamFindAPIKey())", forHTTPHeaderField: "Authorization")
         
         self.callPOSTServiceCam(manager, params: paramsDic,
             successBlock: { (resultDic: NSDictionary) -> Void in
@@ -33,7 +33,7 @@ class CamFindService : BaseService {
     func checkImg(tokenStr: String, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         var manager = AFHTTPSessionManager()
         manager.requestSerializer = AFHTTPRequestSerializer() as AFHTTPRequestSerializer
-        manager.requestSerializer!.setValue("CloudSight 9TkLWImiPApnIGSv8NT_sg", forHTTPHeaderField: "Authorization")
+        manager.requestSerializer!.setValue("CloudSight \(self.getCamFindAPIKey())", forHTTPHeaderField: "Authorization")
         
         let urlStr = "https://api.cloudsightapi.com/image_responses/\(tokenStr)" as String
         self.callGETService(manager, serviceURL: urlStr, params: [:],
@@ -44,5 +44,14 @@ class CamFindService : BaseService {
                 //
                 errorBlock!(error)
         }
+    }
+    
+    func getCamFindAPIParameters() -> NSDictionary {
+        return  NSBundle.mainBundle().objectForInfoDictionaryKey("WMCamFindAPI") as! NSDictionary
+    }
+    
+    func getCamFindAPIKey() -> String{
+        let apiParemeters = self.getCamFindAPIParameters()
+        return  apiParemeters.objectForKey("CamFindAPIKey") as! String
     }
 }

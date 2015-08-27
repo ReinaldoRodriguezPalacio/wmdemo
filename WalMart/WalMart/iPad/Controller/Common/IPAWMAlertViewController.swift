@@ -8,8 +8,15 @@
 
 import UIKit
 
+protocol IPAWMAlertViewControllerDelegate {
+    
+    func cancelButtonTapped()
+}
+
 class IPAWMAlertViewController: IPOWMAlertViewController {
-   
+    var delegate:IPAWMAlertViewControllerDelegate?
+    var cancelButton: UIButton?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x2870c9, alpha: 0.5)
@@ -35,5 +42,42 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         newAlert.didMoveToParentViewController(controller)
         return newAlert
     }
+    
+    class func showAlertWithCancelButton(controller:UIViewController,delegate:IPAWMAlertViewControllerDelegate,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
+       let newAlert = showAlert(controller, imageWaiting: imageWaiting, imageDone: imageDone, imageError: imageError)
+        newAlert?.delegate = delegate
+        newAlert!.showCancelButton("Cancelar", colorButton:WMColor.loginSignOutButonBgColor)
+        return newAlert
+    }
+    
+     func showCancelButton(titleDone:String, colorButton: UIColor) {
+        if  self.doneButton != nil{
+            self.doneButton.removeFromSuperview()
+        }
+        
+        self.cancelButton = UIButton()
+        self.cancelButton!.setTitle(titleDone, forState: UIControlState.Normal)
+        self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        
+        self.cancelButton!.backgroundColor = colorButton
+        
+        self.cancelButton!.addTarget(self, action: "cancelBtn", forControlEvents: .TouchUpInside)
+        self.cancelButton!.layer.cornerRadius = 20
+        
+        var bounds = self.view.bounds
+        if self.view.superview != nil {
+            bounds = self.view.superview!.bounds
+        }
+        
+        self.cancelButton!.frame = CGRectMake((bounds.width - 128 ) / 2, (bounds.height / 2) + 25, 128 , 40)
+        self.view.addSubview(cancelButton!)
+    }
+    
+    func cancelBtn(){
+        self.close()
+        delegate?.cancelButtonTapped()
+    }
+
 
 }

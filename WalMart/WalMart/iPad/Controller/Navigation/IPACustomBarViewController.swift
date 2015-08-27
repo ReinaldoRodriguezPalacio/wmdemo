@@ -206,6 +206,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let controllersInNavigation = controllernav?.viewControllers.count
             if (controllernav?.topViewController as? SearchProductViewController != nil && isEditingSearch){
                 controllernav?.popViewControllerAnimated(false)
+                
                 isEditingSearch = false
             }
             if controllernav != nil {

@@ -340,7 +340,8 @@
       *stop = YES;
     }
   };
-  
+
+    
   ALAssetsLibraryAccessFailureBlock failureBlock = ^(NSError *error) {
     NSLog(@"%s: %@", __PRETTY_FUNCTION__, [error localizedDescription]);
     if (completion) completion(nil, error);
@@ -349,6 +350,36 @@
   [self enumerateGroupsWithTypes:ALAssetsGroupAll
                       usingBlock:block
                     failureBlock:failureBlock];
+}
+
+- (void) getLastImageFromPhotos:(void (^)(UIImage *, NSError *))completion{
+    
+    ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+    // Enumerate just the photos and videos group by using ALAssetsGroupSavedPhotos.
+    [library enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+        
+        // Within the group enumeration block, filter to enumerate just photos.
+        [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+        
+        // Chooses the photo at the last index
+        [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *alAsset, NSUInteger index, BOOL *innerStop) {
+            
+            // The end of the enumeration is signaled by asset == nil.
+            if (alAsset) {
+                ALAssetRepresentation *representation = [alAsset defaultRepresentation];
+                UIImage  *lastImage = [UIImage imageWithCGImage:[representation fullScreenImage]];
+                if (completion) completion(lastImage,nil);
+                // Stop the enumerations
+                *stop = YES; *innerStop = YES;
+                
+                // Do something interesting with the AV asset.
+            }
+        }];
+    } failureBlock: ^(NSError *error) {
+        // Typically you should handle an error more gracefully than this.
+        NSLog(@"No groups");
+        if (completion) completion(nil, error);
+    }];
 }
 
 @end

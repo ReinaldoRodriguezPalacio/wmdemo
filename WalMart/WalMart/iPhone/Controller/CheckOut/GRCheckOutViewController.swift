@@ -41,6 +41,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
     var totalItems: String?
     var selectedAddress: String? = nil
+    var selectedAddressHasStore: Bool?
     
     var resume: UIView?
     var numOfArtLabel: UILabel?
@@ -422,7 +423,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     //MARK: - Field Utils
-    
     func paymentOption(atIndex index:Int) -> String {
         if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
             var option = self.paymentOptionsItems![index] as! [String:AnyObject]
@@ -564,9 +564,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.paymentOptions!.text = text
                         self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
                     }
-                    
-                   
-                    
                 }
                 self.removeViewLoad()
                 endCallPaymentOptions()
@@ -653,9 +650,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                         self.selectedAddressIx = NSIndexPath(forRow: ixCurrent, inSection: 0)
                                         if let nameDict = dictDir["name"] as? String {
                                             self.address?.text =  nameDict
+                                            //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
+                                            self.selectedAddressHasStore = false
                                         }
                                         if let idDir = dictDir["id"] as? String {
                                             self.selectedAddress = idDir
+                                            if !self.selectedAddressHasStore!{
+                                                self.showAddressPicker()
+                                                self.picker!.newItemForm()
+                                            }
                                         }
                                     }
                                 }
@@ -746,26 +749,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.invokeAddressUserService({ () -> Void in
            self.getItemsTOSelectAddres()
             self.address!.onBecomeFirstResponder = {() in
-                var itemsAddress : [String] = self.getItemsTOSelectAddres()
-                
-                self.picker!.selected = self.selectedAddressIx
-                self.picker!.sender = self.address!
-                self.picker!.delegate = self
-
-                let btnNewAddress = UIButton()
-                btnNewAddress.setTitle("Nueva", forState: UIControlState.Normal)
-                btnNewAddress.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
-                btnNewAddress.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-                btnNewAddress.layer.cornerRadius = 2.0
-                
-                self.picker!.addRigthActionButton(btnNewAddress)
-                self.picker!.setValues(self.address!.nameField, values: itemsAddress)
-                self.picker!.hiddenRigthActionButton(false)
-                self.picker!.cellType = TypeField.Check
-                self.picker!.showPicker()
-                
+                self.showAddressPicker()
                 self.removeViewLoad()
-                
             }
             
             var date = NSDate()
@@ -843,9 +828,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
                     self.selectedAddress = addressId
+                    //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
+                    self.selectedAddressHasStore = false
                 }
-                buildAndConfigureDeliveryType()
+                if !self.selectedAddressHasStore!{
+                    //self.showAddressPicker()
+                    self.picker!.newItemForm()
+                    self.picker!.stopRemoveView = true
+                    return
+                }else{
+                    buildAndConfigureDeliveryType()
+                }
                 self.selectedAddressIx = indexPath
+                
             }
             if formFieldObj ==  self.shipmentType! {
                 self.shipmentType!.text = selectedStr
@@ -902,21 +897,45 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
     }
     
+
+    
     func viewReplaceContent(frame:CGRect) -> UIView! {
         scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
         self.scrollForm.scrollDelegate = self
         scrollForm.contentSize = CGSizeMake(frame.width, 720)
         sAddredssForm = FormSuperAddressView(frame: CGRectMake(scrollForm.frame.minX, 0, scrollForm.frame.width, 700))
         sAddredssForm.allAddress = self.addressItems
+        sAddredssForm.idAddress = ""
+        if !self.selectedAddressHasStore!{
+                let serviceAddress = GRAddressesByIDService()
+                serviceAddress.addressId = self.selectedAddress!
+                serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                self.sAddredssForm.addressName.text = result["name"] as! String!
+                self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+                self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+                self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+                self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+                self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
+                self.sAddredssForm.street.text = result["street"] as! String!
+                let neighborhoodID = result["neighborhoodID"] as! String!
+                let storeID = result["storeID"] as! String!
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text, neighborhoodID: neighborhoodID, storeID: storeID)
+                self.sAddredssForm.idAddress = result["addressID"] as! String!
+                }) { (error:NSError) -> Void in
+            }
+        }
+
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
         return scrollForm
+        
+        
     }
     
     func saveReplaceViewSelected() {
         self.addViewLoad()
         let service = GRAddressAddService()
-        let dictSend = sAddredssForm.getAddressDictionary("", delete:false)
+        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete:false)
         if dictSend != nil {
             
             self.scrollForm.resignFirstResponder()
@@ -1106,6 +1125,25 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }else {
             buttonShop?.enabled = true
         }
+    }
+    
+    func showAddressPicker(){
+        var itemsAddress : [String] = self.getItemsTOSelectAddres()
+        self.picker!.selected = self.selectedAddressIx
+        self.picker!.sender = self.address!
+        self.picker!.delegate = self
+            
+        let btnNewAddress = UIButton()
+        btnNewAddress.setTitle("Nueva", forState: UIControlState.Normal)
+        btnNewAddress.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        btnNewAddress.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        btnNewAddress.layer.cornerRadius = 2.0
+            
+        self.picker!.addRigthActionButton(btnNewAddress)
+        self.picker!.setValues(self.address!.nameField, values: itemsAddress)
+        self.picker!.hiddenRigthActionButton(false)
+        self.picker!.cellType = TypeField.Check
+        self.picker!.showPicker()
     }
     
     func getDeviceNum() -> String {
