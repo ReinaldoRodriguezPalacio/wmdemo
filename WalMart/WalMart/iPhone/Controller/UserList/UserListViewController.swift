@@ -65,6 +65,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.hiddenBack = true
         super.viewDidLoad()
         
+        tableuserlist?.multipleTouchEnabled = true
+        
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_LISTS.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])

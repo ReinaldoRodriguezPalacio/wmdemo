@@ -27,6 +27,8 @@ class IPAUserListViewController: UserListViewController {
         super.viewDidLoad()
         self.itemsUserList = []
         
+        tableuserlist?.multipleTouchEnabled = true
+        
         self.tableuserlist!.registerClass(IPAListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
 
         self.showWishlistBtn?.removeFromSuperview()

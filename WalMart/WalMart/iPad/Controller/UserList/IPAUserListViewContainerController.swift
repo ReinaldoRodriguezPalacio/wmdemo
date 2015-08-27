@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate, IPAUserListDetailDelegate {
+class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate, IPAUserListDetailDelegate, IPADefaultListDetailViewControllerDelegate {
 
     var listController: IPAUserListViewController?
     var detailController: UIViewController?
@@ -77,6 +77,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     func showPractilistViewController() {
         let defaultListController = IPADefaultListViewController()
+        defaultListController.delegate = self
         let navController = UINavigationController(rootViewController: defaultListController)
         navController.navigationBarHidden = true
         
@@ -90,6 +91,9 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         
     }
     
+    func reloadViewList() {
+        self.listController?.reloadListFormUpdate()
+    }
     
     
     

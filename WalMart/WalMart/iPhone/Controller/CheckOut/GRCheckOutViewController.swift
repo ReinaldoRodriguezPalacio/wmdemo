@@ -650,11 +650,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                         self.selectedAddressIx = NSIndexPath(forRow: ixCurrent, inSection: 0)
                                         if let nameDict = dictDir["name"] as? String {
                                             self.address?.text =  nameDict
-                                            //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
-                                            self.selectedAddressHasStore = false
+                                            self.selectedAddressHasStore = dictDir["isAddressOk"] as? Bool
                                         }
                                         if let idDir = dictDir["id"] as? String {
                                             self.selectedAddress = idDir
+                                            
+                                        }
+                                        //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
+                                        if let isAddressOK = dictDir["isAddressOk"] as? String {
+                                            self.selectedAddressHasStore = !(isAddressOK == "False")
                                             if !self.selectedAddressHasStore!{
                                                 self.showAddressPicker()
                                                 self.picker!.newItemForm()
@@ -829,16 +833,21 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if let addressId = option["id"] as? String {
                     self.selectedAddress = addressId
                     //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
-                    self.selectedAddressHasStore = false
+                    
+                    if  let selectedAddressHasStoreVal = option["isAddressOk"] as? String {
+                        if selectedAddressHasStoreVal == "False" {
+                            self.selectedAddressHasStore  = false
+                            //self.showAddressPicker()
+                            self.picker!.newItemForm()
+                            self.picker!.stopRemoveView = true
+                            return
+                        }
+                        
+                    }else{
+                        buildAndConfigureDeliveryType()
+                    }
                 }
-                if !self.selectedAddressHasStore!{
-                    //self.showAddressPicker()
-                    self.picker!.newItemForm()
-                    self.picker!.stopRemoveView = true
-                    return
-                }else{
-                    buildAndConfigureDeliveryType()
-                }
+                
                 self.selectedAddressIx = indexPath
                 
             }

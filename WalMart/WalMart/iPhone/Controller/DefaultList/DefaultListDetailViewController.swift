@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import CoreData
 
 class DefaultListDetailViewController : NavigationViewController, UITableViewDelegate, UITableViewDataSource, DetailListViewCellDelegate{
     
@@ -436,47 +437,25 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
-        
-        
         let service = GRUserListService()
-        service.callService([:], successBlock: { (result:NSDictionary) -> Void in
+        if UserCurrentSession.sharedInstance().userSigned != nil {
             
-          let  itemsUserList = result["responseArray"] as? [AnyObject]
-        
-        
-            
-                var service = GRSaveUserListService()
-                var items: [AnyObject] = []
-                if self.detailItems != nil {
-                    for var idx = 0; idx < self.detailItems!.count; idx++ {
-                        var product = self.detailItems![idx]
-                        let quantity = product["quantity"] as! NSNumber
-                        if let upc = product["upc"] as? String {
-                            var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
-                            items.append(item)
-                        }
-                    }
-                }
+            service.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 
-                var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList!)
-                service.callService(service.buildParams(copyName, items: items),
-                    successBlock: { (result:NSDictionary) -> Void in
-                        successDuplicateList()
-                    },
-                    errorBlock: { (error:NSError) -> Void in
-                        println("Error at duplicate list")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-                    }
-                )
-            
-            
-            }) { (error:NSError) -> Void in
+                let  itemsUserList = result["responseArray"] as? [AnyObject]
+                self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
                 
-                println("Error at retrieve list detail")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                 
+                }) { (error:NSError) -> Void in
+                    
+                    println("Error at retrieve list detail")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                    
+            }
+        } else {
+            let itemsUserList = service.retrieveUserList()
+            self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
         }
 
         
@@ -484,28 +463,61 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     
     
     
-    func buildDuplicateNameList(theName:String, forListId listId:String?,itemsUserList:[AnyObject]) -> String {
-     
-            
-            var listName = "\(theName)" //Se crea una nueva instancia
-            var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
-            if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
-                listName = listName.substringToIndex(range.startIndex)
+    func copyList(listName:String,itemsUserList:[AnyObject]?,successDuplicateList:(() -> Void)) {
+        var service = GRSaveUserListService()
+        var items: [AnyObject] = []
+        if self.detailItems != nil {
+            for var idx = 0; idx < self.detailItems!.count; idx++ {
+                var product = self.detailItems![idx]
+                let quantity = product["quantity"] as! NSNumber
+                let imageUrl = product["imageUrl"] as! String
+                let price = product["price"] as! NSNumber
+                let dsc = product["description"] as! String
+                let type = product["type"] as! String
+                
+                if let upc = product["upc"] as? String {
+                    var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type)
+                    items.append(item)
+                }
             }
-            listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
-            
-            var lastIdx = 1
-            if itemsUserList.count > 0 {
-                for var idx = 0; idx < itemsUserList.count; idx++ {
+        }
+        
+        var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
+        service.callService(service.buildParams(copyName, items: items),
+            successBlock: { (result:NSDictionary) -> Void in
+                successDuplicateList()
+            },
+            errorBlock: { (error:NSError) -> Void in
+                println("Error at duplicate list")
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            }
+        )
+    }
+    
+    func buildDuplicateNameList(theName:String, forListId listId:String?,itemsUserList:[AnyObject]?) -> String {
+     
+        
+        var listName = "\(theName)" //Se crea una nueva instancia
+        var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
+            listName = listName.substringToIndex(range.startIndex)
+        }
+        listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
+        
+        var lastIdx = 1
+        if itemsUserList != nil {
+            if itemsUserList!.count > 0 {
+                for var idx = 0; idx < itemsUserList!.count; idx++ {
                     var name:String? = nil
-                    if let innerList = itemsUserList[idx] as? [String:AnyObject] {
+                    if let innerList = itemsUserList![idx] as? [String:AnyObject] {
                         let innerListId = innerList["id"] as! String
                         if innerListId == listId! {
                             continue
                         }
                         name = innerList["name"] as? String
                     }
-                    else if let listEntity = itemsUserList[idx] as? List {
+                    else if let listEntity = itemsUserList![idx] as? List {
                         name = listEntity.name
                     }
                     
@@ -521,12 +533,14 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                     }
                 }
             }
-            
-            var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
-            return "\(listName) \(idxTxt)"
-
-            
         }
+    
+    
+        var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        return "\(listName) \(idxTxt)"
+        
+        
+    }
 
     
 
