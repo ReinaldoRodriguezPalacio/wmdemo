@@ -38,7 +38,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.passworCurrent!.setCustomPlaceholder(NSLocalizedString("profile.password.current",comment:""))
         self.passworCurrent!.secureTextEntry = true
         self.passworCurrent!.isRequired = true
-        self.passworCurrent!.typeField = TypeField.None
+        self.passworCurrent!.typeField = TypeField.Password
         self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
         
         self.password = FormFieldView()
@@ -140,9 +140,44 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         return CGSizeMake(self.view.frame.width, content.contentSize.height)
     }
     
+    func validateChangePassword() -> Bool{
+        var field = FormFieldView()
+        var message = ""
+        let confirmPasswordMessage = confirmPassword!.validate()
+        if !confirmPassword!.isValid
+        {
+            field = confirmPassword!
+            message = confirmPasswordMessage!
+        }
+        let passwordMessage = password!.validate()
+        if !password!.isValid
+        {
+            field = password!
+            message = passwordMessage!
+        }
+        let passworCurrentMessage = passworCurrent!.validate()
+        if !passworCurrent!.isValid
+        {
+            field = passworCurrent!
+            message = passworCurrentMessage!
+        }
+        if count(message) > 0 {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field,  nameField:field.nameField ,  message: message ,errorView:self.errorView!,  becomeFirstResponder: true )
+            return false
+        }
+        return true
+    }
+    
     //MARK: Save action
     
     func save(sender:UIButton) {
+        
+        if !validateChangePassword(){
+            return
+        }
         
         let service = UpdateUserProfileService()
         var passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text) as String

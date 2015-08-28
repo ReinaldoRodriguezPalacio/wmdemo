@@ -650,13 +650,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                         self.selectedAddressIx = NSIndexPath(forRow: ixCurrent, inSection: 0)
                                         if let nameDict = dictDir["name"] as? String {
                                             self.address?.text =  nameDict
-                                            self.selectedAddressHasStore = dictDir["isAddressOk"] as? Bool
                                         }
                                         if let idDir = dictDir["id"] as? String {
                                             self.selectedAddress = idDir
                                             
                                         }
-                                        //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
                                         if let isAddressOK = dictDir["isAddressOk"] as? String {
                                             self.selectedAddressHasStore = !(isAddressOK == "False")
                                             if !self.selectedAddressHasStore!{
@@ -832,12 +830,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
                     self.selectedAddress = addressId
-                    //MARK TODO: Leer el parametro del servicio para saber si tiene tienda
-                    
                     if  let selectedAddressHasStoreVal = option["isAddressOk"] as? String {
                         if selectedAddressHasStoreVal == "False" {
                             self.selectedAddressHasStore  = false
-                            //self.showAddressPicker()
                             self.picker!.newItemForm()
                             self.picker!.stopRemoveView = true
                             return
