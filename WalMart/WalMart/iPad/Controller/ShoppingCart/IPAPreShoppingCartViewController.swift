@@ -271,29 +271,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                     
                     self.viewMG.alpha = 0
                     self.viewSuper.alpha = 0
-                    
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                         vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
-                         self.viewMG.frame = CGRectMake((self.view.frame.width / 2) - (self.viewMG.frame.width / 2), 211 , self.viewMG.frame.width, self.viewMG.frame.height)
-                        }, completion: { (complete:Bool) -> Void in
-                      
-                            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                  self.viewMG.frame = CGRectMake(536, self.viewMG.frame.minY, self.viewMG.frame.width, self.viewMG.frame.height)
-                                self.viewSuper.frame = CGRectMake(200, self.viewSuper.frame.minY, self.viewSuper.frame.width, self.viewSuper.frame.height)
-                                
-                                vcResult.removeFromParentViewController()
-                                vcResult.view.removeFromSuperview()
-                                
-                                if (isClose){
-                                     self.viewBG.frame = self.view.bounds
-                                    self.loadAnimationPreShopping()
-                                    self.reloadPreShoppingCar()
-                                }else{
-                                    self.closeShoppingCart()
-                                }
-                              
-                            })
-                    })
+                   self.closeShoppingCart()
                 }
                 
                 self.view.addSubview(vcResult.view)
@@ -322,28 +300,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                     
                     self.viewMG.alpha = 0
                     self.viewSuper.alpha = 0
-                    
-                    UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        vcResult.view.frame = CGRectMake(0, -self.view.bounds.height, self.view.bounds.width, self.view.bounds.height)
-                        self.viewSuper.frame = CGRectMake((self.view.frame.width / 2) - (self.viewSuper.frame.width / 2), 211 , self.viewSuper.frame.width, self.viewSuper.frame.height)
-                        }, completion: { (complete:Bool) -> Void in
-                            
-                            UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                self.viewMG.frame = CGRectMake(536, self.viewMG.frame.minY, self.viewMG.frame.width, self.viewMG.frame.height)
-                                self.viewSuper.frame = CGRectMake(200, self.viewSuper.frame.minY, self.viewSuper.frame.width, self.viewSuper.frame.height)
-                                vcResult.removeFromParentViewController()
-                                vcResult.view.removeFromSuperview()
-                    
-                                 if (isClose){
-                                    self.viewBG.frame = self.view.bounds
-                                    self.loadAnimationPreShopping()
-                                    self.reloadPreShoppingCar()
-                                 }else{
-                                    self.closeShoppingCart()
-                                }
-                                
-                            })
-                    })
+                    self.closeShoppingCart()
                 }
                 
                 vcResult.onSuccessOrder = {() in

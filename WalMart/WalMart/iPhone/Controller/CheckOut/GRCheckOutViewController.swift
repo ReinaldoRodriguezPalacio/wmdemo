@@ -564,6 +564,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.paymentOptions!.text = text
                         self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
                     }
+                    //TODO: Quitar harcodeo de opcion y esperarlo por servicio
+                    //self.paymentOptionsItems?.append(["id":"100","paymentType":"PayPal"])
                 }
                 self.removeViewLoad()
                 endCallPaymentOptions()
