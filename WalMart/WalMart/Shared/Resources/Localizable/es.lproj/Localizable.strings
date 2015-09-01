@@ -286,20 +286,20 @@
 "profile.address.already.exist" = "La dirección ya existe";
 
 //field
-"field.validate.required" = " es requerido";
+"field.validate.required" = " Es requerido";
 "field.validate.text.invalid" = " Texto no válido";
 "field.validate.text.invalid.rfc" = " Formato invalido";
 "field.validate.password" = " La contraseña debería tener al menos 8 caracteres";
 "field.validate.password.empty" = " La contraseña es requerida";
-"field.validate.confirm.password" = "debe ser idéntico a la contraseña";
-"field.validate.maxlength" = " la longitud no puede ser mayor a ";
-"field.validate.minlength" = " la longitud no puede ser menor a ";
+"field.validate.confirm.password" = " Debe ser idéntico a la contraseña";
+"field.validate.maxlength" = " La longitud no puede ser mayor a ";
+"field.validate.minlength" = " La longitud no puede ser menor a ";
 "field.validate.minmaxlength.characters" = "caracteres";
 "field.validate.minmaxlength.digit" = "dígitos";
-"field.validate.minmaxlength.gender" = "El genero es requerido";
-"signup.validate.terms.conditions" = "Para registrarte debes aceptar los términos y condiciones";
-"field.validate.zipcode" = "Código postal inválido";
-"field.validate.telephone.invalid" = "Teléfono no válido";
+"field.validate.minmaxlength.gender" = " El genero es requerido";
+"signup.validate.terms.conditions" = " Para registrarte debes aceptar los términos y condiciones";
+"field.validate.zipcode" = " Código postal inválido";
+"field.validate.telephone.invalid" = " Teléfono no válido";
 
 //help
 "help.item.support.comments" = "Soporte y Comentarios";

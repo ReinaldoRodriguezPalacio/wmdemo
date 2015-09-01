@@ -129,10 +129,19 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             }
         })
         
+        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        let currentDate = NSDate()
+        var comps = NSDateComponents()
+        //comps.year = -18
+        //var maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
+        comps.year = -100
+        var minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
+
         self.inputBirthdateView = UIDatePicker()
         self.inputBirthdateView!.datePickerMode = .Date
         self.inputBirthdateView!.date = NSDate()
         self.inputBirthdateView!.maximumDate = NSDate()
+        self.inputBirthdateView!.minimumDate = minDate
         self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess

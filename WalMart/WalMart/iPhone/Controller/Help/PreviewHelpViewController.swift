@@ -50,6 +50,11 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
                     var request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath)!)
                     self.webShowDetail.loadRequest(request)
                 }
+                else{
+                    let filePath = NSBundle.mainBundle().URLForResource("privacy", withExtension: "pdf")
+                    let request = NSURLRequest(URL: filePath!)
+                    self.webShowDetail.loadRequest(request)
+                }
             }
             else{
                 let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource as? String, ofType: self.type as? String)!
