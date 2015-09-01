@@ -682,8 +682,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
                 var total : Double = 0
                 for itemWishList in self.items {
-                    let price = itemWishList["price"] as! NSString
-                    let active  = itemWishList["isActive"] as! NSString
+                    var price = NSString(string:"0")
+                    if let priceVal = itemWishList["price"] as? String {
+                        price = priceVal
+                    }
+                    
+                    let active  = itemWishList["isActive"] as? String
                     var isActive = "true" == active
                     var isPreorderable = false
                 

@@ -140,10 +140,12 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         if IS_IPAD {
             self.IPAPreviewBarView = UIView()
             self.IPAPreviewBarView?.backgroundColor = WMColor.productAddToCartBg
-            self.IPAPreviewBarView!.alpha = 0;
+            self.IPAPreviewBarView!.alpha = 0.0;
             self.view.addSubview(self.IPAPreviewBarView!)
             
             self.topBarView!.addSubview(self.cancelButton!)
+            self.topBackgroundView?.backgroundColor = UIColor.blackColor()
+            self.topBackgroundView!.alpha = 0.2
             self.IPAPreviewBarView!.addSubview(self.messageLabel!)
             
             self.cancelButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
@@ -182,12 +184,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             
             self.repeatButton!.frame = CGRectMake(44, self.view.bounds.height - 72, 100, 36)
             self.okButton!.frame = CGRectMake((self.view!.frame.width / 2) + 16, self.view.bounds.height - 72, 100, 36)
-            self.imagePickerCaptured!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
             self.view.bringSubviewToFront(self.bottomBarView!)
         }
         else{
             self.topBarView!.frame = CGRectMake(self.view.bounds.width - 102, 0.0, 102, self.view.bounds.height)
-            self.topBackgroundView!.frame = self.topBarView!.frame
+            self.topBackgroundView!.frame = CGRectMake(0.0, 0.0, 102, self.view.bounds.height)
             self.camChangeButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 14, 32, 28, 28)
             self.camFlashButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 14, self.camChangeButton!.frame.origin.y + self.camChangeButton!.frame.size.height + 24, 28, 28)
             self.camButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 32, (self.topBarView!.bounds.height / 2) - 32, 64, 64)
@@ -196,8 +197,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
 
             self.IPAPreviewBarView!.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 64)
             self.messageLabel!.frame = CGRectMake((self.IPAPreviewBarView!.bounds.width / 2) - 150, 18, 300, 28)
-            self.repeatButton!.frame = CGRectMake((self.view!.bounds.width / 2) - 116, self.view.bounds.height - 68, 100, 36)
-            self.okButton!.frame = CGRectMake((self.view!.bounds.width / 2) + 16, self.view.bounds.height - 68, 100, 36)
+            self.repeatButton!.frame = CGRectMake((self.view!.bounds.width / 2) - 141, self.view.bounds.height - 68, 150, 36)
+            self.okButton!.frame = CGRectMake((self.view!.bounds.width / 2) + 41, self.view.bounds.height - 68, 150, 36)
         }
     }
     
@@ -282,6 +283,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         previewLayer = AVCaptureVideoPreviewLayer(session: captureSession)
         previewLayer!.videoGravity = AVLayerVideoGravityResizeAspectFill
+        previewLayer!.frame = self.view.frame
         
         if IS_IPAD{
             if self.interfaceOrientation == UIInterfaceOrientation.LandscapeLeft {
@@ -294,9 +296,6 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             if IS_RETINA {
                 previewLayer!.frame = CGRectMake(0,0,1024,768)
             }
-        }
-        else{
-            previewLayer!.frame = self.view.frame
         }
         
         stillImageOutput = AVCaptureStillImageOutput()
@@ -715,7 +714,6 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.capturedImage.contentMode = UIViewContentMode.ScaleAspectFit
             self.capturedImage.image = pickedImage
             self.stopRunning()
-            self.capturedImage.contentMode = UIViewContentMode.ScaleToFill
             self.imagePickerCaptured.image = pickedImage
             self.previewLayer?.hidden = true
             self.imagePickerCaptured.hidden = false

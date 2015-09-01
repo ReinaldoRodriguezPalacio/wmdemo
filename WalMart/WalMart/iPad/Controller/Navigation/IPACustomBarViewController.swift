@@ -390,6 +390,18 @@ class IPACustomBarViewController :  CustomBarViewController {
         if let vcRoot = shoppingCartVC.viewControllers.first as? IPAPreShoppingCartViewController {
             vcRoot.delegate = self
             vcRoot.openShoppingCart()
+            vcRoot.view.userInteractionEnabled = false
+            vcRoot.finishAnimation = {() -> Void in
+                println("")
+                vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
+                self.btnShopping?.userInteractionEnabled = true
+                self.btnCloseShopping?.enabled = true
+                vcRoot.view.userInteractionEnabled = true
+            }
+            
+//            self.btnShopping?.userInteractionEnabled = true
+//            self.btnCloseShopping?.enabled = true
+            
         }
 
     }
@@ -428,7 +440,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         //Tap on Groceries Cart Empty
         if self.emptyGroceriesTap {
-            buttonSelected(self.buttonList[4])
+            buttonSelected(self.buttonList[3])
             if let navController = self.currentController as? UINavigationController {
                 navController.popToRootViewControllerAnimated(false)
                 if let categoriesVC = navController.viewControllers.first as? IPOCategoriesViewController {

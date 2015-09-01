@@ -11,6 +11,8 @@ import Foundation
 class IPADefaultListViewController : DefaultListViewController {
     
     
+    var delegate : IPADefaultListDetailViewControllerDelegate?
+    
     override func viewDidLoad() {
         self.hiddenBack = true
         super.viewDidLoad()
@@ -23,11 +25,21 @@ class IPADefaultListViewController : DefaultListViewController {
         let itemList = itemsLists[indexPath.row] as! [String:AnyObject]
         
         let destDetailList =  IPADefaultListDetailViewController()
+        destDetailList.delegate = delegate
         destDetailList.defaultListName = itemList["name"] as? String
         destDetailList.detailItems = itemList["items"] as? [[String:AnyObject]]
         
         self.navigationController?.pushViewController(destDetailList, animated: true)
     }
+    
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        self.viewLoad?.center =  CGPointMake(self.view.center.x, self.view.center.y + self.header!.frame.maxY)
+        
+    }
+    
     
     
     

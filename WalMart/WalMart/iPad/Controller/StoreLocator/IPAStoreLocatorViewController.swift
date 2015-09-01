@@ -34,8 +34,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         self.clubCollection!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, height)
         self.clubMap!.frame = CGRectMake(342.0, self.header!.frame.maxY, bounds.width - 342.0, height)
         
-        self.segmented!.frame = CGRectMake(self.clubCollection!.frame.maxX + 30.0, bounds.height - 38.0, 150.0, 22.0)
-        self.segmented!.center = CGPointMake(self.segmented!.center.x, self.usrPositionBtn!.center.y)
+        self.segmentedView!.frame = CGRectMake(self.clubCollection!.frame.maxX + 30.0, bounds.height - 38.0, 150.0, 22.0)
+        self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y)
         
     }
 

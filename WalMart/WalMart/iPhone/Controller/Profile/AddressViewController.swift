@@ -29,7 +29,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var allAddress: NSArray! = []
     var viewTypeAdress: UIView? = nil
     var viewTypeAdressFiscal: UIView? = nil
-    var saveButton: UIButton?
+    var saveButton: WMRoundButton?
     var deleteButton: UIButton?
     var typeAddress: TypeAddress = TypeAddress.Shiping
     var idAddress: NSString? = nil
@@ -59,30 +59,23 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let iconImage = UIImage(named:"button_bg")
         let iconSelected = UIImage(named:"button_bg_active")
         
-        self.saveButton = UIButton()
-        
+        self.saveButton = WMRoundButton()
+        self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton?.tintColor = WMColor.navigationFilterTextColor
-        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
         self.saveButton!.hidden = true
         self.saveButton!.alpha = 0
         self.saveButton!.tag = 1
         
         if !isLogin {
-            self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
-            self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
-            self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width + 1, 0, 0.0);
-            self.saveButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (77 - iconImage!.size.width)/2 , 0.0, 0.0)
-            self.saveButton!.titleLabel!.frame = self.saveButton!.frame
             self.header?.addSubview(self.saveButton!)
         }
         else {
-            self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
-            self.saveButton!.layer.cornerRadius = 4.0
+//            self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+//            self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+//            self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
+//            self.saveButton!.layer.cornerRadius = 4.0
             self.content?.addSubview(self.saveButton!)
         }
        
@@ -275,7 +268,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewTypeAdressFiscal!.addSubview(lineView)*/
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
-            titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width, 35 )
+            titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
             
             addressFiscalPersonButton!.frame = CGRectMake(0, 0, 107 , 45)
             addressFiscalMoralButton!.frame = CGRectMake(121, 0, 107 , 45)
@@ -303,7 +296,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             UIView.animateWithDuration(0.4, animations: {
                 self.saveButton!.alpha = 1.0
                 if self.deleteButton != nil {
-                    self.titleLabel!.frame = CGRectMake(46 , 0, self.titleLabel!.frame.width - 13, self.header!.frame.maxY)
+                    self.titleLabel!.frame = CGRectMake(46 , 0,self.saveButton!.frame.minX , self.header!.frame.maxY)
                 }
             }, completion: {(bool : Bool) in
                 if bool {
@@ -327,8 +320,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         
         
-        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 87, self.header!.frame.height)
-        self.titleLabel!.frame = CGRectMake(87, 0, (bounds.width - self.saveButton!.frame.width * 2), self.header!.frame.maxY)
+        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
+        self.titleLabel!.frame = CGRectMake(16, 0, (bounds.width - 32), self.header!.frame.maxY)
         
         self.content.frame = CGRectMake(0, self.header!.frame.maxY , bounds.width , bounds.height - self.header!.frame.height )
         

@@ -9,7 +9,7 @@
 import Foundation
 
 
-class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate {
+class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate {
     var close: UIButton?
     var viewCenter : UIView!
     var content: TPKeyboardAvoidingScrollView!
@@ -63,6 +63,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.email!.typeField = TypeField.Email
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
         self.email!.autocapitalizationType = UITextAutocapitalizationType.None
+        self.email!.delegate = self
         
         self.password = UIEdgeTextFieldImage()
         self.password?.imageNotSelected = UIImage(named: "fieldPasswordOn")
@@ -516,6 +517,18 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
         
     }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let text = textField.text as NSString
+        let resultingString = text.stringByReplacingCharactersInRange(range, withString: string) as NSString
+        let whitespaceSet = NSCharacterSet.whitespaceCharacterSet()
+        if resultingString.rangeOfCharacterFromSet(whitespaceSet).location == NSNotFound {
+            return true
+        } else {
+            return false
+        }
+    }
+
 
     
     

@@ -169,7 +169,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 return true
             }
             if textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
-                showMessageValidation("La longitud no puede ser mayor a 50 caractéres")
+                showMessageValidation("La longitud no puede ser mayor a 50 caracteres")
                 return true
             }
             

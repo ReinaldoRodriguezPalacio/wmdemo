@@ -359,14 +359,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     //new
     override func addToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String) {
-        NSLog("20")
         let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
         
         if self.isPesable {
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece,upcProduct: self.upc as String)
         }
         else {
-            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue))
+            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
         }
         selectQuantityGR?.closeAction = { () in
             self.closeContainer({ () -> Void in
@@ -639,9 +638,9 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     func instanceOfQuantitySelector(frame:CGRect) -> GRShoppingCartQuantitySelectorView? {
         var instance: GRShoppingCartQuantitySelectorView? = nil
         if self.isPesable {
-            instance = GRShoppingCartWeightSelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece)
+            instance = GRShoppingCartWeightSelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),equivalenceByPiece:equivalenceByPiece,upcProduct:self.upc as String)
         } else {
-            instance = GRShoppingCartQuantitySelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue))
+            instance = GRShoppingCartQuantitySelectorView(frame: frame, priceProduct: NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
         }
         return instance
     }
@@ -858,6 +857,12 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         controller.currentItem = indexPath.row
         controller.type = self.type as String
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    func reloadTableListUserSelectedRow() {
+        
+
+        
     }
 
     

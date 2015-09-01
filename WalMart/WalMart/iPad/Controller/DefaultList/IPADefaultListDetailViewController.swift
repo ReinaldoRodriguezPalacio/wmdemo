@@ -8,7 +8,14 @@
 
 import Foundation
 
-class IPADefaultListDetailViewController :  DefaultListDetailViewController {
+protocol IPADefaultListDetailViewControllerDelegate {
+    func reloadViewList()
+}
+
+class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPopoverControllerDelegate {
+    
+    var sharePopover: UIPopoverController?
+    var delegate : IPADefaultListDetailViewControllerDelegate?
     
     override func willShowTabbar() {
         isShowingTabBar = false
@@ -56,5 +63,40 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController {
         self.customLabel?.frame  = self.addToCartButton!.bounds
     }
 
+    
+    override func shareList() {
+
+        if let image = self.buildImageToShare() {
+            
+            
+            //Event
+            if let tracker = GAI.sharedInstance().defaultTracker {
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
+                    label: self.defaultListName,
+                    value: nil).build() as [NSObject : AnyObject])
+            }
+            
+            var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self.sharePopover = UIPopoverController(contentViewController: controller)
+            self.sharePopover!.delegate = self
+            //self.sharePopover!.backgroundColor = UIColor.greenColor()
+            var rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
+            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        }
+    }
+    
+    //MARK: - UIPopoverControllerDelegate
+    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+        self.sharePopover = nil
+    }
+
+    override func duplicate() {
+        self.invokeSaveListToDuplicateService(defaultListName!, successDuplicateList: { () -> Void in
+            self.delegate?.reloadViewList()
+            self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+            self.alertView!.showDoneIcon()
+        })
+    }
     
 }

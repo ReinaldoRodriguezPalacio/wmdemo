@@ -22,6 +22,7 @@ enum TypeField {
     case List
     case Check
     case None
+    case Phone
 }
 
 class FormFieldView : UIEdgeTextField {
@@ -200,7 +201,8 @@ class FormFieldView : UIEdgeTextField {
                     validate = self.validateRFC()
                 case .RFCM:
                     validate = self.validateRFCM()
-                
+                case .Phone:
+                    validate = self.validatePhone()
                 case .Email:
                     self.isValid =  SignUpViewController.isValidEmail(self.text)
                 default:
@@ -268,6 +270,11 @@ class FormFieldView : UIEdgeTextField {
     
     func validateRFCM ()-> String{
         let regString : String = "^[a-zA-Z&]{3}(\\d{6})([A-Z0-9a-z]{3})?$"
+        return  regString
+    }
+    
+    func validatePhone() -> String{
+        let regString : String = "\\(?([0-9]{3})\\)?([ .-]?)([0-9]{3})\\2([0-9]{4})"
         return  regString
     }
     

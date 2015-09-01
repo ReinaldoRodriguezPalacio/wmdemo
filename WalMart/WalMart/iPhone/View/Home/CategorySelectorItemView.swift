@@ -8,7 +8,7 @@
 
 import Foundation
 
-class CategorySelectorItemView: UIView,iCarouselItem {
+class CategorySelectorItemView: UIView {
     
     
     var title : UILabel!

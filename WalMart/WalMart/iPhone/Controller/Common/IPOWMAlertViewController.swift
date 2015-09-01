@@ -179,7 +179,7 @@ class IPOWMAlertViewController : UIViewController {
         self.doneButton.backgroundColor = colorButton
        
         self.doneButton.addTarget(self, action: "closebtn", forControlEvents: .TouchUpInside)
-        self.doneButton.layer.cornerRadius = 16
+        self.doneButton.layer.cornerRadius = 20
         
         var bounds = self.view.bounds
         if self.view.superview != nil {

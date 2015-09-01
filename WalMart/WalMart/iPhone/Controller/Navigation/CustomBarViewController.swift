@@ -51,6 +51,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     @IBOutlet weak var headerView: UIView!
     @IBOutlet var btnSearch: UIButton?
     @IBOutlet var btnShopping: UIButton?
+    var btnCloseShopping: UIButton?
+    
     var badgeShoppingCart : BadgeView!
     var timmer : NSTimer? = nil
     
@@ -879,6 +881,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func closeShoppingCart() {
+        
+        self.btnShopping?.selected = false
+        self.btnCloseShopping?.alpha = 0
+        self.showBadge()
+        self.btnShopping?.alpha = 1
+
+        
         if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
             vcRoot.delegate = self
             vcRoot.closeShoppingCart()
@@ -893,19 +902,40 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
+    func showShoppingCart() {
+        self.showShoppingCart(self.btnShopping!)
+    }
+    
     func showShoppingCart(sender:UIButton,closeIfNeedded:Bool) {
         if shoppingCartVC != nil {
             if (!sender.selected){
+                sender.selected = !sender.selected
                 ShoppingCartService.shouldupdate = true
                 if (self.btnSearch!.selected)  {
                     self.closeSearch(true, sender:nil)
                 }else{
                     self.addtoShopingCar()
                 }
-                sender.selected = !sender.selected
+                self.endUpdatingShoppingCart(self)
+                self.hidebadge()
+                self.btnShopping?.alpha = 0
+                
+                if self.btnCloseShopping == nil {
+                    self.btnCloseShopping = UIButton()
+                    self.btnCloseShopping?.frame = self.btnShopping!.frame
+                    self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
+                    self.btnCloseShopping?.addTarget(self, action: "showShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+                    self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
+                    
+                }
+                self.btnCloseShopping?.enabled = false
+                self.btnCloseShopping?.alpha = 1
+                
             }
             else {
+                
                 if closeIfNeedded {
+                    
                     self.closeShoppingCart()
                 }
             }
@@ -931,6 +961,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 println("")
                 vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
                 self.btnShopping?.userInteractionEnabled = true
+                self.btnCloseShopping?.enabled = true
             }
             vcRoot.openShoppingCart()
         }
@@ -989,6 +1020,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             badgeShoppingCart = BadgeView(frame: CGRectMake(self.view.bounds.width - 30 , 20, 15, 15))
             self.headerView.addSubview(badgeShoppingCart)
         }
+        if btnShopping?.selected == false {
+            self.badgeShoppingCart.alpha = 1
+        }
     }
     
     func notificaUpdateBadge(notification:NSNotification){
@@ -1041,7 +1075,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func endUpdatingShoppingCart(sender:AnyObject) {
-        self.badgeShoppingCart.hidden = false
         self.showBadge()
         if self.imageLoadingCart != nil {
             self.imageLoadingCart.layer.removeAllAnimations()
@@ -1051,17 +1084,20 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeat:CGFloat) {
-        var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
-        rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
-        rotationAnimation.duration = CFTimeInterval(duration)
-        rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(repeat)
-        
-        view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
-        
-        if self.imageLoadingCart != nil {
-            imageLoadingCart.hidden = false
+        if btnShopping?.selected == false {
+            var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+            rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
+            rotationAnimation.duration = CFTimeInterval(duration)
+            rotationAnimation.cumulative = true
+            rotationAnimation.repeatCount = Float(repeat)
+            
+            view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+            
+            if self.imageLoadingCart != nil {
+                imageLoadingCart.hidden = false
+            }
         }
+        
     }
     
     //MARK: Before adding groceries
@@ -1109,11 +1145,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func hidebadge() {
-        self.badgeShoppingCart.hidden = true
+        self.badgeShoppingCart.alpha = 0
     }
     
     func showbadge() {
-        self.badgeShoppingCart.hidden = false
+        if btnShopping?.selected == false {
+                self.badgeShoppingCart.alpha = 1
+        }
     }
     
     

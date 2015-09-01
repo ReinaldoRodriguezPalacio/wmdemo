@@ -137,7 +137,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 7
+            currentOption = indexPath.row + 6
         default:
             println("")
         }
@@ -150,7 +150,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
    
 
     override func signOut(sender: UIButton?) {
-        self.delegate.selectedDetail(3)
+        self.delegate.selectedDetail(6)
         super.signOut(nil)
     }
 

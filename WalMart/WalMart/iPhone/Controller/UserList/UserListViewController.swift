@@ -65,6 +65,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.hiddenBack = true
         super.viewDidLoad()
         
+        tableuserlist?.multipleTouchEnabled = true
+        
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_LISTS.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
@@ -222,7 +224,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
                     self.itemsUserList = result["responseArray"] as? [AnyObject]
-                    self.tableuserlist!.reloadData()
+                    self.tableuserlist?.reloadData()
                     self.checkEditBtn()
                     if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in

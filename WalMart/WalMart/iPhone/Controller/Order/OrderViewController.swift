@@ -199,6 +199,18 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
                 self.items.append(dictGROrder)
             }
+            
+            let dateFormat = NSDateFormatter()
+            dateFormat.dateFormat = "dd/MM/yyyy"
+            self.items.sort({
+                let firstDate = $0["placedDate"] as! String
+                let secondDate = $1["placedDate"] as! String
+                let dateOne = dateFormat.dateFromString(firstDate)!
+                let dateTwo = dateFormat.dateFromString(secondDate)!
+                return dateOne.compare(dateTwo) == NSComparisonResult.OrderedDescending
+            })
+            
+            
             self.emptyView.hidden = self.items.count > 0
             if self.items.count > 0 {
                 self.facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)

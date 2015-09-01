@@ -54,20 +54,20 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     
     var currentValKg : String? = nil
     
-    
-    
-    init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber) {
+    init(frame: CGRect,priceProduct:NSNumber!,equivalenceByPiece:NSNumber,upcProduct:String) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
         self.equivalenceByPiece = equivalenceByPiece
+        self.upcProduct = upcProduct
         setup()
     }
     
-    init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber) {
+    init(frame: CGRect,priceProduct:NSNumber!,quantity:Int!,equivalenceByPiece:NSNumber,upcProduct:String) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
         self.currentValGr = Double(quantity)
         self.equivalenceByPiece = equivalenceByPiece
+        self.upcProduct = upcProduct
         setup()
         self.updateShoppButton()
     }
@@ -159,10 +159,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
-        let strPrice = CurrencyCustomLabel.formatString("\(result)")
-        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+        if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
+            isUpcInShoppingCart = true
+        } else {
+            isUpcInShoppingCart = false
+        }
+        
+        updateShoppButton()
 
         let gestureQuantity = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         lblQuantityW.addGestureRecognizer(gestureQuantity)
@@ -241,7 +244,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         
         btnOkAddN = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
         let strAdddToSCN = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
+        //btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
         btnOkAddN.backgroundColor = WMColor.productAddToCartPriceSelect
@@ -563,17 +566,63 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     }
     
     func updateShoppButton(){
+        
         var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+        let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
+        
+        var rectSize = CGRectZero
+        if isUpcInShoppingCart {
+            btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+            
+        } else {
+            btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        }
+        
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.btnOkAdd.frame =  CGRectMake((self.frame.width / 2) - ((rectSize.width + 32) / 2),self.btnOkAdd.frame.minY , rectSize.width + 32, 36)
+        })
+        
+        
+//        var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
+//        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+//        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
+//        btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
     }
     
     func updateShoppButtonN(){
+        
         var result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
-        btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+        let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
+        
+        var rectSize = CGRectZero
+        if isUpcInShoppingCart {
+            btnOkAddN.setTitle("\(strUpdateToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+            
+        } else {
+            btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
+            var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        }
+        
+        UIView.animateWithDuration(0.2, animations: { () -> Void in
+            self.btnOkAddN.frame =  CGRectMake((self.frame.width / 2) - ((rectSize.width + 32) / 2),self.btnOkAddN.frame.minY , rectSize.width + 32, 36)
+        })
+
+        
+//        var result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
+//        let strPrice = CurrencyCustomLabel.formatString("\(result)")
+//        let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
+//        btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
     }
     
     func updateLabelW() {

@@ -651,7 +651,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-7a-zhZ">
+                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
+                                <connections>
+                                    <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
                                 <rect key="frame" x="270" y="411" width="34" height="34"/>
                                 <state key="normal" image="location"/>
                                 <state key="selected" image="location_selected"/>
@@ -659,17 +665,18 @@
                                     <action selector="showUserPosition" destination="txc-PP-m5R" eventType="touchUpInside" id="Lsx-XV-Asg"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-7a-zhZ">
-                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
-                                <connections>
-                                    <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
-                                </connections>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" id="BOQ-MC-dd8"/>
+                            <constraint firstItem="XDH-7a-zhZ" firstAttribute="top" secondItem="5Sq-ML-6dD" secondAttribute="bottom" constant="46" id="P6J-ya-QH8"/>
+                            <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="sdz-to-nCq" secondAttribute="bottom" constant="16" id="rIC-00-zad"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Btq-m1-Xv9"/>
                     <connections>
+                        <outlet property="bottomSpaceButton" destination="rIC-00-zad" id="gLc-ra-RCY"/>
+                        <outlet property="bottomSpaceMap" destination="BOQ-MC-dd8" id="S83-NP-eiX"/>
                         <outlet property="clubMap" destination="XDH-7a-zhZ" id="JHv-7a-0OM"/>
                         <outlet property="usrPositionBtn" destination="sdz-to-nCq" id="cJP-3A-lWA"/>
                     </connections>
@@ -713,17 +720,26 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="more_bg" translatesAutoresizingMaskIntoConstraints="NO" id="v8q-ln-OVF">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="userProfile" translatesAutoresizingMaskIntoConstraints="NO" id="aAs-K4-Ts7">
-                                <rect key="frame" x="148" y="32" width="24" height="24"/>
-                            </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gdl-bL-cu7">
-                                <rect key="frame" x="16" y="71" width="288" height="25"/>
+                                <rect key="frame" x="16" y="38" width="288" height="25"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ys4-xh-O45">
-                                <rect key="frame" x="115" y="110" width="90" height="24"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bjT-83-rFZ">
+                                <rect key="frame" x="16" y="66" width="288" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8fy-1L-PWP">
+                                <rect key="frame" x="16" y="85" width="288" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ys4-xh-O45" customClass="WMRoundButton" customModule="WalmartMG" customModuleProvider="target">
+                                <rect key="frame" x="115" y="109" width="90" height="24"/>
                                 <state key="normal" title="Button">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -734,6 +750,8 @@
                     </view>
                     <navigationItem key="navigationItem" id="Ktw-AS-6dD"/>
                     <connections>
+                        <outlet property="emailLabel" destination="bjT-83-rFZ" id="GSc-Sh-NBK"/>
+                        <outlet property="passwordLabel" destination="8fy-1L-PWP" id="A8w-gp-XW1"/>
                         <outlet property="profileView" destination="v8q-ln-OVF" id="qzk-K3-xrQ"/>
                         <outlet property="signInOrClose" destination="ys4-xh-O45" id="Exu-U7-i2A"/>
                         <outlet property="userName" destination="Gdl-bL-cu7" id="uqE-YR-yxp"/>
@@ -841,7 +859,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
                                 <rect key="frame" x="0.0" y="46" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="x5F-0N-HoN" customClass="CSStickyHeaderFlowLayout"/>
@@ -853,6 +871,10 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" constant="-45" id="8Vs-g8-mDp"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="26" id="hDH-xo-a8d"/>
+                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
@@ -1015,7 +1037,6 @@
         <image name="navBar_cart" width="35" height="35"/>
         <image name="navBar_logo" width="112" height="28"/>
         <image name="navBar_search" width="20" height="20"/>
-        <image name="userProfile" width="24" height="24"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

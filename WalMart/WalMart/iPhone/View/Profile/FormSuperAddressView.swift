@@ -49,6 +49,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var currentZipCode = ""
     var picker : AlertPickerView!
     
+    var idAddress : String!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -168,28 +170,28 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         self.phoneHomeNumber = FormFieldView()
         self.phoneHomeNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
-        self.phoneHomeNumber!.typeField = TypeField.Number
+        self.phoneHomeNumber!.typeField = TypeField.Phone
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHomeNumber!.minLength = 10
-        self.phoneHomeNumber!.maxLength = 10
+        //self.phoneHomeNumber!.maxLength = 10
         self.phoneHomeNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHomeNumber!.inputAccessoryView = viewAccess
         
         self.phoneWorkNumber = FormFieldView()
         self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
-        self.phoneWorkNumber!.typeField = TypeField.Number
+        self.phoneWorkNumber!.typeField = TypeField.Phone
         self.phoneWorkNumber!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
         self.phoneWorkNumber!.minLength = 10
-        self.phoneWorkNumber!.maxLength = 10
+        //self.phoneWorkNumber!.maxLength = 10
         self.phoneWorkNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneWorkNumber!.inputAccessoryView = viewAccess
         
         self.cellPhone = FormFieldView()
         self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.cell",comment:""))
-        self.cellPhone!.typeField = TypeField.Number
+        self.cellPhone!.typeField = TypeField.Phone
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
-        self.cellPhone!.maxLength = 10
+        //self.cellPhone!.maxLength = 10
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         

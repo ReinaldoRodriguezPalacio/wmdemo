@@ -44,6 +44,11 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
       
     }
     
+    override func viewWillLayoutSubviews() {
+
+        self.pageController.view.frame = self.view.bounds
+    }
+    
     
     func getControllerToShow(upc:String,descr:String,type:String) -> UIViewController? {
        return self.getControllerToShow(upc, descr: descr, type: type, saving: "")

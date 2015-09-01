@@ -14,7 +14,7 @@
 "moreoptions.title.Recents" = "Artículos más comprados";
 "moreoptions.title.Address" = "Mis Direcciones";
 "moreoptions.title.Orders" = "Pedidos anteriores";
-"moreoptions.title.Factura" = "Facturación electónica";
+"moreoptions.title.Factura" = "Facturación electrónica";
 
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";
 "moreoptions.title.CamFind" = "Busca un artículo por foto";
@@ -52,7 +52,7 @@
 "product.searh.all" = "Ver Todos";
 "product.searh.cancel" = "Cancelar";
 "product.search.scann.help" = "También puedes buscar escaneando un código de barras";
-"product.search.minimum" = "Ingrese mínimo 3 caractéres";
+"product.search.minimum" = "Ingrese mínimo 3 caracteres";
 "product.search.filterall" = "Seleccionar todos";
 
 //filter
@@ -99,7 +99,7 @@
 "wishlist.title" = "Wishlist";
 "wishlist.edit" = "editar";
 "wishlist.delete" = "Eliminar";
-"wishlist.deleteall" = "Eliminar todo";
+"wishlist.deleteall" = "eliminar todo";
 "wishlist.endedit" = "ok";
 "wishlist.ready" = "¡Artículo añadido a tu Wishlist!";
 "wishlist.deleted" = "¡Artículo eliminado de tu Wishlist!";
@@ -186,6 +186,7 @@
 "shoppingcart.selectgrkg" = "Ordenar por Peso";
 "price.saving" = "Ahorras";
 "shoppingcart.addtoshoppingcart" = "Añadir";
+"shoppingcart.updatetoshoppingcart" = "Actualizar";
 "order.shop.title.btn" = "Comprar";
 "shoppingcart.multiple.50" = "Solo múltiplos de 50";
 
@@ -217,17 +218,17 @@
 "profile.no.account" = "¿No Tienes Cuenta?";
 "profile.shipping" = "Direcciones de Entrega";
 "profile.fiscal" = "Direcciones de Facturación";
-"profile.address.new" = "Nueva";
+"profile.address.new" = "nueva";
 "profile.address.new.title" = "Nueva Dirección";
 "profile.registration" = "Registro";
 "profile.title" = "Perfil";
 "profile.change.password" = "Cambiar Contraseña";
-"profile.save" = "Guardar";
+"profile.save" = "guardar";
 "profile.password.current" = "Contraseña Actual";
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
 "profile.login.welcome"= "Bienvenido a Walmart";
 "profile.login"= "Ingresa a tu cuenta";
-"field.validate.password.length" = "Contraseña inválida";
+"field.validate.password.length" = "contraseña inválida";
 "profile.change.legalinfo" = "Información legal";
 
 //Preious orders
@@ -284,20 +285,20 @@
 "profile.address.already.exist" = "La dirección ya existe";
 
 //field
-"field.validate.required" = " es requerido";
+"field.validate.required" = " Es requerido";
 "field.validate.text.invalid" = " Texto no válido";
 "field.validate.text.invalid.rfc" = " Formato invalido";
 "field.validate.password" = " La contraseña debería tener al menos 8 caracteres";
 "field.validate.password.empty" = " La contraseña es requerida";
-"field.validate.confirm.password" = "debe ser idéntico a la contraseña";
-"field.validate.maxlength" = " la longitud no puede ser mayor a ";
-"field.validate.minlength" = " la longitud no puede ser menor a ";
-"field.validate.minmaxlength.characters" = "caractéres";
+"field.validate.confirm.password" = " Debe ser idéntico a la contraseña";
+"field.validate.maxlength" = " La longitud no puede ser mayor a ";
+"field.validate.minlength" = " La longitud no puede ser menor a ";
+"field.validate.minmaxlength.characters" = "caracteres";
 "field.validate.minmaxlength.digit" = "dígitos";
-"signup.validate.terms.conditions" = "Para registrarte debes aceptar los términos y condiciones";
-"field.validate.minmaxlength.gender" = "El genero es requerido";
-"field.validate.zipcode" = "Código postal inválido";
-"field.validate.telephone.invalid" = "Teléfono no válido";
+"signup.validate.terms.conditions" = " Para registrarte debes aceptar los términos y condiciones";
+"field.validate.minmaxlength.gender" = " El genero es requerido";
+"field.validate.zipcode" = " Código postal inválido";
+"field.validate.telephone.invalid" = " Teléfono no válido";
 
 
 //help
@@ -386,8 +387,8 @@
 "store.telephone" = "Teléfono: %@";
 "store.opens" = "Horario: %@";
 "store.distance" = "A %@ km";
-"store.showmap" = "Mapa";
-"store.showtable" = "Lista";
+"store.showmap" = "mapa";
+"store.showtable" = "lista";
 "store.selector.map" = "Mapa";
 "store.selector.satelite" = "Satélite";
 

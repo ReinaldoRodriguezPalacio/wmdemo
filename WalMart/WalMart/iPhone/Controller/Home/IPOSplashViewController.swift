@@ -61,13 +61,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         confServ.callService([:], successBlock: { (result:NSDictionary) -> Void in
             var error: NSError?
             self.configureWebView(result)
-            //            if error == nil {
-            //                self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
-            //            }else{
-            //                self.gotohomecontroller()
-            //            }
             if error == nil{
-                //
+                self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
                 if let privateNot = result["privaceNotice"] as? [AnyObject] {
                     let dateFormatter = NSDateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
