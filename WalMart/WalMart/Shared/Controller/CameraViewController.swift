@@ -641,10 +641,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             if !UIApplicationOpenSettingsURLString.isEmpty {
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             }
-        } else {
-            self.closeCamera()
         }
-        
+        self.closeCamera()
     }
     
     func loadImageFromLibrary(sender: UIButton) {
