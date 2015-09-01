@@ -17,15 +17,21 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
 
     var coreLocationManager: CLLocationManager!
 
+    @IBOutlet var bottomSpaceMap: NSLayoutConstraint!
+    @IBOutlet weak var bottomSpaceButton: NSLayoutConstraint!
     @IBOutlet var clubMap: MKMapView?
     @IBOutlet var usrPositionBtn: UIButton?
     
-    var segmented: UISegmentedControl?
+    //var segmented: UISegmentedControl?
     var currentSelected: MKAnnotationView?
     var viewBgDetailView: UIView?
     var detailView : StoreView?
     var actionSheet: UIActionSheet?
-
+    var segmentedView : UIView!
+    var btnMapView : UIButton!
+    var btnSatView : UIButton!
+    
+    
     var toggleViewBtn: WMRoundButton?
     var clubCollection: UICollectionView?
     var clubCollectionLayout: UICollectionViewFlowLayout?
@@ -61,40 +67,77 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.coreLocationManager.requestWhenInUseAuthorization()
         }
         
-        self.segmented = UISegmentedControl(items: [NSLocalizedString("store.selector.map", comment:""), NSLocalizedString("store.selector.satelite", comment:"")])
-        self.segmented!.addTarget(self, action: Selector("segmentedControlAction:"), forControlEvents: .ValueChanged)
-        self.segmented!.selectedSegmentIndex = 0
-        self.view.addSubview(self.segmented!)
-        //self.segmented!.momentary = true
         
-        var segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
-            NSForegroundColorAttributeName:WMColor.productDetailPriceText]
-        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Normal)
+        self.segmentedView = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16,  150.0, 22.0))
+        self.segmentedView.layer.borderWidth = 1
+        self.segmentedView.layer.cornerRadius = 11
+        self.segmentedView.layer.borderColor = WMColor.addressSelectorColor.CGColor
         
-        segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
-            NSForegroundColorAttributeName:UIColor.whiteColor()]
-        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Selected)
-        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Highlighted)
+        let titleMap = NSLocalizedString("store.selector.map", comment:"")
+        btnMapView = UIButton(frame: CGRectMake(1, 1, (self.segmentedView.frame.width / 2) - 1, self.segmentedView.frame.height - 2))
+        btnMapView.setImage(UIImage(color: UIColor.whiteColor(), size: btnMapView.frame.size), forState: UIControlState.Normal)
+        btnMapView.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnMapView.frame.size), forState: UIControlState.Selected)
+        btnMapView.setTitle(titleMap, forState: UIControlState.Normal)
+        btnMapView.setTitle(titleMap, forState: UIControlState.Selected)
+        btnMapView.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+        btnMapView.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnMapView.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        btnMapView.selected = true
+        btnMapView.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnMapView.frame.size.width + 1, 0, 0.0);
+        btnMapView.addTarget(self, action: "applyMapViewMemoryHotFix", forControlEvents: UIControlEvents.TouchUpInside)
         
-        var imgInsets = UIEdgeInsetsMake(15, 15, 15, 15)
-        var image_normal = UIImage(named:"store_segmented_normal")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).resizableImageWithCapInsets(imgInsets)
-        var image_selected = UIImage(named:"store_segmented_selected")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).resizableImageWithCapInsets(imgInsets)
-        self.segmented!.setBackgroundImage(image_normal, forState:.Normal, barMetrics:.Default)
-        self.segmented!.setBackgroundImage(image_selected, forState:.Selected, barMetrics:.Default)
-        self.segmented!.setBackgroundImage(image_selected, forState:.Highlighted, barMetrics:.Default)
-
-        var sepInsets = UIEdgeInsetsMake(15, 10, 15, 10)
-        var bothSelected = UIImage(named:"store_segmented_bothActive")!.resizableImageWithCapInsets(sepInsets)
-        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Selected, rightSegmentState: .Highlighted, barMetrics: .Default)
-        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Highlighted, rightSegmentState: .Selected, barMetrics: .Default)
+        let titleSat = NSLocalizedString("store.selector.satelite", comment:"")
+        btnSatView = UIButton(frame: CGRectMake(btnMapView.frame.maxX, 1, self.segmentedView.frame.width / 2, self.segmentedView.frame.height - 2))
+        btnSatView.setImage(UIImage(color: UIColor.whiteColor(), size: btnMapView.frame.size), forState: UIControlState.Normal)
+        btnSatView.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnMapView.frame.size), forState: UIControlState.Selected)
+        btnSatView.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+        btnSatView.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnSatView.setTitle(titleSat, forState: UIControlState.Normal)
+        btnSatView.setTitle(titleSat, forState: UIControlState.Selected)
+        btnSatView.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        btnSatView.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnMapView.frame.size.width + 1, 0, 0.0);
+        btnSatView.addTarget(self, action: "applyMapViewMemoryHotFix", forControlEvents: UIControlEvents.TouchUpInside)
         
-        var leftSelected = UIImage(named:"store_segmented_LActiveRInactive.png")!.resizableImageWithCapInsets(sepInsets)
-        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Highlighted, rightSegmentState:.Normal, barMetrics:.Default)
-        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Selected, rightSegmentState:.Normal, barMetrics:.Default)
+        self.segmentedView.clipsToBounds = true
+        self.segmentedView.backgroundColor = UIColor.whiteColor()
+        self.segmentedView.addSubview(btnMapView)
+        self.segmentedView.addSubview(btnSatView)
+         self.view.addSubview(self.segmentedView!)
         
-        var rightSelected = UIImage(named:"store_segmented_RActiveLInactive.png")!.resizableImageWithCapInsets(sepInsets)
-        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Highlighted, barMetrics:.Default)
-        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Selected, barMetrics:.Default)
+//        self.segmented = UISegmentedControl(items: [NSLocalizedString("store.selector.map", comment:""), NSLocalizedString("store.selector.satelite", comment:"")])
+//        self.segmented!.addTarget(self, action: Selector("segmentedControlAction:"), forControlEvents: .ValueChanged)
+//        self.segmented!.selectedSegmentIndex = 0
+//        self.view.addSubview(self.segmented!)
+//        //self.segmented!.momentary = true
+//        
+//        var segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
+//            NSForegroundColorAttributeName:WMColor.productDetailPriceText]
+//        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Normal)
+//        
+//        segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
+//            NSForegroundColorAttributeName:UIColor.whiteColor()]
+//        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Selected)
+//        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Highlighted)
+//        
+//        var imgInsets = UIEdgeInsetsMake(15, 15, 15, 15)
+//        var image_normal = UIImage(named:"store_segmented_normal")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).resizableImageWithCapInsets(imgInsets)
+//        var image_selected = UIImage(named:"store_segmented_selected")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).resizableImageWithCapInsets(imgInsets)
+//        self.segmented!.setBackgroundImage(image_normal, forState:.Normal, barMetrics:.Default)
+//        self.segmented!.setBackgroundImage(image_selected, forState:.Selected, barMetrics:.Default)
+//        self.segmented!.setBackgroundImage(image_selected, forState:.Highlighted, barMetrics:.Default)
+//
+//        var sepInsets = UIEdgeInsetsMake(15, 10, 15, 10)
+//        var bothSelected = UIImage(named:"store_segmented_bothActive")!.resizableImageWithCapInsets(sepInsets)
+//        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Selected, rightSegmentState: .Highlighted, barMetrics: .Default)
+//        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Highlighted, rightSegmentState: .Selected, barMetrics: .Default)
+//        
+//        var leftSelected = UIImage(named:"store_segmented_LActiveRInactive.png")!.resizableImageWithCapInsets(sepInsets)
+//        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Highlighted, rightSegmentState:.Normal, barMetrics:.Default)
+//        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Selected, rightSegmentState:.Normal, barMetrics:.Default)
+//        
+//        var rightSelected = UIImage(named:"store_segmented_RActiveLInactive.png")!.resizableImageWithCapInsets(sepInsets)
+//        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Highlighted, barMetrics:.Default)
+//        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Selected, barMetrics:.Default)
         
         
 
@@ -127,6 +170,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
         self.loadAnnotations()
         self.clubCollection!.reloadData()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideTabBar", name: CustomBarNotification.HideBar.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showTabBar", name: CustomBarNotification.ShowBar.rawValue, object: nil)
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -142,8 +189,12 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubMap!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
         self.clubCollection?.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
 
-        self.segmented!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
-        self.segmented!.center = CGPointMake(self.segmented!.center.x, self.usrPositionBtn!.center.y)
+        self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
+        var space : CGFloat = 0
+        if bottomSpaceButton != nil  {
+            space = bottomSpaceButton!.constant
+        }
+        self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (space - 16))
 
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame
@@ -155,7 +206,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.applyMapViewMemoryHotFix()
+        self.memoryHotFix()
         self.coreLocationManager.startUpdatingLocation()
         if self.clubMap!.userLocation != nil && !self.localizable {
             self.zoomMapLocation(self.clubMap!.userLocation)
@@ -168,7 +219,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             var cancelIdx = self.actionSheet!.cancelButtonIndex
             self.actionSheet!.dismissWithClickedButtonIndex(cancelIdx, animated: false)
         }
-        self.applyMapViewMemoryHotFix()
+        self.memoryHotFix()
         self.coreLocationManager.stopUpdatingLocation()
     }
     
@@ -424,17 +475,38 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
 
     //MARK: - Utils
     
-    func applyMapViewMemoryHotFix(){
-        if self.clubMap != nil {
-            if self.segmented!.selectedSegmentIndex == 0 {
-                self.clubMap!.mapType = MKMapType.Hybrid
-                self.clubMap!.mapType = MKMapType.Standard
-            }
-            else {
-                self.clubMap!.mapType = MKMapType.Standard
-                self.clubMap!.mapType = MKMapType.Hybrid
-            }
+    func memoryHotFix() {
+        if !self.btnMapView.selected {
+            self.clubMap!.mapType = MKMapType.Standard
+            self.clubMap!.mapType = MKMapType.Hybrid
+        } else {
+            self.clubMap!.mapType = MKMapType.Hybrid
+            self.clubMap!.mapType = MKMapType.Standard
         }
+    }
+    
+    func applyMapViewMemoryHotFix(){
+        if !self.btnMapView.selected {
+            self.btnMapView.selected = !self.btnMapView.selected
+            self.btnSatView.selected = !self.btnSatView.selected
+//            self.clubMap!.mapType = MKMapType.Hybrid
+//            self.clubMap!.mapType = MKMapType.Standard
+//
+//            if self.segmented!.selectedSegmentIndex == 0 {
+//                self.clubMap!.mapType = MKMapType.Hybrid
+//                self.clubMap!.mapType = MKMapType.Standard
+//            }
+//            else {
+//                self.clubMap!.mapType = MKMapType.Standard
+//                self.clubMap!.mapType = MKMapType.Hybrid
+//            }
+        } else {
+            self.btnMapView.selected = !self.btnMapView.selected
+            self.btnSatView.selected = !self.btnSatView.selected
+//            self.clubMap!.mapType = MKMapType.Standard
+//            self.clubMap!.mapType = MKMapType.Hybrid
+        }
+        memoryHotFix()
     }
     
     func zoomMapLocation(userLocation: MKUserLocation! ){
@@ -625,4 +697,24 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
     }
 
+    
+    func showTabBar() {
+        bottomSpaceMap?.constant = 44
+        bottomSpaceButton?.constant = 60
+        var space : CGFloat = 0
+        if bottomSpaceButton != nil  {
+            self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
+        }
+        
+    }
+    
+    func hideTabBar() {
+        bottomSpaceMap?.constant = 0
+        bottomSpaceButton?.constant = 16
+        var space : CGFloat = 0
+        if bottomSpaceButton != nil  {
+           self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
+        }
+    }
+    
 }

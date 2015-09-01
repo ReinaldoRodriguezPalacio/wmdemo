@@ -1055,11 +1055,19 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             //self.layoutTitleLabel()
             self.tableView!.reloadData()
             if reloadList {
-                self.reloadTableListUser()
+                self.reloadTableListUserSelectedRow()
+                //self.reloadTableListUser()
             }
             
            
-            
+            self.selectedItems = []
+            self.selectedItems = NSMutableArray()
+            if self.products != nil  && self.products!.count > 0  {
+                for i in 0...self.products!.count - 1 {
+                    self.selectedItems?.addObject(i)
+                }
+                self.updateTotalLabel()
+            }
             
             self.updateTotalLabel()
         }else
@@ -1083,6 +1091,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
       
         
     }
+    
+    func reloadTableListUserSelectedRow(){
+        
+    }
+
     
     func saveContext() {
         var error: NSError? = nil

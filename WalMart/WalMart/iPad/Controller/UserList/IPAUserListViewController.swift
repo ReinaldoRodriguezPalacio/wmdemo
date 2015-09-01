@@ -273,6 +273,7 @@ class IPAUserListViewController: UserListViewController {
             //println(self.itemsUserList)
             self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList
+
             //println(self.itemsUserList)
             self.tableuserlist!.reloadData()
             if !self.newListEnabled && !self.isEditingUserList {

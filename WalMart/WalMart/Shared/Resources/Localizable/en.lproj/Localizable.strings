@@ -387,7 +387,7 @@
 "store.telephone" = "Teléfono: %@";
 "store.opens" = "Horario: %@";
 "store.distance" = "A %@ km";
-"store.showmap" = "Mapa";
+"store.showmap" = "mapa";
 "store.showtable" = "lista";
 "store.selector.map" = "Mapa";
 "store.selector.satelite" = "Satélite";

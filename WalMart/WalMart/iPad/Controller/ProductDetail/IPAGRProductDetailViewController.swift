@@ -858,6 +858,12 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         controller.type = self.type as String
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
     }
+    
+    func reloadTableListUserSelectedRow() {
+        
+
+        
+    }
 
     
    

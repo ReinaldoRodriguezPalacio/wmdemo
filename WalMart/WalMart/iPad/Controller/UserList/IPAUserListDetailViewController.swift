@@ -12,6 +12,7 @@ protocol IPAUserListDetailDelegate {
     func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int)
     func reloadTableListUser()
     func closeUserListDetail()
+    func reloadTableListUserSelectedRow()
 }
 
 class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverControllerDelegate {
@@ -376,6 +377,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func reloadTableListUser() {
         if delegate != nil {
             self.delegate!.reloadTableListUser()
+        }
+    }
+    
+    override func reloadTableListUserSelectedRow(){
+        if delegate != nil {
+            self.delegate!.reloadTableListUserSelectedRow()
         }
     }
     

@@ -86,6 +86,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         self.view.bringSubviewToFront(self.separatorView!)
         navController.didMoveToParentViewController(self)
         self.currentListId = nil
+        self.currentEntity = nil
         navController.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
         self.detailController = navController
         
@@ -211,4 +212,9 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     func closeUserListDetail() {
     }
+    
+    func reloadTableListUserSelectedRow() {
+        self.listController?.tableuserlist?.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Fade)
+    }
+    
 }

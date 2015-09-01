@@ -651,7 +651,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-7a-zhZ">
+                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
+                                <connections>
+                                    <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
+                                </connections>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
                                 <rect key="frame" x="270" y="411" width="34" height="34"/>
                                 <state key="normal" image="location"/>
                                 <state key="selected" image="location_selected"/>
@@ -659,17 +665,18 @@
                                     <action selector="showUserPosition" destination="txc-PP-m5R" eventType="touchUpInside" id="Lsx-XV-Asg"/>
                                 </connections>
                             </button>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XDH-7a-zhZ">
-                                <rect key="frame" x="0.0" y="46" width="320" height="415"/>
-                                <connections>
-                                    <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
-                                </connections>
-                            </mapView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" id="BOQ-MC-dd8"/>
+                            <constraint firstItem="XDH-7a-zhZ" firstAttribute="top" secondItem="5Sq-ML-6dD" secondAttribute="bottom" constant="46" id="P6J-ya-QH8"/>
+                            <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="sdz-to-nCq" secondAttribute="bottom" constant="16" id="rIC-00-zad"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Btq-m1-Xv9"/>
                     <connections>
+                        <outlet property="bottomSpaceButton" destination="rIC-00-zad" id="gLc-ra-RCY"/>
+                        <outlet property="bottomSpaceMap" destination="BOQ-MC-dd8" id="S83-NP-eiX"/>
                         <outlet property="clubMap" destination="XDH-7a-zhZ" id="JHv-7a-0OM"/>
                         <outlet property="usrPositionBtn" destination="sdz-to-nCq" id="cJP-3A-lWA"/>
                     </connections>
@@ -852,7 +859,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="gAa-Bu-aYo">
                                 <rect key="frame" x="0.0" y="46" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewLayout key="collectionViewLayout" id="x5F-0N-HoN" customClass="CSStickyHeaderFlowLayout"/>
@@ -864,6 +871,10 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" constant="-45" id="8Vs-g8-mDp"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="26" id="hDH-xo-a8d"/>
+                        </constraints>
                     </view>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
