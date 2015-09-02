@@ -97,6 +97,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         //self.invokePaymentService()
         //self.invokeAddressUserService()
+        self.selectedAddressHasStore = true
         self.amountDiscountAssociate = 0.0
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat =  "d MMMM yyyy"
