@@ -251,7 +251,7 @@ class OrderConfirmDetailView : UIView {
             
             self.titleLabel.text = NSLocalizedString("gr.confirma.title",comment: "")
             
-            self.viewLoadingDoneAnimate.backgroundColor = WMColor.UIColorFromRGB(0x8ebb37 , alpha: 0.5)
+            self.viewLoadingDoneAnimate.backgroundColor = WMColor.green.colorWithAlphaComponent(0.5)
 
             self.iconLoadingDone.image = UIImage(named:"done_order")
             var animation = CAKeyframeAnimation()

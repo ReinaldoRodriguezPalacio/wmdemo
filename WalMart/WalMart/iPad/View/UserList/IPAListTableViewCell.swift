@@ -26,9 +26,6 @@ class IPAListTableViewCell: ListTableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .Default
 
-        var backgroundColorView = UIView()
-        backgroundColorView.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
-        self.selectedBackgroundView = backgroundColorView
     }
 
 

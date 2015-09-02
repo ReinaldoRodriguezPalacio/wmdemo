@@ -412,6 +412,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     })
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+                    self.selectRowIfNeeded()
                     CATransaction.commit()
                     
                     
@@ -423,6 +424,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     //MARK: - NewList
+    
+    func selectRowIfNeeded() {
+    }
     
     func showNewListField() {
         if self.itemsUserList!.count >= 11 {
@@ -594,7 +598,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingWishList  = true
                     self.isShowingSuperlists = true
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                    self.newListBtn!.backgroundColor = WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))

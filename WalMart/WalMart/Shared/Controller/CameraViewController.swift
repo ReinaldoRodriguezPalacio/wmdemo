@@ -132,7 +132,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.okButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
         self.okButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.okButton!.addTarget(self, action: "sendPhoto", forControlEvents: UIControlEvents.TouchUpInside)
-        self.okButton!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+        self.okButton!.backgroundColor = WMColor.green
         self.okButton!.layer.cornerRadius = 18.0
         self.okButton!.alpha = 0
         self.view!.addSubview(self.okButton!)

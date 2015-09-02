@@ -21,6 +21,7 @@ protocol IPAUserListDelegate {
 
 class IPAUserListViewController: UserListViewController {
 
+    var selectedItem : NSIndexPath?
     var delegate: IPAUserListDelegate?
     
     override func viewDidLoad() {
@@ -157,6 +158,13 @@ class IPAUserListViewController: UserListViewController {
 
     //MARK: - UITableViewDataSource
     
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cellTable = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        println("IndexSel : \(selectedItem) , cuerrent \(indexPath)")
+        cellTable.setSelected(indexPath == selectedItem, animated: true)
+        return cellTable
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var wishList = false
         if indexPath.section == 0 {
@@ -173,11 +181,12 @@ class IPAUserListViewController: UserListViewController {
             }
             
             if defaultList {
+                selectedItem = indexPath
                 delegate?.showPractilistViewController()
                 return
             }
         }
-        
+        selectedItem = indexPath
         if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
@@ -232,6 +241,7 @@ class IPAUserListViewController: UserListViewController {
                     self.isShowingWishList = false
                     self.isShowingSuperlists = !self.isEditingUserList
                     //println(self.itemsUserList)
+                    self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
                     self.tableuserlist!.reloadData()
                     if !self.newListEnabled && !self.isEditingUserList {
                         self.showSearchField({ () -> Void in
@@ -250,7 +260,7 @@ class IPAUserListViewController: UserListViewController {
                     }
                     
                     if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
-                        self.tableuserlist?.selectRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.Top)
+                        self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: true, scrollPosition: UITableViewScrollPosition.Top)
                         self.delegate?.showPractilistViewController()
                         
                     }
@@ -273,9 +283,12 @@ class IPAUserListViewController: UserListViewController {
             //println(self.itemsUserList)
             self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList
+            self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+            
 
             //println(self.itemsUserList)
             self.tableuserlist!.reloadData()
+            self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: true, scrollPosition: UITableViewScrollPosition.Top)
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({ () -> Void in
                     }, atFinished: { () -> Void in
@@ -293,7 +306,7 @@ class IPAUserListViewController: UserListViewController {
                 }
             }
             
-            if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
+            if self.itemsUserList != nil && self.itemsUserList!.count >= 0 {
                 self.delegate?.showPractilistViewController()
             }
             else {
@@ -319,6 +332,9 @@ class IPAUserListViewController: UserListViewController {
     
     
 
+    override func selectRowIfNeeded() {
+        self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: false, scrollPosition: UITableViewScrollPosition.None)
+    }
 
     
 }

@@ -894,7 +894,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 //self.layoutTitleLabel()
                 self.tableView!.reloadData()
                 if reloadList {
-                    self.reloadTableListUser()
+                    self.reloadTableListUserSelectedRow()
                 }
                 self.updateTotalLabel()
                 if self.products == nil || self.products!.count == 0 {
