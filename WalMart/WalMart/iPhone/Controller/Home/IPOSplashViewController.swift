@@ -213,9 +213,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         if let serviceapp = itemsconfig["serviceUrl"] as? String {
             if serviceapp == "cluster" {
-//                ConfigServices.ConfigIdMG = "clusterWMURLServices"
-//                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
-//                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
+                ConfigServices.ConfigIdMG = "clusterWMURLServices"
+                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
+                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
             }
         }
         
