@@ -244,13 +244,19 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
 
     func closeShoppingCart() {
         
+
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.view.frame = CGRectMake(self.view.frame.minX, -self.view.frame.height , self.view.frame.width,  self.view.frame.height)
                 }) { (completed:Bool) -> Void in
                     
-                    self.controllerShowing?.removeFromParentViewController()
-                    self.controllerShowing?.view.removeFromSuperview()
-                    self.controllerShowing = nil
+                    
+                   self.viewSuper.frame =  CGRectMake(200, -288, 288, 228)
+                    self.viewMG.frame =  CGRectMake(536, -288, 288, 228)
+                    
+                    
+//                    self.controllerShowing?.removeFromParentViewController()
+//                    self.controllerShowing?.view.removeFromSuperview()
+//                    self.controllerShowing = nil
                     
                 self.view.removeFromSuperview()
                   //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
@@ -271,7 +277,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                     
                     self.viewMG.alpha = 0
                     self.viewSuper.alpha = 0
-                   self.closeShoppingCart()
+                    self.closeShoppingCart()
                 }
                 
                 self.view.addSubview(vcResult.view)

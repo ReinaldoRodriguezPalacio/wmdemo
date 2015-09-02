@@ -428,6 +428,13 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
     
     override func returnToView() {
+        
+        self.btnShopping?.selected = false
+        self.btnCloseShopping?.alpha = 0
+        self.showBadge()
+        self.btnShopping?.alpha = 1
+
+        
         if shoppingCartVC != nil {
             self.btnShopping!.selected = false
             shoppingCartVC.removeFromParentViewController()
