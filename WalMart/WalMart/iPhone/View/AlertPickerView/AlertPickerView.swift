@@ -78,7 +78,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewButton.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
         self.addSubview(viewButton)
         
-        viewContent = UIView(frame: CGRectMake(0, 0, 286, 294))
+        viewContent = UIView(frame: CGRectMake(0, 0, 286, 326))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
         viewContent.clipsToBounds = true

@@ -116,6 +116,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.addSubview(self.viewBgSel!)
         self.sendSubviewToBack(viewBgSel!)
         
+        //self.selectedBackgroundView = viewBgSel
+        
     }
     
     override func layoutSubviews() {
@@ -282,7 +284,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
-        // super.setSelected(selected, animated: true)
+        //super.setSelected(selected, animated: true)
         viewBgSel?.hidden = !selected
     }
     

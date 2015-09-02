@@ -97,6 +97,11 @@ class GRSaveUserListService : GRBaseService {
     }
     
     func manageListData(list:NSDictionary)  {
+        
+        if  UserCurrentSession.sharedInstance().userSigned == nil {
+            return
+        }
+        
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         

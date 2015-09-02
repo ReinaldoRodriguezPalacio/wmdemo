@@ -411,6 +411,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.editBtn?.enabled = true
                     })
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                    self.tableuserlist!.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+                    self.selectRowIfNeeded()
                     CATransaction.commit()
                     
                     
@@ -422,6 +424,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     //MARK: - NewList
+    
+    func selectRowIfNeeded() {
+    }
     
     func showNewListField() {
         if self.itemsUserList!.count >= 11 {
@@ -593,7 +598,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingWishList  = true
                     self.isShowingSuperlists = true
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)
+                    self.newListBtn!.backgroundColor = WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
@@ -1174,7 +1179,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 }
                 
                 if list != nil {
+                    
                     var name = self.listToUpdate![idList]!
+                    if !validateListName(idList, nameList: name) {
+                        return
+                    }
+
                     list!.name = name
                 }
             }
@@ -1233,6 +1243,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 return
             }
             
+            if !validateListName(firstKey!, nameList: name!) {
+                self.alertView!.setMessage(NSLocalizedString("gr.list.samename", comment:""))
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                return
+            }
+            
             var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
             
             var trimmedString = name!.stringByTrimmingCharactersInSet(whitespaceset)
@@ -1255,6 +1271,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                 return
             }
+            
+            
+            
+            
             
             let detailService = GRUserListDetailService()
             detailService.buildParams(firstKey!)
@@ -1305,6 +1325,29 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             )
             
         }
+    }
+    
+    func validateListName(idLits:String,nameList:String) -> Bool {
+        //Validate list exist
+        if let itemsList = self.itemsUserList {
+            for itemInList in itemsList {
+                if let itemInListVal = itemInList as? NSDictionary {
+                    if let nameListSvc = itemInListVal["name"] as? String {
+                        if let idListSvc = itemInListVal["id"]  as? String  {
+                            if nameListSvc == nameList  && idListSvc != idLits {
+                                return false
+                            }
+                        }
+                    }
+                }
+                if let itemInListVal = itemInList as? List {
+                    if itemInListVal.name == nameList  && itemInListVal.idList != idLits {
+                        return false
+                    }
+                }
+            }
+        }
+        return true
     }
     
     //MARK: - BarCodeViewControllerDelegate

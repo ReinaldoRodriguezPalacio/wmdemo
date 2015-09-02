@@ -108,6 +108,10 @@ class IPAHomeViewController : HomeViewController {
         controller.titleHeader = "Recomendados"
         self.navigationController!.pushViewController(controller, animated: true)
     }
+    
+    override func viewWillDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
 
 
 }

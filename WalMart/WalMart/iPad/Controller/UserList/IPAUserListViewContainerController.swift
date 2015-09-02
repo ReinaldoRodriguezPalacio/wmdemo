@@ -18,6 +18,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     var currentListId: String?
     var currentEntity: List?
+    var currentName: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +61,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     func showListDetail(forId idList:String?, orEntity entity:List?, andName name:String?) {
         self.currentListId = idList
         self.currentEntity = entity
+        var currentName = name
         
         if self.detailController == nil {
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
@@ -80,6 +82,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         defaultListController.delegate = self
         let navController = UINavigationController(rootViewController: defaultListController)
         navController.navigationBarHidden = true
+        self.listController?.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
         
         self.addChildViewController(navController)
         self.view.addSubview(navController.view)
@@ -90,10 +93,12 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         navController.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
         self.detailController = navController
         
+        
     }
     
     func reloadViewList() {
         self.listController?.reloadListFormUpdate()
+        self.showListDetail(forId: currentListId, orEntity: currentEntity, andName: currentName)
     }
     
     
@@ -214,7 +219,11 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     }
     
     func reloadTableListUserSelectedRow() {
-        self.listController?.tableuserlist?.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Fade)
+        self.listController?.selectedItem
+        self.listController?.tableuserlist?.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Fade)
+        self.listController?.tableuserlist?.selectRowAtIndexPath(self.listController?.selectedItem, animated: false, scrollPosition: UITableViewScrollPosition.None)
     }
     
+    
+   
 }
