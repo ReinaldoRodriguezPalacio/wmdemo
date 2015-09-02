@@ -405,7 +405,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-                
+
                 if let tracker = GAI.sharedInstance().defaultTracker {
                     tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SIGNUP.rawValue, action: WMGAIUtils.EVENT_SIGNUP_CREATEUSER.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
                 }

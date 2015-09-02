@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate {
+class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate {
     
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -19,6 +19,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var errorView : FormFieldErrorView? = nil
     
     var paymentOptions: FormFieldView?
+    var payPalFuturePaymentField: FormFieldView?
     var discountAssociate: FormFieldView?
     var address: FormFieldView?
     var shipmentType: FormFieldView?
@@ -83,6 +84,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var asociateDiscount : Bool = false
     var discountsFreeShippingAssociated : Bool = false
     var discountsFreeShippingNotAssociated : Bool = false
+    var payPalFuturePayment : Bool = false
+    var showPayPalFuturePayment : Bool = false
     
     
     var associateNumber : String! = ""
@@ -138,6 +141,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.paymentOptions!.setImageTypeField()
         self.paymentOptions!.nameField = NSLocalizedString("checkout.field.paymentOptions", comment:"")
         self.content.addSubview(self.paymentOptions!)
+        
+        self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,paymentOptions!.frame.maxY + 10.0,width,fheight))
+        self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
+        self.payPalFuturePaymentField!.isRequired = true
+        self.payPalFuturePaymentField!.typeField = TypeField.Check
+        self.payPalFuturePaymentField!.setImageTypeField()
+        self.payPalFuturePaymentField!.setSelectedCheck(false)
+        self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
+        self.content.addSubview(self.payPalFuturePaymentField!)
 
         //Descuentos
         sectionTitleDiscount = self.buildSectionTitle(NSLocalizedString("checkout.title.discounts", comment:""), frame: CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, width, lheight))
@@ -327,6 +339,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
         }
         
+        self.payPalFuturePaymentField!.onBecomeFirstResponder = { () in
+          self.payPalFuturePayment = !self.payPalFuturePayment
+            if self.payPalFuturePayment
+            {
+                self.payPalFuturePaymentField!.setSelectedCheck(true)
+            }
+            else{
+                self.payPalFuturePaymentField!.setSelectedCheck(false)
+
+            }
+        }
+        
     }
     
     
@@ -343,19 +367,25 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        self.buildSubViews()
+    }
+    
+    //MARK: - Build Views
+    
+    func buildSubViews(){
         var bounds = self.view.frame.size
         var resumeHeight:CGFloat = 75.0
         var footerHeight:CGFloat = 60.0
         
         self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
-//        self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
-//        self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
-//        
+        //        self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
+        //        self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
+        //
         
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
         
-    
+        
         self.footer!.frame = CGRectMake(0.0, self.view.frame.height - footerHeight, bounds.width, footerHeight)
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         
@@ -364,14 +394,22 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         var fheight: CGFloat = 44.0
         var lheight: CGFloat = 25.0
         
-
+        self.payPalFuturePaymentField!.alpha = 0
+        var referenceFrame = self.paymentOptions!.frame
+        
+        if showPayPalFuturePayment{
+            self.payPalFuturePaymentField!.alpha = 1
+            referenceFrame = self.payPalFuturePaymentField!.frame
+        }
+        
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
         if showDiscountAsociate {
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
             
-            self.sectionTitleDiscount.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.sectionTitleDiscount.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,widthField,fheight)
             self.sectionTitleShipment.frame =  CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, widthField, lheight)
             self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
@@ -380,7 +418,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         } else {
             self.discountAssociate!.alpha = 0
             self.sectionTitleDiscount!.alpha = 0
-            self.sectionTitleShipment.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
             self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
@@ -392,9 +431,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.comments!.frame = CGRectMake(margin, self.deliverySchedule!.frame.maxY + 5.0, widthField, fheight)
         self.confirmation!.frame = CGRectMake(margin, self.confirmation!.frame.minY, widthField, fheight)
         
+
     }
-    
-    //MARK: - Build Views
     
     func buildFooterView() {
         self.footer = UIView()
@@ -564,6 +602,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.paymentOptions!.text = text
                         self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
                     }
+                    //self.paymentOptionsItems?.append(["id":"-1","paymentType":"PayPal"])
                 }
                 self.removeViewLoad()
                 endCallPaymentOptions()
@@ -613,7 +652,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
-                    self.discountAssociate!.setSelectedCheck()
+                    self.discountAssociate!.setSelectedCheck(true)
                     self.asociateDiscount = true
                     
                     self.invokeDeliveryTypesService({ () -> Void in
@@ -656,10 +695,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                             
                                         }
                                         if let isAddressOK = dictDir["isAddressOk"] as? String {
-                                            self.selectedAddressHasStore = !(isAddressOK == "False")
+                                            self.selectedAddressHasStore = false//!(isAddressOK == "False")
                                             if !self.selectedAddressHasStore!{
                                                 self.showAddressPicker()
                                                 self.picker!.newItemForm()
+                                                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                                                self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+                                                self.alertView!.showDoneIconWithoutClose()
+                                                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                                             }
                                         }
                                     }
@@ -823,10 +866,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if formFieldObj ==  self.paymentOptions! {
                 self.paymentOptions!.text = selectedStr
                 self.selectedPaymentType = indexPath
+                if self.paymentOptions!.text == "PayPal"{
+                    self.showPayPalFuturePayment = true
+                    self.buildSubViews()
+                }
+                else{
+                    self.showPayPalFuturePayment = false
+                    self.buildSubViews()
+                }
             }
             if formFieldObj ==  self.address! {
                 self.address!.text = selectedStr
-                
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
                     self.selectedAddress = addressId
@@ -835,6 +885,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             self.selectedAddressHasStore  = false
                             self.picker!.newItemForm()
                             self.picker!.stopRemoveView = true
+                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                            self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+                            self.alertView!.showDoneIconWithoutClose()
+                            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                             return
                         }
                         
@@ -1044,8 +1098,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             //TODO: Verificar el Id de Paypal
             let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
             let paymentSelectedId = paymentSel["id"] as! String
-            if paymentSelectedId == "100"{
-                showPayPalController()
+            if paymentSelectedId == "-1"{
+                if payPalFuturePayment{
+                    showPayPalFuturePaymentController()
+                }else{
+                    showPayPalPaymentController()
+                }
+                
                 return
             }
             
@@ -1220,7 +1279,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     //MARK: - PayPal
-    func showPayPalController()
+    func showPayPalPaymentController()
     {
         let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
         var payPalItems: [PayPalItem] = []
@@ -1261,6 +1320,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             paymentViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
             self.presentViewController(paymentViewController, animated: true, completion: nil)
         }
+    }
+    
+    func showPayPalFuturePaymentController(){
+        let futurePaymentController = PayPalFuturePaymentViewController(configuration: self.initPayPalConfig(), delegate: self)
+        futurePaymentController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.presentViewController(futurePaymentController, animated: true, completion: nil)
     }
     
     func initPayPalConfig() -> PayPalConfiguration{
@@ -1307,7 +1372,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     // PayPalPaymentDelegate
-    
     func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
         println("PayPal Payment Cancelled")
         buttonShop?.enabled = true
@@ -1315,15 +1379,23 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
-        //paymentViewController?.dismissViewControllerAnimated(true, completion: { () -> Void in
-            // send completed confirmaion to your server
-         //   println("Here is your proof of payment:\n\n\(completedPayment.confirmation)\n\nSend this to your server for confirmation and fulfillment.")
-            
-           // self.resultText = completedPayment!.description
-          //  self.showSuccess()
-       // })
         println("PayPal Payment Success !")
         println(completedPayment!.description)
+        buttonShop?.enabled = true
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+     // PayPalFuturePaymentDelegate
+    func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
+        println("PayPal Future Payment Authorization Canceled")
+        buttonShop?.enabled = true
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func payPalFuturePaymentViewController(futurePaymentViewController: PayPalFuturePaymentViewController!, didAuthorizeFuturePayment futurePaymentAuthorization: [NSObject : AnyObject]!) {
+        println("PayPal Future Payment Authorization Success!")
+        // send authorization to your server to get refresh token.
+        println(futurePaymentAuthorization!.description)
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
     }

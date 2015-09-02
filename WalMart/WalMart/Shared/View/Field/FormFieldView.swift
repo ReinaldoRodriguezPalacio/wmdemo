@@ -75,7 +75,7 @@ class FormFieldView : UIEdgeTextField {
         self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
-    func setSelectedCheck(){
+    func setSelectedCheck( isCheck: Bool){
         if typeField == TypeField.Check{
 //            let attachment = NSTextAttachment()
 //            attachment.image = UIImage(named: "search_edit")
@@ -88,7 +88,8 @@ class FormFieldView : UIEdgeTextField {
                 self.imageCheck = UIImageView()
                 self.addSubview(self.imageCheck!)
             }
-            self.imageCheck!.image = UIImage(named: "checkAddressOn")
+            let imageName = isCheck ? "checkAddressOn" : "checkTermOff"
+            self.imageCheck!.image = UIImage(named: imageName)
             self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
         }
     }

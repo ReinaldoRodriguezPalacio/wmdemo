@@ -658,17 +658,10 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
 		</dict>
 	</dict>
-	<key>WMCamFindAPI</key>
-	<dict>
-		<key>CamFindSecret</key>
-		<string>kqztaudKJXB05OO8nHbY-w</string>
-		<key>CamFindAPIKey</key>
-		<string>PADDdLCpfL50AoE4n3-EkQ</string>
-	</dict>
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
-		<string>SANDBOX</string>
+		<string>NONETWORK</string>
 		<key>ProductionClientID</key>
 		<string>ATET63CfCh9OWTs5Q6EhP5qv5seIOM_08ey8yYEBfVMgd8QuTsiNSiOgEPfZWc3vRr6N4ZG8fCjNczXu</string>
 		<key>SandboxClientID</key>
