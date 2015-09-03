@@ -126,7 +126,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.zipcode!.keyboardType = UIKeyboardType.NumberPad
         self.zipcode!.inputAccessoryView = viewAccess
         //self.zipcode!.valueDelegate = self
-        self.zipcode!.delegate = self
+        self.zipcode!.setCustomDelegate(self)
         
         self.store = FormFieldView()
         self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))

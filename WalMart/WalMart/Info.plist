@@ -273,7 +273,7 @@
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
-		<string>PRODUCTION</string>
+		<string>NONETWORK</string>
 		<key>ProductionClientID</key>
 		<string>ATET63CfCh9OWTs5Q6EhP5qv5seIOM_08ey8yYEBfVMgd8QuTsiNSiOgEPfZWc3vRr6N4ZG8fCjNczXu</string>
 		<key>SandboxClientID</key>

@@ -867,7 +867,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if formFieldObj ==  self.paymentOptions! {
                 self.paymentOptions!.text = selectedStr
                 self.selectedPaymentType = indexPath
-                if self.paymentOptions!.text == "PayPal"{
+                let paymentType: AnyObject = self.paymentOptionsItems![indexPath.row]
+                let paymentId = paymentType["id"] as! String
+                if paymentId == "-1"{
                     self.showPayPalFuturePayment = true
                     self.buildSubViews()
                 }
