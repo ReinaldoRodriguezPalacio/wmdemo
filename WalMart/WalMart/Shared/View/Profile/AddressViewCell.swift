@@ -21,6 +21,7 @@ class AddressViewCell: SWTableViewCell {
     var addressID : String!
     
     var imageDisclousure : UIImageView!
+    var imageErrorField: UIImageView!
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -46,6 +47,10 @@ class AddressViewCell: SWTableViewCell {
         
         imageDisclousure = UIImageView(image: UIImage(named: "disclosure"))
         imageDisclousure.contentMode = UIViewContentMode.Center
+        
+        imageErrorField = UIImageView(image: UIImage(named: "profile_field_error"))
+        imageErrorField.contentMode = UIViewContentMode.Center
+        imageErrorField.hidden = true
 
         self.preferedButton.setImage(UIImage(named:"favorite_empty"), forState: UIControlState.Normal)
         self.preferedButton.setImage(UIImage(named:"favorite_selected"), forState: UIControlState.Selected)
@@ -55,6 +60,7 @@ class AddressViewCell: SWTableViewCell {
         self.contentView.addSubview(titleLabel)
         self.contentView.addSubview(viewLine)
         self.contentView.addSubview(imageDisclousure)
+        self.contentView.addSubview(imageErrorField)
     }
     
     override func layoutSubviews() {
@@ -63,6 +69,7 @@ class AddressViewCell: SWTableViewCell {
         preferedButton.frame =  CGRectMake(0 , 1, 48, self.bounds.height - 2)
         titleLabel.frame = CGRectMake(preferedButton.frame.maxX , 1, self.bounds.width - 85  , self.bounds.height - 1)
         imageDisclousure.frame = CGRectMake(self.frame.width - 48 , 1, 48, self.frame.height)
+        imageErrorField.frame = CGRectMake(self.frame.width - 72 , 1, 48, self.frame.height)
         
     }
     
@@ -89,6 +96,11 @@ class AddressViewCell: SWTableViewCell {
         if !self.preferedButton.selected {
             delegateAddres.applyPrefered(self.addressID)
         }
+    }
+    
+    func showErrorFieldImage(show:Bool){
+        self.imageErrorField.hidden = !show
+        
     }
     
 }

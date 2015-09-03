@@ -16,6 +16,7 @@ protocol FormSuperAddressViewDelegate {
 class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate {
     var titleLabelAddress : UILabel!
     var titleLabelBetween : UILabel!
+    var errorLabelStore: UILabel!
     var addressName : FormFieldView!
     var street : FormFieldView!
     var outdoornumber : FormFieldView!
@@ -26,6 +27,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     var betweenFisrt : FormFieldView!
     var betweenSecond : FormFieldView!
     var leftRightPadding  : CGFloat = CGFloat(16)
+    var errorLabelWidth  : CGFloat = CGFloat(150)
     var fieldHeight  : CGFloat = CGFloat(40)
     var separatorField  : CGFloat = CGFloat(8)
     var neighborhoods : [String]! = []
@@ -82,6 +84,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelAddress!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelAddress!.text =  NSLocalizedString("gr.address.section.title", comment: "")
         self.titleLabelAddress!.textColor = WMColor.listAddressHeaderSectionColor
+        
+        self.errorLabelStore = UILabel()
+        self.errorLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
+        self.errorLabelStore!.text =  NSLocalizedString("gr.address.section.errorLabelStore", comment: "")
+        self.errorLabelStore!.textColor = UIColor.redColor()
+        self.errorLabelStore!.numberOfLines = 3
+        self.errorLabelStore!.textAlignment = NSTextAlignment.Right
+        self.errorLabelStore!.hidden = true
         
         self.addressName = FormFieldView()
         self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
@@ -204,6 +214,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         
         self.addSubview(self.titleLabelAddress)
+        self.addSubview(self.errorLabelStore)
         self.addSubview(self.addressName)
         self.addSubview(self.street)
         self.addSubview(self.outdoornumber)
@@ -288,6 +299,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
                         alertView!.showDoneIconWithoutClose()
                         alertView!.showOkButton("OK", colorButton: WMColor.green)
+                        self.showErrorLabel(true)
+                    }
+                    else
+                    {
+                        self.showErrorLabel(false)
                     }
                     
                     //Default Values
@@ -382,6 +398,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         
         self.titleLabelAddress.frame = CGRectMake(leftRightPadding, 0, self.frame.width - rightPadding , fieldHeight)
+        self.errorLabelStore.frame = CGRectMake((self.frame.width - leftRightPadding) - errorLabelWidth , 0, errorLabelWidth , fieldHeight)
         self.addressName.frame = CGRectMake(leftRightPadding, self.titleLabelAddress.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
         self.street.frame = CGRectMake(leftRightPadding, self.addressName.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
         self.outdoornumber.frame = CGRectMake(leftRightPadding, self.street.frame.maxY + separatorField, ((self.frame.width - rightPadding) / 2) - 8, fieldHeight)
@@ -678,6 +695,10 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     //        }
     //    }
     
+    func showErrorLabel(show: Bool)
+    {
+        self.errorLabelStore!.hidden = !show
+    }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text

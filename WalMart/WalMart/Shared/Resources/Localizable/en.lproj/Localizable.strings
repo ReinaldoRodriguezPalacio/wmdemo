@@ -402,6 +402,7 @@
 //Address Super
 "gr.address.title" = "Nueva Dirección";
 "gr.address.section.title" = "Dirección";
+"gr.address.section.errorLabelStore" = "Fuera del área de servicio";
 "gr.address.field.shortname" = "Nombre Corto";
 "gr.address.field.street" = "Calle";
 "gr.address.field.outdoornumber" = "No. Exterior";

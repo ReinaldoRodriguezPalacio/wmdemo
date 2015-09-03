@@ -305,6 +305,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         cell!.delegate = self
         cell!.rightUtilityButtons = getRightButtonDelete()
         
+         if let isAddressOK = item["isAddressOk"] as? String {
+            cell!.showErrorFieldImage(isAddressOK == "False")
+        }
+        
         
         return cell!
     }
@@ -399,6 +403,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             
+            if let isAddressOK = item["isAddressOk"] as? String {
+                self.superAddressController!.sAddredssForm.showErrorLabel(isAddressOK == "False")
+            }
+            
             self.navigationController!.pushViewController(self.superAddressController, animated: true)
         } else {
             if self.addressController == nil {
@@ -423,6 +431,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             }
             self.addressController!.item = item!
             //self.addressController!.view.frame = self.view.frame
+            
+            if let isAddressOK = item["isAddressOk"] as? String {
+                self.superAddressController!.sAddredssForm.showErrorLabel(isAddressOK == "False")
+            }
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
