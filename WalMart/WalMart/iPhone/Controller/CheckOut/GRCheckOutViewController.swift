@@ -65,6 +65,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var amountDiscountAssociate: Double!
     var shipmentDeliveryCost: Double!
     var shipmentAmount: Double!
+    var savings: Double!
     
     var scrollForm : TPKeyboardAvoidingScrollView!
     
@@ -94,6 +95,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var dateAdmission : String! = ""
     var determinant : String! = ""
     var confirmOrderDictionary: NSDictionary! = [:]
+    var cancelOrderDictionary: NSDictionary! = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,6 +103,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         //self.invokePaymentService()
         //self.invokeAddressUserService()
         self.selectedAddressHasStore = true
+        self.savings = 0.0
         self.amountDiscountAssociate = 0.0
         self.shipmentDeliveryCost = 0.0
         self.shipmentAmount = 0.0
@@ -251,6 +254,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
             saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+        
+        self.savings = UserCurrentSession.sharedInstance().estimateSavingGR()
         
         self.content.addSubview(totalView)
         self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
@@ -1122,7 +1127,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let serviceCheck = GRSendOrderService()
             
-            let total = UserCurrentSession.sharedInstance().estimateTotalGR()
+            let total = UserCurrentSession.sharedInstance().estimateTotalGR() - savings
             
             let components : NSDateComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit|NSCalendarUnit.MonthCalendarUnit|NSCalendarUnit.DayCalendarUnit, fromDate: self.selectedDate)
             
@@ -1171,7 +1176,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 let formattedDate = deliveryDate.substringToIndex(10)
                 
-                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"deliveryDate": "\(dateDay)/\(dateMonth)/\(dateYear)","placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": "PayPal"]
+                let slot = purchaseOrder["slot"] as! NSDictionary
+                
+                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"deliveryDate": deliveryDate,"placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": "PayPal"]
+                
+                self.cancelOrderDictionary = ["slot": slot,"device": "25","paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber,"deliveryDate": deliveryDate,"placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": "PayPal"]
+                
                 
                 //PayPal
                 if paymentSelectedId == "-1"{
@@ -1184,7 +1194,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 
                 if paymentSelectedId == "-3"{
-                
+                    self.invokePaypalUpdateOrderService()
                 }
                 
                 self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
@@ -1408,10 +1418,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         })
     }
     
+    func invokePayPalCancelService(){
+        let cancelPayPalService = GRPaypalUpdateOrderService()
+        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in }, errorBlock: { (error:NSError) -> Void in
+        })
+
+    }
+    
     // PayPalPaymentDelegate
     func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
         println("PayPal Payment Cancelled")
         buttonShop?.enabled = true
+        self.invokePayPalCancelService()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1429,6 +1447,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
         println("PayPal Future Payment Authorization Canceled")
         buttonShop?.enabled = true
+        invokePayPalCancelService()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1445,6 +1464,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 else{
                     //Mandar alerta
+                    self.invokePayPalCancelService()
                 }
             }
             }, errorBlock: { (error:NSError) -> Void in
