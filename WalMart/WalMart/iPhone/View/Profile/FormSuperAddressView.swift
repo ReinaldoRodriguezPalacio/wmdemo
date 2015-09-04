@@ -40,7 +40,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     var neighborhoodsDic : [NSDictionary]! = []
     var storesDic : [NSDictionary]! = []
-    var resultDict : NSDictionary!
+    var resultDict : NSDictionary! = [:]
     
     var selectedStore : NSIndexPath!
     var selectedNeighborhood : NSIndexPath!
@@ -146,7 +146,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         self.suburb = FormFieldView()
         self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
-        self.suburb!.isRequired = true
+        self.suburb!.isRequired = false
         self.suburb!.typeField = TypeField.List
         self.suburb!.nameField = NSLocalizedString("gr.address.field.suburb",comment:"")
         
@@ -343,22 +343,28 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     
                     }, errorBlock: { (error:NSError) -> Void in
                         
-                        self.zipcode.text = ""
-                        self.currentZipCode  = ""
+                        //self.zipcode.text = ""
+                        //self.currentZipCode  = ""
                         self.store.text = ""
                         self.suburb.text = ""
                         
                         self.neighborhoods = []
                         self.stores = []
                         
-                        if self.errorView == nil{
-                            self.errorView = FormFieldErrorView()
-                        }
-                        let stringToShow : NSString = error.localizedDescription
-                        let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
-                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
+                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                        alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
+                        alertView!.showDoneIconWithoutClose()
+                        alertView!.showOkButton("OK", colorButton: WMColor.green)
+                        self.showErrorLabel(true)
+//                        
+//                        if self.errorView == nil{
+//                            self.errorView = FormFieldErrorView()
+//                        }
+//                        let stringToShow : NSString = error.localizedDescription
+//                        let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
+//                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                         
-                        self.delegateFormAdd?.showNoCPWarning()
+                        //self.delegateFormAdd?.showNoCPWarning()
                         return
                         
                         
@@ -554,15 +560,19 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text, work: self.phoneWorkNumber.text, cellPhone: self.cellPhone.text)
         
+        let resultDictVal = JSON(resultDict)
         
-        let strCity = resultDict["city"] as! String!
-        let zipCode = resultDict["zipCode"] as! String!
+        let strCity =  resultDictVal["city"].stringValue
+        let zipCode = resultDictVal["zipCode"].stringValue
         let street =  self.street!.text
         let innerNumber =  self.indoornumber!.text
-        let state =  resultDict["state"] as! String!
-        let county =  resultDict["county"] as! String!
-        let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
-        let neightId = neightDict["id"] as! String!
+        let state =  resultDictVal["state"].stringValue
+        let county =  resultDictVal["county"].stringValue
+        var  neightId = ""
+        if self.neighborhoods.count > 0 {
+            let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
+            let neightId = neightDict["id"] as? String
+        }
         let name = self.addressName.text
         let outerNumber =  self.outdoornumber!.text
         let referenceOne =  self.betweenFisrt!.text

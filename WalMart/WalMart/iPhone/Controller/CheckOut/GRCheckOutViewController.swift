@@ -42,7 +42,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
     var totalItems: String?
     var selectedAddress: String? = nil
-    var selectedAddressHasStore: Bool?
+    var selectedAddressHasStore: Bool = true
     
     var resume: UIView?
     var numOfArtLabel: UILabel?
@@ -94,8 +94,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var associateNumber : String! = ""
     var dateAdmission : String! = ""
     var determinant : String! = ""
-    var confirmOrderDictionary: NSDictionary! = [:]
-    var cancelOrderDictionary: NSDictionary! = [:]
+    var confirmOrderDictionary: [String:AnyObject]! = [:]
+    var cancelOrderDictionary:  [String:AnyObject]! = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -711,8 +711,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                             
                                         }
                                         if let isAddressOK = dictDir["isAddressOk"] as? String {
-                                            self.selectedAddressHasStore = false//!(isAddressOK == "False")
-                                            if !self.selectedAddressHasStore!{
+                                            self.selectedAddressHasStore = !(isAddressOK == "False")
+                                            if !self.selectedAddressHasStore{
                                                 self.showAddressPicker()
                                                 self.picker!.newItemForm()
                                                 let delay = 0.7 * Double(NSEC_PER_SEC)
@@ -911,10 +911,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             self.selectedAddressHasStore  = false
                             self.picker!.newItemForm()
                             self.picker!.stopRemoveView = true
-                            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                            self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
-                            self.alertView!.showDoneIconWithoutClose()
-                            self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                            let delay = 0.5 * Double(NSEC_PER_SEC)
+                            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                            dispatch_after(time, dispatch_get_main_queue()) {
+                                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                                self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+                                self.alertView!.showDoneIconWithoutClose()
+                                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                            }
                             return
                         }
                         
@@ -995,7 +999,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         sAddredssForm = FormSuperAddressView(frame: CGRectMake(scrollForm.frame.minX, 0, scrollForm.frame.width, 700))
         sAddredssForm.allAddress = self.addressItems
         sAddredssForm.idAddress = ""
-        if !self.selectedAddressHasStore!{
+        if !self.selectedAddressHasStore{
                 let serviceAddress = GRAddressesByIDService()
                 serviceAddress.addressId = self.selectedAddress!
                 serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
@@ -1022,6 +1026,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func saveReplaceViewSelected() {
+        self.picker!.onClosePicker = nil
         self.addViewLoad()
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete:false)
@@ -1040,6 +1045,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.alertView!.setMessage("\(message)")
                 }
                 self.alertView!.showDoneIcon()
+                
                 self.reloadUserAddresses()
                 
                 }) { (error:NSError) -> Void in
@@ -1168,8 +1174,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let hour = purchaseOrder["hour"] as! String
                 let subTotal = purchaseOrder["subTotal"] as! NSNumber
                 let total = purchaseOrder["total"] as! NSNumber
-                let authorizationId = purchaseOrder["purchaseOrder"] as! NSNumber
-                let correlationId = purchaseOrder["correlationId"] as! NSNumber
+                var authorizationId = ""
+                var correlationId = ""
+                if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
+                    authorizationId = authorizationIdVal
+                }
+                if let correlationIdVal = purchaseOrder["correlationId"] as? String {
+                    correlationId = correlationIdVal
+                }
                 
                 let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
                 let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
@@ -1178,9 +1190,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 let slot = purchaseOrder["slot"] as! NSDictionary
                 
-                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"deliveryDate": deliveryDate,"placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": "PayPal"]
+                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
                 
-                self.cancelOrderDictionary = ["slot": slot,"device": "25","paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber,"deliveryDate": deliveryDate,"placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": "PayPal"]
+                self.cancelOrderDictionary = ["slot": slot,"device": "25","paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber,"deliveryDate": deliveryDate,"placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": self.paymentOptions!.text]
                 
                 
                 //PayPal
@@ -1192,10 +1204,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     return
                 }
-                
-                if paymentSelectedId == "-3"{
-                    self.invokePaypalUpdateOrderService()
-                }
+//                
+//                if paymentSelectedId == "-3"{
+//                    self.invokePaypalUpdateOrderService()
+//                }
                 
                 self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
                 
@@ -1253,6 +1265,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.setValues(self.address!.nameField, values: itemsAddress)
         self.picker!.hiddenRigthActionButton(false)
         self.picker!.cellType = TypeField.Check
+        if !self.selectedAddressHasStore {
+            self.picker!.onClosePicker = {
+                self.picker!.onClosePicker = nil
+                self.navigationController?.popViewControllerAnimated(true)
+                self.picker!.closePicker()
+            }
+        }
+        
         self.picker!.showPicker()
     }
     
@@ -1412,8 +1432,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         return PayPalEnvironmentNoNetwork
     }
     
-    func invokePaypalUpdateOrderService(){
+    func invokePaypalUpdateOrderService(authorizationId:String){
         let updatePaypalService = GRPaypalUpdateOrderService()
+        self.confirmOrderDictionary["authorizationId"] = authorizationId
+        self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in }, errorBlock: { (error:NSError) -> Void in
         })
     }
@@ -1437,7 +1459,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         println("PayPal Payment Success !")
         println(completedPayment!.description)
         
-        self.invokePaypalUpdateOrderService()
+
+       
+        if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
+            if let idPayPal = completeDict["id"] as? String {
+                self.invokePaypalUpdateOrderService(idPayPal)
+            }
+        }
+
+      
         
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
@@ -1460,7 +1490,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
             if let responceObject = result["responseObject"] as? String{
                 if responceObject == "true"{
-                    self.invokePaypalUpdateOrderService()
+                    self.invokePaypalUpdateOrderService("")
                 }
                 else{
                     //Mandar alerta

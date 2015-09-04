@@ -34,6 +34,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var viewFooter : UIView!
     var headerView : UIView!
     
+    var onClosePicker : (() -> Void)?
+    
     var selected : NSIndexPath!
     var delegate : AlertPickerViewDelegate? = nil
     
@@ -78,7 +80,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewButton.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
         self.addSubview(viewButton)
         
-        viewContent = UIView(frame: CGRectMake(0, 0, 286, 326))
+        viewContent = UIView(frame: CGRectMake(0, 0, 286, 316))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
         viewContent.clipsToBounds = true
@@ -220,6 +222,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     func closePicker() {
+        onClosePicker?()
         self.removeFromSuperview()
     }
     
@@ -404,11 +407,12 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     func closeNew() {
+        onClosePicker?()
         self.buttonRight.selected = false
         self.titleLabel.text = self.titleHeader
         self.buttonRight.setTitle(lastTitle, forState: UIControlState.Normal)
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 286, 326)
+            self.viewContent.frame = CGRectMake(0, 0, 286, 316)
              self.viewContent.center = self.center
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
@@ -417,4 +421,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
                 self.viewButtonClose.removeFromSuperview()
         }
     }
+    
+    
 }

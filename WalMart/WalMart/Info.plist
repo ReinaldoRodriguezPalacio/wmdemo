@@ -85,7 +85,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -281,7 +281,7 @@
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
-		<string>NONETWORK</string>
+		<string>SANDBOX</string>
 		<key>ProductionClientID</key>
 		<string>ATET63CfCh9OWTs5Q6EhP5qv5seIOM_08ey8yYEBfVMgd8QuTsiNSiOgEPfZWc3vRr6N4ZG8fCjNczXu</string>
 		<key>SandboxClientID</key>
