@@ -63,6 +63,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var selectedConfirmation : NSIndexPath!
     var selectedDate : NSDate!
     var amountDiscountAssociate: Double!
+    var shipmentDeliveryCost: Double!
+    var shipmentAmount: Double!
     
     var scrollForm : TPKeyboardAvoidingScrollView!
     
@@ -91,6 +93,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var associateNumber : String! = ""
     var dateAdmission : String! = ""
     var determinant : String! = ""
+    var confirmOrderDictionary: NSDictionary! = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -99,6 +102,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         //self.invokeAddressUserService()
         self.selectedAddressHasStore = true
         self.amountDiscountAssociate = 0.0
+        self.shipmentDeliveryCost = 0.0
+        self.shipmentAmount = 0.0
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat =  "d MMMM yyyy"
         
@@ -603,7 +608,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.paymentOptions!.text = text
                         self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
                     }
-                    //self.paymentOptionsItems?.append(["id":"-1","paymentType":"PayPal"])
+                    if let id = option["id"] as? String {
+                        if id == "-1"{
+                            self.showPayPalFuturePayment = true
+                            self.buildSubViews()
+                        }
+                    }
                 }
                 self.removeViewLoad()
                 endCallPaymentOptions()
@@ -770,6 +780,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if let expressDelivery = result["expressDelivery"] as? String {
                     self.shipmentItems!.append(["name":expressDelivery, "key":"2"])
                 }
+                if let fixedDeliveryCost = result["fixedDeliveryCost"] as? String
+                {
+                    self.shipmentDeliveryCost = (fixedDeliveryCost as NSString).doubleValue
+                }
                 if self.shipmentItems!.count > 0 {
                     let shipName = self.shipmentItems![0] as! NSDictionary
                     self.selectedShipmentTypeIx = NSIndexPath(forRow: 0, inSection: 0)
@@ -906,6 +920,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             if formFieldObj ==  self.shipmentType! {
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
+                let shipment: AnyObject = self.shipmentItems![indexPath.row]
+                if let shipmentKey = shipment["key"] as? String
+                {
+                    self.shipmentAmount = (shipmentKey == "3") ? self.shipmentDeliveryCost : 0.0
+                }
             }
             if formFieldObj ==  self.deliverySchedule! {
                 self.deliverySchedule!.text = selectedStr
@@ -1097,20 +1116,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
             }
             
-            //PayPal
-            //TODO: Verificar el Id de Paypal
-            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
-            let paymentSelectedId = paymentSel["id"] as! String
-            if paymentSelectedId == "-1"{
-                if payPalFuturePayment{
-                    showPayPalFuturePaymentController()
-                }else{
-                    showPayPalPaymentController()
-                }
-                
-                return
-            }
-            
             let serviceCheck = GRSendOrderService()
             
             let total = UserCurrentSession.sharedInstance().estimateTotalGR()
@@ -1131,15 +1136,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let confirmTypeSel = self.orderOptionsItems![selectedConfirmation.row] as! NSDictionary
             let confirmation = confirmTypeSel["key"] as! String
             
+            let paymentSel = self.paymentOptionsItems![selectedPaymentType.row] as! NSDictionary
+            let paymentSelectedId = paymentSel["id"] as! String
+            
             serviceDetail = OrderConfirmDetailView.initDetail()
             serviceDetail?.delegate = self
             serviceDetail!.showDetail()
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text, paymentType: (paymentSelectedId), addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text, authorizationId: "", paymentTypeString: self.paymentOptions!.text,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text, authorizationId: "", paymentTypeString: self.paymentOptions!.text,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
             
-            serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
+              serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
                 let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
@@ -1151,12 +1159,29 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let hour = purchaseOrder["hour"] as! String
                 let subTotal = purchaseOrder["subTotal"] as! NSNumber
                 let total = purchaseOrder["total"] as! NSNumber
+                let authorizationId = purchaseOrder["purchaseOrder"] as! NSNumber
+                let correlationId = purchaseOrder["correlationId"] as! NSNumber
                 
                 let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
                 let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
                 
                 let formattedDate = deliveryDate.substringToIndex(10)
                 
+                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"deliveryDate": "\(dateDay)/\(dateMonth)/\(dateYear)","placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": "PayPal"]
+                
+                //PayPal
+                if paymentSelectedId == "-1"{
+                    if self.payPalFuturePayment{
+                        self.showPayPalFuturePaymentController()
+                    }else{
+                        self.showPayPalPaymentController()
+                    }
+                    return
+                }
+                
+                if paymentSelectedId == "-3"{
+                
+                }
                 
                 self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
                 
@@ -1307,16 +1332,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         let subtotal = PayPalItem.totalPriceForItems(payPalItems)
         // Optional: include payment details
-        //let shipping = NSDecimalNumber(string: "5.99")
-        //let tax = NSDecimalNumber(string: "2.50")
-        //let paymentDetails = PayPalPaymentDetails(subtotal: subtotal, withShipping: shipping, withTax: tax)
-        //let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+        let shipping = NSDecimalNumber(double: self.shipmentAmount)
+        let tax = NSDecimalNumber(double: 0.0)
+        let paymentDetails = PayPalPaymentDetails(subtotal: subtotal, withShipping: shipping, withTax: tax)
+        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
         
-        
-        let payment = PayPalPayment(amount: subtotal, currencyCode: "MXN", shortDescription: "Walmart", intent: .Sale)
+        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Sale)
         
         payment.items = payPalItems
-        //payment.paymentDetails = paymentDetails
+        payment.paymentDetails = paymentDetails
         
         if (payment.processable) {
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
@@ -1374,6 +1398,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         return PayPalEnvironmentNoNetwork
     }
     
+    func invokePaypalUpdateOrderService(){
+        let updatePaypalService = GRPaypalUpdateOrderService()
+        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in }, errorBlock: { (error:NSError) -> Void in
+        })
+    }
+    
     // PayPalPaymentDelegate
     func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
         println("PayPal Payment Cancelled")
@@ -1384,6 +1414,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
         println("PayPal Payment Success !")
         println(completedPayment!.description)
+        
+        self.invokePaypalUpdateOrderService()
+        
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -1399,6 +1432,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         println("PayPal Future Payment Authorization Success!")
         // send authorization to your server to get refresh token.
         println(futurePaymentAuthorization!.description)
+        let futurePaymentService = GRPayPalFuturePaymentService()
+        let responce = futurePaymentAuthorization["response"] as! [NSObject : AnyObject]
+        futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
+            if let responceObject = result["responseObject"] as? String{
+                if responceObject == "true"{
+                    self.invokePaypalUpdateOrderService()
+                }
+                else{
+                    //Mandar alerta
+                }
+            }
+            }, errorBlock: { (error:NSError) -> Void in
+        })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
     }

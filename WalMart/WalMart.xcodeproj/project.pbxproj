@@ -358,6 +358,8 @@
 		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
 		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
+		6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */; };
+		6C3092D61B990CD900D00349 /* GRPayPalFuturePaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */; };
 		6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31808E1B87C9B30015FC2E /* Accelerate.framework */; };
 		6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180901B87C9C10015FC2E /* AudioToolbox.framework */; };
 		6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180921B87C9CF0015FC2E /* AVFoundation.framework */; };
@@ -868,6 +870,8 @@
 		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
+		6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPayPalUpdateOrderService.swift; sourceTree = "<group>"; };
+		6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPayPalFuturePaymentService.swift; sourceTree = "<group>"; };
 		6C31808C1B87C9090015FC2E /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPayPalMobile.a; path = WalMart/Lib/PayPalMobile/libPayPalMobile.a; sourceTree = "<group>"; };
 		6C31808E1B87C9B30015FC2E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		6C3180901B87C9C10015FC2E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -1234,6 +1238,8 @@
 				04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */,
 				5601716A1A9549590029786B /* GRSendOrderService.swift */,
 				6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */,
+				6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */,
+				6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */,
 			);
 			name = Checkout;
 			sourceTree = "<group>";
@@ -3094,6 +3100,7 @@
 				5688470719E8775A00D5C45D /* IPACustomBarViewController.swift in Sources */,
 				564578F219AE33AB006A7152 /* AFURLResponseSerialization.m in Sources */,
 				56DE026619DE073C00FA2042 /* IPOEmptyView.swift in Sources */,
+				6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */,
 				5696078F19B4D955005D20DC /* BannerService.swift in Sources */,
 				564578ED19AE33AB006A7152 /* AFNetworkActivityLogger.m in Sources */,
 				5688470A19E87E2800D5C45D /* IPACategoriesViewController.swift in Sources */,
@@ -3262,6 +3269,7 @@
 				56BB62991A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift in Sources */,
 				041CC49F1A85807C00750B5E /* NewListView.swift in Sources */,
 				5673D1391A9D500400DCD20B /* RSCodeGenerator.swift in Sources */,
+				6C3092D61B990CD900D00349 /* GRPayPalFuturePaymentService.swift in Sources */,
 				5673D11F1A9D278D00DCD20B /* GRPreviousOrdersService.swift in Sources */,
 				56C5B22319AE877A00BB81DE /* WMColor.swift in Sources */,
 				56DFE4D319D057C9001811F5 /* SWUtilityButtonView.m in Sources */,

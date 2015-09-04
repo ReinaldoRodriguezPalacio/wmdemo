@@ -90,7 +90,7 @@ class FormFieldView : UIEdgeTextField {
             }
             let imageName = isCheck ? "checkAddressOn" : "checkTermOff"
             self.imageCheck!.image = UIImage(named: imageName)
-            self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
+            self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 20 ) / 2  ,16,16)
         }
     }
     
@@ -110,7 +110,7 @@ class FormFieldView : UIEdgeTextField {
                 self.imageCheck = UIImageView()
                 self.addSubview(self.imageCheck!)
                 self.imageCheck!.image = UIImage(named: "checkTermOff")
-                self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 18 ) / 2  ,16,16)
+                self.imageCheck!.frame = CGRectMake(2  , (self.frame.height - 20 ) / 2  ,16,16)
             }
         }
     }
