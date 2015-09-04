@@ -408,7 +408,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         self.titleLabel.text = self.titleHeader
         self.buttonRight.setTitle(lastTitle, forState: UIControlState.Normal)
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 286, 294)
+            self.viewContent.frame = CGRectMake(0, 0, 286, 326)
              self.viewContent.center = self.center
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
