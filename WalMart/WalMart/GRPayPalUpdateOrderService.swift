@@ -22,23 +22,9 @@ class GRPaypalUpdateOrderService: GRBaseService{
         })
     }
     
-    func buildParamsCancelOrder(params:NSDictionary) -> NSDictionary{
-        
-        return ["slot": params["slot"] as! String,
-            "device": params["device"] as! String,
-            "paymentType": params["paymentType"] as! String,
-            "deliveryType": params["deliveryType"] as! String,
-            "trackingNumber": params["trackingNumber"] as! String,
-            "deliveryDate": params["deliveryDate"] as! String,
-            "placedDate":params["placedDate"] as! String,
-            "deliveryTypeString": params["deliveryTypeString"] as! String,
-            "paymentTypeString": params["paymentTypeString"] as! String]
-    }
-    
-    
     func callServiceCancelOrder(requestParams params:NSDictionary, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
         
-        self.callPOSTService(buildParamsCancelOrder(params), successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

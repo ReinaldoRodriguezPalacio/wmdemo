@@ -96,6 +96,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var determinant : String! = ""
     var confirmOrderDictionary: [String:AnyObject]! = [:]
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
+    var completeOrderDictionary: [String:AnyObject]! = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1191,10 +1192,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let slot = purchaseOrder["slot"] as! NSDictionary
                 
                 self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
-                
-                self.cancelOrderDictionary = ["slot": slot,"device": "25","paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber,"deliveryDate": deliveryDate,"placedDate":"\(dateDay)/\(dateMonth)/\(dateYear)","deliveryTypeString": self.shipmentType!.text,"paymentTypeString": self.paymentOptions!.text]
-                
-                
+                self.cancelOrderDictionary = ["slot": slot,"device": "25","paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber]
+                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal]
                 //PayPal
                 if paymentSelectedId == "-1"{
                     if self.payPalFuturePayment{
@@ -1397,23 +1396,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         payPalConfig.merchantPrivacyPolicyURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
         payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
         payPalConfig.rememberUser = true
-        // Setting the languageOrLocale property is optional.
-        //
-        // If you do not set languageOrLocale, then the PayPalPaymentViewController will present
-        // its user interface according to the device's current language setting.
-        //
-        // Setting languageOrLocale to a particular language (e.g., @"es" for Spanish) or
-        // locale (e.g., @"es_MX" for Mexican Spanish) forces the PayPalPaymentViewController
-        // to use that language/locale.
-        //
-        // For full details, including a list of available languages and locales, see PayPalPaymentViewController.h.
-        
-        payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] as! String
-        
-        // Setting the payPalShippingAddressOption property is optional.
-        //
-        // See PayPalConfiguration.h for details.
-        
+        payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] as! String 
         payPalConfig.payPalShippingAddressOption = .PayPal;
         return payPalConfig
     }
@@ -1436,13 +1419,30 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["authorizationId"] = authorizationId
         self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
-        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in }, errorBlock: { (error:NSError) -> Void in
+        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
+            self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String)
+            
+            }, errorBlock: { (error:NSError) -> Void in
+                if error.code == -400 {
+                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                }
+                else {
+                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+                }
         })
     }
     
     func invokePayPalCancelService(){
         let cancelPayPalService = GRPaypalUpdateOrderService()
-        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in }, errorBlock: { (error:NSError) -> Void in
+        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
+            self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+            }, errorBlock: { (error:NSError) -> Void in
+            if error.code == -400 {
+                self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+            }
+            else {
+                self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+            }
         })
 
     }
@@ -1459,7 +1459,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         println("PayPal Payment Success !")
         println(completedPayment!.description)
         
-
        
         if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
             if let idPayPal = completeDict["id"] as? String {
@@ -1494,10 +1493,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 else{
                     //Mandar alerta
-                    self.invokePayPalCancelService()
+                    self.showPayPalPaymentController()
                 }
             }
             }, errorBlock: { (error:NSError) -> Void in
+                if error.code == -400 {
+                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                }
+                else {
+                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+                }
         })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
