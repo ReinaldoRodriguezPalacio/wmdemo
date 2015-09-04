@@ -11,7 +11,7 @@ import Foundation
 class GRPaypalUpdateOrderService: GRBaseService{
     
     func buildParamsConfirmOrder(params:NSDictionary) -> NSDictionary{
-       return ["paymentType": "-1",
+       return ["paymentType": params["paymentType"] as! String,
         "trackingNumber": params["trackingNumber"] as! String,
         "authorizationId": params["authorizationId"] as! String,
         "correlationId": params["correlationId"] as! String,
@@ -33,11 +33,15 @@ class GRPaypalUpdateOrderService: GRBaseService{
     
     func buildParamsCancelOrder(params:NSDictionary) -> NSDictionary{
         
-        let leapRequest: NSDictionary = ["zipCode": "3100","storeId": 3848,"businessId": "WM"]
-        
-        let slot: NSDictionary = ["date": 1441040520831,"storeId": 3848,"slotId": 238,"transactionId": 14200,"businessId": "WM","leapRequest": leapRequest,"orderId": 14753774]
-        
-        return ["slot": slot,"device": "25","paymentType": "-1","deliveryType": "3","trackingNumber": "14753774","deliveryDate": "31/08/2015","placedDate":"31/08/2015","deliveryTypeString": "Entrega Programada - $44","paymentTypeString": "PayPal"]
+        return ["slot": params["slot"] as! String,
+            "device": params["device"] as! String,
+            "paymentType": params["paymentType"] as! String,
+            "deliveryType": params["deliveryType"] as! String,
+            "trackingNumber": params["trackingNumber"] as! String,
+            "deliveryDate": params["deliveryDate"] as! String,
+            "placedDate":params["placedDate"] as! String,
+            "deliveryTypeString": params["deliveryTypeString"] as! String,
+            "paymentTypeString": params["paymentTypeString"] as! String]
     }
     
     
