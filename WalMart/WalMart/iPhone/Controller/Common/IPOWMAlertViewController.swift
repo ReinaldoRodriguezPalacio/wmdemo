@@ -251,7 +251,7 @@ class IPOWMAlertViewController : UIViewController {
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+            self.parentViewController?.view.layer.renderInContext(UIGraphicsGetCurrentContext())
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             self.parentViewController!.view.layer.contents = nil
