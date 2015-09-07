@@ -382,7 +382,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 //let quantity : Int = quantity.toInt()!
                 
                 if cell.onHandInventory.integerValue >= quantity.toInt() {
-                    self.selectQuantityGR.removeFromSuperview()
+                    self.selectQuantityGR?.closeAction()
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
@@ -438,8 +438,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 
             }
             
+            self.presentSelectQuantityGR(cell)
             
-            self.view.addSubview(selectQuantityGR)
         } else {
             let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
             var frame = vc!.view.frame
@@ -461,6 +461,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
+    func presentSelectQuantityGR(cell:GRProductShoppingCartTableViewCell){
+        self.view.addSubview(selectQuantityGR)
+    }
     
     func buildParamsUpdateShoppingCart(cell:GRProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
         var pesable = cell.pesable ? "1" : "0"
