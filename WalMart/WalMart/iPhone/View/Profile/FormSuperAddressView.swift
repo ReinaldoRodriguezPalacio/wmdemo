@@ -563,7 +563,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let resultDictVal = JSON(resultDict)
         
         let strCity =  resultDictVal["city"].stringValue
-        let zipCode = resultDictVal["zipCode"].stringValue
+        let zipCode = self.zipcode.text
         let street =  self.street!.text
         let innerNumber =  self.indoornumber!.text
         let state =  resultDictVal["state"].stringValue
@@ -571,7 +571,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         var  neightId = ""
         if self.neighborhoods.count > 0 {
             let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
-            let neightId = neightDict["id"] as? String
+            neightId = neightDict["id"] as! String
         }
         let name = self.addressName.text
         let outerNumber =  self.outdoornumber!.text

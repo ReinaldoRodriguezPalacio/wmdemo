@@ -1029,7 +1029,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.onClosePicker = nil
         self.addViewLoad()
         let service = GRAddressAddService()
-        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete:false)
+        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
         if dictSend != nil {
             
             self.scrollForm.resignFirstResponder()
@@ -1432,10 +1432,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         return PayPalEnvironmentNoNetwork
     }
     
-    func invokePaypalUpdateOrderService(authorizationId:String){
+    func invokePaypalUpdateOrderService(authorizationId:String,paymentType:String){
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["authorizationId"] = authorizationId
         self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
+        self.confirmOrderDictionary["paymentType"] = paymentType
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in }, errorBlock: { (error:NSError) -> Void in
         })
     }
@@ -1463,7 +1464,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
        
         if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
             if let idPayPal = completeDict["id"] as? String {
-                self.invokePaypalUpdateOrderService(idPayPal)
+                self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1")
             }
         }
 
@@ -1488,16 +1489,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let futurePaymentService = GRPayPalFuturePaymentService()
         let responce = futurePaymentAuthorization["response"] as! [NSObject : AnyObject]
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
-            if let responceObject = result["responseObject"] as? String{
-                if responceObject == "true"{
-                    self.invokePaypalUpdateOrderService("")
-                }
-                else{
-                    //Mandar alerta
-                    self.invokePayPalCancelService()
-                }
-            }
+            self.invokePaypalUpdateOrderService("",paymentType:"-3")
             }, errorBlock: { (error:NSError) -> Void in
+                //Mandar alerta
+                self.invokePayPalCancelService()
         })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
