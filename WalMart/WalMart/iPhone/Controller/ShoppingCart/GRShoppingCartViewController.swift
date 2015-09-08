@@ -438,7 +438,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 
             }
             
-            self.presentSelectQuantityGR(cell)
+            self.view.addSubview(selectQuantityGR)
             
         } else {
             let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
@@ -461,9 +461,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
     }
     
-    func presentSelectQuantityGR(cell:GRProductShoppingCartTableViewCell){
-        self.view.addSubview(selectQuantityGR)
-    }
     
     func buildParamsUpdateShoppingCart(cell:GRProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
         var pesable = cell.pesable ? "1" : "0"

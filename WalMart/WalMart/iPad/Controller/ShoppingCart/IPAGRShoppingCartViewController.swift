@@ -152,21 +152,103 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         //self.navigationController!.presentViewController(controller, animated: true, completion: nil)
     }
 
-   
-    override func  presentSelectQuantityGR(cell:GRProductShoppingCartTableViewCell){
-        selectQuantityGR.frame = CGRectMake(0, 0, 320, 568)
-        selectQuantityGR.setup()
-        selectQuantityGR.backgroundView?.hidden = true
-        selectQuantityGR?.closeAction = { () in
-            self.popup!.dismissPopoverAnimated(true)
+    override     func userShouldChangeQuantity(cell:GRProductShoppingCartTableViewCell) {
+        if self.isEdditing == false {
+            let frameDetail = CGRectMake(0, 0, 320, 568)
+            if cell.typeProd == 1 {
+                selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+                
+            }else{
+                selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.upc)
+            }
             
+            
+            selectQuantityGR?.addToCartAction = { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                
+                if cell.onHandInventory.integerValue >= quantity.toInt() {
+                    self.selectQuantityGR?.closeAction()
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                } else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    
+                    var secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    
+                    if cell.pesable {
+                        secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                    }
+                    
+                    let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+                
+                
+            }
+            
+            selectQuantityGR?.addUpdateNote = {() in
+                let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+                var frame = vc!.view.frame
+                
+                
+                let addShopping = ShoppingCartUpdateController()
+                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                addShopping.params = paramsToSC
+                vc!.addChildViewController(addShopping)
+                addShopping.view.frame = frame
+                vc!.view.addSubview(addShopping.view)
+                addShopping.didMoveToParentViewController(vc!)
+                addShopping.typeProduct = ResultObjectType.Groceries
+                addShopping.comments = cell.comments
+                addShopping.goToShoppingCart = {() in }
+                addShopping.removeSpinner()
+                addShopping.addActionButtons()
+                addShopping.addNoteToProduct(nil)
+                
+            }
+            selectQuantityGR?.userSelectValue(String(cell.quantity))
+            selectQuantityGR?.first = true
+            if cell.comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
+            }else {
+                selectQuantityGR.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
+            }
+            selectQuantityGR?.showNoteButtonComplete()
+            selectQuantityGR?.closeAction = { () in
+                self.popup!.dismissPopoverAnimated(true)
+                
+            }
+            
+            let viewController = UIViewController()
+            viewController.view = selectQuantityGR
+            popup = UIPopoverController(contentViewController: viewController)
+            popup!.presentPopoverFromRect(CGRectMake(cell.changeQuantity.frame.origin.x - 10, (cell.frame.minY - self.tableShoppingCart.contentOffset.y - 165) , 320, 568), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+            
+        } else {
+            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+            var frame = vc!.view.frame
+            
+            
+            let addShopping = ShoppingCartUpdateController()
+            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+            addShopping.params = params
+            vc!.addChildViewController(addShopping)
+            addShopping.view.frame = frame
+            vc!.view.addSubview(addShopping.view)
+            addShopping.didMoveToParentViewController(vc!)
+            addShopping.typeProduct = ResultObjectType.Groceries
+            addShopping.comments = cell.comments
+            addShopping.goToShoppingCart = {() in }
+            addShopping.removeSpinner()
+            addShopping.addActionButtons()
+            addShopping.addNoteToProduct(nil)
         }
-        let viewController = UIViewController()
-        viewController.view = selectQuantityGR
-        popup = UIPopoverController(contentViewController: viewController)
-        popup!.presentPopoverFromRect(CGRectMake(cell.changeQuantity.frame.origin.x - 10, (cell.frame.minY - self.tableShoppingCart.contentOffset.y - 165) , 320, 568), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
     }
-    
+
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if itemsInCart.count > indexPath.row   {
             let controller = IPAProductDetailPageViewController()

@@ -644,7 +644,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         let rectSize =  lblQuantityW.attributedText.boundingRectWithSize(CGSizeMake(lblQuantityW.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         quantityWAnimate.frame = CGRectMake((lblQuantityW.bounds.width / 2) + (rectSize.width / 2) + 3, 0, 1, lblQuantityW.frame.height)
         
-        
     }
     
     func updateLabelN(value:String) {

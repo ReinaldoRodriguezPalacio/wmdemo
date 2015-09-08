@@ -76,14 +76,14 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.name!.isRequired = true
         self.name!.typeField = TypeField.Name
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
-        self.name!.minLength = 2
+        self.name!.minLength = 3
         self.name!.maxLength = 25
         
         self.lastName = FormFieldView()
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.isRequired = true
         self.lastName!.typeField = TypeField.String
-        self.lastName!.minLength = 2
+        self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
        

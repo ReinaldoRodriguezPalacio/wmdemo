@@ -269,6 +269,8 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
                 self.beforeAddAddress?(dictSend: dictSend)
         }
         }
+        
+        self.sAddredssForm.endEditing(true)
     }
 
     
