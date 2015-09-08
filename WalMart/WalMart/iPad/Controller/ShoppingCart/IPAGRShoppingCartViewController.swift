@@ -153,7 +153,19 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     }
 
    
-    
+    override func  presentSelectQuantityGR(cell:GRProductShoppingCartTableViewCell){
+        selectQuantityGR.frame = CGRectMake(0, 0, 320, 568)
+        selectQuantityGR.setup()
+        selectQuantityGR.backgroundView?.hidden = true
+        selectQuantityGR?.closeAction = { () in
+            self.popup!.dismissPopoverAnimated(true)
+            
+        }
+        let viewController = UIViewController()
+        viewController.view = selectQuantityGR
+        popup = UIPopoverController(contentViewController: viewController)
+        popup!.presentPopoverFromRect(CGRectMake(cell.changeQuantity.frame.origin.x - 10, (cell.frame.minY - self.tableShoppingCart.contentOffset.y - 165) , 320, 568), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+    }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if itemsInCart.count > indexPath.row   {
