@@ -118,6 +118,8 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     
     func save(sender:UIButton) {
         
+        self.view.endEditing(true)
+        
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
                 action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue,

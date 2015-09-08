@@ -469,6 +469,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     }
     
     func getAddressDictionary(addressId:String , delete:Bool,preferred:Bool) -> NSDictionary? {
+        endEditing(true)
         let service = GRAddressAddService()
         
         if !delete {
