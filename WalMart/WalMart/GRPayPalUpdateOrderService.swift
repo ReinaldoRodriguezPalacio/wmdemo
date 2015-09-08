@@ -22,23 +22,28 @@ class GRPaypalUpdateOrderService: GRBaseService{
         })
     }
     
-    func buildParamsCancelOrder(params:NSDictionary) -> NSDictionary{
-        
-        return ["slot": params["slot"] as! String,
-            "device": params["device"] as! String,
-            "paymentType": params["paymentType"] as! String,
-            "deliveryType": params["deliveryType"] as! String,
-            "trackingNumber": params["trackingNumber"] as! String,
-            "deliveryDate": params["deliveryDate"] as! String,
-            "placedDate":params["placedDate"] as! String,
-            "deliveryTypeString": params["deliveryTypeString"] as! String,
-            "paymentTypeString": params["paymentTypeString"] as! String]
-    }
-    
-    
     func callServiceCancelOrder(requestParams params:NSDictionary, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
         
-        self.callPOSTService(buildParamsCancelOrder(params), successBlock: { (resultCall:NSDictionary) -> Void in
+        let jsonParams = JSON(params)
+        let slot = jsonParams["slot"]
+        let leapRequest = slot["leapRequest"]
+        let fixedLeapRequest : [String:AnyObject]  =  [ "zipCode": leapRequest["zipCode"].stringValue,
+                                                    "storeId": leapRequest["storeId"].intValue,
+                                                    "businessId": leapRequest["businessId"].stringValue]
+        
+        
+        var fixedSlot : [String:AnyObject]  = ["date": slot["date"].intValue,
+                                                "storeId": slot["storeId"].intValue,
+                                                "slotId": slot["slotId"].intValue,
+                                                "transactionId": slot["transactionId"].intValue,
+                                                "businessId": slot["businessId"].stringValue,
+                                                "orderId": slot["orderId"].intValue,
+                                                "leapRequest" : fixedLeapRequest]
+        
+        let fixedParamsToSend : [String:AnyObject] = ["slot":fixedSlot,"device": jsonParams["device"].stringValue,"paymentType": jsonParams["deliveryType"].stringValue,"deliveryType": jsonParams["deliveryType"].stringValue, "trackingNumber": jsonParams["trackingNumber"].stringValue]
+        
+        
+        self.callPOSTService(fixedParamsToSend, successBlock: { (resultCall:NSDictionary) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

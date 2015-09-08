@@ -1203,6 +1203,13 @@ typedef enum {
         if ([parameters isKindOfClass:[NSString class]]) {
             [mutableRequest setHTTPBody:[parameters dataUsingEncoding:NSUTF8StringEncoding]];
         }else{
+
+//            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:parameters
+//                                                               options:self.writingOptions
+//                                                                 error:error];
+//            NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+//            NSLog(result);
+            
             [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
         }
     }
