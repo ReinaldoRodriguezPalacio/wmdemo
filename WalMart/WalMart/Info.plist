@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5</string>
+	<string>6</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -283,9 +283,9 @@
 		<key>PayPalEnvironment</key>
 		<string>SANDBOX</string>
 		<key>ProductionClientID</key>
-		<string>AQUxJRC5xGMz8nQKTfNOlMiTutWWStv9Ra35BNTB4W7tvhdGIb-EdznRbApl</string>
+		<string>------</string>
 		<key>SandboxClientID</key>
-		<string>AQUxJRC5xGMz8nQKTfNOlMiTutWWStv9Ra35BNTB4W7tvhdGIb-EdznRbApl</string>
+		<string>AXmxZsB6tGFiR4TIbIFFp7Pzxm0Ucy1QWXdfl1RMYUiMuw95OtlLhGL4JW2VBJuW-IgXN3lhf_i8onu4</string>
 	</dict>
 	<key>WMURLServices</key>
 	<dict>

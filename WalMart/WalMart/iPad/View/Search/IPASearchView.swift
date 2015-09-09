@@ -160,19 +160,9 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
         if textField.text != nil && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
-            let toValidate : NSString = textField.text
-            let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
-                showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
-                return true
-            }
-            if !validateSearch(textField.text)  {
-                showMessageValidation("Texto no permitido")
-                return true
-            }
-            if textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
-                showMessageValidation("La longitud no puede ser mayor a 50 caracteres")
-                return true
+            
+            if !(validateText()) {
+                return false
             }
             
             self.errorView?.removeFromSuperview()
@@ -267,7 +257,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             
             }, completion: {(bool : Bool) in
                 if bool {
-                    self.field!.resignFirstResponder()
+                    //self.field!.resignFirstResponder()
                 }
         })
     }
@@ -459,11 +449,33 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     }
     
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
-        self.closeSearch()
-        if popover != nil{
-            self.closePopOver()
+        if validateText() {
+            self.closeSearch()
+            if popover != nil{
+                self.closePopOver()
+            }
+            
+            return true;
         }
+        return false
         
-        return true;
+    }
+    
+    func validateText() -> Bool {
+        let toValidate : NSString = field.text
+        let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
+            showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
+            return false
+        }
+        if !validateSearch(field.text)  {
+            showMessageValidation("Texto no permitido")
+            return false
+        }
+        if field.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
+            showMessageValidation("La longitud no puede ser mayor a 50 caracteres")
+            return false
+        }
+        return true
     }
 }
