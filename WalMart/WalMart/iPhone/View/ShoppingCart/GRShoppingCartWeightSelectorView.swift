@@ -626,6 +626,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     }
     
     func updateLabelW() {
+        
         if  currentValGr >= 1000 {
             let valInKg = currentValGr / 1000.0
             var formatedString = ""
