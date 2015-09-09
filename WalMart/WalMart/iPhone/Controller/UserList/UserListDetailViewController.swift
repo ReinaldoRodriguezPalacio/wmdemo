@@ -1044,14 +1044,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func retrieveProductsLocally(reloadList : Bool) {
         var products: [Product]? = nil
-        if self.listEntity != nil{
+        if self.listEntity != nil && self.listEntity!.idList != nil   {
             
+            println("name listEntity:: \(self.listEntity?.name)")
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "list == %@", self.listEntity!)
             var error: NSError? = nil
             self.products = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [Product]
-            self.titleLabel?.text = self.listEntity!.name
+            
+            self.titleLabel?.text = self.listEntity?.name
             //self.layoutTitleLabel()
             self.tableView!.reloadData()
             if reloadList {
