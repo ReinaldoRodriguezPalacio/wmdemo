@@ -872,10 +872,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" constant="-45" id="8Vs-g8-mDp"/>
-                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="26" id="hDH-xo-a8d"/>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" id="8Vs-g8-mDp"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="hDH-xo-a8d"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
                     <connections>
@@ -898,7 +899,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
                                 <rect key="frame" x="0.0" y="46" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zoi-Hb-PDp" customClass="CSStickyHeaderFlowLayout">
@@ -915,7 +916,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="top" secondItem="5O4-f5-eNr" secondAttribute="bottom" constant="46" id="3qL-8r-FRd"/>
+                            <constraint firstItem="N1T-IX-YRP" firstAttribute="top" secondItem="ZTg-Af-AOZ" secondAttribute="bottom" id="4Gv-BF-yZQ"/>
+                        </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
                     <connections>

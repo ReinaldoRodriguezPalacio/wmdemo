@@ -496,8 +496,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             }
             editButton.selected = true
-            editButton.backgroundColor = WMColor.wishlistEndEditButtonBgColor
-            editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
+            editButton.backgroundColor = WMColor.green
+            //editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
             
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -518,7 +518,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             editButton.selected = false
             editButton.backgroundColor = WMColor.wishlistEditButtonBgColor
-            editButton.tintColor = WMColor.wishlistEditButtonBgColor
+            //editButton.tintColor = WMColor.wishlistEditButtonBgColor
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0

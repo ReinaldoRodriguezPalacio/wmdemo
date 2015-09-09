@@ -99,8 +99,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let iva = totalsItems["iva"] as String!
         let total = totalsItems["total"] as String!
         let totalSaving = totalsItems["totalSaving"] as String!
-//        updateShopButton(total)
-        NSLog("Totals %@,%@,%@,%@",subTotalText,iva,total,totalSaving)
+        self.updateShopButton(total)
         totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
     }
     

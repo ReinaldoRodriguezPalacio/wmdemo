@@ -346,7 +346,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         
     }
     
-  
+   
     func closeWishList() {
         isOpenWishlist = false
         self.buttonList[2].selected = isOpenWishlist

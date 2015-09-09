@@ -263,9 +263,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
             return false
         }
         
-        if textField.text != nil && self.listName!.text != keyword {
-            self.listDelegate?.didListChangeName(self, text:keyword)
-        }
+
+        self.listDelegate?.didListChangeName(self, text:keyword)
         return true
     }
     

@@ -167,7 +167,7 @@
 "list.new.validation.name" = "El nombre de la lista no puede estar vacío.";
 "list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
 "list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
-"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, Elimine ó actualice las existentes.";
+"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario. Elimine ó actualice las existentes.";
 
 //ShoppingCart
 "shoppingcart.additem" = "Añadiendo";
@@ -244,8 +244,8 @@
 //address
 "profile.address.shortName" = "Nombre Corto";
 "profile.address.street" = "Calle";
-"profile.address.outdoornumber" = "Número Ext";
-"profile.address.indoornumber" = "Número Int";
+"profile.address.outdoornumber" = "No. Exterior";
+"profile.address.indoornumber" = "No. Interior";
 "profile.address.zipcode" = "Código Postal";
 "profile.address.suburb" = "Colonia";
 "profile.address.municipality" = "Municipio";
@@ -414,8 +414,10 @@
 "gr.address.section.between.phone" = "Información telefónica";
 "gr.address.field.betweenFisrt" = "Primer calle";
 "gr.address.field.betweenSecond" = "Segunda calle";
-"gr.address.field.addressNotOk" = "Por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
-"gr.address.field.notStore" = "Con este código postal, sólo podrás comprar artículos de Tecnología, Hogar y más; pero por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
+"gr.address.field.addressNotOk" = "Por el momento, no tenemos cobertura para llevar tu súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
+//"gr.address.field.addressNotOk" = "Por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
+"gr.address.field.notStore" = "Este C.P, sólo tiene cobertura para comprar artículos de Tecnología, Hogar y más; no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
+//"gr.address.field.notStore" = "Con este código postal, sólo podrás comprar artículos de Tecnología, Hogar y más; pero por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
 
 //GroceriesCheckout descriptions
 "gr.confirmacall" = "Deseo recibir llamada de confirmación.";

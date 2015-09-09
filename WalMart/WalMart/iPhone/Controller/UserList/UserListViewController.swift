@@ -679,21 +679,21 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 let listId = listItem["id"] as! String
                 var listName = listItem["name"] as! String
                 
-                if text == nil || text!.isEmpty {
-                    self.listToUpdate!.removeValueForKey(listId)
-                    return
-                }
+//                if text == nil || text!.isEmpty {
+//                    self.listToUpdate!.removeValueForKey(listId)
+//                    return
+//                }
                 
                 self.listToUpdate![listId] = text
             }
             else if let listEntity = self.itemsUserList![idx] as? List {
                 var entityId = listEntity.objectID.URIRepresentation().absoluteString
                 
-                if cell.textField!.text == nil || cell.textField!.text!.isEmpty {
-                    self.listToUpdate!.removeValueForKey(entityId!)
-                }
+//                if cell.textField!.text == nil || cell.textField!.text!.isEmpty {
+//                    self.listToUpdate!.removeValueForKey(entityId!)
+//                }
                 
-                self.listToUpdate![entityId!] = cell.textField!.text!
+                self.listToUpdate![entityId!] = text
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
@@ -1181,10 +1181,17 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 if list != nil {
                     
                     var name = self.listToUpdate![idList]!
+                    if name.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
+                        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+                        self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
+                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                        return
+                    }
+                    
                     if !validateListName(idList, nameList: name) {
                         return
                     }
-
+                    
                     list!.name = name
                 }
             }
@@ -1237,7 +1244,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let firstKey = array.first
             var name = self.listToUpdate![firstKey!]
             
-            if name == nil || name!.isEmpty {
+            if name == nil || name!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
                 self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                 return
