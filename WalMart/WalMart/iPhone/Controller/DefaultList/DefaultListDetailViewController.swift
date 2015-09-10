@@ -25,6 +25,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     var customLabel: CurrencyCustomLabel?
     var enableScrollUpdateByTabBar = true
     var isShowingTabBar : Bool = true
+    var isSharing: Bool = false
     var duplicateButton: UIButton?
     
     var alertView : IPOWMAlertViewController?
@@ -107,14 +108,16 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
         }
         
+        self.isSharing = false
         updateTotalLabel()
     }
     
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
-        tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+        if !self.isSharing {
+            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+        }
         var x = self.shareButton!.frame.maxX + 16.0
         var y = (self.footerSection!.frame.height - 34.0)/2
         addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
@@ -274,9 +277,10 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     }
     
     func buildImageToShare() -> UIImage? {
+        self.isSharing = true
         var oldFrame : CGRect = self.tableView!.frame
         var frame : CGRect = self.tableView!.frame
-        frame.size.height = self.tableView!.contentSize.height
+        frame.size.height = self.tableView!.contentSize.height + 50.0
         self.tableView!.frame = frame
         
         UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
@@ -284,6 +288,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         var saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
+        self.isSharing = false
         self.tableView!.frame = oldFrame
         return saveImage
     }
