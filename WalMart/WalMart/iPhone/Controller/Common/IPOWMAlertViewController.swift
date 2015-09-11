@@ -161,6 +161,7 @@ class IPOWMAlertViewController : UIViewController {
                 self.viewBgImage.transform = CGAffineTransformMakeScale(1.0, 1.0)
             }
             }, completion: { (complete:Bool) -> Void in
+                println("cerrar dialogo Guardando...")
                 
         })
     }

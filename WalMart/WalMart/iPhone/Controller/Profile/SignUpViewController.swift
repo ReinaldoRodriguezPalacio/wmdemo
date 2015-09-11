@@ -413,8 +413,11 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                    
                     let login = LoginService()
                     login.callService(login.buildParams(self.email!.text, password: self.password!.text), successBlock: { (dict:NSDictionary) -> Void in
+                        
+                        
                          println("")
                           self.alertAddress?.registryAddress(dictSend)
+                        
                         }, errorBlock: { (error:NSError) -> Void in
                              println("")
                           self.alertAddress?.registryAddress(dictSend)
@@ -433,8 +436,9 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 
             alertAddress?.alertSaveSuccess = {() in
                 self.successCallBack?()
-               
+                
                 self.alertAddress?.removeFromSuperview()
+                 self.alertView!.showDoneIcon()
             }
             
             alertAddress?.cancelPress = {() in

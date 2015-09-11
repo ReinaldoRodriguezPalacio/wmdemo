@@ -41,6 +41,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var isLogin : Bool = false
     var isIpad : Bool = false
     
+    var validateZip =  false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -499,10 +501,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             break
         }
         
-        if  isLogin {
+        if  isLogin {           
              self.saveButton!.frame = CGRectMake((bounds.width - 290) / 2 , self.viewAddress!.frame.maxY + 20, 290, 40)
              self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
         }
+    }
+    
+    func validateZip(isvalidate: Bool) {
+        self.validateZip = isvalidate
     }
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {

@@ -839,14 +839,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.checkVC.username = loginController.email?.text
                     self.checkVC.password = loginController.password?.text
                     self.checkVC.finishLoadCheckOut = {() in
+                       
+                        if address != nil {
+                            address!.closeAlert()
+                        }
+                        
                         if loginController.alertView != nil {
                             loginController.closeAlert(true, messageSucesss: true)
                         }else {
                             loginController.closeModal()
                         }
-                        if address != nil {
-                            address!.closeAlert()
-                        }
+                      
                     }
                     
                     loginController.alertView?.okCancelCallBack = {() in
