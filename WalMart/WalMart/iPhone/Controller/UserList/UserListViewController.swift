@@ -1024,6 +1024,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if indexPath.row == 0 && self.newListEnabled {
                 let listCell = tableView.dequeueReusableCellWithIdentifier(self.NEWCELL_ID) as! NewListTableViewCell
                 listCell.delegate = self
+                listCell.accessoryView = nil
                 return listCell
             }
             var currentRow = (self.newListEnabled ? 1 : 0)
@@ -1040,6 +1041,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 listCell.setEditing(self.isEditingUserList, animated: false)
                 listCell.showLeftUtilityButtonsAnimated(false)
                 listCell.enableEditList(self.isEditingUserList)
+                listCell.accessoryView = nil
                 return listCell
             }
             
@@ -1053,6 +1055,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 listCell.setEditing(self.isEditingUserList, animated: false)
                 listCell.showLeftUtilityButtonsAnimated(false)
                 listCell.enableEditList(self.isEditingUserList)
+                listCell.accessoryView = UIImageView(image:UIImage(named:"practilist_gooo"))
+                
                 return listCell
             }
         }
@@ -1075,10 +1079,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if self.isEditingUserList {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
+        listCell.accessoryView = nil
         
         return listCell
     }
-    
     
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

@@ -632,6 +632,7 @@
                     <connections>
                         <outlet property="footerConstraint" destination="DF4-ep-pB4" id="wSK-bz-6sh"/>
                         <outlet property="footerSection" destination="EJX-yf-xlB" id="e3f-sJ-Kox"/>
+                        <outlet property="tableConstraint" destination="2bI-9c-JB7" id="1Oz-YW-kGQ"/>
                         <outlet property="tableView" destination="t4y-XR-WcP" id="vDB-cQ-CQo"/>
                     </connections>
                 </viewController>

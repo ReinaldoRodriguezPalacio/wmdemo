@@ -48,15 +48,17 @@ class GRDepartmentTableViewCell : UITableViewCell {
         moreLabel.textColor = WMColor.light_blue
         moreLabel.textAlignment = NSTextAlignment.Right
         moreLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+        moreLabel.hidden = true
         self.addSubview(moreLabel)
-        
-        
+      
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        println("layoutSubviews ::: GRDepartmentTableViewCell")
         
     }
+    
     
     func setValues(titleDepartment:String,collapsed:Bool) {
         
@@ -93,5 +95,15 @@ class GRDepartmentTableViewCell : UITableViewCell {
         self.buttonDepartment.frame = CGRectMake(16.0, 20, sizeDep, 28)
     }
     
+    func showLabel(collapsed:Bool){
+         moreLabel.hidden = !collapsed
+        if !collapsed {
+            NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
+        }
+    }
+    
+    func removeViewLoading(){
+        moreLabel.hidden = false
+    }
     
 }

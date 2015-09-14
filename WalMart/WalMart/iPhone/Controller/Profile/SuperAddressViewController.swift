@@ -68,10 +68,11 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
          if addressId != "" {
             self.deleteButton!.frame = CGRectMake( bounds.maxX - 54, 0 , 54, self.header!.frame.height)
-            left = left + 54
+            left = left + 30
         }
 
         self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
+        //self.saveButton!.frame = CGRectMake(self.deleteButton!.frame.minX - 81  , 0 , 71, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(16, 0, (bounds.width - 32), self.header!.frame.maxY)
         
         sAddredssForm.frame = CGRectMake(0, 0,  self.view.bounds.width, 700)
@@ -97,23 +98,29 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         if self.saveButton!.hidden {
             self.saveButton!.hidden = false
             self.sAddredssForm.removeErrorLog()
-            UIView.animateWithDuration(0.4, animations: {
-                self.saveButton!.alpha = 1.0
-                if self.addressId != "" {
-                    self.titleLabel!.frame = CGRectMake(0 , 0, self.titleLabel!.frame.width - 13, self.header!.frame.maxY)
-                }
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        self.saveButton!.alpha = 1.0
-                    }
-            })
+            self.changeTitleLabel()
         }
+    }
+    
+    func changeTitleLabel(){
+        UIView.animateWithDuration(0.4, animations: {
+            self.saveButton!.alpha = 1.0
+            if self.addressId != "" {
+                self.titleLabel!.frame = CGRectMake(37 , 0, self.titleLabel!.frame.width - 13, self.header!.frame.maxY)
+                self.titleLabel!.textAlignment = .Left
+            }
+            }, completion: {(bool : Bool) in
+                if bool {
+                    self.saveButton!.alpha = 1.0
+                }
+        })
     }
     
     func showUpdate() {
         self.saveButton!.alpha = 1.0
         self.saveButton!.hidden = false
         self.sAddredssForm.removeErrorLog()
+        self.changeTitleLabel()
     }
     
     func save(sender:UIButton) {

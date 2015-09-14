@@ -112,10 +112,10 @@
 
 //My list
 "list.title" = "Mis Listas";
-"list.edit" = "Editar";
-"list.endedit" = "Ok";
-"list.new" = "Nueva";
-"list.endnew" = "Cancelar";
+"list.edit" = "editar";
+"list.endedit" = "ok";
+"list.new" = "nueva";
+"list.endnew" = "cancelar";
 "list.copy" = "Duplicar";
 "list.copy.inProcess" = "Duplicando Lista";
 "list.copy.done" = "Lista duplicada correctamente";
@@ -397,6 +397,8 @@
 "gr.category.especiales" = " Destacados ";
 "gr.category.open" = "Abrir";
 "gr.category.all" = "Ver más";
+"gr.category.message.loading" = "Cargando destacados...";
+
 
 
 //Address Super
@@ -493,7 +495,7 @@
 "signup.info" = "Información Legal";
 
 "signup.info.pub" = "Deseo recibir publicidad y/o promociones.";
-"signup.info.provacity" = "He leído y acepto los términos del ";
+"signup.info.provacity" = "He leído y acepto los términos del \n";
 
 "signup.info.share" = "¿Consiente usted que sus Datos Personales puedan ser transferidos a terceros con los que tengamos un contrato, como Instituciones Financieras, los cuales podrán llevar a cabo el análisis para ofrecerle y, en su caso, otorgarle productos y/o servicios financieros de conformidad con la regulación aplicable y para realizar cualquier actividad necesaria para tales fines?";
 "signup.info.share.yes" = "Sí lo consiento";

@@ -111,7 +111,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let departmentId = item["idDepto"] as! String
             
             cellDept.setValues(descDepartment,collapsed:collapsed)
-
+            if !collapsed {
+                cellDept.showLabel(collapsed)
+            }
             
             if collapsed {
 //                let separator = UIView()
