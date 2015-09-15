@@ -88,8 +88,8 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.maxX, 66)
         self.collectionView!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.maxY - self.pointSection!.frame.height)
         self.pointSection?.frame = CGRectMake(0, bounds.height - 46 , bounds.width, 46)
-        self.close!.frame = CGRectMake(bounds.width - 40.0, 20, 40.0, 40.0)
-        self.titleLabel!.frame =  CGRectMake(0 , 20, bounds.width - 40 , 46)
+        self.close!.frame = CGRectMake(0.0, 20, 40.0, 40.0)
+        self.titleLabel!.frame =  CGRectMake(40.0 , 20, bounds.width - 40 , 46)
     }
     
     override func viewDidAppear(animated: Bool) {

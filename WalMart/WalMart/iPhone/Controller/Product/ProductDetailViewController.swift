@@ -24,6 +24,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
     var bundleItems : [AnyObject] = []
+    var colorItems : [AnyObject] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var viewDetail : ProductDetailTextDetailView!
@@ -58,7 +59,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        //TODO: Quitar HardCode de colores
+        self.colorItems = [0xDF1C11,0x696E72,0x0E1219,0x1183C2,0x573281]
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
@@ -656,7 +659,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     
-    
     func sleectedImage(indexPath: NSIndexPath) {
         var controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
@@ -873,6 +875,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
             view.items = self.imageUrl
             view.delegate = self
+            view.colors = self.colorItems
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
@@ -891,6 +894,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton.isActive = self.strisActive
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
+            productDetailButton.hasDetailOptions = (self.colorItems.count > 0)
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
@@ -1107,6 +1111,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func endUpdatingShoppingCart(sender:AnyObject) {
         self.productDetailButton.reloadShoppinhgButton()
+    }
+    
+    func showProductDetailOptions() {
+        var controller = ProductDetailOptionsViewController()
+        controller.name = self.name as String
+        controller.imagesToDisplay = imageUrl
+        controller.currentItem = 0
+        controller.type = self.type.rawValue
+        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        controller.setAdditionalValues(self.listPrice as! String, price: self.price as! String, saving: self.saving as! String)
     }
     
 }

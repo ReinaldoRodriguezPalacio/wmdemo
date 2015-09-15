@@ -873,8 +873,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" id="8Vs-g8-mDp"/>
-                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="hDH-xo-a8d"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="VQl-Ws-dui"/>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" id="sl1-Q1-6hP"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -887,6 +887,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sHU-rv-hpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1390" y="-809.5"/>
+        </scene>
+        <!--Product Detail Options View Controller-->
+        <scene sceneID="4hG-bc-byk">
+            <objects>
+                <viewController storyboardIdentifier="productDetailOptionsVC" id="Riq-ni-hnr" customClass="ProductDetailOptionsViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="J1D-iL-Tsl"/>
+                        <viewControllerLayoutGuide type="bottom" id="KS1-v3-pb1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lYd-cm-6LP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hrw-5l-DPo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1390" y="-235"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="Tzo-Nw-O5L">
