@@ -63,7 +63,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.hidden = true
@@ -295,17 +295,23 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     func textModify(textField: UITextField!) {
         if self.saveButton!.hidden {
             self.saveButton!.hidden = false
-            UIView.animateWithDuration(0.4, animations: {
-                self.saveButton!.alpha = 1.0
-                if self.deleteButton != nil {
-                    self.titleLabel!.frame = CGRectMake(46 , 0,self.saveButton!.frame.minX , self.header!.frame.maxY)
-                }
+            self.changeTitleLabel()
+        }
+    }
+    
+    func changeTitleLabel(){
+        
+        UIView.animateWithDuration(0.4, animations: {
+            self.saveButton!.alpha = 1.0
+            if self.deleteButton != nil {
+                self.titleLabel!.frame = CGRectMake(37 , 0,self.titleLabel!.frame.width - 13, self.header!.frame.maxY)
+                self.titleLabel!.textAlignment = .Left
+            }
             }, completion: {(bool : Bool) in
                 if bool {
-                     self.saveButton!.alpha = 1.0
+                    self.saveButton!.alpha = 1.0
                 }
-            })
-        }
+        })
     }
    
     override func viewWillLayoutSubviews() {
@@ -318,7 +324,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         if self.idAddress != nil{
             self.deleteButton!.frame = CGRectMake( bounds.maxX - 54, 0 , 54, self.header!.frame.height)
-            left = left + 54
+            left = left + 30
         }
         
         

@@ -51,7 +51,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.newAddressButton = WMRoundButton()
         self.newAddressButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.newAddressButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
+        self.newAddressButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
         self.newAddressButton!.addTarget(self, action: "newAddress", forControlEvents: UIControlEvents.TouchUpInside)
         self.newAddressButton!.setTitle(NSLocalizedString("profile.address.new", comment:"" ) , forState: UIControlState.Normal)
         self.newAddressButton!.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)

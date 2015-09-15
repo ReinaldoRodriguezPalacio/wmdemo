@@ -32,7 +32,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.hidden = true
@@ -72,7 +72,6 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         }
 
         self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
-        //self.saveButton!.frame = CGRectMake(self.deleteButton!.frame.minX - 81  , 0 , 71, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(16, 0, (bounds.width - 32), self.header!.frame.maxY)
         
         sAddredssForm.frame = CGRectMake(0, 0,  self.view.bounds.width, 700)

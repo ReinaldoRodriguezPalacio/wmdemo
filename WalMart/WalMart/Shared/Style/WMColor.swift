@@ -10,7 +10,7 @@ import Foundation
 
 struct WMColor {
     
-    static var savingTextColor: UIColor{return UIColorFromRGB(0x00C000)}
+    static var savingTextColor: UIColor{return UIColorFromRGB(0x8EBB37)}
     
     static var headerViewBgCollor: UIColor{return UIColorFromRGB(0x2870C9)}
     static var gotosuperBgColor: UIColor{return UIColorFromRGB(0x62C900)}
@@ -176,7 +176,7 @@ struct WMColor {
     //EmptyView
     static var emptyBgColor: UIColor{return UIColorFromRGB(0xEDEDEE)}
     static var emptyDescTextColor: UIColor{return UIColorFromRGB(0x2970ca)}
-    static var emptyBgRetunGreenColor: UIColor{return UIColorFromRGB(0x8EBB37)}
+    static var emptyBgRetunGreenColor: UIColor{return UIColorFromRGB(0x8EBB36)}
     static var emptyBgRetunBlueColor: UIColor{return UIColorFromRGB(0x2970CA)}
     
     //Waiting 

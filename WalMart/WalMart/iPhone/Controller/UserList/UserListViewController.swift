@@ -73,7 +73,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
+        let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(110, 44), radius: 22)
         
         self.titleLabel?.text = NSLocalizedString("list.title",comment:"")
         self.titleLabel?.textAlignment = .Left
@@ -86,7 +86,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn!.setTitleColor(WMColor.UIColorFromRGB(0x2970CA), forState: .Selected)
         self.newListBtn!.addTarget(self, action: "showNewListField", forControlEvents: .TouchUpInside)
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.newListBtn!.backgroundColor = WMColor.green
+        self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
         self.newListBtn!.layer.cornerRadius = 11.0
         self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.header!.addSubview(self.newListBtn!)
@@ -97,8 +97,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
         self.editBtn!.setBackgroundImage(iconSelected, forState: .Highlighted)
         self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
-        self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
-        self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         //self.editBtn!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
@@ -518,7 +516,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                     CATransaction.commit()
                     
-                    self.newListBtn!.backgroundColor = WMColor.green
+                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36) // WMColor.green
                     }, atFinished: {
                         self.editBtn!.enabled = true
                         
@@ -547,7 +545,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.isShowingSuperlists = true
                 
                 self.newListBtn!.selected = false
-                self.newListBtn!.backgroundColor = WMColor.green
+                self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
                 self.reloadList(
                     success: { () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
@@ -598,7 +596,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingWishList  = true
                     self.isShowingSuperlists = true
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.green
+                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
@@ -647,7 +645,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingSuperlists = true
                     
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.green
+                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36) //WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
@@ -1423,7 +1421,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             self.isShowingSuperlists = true
                             
                             self.newListBtn!.selected = false
-                            self.newListBtn!.backgroundColor = WMColor.green
+                            self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)
                             self.reloadList(
                                 success: { () -> Void in
                                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicketDone", comment:""))

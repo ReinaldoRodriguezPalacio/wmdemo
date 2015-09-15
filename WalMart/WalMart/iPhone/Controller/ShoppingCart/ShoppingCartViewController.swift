@@ -521,7 +521,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             }
             editButton.selected = true
-            editButton.backgroundColor = WMColor.wishlistEndEditButtonBgColor
+            editButton.backgroundColor =  WMColor.UIColorFromRGB(0x8EBB36) // WMColor.wishlistEndEditButtonBgColor
             editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
             
             

@@ -496,7 +496,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             }
             editButton.selected = true
-            editButton.backgroundColor = WMColor.green
+            editButton.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)
             //editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
             
             
