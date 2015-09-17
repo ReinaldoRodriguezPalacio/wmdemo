@@ -240,6 +240,7 @@ class IPAUserListViewController: UserListViewController {
                     self.itemsUserList = result["responseArray"] as? [AnyObject]
                     self.isShowingWishList = false
                     self.isShowingSuperlists = !self.isEditingUserList
+                    self.checkEditBtn()
                     //println(self.itemsUserList)
                     self.tableuserlist!.reloadData()
                     if !self.newListEnabled && !self.isEditingUserList {
@@ -291,6 +292,7 @@ class IPAUserListViewController: UserListViewController {
 
             //println(self.itemsUserList)
             self.tableuserlist!.reloadData()
+            self.checkEditBtn()
             self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: true, scrollPosition: UITableViewScrollPosition.Top)
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({ () -> Void in

@@ -296,7 +296,7 @@
 "field.validate.minlength" = " La longitud no puede ser menor a ";
 "field.validate.minmaxlength.characters" = "caracteres";
 "field.validate.minmaxlength.digit" = "dígitos";
-"field.validate.minmaxlength.gender" = " El genero es requerido";
+"field.validate.minmaxlength.gender" = " El género es requerido";
 "signup.validate.terms.conditions" = " Para registrarte debes aceptar los términos y condiciones";
 "field.validate.zipcode" = " Código postal inválido";
 "field.validate.telephone.invalid" = " Teléfono no válido";
