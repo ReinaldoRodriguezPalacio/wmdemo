@@ -1126,8 +1126,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         return ""
     }
-
+    
+    //TODO: Talla y color para Ipad
+    func showProductDetailOptions() {
         
+    }
+
+
+    
     func sleectedImage(indexPath:NSIndexPath){
         var controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String

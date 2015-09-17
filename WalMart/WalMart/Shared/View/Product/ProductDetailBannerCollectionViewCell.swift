@@ -12,7 +12,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     var delegate : ProductDetailBannerCollectionViewDelegate!
     var collection: UICollectionView!
+    var colorsView: ProductDetailColorSizeView!
     var items: [AnyObject]! = []
+    var colors: [AnyObject]? = []
     var imagesRef: [UIImage]! = []
     var pointSection: UIView! = nil
     var pointContainer: UIView? = nil
@@ -66,12 +68,16 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.addSubview(pointSection!)
         
         self.buildButtonSection()
+        self.colorsView = ProductDetailColorSizeView(frame: CGRectMake(0, self.pointSection!.frame.maxY,  self.frame.width, 60))
+        self.colorsView.alpha = 0
+        self.addSubview(colorsView)
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
         price = CurrencyCustomLabel(frame: CGRectMake(0, self.priceBefore.frame.maxY  , self.frame.width, 24.0))
         self.addSubview(price)
         saving = CurrencyCustomLabel(frame: CGRectMake(0, self.price.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(saving)
+        
     }
     
     func setAdditionalValues(listPrice:String,price:String,saving:String){
@@ -176,7 +182,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
+
         var widthNew = self.bounds.width + self.bounds.height - 314
         if widthNew <= self.bounds.width {
             widthNew = self.bounds.width
@@ -184,7 +190,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         
         
         if widthNew > 320 {
-
             let heightNew = widthNew  - 320
             self.collection.alpha = 0
             
@@ -203,8 +208,18 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.imageZoom.alpha = 0
             self.imageZoom.frame = collection.frame
         }
-       
-        self.pointSection.frame = CGRectMake(0, self.bounds.height - 74    , self.bounds.width, 20)
+        
+        if colors?.count != 0{
+            self.colorsView.items = self.colors
+            self.colorsView.alpha = 1.0
+            let frame = collection.frame
+            self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
+            self.pointSection.frame = CGRectMake(0, self.bounds.height - 134   , self.bounds.width, 20)
+            self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+        }else{
+            self.colorsView.alpha = 0
+            self.pointSection.frame = CGRectMake(0, self.bounds.height - 74   , self.bounds.width, 20)
+        }
         self.priceBefore.frame = CGRectMake(0,  self.bounds.height - 54   , self.frame.width, 15.0)
         self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
         self.saving.frame = CGRectMake(0, self.bounds.height - 15  , self.frame.width, 15.0)

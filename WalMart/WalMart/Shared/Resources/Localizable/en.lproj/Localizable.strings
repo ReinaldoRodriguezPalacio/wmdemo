@@ -40,6 +40,7 @@
 "productdetail.notaviableinventory" = "Lo sentimos, por el momento\n sólo puedes ordenar hasta un\n máximo de ";
 "productdetail.notaviableinventoryart" = "artículos";
 "productdetail.notaviableinventorywe" = "gramos";
+"productdetail.options" = "Opciones";
 "productdetail.shop" = "Comprar";
 "productdetail.shopna" = "No disponible";
 "productdetail.cancel" = "Cancelar";
