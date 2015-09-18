@@ -1043,7 +1043,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func retrieveProductsLocally(reloadList : Bool) {
         var products: [Product]? = nil
-        if self.listEntity != nil && self.listEntity!.idList != nil   {
+        var dateList =  self.listEntity?.registryDate
+        
+        self.listEntity =  dateList == nil ? nil : self.listEntity
+       
+        
+        if self.listEntity != nil  {//&& self.listEntity!.idList != nil
             
             println("name listEntity:: \(self.listEntity?.name)")
             let fetchRequest = NSFetchRequest()
