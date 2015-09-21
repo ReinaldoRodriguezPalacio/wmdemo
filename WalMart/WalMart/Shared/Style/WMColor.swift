@@ -240,3 +240,23 @@ struct WMColor {
     }
     
 }
+
+extension UInt {
+    init?(_ string: String, radix: UInt) {
+        var str = string.stringByReplacingOccurrencesOfString("#", withString: "")
+        let digits = "0123456789abcdefghijklmnopqrstuvwxyz"
+        var result = UInt(0)
+        for digit in str.lowercaseString {
+            if let range = digits.rangeOfString(String(digit)) {
+                let val = UInt(distance(digits.startIndex, range.startIndex))
+                if val >= radix {
+                    return nil
+                }
+                result = result * radix + val
+            } else {
+                return nil
+            }
+        }
+        self = result
+    }
+}
