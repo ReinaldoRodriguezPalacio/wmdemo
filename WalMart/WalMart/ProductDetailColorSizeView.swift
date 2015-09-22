@@ -14,7 +14,7 @@ protocol ProductDetailColorSizeDelegate {
 
 class ProductDetailColorSizeView: UIView {
     let buttonWidth = 13
-    let buttonSpace = 28
+    let buttonSpace = 30
     let backViewWidth = 20
     var items:[AnyObject]! = nil
     var viewToInsert: UIView? = nil
@@ -39,18 +39,17 @@ class ProductDetailColorSizeView: UIView {
 
     
     func setup() {
-        self.scrollView = UIScrollView(frame: self.frame)
+        self.scrollView = UIScrollView(frame: CGRectMake(0, 0, self.frame.width, self.frame.height))
         self.scrollView?.scrollEnabled = false
         self.viewToInsert = UIView(frame: self.frame)
         self.viewToInsert! = self
-        //self.addSubview(scrollView!)
         buildItemsView()
     }
     
     func buildItemsView()
     {
         if items == nil { items = []}
-        if items.count != 0{
+        if items.count != 0 && self.subviews.count == 0{
             var butonsWidthCenter: CGFloat = CGFloat(((items.count * (backViewWidth + buttonSpace)) + buttonSpace) / 2)
             
             if !buildforColors!{
@@ -67,10 +66,11 @@ class ProductDetailColorSizeView: UIView {
             var startPos = CGFloat(viewWidthCenter) - CGFloat(butonsWidthCenter)
             if CGFloat(self.frame.width) < CGFloat(butonsWidthCenter * 2)
             {
-                self.addSubview(scrollView!)
+                self.scrollView = UIScrollView(frame: CGRectMake(0, 0, self.frame.width, self.frame.height))
                 self.scrollView!.scrollEnabled = true
                 self.scrollView!.contentSize = CGSizeMake(CGFloat(butonsWidthCenter * 2), self.frame.height)
-                //viewToInsert = self.scrollView!
+                viewToInsert = self.scrollView!
+                self.addSubview(scrollView!)
                 startPos = 0
             }
         
@@ -80,6 +80,7 @@ class ProductDetailColorSizeView: UIView {
             else{
                 self.buildSizeButtons(items,startPos: startPos,buttonPositionY: buttonPositionY)
             }
+            
         }
     }
     
@@ -206,6 +207,13 @@ class ProductDetailColorSizeView: UIView {
         {
             view.layer.borderWidth = 0
             view.layer.borderColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.8).CGColor
+        }
+    }
+    
+    func clearView(){
+        for view in self.viewToInsert!.subviews
+        {
+            view.removeFromSuperview()
         }
     }
 }

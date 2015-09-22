@@ -884,13 +884,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         var reusableView : UICollectionReusableView? = nil
         
-        if kind == CSStickyHeaderParallaxHeader {
+        if kind == CSStickyHeaderParallaxHeader{
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
             view.items = self.imageUrl
             view.delegate = self
             view.colors = self.colorItems
             view.colorsViewDelegate = self
-            println(self.colorItems)
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
@@ -909,7 +908,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton.isActive = self.strisActive
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
-            productDetailButton.hasDetailOptions = (self.colorItems.count > 0)
+            productDetailButton.hasDetailOptions = (self.facets?.count > 0)
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
@@ -920,6 +919,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             productDetailButton.image = imageUrl
             productDetailButton.delegate = self
+            
+            for subView in view.subviews{
+                subView.removeFromSuperview()
+            }
+            
             view.addSubview(productDetailButton)
             
             return view
@@ -977,12 +981,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         case (0,2) :
             if characteristics.count != 0 {
-                if cellCharacteristics == nil {
-                    let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
-                    cellCharacteristics.setValues(characteristics)
-                    cell = cellCharacteristics
-                }
-                return cellCharacteristics
+                let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
+                cellCharacteristics.setValues(characteristics)
+                cell = cellCharacteristics
             }else{
                 return cellForPoint((indexPath.section,3),indexPath: indexPath)
             }
@@ -1145,11 +1146,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         controller.setAdditionalValues(self.listPrice as! String, price: self.price as! String, saving: self.saving as! String)
     }
-    
+    // MARK Color Size Functions
     func getFacetsDetails() -> [String:AnyObject]{
         
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
-        
         for item in self.facets! {
             let product = item.1 as! [String:AnyObject]
             let details = product["details"] as! [AnyObject]
@@ -1175,14 +1175,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return facetsDetails
     }
     
-    //MARCK: ProductDetailColorSizeDelegate
-    func selectDetailItem(selected: String, itemType: String) {
-        self.selectedDetailItem = ["selected":selected, "itemType": itemType]
-        var upc = self.getUpc(selected,itemType: itemType)
-        var facet = self.facets![upc] as! NSDictionary
-        self.reloadViewWithData(facet)
-    }
-    
     func getUpc(selected: String, itemType: String) -> String
     {
         var upc = ""
@@ -1200,5 +1192,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
         return upc
+    }
+    
+    func clearView(view: UIView){
+        for subview in view.subviews{
+            subview.removeFromSuperview()
+        }
+    }
+    
+    //MARK: ProductDetailColorSizeDelegate
+    func selectDetailItem(selected: String, itemType: String) {
+        self.selectedDetailItem = ["selected":selected, "itemType": itemType]
+        var upc = self.getUpc(selected,itemType: itemType)
+        var facet = self.facets![upc] as! NSDictionary
+        self.reloadViewWithData(facet)
     }
 }

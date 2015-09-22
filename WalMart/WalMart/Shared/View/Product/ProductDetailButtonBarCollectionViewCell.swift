@@ -247,6 +247,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
   
     func reloadButton(){
         var buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : NSLocalizedString("productdetail.shop",comment:"")
+        var buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : WMColor.productDetailShoppingCartBtnBGColor
         
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -254,7 +255,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
        
         
-        self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+        self.addToShoppingCartButton!.backgroundColor = buttonColor
         
         detailProductCart  = self.retrieveProductInCar()
         
