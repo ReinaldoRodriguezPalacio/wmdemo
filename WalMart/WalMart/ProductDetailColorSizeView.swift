@@ -13,9 +13,9 @@ protocol ProductDetailColorSizeDelegate {
 }
 
 class ProductDetailColorSizeView: UIView {
-    let buttonWidth = 13
+    let buttonWidth = 15
     let buttonSpace = 30
-    let backViewWidth = 20
+    let backViewWidth = 22
     var items:[AnyObject]! = nil
     var viewToInsert: UIView? = nil
     var scrollView: UIScrollView? = nil
