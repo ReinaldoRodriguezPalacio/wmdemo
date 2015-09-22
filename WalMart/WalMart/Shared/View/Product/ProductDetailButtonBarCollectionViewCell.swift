@@ -16,6 +16,7 @@ protocol ProductDetailButtonBarCollectionViewCellDelegate {
     func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void)
     func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String)
     func showMessageProductNotAviable()
+    func showProductDetailOptions()
 }
 
 
@@ -34,6 +35,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var spaceBetweenButtons : CGFloat = 12.0
     var widthButtons : CGFloat = 57.0
     var detailProductCart: Cart?
+    var hasDetailOptions: Bool = false
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -188,7 +190,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
     
     func addProductToShoppingCart() {
-        if isAviableToShoppingCart {
+        if hasDetailOptions{
+            delegate.showProductDetailOptions()
+        }
+        else if isAviableToShoppingCart {
             delegate.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
         } else {
             delegate.showMessageProductNotAviable()
@@ -241,13 +246,16 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
   
     func reloadButton(){
-        self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Normal)
+        var buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : NSLocalizedString("productdetail.shop",comment:"")
+        var buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : WMColor.productDetailShoppingCartBtnBGColor
+        
+        self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-          self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Selected)
+        self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
        
         
-        self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+        self.addToShoppingCartButton!.backgroundColor = buttonColor
         
         detailProductCart  = self.retrieveProductInCar()
         
@@ -297,9 +305,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             }
         } else {
             self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Normal)
+            self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
             self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-            self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
         }
     }
     

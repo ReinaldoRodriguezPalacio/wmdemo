@@ -54,7 +54,7 @@
     UIImage *image;
     @autoreleasepool {
         // create image sized context
-        UIGraphicsBeginImageContext(size);
+        UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
         CGContextRef context = UIGraphicsGetCurrentContext();
         
         //Bg coloe

@@ -132,15 +132,15 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
         let currentDate = NSDate()
         var comps = NSDateComponents()
-        //comps.year = -18
-        //var maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
+        comps.year = -18
+        var maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
         comps.year = -100
         var minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
 
         self.inputBirthdateView = UIDatePicker()
         self.inputBirthdateView!.datePickerMode = .Date
         self.inputBirthdateView!.date = NSDate()
-        self.inputBirthdateView!.maximumDate = NSDate()
+        self.inputBirthdateView!.maximumDate = maxDate
         self.inputBirthdateView!.minimumDate = minDate
         self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
@@ -413,8 +413,11 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                    
                     let login = LoginService()
                     login.callService(login.buildParams(self.email!.text, password: self.password!.text), successBlock: { (dict:NSDictionary) -> Void in
+                        
+                        
                          println("")
                           self.alertAddress?.registryAddress(dictSend)
+                        
                         }, errorBlock: { (error:NSError) -> Void in
                              println("")
                           self.alertAddress?.registryAddress(dictSend)
@@ -433,8 +436,9 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 
             alertAddress?.alertSaveSuccess = {() in
                 self.successCallBack?()
-               
+                
                 self.alertAddress?.removeFromSuperview()
+                 self.alertView!.showDoneIcon()
             }
             
             alertAddress?.cancelPress = {() in

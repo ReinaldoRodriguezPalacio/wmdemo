@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate ,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource {
+class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate ,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate {
 
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
@@ -24,6 +24,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var imageUrl : [AnyObject] = []
     var characteristics : [AnyObject] = []
     var bundleItems : [AnyObject] = []
+    var colorItems : [AnyObject] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var viewDetail : ProductDetailTextDetailView!
@@ -55,10 +56,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var type : ResultObjectType!
     var cellRelated : UICollectionViewCell? = nil
     var cellCharacteristics : UICollectionViewCell? = nil
+    var facets: [String:AnyObject]? = nil
+    var facetsDetails: [String:AnyObject]? = nil
+    var selectedDetailItem: [String:String]? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
@@ -656,7 +659,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     
-    
     func sleectedImage(indexPath: NSIndexPath) {
         var controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
@@ -694,103 +696,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let productService = ProductDetailService()
         productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
             
-            self.name = result["description"] as! NSString
-            self.price = result["price"] as! NSString
-            self.detail = result["detail"] as! NSString
-            self.saving = ""
-            if let savingResult = result["saving"] as? NSString {
-                if savingResult != "" {
-                    let doubleVaule = NSString(string: savingResult).doubleValue
-                    if doubleVaule > 0 {
-                        let savingStr = NSLocalizedString("price.saving",comment:"")
-                        let formated = CurrencyCustomLabel.formatString("\(savingResult)")
-                        self.saving = "\(savingStr) \(formated)"
-                    }
+            self.reloadViewWithData(result)
+            if let facets = result["facets"] as? [String:AnyObject] {
+                self.facets = facets
+                self.facetsDetails = self.getFacetsDetails()
+                if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
+                    self.colorItems = colors
                 }
-            }
-            println(self.saving)
-            
-            self.listPrice = result["original_listprice"] as! NSString
-            self.characteristics = []
-            if let cararray = result["characteristics"] as? NSArray {
-                self.characteristics = cararray as [AnyObject]
-            }
-            
-            var allCharacteristics : [AnyObject] = []
-            
-            let strLabel = "UPC"
-            let strValue = self.upc
-            
-            allCharacteristics.append(["label":strLabel,"value":self.upc])
-            
-            for characteristic in self.characteristics  {
-                allCharacteristics.append(characteristic)
-            }
-            self.characteristics = allCharacteristics
-            
-            if let msiResult =  result["msi"] as? NSString {
-                if msiResult != "" {
-                    self.msi = msiResult.componentsSeparatedByString(",")
-                }else{
-                    self.msi = []
-                }
-            }
-            if let images = result["imageUrl"] as? [AnyObject] {
-                self.imageUrl = images
-            }
-            let freeShippingStr  = result["freeShippingItem"] as! NSString
-            self.freeShipping = "true" == freeShippingStr
-            
-            var numOnHandInventory : NSString = "0"
-            if let numberOf = result["onHandInventory"] as? NSString{
-                numOnHandInventory  = numberOf
-            }
-            self.onHandInventory  = numOnHandInventory
-            
-            self.strisActive  = result["isActive"] as! String
-            self.isActive = "true" == self.strisActive
-            
-            if self.isActive == true {
-                self.isActive = self.price.doubleValue > 0
-            }
-            
-            self.strisPreorderable  = result["isPreorderable"] as! String
-            
-            self.isPreorderable = "true" == self.strisPreorderable
-            self.bundleItems = [AnyObject]()
-            if let bndl = result["bundleItems"] as?  [AnyObject] {
-                self.bundleItems = bndl
-            }
-            
-            self.isLoading = false
-            
-            self.detailCollectionView.reloadData()
-            
-            self.viewLoad.stopAnnimating()
-            //self.tabledetail.scrollEnabled = true
-            //self.gestureCloseDetail.enabled = false
-            if self.titlelbl != nil {
-                self.titlelbl.text = self.name as String
-            }
-            
-            self.loadCrossSell()
-            
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                
-                var product = GAIEcommerceProduct()
-                var builder = GAIDictionaryBuilder.createScreenView()
-                product.setId(self.upc as String)
-                product.setName(self.name as String)
-                
-                var action = GAIEcommerceProductAction();
-                action.setAction(kGAIPADetail)
-                builder.setProductAction(action)
-                builder.addProduct(product)
-                
-                tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-                tracker.send(builder.build() as [NSObject : AnyObject])
             }
             
             }) { (error:NSError) -> Void in
@@ -804,6 +716,109 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
                 self.view.addSubview(empty)
                 self.viewLoad.stopAnnimating()
+        }
+    }
+    
+    func reloadViewWithData(result:NSDictionary){
+        self.name = result["description"] as! NSString
+        self.price = result["price"] as! NSString
+        self.detail = result["detail"] as! NSString
+        self.saving = ""
+        
+        if let savingResult = result["saving"] as? NSString {
+            if savingResult != "" {
+                let doubleVaule = NSString(string: savingResult).doubleValue
+                if doubleVaule > 0 {
+                    let savingStr = NSLocalizedString("price.saving",comment:"")
+                    let formated = CurrencyCustomLabel.formatString("\(savingResult)")
+                    self.saving = "\(savingStr) \(formated)"
+                }
+            }
+        }
+        println(self.saving)
+        
+        
+        self.listPrice = result["original_listprice"] as! NSString
+        self.characteristics = []
+        if let cararray = result["characteristics"] as? NSArray {
+            self.characteristics = cararray as [AnyObject]
+        }
+        
+        var allCharacteristics : [AnyObject] = []
+        
+        let strLabel = "UPC"
+        let strValue = self.upc
+        
+        allCharacteristics.append(["label":strLabel,"value":self.upc])
+        
+        for characteristic in self.characteristics  {
+            allCharacteristics.append(characteristic)
+        }
+        self.characteristics = allCharacteristics
+        
+        if let msiResult =  result["msi"] as? NSString {
+            if msiResult != "" {
+                self.msi = msiResult.componentsSeparatedByString(",")
+            }else{
+                self.msi = []
+            }
+        }
+        if let images = result["imageUrl"] as? [AnyObject] {
+            self.imageUrl = images
+        }
+        let freeShippingStr  = result["freeShippingItem"] as! NSString
+        self.freeShipping = "true" == freeShippingStr
+        
+        var numOnHandInventory : NSString = "0"
+        if let numberOf = result["onHandInventory"] as? NSString{
+            numOnHandInventory  = numberOf
+        }
+        self.onHandInventory  = numOnHandInventory
+        
+        self.strisActive  = result["isActive"] as! String
+        self.isActive = "true" == self.strisActive
+        
+        if self.isActive == true {
+            self.isActive = self.price.doubleValue > 0
+        }
+        
+        self.strisPreorderable  = result["isPreorderable"] as! String
+        
+        self.isPreorderable = "true" == self.strisPreorderable
+        self.bundleItems = [AnyObject]()
+        if let bndl = result["bundleItems"] as?  [AnyObject] {
+            self.bundleItems = bndl
+        }
+        
+        self.isLoading = false
+        
+        self.detailCollectionView.reloadData()
+        
+        self.viewLoad.stopAnnimating()
+        //self.tabledetail.scrollEnabled = true
+        //self.gestureCloseDetail.enabled = false
+        if self.titlelbl != nil {
+            self.titlelbl.text = self.name as String
+        }
+        
+        self.loadCrossSell()
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            
+            var product = GAIEcommerceProduct()
+            var builder = GAIDictionaryBuilder.createScreenView()
+            product.setId(self.upc as String)
+            product.setName(self.name as String)
+            
+            var action = GAIEcommerceProductAction();
+            action.setAction(kGAIPADetail)
+            builder.setProductAction(action)
+            builder.addProduct(product)
+            
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
+            tracker.send(builder.build() as [NSObject : AnyObject])
         }
     }
     
@@ -869,10 +884,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         var reusableView : UICollectionReusableView? = nil
         
-        if kind == CSStickyHeaderParallaxHeader {
+        if kind == CSStickyHeaderParallaxHeader{
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
             view.items = self.imageUrl
             view.delegate = self
+            view.colors = self.colorItems
+            view.colorsViewDelegate = self
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
@@ -891,6 +908,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton.isActive = self.strisActive
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
+            productDetailButton.hasDetailOptions = (self.facets?.count > 0)
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
@@ -901,6 +919,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             productDetailButton.image = imageUrl
             productDetailButton.delegate = self
+            
+            for subView in view.subviews{
+                subView.removeFromSuperview()
+            }
+            
             view.addSubview(productDetailButton)
             
             return view
@@ -958,12 +981,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         case (0,2) :
             if characteristics.count != 0 {
-                if cellCharacteristics == nil {
-                    let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
-                    cellCharacteristics.setValues(characteristics)
-                    cell = cellCharacteristics
-                }
-                return cellCharacteristics
+                let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
+                cellCharacteristics.setValues(characteristics)
+                cell = cellCharacteristics
             }else{
                 return cellForPoint((indexPath.section,3),indexPath: indexPath)
             }
@@ -1040,7 +1060,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         var pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,pesable:pesable,"isPreorderable":self.strisPreorderable]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable]
     }
     
     
@@ -1109,4 +1129,82 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.productDetailButton.reloadShoppinhgButton()
     }
     
+    func showProductDetailOptions() {
+        var controller = ProductDetailOptionsViewController()
+        controller.upc = self.upc as String
+        controller.name = self.name as String
+        controller.imagesToDisplay = imageUrl
+        controller.currentItem = 0
+        controller.type = self.type.rawValue
+        controller.onHandInventory = self.onHandInventory
+        controller.detailProductCart = self.productDetailButton.detailProductCart
+        controller.strIsPreorderable = self.strisPreorderable
+        controller.facets = self.facets
+        controller.facetsDetails = self.facetsDetails
+        controller.colorItems = self.colorItems
+        controller.selectedDetailItem = self.selectedDetailItem
+        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        controller.setAdditionalValues(self.listPrice as! String, price: self.price as! String, saving: self.saving as! String)
+    }
+    // MARK Color Size Functions
+    func getFacetsDetails() -> [String:AnyObject]{
+        
+        var facetsDetails : [String:AnyObject] = [String:AnyObject]()
+        for item in self.facets! {
+            let product = item.1 as! [String:AnyObject]
+            let details = product["details"] as! [AnyObject]
+            var itemDetail = [String:String]()
+            itemDetail["upc"] = item.0 as String
+            for detail in details{
+                let label = detail["label"] as! String
+                var values = facetsDetails[label] as? [AnyObject]
+                if values == nil{ values = []}
+                let valuesKey = label == "Color" ? "value" : "description"
+                let itemToAdd = ["value":detail[valuesKey] as! String, "enabled": (label == "Color"), "type": label]
+                if !(values! as NSArray).containsObject(itemToAdd) {
+                    values!.append(itemToAdd)
+                }
+                facetsDetails[label] = values
+                itemDetail[label] = detail[valuesKey] as? String
+            }
+            var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
+            if detailsValues == nil{ detailsValues = []}
+            detailsValues!.append(itemDetail)
+            facetsDetails["itemDetails"] = detailsValues
+        }
+        return facetsDetails
+    }
+    
+    func getUpc(selected: String, itemType: String) -> String
+    {
+        var upc = ""
+        var isSelected = false
+        let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        for item in details! {
+            if item[itemType] as! String == selected{
+                isSelected = true
+            }
+            else{
+                isSelected = false
+            }
+            if isSelected{
+                upc = item["upc"] as! String
+            }
+        }
+        return upc
+    }
+    
+    func clearView(view: UIView){
+        for subview in view.subviews{
+            subview.removeFromSuperview()
+        }
+    }
+    
+    //MARK: ProductDetailColorSizeDelegate
+    func selectDetailItem(selected: String, itemType: String) {
+        self.selectedDetailItem = ["selected":selected, "itemType": itemType]
+        var upc = self.getUpc(selected,itemType: itemType)
+        var facet = self.facets![upc] as! NSDictionary
+        self.reloadViewWithData(facet)
+    }
 }

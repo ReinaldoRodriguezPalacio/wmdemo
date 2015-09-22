@@ -78,6 +78,11 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     }
     
     func showPractilistViewController() {
+        
+        if self.detailController is UINavigationController {
+            return
+        }
+        
         let defaultListController = IPADefaultListViewController()
         defaultListController.delegate = self
         let navController = UINavigationController(rootViewController: defaultListController)
@@ -110,7 +115,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         }
         
         self.currentListId = idList
-        self.currentEntity = entity
+        self.currentEntity  = entity
         
         if self.detailController == nil {
             self.createDetailInstance(idList: idList, listName: name, entity: entity)

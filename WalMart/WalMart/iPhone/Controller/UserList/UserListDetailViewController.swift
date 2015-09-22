@@ -60,7 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22)
-        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
+        let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(110, 44), radius: 22)
         
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
 
@@ -71,7 +71,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
         self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.editBtn!.layer.cornerRadius = 11
-        self.editBtn!.backgroundColor = WMColor.UIColorFromRGB(0x525B66b)
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.editBtn!.backgroundColor = WMColor.titleTextColor
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -1044,14 +1043,21 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func retrieveProductsLocally(reloadList : Bool) {
         var products: [Product]? = nil
-        if self.listEntity != nil{
+        var dateList =  self.listEntity?.registryDate
+        
+        self.listEntity =  dateList == nil ? nil : self.listEntity
+       
+        
+        if self.listEntity != nil  {//&& self.listEntity!.idList != nil
             
+            println("name listEntity:: \(self.listEntity?.name)")
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "list == %@", self.listEntity!)
             var error: NSError? = nil
             self.products = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [Product]
-            self.titleLabel?.text = self.listEntity!.name
+            
+            self.titleLabel?.text = self.listEntity?.name
             //self.layoutTitleLabel()
             self.tableView!.reloadData()
             if reloadList {

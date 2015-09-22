@@ -370,6 +370,8 @@
 		6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180961B87C9FC0015FC2E /* CoreMedia.framework */; };
 		6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180981B87CA150015FC2E /* MessageUI.framework */; };
 		6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */; };
+		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
+		6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
 		6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */; };
@@ -886,6 +888,8 @@
 		6C3180961B87C9FC0015FC2E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		6C3180981B87CA150015FC2E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
+		6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOptionsViewController.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
 		6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextboxTableViewCell.swift; sourceTree = "<group>"; };
 		6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPayPalMobile.a; path = WalMart/Shared/Library/PayPalMobile/libPayPalMobile.a; sourceTree = "<group>"; };
@@ -1720,6 +1724,7 @@
 				56BB62981A5F06B20008BD1F /* ProductDetailCharacteristicsCollectionViewCell.swift */,
 				56BB629A1A5F2BAF0008BD1F /* ProductDetailCrossSellCollectionViewCell.swift */,
 				56BB629C1A5F2C3A0008BD1F /* ProductDetailBundleCollectionViewCell.swift */,
+				6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -2701,6 +2706,7 @@
 				5696079A19B4EF2D005D20DC /* ProductDetailPageViewController.swift */,
 				5680A0981A48CF50009C5515 /* GRProductDetailViewController.swift */,
 				04D15BC81A96474400860919 /* FilterProductsViewController.swift */,
+				6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */,
 			);
 			name = Product;
 			sourceTree = "<group>";
@@ -2947,6 +2953,7 @@
 				6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */,
 				566902311A9431B7000D6FA6 /* GRRecentProductsService.swift in Sources */,
 				56253D8F19D21A4D002E128A /* PreviousOrderDetailService.swift in Sources */,
+				6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */,
 				AC88FA7419CA3FCD003BD859 /* UIEdgeTextFieldImage.swift in Sources */,
 				56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */,
 				567023331AB255D300FDCD91 /* IPOWebViewController.swift in Sources */,
@@ -3064,6 +3071,7 @@
 				56DE026819DE08C100FA2042 /* IPOShoppingCartEmptyView.swift in Sources */,
 				56EB40291A02E4E700882097 /* WalMart.xcdatamodeld in Sources */,
 				0477EA911A707094008142D7 /* List.swift in Sources */,
+				6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */,
 				56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */,
 				5674E08D1A672B3A00249017 /* IPAGRProductDetailViewController.swift in Sources */,
 				AC37F6B019B902AF000BB80D /* ShoppingCartProductsService.swift in Sources */,
@@ -3430,8 +3438,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -3465,8 +3473,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

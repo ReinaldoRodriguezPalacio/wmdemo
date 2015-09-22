@@ -57,8 +57,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.titleLabel!.text = NSLocalizedString("filter.title", comment:"")
         
         
-        let iconImage = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11)
+        let iconImage = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
+        let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55, 22), radius: 11)
         
         self.applyButton = UIButton.buttonWithType(.Custom) as? UIButton
         self.applyButton!.setBackgroundImage(iconImage, forState: .Normal)

@@ -20,6 +20,7 @@ class CurrencyCustomLabel : UIView  {
     var textAlignment : NSTextAlignment = NSTextAlignment.Center
     var spaceBetNums : UInt8 = 0
     var interLine = false
+    var hasLine = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -106,16 +107,6 @@ class CurrencyCustomLabel : UIView  {
         label1!.frame = CGRectMake(xLabel,(self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfFirstText.width, sizeOfFirstText.height)
         
         label2!.frame = CGRectMake(label1!.frame.maxX, (self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfSecondText.width, sizeOfSecondText.height)
-        
-       
-        if self.interLine {
-            let sizeTotal : CGSize = sizeOfLabel()
-            let viewLine = UIView(frame:CGRectMake(self.label1!.frame.minX,sizeTotal.height / 2,totalWidth, 1))
-            viewLine.backgroundColor = WMColor.searchProductPriceThroughLineColor
-            addSubview(viewLine)
-        }
-        
-        
     }
     
     func setCurrencyUserInteractionEnabled(enabled:Bool) {
@@ -152,11 +143,14 @@ class CurrencyCustomLabel : UIView  {
         
         label2!.frame = CGRectMake(label1!.frame.maxX, (self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfSecondText.width, sizeOfSecondText.height)
         
-        if self.interLine {
+        if self.interLine && !self.hasLine {
+            self.hasLine = true
             let sizeTotal : CGSize = sizeOfLabel()
-            let viewLine = UIView(frame:CGRectMake(self.label1!.frame.minX,sizeTotal.height / 2,totalWidth, 1))
-            viewLine.backgroundColor = WMColor.searchProductPriceThroughLineColor
-            addSubview(viewLine)
+            
+            var line: CALayer = CALayer()
+            line.frame = CGRectMake(self.label1!.frame.minX,sizeTotal.height / 2,totalWidth, 1)
+            line.backgroundColor = WMColor.searchProductPriceThroughLineColor.CGColor
+            self.layer.insertSublayer(line, atIndex: 0)
         }
     }
     

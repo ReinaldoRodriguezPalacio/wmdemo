@@ -668,6 +668,7 @@
                     <connections>
                         <outlet property="footerConstraint" destination="DF4-ep-pB4" id="wSK-bz-6sh"/>
                         <outlet property="footerSection" destination="EJX-yf-xlB" id="e3f-sJ-Kox"/>
+                        <outlet property="tableConstraint" destination="2bI-9c-JB7" id="1Oz-YW-kGQ"/>
                         <outlet property="tableView" destination="t4y-XR-WcP" id="vDB-cQ-CQo"/>
                     </connections>
                 </viewController>
@@ -909,10 +910,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" constant="-45" id="8Vs-g8-mDp"/>
-                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="26" id="hDH-xo-a8d"/>
+                            <constraint firstItem="gAa-Bu-aYo" firstAttribute="top" secondItem="Xw4-yC-LWx" secondAttribute="bottom" constant="46" id="VQl-Ws-dui"/>
+                            <constraint firstItem="VYE-iU-4ix" firstAttribute="top" secondItem="gAa-Bu-aYo" secondAttribute="bottom" id="sl1-Q1-6hP"/>
                         </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
                     <connections>
@@ -922,6 +924,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sHU-rv-hpj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1390" y="-809.5"/>
+        </scene>
+        <!--Product Detail Options View Controller-->
+        <scene sceneID="4hG-bc-byk">
+            <objects>
+                <viewController storyboardIdentifier="productDetailOptionsVC" id="Riq-ni-hnr" customClass="ProductDetailOptionsViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="J1D-iL-Tsl"/>
+                        <viewControllerLayoutGuide type="bottom" id="KS1-v3-pb1"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lYd-cm-6LP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Hrw-5l-DPo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1390" y="-235"/>
         </scene>
         <!--Product Detail View Controller-->
         <scene sceneID="Tzo-Nw-O5L">
@@ -935,7 +956,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZTg-Af-AOZ">
                                 <rect key="frame" x="0.0" y="46" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Zoi-Hb-PDp" customClass="CSStickyHeaderFlowLayout">
@@ -952,7 +973,12 @@
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ZTg-Af-AOZ" firstAttribute="top" secondItem="5O4-f5-eNr" secondAttribute="bottom" constant="46" id="3qL-8r-FRd"/>
+                            <constraint firstItem="N1T-IX-YRP" firstAttribute="top" secondItem="ZTg-Af-AOZ" secondAttribute="bottom" id="4Gv-BF-yZQ"/>
+                        </constraints>
                     </view>
+                    <nil key="simulatedStatusBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="461"/>
                     <connections>

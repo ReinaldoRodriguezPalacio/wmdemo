@@ -59,7 +59,10 @@ class IPALoginController: LoginController {
                 })
             }
             self.signUp.successCallBack =  {() in
+                self.signUp.view.alpha = 0
                 let service = LoginService()
+                self.email!.text = self.signUp.email!.text!
+                self.password!.text  =  self.signUp.password!.text
                 let params  = service.buildParams(self.signUp.email!.text!, password: self.signUp.password!.text!)
                 self.callService(params, alertViewService:self.signUp.alertView!)
                 

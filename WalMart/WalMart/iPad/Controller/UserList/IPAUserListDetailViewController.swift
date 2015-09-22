@@ -32,6 +32,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         var separation:CGFloat = 16.0
         var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
         var y = (self.footerSection!.frame.height - shareWidth)/2
+       
+        x = self.duplicateButton!.frame.maxX + 16.0
         self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
         x = self.shareButton!.frame.maxX + separation
         self.addToCartButton!.frame = CGRectMake(x, y, 254.0, shareWidth)
@@ -73,6 +75,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.editBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
             self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
         }
+        
+        var x = self.shareButton!.frame.maxX + 16.0
+        var y = (self.footerSection!.frame.height - 34.0)/2
+        
+        addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+        self.customLabel?.frame  = self.addToCartButton!.bounds
+
     }
 
     override func viewDidAppear(animated: Bool) {

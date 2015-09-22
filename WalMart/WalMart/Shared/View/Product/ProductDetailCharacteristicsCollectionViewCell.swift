@@ -50,6 +50,10 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         var currentY = 40.0 as CGFloat
         var index = 0
         
+        for subview in self.subviews{
+            subview.removeFromSuperview()
+        }
+        setup()
         for dicValue in values {
             var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {

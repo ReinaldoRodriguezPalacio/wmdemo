@@ -80,7 +80,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         editWishlist.backgroundColor = WMColor.wishlistEditButtonBgColor
         editWishlist.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         editWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        editWishlist.layer.cornerRadius = 3
+        editWishlist.layer.cornerRadius = 11
         editWishlist.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         
         
@@ -88,7 +88,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         deleteAllWishlist.backgroundColor = WMColor.wishlistDeleteButtonBgColor
         deleteAllWishlist.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         deleteAllWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        deleteAllWishlist.layer.cornerRadius = 3
+        deleteAllWishlist.layer.cornerRadius = 11
         deleteAllWishlist.alpha = 0
         deleteAllWishlist.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
         
@@ -137,7 +137,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         if isEditingWishList {
             editWishlist.selected = true
-            editWishlist.backgroundColor = WMColor.wishlistEndEditButtonBgColor
+            editWishlist.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.wishlistEndEditButtonBgColor
             editWishlist.tintColor = WMColor.wishlistEndEditButtonBgColor
             if self.items.count > 0 {
                 self.wishlist.reloadData()

@@ -8,9 +8,10 @@
 
 import UIKit
 
-protocol AddressViewDelegate {
+@objc protocol AddressViewDelegate {
     func textModify(textField: UITextField!)
     func setContentSize()
+    optional func validateZip(isvalidate:Bool)
 }
 
 class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
@@ -334,6 +335,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.errorView = FormFieldErrorView()
             }
             SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "No Válido" , errorView:self.errorView! , becomeFirstResponder: true)
+            
             return
         }
         
@@ -421,6 +423,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.city!.hidden = false
                 self.state!.hidden = false
                 showSuburb = true
+                delegate.validateZip!(true)
                 delegate.setContentSize()
             }
         } else {

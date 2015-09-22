@@ -16,6 +16,7 @@ protocol IPOGRDepartmentSpecialTableViewCellDelegate {
 class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     
     var delegate: IPOGRDepartmentSpecialTableViewCellDelegate!
+    var viewLoading : UIView?
     
     func setLines(lines:[[String:AnyObject]],width:CGFloat) {
         
@@ -52,9 +53,35 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         self.contentView.addSubview(separator)
         
+        self.viewLoadingProduct ()
         
+        NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
         
+    }
+    
+    func removeViewLoading(){
+        viewLoading!.hidden =  true
+    }
+    
+    func viewLoadingProduct(){
+        viewLoading =  UIView()
+        viewLoading!.frame = CGRectMake(0,0,self.frame.width,self.frame.height - 2)
+        viewLoading!.backgroundColor =  UIColor.whiteColor()
         
+        var imageIndicator =  UIImageView(frame: CGRectMake(self.frame.midX - 16, 20,32,32))
+        imageIndicator.image =  UIImage(named:"home_super_spark")
+        viewLoading!.addSubview(imageIndicator)
+        
+        var labelLoading =  UILabel(frame:CGRectMake(0, imageIndicator.frame.maxY + 10, self.frame.width, 30))
+        labelLoading.text =  NSLocalizedString("gr.category.message.loading", comment:"")
+        labelLoading.textAlignment =  .Center
+        labelLoading.font =  WMFont.fontMyriadProRegularOfSize(14)
+        labelLoading.textColor = WMColor.navigationFilterBGColor
+
+        
+        viewLoading!.addSubview(labelLoading)
+        
+        self.contentView.addSubview(viewLoading!)
     }
     
     

@@ -18,6 +18,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     var ctrlCheckOut : IPAGRCheckOutViewController? = nil
     var popup : UIPopoverController?
     var viewSeparator : UIView!
+    var viewTitleCheckout : UILabel!
     
     
     
@@ -25,23 +26,22 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewTitleCheckout = UILabel(frame: viewHerader.bounds)
+        viewTitleCheckout.font = WMFont.fontMyriadProRegularOfSize(14)
+        viewTitleCheckout.textColor = WMColor.shoppingCartHeaderTextColor
+        viewTitleCheckout.text = "Verifica tu pedido"
+        viewTitleCheckout.textAlignment = .Center
+        self.viewHerader.addSubview(viewTitleCheckout)
         
         self.viewFooter.hidden = true
-
         self.view.backgroundColor = UIColor.clearColor()
-        
         if UserCurrentSession.sharedInstance().userSigned == nil {
             viewShowLogin = IPAGRLoginUserOrderView(frame:containerGROrder.bounds)
             viewShowLogin!.delegate = self
             containerGROrder.addSubview(viewShowLogin!)
-            
             self.viewShowLogin?.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
                 subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
                 saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
-            
-
-            
-            
         } else {
             ctrlCheckOut = IPAGRCheckOutViewController()
             ctrlCheckOut?.itemsInCart = itemsInCart
@@ -49,14 +49,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
-        
         viewSeparator = UIView(frame: CGRectZero)
         viewSeparator.backgroundColor = WMColor.lineSaparatorColor
         self.view.addSubview(viewSeparator!)
-        
-        
-        
-        
     }
     
     
@@ -68,7 +63,10 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         viewSeparator!.frame = CGRectMake(self.tableShoppingCart.frame.maxX, self.tableShoppingCart.frame.minY, AppDelegate.separatorHeigth(), self.tableShoppingCart.frame.height)
         viewShowLogin?.frame = containerGROrder.bounds
         ctrlCheckOut?.view.frame = containerGROrder.bounds
-        self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
+        self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
+        self.viewTitleCheckout.frame = CGRectMake(self.viewSeparator.frame.maxX , 0, self.view.frame.width - self.viewSeparator.frame.maxX, self.viewHerader.frame.height )
+        self.deleteall.frame = CGRectMake(self.editButton.frame.minX - 80, 12, 75, 22)
+        self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
         
     }
     

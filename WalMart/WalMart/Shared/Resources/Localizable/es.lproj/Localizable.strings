@@ -21,7 +21,7 @@
 "moreoptions.title.TicketList" = "Crea lista de Súper escaneando un ticket";
 "moreoptions.title.Notification" = "Notificaciones";
 
-"moreoptions.title.Help" = "¿Como usar el app?";
+"moreoptions.title.Help" = "¿Cómo usar el app?";
 "moreoptions.title.Terms" = "Términos y condiciones";
 "moreoptions.title.Contact" = "Soporte";
 
@@ -41,6 +41,7 @@
 "productdetail.notaviableinventory" = "Lo sentimos, por el momento\n sólo puedes ordenar hasta un\n máximo de ";
 "productdetail.notaviableinventoryart" = "artículos";
 "productdetail.notaviableinventorywe" = "gramos";
+"productdetail.options" = "Opciones";
 "productdetail.shop" = "Comprar";
 "productdetail.shopna" = "No disponible";
 "productdetail.cancel" = "Cancelar";
@@ -116,10 +117,10 @@
 
 //My list
 "list.title" = "Mis Listas";
-"list.edit" = "Editar";
-"list.endedit" = "Ok";
-"list.new" = "Nueva";
-"list.endnew" = "Cancelar";
+"list.edit" = "editar";
+"list.endedit" = "ok";
+"list.new" = "nueva";
+"list.endnew" = "cancelar";
 "list.copy" = "Duplicar";
 "list.copy.inProcess" = "Duplicando Lista";
 "list.copy.done" = "Lista duplicada correctamente";
@@ -171,7 +172,7 @@
 "list.new.validation.name" = "El nombre de la lista no puede estar vacío.";
 "list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
 "list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
-"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, Elimine ó actualice las existentes.";
+"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario. Elimine ó actualice las existentes.";
 
 //ShoppingCart
 "shoppingcart.additem" = "Añadiendo";
@@ -297,7 +298,7 @@
 "field.validate.minlength" = " La longitud no puede ser menor a ";
 "field.validate.minmaxlength.characters" = "caracteres";
 "field.validate.minmaxlength.digit" = "dígitos";
-"field.validate.minmaxlength.gender" = " El genero es requerido";
+"field.validate.minmaxlength.gender" = " El género es requerido";
 "signup.validate.terms.conditions" = " Para registrarte debes aceptar los términos y condiciones";
 "field.validate.zipcode" = " Código postal inválido";
 "field.validate.telephone.invalid" = " Teléfono no válido";
@@ -399,6 +400,7 @@
 "gr.category.especiales" = " Destacados ";
 "gr.category.open" = "Abrir";
 "gr.category.all" = "Ver más";
+"gr.category.message.loading" = "Cargando destacados...";
 
 //Address Super
 "gr.address.title" = "Nueva Dirección";
@@ -406,8 +408,8 @@
 "gr.address.section.errorLabelStore" = "Fuera del área de servicio";
 "gr.address.field.shortname" = "Nombre Corto";
 "gr.address.field.street" = "Calle";
-"gr.address.field.outdoornumber" = "No. Exterior";
-"gr.address.field.indoornumber" = "No. Interior";
+"gr.address.field.outdoornumber" = "Número Ext";
+"gr.address.field.indoornumber" = "Número Int";
 "gr.address.field.zipcode" = "Código Postal";
 "gr.address.field.store" = "Tienda";
 "gr.address.field.suburb" = "Colonia";
@@ -415,8 +417,10 @@
 "gr.address.section.between.phone" = "Información telefónica";
 "gr.address.field.betweenFisrt" = "Primer calle";
 "gr.address.field.betweenSecond" = "Segunda calle";
-"gr.address.field.addressNotOk" = "Por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
-"gr.address.field.notStore" = "Con este código postal, sólo podrás comprar artículos de Tecnología, Hogar y más; pero por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
+"gr.address.field.addressNotOk" = "Por el momento, no tenemos cobertura para llevar tu súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
+//"gr.address.field.addressNotOk" = "Por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
+"gr.address.field.notStore" = "Este C.P, sólo tiene cobertura para comprar artículos de Tecnología, Hogar y más; no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
+//"gr.address.field.notStore" = "Con este código postal, sólo podrás comprar artículos de Tecnología, Hogar y más; pero por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
 
 //GroceriesCheckout descriptions
 "gr.confirmacall" = "Deseo recibir llamada de confirmación.";
@@ -491,7 +495,7 @@
 "signup.info" = "Información Legal";
 
 "signup.info.pub" = "Deseo recibir publicidad y/o promociones.";
-"signup.info.provacity" = "He leído y acepto los términos del ";
+"signup.info.provacity" = "He leído y acepto los términos del \n";
 
 "signup.info.share" = "¿Consiente usted que sus Datos Personales puedan ser transferidos a terceros con los que tengamos un contrato, como Instituciones Financieras, los cuales podrán llevar a cabo el análisis para ofrecerle y, en su caso, otorgarle productos y/o servicios financieros de conformidad con la regulación aplicable y para realizar cualquier actividad necesaria para tales fines?";
 "signup.info.share.yes" = "Sí lo consiento";

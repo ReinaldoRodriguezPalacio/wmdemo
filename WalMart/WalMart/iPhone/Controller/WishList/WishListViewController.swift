@@ -53,7 +53,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.edit.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.edit.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.edit.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
-        self.edit!.backgroundColor = UIColor.clearColor()
         self.edit!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
         self.edit.layer.cornerRadius = 11
         self.edit.addTarget(self, action: "editAction:", forControlEvents: .TouchUpInside)
@@ -426,7 +425,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 //cell.shouldChangeState = !isEdditing
             }
             edit.selected = true
-            edit.backgroundColor = WMColor.wishlistEndEditButtonBgColor
+            edit.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.wishlistEndEditButtonBgColor
             edit.tintColor = WMColor.wishlistEndEditButtonBgColor
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1

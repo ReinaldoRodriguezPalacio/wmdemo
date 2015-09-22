@@ -26,6 +26,28 @@ class IPAAddressViewController: AddressViewController {
         }
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
     }
-
     
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        
+        var left : CGFloat = 87
+        
+        if self.idAddress != nil{
+            left = left + 30
+        }
+        self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
+        
+ 
+    }
+    
+    
+    
+    override func setContentSize(){
+        super.setContentSize()
+        if self.validateZip  && self.idAddress == nil {
+            self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(self.saveButton!.titleEdgeInsets.top , self.saveButton!.titleEdgeInsets.left - 35.5 , self.saveButton!.titleEdgeInsets.bottom, self.saveButton!.titleEdgeInsets.right)
+            
+        }
+    }
+
 }

@@ -65,7 +65,8 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         var currntY : CGFloat = 45.0
         let lblPagos = NSLocalizedString("productdetail.paiments",comment:"")
         let lblOf = NSLocalizedString("productdetail.of",comment:"")
-        
+        self.clearView()
+        self.setup()
         for msiVal in msi {
             
             let payDetailPrice = NSNumber(double:(priceProduct.doubleValue/msiVal.doubleValue)).stringValue
@@ -86,6 +87,12 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
             currntY = currntY + 17
         }
         
+    }
+    
+    func clearView(){
+        for subview in self.subviews{
+            subview.removeFromSuperview()
+        }
     }
     
 }

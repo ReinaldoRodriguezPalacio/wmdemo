@@ -24,7 +24,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     var sender : AnyObject? = nil
     
     var viewButtonClose : UIButton!
-    var buttonRight : UIButton!
+    var buttonRight : WMRoundButton!
     var viewReplace : UIView!
     
     var scrollForm : TPKeyboardAvoidingScrollView!
@@ -82,13 +82,14 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         
         viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, 480))
         
-        self.buttonRight = UIButton(frame:CGRectZero)
-        self.buttonRight!.setBackgroundImage(UIImage(named:"button_bg"), forState: .Normal)
-        self.buttonRight!.setBackgroundImage(UIImage(named:"button_bg_active"), forState: .Selected)
+        self.buttonRight = WMRoundButton() // UIButton(frame:CGRectZero)
+        self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+//        self.buttonRight!.setBackgroundImage(UIImage(named:"button_bg"), forState: .Normal)
+//        self.buttonRight!.setBackgroundImage(UIImage(named:"button_bg_active"), forState: .Selected)
         self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
         self.buttonRight.titleLabel?.textColor = UIColor.whiteColor()
         //self.buttonRight.backgroundColor =   WMColor.badgeTextColor
-        self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
+        self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         //self.buttonRight!.setTitleColor(WMColor.badgeTextColor, forState: .Normal)
         self.buttonRight!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.buttonRight.addTarget(self, action: "newItemForm", forControlEvents: UIControlEvents.TouchUpInside)
@@ -126,7 +127,9 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
         if buttonRight != nil  {
             buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
+            buttonRight.layer.cornerRadius =  11
         }
+        
     }
     
     

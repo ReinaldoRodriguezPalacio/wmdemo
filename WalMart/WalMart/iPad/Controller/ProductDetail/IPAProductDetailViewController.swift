@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPAProductDetailViewController : UIViewController, UITableViewDelegate , UITableViewDataSource,UINavigationControllerDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate,UIActivityItemSource ,ProductDetailBannerCollectionViewDelegate{
+class IPAProductDetailViewController : UIViewController, UITableViewDelegate , UITableViewDataSource,UINavigationControllerDelegate,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate,UIActivityItemSource ,ProductDetailBannerCollectionViewDelegate, ProductDetailColorSizeDelegate{
     
     var listSelectorController: ListsSelectorViewController?
     var listSelectorContainer: UIView?
@@ -59,6 +59,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var pagerController : IPAProductDetailPageViewController? = nil
     var isPesable = false
     var alertView : IPOWMAlertViewController? = nil
+    var colorItems : [AnyObject] = []
+    var facets: [String:AnyObject]? = nil
+    var facetsDetails: [String:AnyObject]? = nil
+    var selectedDetailItem: [String:String]? = nil
+    var colorViewCell: ProductDetailColorSizeView? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +101,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tabledetail.registerClass(ProductDetailCrossSellTableViewCell.self, forCellReuseIdentifier: "crossSellCell")
         tabledetail.registerClass(ProductDetailCharacteristicsTableViewCell.self, forCellReuseIdentifier: "cellCharacteristics")
         tabledetail.registerClass(IPAProductDetailBundleTableViewCell.self, forCellReuseIdentifier: "cellBundleitems")
+        tabledetail.registerClass(UITableViewCell.self, forCellReuseIdentifier: "colorsCell")
 
         tabledetail.separatorStyle = UITableViewCellSeparatorStyle.None
         
@@ -265,6 +271,26 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
             cell = cellSpace
         case (0,1) :
+            if self.colorItems.count > 0{
+                let cellColors = tabledetail.dequeueReusableCellWithIdentifier("colorsCell", forIndexPath: indexPath) as? UITableViewCell
+                if(colorViewCell == nil){
+                    colorViewCell = ProductDetailColorSizeView(frame: CGRectMake(0, 0, cellColors!.frame.width, 40))
+                    colorViewCell?.delegate = self
+                    colorViewCell!.items = self.colorItems
+                    let line: CALayer = CALayer()
+                    line.frame = CGRectMake(0.0, 45.0, cellColors!.frame.width, 1.0);
+                    line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+                    colorViewCell!.layer.insertSublayer(line, atIndex: 0)
+                    
+                }
+                self.clearView(cellColors!)
+                cellColors!.addSubview(colorViewCell!)
+                cell = cellColors
+            }else{
+                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+                cell = cellSpace
+            }
+        case (0,2) :
             if self.saving.doubleValue > 0{
                 let cellListPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
                 let formatedValue = "\(CurrencyCustomLabel.formatString(self.listPrice))"
@@ -275,12 +301,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 cell = cellSpace
             }
             
-        case (0,2) :
+        case (0,3) :
             let cellPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
             let formatedValue = CurrencyCustomLabel.formatString(self.price)
             cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.priceDetailProductTextColor, interLine: false)
             cell = cellPrice
-        case (0,3) :
+        case (0,4) :
             if self.saving != ""{
                 if self.saving.doubleValue > 0{
                     let cellAhorro = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
@@ -302,15 +328,16 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
                 cell = cellSpace
             }
-        case (0,4) :
+        case (0,5) :
             let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
             cell = cellSpace
-        case (0,5) :
+        case (0,6) :
             let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
             cell = cellSpace
         case (1,0) :
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
+                self.clearView(cellPromotion!)
                 let msiText = NSLocalizedString("productdetail.msitext",comment:"")
                 cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productProductPromotionsTextColor, padding: 12,align:NSTextAlignment.Left)
                 cell = cellPromotion
@@ -320,6 +347,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,1) :
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("msiCell", forIndexPath: indexPath) as? ProductDetailMSITableViewCell
+                self.clearView(cellPromotion!)
+
                 cellPromotion!.priceProduct = self.price
                 cellPromotion!.setValues(msi)
                 cell = cellPromotion
@@ -330,6 +359,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             
             if bundleItems.count != 0 {
                 let cellBundleItemsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
+                self.clearView(cellBundleItemsTitle!)
                 let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
                 cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
                 cell = cellBundleItemsTitle
@@ -340,6 +370,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,3) :
             if bundleItems.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("cellBundleitems", forIndexPath: indexPath) as? IPAProductDetailBundleTableViewCell
+                self.clearView(cellPromotion!)
                 cellBundle = cellPromotion
                 cellPromotion!.delegate = self
                 cellPromotion!.itemsUPC = bundleItems
@@ -350,6 +381,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,4) :
             if characteristics.count != 0 {
                 let cellCharacteristicsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
+                self.clearView(cellCharacteristicsTitle!)
                 let charText = NSLocalizedString("productdetail.characteristics",comment:"")
                 cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
@@ -359,11 +391,15 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,5) :
             if characteristics.count != 0 {
                 let cellCharacteristics = tabledetail.dequeueReusableCellWithIdentifier("cellCharacteristics", forIndexPath: indexPath) as? ProductDetailCharacteristicsTableViewCell
+                //self.clearView(cellCharacteristics!)
                 cellCharacteristics!.setValues(characteristics)
                 cell = cellCharacteristics
             }else{
                 return nil
             }
+        case (1,6) :
+            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+            cell = cellSpace
         default :
             cell = nil
         }
@@ -422,13 +458,15 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         switch point {
         case (0,0) :
             return 15.0
-        case (0,2) :
+        case (0,1) :
+            return self.colorItems.count > 0 ? 60.0 : 5.0
+        case (0,3) :
             return 36.0
-        case (0,1),(0,3) :
-            return 15.0
-        case (0,4) :
+        case (0,2),(0,4) :
             return 15.0
         case (0,5) :
+            return 15.0
+        case (0,6) :
             return 292.0
         case (1,0) :
             if  msi.count != 0 {
@@ -485,6 +523,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton.isActive = self.strisActive as String
             productDetailButton.isPreorderable = self.strisPreorderable as String
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
+            productDetailButton.hasDetailOptions = (self.facets?.count > 0)
+            productDetailButton.reloadButton()
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""
@@ -906,103 +946,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         let productService = ProductDetailService()
         productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
-            self.name = result["description"] as! String
-            self.price = result["price"] as! String
-            self.detail = result["detail"] as! String
             
-            self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
-            
-            self.saving = ""
-            if let savingResult = result["saving"] as? String {
-                self.saving = result["saving"] as! String
-            }
-            self.listPrice = result["original_listprice"] as! String
-            self.characteristics = []
-            if let cararray = result["characteristics"] as? [AnyObject] {
-                self.characteristics = cararray
-            }
-            
-            var allCharacteristics : [AnyObject] = []
-            
-            let strLabel = "UPC"
-            let strValue = self.upc
-            
-            allCharacteristics.append(["label":strLabel,"value":self.upc])
-            
-            for characteristic in self.characteristics  {
-                allCharacteristics.append(characteristic)
-            }
-            self.characteristics = allCharacteristics
-            
-            if let msiResult =  result["msi"] as? NSString {
-                if msiResult != "" {
-                    self.msi = msiResult.componentsSeparatedByString(",")
-                }else{
-                    self.msi = []
+            self.reloadViewWithData(result)
+            if let facets = result["facets"] as? [String:AnyObject] {
+                self.facets = facets
+                self.facetsDetails = self.getFacetsDetails()
+                if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
+                    self.colorItems = colors
                 }
-            }
-            if let images = result["imageUrl"] as? [AnyObject] {
-                self.imageUrl = images
-            }
-            let freeShippingStr  = result["freeShippingItem"] as! String
-            self.freeShipping = "true" == freeShippingStr
-            
-            var numOnHandInventory : NSString = "0"
-            if let numberOf = result["onHandInventory"] as? String{
-                numOnHandInventory  = numberOf
-            }
-            self.onHandInventory  = numOnHandInventory
-            
-            self.strisActive  = result["isActive"] as! String
-            self.isActive = "true" == self.strisActive
-            
-            if self.isActive == true {
-                self.isActive = self.price.doubleValue > 0
-            }
-            
-            if self.isActive == true {
-                self.isActive = self.onHandInventory.integerValue > 0
-            }
-            
-            self.strisPreorderable  = result["isPreorderable"] as! String
-            self.isPreorderable = "true" == self.strisPreorderable
-            
-            self.bundleItems = [AnyObject]()
-            if let bndl = result["bundleItems"] as?  [AnyObject] {
-                self.bundleItems = bndl
-            }
-            
-            self.isLoading = false
-            
-            self.tabledetail.delegate = self
-            self.tabledetail.dataSource = self
-            self.tabledetail.reloadData()
-            
-            
-            self.bannerImagesProducts.items = self.imageUrl
-            self.bannerImagesProducts.collection.reloadData()
-            
-            self.loadCrossSell()
-            
-            self.titlelbl.text = self.name as String
-            
-            
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                
-                var product = GAIEcommerceProduct()
-                var builder = GAIDictionaryBuilder.createScreenView()
-                product.setId(self.upc as String)
-                product.setName(self.name as String)
-                
-                var action = GAIEcommerceProductAction();
-                action.setAction(kGAIPADetail)
-                builder.setProductAction(action)
-                builder.addProduct(product)
-                
-                tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-                tracker.send(builder.build() as [NSObject : AnyObject])
             }
             
             }) { (error:NSError) -> Void in
@@ -1013,6 +964,107 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.navigationController!.popViewControllerAnimated(true)
                 }
                 self.view.addSubview(empty)
+        }
+    }
+    
+    func reloadViewWithData(result:NSDictionary){
+        self.name = result["description"] as! String
+        self.price = result["price"] as! String
+        self.detail = result["detail"] as! String
+        
+        self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
+        
+        self.saving = ""
+        if let savingResult = result["saving"] as? String {
+            self.saving = result["saving"] as! String
+        }
+        self.listPrice = result["original_listprice"] as! String
+        self.characteristics = []
+        if let cararray = result["characteristics"] as? [AnyObject] {
+            self.characteristics = cararray
+        }
+        
+        var allCharacteristics : [AnyObject] = []
+        
+        let strLabel = "UPC"
+        let strValue = self.upc
+        
+        allCharacteristics.append(["label":strLabel,"value":self.upc])
+        
+        for characteristic in self.characteristics  {
+            allCharacteristics.append(characteristic)
+        }
+        self.characteristics = allCharacteristics
+        
+        if let msiResult =  result["msi"] as? NSString {
+            if msiResult != "" {
+                self.msi = msiResult.componentsSeparatedByString(",")
+            }else{
+                self.msi = []
+            }
+        }
+        if let images = result["imageUrl"] as? [AnyObject] {
+            self.imageUrl = images
+        }
+        let freeShippingStr  = result["freeShippingItem"] as! String
+        self.freeShipping = "true" == freeShippingStr
+        
+        var numOnHandInventory : NSString = "0"
+        if let numberOf = result["onHandInventory"] as? String{
+            numOnHandInventory  = numberOf
+        }
+        self.onHandInventory  = numOnHandInventory
+        
+        self.strisActive  = result["isActive"] as! String
+        self.isActive = "true" == self.strisActive
+        
+        if self.isActive == true {
+            self.isActive = self.price.doubleValue > 0
+        }
+        
+        if self.isActive == true {
+            self.isActive = self.onHandInventory.integerValue > 0
+        }
+        
+        self.strisPreorderable  = result["isPreorderable"] as! String
+        self.isPreorderable = "true" == self.strisPreorderable
+        
+        self.bundleItems = [AnyObject]()
+        if let bndl = result["bundleItems"] as?  [AnyObject] {
+            self.bundleItems = bndl
+        }
+        
+        self.isLoading = false
+        
+        self.tabledetail.delegate = self
+        self.tabledetail.dataSource = self
+        self.tabledetail.reloadData()
+        
+        
+        self.bannerImagesProducts.items = self.imageUrl
+        self.bannerImagesProducts.collection.reloadData()
+        
+        self.loadCrossSell()
+        
+        self.titlelbl.text = self.name as String
+        
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+        
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            
+            var product = GAIEcommerceProduct()
+            var builder = GAIDictionaryBuilder.createScreenView()
+            product.setId(self.upc as String)
+            product.setName(self.name as String)
+            
+            var action = GAIEcommerceProductAction();
+            action.setAction(kGAIPADetail)
+            builder.setProductAction(action)
+            builder.addProduct(product)
+            
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
+            tracker.send(builder.build() as [NSObject : AnyObject])
         }
     }
     
@@ -1126,8 +1178,73 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         return ""
     }
-
+    
+    func showProductDetailOptions() {
+        var controller = ProductDetailOptionsViewController()
+        controller.upc = self.upc as String
+        controller.name = self.name as String
+        controller.imagesToDisplay = imageUrl
+        controller.currentItem = 0
+        controller.onHandInventory = self.onHandInventory
+        controller.detailProductCart = self.productDetailButton.detailProductCart
+        controller.strIsPreorderable = self.isPreorderable ? "true" : "false"
+        controller.facets = self.facets
+        controller.facetsDetails = self.facetsDetails
+        controller.colorItems = self.colorItems
+        controller.selectedDetailItem = self.selectedDetailItem
+        controller.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        controller.setAdditionalValues(self.listPrice as! String, price: self.price as! String, saving: self.saving as! String)
+    }
+    
+    // MARK Color Size Functions
+    func getFacetsDetails() -> [String:AnyObject]{
         
+        var facetsDetails : [String:AnyObject] = [String:AnyObject]()
+        for item in self.facets! {
+            let product = item.1 as! [String:AnyObject]
+            let details = product["details"] as! [AnyObject]
+            var itemDetail = [String:String]()
+            itemDetail["upc"] = item.0 as String
+            for detail in details{
+                let label = detail["label"] as! String
+                var values = facetsDetails[label] as? [AnyObject]
+                if values == nil{ values = []}
+                let valuesKey = label == "Color" ? "value" : "description"
+                let itemToAdd = ["value":detail[valuesKey] as! String, "enabled": (label == "Color"), "type": label]
+                if !(values! as NSArray).containsObject(itemToAdd) {
+                    values!.append(itemToAdd)
+                }
+                facetsDetails[label] = values
+                itemDetail[label] = detail[valuesKey] as? String
+            }
+            var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
+            if detailsValues == nil{ detailsValues = []}
+            detailsValues!.append(itemDetail)
+            facetsDetails["itemDetails"] = detailsValues
+        }
+        return facetsDetails
+    }
+    
+    func getUpc(selected: String, itemType: String) -> String
+    {
+        var upc = ""
+        var isSelected = false
+        let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        for item in details! {
+            if item[itemType] as! String == selected{
+                isSelected = true
+            }
+            else{
+                isSelected = false
+            }
+            if isSelected{
+                upc = item["upc"] as! String
+            }
+        }
+        return upc
+    }
+    
     func sleectedImage(indexPath:NSIndexPath){
         var controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
@@ -1135,6 +1252,20 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         controller.currentItem = indexPath.row
         controller.type = self.type as String
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+    }
+    
+    func clearView(view: UIView){
+        for subview in view.subviews{
+            subview.removeFromSuperview()
+        }
+    }
+    
+    //MARK: ProductDetailColorSizeDelegate
+    func selectDetailItem(selected: String, itemType: String) {
+        self.selectedDetailItem = ["selected":selected, "itemType": itemType]
+        var upc = self.getUpc(selected,itemType: itemType)
+        var facet = self.facets![upc] as! NSDictionary
+        self.reloadViewWithData(facet)
     }
     
 }
