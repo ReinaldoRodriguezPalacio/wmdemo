@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SearchProductCollectionViewCell: ProductCollectionViewCell {
+class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     var addProductToShopingCart : UIButton? = nil
     var productPriceThroughLabel : UILabel? = nil
@@ -21,9 +21,22 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
     var type : String!
     var pesable : Bool!
     var isPreorderable: String!
+    var presale : UILabel!
+
     
     override func setup() {
         super.setup()
+        
+    
+        presale = UILabel(frame: CGRectMake(0, 150, self.frame.width, 9))
+        presale.text = NSLocalizedString("presale.title",comment:"")
+        presale.textColor = WMColor.light_blue
+        presale.font = WMFont.fontMyriadProSemiboldSize(9)
+        presale.textAlignment = .Center
+        self.addSubview(presale)
+
+    
+        
         
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
@@ -63,7 +76,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool) {
         
+        
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
+        
+        presale.hidden = !isPreorderable
+        
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
@@ -162,5 +179,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell {
         }
     }
 
-    
+
 }
+

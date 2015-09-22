@@ -19,6 +19,8 @@ class ProductCollectionViewCell : UICollectionViewCell {
     var productPriceLabel : CurrencyCustomLabel? = nil
     var hideImage : UIView!
     var completeimageaction : (() -> Void)?
+    
+    
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
     
     required init(coder aDecoder: NSCoder) {
@@ -35,7 +37,12 @@ class ProductCollectionViewCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+
+
+        
+    
     }
+    
     
     func setup() {
     
