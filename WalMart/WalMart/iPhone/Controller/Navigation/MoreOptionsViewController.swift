@@ -14,6 +14,7 @@ enum OptionsController : String {
     case Address = "Address"
     case Orders = "Orders"
     case Factura = "Factura"
+    case Notification  = "Notification"
 
     case StoreLocator = "StoreLocator"
     case CamFind = "CamFind"
@@ -27,7 +28,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate,BarCodeViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -135,7 +136,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case 0:
                 return 3
             case 1:
-                return 4
+                return 5
             case 2:
                 return 3
         default:
@@ -155,7 +156,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 7
+            currentOption = indexPath.row + 8
         default:
             println("")
         }
@@ -170,6 +171,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Orders : image = "Orders-icon"
         case .StoreLocator : image = "StoreLocator-icon"
         case .Factura : image = "Factura-icon"
+        case .Notification : image = "menu_icon_notification"
         case .CamFind : image = "Camfind-icon"
         case .TicketList : image = "menu_scanTicket"
         default :
@@ -182,6 +184,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case .Address : image = "Address-disable-icon"
             case .Orders : image = "Orders-disable-icon"
             case .TicketList : image = "menu_scanTicket_disable"
+            case .Notification : image = "menu_icon_notification"
             default :
                 println("option don't exist")
             }
@@ -210,7 +213,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 7
+            currentOption = indexPath.row + 8
         default:
             println("")
         }
@@ -234,6 +237,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
             case .Contact: self.performSegueWithIdentifier("supportHelp", sender: self)
             case .StoreLocator: self.performSegueWithIdentifier("storeLocator", sender: self)
+            case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
         case .Recents:
                 let controller = RecentProductsViewController()
                 self.navigationController!.pushViewController(controller, animated: true)

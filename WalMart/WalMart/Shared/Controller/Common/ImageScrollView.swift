@@ -80,7 +80,6 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         
         self.imageView!.frame = frameToCenter
     }
-
     //MARK: - UIScrollView delegate methods
     
     func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {

@@ -86,17 +86,21 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             var recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
         case 6:
+            //Notifica
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC") as? UIViewController
+            self.navigation.pushViewController(controller!, animated: true)
+        case 7:
             var recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: true)
             
-        case 7:
+        case 8:
             var recent = IPATermViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 8:
+        case 9:
             
             var recent = IPASupportViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 9:
+        case 10:
             var edit = IPAEditProfileViewController()
             var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
             self.navigation.pushViewController(edit, animated: true)

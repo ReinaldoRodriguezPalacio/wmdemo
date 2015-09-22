@@ -19,6 +19,7 @@
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";
 "moreoptions.title.CamFind" = "Busca un artículo por foto";
 "moreoptions.title.TicketList" = "Crea lista de Súper escaneando un ticket";
+"moreoptions.title.Notification" = "Notificaciones";
 
 "moreoptions.title.Help" = "¿Como usar el app?";
 "moreoptions.title.Terms" = "Términos y condiciones";
@@ -520,3 +521,14 @@
 "mg.preorderanble.item.add" = "No se pueden agregar artículos de preventa en tu carrito";
 
 "gr.checkout.discount" = "Descuento aplicado";
+
+
+//Notificaciones
+"more.notification.title" = "Notificaciones";
+
+//Preventa
+
+"presale.title" = "PREVENTA";
+
+
+

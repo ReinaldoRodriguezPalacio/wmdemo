@@ -23,7 +23,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Factura.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        
+        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Factura.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
        
     }
 
@@ -52,7 +53,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             return 3
         case 1:
-            return 3
+            return 4
         case 2:
             return 3
         default:
@@ -131,13 +132,14 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         
         
         var currentOption : Int = 0
+        
         switch(indexPath.section) {
         case 0:
             currentOption = indexPath.row
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 6
+            currentOption = indexPath.row + 7
         default:
             println("")
         }
@@ -150,12 +152,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
    
 
     override func signOut(sender: UIButton?) {
-        self.delegate.selectedDetail(6)
+        self.delegate.selectedDetail(7)
         super.signOut(nil)
     }
 
     override func editProfile(sender:UIButton) {
-       self.delegate.selectedDetail(9)
+       self.delegate.selectedDetail(10)
     }
 
     
