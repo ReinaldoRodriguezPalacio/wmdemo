@@ -495,6 +495,11 @@ class ShoppingCartUpdateController : UIViewController {
     }
     
     func saveNote(sender:UIButton){
+        
+        if self.commentTextView?.field?.text.trim() ==  ""{
+            return
+        }
+        
         self.view.endEditing(true)
         self.titleLabel.frame = CGRectMake(self.titleLabel.frame.minX,  viewBgImage.frame.maxY + 23, self.titleLabel.frame.width, 18)
         spinImage.image = UIImage(named:"waiting_cart")
