@@ -161,7 +161,7 @@ class DetailListViewCell: ProductTableViewCell {
         }
         
         
-        checkDisabled(disabled)
+       
         
         if let stock = product["stock"] as? NSString {
             if stock.integerValue == 0 {
@@ -182,6 +182,7 @@ class DetailListViewCell: ProductTableViewCell {
                 self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
             }
         }
+         checkDisabled(disabled)
         
 
         

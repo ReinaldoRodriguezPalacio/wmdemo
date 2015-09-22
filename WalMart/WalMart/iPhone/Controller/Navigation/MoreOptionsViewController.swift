@@ -65,7 +65,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.signInOrClose?.setTitle("cerrar sesión", forState: UIControlState.Selected)
         self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
         self.signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
-        self.signInOrClose?.setTitle(" ", forState: UIControlState.Highlighted)
+        //self.signInOrClose?.setTitle(" ", forState: UIControlState.Highlighted)
         self.signInOrClose?.addTarget(self, action: "openLoginOrProfile", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(signInOrClose!)
        
