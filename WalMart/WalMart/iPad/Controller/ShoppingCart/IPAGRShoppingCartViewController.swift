@@ -206,6 +206,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 addShopping.removeSpinner()
                 addShopping.addActionButtons()
                 addShopping.addNoteToProduct(nil)
+                self.popup?.dismissPopoverAnimated(true)
                 
             }
             selectQuantityGR?.userSelectValue(String(cell.quantity))

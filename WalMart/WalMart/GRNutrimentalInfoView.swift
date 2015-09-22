@@ -41,7 +41,7 @@ class GRNutrimentalInfoView : UIView {
             titleLabel.font = WMFont.fontMyriadProSemiboldOfSize(14)
             titleLabel.textColor = UIColor.whiteColor()
             titleLabel.text = NSLocalizedString("productdetail.ingregients.title", comment: "")
-            titleLabel.textAlignment = .Left
+            titleLabel.textAlignment = .Center
             self.scrollView.addSubview(titleLabel)
             
             startPointY = titleLabel.frame.maxY + 8
