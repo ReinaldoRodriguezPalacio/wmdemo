@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--TmpIPA Home View Controller-->
@@ -130,7 +130,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vmu-9j-z7r" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3722" y="588"/>
+            <point key="canvasLocation" x="3814" y="956"/>
         </scene>
         <!--Shopping Cart View Controller-->
         <scene sceneID="PVh-YB-NTG">
@@ -328,7 +328,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="w0F-YE-iLc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4549" y="1366"/>
+            <point key="canvasLocation" x="4565" y="1494"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="gTR-pD-Drc">
@@ -571,7 +571,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Cgn-3I-9ME" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4879" y="7079"/>
+            <point key="canvasLocation" x="4975" y="6823"/>
         </scene>
         <!--Master Profiler View Controller-->
         <scene sceneID="tKx-Xz-HQr">
@@ -722,6 +722,31 @@
             </objects>
             <point key="canvasLocation" x="4827" y="10262"/>
         </scene>
+        <!--Notification View Controller-->
+        <scene sceneID="l25-ed-lDe">
+            <objects>
+                <viewController storyboardIdentifier="notificationVC" id="24o-bS-yoT" customClass="NotificationViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aQA-xd-Wnd">
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YDC-QH-Z5s">
+                                <rect key="frame" x="0.0" y="41" width="768" height="983"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="kse-tL-mQp"/>
+                    <connections>
+                        <outlet property="notification" destination="YDC-QH-Z5s" id="6Wx-C4-waU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="pJe-Lb-Y5G" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5577" y="10285"/>
+        </scene>
         <!--Master Help View Controller-->
         <scene sceneID="LJA-Te-vGh">
             <objects>
@@ -759,7 +784,7 @@
             <objects>
                 <viewController id="2wj-Jj-a7v" customClass="MyAddressViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cpV-Rd-hFg">
-                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="659"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="659"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

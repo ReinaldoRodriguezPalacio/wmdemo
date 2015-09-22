@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <scenes>
         <!--Custom Bar View Controller-->
@@ -489,6 +489,42 @@
             </objects>
             <point key="canvasLocation" x="1761" y="5014.5"/>
         </scene>
+        <!--Notification View Controller-->
+        <scene sceneID="r2K-On-rTJ">
+            <objects>
+                <viewController id="aPn-cE-BVU" customClass="NotificationViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vpb-Vv-x2t"/>
+                        <viewControllerLayoutGuide type="bottom" id="j1H-ou-j3P"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Tg9-SX-ftZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="d7c-lv-6hW">
+                                <rect key="frame" x="-6" y="46" width="326" height="415"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ul8-4A-AXu">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ul8-4A-AXu" id="IPm-Zw-xa7">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="eND-HV-fYe"/>
+                    <connections>
+                        <outlet property="notification" destination="d7c-lv-6hW" id="hMf-VC-GWp"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l01-dY-hrv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1695" y="5639.5"/>
+        </scene>
         <!--Recent Products View Controller-->
         <scene sceneID="nt3-oP-Rbj">
             <objects>
@@ -761,6 +797,7 @@
                         <segue destination="b4K-wr-mMY" kind="push" identifier="termsHelp" id="D1p-db-cH7"/>
                         <segue destination="Yeu-hV-BiA" kind="push" identifier="supportHelp" id="8mi-Tb-VOl"/>
                         <segue destination="txc-PP-m5R" kind="push" identifier="storeLocator" id="s4G-YC-bI8"/>
+                        <segue destination="aPn-cE-BVU" kind="push" identifier="notificationController" id="qil-OI-1gv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pfb-Am-yHb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1074,7 +1111,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="arZ-js-aSv"/>
         <segue reference="s4G-YC-bI8"/>
+        <segue reference="arZ-js-aSv"/>
     </inferredMetricsTieBreakers>
 </document>

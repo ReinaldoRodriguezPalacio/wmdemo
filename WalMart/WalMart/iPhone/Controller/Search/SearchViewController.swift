@@ -45,6 +45,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        
+ 
         viewTapClose = UIView()
         self.viewBackground = UIView()
         self.viewBackground?.backgroundColor = WMColor.productAddToCartBg

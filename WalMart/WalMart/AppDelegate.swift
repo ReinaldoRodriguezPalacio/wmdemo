@@ -34,6 +34,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
            application.registerForRemoteNotificationTypes( UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound | UIRemoteNotificationType.Alert )
         }
         
+        
+        
+        
         UserCurrentSession.sharedInstance().searchForCurrentUser()
         
         // Optional: automatically send uncaught exceptions to Google Analytics.
@@ -117,6 +120,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let sandboxClientID = payPalEnvironment.objectForKey("SandboxClientID") as! String
         let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
+        
+        //Clean all notifications
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        
         return true
     }
 
@@ -283,7 +290,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let value = notiicationInfo["value"] as! String
         let message = notiicationAPS["alert"] as! String
         
-        if let customBar = self.window!.rootViewController as? CustomBarViewController {
+        let serviceSave = NotificationFileService()
+        serviceSave.saveNotification(userInfo)
+        
+        if let customBar = self.window?.rootViewController as? CustomBarViewController {
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue, action: WMGAIUtils.EVENT_PUSHNOTIFICATION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
@@ -340,6 +350,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
 
+    }
+    
+    
+    func readNotificationFile() {
+        
+    }
+    
+    func writeNotificationFile() {
+        
     }
     
 
