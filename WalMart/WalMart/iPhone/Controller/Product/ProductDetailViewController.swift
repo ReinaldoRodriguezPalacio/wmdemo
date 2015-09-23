@@ -724,6 +724,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.price = result["price"] as! NSString
         self.detail = result["detail"] as! NSString
         self.saving = ""
+        self.upc = result["upc"] as! NSString
         
         if let savingResult = result["saving"] as? NSString {
             if savingResult != "" {
@@ -912,7 +913,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
-            
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
