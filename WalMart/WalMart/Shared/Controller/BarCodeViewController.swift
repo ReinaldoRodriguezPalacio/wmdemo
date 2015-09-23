@@ -217,8 +217,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if UIApplicationOpenSettingsURLString.isEmpty {
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {///if UIApplicationOpenSettingsURLString.isEmpty {
+                UIApplication.sharedApplication().openURL(appSettings)
             }
         } else {
             self.closeAlert()
