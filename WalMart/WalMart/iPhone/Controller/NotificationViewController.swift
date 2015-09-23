@@ -15,13 +15,18 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     @IBOutlet weak var notification: UITableView!
     
     var allNotifications = []
+    var selectable = true
+    var emptyView : IPOEmptyNotificationView?
     
     
     override func viewDidLoad() {
         
-        self.hiddenBack = true
-        if  self.navigationController != nil {
-            self.navigationController!.setNavigationBarHidden(true, animated: true)
+        
+        if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {
+            self.hiddenBack = true
+            if  self.navigationController != nil {
+                self.navigationController!.setNavigationBarHidden(true, animated: true)
+            }
         }
         
         super.viewDidLoad()
@@ -33,14 +38,22 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         let dict = serviceSave.getAllNotifications()
         allNotifications = dict["items"] as! [AnyObject]
         
-        notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
-        self.notification.dataSource = self
-        self.notification.delegate = self
-        self.notification.reloadData()
+        if allNotifications.count == 0 {
+            emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+            self.view.addSubview(emptyView!)
+        } else {
+            notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
+            self.notification.dataSource = self
+            self.notification.delegate = self
+            self.notification.reloadData()
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+         emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -78,18 +91,25 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let userInfo = allNotifications[indexPath.row] as! NSDictionary
-        let notiicationInfo = userInfo["notification"] as! NSDictionary
-        let type = notiicationInfo["type"] as! String
-        let name = notiicationInfo["name"] as! String
-        let value = notiicationInfo["value"] as! String
-        let window = UIApplication.sharedApplication().keyWindow
-        
-        if let customBar = window!.rootViewController  as? CustomBarViewController {
+        if selectable  {
+            selectable = false
+            let userInfo = allNotifications[indexPath.row] as! NSDictionary
+            let notiicationInfo = userInfo["notification"] as! NSDictionary
+            let type = notiicationInfo["type"] as! String
+            let name = notiicationInfo["name"] as! String
+            let value = notiicationInfo["value"] as! String
+            let window = UIApplication.sharedApplication().keyWindow
             
-            customBar.handleNotification(type,name:name,value:value)
+            if let customBar = window!.rootViewController  as? CustomBarViewController {
+                
+                customBar.handleNotification(type,name:name,value:value)
+            }
         }
+    }
+    
+    
+    override func viewWillAppear(animated: Bool) {
+        self.selectable = true
     }
     
 }

@@ -357,6 +357,7 @@
 		56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */; };
 		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
 		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
+		5A4BF1221BB21534003FE5B3 /* IPOEmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4BF1211BB21533003FE5B3 /* IPOEmptyNotificationView.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
@@ -874,6 +875,7 @@
 		56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishListViewController.swift; path = iPhone/Controller/WishList/WishListViewController.swift; sourceTree = "<group>"; };
 		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
+		5A4BF1211BB21533003FE5B3 /* IPOEmptyNotificationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOEmptyNotificationView.swift; path = iPhone/View/EmptyView/IPOEmptyNotificationView.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
@@ -2267,6 +2269,7 @@
 				56DE026F19DE244800FA2042 /* IPOAddressEmptyView.swift */,
 				5681998319E35F1300362D3C /* IPOGenericEmptyView.swift */,
 				56C616BE1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift */,
+				5A4BF1211BB21533003FE5B3 /* IPOEmptyNotificationView.swift */,
 			);
 			name = EmptyView;
 			sourceTree = "<group>";
@@ -3079,6 +3082,7 @@
 				561657DD19B143C300DA056A /* IPOFamilyTableViewCell.swift in Sources */,
 				56253D8419D2066A002E128A /* PreviousOrdersService.swift in Sources */,
 				56527DAB19AF9574008032C6 /* BaseController.swift in Sources */,
+				5A4BF1221BB21534003FE5B3 /* IPOEmptyNotificationView.swift in Sources */,
 				AC0918C619D1D99300BF48CA /* ShippingAddress.swift in Sources */,
 				56B045491A6EF04D00BA173A /* PreShoppingCartViewController.swift in Sources */,
 				569607A919B53042005D20DC /* ProductDetailMSITableViewCell.swift in Sources */,
@@ -3438,8 +3442,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -3459,7 +3463,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cec6d336-122e-42d4-ae21-d7e167d9c123";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3473,8 +3477,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -3494,7 +3498,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "cec6d336-122e-42d4-ae21-d7e167d9c123";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
