@@ -137,6 +137,11 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
       
         self.pointButtons = buttons
         self.collectionView!.reloadData()
+        
+        if selectedButton == nil{
+            selectedButton = self.pointButtons![0] as UIButton
+        }
+        
         pointSelected(selectedButton!)
     }
     
@@ -209,6 +214,13 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return self.collectionView!.frame.size
+    }
+    
+    func selectFirstPoint(){
+        if self.pointButtons?.count > 0{
+            pointSelected(self.pointButtons!.first! as UIButton)
+            self.currentItem = 0
+        }
     }
     
 //    override func supportedInterfaceOrientations() -> Int {
