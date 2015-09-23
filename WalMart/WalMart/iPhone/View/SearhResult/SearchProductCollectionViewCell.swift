@@ -28,7 +28,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         super.setup()
         
     
-        presale = UILabel(frame: CGRectMake(0, 150, self.frame.width, 9))
+        presale = UILabel(frame: CGRectMake(0, 145, self.frame.width, 9))
         presale.text = NSLocalizedString("presale.title",comment:"")
         presale.textColor = WMColor.light_blue
         presale.font = WMFont.fontMyriadProSemiboldSize(9)
