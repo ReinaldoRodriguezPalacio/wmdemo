@@ -63,7 +63,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var selectedConfirmation : NSIndexPath!
     var selectedDate : NSDate!
     var amountDiscountAssociate: Double!
-    var shipmentDeliveryCost: Double!
     var shipmentAmount: Double!
     var savings: Double!
     
@@ -106,7 +105,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.selectedAddressHasStore = true
         self.savings = 0.0
         self.amountDiscountAssociate = 0.0
-        self.shipmentDeliveryCost = 0.0
         self.shipmentAmount = 0.0
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat =  "d MMMM yyyy"
@@ -948,6 +946,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
                 let shipment: AnyObject = self.shipmentItems![indexPath.row]
+                self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliverySchedule! {
                 self.deliverySchedule!.text = selectedStr
@@ -1380,7 +1379,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         // Optional: include payment details
         let shipping = NSDecimalNumber(double: self.shipmentAmount)
         let tax = NSDecimalNumber(double: 0.0)
-        let subTotalDN = NSDecimalNumber(double: subTotal)
+        let subTotalDN = NSDecimalNumber(double: subTotal - discounts)
         let paymentDetails = PayPalPaymentDetails(subtotal:subTotalDN, withShipping: shipping, withTax: tax)
         let total = subTotalDN.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
         
@@ -1411,7 +1410,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
         payPalConfig.rememberUser = true
         payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] as! String 
-        payPalConfig.payPalShippingAddressOption = .PayPal;
+        payPalConfig.payPalShippingAddressOption = .Provided;
         return payPalConfig
     }
     

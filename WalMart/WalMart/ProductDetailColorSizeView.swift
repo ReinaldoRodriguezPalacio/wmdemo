@@ -13,9 +13,9 @@ protocol ProductDetailColorSizeDelegate {
 }
 
 class ProductDetailColorSizeView: UIView {
-    let buttonWidth = 15
+    let buttonWidth = 20
     let buttonSpace = 30
-    let backViewWidth = 22
+    let backViewWidth = 28
     var items:[AnyObject]! = nil
     var viewToInsert: UIView? = nil
     var scrollView: UIScrollView? = nil
@@ -91,6 +91,9 @@ class ProductDetailColorSizeView: UIView {
             position += CGFloat(buttonSpace)
             var backView = UIView(frame: CGRectMake(position, buttonPositionY, CGFloat(backViewWidth), CGFloat(backViewWidth)))
             backView.layer.cornerRadius = 4
+            let tap = UITapGestureRecognizer(target: self, action: Selector("backViewTap:"))
+            //tap.delegate = self
+            backView.addGestureRecognizer(tap)
         
             var colorButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
             let buttonPosition = (CGFloat(backViewWidth) - CGFloat(buttonWidth)) / 2
@@ -120,7 +123,7 @@ class ProductDetailColorSizeView: UIView {
         
             var sizeButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
             let buttonPosition = (CGFloat(backViewSizeWidth) - CGFloat(sizeButonWidth)) / 2
-            sizeButton.frame = CGRectMake(CGFloat(buttonPosition), 4.2,sizeButonWidth , CGFloat(buttonWidth))
+            sizeButton.frame = CGRectMake(CGFloat(buttonPosition), 4.8,sizeButonWidth , CGFloat(buttonWidth))
             sizeButton.layer.cornerRadius = 2
             sizeButton.setTitle(item["value"] as? String, forState: UIControlState.Normal)
             sizeButton.setTitleColor(WMColor.UIColorFromRGB(0x0E1219, alpha: 0.8), forState: UIControlState.Normal)
@@ -143,6 +146,11 @@ class ProductDetailColorSizeView: UIView {
         return buttonWidth
     }
 
+    func backViewTap(sender: UIGestureRecognizer){
+        var backView = sender.view!
+        var button  = backView.subviews[0] as! UIButton
+        selectColor(button)
+    }
     
     func selectColor(sender: AnyObject)
     {

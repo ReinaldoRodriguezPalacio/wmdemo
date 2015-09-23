@@ -356,6 +356,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         self.name! = facet["description"] as! String
         self.imagesToDisplay = facet["imageUrl"] as? [AnyObject]
         self.collectionView?.reloadData()
+        self.selectFirstPoint()
         self.buildButtonSection()
         self.setAdditionalValues(facet["original_listprice"] as! String, price: facet["price"] as! String, saving: facet["saving"] as! String)
     }

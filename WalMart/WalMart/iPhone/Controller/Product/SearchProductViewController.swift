@@ -283,7 +283,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         } else {
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
-        if indexPath.row == self.allProducts!.count && self.allProducts!.count <= commonTotal  {
+        if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
             let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath) as! UICollectionViewCell
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
@@ -293,7 +293,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.allProducts?.count <= indexPath.item {
             return cell
         }
-        let item = self.allProducts![indexPath.item] as! NSDictionary
+        let item = self.allProducts?[indexPath.item] as! NSDictionary
         
         let upc = item["upc"] as! String
         let description = item["description"] as? String
