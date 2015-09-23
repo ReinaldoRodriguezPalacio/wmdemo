@@ -155,7 +155,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.payPalFuturePaymentField!.isRequired = true
         self.payPalFuturePaymentField!.typeField = TypeField.Check
         self.payPalFuturePaymentField!.setImageTypeField()
-        self.payPalFuturePaymentField!.setSelectedCheck(false)
         self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
         self.content.addSubview(self.payPalFuturePaymentField!)
 
@@ -418,7 +417,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
             
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleDiscount.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,widthField,fheight)
             self.sectionTitleShipment.frame =  CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, widthField, lheight)
@@ -428,7 +427,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         } else {
             self.discountAssociate!.alpha = 0
             self.sectionTitleDiscount!.alpha = 0
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
@@ -1447,10 +1446,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         })
     }
     
-    func invokePayPalCancelService(){
+    func invokePayPalCancelService(message: String){
         let cancelPayPalService = GRPaypalUpdateOrderService()
         cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
-            self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+            self.serviceDetail?.errorOrder(message)
             }, errorBlock: { (error:NSError) -> Void in
             if error.code == -400 {
                 self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
@@ -1464,9 +1463,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     // PayPalPaymentDelegate
     func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
-        println("PayPal Payment Cancelled")
         buttonShop?.enabled = true
-        self.invokePayPalCancelService()
+        var message = "Tu pago ha sido cancelado"
+        self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1491,7 +1490,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
         println("PayPal Future Payment Authorization Canceled")
         buttonShop?.enabled = true
-        invokePayPalCancelService()
+        var message = "Hubo un error al momento de generar la orden, intenta más tarde"
+        self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1506,7 +1506,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
              self.showPayPalPaymentController()
             }, errorBlock: { (error:NSError) -> Void in
                 //Mandar alerta
-                self.invokePayPalCancelService()
+                var message = "Hubo un error al momento de generar la orden, intenta más tarde"
+                self.invokePayPalCancelService(message)
         })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
