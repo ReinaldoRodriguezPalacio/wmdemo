@@ -533,10 +533,9 @@
 
 //Notification
 "more.notification.title" = "Notificaciones";
+"notificationEmptyscreen.title" = "No hay Notificaciones";
 
 //Preventa
-
-
 "presale.title" = "PREVENTA";
 
 

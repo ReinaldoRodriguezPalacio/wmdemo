@@ -530,6 +530,8 @@
 
 //Notificaciones
 "more.notification.title" = "Notificaciones";
+"notificationEmptyscreen.title" = "No hay Notificaciones";
+
 
 //Preventa
 
