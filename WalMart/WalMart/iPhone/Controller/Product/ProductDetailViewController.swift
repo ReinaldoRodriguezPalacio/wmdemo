@@ -41,6 +41,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var isActive : Bool! = true
     var isPreorderable : Bool = false
     var onHandInventory : NSString = "0"
+    var isGift: Bool = false
     
     var strisActive : String! = "true"
     var strisPreorderable : String! = "false"
@@ -725,6 +726,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.detail = result["detail"] as! NSString
         self.saving = ""
         self.upc = result["upc"] as! NSString
+        if let isGift = result["isGift"] as? Bool{
+            self.isGift = isGift
+        }
+        
         
         if let savingResult = result["saving"] as? NSString {
             if savingResult != "" {
@@ -910,6 +915,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton.onHandInventory = self.onHandInventory as String
             productDetailButton.isPreorderable = self.strisPreorderable
             productDetailButton.hasDetailOptions = (self.facets?.count > 0)
+            productDetailButton.listButton.enabled = !self.isGift
             
             productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
