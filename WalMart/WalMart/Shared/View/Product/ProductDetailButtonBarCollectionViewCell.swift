@@ -122,6 +122,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         listButton.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
         listButton.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Selected)
         listButton.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Highlighted)
+        listButton.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
         listButton.addTarget(self, action: "addProductToWishlist", forControlEvents: UIControlEvents.TouchUpInside)
         
         facebookButton = UIButton()

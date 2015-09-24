@@ -152,8 +152,16 @@ class BaseService : NSObject {
     
     func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         let afManager = getManager()
-     
-        afManager.POST(serviceUrl(), parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
+       //TODO: Quitar no debe de ir
+        var url = serviceUrl()
+        if url == "http://192.168.43.192:8085/walmartmg/login/getItemByUpc" || url == "https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc"{
+          var upc = params as! String
+            if upc == "00471093738428"{
+                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
+            }
+        }
+        
+        afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             var resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {

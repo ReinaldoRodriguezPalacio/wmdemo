@@ -64,6 +64,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     var colorViewCell: ProductDetailColorSizeView? = nil
+    var isGift: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -370,7 +371,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,3) :
             if bundleItems.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("cellBundleitems", forIndexPath: indexPath) as? IPAProductDetailBundleTableViewCell
-                self.clearView(cellPromotion!)
+                //self.clearView(cellPromotion!)
                 cellBundle = cellPromotion
                 cellPromotion!.delegate = self
                 cellPromotion!.itemsUPC = bundleItems
@@ -526,7 +527,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton.hasDetailOptions = (self.facets?.count > 0)
             productDetailButton.reloadButton()
             productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
-            
+            productDetailButton.listButton.enabled = !self.isGift
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
@@ -971,6 +972,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.name = result["description"] as! String
         self.price = result["price"] as! String
         self.detail = result["detail"] as! String
+        self.upc = result["upc"] as! NSString
+        if let isGift = result["isGift"] as? Bool{
+            self.isGift = isGift
+        }
         
         self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
         

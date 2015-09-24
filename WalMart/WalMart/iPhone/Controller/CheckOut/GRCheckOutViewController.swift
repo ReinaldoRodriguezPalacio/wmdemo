@@ -155,7 +155,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.payPalFuturePaymentField!.isRequired = true
         self.payPalFuturePaymentField!.typeField = TypeField.Check
         self.payPalFuturePaymentField!.setImageTypeField()
-        self.payPalFuturePaymentField!.setSelectedCheck(false)
         self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
         self.content.addSubview(self.payPalFuturePaymentField!)
 
@@ -418,7 +417,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
             
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleDiscount.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,widthField,fheight)
             self.sectionTitleShipment.frame =  CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, widthField, lheight)
@@ -428,7 +427,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         } else {
             self.discountAssociate!.alpha = 0
             self.sectionTitleDiscount!.alpha = 0
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 20.0, widthField, lheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
@@ -1353,7 +1352,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     {
         let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
         var payPalItems: [PayPalItem] = []
-        var subTotal = 0.0
         for item in items {
             var itemPrice = item["price"] as! Double
             var quantity = item["quantity"] as! UInt
@@ -1362,30 +1360,26 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 //(prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
                 itemPrice = (Double(quantity) / 1000.0) * itemPrice
                 quantity = 1
-                subTotal += itemPrice
-            } else {
-                subTotal += Double(quantity) * itemPrice
             }
-//            var payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
-//            payPalItems.append(payPalItem)
+            var payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
+            payPalItems.append(payPalItem)
         }
         // Los cupones y descuentos se agregan como item negativo.
         let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
         if discounts < 0
         {
-//            payPalItems.append(PayPalItem(name: "discounts", withQuantity:1 , withPrice: NSDecimalNumber(double:discounts), withCurrency: "MXN", withSku: "0000000000001"))
+            payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(double:discounts), withCurrency: "MXN", withSku: "0000000000001"))
         }
-        //let subtotal = total
+        let subtotal = PayPalItem.totalPriceForItems(payPalItems)
         // Optional: include payment details
         let shipping = NSDecimalNumber(double: self.shipmentAmount)
         let tax = NSDecimalNumber(double: 0.0)
-        let subTotalDN = NSDecimalNumber(double: subTotal - discounts)
-        let paymentDetails = PayPalPaymentDetails(subtotal:subTotalDN, withShipping: shipping, withTax: tax)
-        let total = subTotalDN.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+        let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
+        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
         
         let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Sale)
         
-        //payment.items = payPalItems
+        payment.items = payPalItems
         payment.paymentDetails = paymentDetails
         
         if (payment.processable) {
@@ -1447,10 +1441,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         })
     }
     
-    func invokePayPalCancelService(){
+    func invokePayPalCancelService(message: String){
         let cancelPayPalService = GRPaypalUpdateOrderService()
         cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
-            self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+            self.serviceDetail?.errorOrder(message)
             }, errorBlock: { (error:NSError) -> Void in
             if error.code == -400 {
                 self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
@@ -1464,9 +1458,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     // PayPalPaymentDelegate
     func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
-        println("PayPal Payment Cancelled")
         buttonShop?.enabled = true
-        self.invokePayPalCancelService()
+        var message = "Tu pago ha sido cancelado"
+        self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1491,7 +1485,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
         println("PayPal Future Payment Authorization Canceled")
         buttonShop?.enabled = true
-        invokePayPalCancelService()
+        var message = "Hubo un error al momento de generar la orden, intenta más tarde"
+        self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1506,7 +1501,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
              self.showPayPalPaymentController()
             }, errorBlock: { (error:NSError) -> Void in
                 //Mandar alerta
-                self.invokePayPalCancelService()
+                var message = "Hubo un error al momento de generar la orden, intenta más tarde"
+                self.invokePayPalCancelService(message)
         })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)

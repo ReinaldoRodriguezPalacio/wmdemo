@@ -141,7 +141,7 @@
 			<key>WalmartMG.GRProductByTicket</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/responseObject.txt</string>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getItemByUpc</string>
 			<key>WalmartMG.GRProductsByUPCService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getSavingItems</string>
 			<key>WalmartMG.GRRecentProductsService</key>
@@ -456,7 +456,7 @@
 			<key>WalmartMG.PreviousOrdersService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPurchaseOrderByUser/20</string>
 			<key>WalmartMG.ProductDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/responseObject.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.RecommendedItemsService</key>
