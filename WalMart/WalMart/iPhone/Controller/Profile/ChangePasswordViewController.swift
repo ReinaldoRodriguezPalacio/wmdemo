@@ -163,6 +163,10 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             field = passworCurrent!
             message = passworCurrentMessage!
         }
+        if password!.text != confirmPassword!.text{
+            field = confirmPassword!
+            message = NSLocalizedString("field.validate.confirmpassword.equal", comment: "")
+        }
         if count(message) > 0 {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()

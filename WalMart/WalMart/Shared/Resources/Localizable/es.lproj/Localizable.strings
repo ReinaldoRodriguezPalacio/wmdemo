@@ -302,6 +302,7 @@
 "signup.validate.terms.conditions" = " Para registrarte debes aceptar los términos y condiciones";
 "field.validate.zipcode" = " Código postal inválido";
 "field.validate.telephone.invalid" = " Teléfono no válido";
+"field.validate.confirmpassword.equal" = " La contraseña no coincide con la confirmación";
 
 //help
 "help.item.support.comments" = "Soporte y Comentarios";
@@ -529,6 +530,8 @@
 
 //Notificaciones
 "more.notification.title" = "Notificaciones";
+"notificationEmptyscreen.title" = "No hay Notificaciones";
+
 
 //Preventa
 
