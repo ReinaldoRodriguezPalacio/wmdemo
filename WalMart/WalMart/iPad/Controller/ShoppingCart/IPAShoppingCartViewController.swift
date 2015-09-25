@@ -293,6 +293,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     //On Close
     override func closeShoppingCart() {
         onClose?(isClose:false)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     

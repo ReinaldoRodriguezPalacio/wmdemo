@@ -76,6 +76,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func closeShoppingCart() {
         onClose?(isClose:false)
+        self.navigationController?.popViewControllerAnimated(true)
         
     }
     
