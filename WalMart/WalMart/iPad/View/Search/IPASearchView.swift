@@ -83,12 +83,12 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             searchctrl.preferredContentSize = CGSizeMake(474, 500)
             searchctrl.table.alpha = 0
             searchctrl.afterselect = {() in
-                self.field.resignFirstResponder()
+                //self.field.resignFirstResponder()
                 self.closePopOver()
                 self.closeSearch()
             }
             searchctrl.endEditing = {() in
-                self.field.resignFirstResponder()
+                //self.field.resignFirstResponder()
                 self.searchctrl.view.frame = CGRectMake(0,0,474,500)
                 self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
             }
@@ -142,7 +142,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     
     func closeSearch() {
         self.field.resignFirstResponder()
-        
+        //self.endEditing(true)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             // self.frame =  CGRectMake(-self.frame.width, self.frame.minY, self.frame.width, self.frame.height)
             self.field!.frame = CGRectMake(-self.field!.frame.width, self.field!.frame.minY, self.field!.frame.width, self.field!.frame.height)
@@ -454,16 +454,18 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             if popover != nil{
                 self.closePopOver()
             }
-            
             return true;
         }
-        return false
+        return true
         
     }
     
     func validateText() -> Bool {
         let toValidate : NSString = field.text
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if toValidate.isEqualToString(""){
+            return false
+        }
         if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
             showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
             return false
