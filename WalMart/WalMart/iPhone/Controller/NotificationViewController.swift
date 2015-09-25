@@ -102,7 +102,10 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             
             if let customBar = window!.rootViewController  as? CustomBarViewController {
                 
-                customBar.handleNotification(type,name:name,value:value)
+                let handled = customBar.handleNotification(type,name:name,value:value)
+                if !handled {
+                    selectable = true
+                }
             }
         }
     }
