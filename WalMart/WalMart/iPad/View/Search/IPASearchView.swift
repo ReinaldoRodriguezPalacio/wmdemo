@@ -184,7 +184,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text.uppercaseString, truncate:false)
                         closePopOver()
                         closeSearch()
                         return true 

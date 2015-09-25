@@ -395,6 +395,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             self.viewReplace?.alpha = 0
             self.viewContent.addSubview(viewReplace!)
             UIView.animateWithDuration(0.5, animations: { () -> Void in
+          
                 self.viewContent.frame = finalContentFrame
                 self.viewContent.center = self.center
                 self.viewReplace?.alpha = 1
