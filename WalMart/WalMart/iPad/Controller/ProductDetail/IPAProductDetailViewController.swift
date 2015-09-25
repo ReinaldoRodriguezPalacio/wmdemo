@@ -338,7 +338,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,0) :
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
-                self.clearView(cellPromotion!)
                 let msiText = NSLocalizedString("productdetail.msitext",comment:"")
                 cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productProductPromotionsTextColor, padding: 12,align:NSTextAlignment.Left)
                 cell = cellPromotion
@@ -348,7 +347,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,1) :
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("msiCell", forIndexPath: indexPath) as? ProductDetailMSITableViewCell
-                self.clearView(cellPromotion!)
 
                 cellPromotion!.priceProduct = self.price
                 cellPromotion!.setValues(msi)
@@ -360,7 +358,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             
             if bundleItems.count != 0 {
                 let cellBundleItemsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
-                self.clearView(cellBundleItemsTitle!)
                 let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
                 cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
                 cell = cellBundleItemsTitle
@@ -371,7 +368,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,3) :
             if bundleItems.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("cellBundleitems", forIndexPath: indexPath) as? IPAProductDetailBundleTableViewCell
-                //self.clearView(cellPromotion!)
                 cellBundle = cellPromotion
                 cellPromotion!.delegate = self
                 cellPromotion!.itemsUPC = bundleItems

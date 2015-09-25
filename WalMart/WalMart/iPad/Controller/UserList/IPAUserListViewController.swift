@@ -199,7 +199,6 @@ class IPAUserListViewController: UserListViewController {
                         label: self.selectedListName ,
                         value: nil).build() as [NSObject : AnyObject])
                 }
-                
                 self.delegate?.showListDetailAnimated(forId: self.selectedListId, orEntity: nil, andName: self.selectedListName)
                 
                 
@@ -208,6 +207,7 @@ class IPAUserListViewController: UserListViewController {
         else if let listEntity = self.itemsUserList![indexPath.row] as? List {
             self.selectedEntityList = listEntity
             self.selectedListName = listEntity.name
+            self.selectedListId = listEntity.idList
             //event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
@@ -215,8 +215,7 @@ class IPAUserListViewController: UserListViewController {
                     label: self.selectedListName ,
                     value: nil).build() as [NSObject : AnyObject])
             }
-            
-            self.delegate?.showListDetailAnimated(forId: nil, orEntity: listEntity, andName: listEntity.name)
+            self.delegate?.showListDetailAnimated(forId: listEntity.idList, orEntity: listEntity, andName: listEntity.name)
         }
         
         var idxPath = NSIndexPath(forRow: 0, inSection: 0)

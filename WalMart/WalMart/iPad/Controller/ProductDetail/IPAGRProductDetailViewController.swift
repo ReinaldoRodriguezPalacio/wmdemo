@@ -813,10 +813,10 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         var cell : UITableViewCell? = nil
         switch point {
        
-        case (0,1) :
+        case (0,2) :
             let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
             cell = cellSpace
-        case (0,3) :
+        case (0,4) :
             if self.saving != ""{
                 let cellAhorro = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
                 var savingSend = self.saving
