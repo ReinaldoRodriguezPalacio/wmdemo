@@ -41,7 +41,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     var sender : AnyObject? = nil
     
-    var buttonRight : UIButton!
+    var buttonRight : WMRoundButton!
     var buttonOk : UIButton!
     
     var viewButtonClose : UIButton!
@@ -52,6 +52,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var cellType: TypeField! = TypeField.Check
     var textboxValues: [String:String]? = [:]
     var stopRemoveView: Bool? = false
+    var isNewAddres  =  false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -131,7 +132,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     override func layoutSubviews() {
         viewContent.center = self.center
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
-        titleLabel.frame = headerView.bounds
+        if !isNewAddres {
+            titleLabel.frame = headerView.bounds
+        }
         if buttonRight != nil  {
             buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
         }
@@ -357,7 +360,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     
-    func addRigthActionButton(buttonRight:UIButton) {
+    func addRigthActionButton(buttonRight:WMRoundButton) {
         if self.buttonRight != nil {
             self.buttonRight.removeFromSuperview()
             self.buttonRight = nil
@@ -379,7 +382,14 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
            //Save action
             self.delegate?.saveReplaceViewSelected()
         } else {
+            self.buttonRight.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
             lastTitle = self.buttonRight.titleLabel?.text
+            isNewAddres =  true
+            if !IS_IPAD{
+                self.titleLabel.textAlignment = .Left
+                self.titleLabel.frame =  CGRectMake(40, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
+            }
+            
             self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
             
             viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
@@ -409,6 +419,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     func closeNew() {
         onClosePicker?()
+        isNewAddres =  false
+         self.buttonRight.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+         self.titleLabel.textAlignment = .Center
+         self.titleLabel.frame =  CGRectMake(0, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
+        
         self.buttonRight.selected = false
         self.titleLabel.text = self.titleHeader
         self.buttonRight.setTitle(lastTitle, forState: UIControlState.Normal)

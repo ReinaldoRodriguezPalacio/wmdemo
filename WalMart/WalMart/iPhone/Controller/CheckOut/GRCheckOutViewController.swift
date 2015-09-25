@@ -1054,6 +1054,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 self.alertView!.showDoneIcon()
                 
+                self.picker!.titleLabel.textAlignment = .Center
+                self.picker!.titleLabel.frame =  CGRectMake(40, self.picker!.titleLabel.frame.origin.y, self.picker!.titleLabel.frame.width, self.picker!.titleLabel.frame.height)
+                self.picker!.isNewAddres =  false
                 self.reloadUserAddresses()
                 
                 }) { (error:NSError) -> Void in
