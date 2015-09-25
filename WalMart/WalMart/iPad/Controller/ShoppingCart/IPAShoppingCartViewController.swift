@@ -132,6 +132,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 self.updateTotalItemsRow()
             } else {
                  self.onClose?(isClose: true)
+                self.navigationController?.popViewControllerAnimated(true)
             }
             
             }, errorBlock: { (error:NSError) -> Void in
@@ -322,6 +323,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
             
             self.onClose?(isClose:true)
+            self.navigationController?.popViewControllerAnimated(true)
             //self.navigationController!.popToRootViewControllerAnimated(true)
             }) { (error:NSError) -> Void in
                 println("error al eliminar todos los productos del carrito: ")

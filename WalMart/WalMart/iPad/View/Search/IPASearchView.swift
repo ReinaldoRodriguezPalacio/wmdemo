@@ -283,6 +283,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         if self.field!.isFirstResponder() {
             self.field!.resignFirstResponder()
         }
+        closePopOver()
         self.delegate.searchControllerScanButtonClicked(self)
     }
     
