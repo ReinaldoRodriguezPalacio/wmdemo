@@ -83,12 +83,12 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             searchctrl.preferredContentSize = CGSizeMake(474, 500)
             searchctrl.table.alpha = 0
             searchctrl.afterselect = {() in
-                //self.field.resignFirstResponder()
+                self.field.resignFirstResponder()
                 self.closePopOver()
                 self.closeSearch()
             }
             searchctrl.endEditing = {() in
-                //self.field.resignFirstResponder()
+                self.field.resignFirstResponder()
                 self.searchctrl.view.frame = CGRectMake(0,0,474,500)
                 self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
             }
@@ -142,7 +142,6 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     
     func closeSearch() {
         self.field.resignFirstResponder()
-        //self.endEditing(true)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             // self.frame =  CGRectMake(-self.frame.width, self.frame.minY, self.frame.width, self.frame.height)
             self.field!.frame = CGRectMake(-self.field!.frame.width, self.field!.frame.minY, self.field!.frame.width, self.field!.frame.height)
@@ -184,7 +183,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text.uppercaseString, truncate:false)
                         closePopOver()
                         closeSearch()
                         return true 

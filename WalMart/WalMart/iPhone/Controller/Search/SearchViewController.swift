@@ -415,7 +415,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
               
-                        delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text.uppercaseString, truncate:false)
                         return true
                     }
                 }
