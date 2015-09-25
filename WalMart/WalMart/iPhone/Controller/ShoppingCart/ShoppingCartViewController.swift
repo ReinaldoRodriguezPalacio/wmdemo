@@ -231,13 +231,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     func loadShoppingCartService() {
-        
 
         idexesPath = []
         
         self.itemsInShoppingCart =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
+                self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            }
         }
         if  self.itemsInShoppingCart.count > 0 {
             self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
