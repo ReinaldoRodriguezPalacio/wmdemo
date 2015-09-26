@@ -29,6 +29,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var price : CurrencyCustomLabel!
     var saving : CurrencyCustomLabel!
     
+    var presale : UILabel!
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -49,7 +51,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func setup() {
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-        collection = UICollectionView(frame: CGRectMake(self.bounds.minX, self.bounds.minY, self.bounds.width, self.bounds.height - 54), collectionViewLayout: collectionLayout)
+        collection = UICollectionView(frame: CGRectMake(self.bounds.minX, 16, self.bounds.width, self.bounds.height - 54), collectionViewLayout: collectionLayout)
         collection.registerClass(ProductDetailBannerMediaCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         collection.dataSource = self
         collection.delegate = self
@@ -73,6 +75,24 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.colorsView.delegate = self
         self.colorsView.alpha = 0
         self.addSubview(colorsView)
+        
+        //presale
+        
+        
+        presale = UILabel(frame: CGRectMake(0, 4, self.frame.width, 12))
+        presale.text = NSLocalizedString("presale.title",comment:"")
+        presale.textColor = WMColor.light_blue
+        presale.font = WMFont.fontMyriadProSemiboldSize(12)
+        presale.textAlignment = .Center
+        presale.hidden = true
+        self.addSubview(presale)
+        
+        
+        
+        
+        
+
+    
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
         price = CurrencyCustomLabel(frame: CGRectMake(0, self.priceBefore.frame.maxY  , self.frame.width, 24.0))
@@ -184,6 +204,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+
 
         var widthNew = self.bounds.width + self.bounds.height - 314
         if widthNew <= self.bounds.width {

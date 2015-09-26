@@ -37,10 +37,9 @@ class ProductCollectionViewCell : UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
-
-
-        
     
+        
+        
     }
     
     
@@ -115,6 +114,5 @@ class ProductCollectionViewCell : UICollectionViewCell {
         }
     }
     
-
-    
 }
+

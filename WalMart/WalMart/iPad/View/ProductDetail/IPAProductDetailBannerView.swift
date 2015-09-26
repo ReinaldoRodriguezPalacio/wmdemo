@@ -21,7 +21,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     var currentItem: Int? = nil
     var freeShippingImage: UIImageView!
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
-    
+    var presale : UILabel!
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -49,6 +49,16 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         self.addSubview(collection)
         self.addSubview(pointSection!)
         self.buildButtonSection()
+        
+        
+        presale = UILabel(frame: CGRectMake(0, 145, self.frame.width, 9))
+        presale.text = NSLocalizedString("presale.title",comment:"")
+        presale.textColor = WMColor.light_blue
+        presale.font = WMFont.fontMyriadProSemiboldSize(9)
+        presale.textAlignment = .Center
+        presale.hidden = true
+        self.addSubview(presale)
+
         
     }
     
@@ -124,8 +134,10 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        collection.frame = self.bounds
+        self.collection.frame  = CGRectMake(0,0,self.bounds.width,self.bounds.height - 20)
+        presale.frame = CGRectMake(0, self.collection.frame.height  , self.collection.frame.width, 20)
         self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
+        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -66,6 +66,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var colorViewCell: ProductDetailColorSizeView? = nil
     var isGift: Bool = false
     
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -89,6 +93,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
 
         bannerImagesProducts =  IPAProductDetailBannerView(frame:CGRectMake(0, heigthHeader, 682, 388))
         bannerImagesProducts.delegate = self
+       
         self.view.backgroundColor = UIColor.whiteColor()
         
         productCrossSell = IPAProductCrossSellView(frame:CGRectMake(0, bannerImagesProducts.frame.maxY, 682, 226))
@@ -593,6 +598,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.navigationController?.delegate = paginatedProductDetail
         self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
         
+        
+        
     }
     
     func reloadSelectedCell() {
@@ -1033,6 +1040,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         self.strisPreorderable  = result["isPreorderable"] as! String
         self.isPreorderable = "true" == self.strisPreorderable
+        if self.isPreorderable {
+            bannerImagesProducts.presale.hidden = false
+        }
         
         self.bundleItems = [AnyObject]()
         if let bndl = result["bundleItems"] as?  [AnyObject] {
@@ -1257,6 +1267,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         controller.currentItem = indexPath.row
         controller.type = self.type as String
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+        
+        
     }
     
     func clearView(view: UIView){
@@ -1272,6 +1284,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         var facet = self.facets![upc] as! NSDictionary
         self.reloadViewWithData(facet)
     }
+   
+
     
 }
 
