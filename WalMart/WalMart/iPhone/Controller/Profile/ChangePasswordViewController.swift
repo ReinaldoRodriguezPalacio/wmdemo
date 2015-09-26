@@ -19,7 +19,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     var errorView: FormFieldErrorView?
     var alertView: IPOWMAlertViewController?
     
-    var saveButton: UIButton?
+    var saveButton: WMRoundButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,20 +70,22 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         let iconImage = UIImage(named:"button_bg")
         let iconSelected = UIImage(named:"button_bg_active")
         
-        self.saveButton = UIButton()
-        self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
-        self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
+        self.saveButton = WMRoundButton()
+        //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
+        //self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
+        self.saveButton!.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton?.tintColor = WMColor.navigationFilterTextColor
-        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
+        self.saveButton!.tintColor = WMColor.navigationFilterTextColor
+        self.saveButton!.layer.cornerRadius = 11
+        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
-        self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width, 0, 0.0);
-        self.saveButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (77 - iconImage!.size.width) / 2 , 0.0, 0.0)
+
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0
-        self.header?.addSubview(self.saveButton!)
 
+        self.header?.addSubview(self.saveButton!)
+        
         
         
         
@@ -101,7 +103,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         
         self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
         
-        self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 87, self.header!.frame.height)
+        self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 71, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
         
         self.passworCurrent?.frame = CGRectMake(leftRightPadding,  self.header!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
@@ -160,6 +162,10 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         {
             field = passworCurrent!
             message = passworCurrentMessage!
+        }
+        if password!.text != confirmPassword!.text{
+            field = confirmPassword!
+            message = NSLocalizedString("field.validate.confirmpassword.equal", comment: "")
         }
         if count(message) > 0 {
             if self.errorView == nil{

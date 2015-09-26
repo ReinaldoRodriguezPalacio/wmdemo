@@ -76,6 +76,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func closeShoppingCart() {
         onClose?(isClose:false)
+        self.navigationController?.popViewControllerAnimated(true)
         
     }
     
@@ -121,7 +122,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
                 } else {
-                    //self.navigationController!.popToRootViewControllerAnimated(true)
+                    self.navigationController!.popViewControllerAnimated(true)
                     self.onClose?(isClose:true)
                   
                 }

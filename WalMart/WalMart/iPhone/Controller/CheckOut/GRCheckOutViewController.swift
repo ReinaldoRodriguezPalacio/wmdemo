@@ -1054,6 +1054,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 self.alertView!.showDoneIcon()
                 
+                self.picker!.titleLabel.textAlignment = .Center
+                self.picker!.titleLabel.frame =  CGRectMake(40, self.picker!.titleLabel.frame.origin.y, self.picker!.titleLabel.frame.width, self.picker!.titleLabel.frame.height)
+                self.picker!.isNewAddres =  false
                 self.reloadUserAddresses()
                 
                 }) { (error:NSError) -> Void in
@@ -1262,10 +1265,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.sender = self.address!
         self.picker!.delegate = self
             
-        let btnNewAddress = UIButton()
-        btnNewAddress.setTitle("Nueva", forState: UIControlState.Normal)
-        btnNewAddress.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
-        btnNewAddress.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        let btnNewAddress = WMRoundButton()
+        btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
+        //newAddressButton = WMRoundButton()  0x8EBB36
+        btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
+        btnNewAddress.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
         btnNewAddress.layer.cornerRadius = 2.0
             
         self.picker!.addRigthActionButton(btnNewAddress)

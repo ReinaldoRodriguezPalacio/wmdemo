@@ -159,8 +159,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         loadShoppingCartService()
         
-        
-
     }
     
     func initEmptyView(){
@@ -195,8 +193,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         editButton.backgroundColor = WMColor.wishlistEditButtonBgColor
         editButton.tintColor = WMColor.wishlistEditButtonBgColor
         deleteall.alpha = 0
-       
-        loadShoppingCartService()
+        
+        UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
+            self.loadShoppingCartService()
+        }
        
     }
     
@@ -231,7 +231,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     func loadShoppingCartService() {
-        
 
         idexesPath = []
         
@@ -239,6 +238,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance().itemsMG != nil {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
         }
+        
         if  self.itemsInShoppingCart.count > 0 {
             self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
             self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber

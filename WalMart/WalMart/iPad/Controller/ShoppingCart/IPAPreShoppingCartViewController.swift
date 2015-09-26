@@ -277,12 +277,11 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                     
                     self.viewMG.alpha = 0
                     self.viewSuper.alpha = 0
-                    self.closeShoppingCart()
                 }
                 
                 self.view.addSubview(vcResult.view)
-                self.addChildViewController(vcResult)
                 self.controllerShowing = vcResult
+                self.navigationController?.pushViewController(vcResult, animated: false)
                 
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     vcResult.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
@@ -306,7 +305,6 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                     
                     self.viewMG.alpha = 0
                     self.viewSuper.alpha = 0
-                    self.closeShoppingCart()
                 }
                 
                 vcResult.onSuccessOrder = {() in
@@ -316,8 +314,8 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 }
                 
                 self.view.addSubview(vcResult.view)
-                self.addChildViewController(vcResult)
                 self.controllerShowing = vcResult
+                self.navigationController?.pushViewController(vcResult, animated: false)
                 
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     vcResult.view.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)

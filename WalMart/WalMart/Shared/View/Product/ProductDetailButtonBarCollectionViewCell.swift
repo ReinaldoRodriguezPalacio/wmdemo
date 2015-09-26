@@ -247,13 +247,16 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
   
     func reloadButton(){
-        var buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : NSLocalizedString("productdetail.shop",comment:"")
-        var buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : WMColor.productDetailShoppingCartBtnBGColor
+        
+        var buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
+        
+        var buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : isAviableToShoppingCart ? WMColor.productDetailShoppingCartBtnBGColor : WMColor.productDetailShoppingCartNDBtnBGColor
         
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
+
        
         
         self.addToShoppingCartButton!.backgroundColor = buttonColor
@@ -309,6 +312,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
             self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
             self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
+        }
+        if !isAviableToShoppingCart{
+            self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Normal)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Selected)
         }
     }
     

@@ -142,7 +142,6 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     
     func closeSearch() {
         self.field.resignFirstResponder()
-        
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             // self.frame =  CGRectMake(-self.frame.width, self.frame.minY, self.frame.width, self.frame.height)
             self.field!.frame = CGRectMake(-self.field!.frame.width, self.field!.frame.minY, self.field!.frame.width, self.field!.frame.height)
@@ -184,7 +183,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text.uppercaseString, truncate:false)
                         closePopOver()
                         closeSearch()
                         return true 
@@ -284,6 +283,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         if self.field!.isFirstResponder() {
             self.field!.resignFirstResponder()
         }
+        closePopOver()
         self.delegate.searchControllerScanButtonClicked(self)
     }
     
@@ -454,16 +454,18 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             if popover != nil{
                 self.closePopOver()
             }
-            
             return true;
         }
-        return false
+        return true
         
     }
     
     func validateText() -> Bool {
         let toValidate : NSString = field.text
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if toValidate.isEqualToString(""){
+            return false
+        }
         if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
             showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
             return false

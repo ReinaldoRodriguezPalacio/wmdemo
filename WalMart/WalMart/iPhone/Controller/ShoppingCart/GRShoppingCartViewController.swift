@@ -725,6 +725,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 println("done")
                 if self.onClose != nil {
                     self.onClose?(isClose:true)
+                    self.navigationController?.popViewControllerAnimated(true)
                 }
                 else {
                     self.navigationController?.popToRootViewControllerAnimated(true)

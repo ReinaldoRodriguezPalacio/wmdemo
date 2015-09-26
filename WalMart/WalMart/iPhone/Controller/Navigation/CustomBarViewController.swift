@@ -1156,7 +1156,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     
-    func handleNotification(type:String,name:String,value:String) {
+    func handleNotification(type:String,name:String,value:String) -> Bool {
+        
         let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         if type != "CF" {
@@ -1176,10 +1177,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[2])
-        default: println("No value type for notification")
+        default:
+            println("No value type for notification")
+            return false
         }
         
-        
+        return true
     }
     
     

@@ -302,6 +302,7 @@
 "field.validate.minmaxlength.gender" = " El género es requerido";
 "field.validate.zipcode" = " Código postal inválido";
 "field.validate.telephone.invalid" = " Teléfono no válido";
+"field.validate.confirmpassword.equal" = " La contraseña no coincide con la confirmación";
 
 
 //help
