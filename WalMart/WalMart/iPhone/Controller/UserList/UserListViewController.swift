@@ -1239,7 +1239,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func invokeUpdateListService() {
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+            if  self.alertView == nil {
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+            }
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
             let array = Array(self.listToUpdate!.keys)
@@ -1301,10 +1303,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                     success:{() -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
                                         self.alertView!.showDoneIcon()
+                                        
                                     },
                                     failure: {(error:NSError) -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
                                         self.alertView!.showDoneIcon()
+                                      
                                     }
                                 )
                             }
