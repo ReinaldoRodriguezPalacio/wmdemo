@@ -12,7 +12,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     
     
-    @IBOutlet weak var notification: UITableView!
+    var notification: UITableView!
     
     var allNotifications = []
     var selectable = true
@@ -20,6 +20,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     
     override func viewDidLoad() {
+        
+        
         
         
         if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {
@@ -42,10 +44,12 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
             self.view.addSubview(emptyView!)
         } else {
+            notification = UITableView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
             notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
             self.notification.dataSource = self
             self.notification.delegate = self
             self.notification.reloadData()
+            self.view.addSubview(notification)
         }
     }
     
@@ -53,6 +57,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         super.viewWillLayoutSubviews()
         
          emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        
+        notification.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
         
     }
     

@@ -134,7 +134,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.collection.frame  = CGRectMake(0,0,self.bounds.width,self.bounds.height - 20)
+        self.collection.frame  = self.bounds
         presale.frame = CGRectMake(0, self.collection.frame.height  , self.collection.frame.width, 20)
         self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
         
