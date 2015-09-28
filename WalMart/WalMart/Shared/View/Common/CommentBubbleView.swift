@@ -54,7 +54,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
 
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     {
-        return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 510
+        return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
     }
     
     
