@@ -326,6 +326,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             
             addToCartAction("\(Int(currentValCstmGr))")
         } else {
+            if Int(currentValGr) == 0 {
+                showError("Cantidad minima 1 pieza")
+                return
+            }
             addToCartAction("\(Int(currentValGr))")
         }
     }
@@ -420,13 +424,19 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             
             var equivalence : Int = self.equivalenceByPiece.integerValue * Int(tmpResult)
             if Double(equivalence) <= CONS_MAXVAL {
+                if  Double(equivalence) == 0
+                {
+                  showError("Cantidad minima 1 pieza")
+                }else{
                 currentValPzs = tmpResult
                 self.updateLabelP()
-                self.updateShoppButton()
+                    self.updateShoppButton()
+                }
             } else {
                 let maxPices = Int(CONS_MAXVAL / self.equivalenceByPiece.doubleValue)
                 showError("Cantidad Máxima \(maxPices) piezas")
             }
+            
         } else {
         if customValue {
             var resultText : NSString = ""

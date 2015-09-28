@@ -36,7 +36,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         total.frame = CGRectMake(self.frame.midX - (91 / 2), 25, 91, 12)
         valueTotal.frame = CGRectMake(total.frame.maxX + 3, 25 , 50, 12)
         
-        totalSavingTitle.frame = CGRectMake(156, total.frame.maxY + 4.0 , 91, 12)
+        totalSavingTitle.frame = CGRectMake(self.frame.midX - (91 / 2), total.frame.maxY + 4.0 , 91, 12)
         valueTotalSaving.frame = CGRectMake(totalSavingTitle.frame.maxX + 3,  totalSavingTitle.frame.minY , 50, 12)
         
     }

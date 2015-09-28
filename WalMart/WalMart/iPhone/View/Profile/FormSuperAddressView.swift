@@ -96,7 +96,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.addressName = FormFieldView()
         self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.isRequired = true
-        self.addressName!.typeField = TypeField.Name
+        self.addressName!.typeField = TypeField.Alphanumeric
         self.addressName!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
         self.addressName!.minLength = 3
         self.addressName!.maxLength = 25
@@ -113,7 +113,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.outdoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.outdoornumber",comment:""))
         self.outdoornumber!.isRequired = true
         self.outdoornumber!.typeField = TypeField.NumAddress
-        self.outdoornumber!.minLength = 0
+        self.outdoornumber!.minLength = 1
         self.outdoornumber!.maxLength = 15
         self.outdoornumber!.nameField = NSLocalizedString("gr.address.field.outdoornumber",comment:"")
         
@@ -491,7 +491,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return nil
             }
             
-            
+            if (self.outdoornumber!.text == "0"){
+                if self.errorView == nil{
+                    self.errorView = FormFieldErrorView()
+                }
+                SignUpViewController.presentMessage(self.outdoornumber!, nameField:self.outdoornumber!.nameField, message: "No Válido" , errorView:self.errorView! ,  becomeFirstResponder: true)
+                return nil
+            }
             
             if (self.zipcode!.text ==  "00000") {
                 if self.errorView == nil{
