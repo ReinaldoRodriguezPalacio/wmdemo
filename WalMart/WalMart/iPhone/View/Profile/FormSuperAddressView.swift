@@ -96,7 +96,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.addressName = FormFieldView()
         self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.isRequired = true
-        self.addressName!.typeField = TypeField.Name
+        self.addressName!.typeField = TypeField.Alphanumeric
         self.addressName!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
         self.addressName!.minLength = 3
         self.addressName!.maxLength = 25
