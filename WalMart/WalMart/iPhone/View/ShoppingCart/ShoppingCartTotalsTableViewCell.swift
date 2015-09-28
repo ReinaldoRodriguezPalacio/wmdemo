@@ -69,13 +69,13 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         totalSavingTitle.frame = CGRectMake(156, total.frame.maxY + 6, 91, 12)
         
         valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 3, subtotalTitle.frame.minY, 50, 12))
-        valueSubtotal.textAlignment = .Left
+        valueSubtotal.textAlignment = .Right
         valueIva = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 3, iva.frame.minY, 50, 12))
-        valueIva.textAlignment = .Left
+        valueIva.textAlignment = .Right
         valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 3, total.frame.minY, 50, 12))
-        valueTotal.textAlignment = .Left
+        valueTotal.textAlignment = .Right
         valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(totalSavingTitle.frame.maxX + 3, totalSavingTitle.frame.minY, 50, 12))
-        valueTotalSaving.textAlignment = .Left
+        valueTotalSaving.textAlignment = .Right
 
         
         self.addSubview(subtotalTitle)
