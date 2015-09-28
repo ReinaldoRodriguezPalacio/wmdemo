@@ -326,6 +326,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             
             addToCartAction("\(Int(currentValCstmGr))")
         } else {
+            if Int(currentValGr) == 0 {
+                showError("Cantidad minima 1 pieza")
+                return
+            }
             addToCartAction("\(Int(currentValGr))")
         }
     }
