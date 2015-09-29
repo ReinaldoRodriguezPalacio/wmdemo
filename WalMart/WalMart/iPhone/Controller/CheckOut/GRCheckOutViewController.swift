@@ -1043,6 +1043,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+            if self.addressItems?.count < 12 {
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 println("Se realizao la direccion")
                 self.picker!.closeNew()
@@ -1059,9 +1060,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.reloadUserAddresses()
                 
                 }) { (error:NSError) -> Void in
-                     self.removeViewLoad()
+                    self.removeViewLoad()
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
+                }
+            }
+            else{
+                self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
             }
         }
     }
