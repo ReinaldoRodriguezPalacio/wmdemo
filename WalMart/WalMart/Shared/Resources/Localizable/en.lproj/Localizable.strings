@@ -286,6 +286,7 @@
 "profile.address.super" = "Súper";
 "profile.address.tech" = "Tecnología, Hogar y más";
 "profile.address.already.exist" = "La dirección ya existe";
+"profile.address.error.max" = "Se ha alcanzado el máximo de direcciones, elimine ó actualice las existentes";
 
 //field
 "field.validate.required" = " Es requerido";
