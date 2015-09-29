@@ -103,7 +103,9 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     func reloadSelectedCell() {
         let currentCell = collection!.cellForItemAtIndexPath(currentCellSelected) as! IPASearchProductCollectionViewCell!
-        currentCell.showImageView()
+        if currentCell != nil{
+            currentCell.showImageView()
+        }
     }
     
     override func filter(sender:UIButton){

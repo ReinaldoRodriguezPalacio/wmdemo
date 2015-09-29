@@ -40,7 +40,7 @@ class IPAOrderViewController: OrderViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.reloadPreviousOrders()
+        //self.reloadPreviousOrders()
     }
 
 

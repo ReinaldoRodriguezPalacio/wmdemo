@@ -376,27 +376,28 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        var bounds = self.view.frame.size
+        var resumeHeight:CGFloat = 75.0
+        var footerHeight:CGFloat = 60.0
+        
+        self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
+        self.footer!.frame = CGRectMake(0.0, self.view.frame.height - footerHeight, bounds.width, footerHeight)
+        self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
+        
         self.buildSubViews()
+        
     }
     
     //MARK: - Build Views
     
     func buildSubViews(){
         var bounds = self.view.frame.size
-        var resumeHeight:CGFloat = 75.0
         var footerHeight:CGFloat = 60.0
-        
-        self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
-        //        self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
-        //        self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
-        //
+        self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
+        self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
         
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
-        
-        
-        self.footer!.frame = CGRectMake(0.0, self.view.frame.height - footerHeight, bounds.width, footerHeight)
-        self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         
         var margin: CGFloat = 15.0
         var widthField = self.view.frame.width - (2*margin)
@@ -422,23 +423,21 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,widthField,fheight)
             self.sectionTitleShipment.frame =  CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, widthField, lheight)
             self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
-            self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
-            self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
+            
         } else {
             self.discountAssociate!.alpha = 0
             self.sectionTitleDiscount!.alpha = 0
             self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
-            self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
-            self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
         }
         
         self.shipmentType!.frame = CGRectMake(margin, self.address!.frame.maxY + 5.0, widthField, fheight)
         self.deliveryDate!.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, widthField, fheight)
         self.deliverySchedule!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, widthField, fheight)
         self.comments!.frame = CGRectMake(margin, self.deliverySchedule!.frame.maxY + 5.0, widthField, fheight)
-        self.confirmation!.frame = CGRectMake(margin, self.confirmation!.frame.minY, widthField, fheight)
+        self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
+        self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
         
 
     }
@@ -1044,6 +1043,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+            if self.addressItems?.count < 12 {
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 println("Se realizao la direccion")
                 self.picker!.closeNew()
@@ -1060,9 +1060,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.reloadUserAddresses()
                 
                 }) { (error:NSError) -> Void in
-                     self.removeViewLoad()
+                    self.removeViewLoad()
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
+                }
+            }
+            else{
+                self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
             }
         }
     }

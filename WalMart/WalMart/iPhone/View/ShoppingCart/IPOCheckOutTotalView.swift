@@ -63,13 +63,13 @@ class IPOCheckOutTotalView : UIView {
         
         
         subtotalValueLabel = CurrencyCustomLabel(frame: CGRectMake(subtotalTitleLabel.frame.maxX + 3, subtotalTitleLabel.frame.minY, 50, 12))
-        subtotalValueLabel.textAlignment = .Left
+        subtotalValueLabel.textAlignment = .Right
        
         savingValueLabel = CurrencyCustomLabel(frame: CGRectMake(savingTitleLable.frame.maxX + 3, savingTitleLable.frame.minY, 50, 12))
-        savingValueLabel.textAlignment = .Left
+        savingValueLabel.textAlignment = .Right
         
         totalValueLabel = CurrencyCustomLabel(frame: CGRectMake(totalTitleLable.frame.maxX + 3, totalTitleLable.frame.minY, 50, 12))
-        totalValueLabel.textAlignment = .Left
+        totalValueLabel.textAlignment = .Right
         
         self.addSubview(savingValueLabel)
         self.addSubview(totalValueLabel)

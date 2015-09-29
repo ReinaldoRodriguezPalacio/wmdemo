@@ -218,7 +218,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 total: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
                 totalSaving: "\(UserCurrentSession.sharedInstance().estimateSavingGR())",
                 numProds:"\(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
-            
+                
             return tblTotalCell
         }
         
