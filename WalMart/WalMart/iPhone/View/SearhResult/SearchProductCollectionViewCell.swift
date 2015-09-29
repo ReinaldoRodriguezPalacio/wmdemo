@@ -27,10 +27,13 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     override func setup() {
         super.setup()
         
-    
-        presale = UILabel(frame: CGRectMake(0, 145, self.frame.width, 9))
+        //presale
+        
+        let width : CGFloat = 56
+        presale = UILabel(frame: CGRectMake((self.frame.width / 2) - (width / 2), self.frame.width, width, 14))
         presale.text = NSLocalizedString("presale.title",comment:"")
-        presale.textColor = WMColor.light_blue
+        presale.backgroundColor = WMColor.light_blue
+        presale.textColor = UIColor.whiteColor()
         presale.font = WMFont.fontMyriadProSemiboldSize(9)
         presale.textAlignment = .Center
         self.addSubview(presale)

@@ -78,10 +78,11 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         
         //presale
         
-        
-        presale = UILabel(frame: CGRectMake(0, 4, self.frame.width, 12))
+        let width : CGFloat = 56
+        presale = UILabel(frame: CGRectMake((self.frame.width / 2) - (width / 2), 4, width, 14))
         presale.text = NSLocalizedString("presale.title",comment:"")
-        presale.textColor = WMColor.light_blue
+        presale.backgroundColor = WMColor.light_blue
+        presale.textColor = UIColor.whiteColor()
         presale.font = WMFont.fontMyriadProSemiboldSize(12)
         presale.textAlignment = .Center
         presale.hidden = true
