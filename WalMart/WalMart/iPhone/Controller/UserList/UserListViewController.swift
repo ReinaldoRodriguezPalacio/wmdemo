@@ -128,6 +128,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -191,7 +192,15 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
+    
+    
     //MARK: - List Utilities
+    
+    func duplicateList(){
+        var indexpath = self.tableuserlist!.indexPathForSelectedRow() // NSIndexPath(forRow: 1, inSection: 1)
+        var cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
+        self.duplicateList(cell!)
+    }
     
     func changeVisibilityBtn(button: UIButton, visibility: CGFloat) {
         UIView.animateWithDuration(0.3, animations: {

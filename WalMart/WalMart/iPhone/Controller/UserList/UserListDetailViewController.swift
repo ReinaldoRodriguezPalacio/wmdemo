@@ -875,7 +875,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 
                 
                 
-                
                 self.products = result["items"] as? [AnyObject]
                 self.titleLabel?.text = result["name"] as? String
                 
@@ -1201,17 +1200,21 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.view.addSubview(containerEditName!)
         containerEditName?.alpha = 0
         
-        
     }
     
     
     func duplicate() {
-        self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
-            self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-            self.alertView!.showDoneIcon()
-        })
+        if let user = UserCurrentSession.sharedInstance().userSigned {
+            self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                self.alertView!.showDoneIcon()
+            })
+        }else{
+         NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
+        }
     }
     
+
     
     
     func updateLustName() {
