@@ -27,13 +27,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     var viewBgSelectorBtn : UIView!
     var btnSuper : UIButton!
     var btnTech : UIButton!
+    var hasCloseButton: Bool! = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "callServiceAddress", name: ProfileNotification.updateProfile.rawValue, object: nil)
-
-        
         self.table = UITableView()
         self.table.registerClass(AddressViewCell.self, forCellReuseIdentifier: "labelCell")
         
@@ -136,6 +135,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.alertView = nil
         //self.callServiceAddress()
         self.callServiceAddressGR()
+        if self.hasCloseButton! {
+            self.addCloseButton()
+        }
     }
     
     func callServiceAddress(){
@@ -508,6 +510,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     }, errorBlock: { (error:NSError) -> Void in
                         println("error")
                 })
+                UserCurrentSession.sharedInstance().getStoreByAddress(result)
                 }, errorBlock: { (error:NSError) -> Void in
                 
             })
@@ -649,5 +652,18 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             table.reloadData()
         }//else if sender == btnTech &&  !sender.selected {
+    }
+    
+    func addCloseButton(){
+        self.hasCloseButton = true
+        self.hiddenBack = true
+        self.backButton = UIButton()
+        self.backButton!.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
+        self.backButton!.addTarget(self, action: "closeAddressView", forControlEvents: UIControlEvents.TouchUpInside)
+        self.header?.addSubview(self.backButton!)
+    }
+    
+    func closeAddressView(){
+        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
     }
 }

@@ -19,6 +19,24 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     var pontInViewNuew = CGRectZero
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "search_edit")
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let myString = NSMutableAttributedString(string: "Súper - \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ")
+            myString.appendAttributedString(attachmentString)
+            self.titleLabel?.numberOfLines = 2;
+            self.titleLabel?.attributedText = myString;
+            self.titleLabel?.userInteractionEnabled = true;
+            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+            self.titleLabel?.addGestureRecognizer(tapGesture)
+            
+        }
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.backButton?.hidden = true
@@ -231,5 +249,14 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controller.titleHeader = name
         self.navigationController?.pushViewController(controller, animated: true)
     }
-
+    
+    //MARK changeStore
+    func changeStore(){
+        var myAddress = MyAddressViewController()
+        myAddress.addCloseButton()
+        var navController = UINavigationController(rootViewController: myAddress)
+        navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        navController.navigationBarHidden = true
+        self.navigationController?.presentViewController(navController, animated: true, completion: nil)
+    }
 }

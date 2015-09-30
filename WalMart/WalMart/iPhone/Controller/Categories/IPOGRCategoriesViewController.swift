@@ -20,6 +20,23 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var canfigData : [String:AnyObject]! = [:]
     var itemsExclusive : [AnyObject]? = []
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "search_edit")
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let myString = NSMutableAttributedString(string: "Súper - \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ")
+            myString.appendAttributedString(attachmentString)
+            self.titleLabel?.numberOfLines = 2;
+            self.titleLabel?.attributedText = myString;
+            self.titleLabel?.userInteractionEnabled = true;
+            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+            self.titleLabel?.addGestureRecognizer(tapGesture)
+
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //self.familyController.categoriesType = .CategoryForGR
@@ -366,6 +383,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         }
         
         return resultDict as? [[String:AnyObject]]
+    }
+    
+    //MARK changeStore
+    func changeStore(){
+        let controller = MyAddressViewController()
+        self.navigationController!.pushViewController(controller, animated: true)
     }
 
 }

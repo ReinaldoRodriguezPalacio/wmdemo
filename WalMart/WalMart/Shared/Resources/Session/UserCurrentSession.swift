@@ -25,6 +25,8 @@ class UserCurrentSession : NSObject {
     var dateStart : NSDate! = NSDate()
     var dateEnd : NSDate! = NSDate()
     var version : String! = ""
+    var storeName: String? = nil
+    var storeId: String? = nil
     
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
@@ -133,6 +135,9 @@ class UserCurrentSession : NSObject {
         }
         if let cartGR = userDictionaryGR["cartId"] as? String {
             usr.cartIdGR = cartGR
+        }
+        if let address = userDictionaryGR["address"] as? NSDictionary{
+            self.getStoreByAddress(address)
         }
         
         
@@ -679,8 +684,6 @@ class UserCurrentSession : NSObject {
         return strResult
     }
     
-    
-    
     func hasPreorderable() -> Bool {
         var predicate : NSPredicate? = nil
         if userSigned != nil {
@@ -700,6 +703,27 @@ class UserCurrentSession : NSObject {
         }
         
         return fetchedResult?.count != 0
+    }
+    
+    func getStoreByAddress(address: NSDictionary){
+        self.storeId = address["storeID"] as? String
+        self.storeName = address["storeName"] as? String
+        if self.storeName == nil || self.storeName!.isEmpty {
+            var serviceZip = GRZipCodeService()
+            serviceZip.buildParams(address["zipCode"] as! String)
+            serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                let storesDic = result["stores"] as! [NSDictionary]
+                for dic in  storesDic {
+                    let name = dic["name"] as! String!
+                    let idStore = dic["id"] as! String!
+                    if idStore == self.storeId! {
+                        self.storeName = name
+                        break
+                    }
+                }
+                }, errorBlock: { (error:NSError) -> Void in })
+        }
+
     }
 
     
