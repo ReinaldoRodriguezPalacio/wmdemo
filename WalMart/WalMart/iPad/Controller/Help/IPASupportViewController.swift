@@ -23,11 +23,11 @@ class IPASupportViewController: SupportViewController {
         imgConfirm.image = UIImage(named: "support-empty")
         
         var attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
-            attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
+            attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),
                 NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
         
         var attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
-            attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14),
+            attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldCondOfSize(18),
                 NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
         
         var valuesDescItem = NSMutableAttributedString()
@@ -44,22 +44,22 @@ class IPASupportViewController: SupportViewController {
         self.sendmeMail.text = NSLocalizedString("help.buttom.title.text" , comment: "")
         
         
-        self.labelQuestion1!.font = WMFont.fontMyriadProLightOfSize(14)
+        self.labelQuestion1!.font = WMFont.fontMyriadProLightOfSize(18)
         self.labelQuestion1!.textColor = WMColor.loginProfileSaveBGColor
         self.labelQuestion1!.backgroundColor = UIColor.clearColor()
         self.labelQuestion1!.textAlignment = .Center
         
-        self.labelQuestion2!.font = WMFont.fontMyriadProLightOfSize(14)
+        //self.labelQuestion2!.font = WMFont.fontMyriadProLightOfSize(18)
         self.labelQuestion2!.textColor = WMColor.loginProfileSaveBGColor
         self.labelQuestion2!.backgroundColor = UIColor.clearColor()
         self.labelQuestion2!.textAlignment = .Center
         
-        self.callme!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.callme!.font = WMFont.fontMyriadProRegularOfSize(18)
         self.callme!.textColor = WMColor.listAddressTextColor
         self.callme!.backgroundColor = UIColor.clearColor()
         self.callme!.textAlignment = .Center
         
-        self.callmeNumber!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.callmeNumber!.font = WMFont.fontMyriadProBoldItOfSize(18)
         self.callmeNumber!.textColor = WMColor.listAddressTextColor
         self.callmeNumber!.backgroundColor = UIColor.clearColor()
         self.callmeNumber!.textAlignment = .Center
@@ -113,7 +113,7 @@ class IPASupportViewController: SupportViewController {
         var bounds = self.view.bounds
         
         self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 48 , bounds.width, 15 )
-        self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY  , bounds.width, 15 )
+        self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY + 5  , bounds.width, 15 )
         
        // callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)
         sendmeMail.frame =   CGRectMake(bounds.midY - 20 , bounds.maxY - 100 , 85, 15)//label
