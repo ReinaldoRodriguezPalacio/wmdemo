@@ -56,10 +56,19 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         
         tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
         
+        var shareWidth:CGFloat = 34.0
+        var separation:CGFloat = 16.0
+        var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
+        var y = (self.footerSection!.frame.height - shareWidth)/2
+        self.duplicateButton!.frame = CGRectMake(145, y, 34.0, 34.0)
+        
+        x = self.duplicateButton!.frame.maxX + 16.0
+        self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
+        
         self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , self.view.frame.width, 72)
-        var x = self.shareButton!.frame.maxX + 16.0
-        var y = (self.footerSection!.frame.height - 34.0)/2
-        addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+        x = self.shareButton!.frame.maxX + 16.0
+        y = (self.footerSection!.frame.height - 34.0)/2
+        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
     }
 
