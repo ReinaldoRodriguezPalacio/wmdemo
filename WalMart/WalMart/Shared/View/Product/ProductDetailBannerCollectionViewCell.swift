@@ -30,6 +30,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var saving : CurrencyCustomLabel!
     
     var presale : UILabel!
+    var imagePresale : UIImageView!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -78,17 +79,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         
         //presale
         
-        let width : CGFloat = 56
-        presale = UILabel(frame: CGRectMake((self.frame.width / 2) - (width / 2), 4, width, 14))
-        presale.text = NSLocalizedString("presale.title",comment:"")
-        presale.backgroundColor = WMColor.light_blue
-        presale.textColor = UIColor.whiteColor()
-        presale.font = WMFont.fontMyriadProSemiboldSize(12)
-        presale.textAlignment = .Center
-        presale.hidden = true
-        self.addSubview(presale)
-        
-        
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
         
         
         

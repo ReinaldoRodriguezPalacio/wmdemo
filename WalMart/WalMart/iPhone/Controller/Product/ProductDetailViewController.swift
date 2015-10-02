@@ -894,8 +894,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if kind == CSStickyHeaderParallaxHeader{
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
             if self.isPreorderable {
-                view.presale.hidden = false
+                view.imagePresale.hidden = false
             }
+            
             view.items = self.imageUrl
             view.delegate = self
             view.colors = self.colorItems

@@ -1037,7 +1037,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.strisPreorderable  = result["isPreorderable"] as! String
         self.isPreorderable = "true" == self.strisPreorderable
         if self.isPreorderable {
-            bannerImagesProducts.presale.hidden = false
+            bannerImagesProducts.imagePresale.hidden = false
         }
         
         self.bundleItems = [AnyObject]()

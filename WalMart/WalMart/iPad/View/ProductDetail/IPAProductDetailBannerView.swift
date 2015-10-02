@@ -22,7 +22,9 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     var freeShippingImage: UIImageView!
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
     var presale : UILabel!
-    let widthPresale : CGFloat = 56
+    var widthPresale : CGFloat = 56
+    
+    var imagePresale : UIImageView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -51,19 +53,11 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         self.addSubview(pointSection!)
         self.buildButtonSection()
         
-        //presale 
-        
-        
-        presale = UILabel(frame: CGRectMake((self.frame.width / 2) - (widthPresale / 2), self.frame.width, widthPresale, 14))
-        presale.text = NSLocalizedString("presale.title",comment:"")
-        presale.backgroundColor = WMColor.light_blue
-        presale.textColor = UIColor.whiteColor()
-        presale.font = WMFont.fontMyriadProSemiboldSize(9)
-        presale.textAlignment = .Center
-        presale.hidden = true
-        self.addSubview(presale)
+        //presale
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
 
-        
     }
     
     

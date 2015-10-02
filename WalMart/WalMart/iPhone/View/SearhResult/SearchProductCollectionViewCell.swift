@@ -22,21 +22,16 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var pesable : Bool!
     var isPreorderable: String!
     var presale : UILabel!
+    var imagePresale : UIImageView!
 
     
     override func setup() {
         super.setup()
         
         //presale
-        
-        let width : CGFloat = 56
-        presale = UILabel(frame: CGRectMake((self.frame.width / 2) - (width / 2), self.frame.width, width, 14))
-        presale.text = NSLocalizedString("presale.title",comment:"")
-        presale.backgroundColor = WMColor.light_blue
-        presale.textColor = UIColor.whiteColor()
-        presale.font = WMFont.fontMyriadProSemiboldSize(9)
-        presale.textAlignment = .Center
-        self.addSubview(presale)
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
 
     
         
@@ -82,7 +77,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
-        presale.hidden = !isPreorderable
+        imagePresale.hidden = !isPreorderable
         
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
