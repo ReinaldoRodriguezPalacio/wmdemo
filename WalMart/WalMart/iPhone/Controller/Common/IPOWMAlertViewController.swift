@@ -251,8 +251,10 @@ class IPOWMAlertViewController : UIViewController {
     func generateBlurImage() {
         var cloneImage : UIImage? = nil
         autoreleasepool {
-            UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController?.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+            UIGraphicsBeginImageContextWithOptions(self.view.frame.size,false,1.0);
+            //let context = UIGraphicsGetCurrentContext()!
+            self.parentViewController?.view.drawViewHierarchyInRect(view.bounds,afterScreenUpdates:true)
+            //self.parentViewController?.view.layer.renderInContext(context)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             self.parentViewController!.view.layer.contents = nil
@@ -291,7 +293,7 @@ class IPOWMAlertViewController : UIViewController {
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.view.alpha = 0.0
             }) { (complete:Bool) -> Void in
-                self.imageblur!.image = nil
+                self.imageblur?.image = nil
                 self.removeFromParentViewController()
                 self.successCallBack = nil
                 self.okCancelCallBack  = nil
