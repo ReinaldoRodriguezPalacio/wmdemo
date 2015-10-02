@@ -79,7 +79,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         let x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
         
-        addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
 
     }
