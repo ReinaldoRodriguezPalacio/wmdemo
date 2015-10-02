@@ -725,6 +725,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.price = result["price"] as! NSString
         self.detail = result["detail"] as! NSString
         self.saving = ""
+        self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
         self.upc = result["upc"] as! NSString
         if let isGift = result["isGift"] as? Bool{
             self.isGift = isGift
