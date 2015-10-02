@@ -75,7 +75,7 @@ class ShoppingCartUpdateController : UIViewController {
         spinImage = UIImageView(frame: CGRectMake((self.view.frame.width / 2) - 42, 98, 84, 84))
         spinImage.image = UIImage(named:"waiting_add")
         
-        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, repeat: 100)
+        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, `repeat`: 100)
         
         imageProduct = UIImageView(frame: CGRectMake(viewBgImage.frame.width / 4, viewBgImage.frame.width / 4, viewBgImage.frame.width - (viewBgImage.frame.width / 2), viewBgImage.frame.width - (viewBgImage.frame.width / 2)))
         
@@ -267,7 +267,7 @@ class ShoppingCartUpdateController : UIViewController {
                 
             }
         }else{
-            var serviceAddProduct  = ShoppingCartAddProductsService()
+            let serviceAddProduct  = ShoppingCartAddProductsService()
             
             var numOnHandInventory : NSString = "0"
             if let numberOf = params["onHandInventory"] as? NSString{
@@ -282,15 +282,15 @@ class ShoppingCartUpdateController : UIViewController {
             if let type = params["type"] as?  String {
                 if type == ResultObjectType.Groceries.rawValue {
                     typeProduct = ResultObjectType.Groceries
-                    println("Parametros = \(params)")
+                    print("Parametros = \(params)")
                     
-                    var serviceAddProduct = GRShoppingCartAddProductsService()
+                    let serviceAddProduct = GRShoppingCartAddProductsService()
                     
                     if let commentsParams = params["comments"] as? NSString{
                         self.comments = commentsParams as String
                     }
-                    var upcs:NSString = params["upc"] as! NSString
-                    var quantities:NSString = params["quantity"] as! NSString
+                    let upcs:NSString = params["upc"] as! NSString
+                    let quantities:NSString = params["quantity"] as! NSString
                     
                     serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString, successBlock: { (result:NSDictionary) -> Void in
                         
@@ -531,7 +531,7 @@ class ShoppingCartUpdateController : UIViewController {
                     self.viewBgImage.addSubview(self.imageProduct)
                     self.viewBgImage.hidden = false
                     self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.5)
-                    self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, repeat: 100)
+                    self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, `repeat`: 100)
                     self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showDoneIcon", userInfo: nil, repeats: false)
                     self.finishCall = false
 
@@ -543,19 +543,17 @@ class ShoppingCartUpdateController : UIViewController {
                         self.comments = self.commentTextView!.field!.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         self.titleLabel.text = NSLocalizedString("shoppingcart.saveNote",comment:"")
                     }
-                    
-                    let serviceAddProduct = ShoppingCartAddProductsService()
                     if let type = self.params["type"] as?  String {
                         if type == ResultObjectType.Groceries.rawValue {
                             self.typeProduct = ResultObjectType.Groceries
-                            println("Parametros = \(self.params)")
+                            print("Parametros = \(self.params)")
                             
                             var numOnHandInventory : NSString = "0"
                             if let numberOf = self.params["onHandInventory"] as? NSString{
                                 numOnHandInventory  = numberOf
                             }
                             let pesable = self.params["pesable"] as! NSString
-                            var serviceAddProduct = GRShoppingCartAddProductsService()
+                            let serviceAddProduct = GRShoppingCartAddProductsService()
                             serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable, successBlock: { (result:NSDictionary) -> Void in
                                 
                                 self.finishCall = true
@@ -585,7 +583,7 @@ class ShoppingCartUpdateController : UIViewController {
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
@@ -602,12 +600,12 @@ class ShoppingCartUpdateController : UIViewController {
         self.view.removeFromSuperview()
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeat:CGFloat) {
-        var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(repeat)
+        rotationAnimation.repeatCount = Float(`repeat`)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     

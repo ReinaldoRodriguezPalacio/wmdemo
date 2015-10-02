@@ -43,7 +43,13 @@ class ShoppingCartProductsService : BaseService {
                     }
                     
                     var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    } catch {
+                        fatalError()
+                    }
                     
                     for shoppingCartProduct in itemsInShoppingCart {
                         
@@ -107,7 +113,13 @@ class ShoppingCartProductsService : BaseService {
                     }
                     
                     
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    } catch {
+                        fatalError()
+                    }
                     
                     successBlock!(resultCall)
                     ShoppingCartService.isSynchronizing  = false
@@ -133,7 +145,7 @@ class ShoppingCartProductsService : BaseService {
                 }
                 
                 }, errorBlock: { (error:NSError) -> Void in
-                    println("Error: \(error)")
+                    print("Error: \(error)")
             })
         }else{
             callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
@@ -148,7 +160,7 @@ class ShoppingCartProductsService : BaseService {
         if UserCurrentSession.sharedInstance().userSigned != nil {
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
         }
-        var array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+        let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         var returnDictionary = [:]
         var items : [AnyObject] = []
         var subtotal : Double = 0.0
@@ -198,7 +210,11 @@ class ShoppingCartProductsService : BaseService {
                 
                 itemDeleted.status = CartStatus.Synchronized.rawValue
                 var error: NSError? = nil
-                context.save(&error)
+                do {
+                    try context.save()
+                } catch let error1 as NSError {
+                    error = error1
+                }
                 
                 arratUpcsDelete.append(itemDeleted.product.upc)
                 
@@ -253,7 +269,11 @@ class ShoppingCartProductsService : BaseService {
                 itemUpdated.status = CartStatus.Synchronized.rawValue
             }
             var error: NSError? = nil
-            context.save(&error)
+            do {
+                try context.save()
+            } catch let error1 as NSError {
+                error = error1
+            }
             
             serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
                 ShoppingCartService.isSynchronizing = false

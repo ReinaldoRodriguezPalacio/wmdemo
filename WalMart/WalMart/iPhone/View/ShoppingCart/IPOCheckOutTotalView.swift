@@ -24,7 +24,7 @@ class IPOCheckOutTotalView : UIView {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -119,8 +119,8 @@ class IPOCheckOutTotalView : UIView {
             totalValueLabel.frame = CGRectMake(totalTitleLable.frame.maxX + 3, totalTitleLable.frame.minY, 50, 12)
             numProducts.frame = CGRectMake(16, 16, 75, 14)
             
-            var dSaving = NSNumberFormatter().numberFromString(saving)
-            var dSubtotal = NSNumberFormatter().numberFromString(subtotal)
+            let dSaving = NSNumberFormatter().numberFromString(saving)
+            let dSubtotal = NSNumberFormatter().numberFromString(subtotal)
             let total = dSubtotal!.doubleValue - dSaving!.doubleValue
             
             let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)

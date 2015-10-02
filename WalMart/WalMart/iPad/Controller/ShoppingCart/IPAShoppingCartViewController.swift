@@ -136,7 +136,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             }
             
             }, errorBlock: { (error:NSError) -> Void in
-                println("delete pressed Errro \(error)")
+                print("delete pressed Errro \(error)")
         })
     }
     
@@ -145,11 +145,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.canceledAction = false
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7
-        let storyboard = self.loadStoryboardDefinition()
+        //let storyboard = self.loadStoryboardDefinition()
         let addressService = AddressByUserService()
         self.buttonShop.enabled = true
         self.buttonShop.alpha = 1.0
-        var cont = IPALoginController.showLogin()
+        let cont = IPALoginController.showLogin()
         var user = ""
         
         cont!.closeAlertOnSuccess = false
@@ -227,7 +227,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
-                        arrayUPCS.sort({ (before, after) -> Bool in
+                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
@@ -252,7 +252,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     
                 }
                 }, errorBlock: { (error:NSError) -> Void in
-                    println("Termina sevicio app")
+                    print("Termina sevicio app")
             })
         }
     }
@@ -315,7 +315,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
 
         
         serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
-            println("Error not done")
+            print("Error not done")
             
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -326,8 +326,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.navigationController?.popViewControllerAnimated(true)
             //self.navigationController!.popToRootViewControllerAnimated(true)
             }) { (error:NSError) -> Void in
-                println("error al eliminar todos los productos del carrito: ")
-                println(error.localizedDescription)
+                print("error al eliminar todos los productos del carrito: ")
+                print(error.localizedDescription)
                 
         }
         

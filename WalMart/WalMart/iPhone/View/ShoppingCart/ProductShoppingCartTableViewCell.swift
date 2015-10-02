@@ -60,7 +60,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         priceSelector = PriceSelectorBandHandler()
         priceSelector.delegate = self
         priceSelector.numberOfOptions = ShoppingCartAddProductsService.maxItemsInShoppingCart()
-        var selectionBand =  priceSelector.buildSelector(CGRectMake(self.frame.width - 210,self.productPriceLabel!.frame.minY  , 192.0, 36.0))
+        let selectionBand =  priceSelector.buildSelector(CGRectMake(self.frame.width - 210,self.productPriceLabel!.frame.minY  , 192.0, 36.0))
         
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
@@ -68,7 +68,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         self.contentView.addSubview(separatorView)
         self.contentView.addSubview(productPriceSavingLabel)
-        self.contentView.addSubview(selectionBand)
+        self.contentView.addSubview(selectionBand!)
         
     }
     
@@ -178,6 +178,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     func deleteProduct() {
         self.delegateProduct.deleteProduct(self)
     }
+    
     func tapInPrice(quantity:Int,total:String) {
         
     }
@@ -186,15 +187,15 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.delegateProduct.startEdditingQuantity()
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel?.alpha = 0.0
-            self.productPriceSavingLabel?.alpha = 0.0
+            self.productPriceSavingLabel!.alpha = 0.0
         })
     }
     func endEdditingQuantity() {
         
         self.delegateProduct.endEdditingQuantity()
         UIView.animateWithDuration(0.01, animations: { () -> Void in
-            self.productPriceLabel?.alpha = 1.0
-            self.productPriceSavingLabel?.alpha = 1.0
+            self.productPriceLabel!.alpha = 1.0
+            self.productPriceSavingLabel!.alpha = 1.0
         })
     }
     

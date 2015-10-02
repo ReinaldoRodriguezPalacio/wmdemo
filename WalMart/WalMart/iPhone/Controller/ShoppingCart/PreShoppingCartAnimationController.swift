@@ -13,18 +13,18 @@ import Foundation
 class PreShoppingCartAnimationController : UIStoryboardSegue {
     
     override func perform() {
-        let srcViewController = self.sourceViewController as! UIViewController
-        let destController = self.destinationViewController as! UIViewController
+        let srcViewController = self.sourceViewController 
+        let destController = self.destinationViewController 
         
         var yPointOpen : CGFloat  = 50.0
         if let  srcViewControllerPSC = srcViewController as? PreShoppingCartViewController {
             yPointOpen = srcViewControllerPSC.yPointOpen
         }
         
-        var image = UIImage(fromView: srcViewController.view)
-        var image1 = image.crop(CGRectMake(0, 0, image.size.width, yPointOpen))
+        let image = UIImage(fromView: srcViewController.view)
+        let image1 = image.crop(CGRectMake(0, 0, image.size.width, yPointOpen))
         
-        var image2 = image.crop(CGRectMake(0, yPointOpen, image.size.width, 400))
+        let image2 = image.crop(CGRectMake(0, yPointOpen, image.size.width, 400))
         
         let tmpWhiteView = UIView(frame: srcViewController.view.bounds)
         tmpWhiteView.backgroundColor = UIColor.whiteColor()

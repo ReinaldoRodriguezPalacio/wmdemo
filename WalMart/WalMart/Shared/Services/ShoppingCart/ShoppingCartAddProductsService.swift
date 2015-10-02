@@ -58,9 +58,7 @@ class ShoppingCartAddProductsService : BaseService {
                 let quantity = itemSvc["quantity"] as! String
                 itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:""))
                 
-                let wlValue =  itemSvc["wishlist"] as? Bool
-                
-                if  let delWishlist = itemSvc["wishlist"] as? Bool {
+                if  let _ = itemSvc["wishlist"] as? Bool {
                     itemsWishList.append(upc)
                 }
                 
@@ -154,7 +152,7 @@ class ShoppingCartAddProductsService : BaseService {
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
                 cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
-                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
+                let productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
                 cartProduct.product = productBD
             }else{
                 cartProduct = array[0]
@@ -166,7 +164,7 @@ class ShoppingCartAddProductsService : BaseService {
                 cartProduct.quantity = NSNumber(integer:ShoppingCartAddProductsService.maxItemsInShoppingCart())
             }
             
-            println("Product in shopping cart: \(product)")
+            print("Product in shopping cart: \(product)")
             
             cartProduct.product.upc = product["upc"] as! String
             cartProduct.product.price = product["price"] as! String
@@ -183,8 +181,11 @@ class ShoppingCartAddProductsService : BaseService {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }
         }
-        var error: NSError? = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch {
+           print("Error saving context callCoreDataService ")
+        }
         
         WishlistService.shouldupdate = true
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)

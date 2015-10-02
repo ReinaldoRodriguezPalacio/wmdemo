@@ -12,7 +12,7 @@ import CoreData
 class GRShoppingCartAddProductsService : GRBaseService {
     
     func buildParams(quantity:String,upc:String,comments:String) -> NSArray {
-        let quantityInt : Int = quantity.toInt()!
+        let quantityInt : Int = Int(quantity)!
         return [["quantity":quantityInt,"upc":upc,"comments":comments]]
     }
     
@@ -47,7 +47,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return ["strArrImp":products]
     }
     
-    func buildProductObject(#upc:String, quantity:String, comments:String) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:String, comments:String) -> [String:AnyObject] {
         return ["quantity":quantity,"upc":upc,"comments":comments]
     }
     
@@ -116,7 +116,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
                 cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart" as String, inManagedObjectContext: context) as! Cart
-                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product" as String, inManagedObjectContext: context) as! Product
+                let productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product" as String, inManagedObjectContext: context) as! Product
                 cartProduct.product = productBD
             }else{
                 cartProduct = array[0]
@@ -124,7 +124,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             let quantityStr = product["quantity"] as! NSString
             cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
             
-            println("Product in shopping cart: \(product)")
+            print("Product in shopping cart: \(product)")
 
             var pesable : NSString = "0"
             if let pesableP = product["pesable"] as? String {
@@ -149,8 +149,11 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }
         }
-        var error: NSError? = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            print(error1.description)
+        }
         
         WishlistService.shouldupdate = true
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
