@@ -26,7 +26,7 @@ class IPASearchProductCollectionViewCell : SearchProductCollectionViewCell {
         self.productPriceThroughLabel!.frame = CGRectMake(0, self.productImage!.frame.maxY + 6 , self.bounds.width , 15)
         self.productPriceLabel!.frame = CGRectMake(0, self.productPriceThroughLabel!.frame.maxY , self.bounds.width , 30)
         self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 82,self.productImage!.frame.maxY + 16 , 66 , 34)
-        self.presale.frame =  CGRectMake((self.frame.width / 2) - (widthPresale / 2),self.productImage!.frame.maxY + 3, widthPresale, 14)
+        //self.presale.frame =  CGRectMake((self.frame.width / 2) - (widthPresale / 2),self.productImage!.frame.maxY + 3, widthPresale, 14)
     }
     
 
