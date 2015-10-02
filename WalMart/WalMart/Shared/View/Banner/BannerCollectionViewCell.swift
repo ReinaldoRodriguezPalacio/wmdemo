@@ -22,6 +22,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var visibleItem: Int? = nil
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
+    var addCurrent: Bool = true
     
     var viewTerms : BannerTermsView!
     
@@ -85,7 +86,12 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         self.currentItem =  viewController.view.tag
         if self.currentItem > 0 {
-            self.currentItem = self.currentItem! - 1
+            if addCurrent{
+             self.currentItem = self.currentItem! - 1
+             addCurrent = false
+            }else{
+                addCurrent = true
+            }
         }else {
             self.currentItem = dataSource!.count - 1
         }
@@ -101,7 +107,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             }else {
                 self.currentItem = 0
             }
-            
+            addCurrent = false
            return getCurrentController()
     }
     
@@ -159,6 +165,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
                 point.addTarget(self, action: "pointSelected:", forControlEvents: .TouchUpInside)
                 point.selected = idx == self.currentItem!
+                point.tag = idx
                 x = CGRectGetMaxX(point.frame)
                 if idx < size {
                     x += sep
@@ -190,12 +197,15 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     func changebanner() {
+        if addCurrent{
+            currentItem = currentItem! + 1
+        }
         if currentItem!  == dataSource?.count {
             currentItem = 0
         }
         self.visibleItem = currentItem!
         self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-      
+        addCurrent = true
        
         self.reloadTermsAndPages()
     }
@@ -269,6 +279,11 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             }
         }
         buttonTerms.selected  = !buttonTerms.selected
+    }
+    
+    func pointSelected(sender:UIButton) {
+        currentItem = sender.tag == dataSource?.count ? dataSource?.count : (sender.tag - 1)
+        changebanner()
     }
     
     
