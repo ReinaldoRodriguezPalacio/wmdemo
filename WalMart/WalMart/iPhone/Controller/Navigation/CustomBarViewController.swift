@@ -796,8 +796,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             let controllernav = self.currentController as? UINavigationController
             let controllersInNavigation = controllernav?.viewControllers.count
-            if (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil && isEditingSearch){
-                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+            if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){
+                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
                 isEditingSearch = false
             }
             let controller = SearchProductViewController()

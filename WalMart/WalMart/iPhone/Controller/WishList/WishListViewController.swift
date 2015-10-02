@@ -418,7 +418,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
        
         if (!isEdditing) {
             isEdditing = !isEdditing
-            let currentCells = self.wishlist.visibleCells as! [SWTableViewCell]
+            let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
             for cell in currentCells {
                 cell.setEditing(true, animated: false)
                 cell.showLeftUtilityButtonsAnimated(true)
@@ -434,8 +434,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
         }else{
             
-            let currentCells = self.wishlist.visibleCells as! [SWTableViewCell]
-            for cell: SWTableViewCell in currentCells {
+            let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
+            for cell in currentCells {
                 cell.hideUtilityButtonsAnimated(false)
                 cell.setEditing(false, animated: false)
             }

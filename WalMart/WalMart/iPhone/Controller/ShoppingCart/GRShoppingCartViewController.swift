@@ -487,11 +487,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         isEdditing = !isEdditing
         if (isEdditing) {
-            let currentCells = self.tableShoppingCart.visibleCells as! [SWTableViewCell]
+            let currentCells = self.tableShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
-                    cell.setEditing(true, animated: false)
-                    cell.showLeftUtilityButtonsAnimated(true)
+                    if let cellSW = cell as? GRProductShoppingCartTableViewCell {
+                        cellSW.setEditing(true, animated: false)
+                        cellSW.showLeftUtilityButtonsAnimated(true)
+                    }
                 }
             }
             editButton.selected = true

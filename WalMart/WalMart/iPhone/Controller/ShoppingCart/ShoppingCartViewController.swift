@@ -512,11 +512,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     @IBAction func editAction(sender: AnyObject) {
         isEdditing = !isEdditing
         if (isEdditing) {
-            let currentCells = self.viewShoppingCart.visibleCells as! [SWTableViewCell]
+            let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
-                    cell.setEditing(true, animated: false)
-                    cell.showLeftUtilityButtonsAnimated(true)
+                    let productCell = cell as! ProductShoppingCartTableViewCell
+                    productCell.setEditing(true, animated: false)
+                    productCell.showLeftUtilityButtonsAnimated(true)
                 }
             }
             editButton.selected = true
@@ -530,11 +531,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             })
             
         }else{
-            let currentCells = self.viewShoppingCart.visibleCells as! [SWTableViewCell]
+            let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
-                    cell.setEditing(false, animated: false)
-                    cell.hideUtilityButtonsAnimated(false)
+                    let productCell = cell as! ProductShoppingCartTableViewCell
+                    productCell.setEditing(false, animated: false)
+                    productCell.hideUtilityButtonsAnimated(false)
                 }
             }
             editButton.selected = false
