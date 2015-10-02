@@ -115,8 +115,8 @@ class ShippingAddress: AddressView {
     
     override func getParams() -> [String:AnyObject]{
         var paramsAddress : [String:AnyObject] =   super.getParams()
-        let userParams = ["profile":["lastName2":"" ,"name":self.name!.text ,"lastName":self.lastName!.text ]]
-        paramsAddress.updateValue(userParams as! AnyObject, forKey: "user")
+        let userParams: [String:AnyObject] = ["profile":["lastName2":"" ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]] as [String:AnyObject]
+        paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
         paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
         return paramsAddress
     }
