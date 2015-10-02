@@ -274,26 +274,26 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         var cell : UITableViewCell? = nil
         switch point {
         case (0,0) :
-            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         case (0,1) :
             if self.colorItems.count > 0{
-                let cellColors = tabledetail.dequeueReusableCellWithIdentifier("colorsCell", forIndexPath: indexPath) as? UITableViewCell
+                let cellColors = tabledetail.dequeueReusableCellWithIdentifier("colorsCell", forIndexPath: indexPath)
                 if(colorViewCell == nil){
-                    colorViewCell = ProductDetailColorSizeView(frame: CGRectMake(0, 0, cellColors!.frame.width, 40))
+                    colorViewCell = ProductDetailColorSizeView(frame: CGRectMake(0, 0, cellColors.frame.width, 40))
                     colorViewCell?.delegate = self
                     colorViewCell!.items = self.colorItems
                     let line: CALayer = CALayer()
-                    line.frame = CGRectMake(0.0, 45.0, cellColors!.frame.width, 1.0);
+                    line.frame = CGRectMake(0.0, 45.0, cellColors.frame.width, 1.0);
                     line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
                     colorViewCell!.layer.insertSublayer(line, atIndex: 0)
                     
                 }
-                self.clearView(cellColors!)
-                cellColors!.addSubview(colorViewCell!)
+                self.clearView(cellColors)
+                cellColors.addSubview(colorViewCell!)
                 cell = cellColors
             }else{
-                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
                 cell = cellSpace
             }
         case (0,2) :
@@ -303,7 +303,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.productDetailPriceText, interLine: true)
                 cell = cellListPrice
             }else{
-                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
                 cell = cellSpace
             }
             
@@ -327,18 +327,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.savingTextColor, interLine: false)
                     cell = cellAhorro
                 }else {
-                    let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+                    let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
                     cell = cellSpace
                 }
             } else{
-                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
                 cell = cellSpace
             }
         case (0,5) :
-            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         case (0,6) :
-            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         case (1,0) :
             if  msi.count != 0 {
@@ -400,7 +400,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 return nil
             }
         case (1,6) :
-            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         default :
             cell = nil
@@ -507,7 +507,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
+        //let headerView = UIView()
         switch section {
         case 0:
           return nil
@@ -984,7 +984,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         self.saving = ""
         if let savingResult = result["saving"] as? String {
-            self.saving = result["saving"] as! String
+            self.saving = savingResult
         }
         self.listPrice = result["original_listprice"] as! String
         self.characteristics = []
@@ -995,7 +995,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         var allCharacteristics : [AnyObject] = []
         
         let strLabel = "UPC"
-        let strValue = self.upc
+        //let strValue = self.upc
         
         allCharacteristics.append(["label":strLabel,"value":self.upc])
         

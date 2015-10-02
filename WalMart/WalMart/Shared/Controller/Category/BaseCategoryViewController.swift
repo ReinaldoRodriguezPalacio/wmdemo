@@ -48,7 +48,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
-        let departmentId = item["idDepto"] as! String
+        //let departmentId = item["idDepto"] as! String
         
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()

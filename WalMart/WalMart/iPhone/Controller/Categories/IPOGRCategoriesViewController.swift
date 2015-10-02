@@ -124,8 +124,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             
             let item = items![rowforsearch] as! [String:AnyObject]
             let descDepartment = item["description"] as! String
-            let bgDepartment = item["idDepto"] as! String
-            let departmentId = item["idDepto"] as! String
+            //let bgDepartment = item["idDepto"] as! String
+            //let departmentId = item["idDepto"] as! String
             
             cellDept.setValues(descDepartment,collapsed:collapsed)
             if !collapsed {
@@ -280,7 +280,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     
                     newView.addGestureTiImage()
 
-                    let rectSize = newView.titleLabel.attributedText!.boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+                    newView.titleLabel.attributedText!.boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                     
                     //newView.titleLabel.frame = CGRectMake(46, newView.titleLabel.frame.minY, rectSize.width, newView.titleLabel.frame.height)
                     newView.titleLabel.frame = CGRectMake((newView.bounds.width / 2) - (newView.titleLabel.frame.width / 2), newView.titleLabel.frame.minY, newView.titleLabel.frame.width, newView.titleLabel.frame.height)

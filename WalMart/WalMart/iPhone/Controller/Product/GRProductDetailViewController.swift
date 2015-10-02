@@ -57,7 +57,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             var allCharacteristics : [AnyObject] = []
             
             let strLabel = "UPC"
-            let strValue = self.upc
+            //let strValue = self.upc
             allCharacteristics.append(["label":strLabel,"value":self.upc])
             
             if let carStr = result["characteristics"] as? String {
@@ -533,7 +533,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
                 let service = GRDeleteItemListService()
-                service.callService(service.buildParams(self.upc as? String),
+                service.callService(service.buildParams(self.upc as String),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
                         self.alertView!.showDoneIcon()

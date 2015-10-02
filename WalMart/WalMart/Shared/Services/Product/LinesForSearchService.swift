@@ -78,10 +78,10 @@ class LinesForSearchService: BaseService {
         
         printTimestamp("buildResponse LinesForSearchService")
         
-        let service = GRCategoryService()
-        var categories = service.getCategoriesContent() as NSArray
+        //let service = GRCategoryService()
+        //var categories = service.getCategoriesContent() as NSArray
         
-        var tmpArray : [[String:AnyObject]] = []
+        //var tmpArray : [[String:AnyObject]] = []
         
         var strInLines : String = ""
         for var i = 0; i < response.count; i++ {
@@ -108,7 +108,7 @@ class LinesForSearchService: BaseService {
             //NSLog("Ejecuta busqueda")
             let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
             if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
-                var keywords = Array<AnyObject>()
+                //var keywords = Array<AnyObject>()
                 self.printTimestamp("query execute  LinesForSearchService")
                 while rs.next() {
                     

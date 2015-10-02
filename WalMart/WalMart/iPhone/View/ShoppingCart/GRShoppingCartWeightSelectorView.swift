@@ -226,7 +226,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         lblQuantityN.text = "\(Int(currentValCstmGr))g"
         lblQuantityN.textAlignment = NSTextAlignment.Center
         
-        let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
+        //let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         
         let closeButtonN = UIButton(frame: CGRectMake(self.frame.width - 44, 0, 44, 44))
         closeButtonN.setImage(UIImage(named:"close"), forState: UIControlState.Normal)

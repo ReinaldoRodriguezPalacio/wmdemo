@@ -35,13 +35,12 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         familyTable.autoresizingMask = UIViewAutoresizing.None
         self.titleLabel!.text = NSLocalizedString("help.item.terms.condition", comment: "")
 
-        var error: NSError?
         let filePath =  NSBundle.mainBundle().pathForResource("termAndConditions", ofType: "json")
         let jsonData: NSData?
         do {
             jsonData = try NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe)
-        } catch let error1 as NSError {
-            error = error1
+        } catch let error as NSError {
+            print(error.localizedDescription)
             jsonData = nil
         }
         let resultArray = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! [[String:AnyObject]]

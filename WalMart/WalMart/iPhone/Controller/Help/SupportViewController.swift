@@ -133,10 +133,10 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.stores.append(NSLocalizedString("Support.label.list.reason.close", comment:""))
         self.stores.append(NSLocalizedString("Support.label.list.reason.other", comment:""))
         
-        let margin: CGFloat = 15.0
-        var width = self.view.frame.width - (2*margin)
-        var fheight: CGFloat = 44.0
-        var lheight: CGFloat = 25.0
+        //let margin: CGFloat = 15.0
+        //var width = self.view.frame.width - (2*margin)
+        //var fheight: CGFloat = 44.0
+        //var lheight: CGFloat = 25.0
         
         self.selectedType = NSIndexPath(forRow: 0, inSection: 0)
         

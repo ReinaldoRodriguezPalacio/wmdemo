@@ -211,12 +211,11 @@ class FormFieldView : UIEdgeTextField {
             }
             
             if validate != nil {
-                var error: NSError?
                 var regExVal: NSRegularExpression?
                 do {
                     regExVal = try NSRegularExpression(pattern: validate!, options: NSRegularExpressionOptions.CaseInsensitive)
-                } catch var error1 as NSError {
-                    error = error1
+                } catch let error as NSError {
+                    print(error.localizedDescription)
                     regExVal = nil
                 }
                 let matches = regExVal!.numberOfMatchesInString(self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))

@@ -170,7 +170,7 @@ class OrderConfirmDetailView : UIView {
     
     class func initDetail()  -> OrderConfirmDetailView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        var frame = vc!.view.bounds
+        //var frame = vc!.view.bounds
         if vc != nil {
             return initDetail(vc!)
         }

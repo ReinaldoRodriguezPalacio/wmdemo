@@ -63,7 +63,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         self.header?.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.header!)
         
-        self.close = UIButton(type: .Custom) as? UIButton
+        self.close = UIButton(type: .Custom)
         self.close!.setImage(UIImage(named: "detail_close"), forState: .Normal)
         self.close!.addTarget(self, action: "closeModal", forControlEvents: .TouchUpInside)
         self.close!.backgroundColor = UIColor.whiteColor()

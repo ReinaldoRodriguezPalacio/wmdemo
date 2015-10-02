@@ -84,7 +84,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         let calculated: Double = value * Double(quantity)
         let resultStr = CurrencyCustomLabel.formatString(NSNumber(double: calculated).stringValue)
         self.totalString = resultStr
-        var title = "Añadir \(resultStr)"
+        //var title = "Añadir \(resultStr)"
         /*self.price!.updateMount(title, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
         
         var sizeLabel = self.price!.sizeOfLabel()

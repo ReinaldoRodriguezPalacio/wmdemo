@@ -234,7 +234,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             
             if self.currentZipCode != self.zipcode.text {
                 self.currentZipCode = self.zipcode.text!
-                var zipCode = self.zipcode.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                let zipCode = self.zipcode.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 
                 self.neighborhoods = []
                 self.stores = []
@@ -258,7 +258,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     return
                 }
                 
-                var serviceZip = GRZipCodeService()
+                let serviceZip = GRZipCodeService()
                 serviceZip.buildParams(padding + zipCode )
                 serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
                     

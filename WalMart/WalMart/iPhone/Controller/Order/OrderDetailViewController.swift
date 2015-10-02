@@ -377,11 +377,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 let deliveryType = result["deliveryType"] as! String
                 let name = result["name"] as! String
                 let address = result["deliveryAddress"] as! String
-                var guide = ""
-                if let fedexGuide = result["guide"] as? String {
-                    guide = fedexGuide
-                }
-                
                 
                 let statusLbl = NSLocalizedString("previousorder.status",comment:"")
                 let dateLbl = NSLocalizedString("previousorder.date",comment:"")
@@ -452,10 +447,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             let statusLbl = NSLocalizedString("previousorder.status",comment:"")
             let dateLbl = NSLocalizedString("previousorder.date",comment:"")
-            let nameLbl = NSLocalizedString("previousorder.name",comment:"")
+            //let nameLbl = NSLocalizedString("previousorder.name",comment:"")
             let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
-            let addressLbl = NSLocalizedString("previousorder.address",comment:"")
-            let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
+            //let addressLbl = NSLocalizedString("previousorder.address",comment:"")
+            //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
             
             details.append(["label":statusLbl,"value":statusGR])
             details.append(["label":dateLbl,"value":deliveryDate])

@@ -285,7 +285,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 let upc = shoppingCartProduct["upc"] as! String
                 let desc = shoppingCartProduct["description"] as! String
                 let price = shoppingCartProduct["price"] as! String
-                let quantity = shoppingCartProduct["quantity"] as! String
+                //let quantity = shoppingCartProduct["quantity"] as! String
                 
                 var onHandInventory = "0"
                 if let inventory = shoppingCartProduct["onHandInventory"] as? String {
@@ -637,8 +637,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 return true
             case SWCellState.CellStateCenter:
                 return !isEdditing
-            default:
-                return !isEdditing && !self.isSelectingProducts
+            //default:
+            //   return !isEdditing && !self.isSelectingProducts
         }
     }
     
@@ -723,7 +723,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let priceLasiItem = 0.0
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            //let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
             let price = shoppingCartProduct["price"] as! NSString
             if price.doubleValue < priceLasiItem {
                 continue
@@ -763,7 +763,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.canceledAction = false
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7
-        let storyboard = self.loadStoryboardDefinition()
+        //let storyboard = self.loadStoryboardDefinition()
         let addressService = AddressByUserService()
         
         self.buttonShop.enabled = true
@@ -856,7 +856,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     loginController.alertView?.okCancelCallBack = {() in
                         //check.back()
                         self.canceledAction = true
-                        let response = self.navigationController?.popToRootViewControllerAnimated(true)
+                        //let response = self.navigationController?.popToRootViewControllerAnimated(true)
                         
                         if loginController.alertView != nil {
                             loginController.closeAlert(true, messageSucesss: false)
@@ -930,7 +930,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                                         //check.back()
                                         self.canceledAction = true
                                         if self.navigationController != nil {
-                                            let response = self.navigationController!.popViewControllerAnimated(false)
+                                            //let response = self.navigationController!.popViewControllerAnimated(false)
                                             loginController.closeAlert(true, messageSucesss: false)
                                         }
                                     }

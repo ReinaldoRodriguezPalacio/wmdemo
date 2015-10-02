@@ -87,7 +87,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         var price : NSString = ""
         
         if let value = itemUPC["price"] as? NSString {
-            price = itemUPC["price"] as! NSString
+            price = value
         }
         else if let value = itemUPC["price"] as? NSNumber {
             price = "\(value)"

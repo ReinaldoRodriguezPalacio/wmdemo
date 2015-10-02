@@ -68,8 +68,8 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.content = TPKeyboardAvoidingScrollView()
         self.content.scrollDelegate = self
         self.content.delegate = self
-        let checkTermOff = UIImage(named:"checkTermOff")
-        let checkTermOn = UIImage(named:"checkTermOn")
+        //let checkTermOff = UIImage(named:"checkTermOff")
+        //let checkTermOn = UIImage(named:"checkTermOn")
         
         self.name = FormFieldView()
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
@@ -340,7 +340,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             self.previewHelp!.resource = "privacy"
             self.previewHelp!.type = "pdf"
             self.previewHelp!.view.frame =  CGRectMake(self.name!.frame.minX ,  40, self.content!.frame.width - (self.name!.frame.minX * 2) , self.content!.frame.height - 60 )
-            self.close = UIButton(type: .Custom) as? UIButton
+            self.close = UIButton(type: .Custom)
             self.close!.setImage(UIImage(named: "termsClose"), forState: .Normal)
             self.close!.addTarget(self, action: "closeNoticePrivacy", forControlEvents: .TouchUpInside)
             self.close!.backgroundColor = UIColor.clearColor()
@@ -670,7 +670,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 4
             
-            var valueItem = NSMutableAttributedString()
+            //var valueItem = NSMutableAttributedString()
             let valuesDescItem = NSMutableAttributedString()
             let attrStringLab = NSAttributedString(string: NSLocalizedString("signup.info.provacity", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName:UIColor.whiteColor()])
             valuesDescItem.appendAttributedString(attrStringLab)

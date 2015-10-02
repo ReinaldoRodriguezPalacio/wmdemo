@@ -42,7 +42,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         var index = 0
         
         for dicValue in values {
-            var valuesValues = NSMutableDictionary()
+            //var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
@@ -72,10 +72,10 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
     
     class func sizeForCell(width:CGFloat,values:NSArray) -> CGFloat {
         var heigth = 0.0 as CGFloat
-        var valuesDict = NSMutableArray()
+        //var valuesDict = NSMutableArray()
        
         for dicValue in values {
-            var valuesValues = NSMutableDictionary()
+            //var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {
                 let strLabel = dicVal["label"] as! String
                 let strValue = dicVal["value"] as! String
@@ -89,7 +89,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
     }
     
     class func buildAttributtedString(key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {
-        var valueItem = NSMutableAttributedString()
+        //var valueItem = NSMutableAttributedString()
                 let valuesDescItem = NSMutableAttributedString()
         if key != ""{
             let attrStringLab = NSAttributedString(string:"\(key): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])

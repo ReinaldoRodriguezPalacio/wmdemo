@@ -96,22 +96,16 @@ class GRAddItemListService: GRBaseService {
                 let fetchRequest = NSFetchRequest()
                 fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: context)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", entity!)
-                var error: NSError? = nil
                 let result: [Product] = (try! context.executeFetchRequest(fetchRequest)) as! [Product]
                 if result.count > 0 {
                     for listDetail in result {
                         //println("Delete product list \(listDetail.upc)")
                         context.deleteObject(listDetail)
                     }
-                    
-                    var error: NSError? = nil
                     do {
                         try context.save()
                     } catch let error1 as NSError {
-                        error = error1
-                    }
-                    if error != nil {
-                        print("error at delete details: \(error!.localizedDescription)")
+                        print("error at delete details: \(error1.localizedDescription)")
                     }
                 }
             }

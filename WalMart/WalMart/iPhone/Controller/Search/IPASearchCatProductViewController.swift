@@ -123,7 +123,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             self.loading!.stopAnnimating()
         } else {
             
-            let pointPop =  self.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
+            self.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2, 216), toView:self.view.superview)
             self.loading = WMLoadingView(frame: CGRectMake(0, 216, self.view.bounds.width, self.view.bounds.height - 216))
             
             self.view.addSubview(self.loading!)

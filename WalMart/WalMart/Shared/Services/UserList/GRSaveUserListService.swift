@@ -105,7 +105,7 @@ class GRSaveUserListService : GRBaseService {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        let user = UserCurrentSession.sharedInstance().userSigned
+        //let user = UserCurrentSession.sharedInstance().userSigned
         let listId = list["id"] as! String
         
         let entity = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List

@@ -40,7 +40,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.inputNameList!.placeholder = NSLocalizedString("list.new.placeholder", comment:"")
         self.contentView.addSubview(self.inputNameList!)
         
-        self.saveButton = UIButton(type: .Custom) as? UIButton
+        self.saveButton = UIButton(type: .Custom)
         self.saveButton!.frame = CGRectMake(0.0, 0.0, 46.0, 40.0)
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
@@ -50,7 +50,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always
 
-        self.scanTicketBtn = UIButton(type: .Custom) as? UIButton
+        self.scanTicketBtn = UIButton(type: .Custom)
         self.scanTicketBtn!.setImage(UIImage(named: "list_scan_ticket"), forState: .Normal)
         self.scanTicketBtn!.addTarget(self, action: "scanTicket:", forControlEvents: .TouchUpInside)
         self.contentView.addSubview(self.scanTicketBtn!)

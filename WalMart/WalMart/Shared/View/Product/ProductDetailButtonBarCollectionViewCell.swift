@@ -272,7 +272,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 let quantity = detailProductCart!.quantity
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
-                var total: Double = 0.0
+                //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
                     if quantity.integerValue == 1 {
@@ -293,7 +293,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                         let kg = q/1000.0
                         text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(double: kg))
                     }
-                    let kgrams = quantity.doubleValue / 1000.0
+                    //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)
                 }
             

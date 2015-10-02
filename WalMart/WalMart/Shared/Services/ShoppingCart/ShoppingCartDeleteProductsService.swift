@@ -34,7 +34,7 @@ class ShoppingCartDeleteProductsService : BaseService {
                 //let shoppingService = ShoppingCartProductsService()
                 //shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
                 
-                let parameter = params["parameter"] as! NSArray
+                //let parameter = params["parameter"] as! NSArray
                 if successBlock != nil {
                     successBlock!([:])
                 }
@@ -65,11 +65,10 @@ class ShoppingCartDeleteProductsService : BaseService {
                 for cartDelete in array {
                     cartDelete.status = NSNumber(integer:CartStatus.Deleted.rawValue)
                 }
-                var error: NSError? = nil
                 do {
                     try context.save()
                 } catch let error1 as NSError {
-                    error = error1
+                    print(error1.description)
                 }
             }
         }

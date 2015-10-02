@@ -27,12 +27,7 @@ class GRProductSpecialCollectionViewCell : ProductCollectionViewCell {
         self.productShortDescriptionLabel!.frame = CGRectMake(16, self.productPriceLabel!.frame.maxY  , self.frame.width - 32, 33)
         self.productShortDescriptionLabel!.textAlignment = .Center
         self.productShortDescriptionLabel!.numberOfLines = 3
-        
-        
-        let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-        
-        
-        
+        //let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     }
     
     

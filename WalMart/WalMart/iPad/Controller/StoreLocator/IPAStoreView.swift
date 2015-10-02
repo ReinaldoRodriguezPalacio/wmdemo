@@ -67,7 +67,6 @@ class IPAStoreView: StoreView {
     }
 
     override func retrieveCalculatedHeight() -> CGFloat {
-        var bounds = self.frame.size
         
         var height = self.sep
         height += self.titleLabel!.frame.height
@@ -79,7 +78,6 @@ class IPAStoreView: StoreView {
 
     override func layoutSubviews() {
         let bounds = self.frame.size
-        let width:CGFloat = bounds.width - (2*sep)
         
         self.footerView!.frame = CGRectMake(0.0, bounds.height - self.footerHeight, bounds.width, self.footerHeight)
         

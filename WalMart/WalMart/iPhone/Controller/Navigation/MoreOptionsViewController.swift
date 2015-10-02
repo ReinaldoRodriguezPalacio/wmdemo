@@ -262,8 +262,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.presentViewController(webCtrl,animated:true,completion:nil)
         case .TicketList:
             scanTicket()
-            default :
-                print("option don't exist")
+            //default :
+            //    print("option don't exist")
        
             
         }
@@ -286,7 +286,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         if section == 0 {
             return UIView()
         }
-        var title = ""
+        //var title = ""
         let viewReturn = MoreSectionView()
       
         switch(section) {
@@ -469,7 +469,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     let fmt = NSDateFormatter()
                     fmt.dateFormat = "MMM d hh:mm:ss"
                     let name = fmt.stringFromDate(NSDate())
-                    var number = 0;
+                    //var number = 0;
                     
                     
                     

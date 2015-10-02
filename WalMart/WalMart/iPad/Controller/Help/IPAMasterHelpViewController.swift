@@ -89,8 +89,8 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.navigation.pushViewController(recent, animated: false)
         case 6:
             //Notifica
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC") as? UIViewController
-            self.navigation.pushViewController(controller!, animated: true)
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC")
+            self.navigation.pushViewController(controller, animated: true)
         case 7:
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: true)
@@ -104,7 +104,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.navigation.pushViewController(recent, animated: true)
         case 10:
             let edit = IPAEditProfileViewController()
-            var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
+            //var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
             self.navigation.pushViewController(edit, animated: true)
         default :
             print("other pressed")
@@ -207,7 +207,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                     let fmt = NSDateFormatter()
                     fmt.dateFormat = "MMM d hh:mm:ss"
                     let name = fmt.stringFromDate(NSDate())
-                    var number = 0;
+                    //var number = 0;
                     
                     
                     

@@ -44,7 +44,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.textLabel!.frame = CGRectMake(0.0, self.descLabel.frame.maxY + 12.0, self.frame.width, 16.0)
-        var size = self.imageEmptyViewIconBtn.image!.size
+        //var size = self.imageEmptyViewIconBtn.image!.size
         self.imageEmptyViewIconBtn.frame = CGRectMake(98.0, self.descLabel!.frame.maxY + 12.0, 16.0, 16.0)
     }
     

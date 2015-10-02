@@ -52,7 +52,7 @@ class DetailListViewCell: ProductTableViewCell {
 
         self.productPriceLabel!.textAlignment = .Left
 
-        self.quantityIndicator = UIButton(type: .Custom) as? UIButton
+        self.quantityIndicator = UIButton(type: .Custom)
         self.quantityIndicator!.setTitle("", forState: .Normal)
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Disabled)
@@ -108,7 +108,7 @@ class DetailListViewCell: ProductTableViewCell {
         
         self.promoDescription!.text = product["promoDescription"] as? String
         self.productShortDescriptionLabel!.text = product["description"] as? String
-        self.upcVal = product["upc"] as! String
+        self.upcVal = product["upc"] as? String
  
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
             self.equivalenceByPiece = equivalence

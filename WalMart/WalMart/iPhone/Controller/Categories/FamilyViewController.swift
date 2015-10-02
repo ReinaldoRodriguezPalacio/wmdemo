@@ -113,7 +113,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 switch self.categoriesType! {
                 case .CategoryForGR : controller.searchContextType = .WithCategoryForGR
                 case .CategoryForMG : controller.searchContextType = .WithCategoryForMG
-                default : print("No se ha indicado tipo de categorias.")
+                //default : print("No se ha indicado tipo de categorias.")
                 }
             }
             controller.titleHeader = itemLine["name"] as? String

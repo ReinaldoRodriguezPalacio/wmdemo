@@ -44,11 +44,10 @@ class UserWishlistService : BaseService {
                         context.deleteObject(itemWishlist)
                     }
                     
-                    var error: NSError? = nil
                     do {
                         try context.save()
                     } catch let error1 as NSError {
-                        error = error1
+                        print(error1.description)
                     } catch {
                         fatalError()
                     }
@@ -107,7 +106,7 @@ class UserWishlistService : BaseService {
                     do {
                         try context.save()
                     } catch let error1 as NSError {
-                        error = error1
+                        print(error1.description)
                     } catch {
                         fatalError()
                     }
@@ -126,8 +125,8 @@ class UserWishlistService : BaseService {
     
     func callCoreDataService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
         if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -137,8 +136,8 @@ class UserWishlistService : BaseService {
         
         var returnDictionary = [:]
         var items : [AnyObject] = []
-        var subtotal : Double = 0.0
-        var totalQuantity = 0
+        //var subtotal : Double = 0.0
+        //var totalQuantity = 0
         for itemWL in array {
             let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable]
             items.append(dictItem)
@@ -155,7 +154,6 @@ class UserWishlistService : BaseService {
         let deteted = Array(UserCurrentSession.sharedInstance().userSigned!.wishlist.filteredSetUsingPredicate(predicateDeleted)) as! [Wishlist]
         if deteted.count > 0 {
             let serviceDelete = DeleteItemWishlistService()
-            var arratUpcsDelete : [String] = []
             for itemDeleted in deteted {
                 serviceDelete.callServiceWithParams(["parameter":[itemDeleted.product.upc]], successBlock: { (result:NSDictionary) -> Void in
                     let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -164,12 +162,10 @@ class UserWishlistService : BaseService {
                     for wl in deteted {
                         context.deleteObject(wl)
                     }
-                    
-                    var error: NSError? = nil
                     do {
                         try context.save()
                     } catch let error1 as NSError {
-                        error = error1
+                        print(error1.description)
                     } catch {
                         fatalError()
                     }
@@ -191,12 +187,12 @@ class UserWishlistService : BaseService {
     }
     
     func synchronizeAddedWishlistFromCoreData (successBlock:(() -> Void), errorBlock:((NSError) -> Void)?) {
-        let predicateUpdated = NSPredicate(format: "status == %@", NSNumber(integer:WishlistStatus.Created.rawValue))
+        //let predicateUpdated = NSPredicate(format: "status == %@", NSNumber(integer:WishlistStatus.Created.rawValue))
         let added = UserCurrentSession.sharedInstance().WishlistWithoutUser()
         if added != nil {
         if added!.count > 0 {
-            let serviceUpdate = ShoppingCartAddProductsService()
-            var arrayUpcsUpdate : [AnyObject] = []
+            //let serviceUpdate = ShoppingCartAddProductsService()
+            //var arrayUpcsUpdate : [AnyObject] = []
             
             for itemAdded in added! {
                 let serviceWishList = AddItemWishlistService()

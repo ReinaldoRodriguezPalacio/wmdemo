@@ -44,9 +44,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.arrayAddressShipping = NSArray()
         self.arrayAddressFiscal = NSArray()
         
-        let iconImage = UIImage(named:"button_bg")
-        let iconSelected = UIImage(named:"button_bg_active")
-        
+        //let iconImage = UIImage(named:"button_bg")
+        //let iconSelected = UIImage(named:"button_bg_active")
         
         self.newAddressButton = WMRoundButton()
         self.newAddressButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))

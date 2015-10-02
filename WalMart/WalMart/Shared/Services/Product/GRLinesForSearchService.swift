@@ -71,9 +71,9 @@ class GRLinesForSearchService: GRBaseService {
         printTimestamp("buildResponse GRLinesForSearchService")
         
         let service = GRCategoryService()
-        var categories = service.getCategoriesContent() as NSArray
+        //var categories = service.getCategoriesContent() as NSArray
         
-        var tmpArray : [[String:AnyObject]] = []
+        //var tmpArray : [[String:AnyObject]] = []
         
         var strInLines : String = ""
         for var i = 0; i < response.count; i++ {
@@ -99,7 +99,7 @@ class GRLinesForSearchService: GRBaseService {
                 
                 let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
                 if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
-                    var keywords = Array<AnyObject>()
+                    //var keywords = Array<AnyObject>()
                     while rs.next() {
                         let idDepto = rs.stringForColumn("idDepto")
                         let idFamily = rs.stringForColumn("idFamily")

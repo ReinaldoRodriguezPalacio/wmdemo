@@ -208,7 +208,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 var item = self.detailItems![indexPath!.row]
-                var upc = item["upc"] as? String
+                //var upc = item["upc"] as? String
                 item["quantity"] = NSNumber(integer:Int(quantity)!)
                 self.detailItems![indexPath!.row] = item
                 self.tableView?.reloadData()
