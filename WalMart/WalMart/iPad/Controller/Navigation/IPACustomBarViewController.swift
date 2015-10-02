@@ -62,7 +62,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func retrieveTabBarOptions() -> [String] {
         //return ["tabBar_home", "tabBar_mg","tabBar_super", "tabBar_wishlist_list","tabBar_menu"]
-        return ["tabBar_home", "tabBar_mg","tabBar_wishlist_ipad","tabBar_super",  "tabBar_list","tabBar_storeLocator","tabBar_menu"]
+        return ["home_ipad", "mg_ipad","wishlist_ipad","super_ipad",  "list_ipad","ubicacion_ipad","more_menu_ipad"]
     }
     
     override func setTabBarHidden(hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
