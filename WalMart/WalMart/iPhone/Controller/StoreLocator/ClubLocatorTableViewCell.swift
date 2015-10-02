@@ -18,7 +18,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     var buttonContainer: UIView!
     var delegate: StoreViewDelegate!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
 
@@ -60,30 +60,30 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     }
     
     func buildToolbar() {
-        var y:CGFloat = (self.buttonContainer.frame.height - 34.0)/2
+        let y:CGFloat = (self.buttonContainer.frame.height - 34.0)/2
 
-        var btnLocation = UIButton(frame: CGRectMake(38.0, y, 34.0, 34.0))
+        let btnLocation = UIButton(frame: CGRectMake(38.0, y, 34.0, 34.0))
         btnLocation.setImage(UIImage(named: "locateInMap"), forState: .Normal)
         btnLocation.setImage(UIImage(named: "locateInMap_selected"), forState: .Selected)
         btnLocation.setImage(UIImage(named: "locateInMap_selected"), forState: .Highlighted)
         btnLocation.addTarget(self, action: "showInMap", forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnLocation)
 
-        var btnRoute = UIButton(frame: CGRectMake(btnLocation.frame.maxX + 36, y, 34.0, 34.0))
+        let btnRoute = UIButton(frame: CGRectMake(btnLocation.frame.maxX + 36, y, 34.0, 34.0))
         btnRoute.setImage(UIImage(named: "directions"), forState: .Normal)
         btnRoute.setImage(UIImage(named: "directions_selected"), forState: .Selected)
         btnRoute.setImage(UIImage(named: "directions_selected"), forState: .Highlighted)
         btnRoute.addTarget(self, action: "showRoute", forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnRoute)
 
-        var btnPhone = UIButton(frame: CGRectMake(btnRoute.frame.maxX + 36, y, 34.0, 34.0))
+        let btnPhone = UIButton(frame: CGRectMake(btnRoute.frame.maxX + 36, y, 34.0, 34.0))
         btnPhone.setImage(UIImage(named: "call"), forState: .Normal)
         btnPhone.setImage(UIImage(named: "call_selected"), forState: .Selected)
         btnPhone.setImage(UIImage(named: "call_selected"), forState: .Highlighted)
         btnPhone.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnPhone)
         
-        var btnShare = UIButton(frame: CGRectMake(btnPhone.frame.maxX + 36, y, 34.0, 34.0))
+        let btnShare = UIButton(frame: CGRectMake(btnPhone.frame.maxX + 36, y, 34.0, 34.0))
         btnShare.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         btnShare.setImage(UIImage(named: "detail_share"), forState: .Selected)
         btnShare.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
@@ -104,11 +104,11 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         let sep:CGFloat = 16.0
         let width:CGFloat = bounds.width - (2*sep)
 
-        var computedRect = self.size(forLabel: self.addressLabel, andSize: CGSizeMake(width, CGFloat.max))
+        let computedRect = self.size(forLabel: self.addressLabel, andSize: CGSizeMake(width, CGFloat.max))
         self.addressLabel.frame = CGRectMake(sep, self.titleLabel.frame.maxY + 16.0, width, computedRect.height)
         self.phoneLabel!.frame = CGRectMake(sep, self.addressLabel.frame.maxY + 16.0, width, 17.0)
         self.hoursOpenLabel!.frame = CGRectMake(sep, self.phoneLabel.frame.maxY, width, 17.0)
@@ -171,8 +171,8 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         height += 17.0 //Name
         height += 16.0
         if let address = store.address {
-            var text = "\(address) CP: \(store.zipCode!)"
-            var addressSize = ClubLocatorTableViewCell.size(forText: text, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSizeMake(width_, CGFloat.max))
+            let text = "\(address) CP: \(store.zipCode!)"
+            let addressSize = ClubLocatorTableViewCell.size(forText: text, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSizeMake(width_, CGFloat.max))
             height += addressSize.height
         }
         height += 16.0
@@ -184,7 +184,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     }
     
     class func size(forText text:NSString, withFont font:UIFont, andSize size:CGSize) -> CGSize {
-        var computedRect: CGRect = text.boundingRectWithSize(size,
+        let computedRect: CGRect = text.boundingRectWithSize(size,
             options: .UsesLineFragmentOrigin,
             attributes: [NSFontAttributeName:font],
             context: nil)

@@ -150,7 +150,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let rowforsearch = Int(indexPath.row / 2)
             let item = items![rowforsearch] as! [String:AnyObject]
             var bgDepartment = item["idDepto"] as! String
-            var families = JSON(item["family"] as! [[String:AnyObject]])
+            let families = JSON(item["family"] as! [[String:AnyObject]])
             bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             
             
@@ -232,7 +232,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     self.view.addSubview(newView)
                     
                     newView.onclose = {() in
-                        println("Close")
+                        print("Close")
                         
                         if self.collapsed {
                             
@@ -323,7 +323,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     }
                     
                     
-                    println("End")
+                    print("End")
                     
 
                     
@@ -360,18 +360,18 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {
         var resultDict : [AnyObject] = []
-        if (canfigData.keys.filter {$0 == depto }).array.count > 0 {
+        if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
                     for line in family["line"].arrayValue {
                         let lineOne = line["id"].stringValue
                         let lineTwo = lineDest["line"].stringValue
-                        if line["id"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            == lineDest["line"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
-                            var itemToShow = ["name": line["name"].stringValue,
+                        if lineOne.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                            == lineTwo.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
+                            let itemToShow = ["name": line["name"].stringValue,
                                             "imageUrl": lineDest["imageUrl"].stringValue,
-                                            "line": lineDest["line"].stringValue ,
+                                            "line": lineTwo ,
                                             "family": family["id"].stringValue ,
                                             "department":depto]
                             resultDict.append(itemToShow)

@@ -38,7 +38,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         
         if previewLayer != nil {
             previewLayer!.frame =  self.view.frame
-            self.view.layer.addSublayer(previewLayer)
+            self.view.layer.addSublayer(previewLayer!)
         }
         
         bgImage = UIImageView(frame: self.view.frame)
@@ -104,16 +104,16 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             return
         }
         
-        var status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         switch(status) {
             case AVAuthorizationStatus.Authorized : // authorized
-                println("Authorized")
+                print("Authorized")
             break
             case AVAuthorizationStatus.Denied: // denied
                 UIAlertView(title: "Permisos", message: "Walmart necesita permiso para accesar a la cámara", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Settings").show()
             return
             case AVAuthorizationStatus.Restricted: // restricted
-                println("Restricted")
+                print("Restricted")
             return
             case AVAuthorizationStatus.NotDetermined:  // not determined
                 AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted:Bool) -> Void in
@@ -128,7 +128,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         
         
         captureSession = AVCaptureSession()
-        videoInput = AVCaptureDeviceInput(device: videoDevice, error: nil)
+        videoInput = try? AVCaptureDeviceInput(device: videoDevice)
         if captureSession!.canAddInput(videoInput) == true {
             captureSession!.addInput(videoInput)
         }
@@ -179,8 +179,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
             if let metaObj = obj as? AVMetadataMachineReadableCodeObject {
                 self.dismissViewControllerAnimated(true, completion: { () -> Void in
                     if self.applyPadding {
-                        var code = metaObj.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        var character = code.substringToIndex(advance(code.startIndex, count(code)-1 ))
+                        let code = metaObj.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        let character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
                         self.delegate!.barcodeCaptured(character)
                     }
                     else {
@@ -202,8 +202,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         return false
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Portrait
     }
     
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
@@ -217,14 +217,13 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {///if UIApplicationOpenSettingsURLString.isEmpty {
-                UIApplication.sharedApplication().openURL(appSettings)
+            if #available(iOS 8.0, *) {
+                if let appSettings = NSURL(string: UIApplicationOpenSettingsURLString) {
+                    UIApplication.sharedApplication().openURL(appSettings)
+                }
             }
         } else {
             self.closeAlert()
         }
-        
     }
-    
-    
 }

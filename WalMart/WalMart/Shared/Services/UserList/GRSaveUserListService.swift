@@ -28,11 +28,11 @@ class GRSaveUserListService : GRBaseService {
         return ["name":name!, "items":items]
     }
 
-    func buildBaseProductObject(#upc:String, quantity:Int) -> [String:AnyObject] {
+    func buildBaseProductObject(upc upc:String, quantity:Int) -> [String:AnyObject] {
         return ["upc":upc, "quantity":quantity]
     }
     
-    func buildProductObject(#upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:AnyObject] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         //Los argumentos: image, description y price son usados solo localmente
@@ -85,7 +85,7 @@ class GRSaveUserListService : GRBaseService {
             )
         }
         else {
-            println("Saving list without user")
+            print("Saving list without user")
             if !self.includeListInDB(params as! [String:AnyObject]) {
                 successBlock?([:])
             } else {
@@ -108,7 +108,7 @@ class GRSaveUserListService : GRBaseService {
         let user = UserCurrentSession.sharedInstance().userSigned
         let listId = list["id"] as! String
         
-        var entity = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List
+        let entity = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: context) as? List
         entity!.registryDate = NSDate()
         entity!.idList = listId
         entity!.user = UserCurrentSession.sharedInstance().userSigned!
@@ -119,7 +119,7 @@ class GRSaveUserListService : GRBaseService {
             entity!.countItem = NSNumber(integer: items.count)
             for var idx = 0; idx < items.count; idx++ {
                 var item = items[idx] as! [String:AnyObject]
-                var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+                let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
                 detail!.upc = item["upc"] as! String
                 detail!.img = item["imageUrl"] as! String
                 detail!.desc = item["description"] as! String
@@ -127,7 +127,7 @@ class GRSaveUserListService : GRBaseService {
                     detail!.quantity = quantity
                 }
                 else if let quantityTxt = item["quantity"] as? String {
-                    detail!.quantity = NSNumber(integer: quantityTxt.toInt()!)
+                    detail!.quantity = NSNumber(integer: Int(quantityTxt)!)
                 }
                 if let price = item["price"] as? NSNumber {
                     detail!.price = "\(price)"
@@ -136,7 +136,7 @@ class GRSaveUserListService : GRBaseService {
                     detail!.price = price
                 }
                 if let type = item["type"] as? String {
-                    detail!.type = NSNumber(integer: type.toInt()!)
+                    detail!.type = NSNumber(integer: Int(type)!)
                 }
                 else if let type = item["type"] as? NSNumber {
                     detail!.type = type
@@ -170,7 +170,7 @@ class GRSaveUserListService : GRBaseService {
             countItem = items!.count
             for var idx = 0; idx < items!.count; idx++ {
                 var item = items![idx] as! [String:AnyObject]
-                var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+                let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
                 detail!.upc = item["upc"] as! String
                 if let imageUrl = item["imageUrl"] as? String {
                     detail!.img = imageUrl
@@ -188,10 +188,10 @@ class GRSaveUserListService : GRBaseService {
                     detail!.quantity = quantity
                 }
                 else if let quantity = item["quantity"] as? String {
-                    detail!.quantity = NSNumber(integer: quantity.toInt()!)
+                    detail!.quantity = NSNumber(integer: Int(quantity)!)
                 }
                 if let type = item["type"] as? String {
-                    detail!.type = NSNumber(integer: type.toInt()!)
+                    detail!.type = NSNumber(integer: Int(type)!)
                 }
                 else if let type = item["type"] as? NSNumber {
                     detail!.type = type
@@ -209,24 +209,28 @@ class GRSaveUserListService : GRBaseService {
 
     }
 
-    func retrieveListNotSync(#name:String, inContext context:NSManagedObjectContext) -> List? {
+    func retrieveListNotSync(name name:String, inContext context:NSManagedObjectContext) -> List? {
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
         fetchRequest.predicate = NSPredicate(format: "name == %@ && idList == nil", name)
-        var error: NSError? = nil
         var list: List? = nil
-        var result: [List]? = context.executeFetchRequest(fetchRequest, error: &error) as! [List]?
-        if result != nil && result!.count > 0 {
-            list = result!.first
+        do{
+            let result: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+            if result != nil && result!.count > 0 {
+                list = result!.first
+            }
+        }
+        catch{
+            print("retrieveListNotSync error")
         }
         return list
     }
     
     func saveContext(context:NSManagedObjectContext) {
-        var error: NSError? = nil
-        context.save(&error)
-        if error != nil {
-            println("error at delete details: \(error!.localizedDescription)")
+        do {
+            try context.save()
+        } catch{
+            print("error at delete details: saveContext")
         }
     }
 }

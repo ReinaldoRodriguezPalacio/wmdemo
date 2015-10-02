@@ -92,7 +92,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0  {
-            var changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
+            let changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
             if selectedFamily != nil {
                 deSelectSection(selectedFamily)
             }
@@ -113,7 +113,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 switch self.categoriesType! {
                 case .CategoryForGR : controller.searchContextType = .WithCategoryForGR
                 case .CategoryForMG : controller.searchContextType = .WithCategoryForMG
-                default : println("No se ha indicado tipo de categorias.")
+                default : print("No se ha indicado tipo de categorias.")
                 }
             }
             controller.titleHeader = itemLine["name"] as? String

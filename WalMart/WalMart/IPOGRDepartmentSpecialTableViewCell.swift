@@ -68,11 +68,11 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         viewLoading!.frame = CGRectMake(0,0,self.frame.width,self.frame.height - 2)
         viewLoading!.backgroundColor =  UIColor.whiteColor()
         
-        var imageIndicator =  UIImageView(frame: CGRectMake(self.frame.midX - 16, 20,32,32))
+        let imageIndicator =  UIImageView(frame: CGRectMake(self.frame.midX - 16, 20,32,32))
         imageIndicator.image =  UIImage(named:"home_super_spark")
         viewLoading!.addSubview(imageIndicator)
         
-        var labelLoading =  UILabel(frame:CGRectMake(0, imageIndicator.frame.maxY + 10, self.frame.width, 30))
+        let labelLoading =  UILabel(frame:CGRectMake(0, imageIndicator.frame.maxY + 10, self.frame.width, 30))
         labelLoading.text =  NSLocalizedString("gr.category.message.loading", comment:"")
         labelLoading.textAlignment =  .Center
         labelLoading.font =  WMFont.fontMyriadProRegularOfSize(14)

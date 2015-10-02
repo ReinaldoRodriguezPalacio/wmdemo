@@ -84,8 +84,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let item = items![currentItem] as! [String:AnyObject]
         let famArray : AnyObject = item["family"] as AnyObject!
         let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
-        let descDepartment = item["description"] as? NSString
-        let tracker = GAI.sharedInstance().defaultTracker
       
         familyController.departmentId = item["idDepto"] as! String
         familyController.families = itemsFam
@@ -104,7 +102,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         self.view.addSubview(selectedView)
         
         selectedView.onclose = {() in
-            println("Close")
+            print("Close")
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 0
             })
@@ -120,15 +118,15 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 self.viewFamily.alpha = 1
             })
             
-            println("End")
+            print("End")
 
         })
 
     }
     
     func openGroceriesCategories() {
-        let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory") as! UIViewController
-        self.navigationController?.pushViewController(grController, animated: true)
+        let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory")
+        self.navigationController?.pushViewController(grController!, animated: true)
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_PRODUCTSCATEGORY.rawValue)
@@ -164,7 +162,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let item = items![currentItem] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
-        let departmentId = item["idDepto"] as! String
         
         categoryCell.setValues(descDepartment,imageBackgroundURL: bgDepartment + ".png",keyBgUrl:svcUrlCar!,imageIconURL:"i_" + bgDepartment + ".png",keyIconUrl:svcUrl!,hideImage:hideView)
         

@@ -19,7 +19,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         storyBoard = loadStoryboardDefinition()
         switch(type) {
         case ResultObjectType.Mg.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController! {
+            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
                 vc.name = descr
                 vc.view.tag = ixSelected
@@ -27,7 +27,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? IPAGRProductDetailViewController! {
+            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? IPAGRProductDetailViewController {
                 vc.upc = upc
                 vc.name = descr
                 vc.view.tag = ixSelected
@@ -72,7 +72,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
     
     func reloadSelectedCell() {
 
-        if let ctrlDetail = pageController.viewControllers[0] as? IPAProductDetailViewController {
+        if let ctrlDetail = pageController.viewControllers![0] as? IPAProductDetailViewController {
             ctrlDetail.reloadSelectedCell()
             
         }

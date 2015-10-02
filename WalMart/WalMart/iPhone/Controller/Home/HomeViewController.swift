@@ -272,7 +272,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
     func getCategories() -> [String]{
         
-        var specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
+        let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
         var specialsGRCat : [String:AnyObject] = RecommendedCategory.groceriescategory
         var categories : [String] = []
         self.recommendCategoryItems = [:]
@@ -296,7 +296,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                         array.append(itemRec)
                         recommendCategoryItems.updateValue(array, forKey: nameCategory)
                     } else {
-                        var itemsRec = [itemRec]
+                        let itemsRec = [itemRec]
                         recommendCategoryItems[nameCategory] = itemsRec
                     }
                     isCategorySpecial = true
@@ -322,7 +322,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
         }
         
-        categories.sort { (item, seconditem) -> Bool in
+        categories.sortInPlace { (item, seconditem) -> Bool in
             let first = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
             let second = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
             let firstItem = first[0] as! NSDictionary

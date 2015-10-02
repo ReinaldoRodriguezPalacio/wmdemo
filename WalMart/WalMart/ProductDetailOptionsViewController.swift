@@ -89,8 +89,8 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     }
     
     override func viewWillLayoutSubviews() {
-        var bounds = self.view.frame.size
-        var frame = self.view.frame
+        let bounds = self.view.frame.size
+        let frame = self.view.frame
         var itemsHeight = CGFloat(141)
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.maxX, 66)
         self.close!.frame = CGRectMake(0.0, 20, 40.0, 40.0)
@@ -135,7 +135,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         self.saving.frame = CGRectMake(0, bounds.height - 90  , frame.width, 15.0)
         self.buttonShop.frame = CGRectMake((frame.width / 2) - 51 , bounds.height - 47  , 102, 32.0)
         
-        var line: CALayer = CALayer()
+        let line: CALayer = CALayer()
         line.frame = CGRectMake(0.0, bounds.height - 65, frame.size.width, 0.8);
         line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 0.7).CGColor
         self.view.layer.insertSublayer(line, atIndex: 0)
@@ -186,7 +186,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     }
     
     func addBottomBorder(view:UIView){
-        var bottomBorder: CALayer = CALayer()
+        let bottomBorder: CALayer = CALayer()
         bottomBorder.frame = CGRectMake(0.0, view.frame.height - 1.1, view.frame.size.width, 1.1);
         
         bottomBorder.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
@@ -210,7 +210,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
-                    if self.onHandInventory.integerValue >= quantity.toInt() {
+                    if self.onHandInventory.integerValue >= Int(quantity) {
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         
                         //Event
@@ -269,7 +269,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     }
     
     func getDetailsWithKey(key: String, value: String, keyToFind: String) -> [String]{
-        var itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
         var findObj: [String] = []
         for item in itemDetails!{
             if(item[key] as! String == value)
@@ -307,13 +307,13 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         self.itemsSelected![itemType] = selected
         if self.itemsSelected!.count == self.detailsOrder!.count
         {
-            var upc = self.getUpc(self.itemsSelected!)
+            let upc = self.getUpc(self.itemsSelected!)
             self.reloadViewWithUPC(upc)
             self.updateButtonShop(true)
         }
         if let nextItem = self.getNextDetailItem(itemType) as? [String: AnyObject]{
-            var detailView = nextItem["itemsView"] as? ProductDetailColorSizeView
-            var details = self.getDetailsWithKey(itemType,value:selected,keyToFind: nextItem["itemType"] as! String)
+            let detailView = nextItem["itemsView"] as? ProductDetailColorSizeView
+            let details = self.getDetailsWithKey(itemType,value:selected,keyToFind: nextItem["itemType"] as! String)
             detailView?.enableButtonWhithTitles(details)
         }
     }
@@ -370,6 +370,6 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         if self.imagesToDisplay!.count > 0 {
             imageUrlSend = self.imagesToDisplay![0] as! String
         }
-        return ["upc":self.upc,"desc":self.name!,"imgUrl":imageUrlSend,"price":self.priceStr,"quantity":quantity,"onHandInventory":self.onHandInventory as! String,"wishlist":false,"type":"mg","pesable":"0","isPreorderable":self.strIsPreorderable]
+        return ["upc":self.upc,"desc":self.name!,"imgUrl":imageUrlSend,"price":self.priceStr,"quantity":quantity,"onHandInventory":self.onHandInventory as String,"wishlist":false,"type":"mg","pesable":"0","isPreorderable":self.strIsPreorderable]
     }
 }

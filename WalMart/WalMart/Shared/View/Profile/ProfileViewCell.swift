@@ -36,7 +36,7 @@ class ProfileViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         //self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
         self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - AppDelegate.separatorHeigth())
         self.imageProfile!.frame = CGRectMake(20, 20, 25 , 25)
@@ -52,7 +52,7 @@ class ProfileViewCell: UITableViewCell {
        
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

@@ -10,7 +10,7 @@ import UIKit
 
 class IPAStoreView: StoreView {
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -55,8 +55,8 @@ class IPAStoreView: StoreView {
         
         var distanceTxt: String? = ""
         if userLocation != nil {
-            var storeLocation: CLLocation = CLLocation(latitude: self.store!.latitude!.doubleValue, longitude: self.store!.longitude!.doubleValue)
-            var distance: CLLocationDistance = userLocation!.distanceFromLocation(storeLocation)
+            let storeLocation: CLLocation = CLLocation(latitude: self.store!.latitude!.doubleValue, longitude: self.store!.longitude!.doubleValue)
+            let distance: CLLocationDistance = userLocation!.distanceFromLocation(storeLocation)
             distanceTxt = self.distanceFmt!.stringFromNumber(NSNumber(double: distance/1000))
         }
         
@@ -78,7 +78,7 @@ class IPAStoreView: StoreView {
     }
 
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         let width:CGFloat = bounds.width - (2*sep)
         
         self.footerView!.frame = CGRectMake(0.0, bounds.height - self.footerHeight, bounds.width, self.footerHeight)
@@ -87,7 +87,7 @@ class IPAStoreView: StoreView {
         w += (CGFloat(self.buttons!.count - 1) * 36.0)
         
         var x: CGFloat = (bounds.width - w)/2
-        var y:CGFloat = (self.footerHeight - 34.0)/2
+        let y:CGFloat = (self.footerHeight - 34.0)/2
         for button in self.buttons! {
             button.frame = CGRectMake(x, y, 34.0, 34.0)
             x = button.frame.maxX + 36.0

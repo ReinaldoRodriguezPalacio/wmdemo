@@ -28,8 +28,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
-        var height = bounds.height - self.header!.frame.height
+        let bounds = self.view.bounds
+        let height = bounds.height - self.header!.frame.height
         
         self.clubCollection!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, height)
         self.clubMap!.frame = CGRectMake(342.0, self.header!.frame.maxY, bounds.width - 342.0, height)
@@ -57,23 +57,22 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     //MARK: - MKMapViewDelegate
 
-    override func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+    override func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         if !self.localizable {
             self.zoomMapLocation(userLocation)
         }
-        if self.clubMap!.overlays != nil  {
-            if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
-                MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
-            }
+        
+        if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
+            MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
         }
         self.clubCollection!.reloadData()
     }
 
-    override func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
-        let latResult = view.annotation.coordinate.latitude + 0.01
-        let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation.coordinate.longitude)
+    override func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        let latResult = view.annotation!.coordinate.latitude + 0.01
+        let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation!.coordinate.longitude)
         let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, 10000, 10000)
-        var isSameCenter = self.currentSelected === view
+        let isSameCenter = self.currentSelected === view
         self.clubMap!.setRegion(pointRect, animated: true)
         if let annotation = view.annotation as? StoreAnnotation {
             
@@ -85,8 +84,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             
             self.detailView = IPAStoreView(frame:CGRectMake(0.0, 0.0, 256.0, 200.0))
             self.detailView!.delegate = self
-            self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation?.location)
-            var height = self.detailView!.retrieveCalculatedHeight()
+            self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation.location)
+            let height = self.detailView!.retrieveCalculatedHeight()
             self.detailView!.frame = CGRectMake(0.0, 0.0, 256.0, height)
             self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 10.0)
             self.detailView!.layer.cornerRadius = 5.0
@@ -108,8 +107,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                 },
                 completion: nil)
             
-            if let index = find(self.items!, annotation.storeEntity!) {
-                var indexPath = NSIndexPath(forRow: index, inSection: 0)
+            if let index = (self.items!).indexOf(annotation.storeEntity!) {
+                let indexPath = NSIndexPath(forRow: index, inSection: 0)
                 self.clubCollection!.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
             }
 
@@ -121,14 +120,14 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         //return CGSizeMake(collectionView.frame.width, 250.0)
-        var store = self.items![indexPath.row]
+        let store = self.items![indexPath.row]
         return IPAClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: 342.0)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
         
-        var store = self.items![indexPath.row]
+        let store = self.items![indexPath.row]
         
         //Event
         if let tracker = GAI.sharedInstance().defaultTracker {
@@ -170,18 +169,18 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                             self.detailView = nil
                             self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
                             
-                            if gotoPosition && self.clubMap!.userLocation != nil {
+                            if gotoPosition {
                                 self.zoomMapLocation(self.clubMap!.userLocation)
                             }
                             else {
-                                if self.clubMap!.overlays != nil && self.clubMap!.overlays.count > 0 {
+                                if self.clubMap!.overlays.count > 0 {
                                     MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
                                 }
                             }
                             
                             var selected = self.clubCollection!.indexPathsForSelectedItems()
-                            for var idx = 0; idx < selected.count; idx++ {
-                                var indexPath = selected[idx] as! NSIndexPath
+                            for var idx = 0; idx < selected!.count; idx++ {
+                                let indexPath = selected![idx]
                                 self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
                             }
                         }
@@ -194,7 +193,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     override func showInstructions(store:Store, forCar flag:Bool) {
         self.selectedStore = store
-        var gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
+        let gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
         if gmapsInstalled {
             self.viewBgDetailView?.removeFromSuperview()
             self.viewBgDetailView = nil
@@ -205,11 +204,11 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             self.actionSheet!.actionSheetStyle = .Automatic
             self.actionSheetGmaps = self.actionSheet!.addButtonWithTitle("Google Maps")
             self.actionSheetAmaps = self.actionSheet!.addButtonWithTitle("Apple Maps")
-            var cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
+            let cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
             self.actionSheet!.cancelButtonIndex = cancelIdx
             self.instructionsForCar = flag
-            var rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
-            self.actionSheet!.showFromRect(rect, inView: self.view.superview, animated: true)
+            let rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
+            self.actionSheet!.showFromRect(rect, inView: self.view.superview!, animated: true)
         }
         else {
             self.openAppleMaps(forCar: flag)
@@ -235,10 +234,10 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                 value: nil).build() as [NSObject : AnyObject])
         }
         
-        var controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.sharePopover = UIPopoverController(contentViewController: controller)
         self.sharePopover!.delegate = self
-        var rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
+        let rect = self.clubMap!.convertRect(self.currentSelected!.frame, toView: self.view.superview)
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
     }
 
@@ -246,8 +245,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-        if let index = find(self.items!, (self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
-            var indexPath = NSIndexPath(forRow: index, inSection: 0)
+        if let index = (self.items!).indexOf((self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
             self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
         }
         self.currentSelected = nil
@@ -257,15 +256,15 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     //MARK: - UIActionSheetDelegate
     
     func actionSheetCancel(actionSheet: UIActionSheet) {
-        println("Cancel")
+        print("Cancel")
     }
     
     override func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        println("Action selected \(buttonIndex)")
+        print("Action selected \(buttonIndex)")
         super.actionSheet(actionSheet, didDismissWithButtonIndex: buttonIndex)
         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
-        if let index = find(self.items!, (self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
-            var indexPath = NSIndexPath(forRow: index, inSection: 0)
+        if let index = (self.items!).indexOf((self.currentSelected!.annotation as! StoreAnnotation).storeEntity!) {
+            let indexPath = NSIndexPath(forRow: index, inSection: 0)
             self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
         }
         self.currentSelected = nil

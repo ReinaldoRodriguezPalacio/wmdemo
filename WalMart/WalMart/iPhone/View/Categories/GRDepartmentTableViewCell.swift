@@ -17,7 +17,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
     
     var moreLabel : UILabel!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -55,7 +55,7 @@ class GRDepartmentTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        println("layoutSubviews ::: GRDepartmentTableViewCell")
+        print("layoutSubviews ::: GRDepartmentTableViewCell")
         
     }
     

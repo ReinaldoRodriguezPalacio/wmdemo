@@ -31,14 +31,14 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     var presale : UILabel!
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        println("frale:\(frame)")
+        print("frale:\(frame)")
         setup()
     }
     
@@ -156,13 +156,13 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.pointContainer = UIView()
         self.pointSection!.addSubview(self.pointContainer!)
         var buttons = Array<UIButton>()
-        var size = items?.count
+        let size = items?.count
         if size > 0 {
-            var bsize: CGFloat = 8.0
+            let bsize: CGFloat = 8.0
             var x: CGFloat = 0.0
-            var sep: CGFloat = 2.0
+            let sep: CGFloat = 2.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as! UIButton
+                let point = UIButton(type: .Custom)
                 point.frame = CGRectMake(x, 5, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
@@ -176,7 +176,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.pointContainer!.addSubview(point)
                 buttons.append(point)
             }
-            var pbounds = self.pointSection!.frame
+            let pbounds = self.pointSection!.frame
             self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
         }
         self.pointButtons = buttons
@@ -186,14 +186,14 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         for button: UIButton in self.pointButtons! {
             button.selected = button === sender
         }
-        if let idx = find(self.pointButtons!, sender) {
+        if let idx = (self.pointButtons!).indexOf(sender) {
             self.collection!.scrollToItemAtIndexPath(NSIndexPath(forItem: idx, inSection: 0),
                 atScrollPosition: .CenteredHorizontally, animated: false)
         }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        var currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
+        let currentIndex = self.collection!.contentOffset.x / self.collection!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
         if let button = nsarray.objectAtIndex(self.currentItem!) as? UIButton {

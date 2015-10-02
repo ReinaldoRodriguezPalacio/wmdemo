@@ -45,7 +45,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.text = NSLocalizedString("wishlist.title",comment:"")
         
-        self.edit = UIButton.buttonWithType(.Custom) as? UIButton
+        self.edit = UIButton(type: .Custom)
         self.edit.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)
 
         self.edit.setTitle(NSLocalizedString("wishlist.edit", comment:""), forState: .Normal)
@@ -58,7 +58,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.edit.addTarget(self, action: "editAction:", forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.edit)
         
-        self.deleteall = UIButton.buttonWithType(.Custom) as? UIButton
+        self.deleteall = UIButton(type: .Custom)
         self.deleteall.frame = CGRectMake(165.0, 12.0, 75.0, 22.0)
         self.deleteall.setTitle(NSLocalizedString("wishlist.deleteall", comment:""), forState: .Normal)
         self.deleteall.backgroundColor = WMColor.wishlistDeleteButtonBgColor
@@ -254,7 +254,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         var itemsToSend : [[String:String]] = []
         
         for itemWishlist in self.items {
-            println("Wishlist : \(itemWishlist)")
+            print("Wishlist : \(itemWishlist)")
             let upc = itemWishlist["upc"] as! String
             let desc = itemWishlist["description"] as! String
             let type = ResultObjectType.Mg.rawValue
@@ -418,7 +418,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
        
         if (!isEdditing) {
             isEdditing = !isEdditing
-            let currentCells = self.wishlist.visibleCells()
+            let currentCells = self.wishlist.visibleCells as! [SWTableViewCell]
             for cell in currentCells {
                 cell.setEditing(true, animated: false)
                 cell.showLeftUtilityButtonsAnimated(true)
@@ -434,8 +434,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
         }else{
             
-            let currentCells = self.wishlist.visibleCells()
-            for cell in currentCells {
+            let currentCells = self.wishlist.visibleCells as! [SWTableViewCell]
+            for cell: SWTableViewCell in currentCells {
                 cell.hideUtilityButtonsAnimated(false)
                 cell.setEditing(false, animated: false)
             }
@@ -461,7 +461,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
            
         default :
-             println("other pressed")
+             print("other pressed")
         }
     }
     
@@ -472,7 +472,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             //deleteRowAtIndexPath(indexPath)
             cell.showRightUtilityButtonsAnimated(true)
         default :
-            println("other pressed")
+            print("other pressed")
         }
     }
     
@@ -517,7 +517,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
             
             }, errorBlock: { (error:NSError) -> Void in
-                println("delete pressed Errro \(error)")
+                print("delete pressed Errro \(error)")
         })
     }
     
@@ -568,7 +568,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let upcList = "\(strAllUPCs)"
         let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
-        var controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
     }
     
@@ -635,7 +635,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
-                    println(paramsItem)
+                    print(paramsItem)
                     params.append(paramsItem)
                 }
                 
@@ -668,7 +668,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     //MARK: - Services
     
     func invokeWishlistService() {
-        var service = UserWishlistService()
+        let service = UserWishlistService()
         service.callService(
             { (wishlist:NSDictionary) -> Void in
                 self.items = wishlist["items"] as! [AnyObject]
@@ -704,8 +704,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                         total = total + price.doubleValue
                     }
                 }
-            
-                let totalStr = String(format: "%.2f",total)
             
                 self.updateShopButton()
             

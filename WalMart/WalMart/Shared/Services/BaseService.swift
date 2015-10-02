@@ -74,7 +74,7 @@ class BaseService : NSObject {
     
     func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        var services = NSBundle.mainBundle().objectForInfoDictionaryKey(ConfigServices.ConfigIdMG) as! NSDictionary
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(ConfigServices.ConfigIdMG) as! NSDictionary
         let environmentServices = services.objectForKey(environment) as! NSDictionary
         let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
@@ -132,7 +132,7 @@ class BaseService : NSObject {
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
         if (sortBy != nil) {
-            var sorter = NSSortDescriptor(key:sortBy! , ascending:isAscending)
+            let sorter = NSSortDescriptor(key:sortBy! , ascending:isAscending)
             request.sortDescriptors = [sorter]
         }
         
@@ -142,9 +142,15 @@ class BaseService : NSObject {
         }
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         return fetchedResult!
     }
@@ -155,14 +161,14 @@ class BaseService : NSObject {
        //TODO: Quitar no debe de ir
         var url = serviceUrl()
         if url == "http://192.168.43.192:8085/walmartmg/login/getItemByUpc" || url == "https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc"{
-          var upc = params as! String
+          let upc = params as! String
             if upc == "00471093738428"{
                 url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
             }
         }
         
         afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-            var resultJSON = json as! NSDictionary
+            let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -185,11 +191,11 @@ class BaseService : NSObject {
             }, failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 
                 if error.code == -1005 {
-                    println("Response Error : \(error) \n Response \(request.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                println("Response Error : \(error) \n Response \(request.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
         
@@ -206,7 +212,7 @@ class BaseService : NSObject {
     
     func callGETService(manager:AFHTTPSessionManager,serviceURL:String,params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         manager.GET(serviceURL, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-            var resultJSON = json as! NSDictionary
+            let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -228,11 +234,11 @@ class BaseService : NSObject {
             successBlock!(resultJSON)
             }, failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 if error.code == -1005 {
-                    println("Response Error : \(error) \n Response \(request.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callGETService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                println("Response Error : \(error)")
+                print("Response Error : \(error)")
                 errorBlock!(error)
         })
         
@@ -245,9 +251,9 @@ class BaseService : NSObject {
     
     func validateCodeMessage(response:NSDictionary) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
-            var message = response["message"] as! NSString
+            let message = response["message"] as! NSString
             if codeMessage.integerValue != 0  {
-                println("error : Response with error \(message)")
+                print("error : Response with error \(message)")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }
@@ -257,9 +263,9 @@ class BaseService : NSObject {
     // MARK: - File Manager
     
     func getFilePath(fileName:String) -> String {
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray!
-        var docPath = paths[0] as! NSString
-        var path = docPath.stringByAppendingPathComponent(fileName)
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true) as NSArray!
+        let docPath = paths[0] as! NSString
+        let path = docPath.stringByAppendingPathComponent(fileName)
         return path
     }
     
@@ -267,30 +273,42 @@ class BaseService : NSObject {
     
     func saveDictionaryToFile(dictionary:NSDictionary,fileName:String) {
         let filePath = getFilePath(fileName)
-        let data : NSData = NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted, error: nil)!
+        let data : NSData = try! NSJSONSerialization.dataWithJSONObject(dictionary, options: NSJSONWritingOptions.PrettyPrinted)
         
         if NSFileManager.defaultManager().fileExistsAtPath(filePath) {
             var error:NSError?
-            var deleted = NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(filePath)
+            } catch let error1 as NSError {
+                error = error1
+            }
             if error != nil {
-                println(error)
+                print(error)
             }
         }
         data.writeToFile(filePath, atomically: true)
     }
     
-    func getDataFromFile(fileName:String) -> NSDictionary? {
-        var path = self.getFilePath(fileName)
+    func getDataFromFile(fileName:NSString) -> NSDictionary? {
+        let path = self.getFilePath(fileName as String)
         if NSFileManager.defaultManager().fileExistsAtPath(path) {
-            var error: NSError?
-            var jsonData = NSData(contentsOfFile:path, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-            var values = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! NSDictionary
+            var jsonData: NSData?
+            do {
+                jsonData = try NSData(contentsOfFile:path, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+            } catch {
+                jsonData = nil
+            }
+            let values = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
             return values
         }else {
-            if let pathResource = NSBundle.mainBundle().pathForResource(fileName.lastPathComponent.stringByDeletingPathExtension, ofType:fileName.pathExtension ) {
-                var error: NSError?
-                var jsonData = NSData(contentsOfFile:pathResource, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-                var values = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! NSDictionary
+            if let pathResource = NSBundle.mainBundle().pathForResource(NSURL(string:fileName.lastPathComponent)!.URLByDeletingPathExtension?.absoluteString, ofType:fileName.pathExtension ) {
+                var jsonData: NSData?
+                do {
+                    jsonData = try NSData(contentsOfFile:pathResource, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+                } catch {
+                    jsonData = nil
+                }
+                let values = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                 return values
             }
         }
@@ -306,7 +324,7 @@ class BaseService : NSObject {
                 for var idx = 0; idx < items.count; idx++ {
                     if let item = items[idx] as? NSDictionary {
                         if let desc = item[JSON_KEY_DESCRIPTION] as? String {
-                            var description = desc.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                            let description = desc.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 
                             var upc = item["upc"] as? String
                             upc = upc!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
@@ -323,7 +341,7 @@ class BaseService : NSObject {
                                 continue
                             }
 
-                            var select = WalMartSqliteDB.instance.buildFindProductKeywordQuery(description: description, price: price!)
+                            let select = WalMartSqliteDB.instance.buildFindProductKeywordQuery(description: description, price: price!)
                             if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                                 var exist = false
                                 while rs.next() {
@@ -337,7 +355,7 @@ class BaseService : NSObject {
                                 }
                             }
                             
-                            var query = WalMartSqliteDB.instance.buildInsertProductKeywordQuery(forUpc: upc!, andDescription: description, andPrice:price!)
+                            let query = WalMartSqliteDB.instance.buildInsertProductKeywordQuery(forUpc: upc!, andDescription: description, andPrice:price!)
                             db.executeUpdate(query, withArgumentsInArray: nil)
                         }
                     }
@@ -352,9 +370,9 @@ class BaseService : NSObject {
     }
 
     func jsonFromObject(object:AnyObject!) {
-        let data : NSData = NSJSONSerialization.dataWithJSONObject(object, options: .PrettyPrinted, error: nil)!
-        var jsonTxt = NSString(data: data, encoding: NSUTF8StringEncoding)
-        println(jsonTxt)
+        let data : NSData = try! NSJSONSerialization.dataWithJSONObject(object, options: .PrettyPrinted)
+        let jsonTxt = NSString(data: data, encoding: NSUTF8StringEncoding)
+        print(jsonTxt)
     }
     
     func needsLogin() -> Bool {
@@ -374,18 +392,18 @@ class BaseService : NSObject {
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
                 //let items : AnyObject = self.getCategoriesContent() as AnyObject!;
                 for item in items as! [AnyObject] {
-                    var name = item["description"] as! String
-                    var idDepto = item["idDepto"] as! String
+                    let name = item["description"] as! String
+                    let idDepto = item["idDepto"] as! String
                     let famArray : AnyObject = item["family"] as AnyObject!
                     
                     for itemFamily in famArray as! [AnyObject] {
-                        var idFamily = itemFamily["id"] as! String
+                        let idFamily = itemFamily["id"] as! String
                         let lineArray : AnyObject = itemFamily["line"] as AnyObject!
-                        var namefamily = itemFamily["name"] as! String
+                        let namefamily = itemFamily["name"] as! String
                         for itemLine in lineArray as! [AnyObject] {
                             let idLine =  itemLine["id"] as! String
                             let nameLine =  itemLine["name"] as! String
-                            var select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
+                            let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
                             if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                                 var exist = false
                                 while rs.next() {
@@ -399,7 +417,7 @@ class BaseService : NSObject {
                                 }
                             }
                             
-                            var query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:type, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
+                            let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:type, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
                             db.executeUpdate(query, withArgumentsInArray: nil)
                             
                             
@@ -413,7 +431,7 @@ class BaseService : NSObject {
     
     func printTimestamp(message: String) {
         let timestamp = NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .MediumStyle, timeStyle: .ShortStyle)
-        println("\(message)"  + timestamp)
+        print("\(message)"  + timestamp)
     }
     
     func callPOSTServiceCam(manager:AFHTTPSessionManager, params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -427,7 +445,7 @@ class BaseService : NSObject {
                 formData.appendPartWithFormData(langStr.dataUsingEncoding(NSUTF8StringEncoding), name:"image_request[language]")
             },
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-                var resultJSON = json as! NSDictionary
+                let resultJSON = json as! NSDictionary
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -450,11 +468,11 @@ class BaseService : NSObject {
             },
             failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 if error.code == -1005 {
-                    println("Response Error : \(error) \n Response \(request.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                println("Response Error : \(error) \n Response \(request.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
     }

@@ -257,8 +257,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func showCrossSell() {
         isHideCrossSell = false
-        let numberOfRows = self.detailCollectionView.numberOfItemsInSection(0)
-        var indexPaths = [NSIndexPath(forRow: numberOfRows, inSection: 0)]
+        //let numberOfRows = self.detailCollectionView.numberOfItemsInSection(0)
+        //var indexPaths = [NSIndexPath(forRow: numberOfRows, inSection: 0)]
         //self.detailCollectionView.insertItemsAtIndexPaths(indexPaths)
         self.detailCollectionView.reloadData()
 
@@ -276,7 +276,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
             }
             }, errorBlock: { (error:NSError) -> Void in
-                println("Termina sevicio app")
+                print("Termina sevicio app")
         })
         
     }
@@ -494,7 +494,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
-                    if self.onHandInventory.integerValue >= quantity.toInt() {
+                    if self.onHandInventory.integerValue >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         self.gestureCloseDetail.enabled = false
@@ -661,7 +661,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     
     func sleectedImage(indexPath: NSIndexPath) {
-        var controller = ImageDisplayCollectionViewController()
+        let controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
         controller.imagesToDisplay = imageUrl
         controller.currentItem = indexPath.row
@@ -708,11 +708,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             
             }) { (error:NSError) -> Void in
                 //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-                var empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
-                    println("")
+                    print("")
                     self.navigationController!.popViewControllerAnimated(true)
                 }
                 self.view.addSubview(empty)
@@ -741,7 +741,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
             }
         }
-        println(self.saving)
+        print(self.saving)
         
         
         self.listPrice = result["original_listprice"] as! NSString
@@ -753,7 +753,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         var allCharacteristics : [AnyObject] = []
         
         let strLabel = "UPC"
-        let strValue = self.upc
+        //let strValue = self.upc
         
         allCharacteristics.append(["label":strLabel,"value":self.upc])
         
@@ -813,12 +813,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             
-            var product = GAIEcommerceProduct()
-            var builder = GAIDictionaryBuilder.createScreenView()
+            let product = GAIEcommerceProduct()
+            let builder = GAIDictionaryBuilder.createScreenView()
             product.setId(self.upc as String)
             product.setName(self.name as String)
             
-            var action = GAIEcommerceProductAction();
+            let action = GAIEcommerceProductAction();
             action.setAction(kGAIPADetail)
             builder.setProductAction(action)
             builder.addProduct(product)
@@ -852,7 +852,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        var cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath) as! UICollectionViewCell
+        let cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath) 
         var cell : UICollectionViewCell? = nil
         let point = (indexPath.section,indexPath.row)
         if isLoading {
@@ -888,7 +888,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
-        var reusableView : UICollectionReusableView? = nil
+        let reusableView : UICollectionReusableView? = nil
         
         if kind == CSStickyHeaderParallaxHeader{
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
@@ -906,7 +906,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! UICollectionReusableView
+            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) 
             
             productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
             productDetailButton.upc = self.upc as String
@@ -1068,7 +1068,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
-        var pesable = isPesable ? "1" : "0"
+        let pesable = isPesable ? "1" : "0"
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable]
     }
     
@@ -1079,7 +1079,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func shareProduct() {
         let imageHead = UIImage(named:"detail_HeaderMail")
         let imageHeader = UIImage(fromView: self.headerView)
-        let headers = [0]
+        //let headers = [0]
         
         let imagen = UIImage(fromView: currentHeaderView)
         
@@ -1095,7 +1095,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")
         
-        var controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
 
         
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
@@ -1139,7 +1139,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     func showProductDetailOptions() {
-        var controller = ProductDetailOptionsViewController()
+        let controller = ProductDetailOptionsViewController()
         controller.upc = self.upc as String
         controller.name = self.name as String
         controller.imagesToDisplay = imageUrl
@@ -1153,7 +1153,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.colorItems = self.colorItems
         controller.selectedDetailItem = self.selectedDetailItem
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        controller.setAdditionalValues(self.listPrice as! String, price: self.price as! String, saving: self.saving as! String)
+        controller.setAdditionalValues(self.listPrice as String, price: self.price as String, saving: self.saving as String)
     }
     // MARK Color Size Functions
     func getFacetsDetails() -> [String:AnyObject]{
@@ -1212,8 +1212,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     //MARK: ProductDetailColorSizeDelegate
     func selectDetailItem(selected: String, itemType: String) {
         self.selectedDetailItem = ["selected":selected, "itemType": itemType]
-        var upc = self.getUpc(selected,itemType: itemType)
-        var facet = self.facets![upc] as! NSDictionary
+        let upc = self.getUpc(selected,itemType: itemType)
+        let facet = self.facets![upc] as! NSDictionary
         self.reloadViewWithData(facet)
     }
 }

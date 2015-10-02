@@ -125,9 +125,8 @@ class GRNutrimentalInfoView : UIView {
     
     func generateBlurImage(viewBg:UIView,frame:CGRect) {
         var cloneImage : UIImage? = nil
-        var blurredImage : UIImage? = nil
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext())
+        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         cloneImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         viewBg.layer.contents = nil

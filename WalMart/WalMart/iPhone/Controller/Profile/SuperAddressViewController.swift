@@ -64,7 +64,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         var left : CGFloat = 87
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         
          if addressId != "" {
             self.deleteButton!.frame = CGRectMake( bounds.maxX - 54, 0 , 54, self.header!.frame.height)
@@ -81,7 +81,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     }
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        var val = CGSizeMake(self.view.frame.width, 720)
+        let val = CGSizeMake(self.view.frame.width, 720)
         return val
     }
     
@@ -140,7 +140,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
-                println("Se realizao la direccion")
+                print("Se realizao la direccion")
                 self.navigationController?.popViewControllerAnimated(true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
@@ -181,7 +181,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             //self.sAddredssForm.defaultPrefered = false
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
-            self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text, neighborhoodID: neighborhoodID, storeID: storeID)
+            self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
             }) { (error:NSError) -> Void in
         }
     }
@@ -196,7 +196,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
-                println("Se realizao la direccion")
+                print("Se realizao la direccion")
                 self.navigationController?.popViewControllerAnimated(true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")

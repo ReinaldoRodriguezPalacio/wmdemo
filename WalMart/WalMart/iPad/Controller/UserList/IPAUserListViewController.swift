@@ -128,15 +128,15 @@ class IPAUserListViewController: UserListViewController {
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
             view.addSubview(self.helpView!)
             
-            var icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))
+            let icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))
             icon.frame = CGRectMake(12.0, self.header!.frame.maxY + 16.0, 48.0, 48.0)
             self.helpView!.addSubview(icon)
             
-            var arrow = UIImageView(image: UIImage(named: "list_arrow_help"))
+            let arrow = UIImageView(image: UIImage(named: "list_arrow_help"))
             arrow.frame = CGRectMake(icon.frame.maxX - 10.0, icon.frame.maxY - 10.0, 80.0, 28.0)
             self.helpView!.addSubview(arrow)
 
-            var message = UILabel(frame: CGRectMake(arrow.frame.maxX, self.header!.frame.maxY + 20.0, 350.0, 45.0))
+            let message = UILabel(frame: CGRectMake(arrow.frame.maxX, self.header!.frame.maxY + 20.0, 350.0, 45.0))
             message.numberOfLines = 0
             message.textColor = UIColor.whiteColor()
             message.textAlignment = .Center
@@ -164,7 +164,7 @@ class IPAUserListViewController: UserListViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cellTable = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
-        println("IndexSel : \(selectedItem) , cuerrent \(indexPath)")
+        print("IndexSel : \(selectedItem) , cuerrent \(indexPath)")
         cellTable.setSelected(indexPath == selectedItem, animated: true)
         return cellTable
     }
@@ -222,7 +222,7 @@ class IPAUserListViewController: UserListViewController {
             self.delegate?.showListDetailAnimated(forId: listEntity.idList, orEntity: listEntity, andName: listEntity.name)
         }
         
-        var idxPath = NSIndexPath(forRow: 0, inSection: 0)
+        let idxPath = NSIndexPath(forRow: 0, inSection: 0)
         if let cell = self.tableuserlist!.cellForRowAtIndexPath(idxPath) as? NewListTableViewCell {
             if cell.inputNameList!.isFirstResponder() {
                 cell.inputNameList!.resignFirstResponder()
@@ -234,7 +234,7 @@ class IPAUserListViewController: UserListViewController {
 
     //MARK: - Utils
     
-    override func reloadList(#success:(()->Void)?, failure:((error:NSError)->Void)?){
+    override func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
         //Solo en caso de existir una sesion se consulta al backend por las listas del usuario
         if let user = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()

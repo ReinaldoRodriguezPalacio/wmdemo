@@ -24,7 +24,7 @@ class GRAddressesByIDService : GRBaseService {
                 successBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 successBlock!([:])
-                println("Error review:;:::::::: \(error)")
+                print("Error review:;:::::::: \(error)")
                 
         })
     }

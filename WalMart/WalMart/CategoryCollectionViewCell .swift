@@ -24,7 +24,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     var delegate : CategoryCollectionViewCellDelegate!
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -49,8 +49,8 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         carousel.bounceDistance = 0.3
         
         
-        var initialW : CGFloat = 75.0
-        var initialH : CGFloat = 4.0
+        let initialW : CGFloat = 75.0
+        let initialH : CGFloat = 4.0
         selectorIndicator = UIView(frame: CGRectMake((self.frame.width / 2) - (initialW / 2), self.frame.height - initialH, initialW, initialH))
         selectorIndicator.backgroundColor = WMColor.categorySelectorIndicatorHomeBgColor
         
@@ -80,7 +80,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         let size = maxStrCat.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
         //if categoriesLabel.count <= ix || categoriesLabel.count == 0 {
         let arrayResult =  categoriesLabel.keys.filter {$0 == ix}
-        if  arrayResult.array.count != 0 && categoriesLabel[ix] != nil {
+        if  Array(arrayResult).count != 0 && categoriesLabel[ix] != nil {
             lblView = categoriesLabel[ix]
             lblView!.frame = CGRectMake(0, 0, size.width + 15, self.frame.height)
             lblView!.title.text = categories[ix]
@@ -103,7 +103,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         return lblView!
     }
     
-    func carousel(carousel: iCarousel!, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+    func carousel(carousel: iCarousel, valueForOption option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
         var cvalue: CGFloat? = nil
         switch (option) {
         case .Wrap:         cvalue = 0.0
@@ -120,16 +120,16 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     }
     
     
-    func carouselDidEndScrollingAnimation(carousel: iCarousel!) {
+    func carouselDidEndScrollingAnimation(carousel: iCarousel) {
         changeSizeOfIndicator(carousel.currentItemIndex)
     }
     
-    func carousel(carousel: iCarousel!, shouldSelectItemAtIndex index: Int) -> Bool {
+    func carousel(carousel: iCarousel, shouldSelectItemAtIndex index: Int) -> Bool {
         return true;
     }
     
     
-    func carousel(carousel: iCarousel!, didSelectItemAtIndex index: Int)  {
+    func carousel(carousel: iCarousel, didSelectItemAtIndex index: Int)  {
         //changeSizeOfIndicator(index)
     }
     
@@ -137,7 +137,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     func changeSizeOfIndicator(index:Int) {
         
         if selectedCat != nil && self.selectedCat !=  categoriesLabel[index] {
-            let strEnd = self.selectedCat!.title!.text! as NSString
+            
             //self.selectedCat!.title!.text = strEnd.stringByReplacingOccurrencesOfString("Especiales ", withString: "")
             self.selectedCat!.deleteEspeciales()
         }
@@ -152,9 +152,6 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
                     
                     
                     //self.selectedCat!.title!.text =  resultText
-                    
-                    let strCategory = "Especiales " + self.selectedCat!.title!.text!
-                    let size = strCategory.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(16)])
                     
                     self.selectedCat!.setTextEspeciales()
                     

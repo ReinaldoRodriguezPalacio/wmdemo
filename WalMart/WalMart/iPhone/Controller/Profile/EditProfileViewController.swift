@@ -137,9 +137,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
 
         
-        var paragraphStyle = NSMutableParagraphStyle()
+        let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
-        var attrString = NSMutableAttributedString(string: NSLocalizedString("profile.terms", comment: ""))
+        let attrString = NSMutableAttributedString(string: NSLocalizedString("profile.terms", comment: ""))
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
         let iconImage = UIImage(named:"button_bg")
@@ -198,14 +198,14 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 87, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
         self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
         
         let topSpace: CGFloat = 8.0
         let horSpace: CGFloat = 15.0
-        var fieldWidth = self.view.bounds.width - (horSpace*2)
+        let fieldWidth = self.view.bounds.width - (horSpace*2)
         let fieldHeight: CGFloat = 40.0
         self.name?.frame = CGRectMake(horSpace,  topSpace, fieldWidth, fieldHeight)
         self.lastName?.frame = CGRectMake(horSpace,  self.name!.frame.maxY + topSpace, fieldWidth, fieldHeight)
@@ -255,7 +255,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     func dateChanged() {
-        var date = self.inputBirthdateView!.date
+        let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
         self.dateSelected = date
         if self.saveButton != nil {
@@ -299,8 +299,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     func save(sender:UIButton) {
         if validateUser() {
             let service = UpdateUserProfileService()
-            var passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text) as String
-            var passNew = (self.password==nil ? "" : self.password!.text) as String
+            let passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text)
+            let passNew = (self.password==nil ? "" : self.password!.text)
             
             let dateSlectedStr = self.parseFmt!.stringFromDate(self.dateSelected)
             let gender = self.femaleButton!.selected ? "Female" : "Male"
@@ -311,7 +311,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
             let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
             
-            let params  = service.buildParamsWithMembership(self.email!.text, password: passCurrent, newPassword:passNew, name: self.name!.text, lastName: self.lastName!.text,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
+            let params  = service.buildParamsWithMembership(self.email!.text!, password: passCurrent!, newPassword:passNew!, name: self.name!.text!, lastName: self.lastName!.text!,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -370,9 +370,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         if self.passworCurrent != nil{
             
-            if count(self.passworCurrent!.text) > 0 ||
-                count(self.password!.text) > 0 ||
-                count(self.confirmPassword!.text) > 0 {
+            if self.passworCurrent!.text!.characters.count > 0 ||
+                self.password!.text!.characters.count > 0 ||
+                self.confirmPassword!.text!.characters.count > 0 {
                 if !error{
                     error = viewError(passworCurrent!)
                 }
@@ -400,7 +400,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     func viewError(field: FormFieldView)-> Bool{
-        var message = field.validate()
+        let message = field.validate()
         if message != nil{
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()

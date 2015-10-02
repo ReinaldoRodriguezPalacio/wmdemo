@@ -23,7 +23,7 @@ class AddressViewCell: SWTableViewCell {
     var imageDisclousure : UIImageView!
     var imageErrorField: UIImageView!
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

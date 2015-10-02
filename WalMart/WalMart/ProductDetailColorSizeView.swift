@@ -27,7 +27,7 @@ class ProductDetailColorSizeView: UIView {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -89,17 +89,17 @@ class ProductDetailColorSizeView: UIView {
         var count = 0
         for item in self.items{
             position += CGFloat(buttonSpace)
-            var backView = UIView(frame: CGRectMake(position, buttonPositionY, CGFloat(backViewWidth), CGFloat(backViewWidth)))
+            let backView = UIView(frame: CGRectMake(position, buttonPositionY, CGFloat(backViewWidth), CGFloat(backViewWidth)))
             backView.layer.cornerRadius = 4
             let tap = UITapGestureRecognizer(target: self, action: Selector("backViewTap:"))
             //tap.delegate = self
             backView.addGestureRecognizer(tap)
         
-            var colorButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+            let colorButton = UIButton(type: UIButtonType.Custom)
             let buttonPosition = (CGFloat(backViewWidth) - CGFloat(buttonWidth)) / 2
             colorButton.frame = CGRectMake(CGFloat(buttonPosition), CGFloat(buttonPosition), CGFloat(buttonWidth), CGFloat(buttonWidth))
             colorButton.layer.cornerRadius = 2
-            var intColor = UInt(item["value"] as! String, radix: 16)
+            let intColor = UInt(item["value"] as! String, radix: 16)
             colorButton.backgroundColor = WMColor.UIColorFromRGB(intColor!, alpha: 1.0)
             colorButton.addTarget(self, action: "selectColor:", forControlEvents: UIControlEvents.TouchUpInside)
             colorButton.tag = count
@@ -118,10 +118,10 @@ class ProductDetailColorSizeView: UIView {
             position += CGFloat(buttonSpace)
             let sizeButonWidth = self.getButtonWidth(item["value"] as? String)
             let backViewSizeWidth = sizeButonWidth + 7.0
-            var backView = UIView(frame: CGRectMake(position, buttonPositionY, backViewSizeWidth , CGFloat(backViewWidth)))
+            let backView = UIView(frame: CGRectMake(position, buttonPositionY, backViewSizeWidth , CGFloat(backViewWidth)))
             backView.layer.cornerRadius = 4
         
-            var sizeButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
+            let sizeButton = UIButton(type: UIButtonType.Custom)
             let buttonPosition = (CGFloat(backViewSizeWidth) - CGFloat(sizeButonWidth)) / 2
             sizeButton.frame = CGRectMake(CGFloat(buttonPosition), 4.8,sizeButonWidth , CGFloat(buttonWidth))
             sizeButton.layer.cornerRadius = 2
@@ -141,25 +141,25 @@ class ProductDetailColorSizeView: UIView {
     }
     
     func getButtonWidth(text:String?) -> CGFloat {
-        var stringSize = text!.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
-        var buttonWidth = stringSize.width < 13 ? 13 : stringSize.width
+        let stringSize = text!.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+        let buttonWidth = stringSize.width < 13 ? 13 : stringSize.width
         return buttonWidth
     }
 
     func backViewTap(sender: UIGestureRecognizer){
-        var backView = sender.view!
-        var button  = backView.subviews[0] as! UIButton
+        let backView = sender.view!
+        let button  = backView.subviews[0] as! UIButton
         selectColor(button)
     }
     
     func selectColor(sender: AnyObject)
     {
         self.clearColorButtons()
-        var button  = sender as! UIButton
-        var backView = button.superview!
+        let button  = sender as! UIButton
+        let backView = button.superview!
         backView.layer.borderWidth = 1
         backView.layer.borderColor = WMColor.UIColorFromRGB(0x888A8E, alpha: 0.8).CGColor
-        var item: AnyObject = items[button.tag]
+        let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
     
@@ -167,11 +167,11 @@ class ProductDetailColorSizeView: UIView {
     func selectSize(sender: AnyObject)
     {
         self.clearColorButtons()
-        var button  = sender as! UIButton
-        var backView = button.superview!
+        let button  = sender as! UIButton
+        let backView = button.superview!
         backView.layer.borderWidth = 1
         backView.layer.borderColor = WMColor.UIColorFromRGB(0x888A8E, alpha: 0.8).CGColor
-        var item: AnyObject = items[button.tag]
+        let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
     

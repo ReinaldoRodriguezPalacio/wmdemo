@@ -284,7 +284,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
         if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
-            let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath) as! UICollectionViewCell
+            let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath) 
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
         }
@@ -304,7 +304,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             price = priceTxt
         }
         else if let pricenum = item["price"] as? NSNumber {
-            var txt = pricenum.stringValue
+            let txt = pricenum.stringValue
             price = txt
         }
         
@@ -369,7 +369,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         var size = CGSizeMake(self.view.bounds.maxX/2, 190)
-        var commonTotal = self.mgResults!.totalResults + self.grResults!.totalResults
+        let commonTotal = self.mgResults!.totalResults + self.grResults!.totalResults
         if indexPath.row == self.allProducts!.count && self.allProducts!.count < commonTotal {
             size = CGSizeMake(self.view.bounds.maxX, 80)
         }
@@ -408,23 +408,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: - Services
     
-    func getServiceProduct(#resetTable:Bool) {
+    func getServiceProduct(resetTable resetTable:Bool) {
         self.filterButton?.alpha = 0
         self.contentCollectionOffset = self.collection?.contentOffset
         
-        var sucessBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
-        var errorBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
+        let sucessBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
+        let errorBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
         
         if self.searchContextType != nil {
             switch self.searchContextType! {
             case .WithCategoryForMG :
-                println("Searching products for Category In MG")
+                print("Searching products for Category In MG")
                 self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
             case .WithCategoryForGR :
-                println("Searching products for Category In Groceries")
+                print("Searching products for Category In Groceries")
                 self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
             default :
-                println("Searching products for text")
+                print("Searching products for text")
                 self.invokeSearchProductsInGroceries(
                     actionSuccess: { () -> Void in
                         self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
@@ -436,28 +436,28 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         else {
-            println("No existe contexto de busqueda. Es necesario indicar el contexto")
+            print("No existe contexto de busqueda. Es necesario indicar el contexto")
         }
         
     }
     
-    func invokeSearchproductsInMG(#actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
+    func invokeSearchproductsInMG(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
         if self.mgResults!.totalResults != -1 && self.mgResults!.resultsInResponse >= self.mgResults!.totalResults {
-            println("MG Search IS COMPLETE!!!")
+            print("MG Search IS COMPLETE!!!")
             self.mgResults!.totalResults = self.allProducts!.count
             self.mgResults!.resultsInResponse = self.mgResults!.totalResults
             actionSuccess?()
             return
         }
 
-        println("Invoking MG Search")
-        var startOffSet = self.mgResults!.resultsInResponse
+        print("Invoking MG Search")
+        let startOffSet = self.mgResults!.resultsInResponse
         
        
         
-        var service = ProductbySearchService()
-        var params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
+        let service = ProductbySearchService()
+        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
             successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -472,7 +472,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     self.mgResults!.addResults(arrayProduct!)
                     if var sortFacet = facet as? [[String:AnyObject]] {
-                        sortFacet.sort { (item, seconditem) -> Bool in
+                        sortFacet.sortInPlace { (item, seconditem) -> Bool in
                             var firstOrder = "0"
                             if let firstOrderVal = item["order"] as? String {
                                 firstOrder = firstOrderVal
@@ -481,7 +481,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             if let secondOrderVal = seconditem["order"] as? String {
                                 secondOrder = secondOrderVal
                             }
-                            return firstOrder.toInt() < secondOrder.toInt()
+                            return Int(firstOrder) < Int(secondOrder)
                         }
                         self.facet = sortFacet
                     }
@@ -505,28 +505,28 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }, errorBlock: {(error: NSError) in
                 self.mgResults!.resultsInResponse = 0
                 self.mgResults!.totalResults = 0
-                println(error)
+                print(error)
                 actionError?()
             }
         )
     }
     
-    func invokeSearchProductsInGroceries(#actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
+    func invokeSearchProductsInGroceries(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
         
         if self.grResults!.totalResults != -1 && self.grResults!.resultsInResponse >= self.grResults!.totalResults {
-            println("Groceries Search IS COMPLETE!!!")
+            print("Groceries Search IS COMPLETE!!!")
             actionSuccess?()
             return
         }
         
-        println("Invoking Groceries Search")
+        print("Invoking Groceries Search")
         var startOffSet = self.grResults!.resultsInResponse
         if startOffSet > 0 {
             startOffSet++
         }
         
-        var service = GRProductBySearchService()
-        var params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
+        let service = GRProductBySearchService()
+        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -555,7 +555,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 
                 actionSuccess?()
             }, errorBlock: {(error: NSError) in
-                println(error)
+                print(error)
                 //No se encontraron resultados para la búsqueda
                 if error.code == 1 {
                     self.grResults!.resultsInResponse = 0
@@ -566,7 +566,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         )
     }
     
-    func updateViewAfterInvokeService(#resetTable:Bool) {
+    func updateViewAfterInvokeService(resetTable resetTable:Bool) {
         
      
         if btnSuper.selected   {
@@ -639,8 +639,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     case .priceAsc :
                         //println("priceAsc")
                         self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                            var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                            var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                            let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                            let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                             
                             if priceOne < priceTwo {
                                 return NSComparisonResult.OrderedAscending
@@ -653,12 +653,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             }
 
                         })
-                    case .none : println("Not sorted")
+                    case .none : print("Not sorted")
                     default :
                         //println("priceDesc")
                         self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                            var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                            var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                            let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                            let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                             
                             if priceOne > priceTwo {
                                 return NSComparisonResult.OrderedAscending
@@ -791,7 +791,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
 
         self.showLoadingIfNeeded(true)
-        var svcSearch = SearchItemsByUPCService()
+        let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
             self.allProducts = result.arrayObject
             self.mgResults?.totalResults = self.allProducts!.count
@@ -806,8 +806,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             case .priceAsc :
                 //println("priceAsc")
                 self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                    var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                    var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                    let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
                     if priceOne < priceTwo {
                         return NSComparisonResult.OrderedAscending
@@ -820,12 +820,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     
                 })
-            case .none : println("Not sorted")
+            case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
                 self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
-                    var priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
-                    var priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
+                    let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
+                    let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
                     if priceOne > priceTwo {
                         return NSComparisonResult.OrderedAscending
@@ -839,7 +839,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     
                 })
             default :
-                println("default")
+                print("default")
             }
             
             
@@ -847,7 +847,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.collection?.reloadData()
             self.showLoadingIfNeeded(true)
             }) { (error:NSError) -> Void in
-            println(error)
+            print(error)
         }
     }
     

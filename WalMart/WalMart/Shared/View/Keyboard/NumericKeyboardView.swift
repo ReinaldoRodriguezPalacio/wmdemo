@@ -28,7 +28,7 @@ class NumericKeyboardView : UIView {
     var normal : UIColor!
     var selected : UIColor!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -143,7 +143,7 @@ class NumericKeyboardView : UIView {
             
             //UIGraphicsBeginImageContext(size);
             UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-            tempView.layer.renderInContext(UIGraphicsGetCurrentContext())
+            tempView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             screenShot = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }

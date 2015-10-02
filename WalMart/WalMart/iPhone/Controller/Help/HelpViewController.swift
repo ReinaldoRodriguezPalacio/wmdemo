@@ -37,10 +37,14 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         self.table.autoresizingMask = UIViewAutoresizing.None
         self.titleLabel!.text = NSLocalizedString("moreoptions.title.Help", comment: "")
         
-        var error: NSError?
         let filePath =  NSBundle.mainBundle().pathForResource("help", ofType: "json")
-        let jsonData = NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-        let resultArray = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! NSArray
+        let jsonData: NSData?
+        do {
+            jsonData = try NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+        } catch {
+            jsonData = nil
+        }
+        let resultArray = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! NSArray
         
         array = resultArray
         
@@ -49,7 +53,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.table!.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
     }
     
@@ -88,7 +92,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var height: CGFloat = 46
+        let height: CGFloat = 46
         return height
     }
     
@@ -126,7 +130,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             return cell!
         }
 
-        var item = self.array![0] as! NSDictionary
+        let item = self.array![0] as! NSDictionary
         let name = item["title"] as! String
         
         cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.lineTextColor, padding: 12,align:NSTextAlignment.Left)
@@ -138,7 +142,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         selected = indexPath.row
 
         if  indexPath.row  == 2 {
-            var url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+            let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
             if UIApplication.sharedApplication().canOpenURL(url!) == true  {
                 UIApplication.sharedApplication().openURL(url!)
             }
@@ -146,7 +150,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         else  if  indexPath.row  == 0 {
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHelp.rawValue, object: nil)
         } else {
-            var item = self.array![0] as! NSDictionary
+            let item = self.array![0] as! NSDictionary
             if delegate != nil {
                 delegate!.selectedDetail(indexPath.row, item: item)
             }

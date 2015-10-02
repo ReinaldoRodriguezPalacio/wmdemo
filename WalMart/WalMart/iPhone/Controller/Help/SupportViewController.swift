@@ -59,15 +59,15 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         imgConfirm.image = UIImage(named: "support-bg")
         
-        var attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
+        let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
             attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
                 NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
         
-        var attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
+        let attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
             attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14),
                 NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
         
-        var valuesDescItem = NSMutableAttributedString()
+        let valuesDescItem = NSMutableAttributedString()
         valuesDescItem.appendAttributedString(attrStringLab)
          valuesDescItem.appendAttributedString(attrStringVal)
         
@@ -133,7 +133,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.stores.append(NSLocalizedString("Support.label.list.reason.close", comment:""))
         self.stores.append(NSLocalizedString("Support.label.list.reason.other", comment:""))
         
-        var margin: CGFloat = 15.0
+        let margin: CGFloat = 15.0
         var width = self.view.frame.width - (2*margin)
         var fheight: CGFloat = 44.0
         var lheight: CGFloat = 25.0
@@ -164,7 +164,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.imgConfirm.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
         self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 28 , bounds.width, 15 )
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY  , bounds.width, 15 )
@@ -187,7 +187,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     func selectecButton(sender:UIButton){
         if sender == self.buttomCall{
             self.buttomMail.selected = false
-            print("Selected call")
+            print("Selected call", terminator: "")
          if IS_IPHONE == true {
                 let strTel = "telprompt://018009256278"
                 if UIApplication.sharedApplication().canOpenURL(NSURL(string: strTel)!) {
@@ -202,7 +202,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     }
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
-        var sectionTitle = UILabel(frame: frame)
+        let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
@@ -235,19 +235,19 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
         let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
-        var ver  = "(IOS \(UIDevice.currentDevice().systemVersion), V App \(majorVersion) \(minorVersion))"
-        var device = UIDevice.currentDevice().model.lowercaseString.uppercaseString
-        var status = AFNetworkReachabilityManager.sharedManager().reachableViaWiFi ? "Wifi" : "WWAN"
+        let ver  = "(IOS \(UIDevice.currentDevice().systemVersion), V App \(majorVersion) \(minorVersion))"
+        let device = UIDevice.currentDevice().model.lowercaseString.uppercaseString
+        let status = AFNetworkReachabilityManager.sharedManager().reachableViaWiFi ? "Wifi" : "WWAN"
         
         UIDevice.currentDevice().localizedModel
         
         if sender.tag == 1{//groceries
-            print("btn Groceries")
+            print("btn Groceries", terminator: "")
 
             let subject = "walmart super dispositivo\(ver)"
         
             if  MFMailComposeViewController.canSendMail(){
-                var mc: MFMailComposeViewController = MFMailComposeViewController()
+                let mc: MFMailComposeViewController = MFMailComposeViewController()
                 mc.mailComposeDelegate = self
                 mc.setSubject(subject)//Titulo de ,correo
                 mc.setMessageBody("\n\n\nwalmart super\ndispositivo: IOS \(UIDevice.currentDevice().systemVersion)\nV App: \(majorVersion) \(minorVersion)\nDevice: \(device)\nConectado via: \(status)", isHTML: false)
@@ -256,16 +256,16 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
                 self.presentViewController(mc, animated: true, completion: nil)
             }
             else{
-                var alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
                 alert!.setMessage("No se encontro una cuenta de correo configurada")
             }
             
         }else
         {
-            print("btn MG")
+            print("btn MG", terminator: "")
             let subject = "walmart MG dispositivo\(ver)"
                if  MFMailComposeViewController.canSendMail(){
-                    var mc: MFMailComposeViewController = MFMailComposeViewController()
+                    let mc: MFMailComposeViewController = MFMailComposeViewController()
                     mc.mailComposeDelegate = self
                     mc.setSubject(subject)//Titulo de ,correo
                     mc.setMessageBody("\n\n\nwalmart MG\ndispositivo: IOS \(UIDevice.currentDevice().systemVersion)\nV App: \(majorVersion) \(minorVersion)\nDevice: \(device)\nConectado via: \(status)", isHTML: false)
@@ -273,7 +273,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
                     self.presentViewController(mc, animated: true, completion: nil)
                 }
                 else{
-                var alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noRed"),imageDone: nil, imageError: nil)
                 //alert.setMessage("contact.mail.configure")
                 alert!.setMessage("No se encontro una cuenta de correo configurada")
                 }
@@ -284,7 +284,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     }
     
        //MARK: - MFMailComposeViewControllerDelegate
-    func mailComposeController(controller:MFMailComposeViewController, didFinishWithResult result:MFMailComposeResult, error:NSError) {
+    func mailComposeController(controller:MFMailComposeViewController, didFinishWithResult result:MFMailComposeResult, error:NSError?) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

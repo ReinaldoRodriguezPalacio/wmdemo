@@ -38,7 +38,7 @@ class WishlistAddProductStatus : UIView {
         self.viewBg.frame = CGRectMake(0, 0,self.bounds.width,48)
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -52,7 +52,7 @@ class WishlistAddProductStatus : UIView {
     
     func generateBlurImage(viewBg:UIView,frame:CGRect) {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext())
+        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         
         let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();

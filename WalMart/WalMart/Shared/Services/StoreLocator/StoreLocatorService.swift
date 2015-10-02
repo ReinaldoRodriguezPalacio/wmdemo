@@ -14,7 +14,7 @@ class StoreLocatorService: BaseService {
     var managedObjectContext: NSManagedObjectContext?
 
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        var params: NSDictionary = [:]
+        let params: NSDictionary = [:]
         self.callGETService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 if let values = resultCall["responseArray"] as? NSArray {
@@ -74,7 +74,7 @@ class StoreLocatorService: BaseService {
             fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: self.managedObjectContext!)
             fetchRequest.predicate = NSPredicate(format: "storeID == %@", storeId!)
             var error: NSError? = nil
-            var result: [Store] = self.managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [Store]
+            var result: [Store] = (try! self.managedObjectContext!.executeFetchRequest(fetchRequest)) as! [Store]
             if result.count > 0 {
                 store = result[0]
             }
@@ -94,9 +94,13 @@ class StoreLocatorService: BaseService {
     
     func saveContext() {
         var error: NSError? = nil
-        self.managedObjectContext!.save(&error)
+        do {
+            try self.managedObjectContext!.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
         if error != nil {
-            println()
+            print("")
         }
     }
 

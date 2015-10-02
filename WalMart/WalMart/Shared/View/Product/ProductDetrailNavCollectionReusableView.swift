@@ -10,7 +10,7 @@ import Foundation
 
 class ProductDetrailNavCollectionReusableView : UICollectionReusableView {
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

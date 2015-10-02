@@ -58,7 +58,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.titleLabel!.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.titleLabel!)
         
-        self.closeBtn = UIButton.buttonWithType(.Custom) as? UIButton
+        self.closeBtn = UIButton(type: .Custom)
         self.closeBtn!.setImage(UIImage(named:"close"), forState: .Normal)
         self.closeBtn!.addTarget(self, action: "closeSelector", forControlEvents: .TouchUpInside)
         self.view.addSubview(self.closeBtn!)
@@ -129,20 +129,20 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.imageBlurView = self.createBlurImage(viewBg, frame: frame)
         self.view.insertSubview(self.imageBlurView!, atIndex: 0)
         
-        var bg = UIView(frame: frame)
+        let bg = UIView(frame: frame)
         bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
         self.view.insertSubview(bg, aboveSubview: self.imageBlurView!)
     }
     
     func createBlurImage(viewBg:UIView, frame:CGRect) -> UIImageView {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 2.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext())
+        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         
         let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         
         let blurredImage = cloneImage.applyLightEffect()
-        var imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.frame = frame
         imageView.clipsToBounds = true
         imageView.image = blurredImage
@@ -175,19 +175,19 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             return listCell
         }
 
-        var cell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListSelectorViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListSelectorViewCell
         cell.delegate = self
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
         cell.hiddenOpenList = self.hiddenOpenList
         let idx = indexPath.row - 1
         if let item = self.list![idx] as? NSDictionary {
-            var isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
+            let isIncluded = self.validateProductInList(forProduct: self.productUpc, inListWithId: item["id"] as! String)
             cell.setListObject(item, productIncluded: isIncluded)
         }
         
         if let entity = self.list![idx] as? List {
-            var isIncluded = self.validateProductInList(forProduct: self.productUpc, inList: entity)
+            let isIncluded = self.validateProductInList(forProduct: self.productUpc, inList: entity)
             cell.setListEntity(entity, productIncluded: isIncluded)
         }
         
@@ -205,8 +205,8 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
         let idx = indexPath.row - 1
         if let item = self.list![idx] as? NSDictionary {
-            var listId = item["id"] as? String
-            var product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
+            let listId = item["id"] as? String
+            let product = self.retrieveProductInList(forProduct: self.productUpc, inListWithId: listId!)
             if product != nil {
                 self.delegate?.listSelectorDidDeleteProduct(inList: listId!)
             }
@@ -215,7 +215,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             }
         }
         else if let entity = self.list![idx] as? List {
-            var product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
+            let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
             //Actualizacion a servicio a traves del delegate
             if entity.idList != nil {
                 if product != nil {
@@ -251,8 +251,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "user == %@", user)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "registryDate", ascending: false)]
-        var error: NSError? = nil
-        var result: [List] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]
+        let result: [List] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [List]
         return result
     }
 
@@ -260,8 +259,13 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
+        var result: [List]? = nil
+        do{
+          result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
+        }
+        catch let error as NSError{
+            print("Fetch failed: \(error.localizedDescription)")
+        }
         return result
     }
 
@@ -280,7 +284,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
 
     
     func validateProductInList(forProduct upc:String?, inListWithId listId:String) -> Bool {
-        var detail: Product? = self.retrieveProductInList(forProduct: upc, inListWithId: listId)
+        let detail: Product? = self.retrieveProductInList(forProduct: upc, inListWithId: listId)
         return detail != nil
     }
 
@@ -290,8 +294,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list.idList == %@", upc!, listId)
-            var error: NSError? = nil
-            var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Product]
+            var result: [Product] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -300,7 +303,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     }
 
     func validateProductInList(forProduct upc:String?, inList entity:List) -> Bool {
-        var detail: Product? = self.retrieveProductInList(forProduct: upc, inList: entity)
+        let detail: Product? = self.retrieveProductInList(forProduct: upc, inList: entity)
         return detail != nil
     }
 
@@ -310,8 +313,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "upc == %@ && list == %@", upc!, entity)
-            var error: NSError? = nil
-            var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Product]
+            var result: [Product] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Product]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -321,9 +323,13 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     
     func saveContext() {
         var error: NSError? = nil
-        self.managedContext!.save(&error)
+        do {
+            try self.managedContext!.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
         if error != nil {
-            println("error at save context on UserListViewController: \(error!.localizedDescription)")
+            print("error at save context on UserListViewController: \(error!.localizedDescription)")
         }
     }
 
@@ -368,10 +374,11 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                 
                 //Event
                 if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
                         action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
                         label: value,
-                        value: nil).build() as [NSObject : AnyObject])
+                        value: nil).build()
+                    tracker.send(eventTracker as! [NSObject: AnyObject])
                 }
                 
                 self.loadLocalList()
@@ -381,7 +388,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                 }
             },
             errorBlock: { (error:NSError) -> Void in
-                println(error)
+                print(error)
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 self.alertView!.afterRemove = {

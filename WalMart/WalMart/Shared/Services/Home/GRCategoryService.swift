@@ -33,7 +33,7 @@ class GRCategoryService: GRBaseService {
         let values = self.getDataFromFile(self.fileName)
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
-            response.sort({ (one:[String : AnyObject], second:[String : AnyObject]) -> Bool in
+            response.sortInPlace({ (one:[String : AnyObject], second:[String : AnyObject]) -> Bool in
                 let firstString = one["description"] as! String?
                 let secondString = second["description"] as! String?
                 return firstString!.localizedCaseInsensitiveCompare(secondString!) == NSComparisonResult.OrderedAscending

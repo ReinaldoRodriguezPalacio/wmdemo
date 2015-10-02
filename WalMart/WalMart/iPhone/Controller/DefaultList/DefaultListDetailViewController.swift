@@ -70,7 +70,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         self.footerSection!.backgroundColor = WMColor.shoppingCartFooter
         self.view.addSubview(footerSection!)
         
-        var y = (self.footerSection!.frame.height - 34.0)/2
+        let y = (self.footerSection!.frame.height - 34.0)/2
         self.duplicateButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
         self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), forState: .Normal)
         self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Selected)
@@ -103,7 +103,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         
         if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
-            var tabBarHeight:CGFloat = 45.0
+            let tabBarHeight:CGFloat = 45.0
             self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
             self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
         }
@@ -118,8 +118,8 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         if !self.isSharing {
             tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
         }
-        var x = self.shareButton!.frame.maxX + 16.0
-        var y = (self.footerSection!.frame.height - 34.0)/2
+        let x = self.shareButton!.frame.maxX + 16.0
+        let y = (self.footerSection!.frame.height - 34.0)/2
         addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
     
     }
@@ -188,7 +188,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 price = item["price"] as? NSNumber
             
             
-            var width:CGFloat = self.view.frame.width
+            let width:CGFloat = self.view.frame.width
             var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
             if TabBarHidden.isTabBarHidden {
                 height += 45.0
@@ -209,7 +209,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 var item = self.detailItems![indexPath!.row]
                 var upc = item["upc"] as? String
-                item["quantity"] = NSNumber(integer:quantity.toInt()!)
+                item["quantity"] = NSNumber(integer:Int(quantity)!)
                 self.detailItems![indexPath!.row] = item
                 self.tableView?.reloadData()
                 self.removeSelector()
@@ -231,8 +231,8 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         if   self.quantitySelector != nil {
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
-                    var width:CGFloat = self.view.frame.width
-                    var height:CGFloat = self.view.frame.height - self.header!.frame.height
+                    let width:CGFloat = self.view.frame.width
+                    let height:CGFloat = self.view.frame.height - self.header!.frame.height
                     self.quantitySelector!.frame = CGRectMake(0.0, self.view.frame.height, width, height)
                 },
                 completion: { (finished:Bool) -> Void in
@@ -271,21 +271,21 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                     value: nil).build() as [NSObject : AnyObject])
             }
             
-            var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         }
     }
     
     func buildImageToShare() -> UIImage? {
         self.isSharing = true
-        var oldFrame : CGRect = self.tableView!.frame
+        let oldFrame : CGRect = self.tableView!.frame
         var frame : CGRect = self.tableView!.frame
         frame.size.height = self.tableView!.contentSize.height + 50.0
         self.tableView!.frame = frame
         
         UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
-        self.tableView!.layer.renderInContext(UIGraphicsGetCurrentContext())
-        var saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        self.tableView!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         self.isSharing = false
@@ -347,7 +347,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 params["type"] = ResultObjectType.Groceries.rawValue
                 params["comments"] = ""
                 if let type = item["type"] as? String {
-                    if type.toInt()! == 0 { //Piezas
+                    if Int(type)! == 0 { //Piezas
                         params["onHandInventory"] = "99"
                     }
                     else { //Gramos
@@ -453,7 +453,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 
                 }) { (error:NSError) -> Void in
                     
-                    println("Error at retrieve list detail")
+                    print("Error at retrieve list detail")
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                     
@@ -469,7 +469,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     
     
     func copyList(listName:String,itemsUserList:[AnyObject]?,successDuplicateList:(() -> Void)) {
-        var service = GRSaveUserListService()
+        let service = GRSaveUserListService()
         var items: [AnyObject] = []
         if self.detailItems != nil {
             for var idx = 0; idx < self.detailItems!.count; idx++ {
@@ -481,19 +481,19 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 let type = product["type"] as! String
                 
                 if let upc = product["upc"] as? String {
-                    var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type)
+                    let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type)
                     items.append(item)
                 }
             }
         }
         
-        var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
+        let copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
         service.callService(service.buildParams(copyName, items: items),
             successBlock: { (result:NSDictionary) -> Void in
                 successDuplicateList()
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Error at duplicate list")
+                print("Error at duplicate list")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             }
@@ -504,7 +504,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
      
         
         var listName = "\(theName)" //Se crea una nueva instancia
-        var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
         if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
             listName = listName.substringToIndex(range.startIndex)
         }
@@ -541,7 +541,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         }
     
     
-        var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        let idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
         return "\(listName) \(idxTxt)"
         
         

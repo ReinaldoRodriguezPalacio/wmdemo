@@ -24,26 +24,26 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
                 
-                var service = GRSaveUserListService()
+                let service = GRSaveUserListService()
                 var items: [AnyObject] = []
                 if let products = result["items"] as? NSArray {
                     for var idx = 0; idx < products.count; idx++ {
                         var product = products[idx] as! [String:AnyObject]
                         let quantity = product["quantity"] as! NSNumber
                         if let upc = product["upc"] as? String {
-                            var item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
+                            let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
                             items.append(item)
                         }
                     }
                 }
                 
-                var copyName = self.buildDuplicateNameList(listName, forListId: listId)
+                let copyName = self.buildDuplicateNameList(listName, forListId: listId)
                 service.callService(service.buildParams(copyName, items: items),
                     successBlock: { (result:NSDictionary) -> Void in
                         successDuplicateList()
                     },
                     errorBlock: { (error:NSError) -> Void in
-                        println("Error at duplicate list")
+                        print("Error at duplicate list")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
                     }
@@ -51,7 +51,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Error at retrieve list detail")
+                print("Error at retrieve list detail")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             }
@@ -63,7 +63,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     
     func buildDuplicateNameList(theName:String, forListId listId:String?) -> String {
         var listName = "\(theName)" //Se crea una nueva instancia
-        var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
         if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
             listName = listName.substringToIndex(range.startIndex)
         }
@@ -97,7 +97,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             }
         }
         
-        var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        let idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
         return "\(listName) \(idxTxt)"
     }
     

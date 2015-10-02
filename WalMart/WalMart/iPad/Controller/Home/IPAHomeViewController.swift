@@ -39,7 +39,7 @@ class IPAHomeViewController : HomeViewController {
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
             let arrayItemsResult =  arrayItems as! [AnyObject]
           
-            var paginatedProductDetail = IPAProductDetailPageViewController()
+            let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
             for productRecomm  in arrayItemsResult {

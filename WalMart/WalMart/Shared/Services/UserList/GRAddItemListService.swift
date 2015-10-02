@@ -11,17 +11,17 @@ import CoreData
 
 class GRAddItemListService: GRBaseService {
     
-    func buildParams(#idList:String, upcs:[AnyObject]?) -> [String:AnyObject]! {
+    func buildParams(idList idList:String, upcs:[AnyObject]?) -> [String:AnyObject]! {
         //{"idList":"26e50bc7-3644-48d8-a51c-73d7536ab30d","itemArrImp":[{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}]}
         return ["idList":idList, "itemArrImp":upcs!]
     }
     
-    func buildProductObject(#upc:String, quantity:Int,pesable:String,active:Bool) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:Int,pesable:String,active:Bool) -> [String:AnyObject] {
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : "","isActive":active]
     }
     
-    func buildProductObject(#upc:String, quantity:Int,pesable:String) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:Int,pesable:String) -> [String:AnyObject] {
         // {"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : ""]
     }
@@ -65,7 +65,7 @@ class GRAddItemListService: GRBaseService {
             let user = UserCurrentSession.sharedInstance().userSigned
             var entity : List?  = nil
             if user!.lists != nil {
-                var userLists : [List] = user!.lists!.allObjects as! [List]
+                let userLists : [List] = user!.lists!.allObjects as! [List]
                 
                 let resultLists = userLists.filter({ (list:List) -> Bool in
                     return list.idList == listId
@@ -83,9 +83,13 @@ class GRAddItemListService: GRBaseService {
                 //println("Creating user list \(listId)")
                 
                 var error: NSError? = nil
-                context.save(&error)
+                do {
+                    try context.save()
+                } catch let error1 as NSError {
+                    error = error1
+                }
                 if error != nil {
-                    println("error at save list: \(error!.localizedDescription)")
+                    print("error at save list: \(error!.localizedDescription)")
                 }
             }
             else {
@@ -93,7 +97,7 @@ class GRAddItemListService: GRBaseService {
                 fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: context)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", entity!)
                 var error: NSError? = nil
-                var result: [Product] = context.executeFetchRequest(fetchRequest, error: &error) as! [Product]
+                let result: [Product] = (try! context.executeFetchRequest(fetchRequest)) as! [Product]
                 if result.count > 0 {
                     for listDetail in result {
                         //println("Delete product list \(listDetail.upc)")
@@ -101,9 +105,13 @@ class GRAddItemListService: GRBaseService {
                     }
                     
                     var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    }
                     if error != nil {
-                        println("error at delete details: \(error!.localizedDescription)")
+                        print("error at delete details: \(error!.localizedDescription)")
                     }
                 }
             }
@@ -113,7 +121,7 @@ class GRAddItemListService: GRBaseService {
                 
                 for var idx = 0; idx < items.count; idx++ {
                     var item = items[idx] as! [String:AnyObject]
-                    var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+                    let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
                     detail!.upc = item["upc"] as! String
                     detail!.img = item["imageUrl"] as! String
                     detail!.desc = item["description"] as! String
@@ -131,9 +139,13 @@ class GRAddItemListService: GRBaseService {
                 }
                 
                 var error: NSError? = nil
-                context.save(&error)
+                do {
+                    try context.save()
+                } catch let error1 as NSError {
+                    error = error1
+                }
                 if error != nil {
-                    println("error at delete details: \(error!.localizedDescription)")
+                    print("error at delete details: \(error!.localizedDescription)")
                 }
                 
             }

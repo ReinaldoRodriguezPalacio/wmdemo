@@ -159,7 +159,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadCrossSell() {
         let crossService = CrossSellingProductService()
-        crossService.callService(self.upc as! String, successBlock: { (result:NSArray?) -> Void in
+        crossService.callService(self.upc as String, successBlock: { (result:NSArray?) -> Void in
             if result != nil {
                 self.itemsCrossSellUPC = result!
                 if self.itemsCrossSellUPC.count > 0{
@@ -167,7 +167,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 }
             }
             }, errorBlock: { (error:NSError) -> Void in
-                println("Termina sevicio app")
+                print("Termina sevicio app")
         })
     }
     
@@ -571,7 +571,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     // MARK: Product crosssell delegate
     func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect){
         
-        var paginatedProductDetail = IPAProductDetailPageViewController()
+        let paginatedProductDetail = IPAProductDetailPageViewController()
         paginatedProductDetail.ixSelected = index
         paginatedProductDetail.itemsToShow = []
         for product  in items {
@@ -710,14 +710,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
-            if self.onHandInventory.integerValue >= quantity.toInt() {
+            if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
                         
-                        var pesable = self.isPesable ? "1" : "0"
+                        let pesable = self.isPesable ? "1" : "0"
                         
                         var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable,isPreorderable:"\(self.isPreorderable)")
                         params.updateValue(comments, forKey: "comments")
@@ -961,10 +961,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }
             
             }) { (error:NSError) -> Void in
-                var empty = IPOGenericEmptyView(frame:CGRectMake(0, self.headerView.frame.maxY, self.view.frame.width, self.view.frame.height - self.headerView.frame.maxY))
+                let empty = IPOGenericEmptyView(frame:CGRectMake(0, self.headerView.frame.maxY, self.view.frame.width, self.view.frame.height - self.headerView.frame.maxY))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
-                    println("")
+                    print("")
                     self.navigationController!.popViewControllerAnimated(true)
                 }
                 self.view.addSubview(empty)
@@ -1064,12 +1064,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             
-            var product = GAIEcommerceProduct()
-            var builder = GAIDictionaryBuilder.createScreenView()
+            let product = GAIEcommerceProduct()
+            let builder = GAIDictionaryBuilder.createScreenView()
             product.setId(self.upc as String)
             product.setName(self.name as String)
             
-            var action = GAIEcommerceProductAction();
+            let action = GAIEcommerceProductAction();
             action.setAction(kGAIPADetail)
             builder.setProductAction(action)
             builder.addProduct(product)
@@ -1079,7 +1079,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
     }
     
-    func removeListSelector(#action:(()->Void)?, closeRow: Bool ) {
+    func removeListSelector(action action:(()->Void)?, closeRow: Bool ) {
         if  self.listSelectorController != nil {
             self.closeContainer({ () -> Void in
                 //action?()
@@ -1111,7 +1111,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func shareProduct() {
         let imageHead = UIImage(named:"detail_HeaderMail")
         // Build header title to share
-        var tmpheaderView = UIView(frame:CGRectMake(0, 0, self.bannerImagesProducts.frame.width, heigthHeader))
+        let tmpheaderView = UIView(frame:CGRectMake(0, 0, self.bannerImagesProducts.frame.width, heigthHeader))
         tmpheaderView.backgroundColor = WMColor.productDetailHeaderBgColor
         
         //Event
@@ -1123,7 +1123,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         
-        var tmptitlelbl = UILabel(frame: CGRectMake(0, 0,tmpheaderView.frame.width , tmpheaderView.frame.height))
+        let tmptitlelbl = UILabel(frame: CGRectMake(0, 0,tmpheaderView.frame.width , tmpheaderView.frame.height))
         tmptitlelbl.textAlignment = .Center
         tmptitlelbl.text = self.name as String
         tmptitlelbl.numberOfLines = 2
@@ -1141,17 +1141,17 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         let product = self.bannerImagesProducts.collection.cellForItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as! ProductDetailBannerMediaCollectionViewCell!
         
-        println(imageHead!.size)
-        println(imageHeader.size)
-        println(product.imageView!.image!.size)
-        println(screen.size)
+        print(imageHead!.size)
+        print(imageHeader.size)
+        print(product.imageView!.image!.size)
+        print(screen.size)
         
         
         let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
         
         let imgResult = UIImage.verticalImageFromArrayProdDetail([imageHead!,imageHeader,product.imageView!.image!,screen])
         //let imgResult = UIImage.verticalImageFromArray([imageHead!,product.imageView!.image!,screen],andWidth:320)
-        var controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
         
         popup!.presentPopoverFromRect(CGRectMake(700, 100, 300, 100), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
@@ -1191,7 +1191,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func showProductDetailOptions() {
-        var controller = ProductDetailOptionsViewController()
+        let controller = ProductDetailOptionsViewController()
         controller.upc = self.upc as String
         controller.name = self.name as String
         controller.imagesToDisplay = imageUrl
@@ -1205,7 +1205,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         controller.selectedDetailItem = self.selectedDetailItem
         controller.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        controller.setAdditionalValues(self.listPrice as! String, price: self.price as! String, saving: self.saving as! String)
+        controller.setAdditionalValues(self.listPrice as String, price: self.price as String, saving: self.saving as String)
     }
     
     // MARK Color Size Functions
@@ -1257,7 +1257,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func sleectedImage(indexPath:NSIndexPath){
-        var controller = ImageDisplayCollectionViewController()
+        let controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
         controller.imagesToDisplay = imageUrl
         controller.currentItem = indexPath.row
@@ -1276,8 +1276,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     //MARK: ProductDetailColorSizeDelegate
     func selectDetailItem(selected: String, itemType: String) {
         self.selectedDetailItem = ["selected":selected, "itemType": itemType]
-        var upc = self.getUpc(selected,itemType: itemType)
-        var facet = self.facets![upc] as! NSDictionary
+        let upc = self.getUpc(selected,itemType: itemType)
+        let facet = self.facets![upc] as! NSDictionary
         self.reloadViewWithData(facet)
     }
    

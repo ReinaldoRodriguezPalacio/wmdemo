@@ -45,7 +45,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
         setup()
     }
@@ -278,7 +278,6 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
 
     
     func registryAddress(dictSend:NSDictionary?) {
-        let service = GRAddressAddService()
         if dictSend != nil {
             let service = GRAddressAddService()
             let dictSend = sAddredssForm.getAddressDictionary("", delete:false,preferred:true)
@@ -286,7 +285,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
-                println("Se realizo la direccion")
+                print("Se realizo la direccion")
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                 }
@@ -307,7 +306,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         self.sAddredssForm.indoornumber.text = addressPreferred["innerNumber"] as! String!
         self.sAddredssForm.zipcode.text = addressPreferred["zipCode"] as! String!
         self.sAddredssForm.street.text = addressPreferred["street"] as! String!
-        self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text, neighborhoodID: "", storeID: "")
+        self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: "", storeID: "")
     }
     
     

@@ -22,7 +22,7 @@ class FilterCategoryViewCell: UITableViewCell {
     var upperTextColor = WMColor.navigationTilteTextColor
     var lineTextColor = WMColor.searchProductDescriptionTextColors
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -40,8 +40,8 @@ class FilterCategoryViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        var size = self.frame.size
-        var separation:CGFloat = 16.0
+        let size = self.frame.size
+        let separation:CGFloat = 16.0
         
         var x: CGFloat = separation
         if self.type == .family {

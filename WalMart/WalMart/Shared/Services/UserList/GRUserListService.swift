@@ -42,9 +42,9 @@ class GRUserListService : GRBaseService {
     //MARK: -
     
     func mergeList(response:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        var notSyncList = self.retrieveNotSyncList()
+        let notSyncList = self.retrieveNotSyncList()
         if notSyncList != nil && notSyncList!.count > 0 {
-            var list = notSyncList!.first
+            let list = notSyncList!.first
             var listToMerge: [String:AnyObject]? = nil
 
             let currentLists = response["responseArray"] as? [AnyObject]
@@ -64,9 +64,9 @@ class GRUserListService : GRBaseService {
                 let service = GRSaveUserListService()
                 
                 var items:[AnyObject] = []
-                list!.products.enumerateObjectsUsingBlock({ (obj:AnyObject!, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
+                list!.products.enumerateObjectsUsingBlock({ (obj:AnyObject, flag:UnsafeMutablePointer<ObjCBool>) -> Void in
                     if let product = obj as? Product {
-                        var param = service.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)")
+                        let param = service.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue, image: product.img, description: product.desc, price: product.price as String, type: "\(product.type)")
                         items.append(param)
                     }
                 })
@@ -82,7 +82,7 @@ class GRUserListService : GRBaseService {
                         
                     },
                     errorBlock: { (error:NSError) -> Void in
-                        println("Error at merge new list \(error)")
+                        print("Error at merge new list \(error)")
                         if error.code == -13 {
                             self.managedContext!.deleteObject(list!)
                             self.saveContext()
@@ -94,13 +94,13 @@ class GRUserListService : GRBaseService {
                 )
             }
             else {
-                var listId = listToMerge!["id"] as! String
+                let listId = listToMerge!["id"] as! String
                 //Con la invocacion del mismo servicio se puede hacer add/update del producto
-                var array = list!.products.allObjects as! [Product]
-                var addItemService = GRAddItemListService()
+                let array = list!.products.allObjects as! [Product]
+                let addItemService = GRAddItemListService()
                 var params:[AnyObject] = []
                 for product in array {
-                    var param = addItemService.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue,pesable:product.type.stringValue)
+                    let param = addItemService.buildProductObject(upc: product.upc, quantity: product.quantity.integerValue,pesable:product.type.stringValue)
                     params.append(param)
                 }
                 
@@ -111,7 +111,7 @@ class GRUserListService : GRBaseService {
                         self.mergeList(response, successBlock: successBlock, errorBlock:errorBlock)
                     },
                     errorBlock: { (error:NSError) -> Void in
-                        println("Error at merge list \(error)")
+                        print("Error at merge list \(error)")
                         errorBlock?(error)
                     }
                 )
@@ -130,7 +130,7 @@ class GRUserListService : GRBaseService {
     func manageListData(list:[AnyObject]) {
         let user = UserCurrentSession.sharedInstance().userSigned
         if user == nil {
-            println("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
+            print("Se recibio respuesta del servicio GRUserListService sin tener usuario firmado.")
             return
         }
 
@@ -156,7 +156,7 @@ class GRUserListService : GRBaseService {
             
             var toUseList : List?  = nil
             if user!.lists != nil {
-                var userLists : [List] = user!.lists!.allObjects as! [List]
+                let userLists : [List] = user!.lists!.allObjects as! [List]
                 
                 let resultLists = userLists.filter({ (list:List) -> Bool in
                     return list.idList == listId
@@ -185,9 +185,13 @@ class GRUserListService : GRBaseService {
             }
             
             var error: NSError? = nil
-            self.managedContext!.save(&error)
+            do {
+                try self.managedContext!.save()
+            } catch let error1 as NSError {
+                error = error1
+            }
             if error != nil {
-                println("error at save list: \(error!.localizedDescription)")
+                print("error at save list: \(error!.localizedDescription)")
             }
             
             if(updateDetailList) {
@@ -195,8 +199,7 @@ class GRUserListService : GRBaseService {
                 let fetchRequest = NSFetchRequest()
                 fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
                 fetchRequest.predicate = NSPredicate(format: "list == %@", toUseList!)
-                var error: NSError? = nil
-                var result: [Product] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Product]
+                let result: [Product] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Product]
                 if result.count > 0 {
                     for listDetail in result {
                         //println("Delete product list \(listDetail.upc)")
@@ -204,9 +207,13 @@ class GRUserListService : GRBaseService {
                     }
                     
                     var error: NSError? = nil
-                    self.managedContext!.save(&error)
+                    do {
+                        try self.managedContext!.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    }
                     if error != nil {
-                        println("error at delete details: \(error!.localizedDescription)")
+                        print("error at delete details: \(error!.localizedDescription)")
                     }
                 }
                 
@@ -216,15 +223,15 @@ class GRUserListService : GRBaseService {
                     successBlock: { (result:NSDictionary) -> Void in
                         if let items = result["items"] as? NSArray {
                             
-                            var parentList = self.findListById(listId)
+                            let parentList = self.findListById(listId)
                             if parentList == nil {
-                                println("User list not founded \(listId)")
+                                print("User list not founded \(listId)")
                                 return
                             }
                             
                             for var idx = 0; idx < items.count; idx++ {
                                 var item = items[idx] as! [String:AnyObject]
-                                var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
+                                let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
                                 detail!.upc = item["upc"] as! String
                                 detail!.img = item["imageUrl"] as! String
                                 detail!.desc = item["description"] as! String
@@ -238,10 +245,10 @@ class GRUserListService : GRBaseService {
                                     detail!.quantity = quantity
                                 }
                                 else if let quantity = item["quantity"] as? String {
-                                    detail!.quantity = NSNumber(integer: quantity.toInt()!)
+                                    detail!.quantity = NSNumber(integer: Int(quantity)!)
                                 }
                                 if let type = item["type"] as? String {
-                                    detail!.type = NSNumber(integer: type.toInt()!)
+                                    detail!.type = NSNumber(integer: Int(type)!)
                                 }
                                 else if let type = item["type"] as? NSNumber {
                                     detail!.type = type
@@ -250,15 +257,21 @@ class GRUserListService : GRBaseService {
                                 detail!.list = parentList!
                                 
                                 var error: NSError? = nil
-                                self.managedContext!.save(&error)
+                                do {
+                                    try self.managedContext!.save()
+                                } catch let error1 as NSError {
+                                    error = error1
+                                } catch {
+                                    fatalError()
+                                }
                                 if error != nil {
-                                    println("error at delete details: \(error!.localizedDescription)")
+                                    print("error at delete details: \(error!.localizedDescription)")
                                 }
                             }
                         }
                     },
                     errorBlock: { (error:NSError) -> Void in
-                        println("Error at retrieve list detail")
+                        print("Error at retrieve list detail")
                     }
                 )
             }
@@ -271,13 +284,16 @@ class GRUserListService : GRBaseService {
     
     func retrieveUserList() -> [List]? {
         var userList: [List]?
-        var user = UserCurrentSession.sharedInstance().userSigned
+        let user = UserCurrentSession.sharedInstance().userSigned
         if user != nil {
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString as String, inManagedObjectContext: self.managedContext!)
             fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
-            var error: NSError? = nil
-            userList = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [List]
+            do{
+                userList = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
+            }catch{
+                print("Error retrieveUserList")
+            }
         }
         return userList
     }
@@ -286,8 +302,7 @@ class GRUserListService : GRBaseService {
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString as String, inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == %@", listId)
-        var error: NSError? = nil
-        var result: [List] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]
+        var result: [List] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [List]
         var list: List? = nil
         if result.count > 0 {
             list = result[0]
@@ -299,16 +314,24 @@ class GRUserListService : GRBaseService {
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [List]?
+        var result: [List]? = nil
+        do{
+            result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
+        }catch{
+            print("findListById")
+        }
         return result
     }
 
     func saveContext() {
         var error: NSError? = nil
-        self.managedContext!.save(&error)
+        do {
+            try self.managedContext!.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
         if error != nil {
-            println("error at save context on UserListViewController: \(error!.localizedDescription)")
+            print("error at save context on UserListViewController: \(error!.localizedDescription)")
         }
     }
 

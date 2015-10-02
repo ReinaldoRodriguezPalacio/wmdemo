@@ -58,7 +58,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -68,8 +68,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 if field! == self.zipcode {
-                    if count(self.zipcode.text.utf16) > 0 {
-                        let xipStr = self.zipcode.text as NSString
+                    if self.zipcode.text!.utf16.count > 0 {
+                        let xipStr = self.zipcode.text! as NSString
                         self.zipcode.text = String(format: "%05d",xipStr.integerValue)
                         self.store.becomeFirstResponder()
                     }
@@ -233,8 +233,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.store.onBecomeFirstResponder = { () in
             
             if self.currentZipCode != self.zipcode.text {
-                self.currentZipCode = self.zipcode.text
-                var zipCode = self.zipcode.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                self.currentZipCode = self.zipcode.text!
+                var zipCode = self.zipcode.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 
                 self.neighborhoods = []
                 self.stores = []
@@ -246,8 +246,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.selectedStore = nil
                 
                 var padding : String = ""
-                if count(zipCode) < 5 {
-                    padding =  padding.stringByPaddingToLength( 5 - count(zipCode) , withString: "0", startingAtIndex: 0)
+                if zipCode.characters.count < 5 {
+                    padding =  padding.stringByPaddingToLength( 5 - zipCode.characters.count , withString: "0", startingAtIndex: 0)
                 }
                 
                 if (padding + zipCode ==  "00000") {
@@ -524,15 +524,15 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
         }
         
-        if self.phoneWorkNumber.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
-            && self.phoneHomeNumber.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
-            && self.cellPhone.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
+        if self.phoneWorkNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
+            && self.phoneHomeNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
+            && self.cellPhone.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
             && !delete  {
                 self.viewError(self.phoneHomeNumber,message: "Es necesario capturar un teléfono")
                 return nil
         }
         if self.phoneWorkNumber.text != "" {
-            let toValidate : NSString = self.phoneWorkNumber.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let toValidate : NSString = self.phoneWorkNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             if  self.viewError(self.phoneWorkNumber)  {
                 return nil
             }
@@ -543,7 +543,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
         }
         if self.phoneHomeNumber.text != ""   && !delete {
-            let toValidate : NSString = self.phoneHomeNumber.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let toValidate : NSString = self.phoneHomeNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             if  self.viewError(self.phoneHomeNumber)  {
                 return nil
             }
@@ -553,7 +553,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
         }
         if self.cellPhone.text != "" {
-            let toValidate : NSString = self.cellPhone.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let toValidate : NSString = self.cellPhone.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             if  self.viewError(self.cellPhone)  {
                 return nil
             }
@@ -563,7 +563,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
         }
         
-        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text, work: self.phoneWorkNumber.text, cellPhone: self.cellPhone.text)
+        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text!, work: self.phoneWorkNumber.text!, cellPhone: self.cellPhone.text!)
         
         let resultDictVal = JSON(resultDict)
         
@@ -596,15 +596,15 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             if addressId != "" {
                 action = "C"
         }
-        return  service.buildParams(strCity, addressID: addressId, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neightId, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: referenceOne, reference2: referenceTwo, storeID: storeId, operationType: action, preferred: preferred)
+        return  service.buildParams(strCity, addressID: addressId, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state, county: county, neighborhoodID: neightId, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: referenceOne!, reference2: referenceTwo!, storeID: storeId, operationType: action, preferred: preferred)
     }
     
     func validateShortName(addressId:String)-> Bool {
-        var id = addressId == "" ? "-1" : addressId
+        let id = addressId == "" ? "-1" : addressId
         for item in  self.allAddress as! [NSDictionary]{
-            var idItem = item["id"] as! String
-            var name = item["name"] as! String
-            if id != idItem && name.uppercaseString ==  addressName!.text.uppercaseString {
+            let idItem = item["id"] as! String
+            let name = item["name"] as! String
+            if id != idItem && name.uppercaseString ==  addressName!.text!.uppercaseString {
                 self.viewError(addressName!, message:NSLocalizedString("profile.address.already.exist", comment: ""))
                 return true
             }
@@ -613,7 +613,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     }
     
     func viewError(field: FormFieldView)-> Bool{
-        var message = field.validate()
+        let message = field.validate()
         return self.viewError(field,message: message)
     }
     
@@ -633,8 +633,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     
     func setZipCodeAnfFillFields(zipcode:String,neighborhoodID:String,storeID:String) {
-        var serviceZip = GRZipCodeService()
-        serviceZip.buildParams(self.zipcode.text)
+        let serviceZip = GRZipCodeService()
+        serviceZip.buildParams(self.zipcode.text!)
         serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
             
             self.resultDict = result
@@ -666,7 +666,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 if idStore == storeID {
                     self.store!.text = self.stores[self.stores.count - 1]
                     self.selectedStore = NSIndexPath(forRow: self.stores.count - 1, inSection: 0)
-                    self.currentZipCode = self.zipcode.text
+                    self.currentZipCode = self.zipcode.text!
                 }
                 if storeID == "" {
                     self.store!.text = self.stores[0]
@@ -716,7 +716,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text
+        let strNSString : NSString = textField.text!
         let zipcode = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if zipcode != currentZipCode {
             self.suburb!.text = ""

@@ -180,7 +180,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let servicePrev = PreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                var dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
                 dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
                 self.items.append(dictMGOrder)
             }
@@ -195,14 +195,14 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         let servicePrev = GRPreviousOrdersService()
         servicePrev.callService({ (previous:NSArray) -> Void in
             for orderPrev in previous {
-                var dictGROrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                let dictGROrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
                 dictGROrder["type"] =  ResultObjectType.Groceries.rawValue
                 self.items.append(dictGROrder)
             }
             
             let dateFormat = NSDateFormatter()
             dateFormat.dateFormat = "dd/MM/yyyy"
-            self.items.sort({
+            self.items.sortInPlace({
                 let firstDate = $0["placedDate"] as! String
                 let secondDate = $1["placedDate"] as! String
                 let dateOne = dateFormat.dateFromString(firstDate)!

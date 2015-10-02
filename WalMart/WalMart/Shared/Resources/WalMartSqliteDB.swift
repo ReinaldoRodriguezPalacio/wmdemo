@@ -28,16 +28,21 @@ class WalMartSqliteDB: NSObject {
         
         var error : NSError? = nil
         let todeletecloud =  NSURL(fileURLWithPath: docPath as String)
-        if todeletecloud != nil {
-            todeletecloud!.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey, error: &error)
+        do {
+            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+        } catch var error1 as NSError {
+            error = error1
+        } catch {
+            fatalError()
         }
+
         
         var queueDB: FMDatabaseQueue = FMDatabaseQueue.dbQueueWithPath(dbPath)
         queueDB.inDatabase({ (db:FMDatabase!) in
             
             if let rs = db.executeQuery(self.CREATE_PRODUCT_TABLE_QUERY, withArgumentsInArray:nil) {
                 while rs.next() {
-                    println(rs.resultDictionary())
+                    print(rs.resultDictionary())
                 }
                 rs.close()
                 rs.setParentDB(nil)
@@ -45,7 +50,7 @@ class WalMartSqliteDB: NSObject {
         
             if let rsCategories = db.executeQuery(self.CREATE_CATEGORIES_TABLE_QUERY, withArgumentsInArray:nil) {
                 while rsCategories.next() {
-                    println(rsCategories.resultDictionary())
+                    print(rsCategories.resultDictionary())
                 }
                 rsCategories.close()
                 rsCategories.setParentDB(nil)
@@ -82,11 +87,11 @@ class WalMartSqliteDB: NSObject {
         return "INSERT INTO \(PRODUCT_KEYWORD_TABLE) (\(KEYWORD_TITLE_COLUMN)) VALUES(\"\(description)\");"
     }*/
     
-    func buildFindProductKeywordQuery(#description:String, price:String) -> String {
+    func buildFindProductKeywordQuery(description description:String, price:String) -> String {
         return "SELECT * FROM \(PRODUCT_KEYWORD_TABLE) WHERE \(KEYWORD_TITLE_COLUMN) = '\(description)\' and price = \'\(price)\';"
     }
     
-    func buildSearchProductKeywordsQuery(#keyword:String) -> String {
+    func buildSearchProductKeywordsQuery(keyword keyword:String) -> String {
         return "SELECT * FROM \(PRODUCT_KEYWORD_TABLE) WHERE \(KEYWORD_TITLE_COLUMN) MATCH \"\(keyword)*\"  ORDER BY \(KEYWORD_TITLE_COLUMN);"
     }
 
@@ -95,15 +100,15 @@ class WalMartSqliteDB: NSObject {
         return "INSERT INTO \(CATEGORIES_KEYWORD_TABLE) (departament , type  , idLine , idFamily, idDepto,  \(KEYWORD_TITLE_COLUMN) ,family,line) VALUES('\(departament)','\(type)','\(idLine)','\(idFamily)','\(idDepto)', '\(categorie)', '\(family)', '\(line)');"
     }
     
-    func buildFindCategoriesKeywordQuery(#categories:String, departament:String, type:String, idLine: String ) -> String {
+    func buildFindCategoriesKeywordQuery(categories categories:String, departament:String, type:String, idLine: String ) -> String {
          return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE type=\'\(type)\' and idLine=\'\(idLine)\' ;"
     }
     
-    func buildSearchCategoriesKeywordsQuery(#keyword:String) -> String {
+    func buildSearchCategoriesKeywordsQuery(keyword keyword:String) -> String {
         return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE \(KEYWORD_TITLE_COLUMN) MATCH \"\(keyword)*\"  ORDER BY \(KEYWORD_TITLE_COLUMN);"
     }
     
-    func buildSearchCategoriesIdLineQuery(#idline:String) -> String {
+    func buildSearchCategoriesIdLineQuery(idline idline:String) -> String {
         return "SELECT * FROM \(CATEGORIES_KEYWORD_TABLE) WHERE \(KEYWORD_IDLINE_COLUMN) IN(\(idline));"
     }
     

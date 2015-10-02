@@ -33,7 +33,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         let type = selected["type"] as! String
         let saving = selected["saving"] as? String
         
-        var ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving)
+        let ctrlToShow  = self.getControllerToShow(upc,descr:name,type:type,saving:saving)
         if ctrlToShow != nil {
             self.pageController.setViewControllers([ctrlToShow!], direction: UIPageViewControllerNavigationDirection.Forward, animated: false, completion: nil)
         }
@@ -58,7 +58,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         storyBoard = loadStoryboardDefinition()
         switch(type) {
         case ResultObjectType.Mg.rawValue :
-            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController! {
+            if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
                 vc.upc = upc
                 vc.name = descr
                 vc.view.tag = ixSelected
@@ -66,7 +66,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
-                if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? ProductDetailViewController! {
+                if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? ProductDetailViewController {
                     vc.upc = upc
                     vc.name = descr
                     vc.saving = saving == nil ? "" : saving!
@@ -102,7 +102,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
-            let saving = selected["saving"] as? String
+            //let saving = selected["saving"] as? String
             
             let controllerBefore = getControllerToShow(upc,descr:name,type:type)
             return controllerBefore
@@ -120,7 +120,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             let upc = selected["upc"] as! String
             let name = selected["description"] as! String
             let type = selected["type"] as! String
-            let saving = selected["saving"] as? String
+            //let saving = selected["saving"] as? String
             
             let controllerBefore = getControllerToShow(upc,descr:name,type:type)
 
@@ -134,9 +134,8 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     
     func enabledGesture(enabled:  Bool ) {
         for recognizer in pageController.gestureRecognizers {
-            if let rec = recognizer as? UIGestureRecognizer {
-                rec.enabled = enabled;
-            }
+             let rec = recognizer
+             rec.enabled = enabled;
         }
         
         for recognizer in pageController.view.subviews {

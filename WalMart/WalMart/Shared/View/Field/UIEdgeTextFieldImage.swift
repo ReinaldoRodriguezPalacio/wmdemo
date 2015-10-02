@@ -27,7 +27,7 @@ class UIEdgeTextFieldImage : UITextField {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -68,13 +68,13 @@ class UIEdgeTextFieldImage : UITextField {
         if self.secureTextEntry {
            self.font = UIFont.systemFontOfSize(14)
         }
-        if  count(self.text) == 0 {
+        if  self.text!.characters.count == 0 {
             self.font = WMFont.fontMyriadProRegularOfSize(14)
         }
         imageIcon?.image = imageNotSelected
         let resign =  super.resignFirstResponder()
         if valueDelegate != nil {
-            valueDelegate!.fieldChangeValue(self.text)
+            valueDelegate!.fieldChangeValue(self.text!)
         }
         return resign;
     }
@@ -96,19 +96,19 @@ class UIEdgeTextFieldImage : UITextField {
         if isValid {
             switch (typeField) {
             case .Email:
-                isValid =  SignUpViewController.isValidEmail(self.text)
+                isValid =  SignUpViewController.isValidEmail(self.text!)
                 if !isValid{
                     message = NSLocalizedString("field.validate.text.invalid",comment:"")
                 }
             case .Password:
-                if count(self.text) == 0
+                if self.text!.characters.count == 0
                 {
                     isValid = false
                     message = NSLocalizedString("field.validate.password.empty",comment:"")
                     //isValid = false
                     //message = NSLocalizedString("field.validate.password",comment:"")
                 }
-                if count(self.text) < 5 || count(self.text) > 20
+                if self.text!.characters.count < 5 || self.text!.characters.count > 20
                 {
                     isValid = false
                     message = NSLocalizedString("field.validate.password.length",comment:"")
@@ -117,8 +117,14 @@ class UIEdgeTextFieldImage : UITextField {
                 }
                 
                 var error: NSError?
-                var regExVal = NSRegularExpression(pattern: validatePass() as String, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-                let matches = regExVal!.numberOfMatchesInString(self.text, options: nil, range: NSMakeRange(0, count(self.text)))
+                var regExVal: NSRegularExpression?
+                do {
+                    regExVal = try NSRegularExpression(pattern: validatePass() as String, options: NSRegularExpressionOptions.CaseInsensitive)
+                } catch let error1 as NSError {
+                    error = error1
+                    regExVal = nil
+                }
+                let matches = regExVal!.numberOfMatchesInString(self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))
                 
                 if matches > 0 {
                     isValid = true

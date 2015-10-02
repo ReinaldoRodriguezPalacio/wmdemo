@@ -20,7 +20,7 @@ class SearchSingleViewCell: UITableViewCell {
         self.selectionStyle = .None
         self.backgroundColor = UIColor.clearColor()
         
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         
         self.priceLabel = CurrencyCustomLabel(frame: CGRectMake(bounds.width - 80 - 15 , 0.0, 80 , bounds.height - 1.0))
         self.priceLabel?.textAlignment =  NSTextAlignment.Right
@@ -36,7 +36,7 @@ class SearchSingleViewCell: UITableViewCell {
         self.fontTitleKey = WMFont.fontMyriadProBoldOfSize(14)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -55,7 +55,7 @@ class SearchSingleViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
         self.title!.frame = CGRectMake(15.0, 0.0, bounds.width - 80.0 - 30.0, bounds.height - 1.0)
         self.priceLabel!.frame = CGRectMake(bounds.width - 80 - 15 , 0.0, 80 , bounds.height - 1.0)
@@ -63,9 +63,9 @@ class SearchSingleViewCell: UITableViewCell {
     
     //MARK: - Utils
     class func attributedText(key:NSString, value:NSString, fontKey:UIFont, fontValue:UIFont) -> NSMutableAttributedString {
-        var attributedTxt = NSMutableAttributedString(string:value as String)
+        let attributedTxt = NSMutableAttributedString(string:value as String)
         attributedTxt.addAttribute(NSFontAttributeName, value: fontValue, range: NSMakeRange (0, value.length))
-        var range = value.rangeOfString(key as String, options: .CaseInsensitiveSearch)
+        let range = value.rangeOfString(key as String, options: .CaseInsensitiveSearch)
         if range.location != NSNotFound {
             attributedTxt.addAttribute(NSFontAttributeName, value: fontKey, range: NSMakeRange (range.location, key.length))
         }
@@ -79,7 +79,7 @@ class SearchSingleViewCell: UITableViewCell {
         }else{
             color = UIColor.clearColor()
         }
-        var codeChange = {() -> Void  in
+        let codeChange = {() -> Void  in
             self.backgroundColor = color
             self.contentView.backgroundColor = color
         }

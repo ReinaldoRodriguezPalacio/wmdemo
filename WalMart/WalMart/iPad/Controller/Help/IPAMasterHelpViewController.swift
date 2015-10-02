@@ -22,23 +22,25 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         self.navigation = UINavigationController()
         
         let storyboard = self.loadStoryboardDefinition()
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("ipaMoreVC") as? UIViewController {
-            
+        let vc = storyboard!.instantiateViewControllerWithIdentifier("ipaMoreVC")
             if let vcRoot = vc as? IPAMoreOptionsViewController {
                 vcRoot.delegate = self
                 self.navController = vc
                 self.viewControllers = [vc, navigation]
             }
-        }
 
-        var recent = IPAHelpViewController()
+        let recent = IPAHelpViewController()
         self.navigation.pushViewController(recent, animated: true)
         selected = 5
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {
-            self.maximumPrimaryColumnWidth = 342
-            self.minimumPrimaryColumnWidth = 342
+            if #available(iOS 8.0, *) {
+                self.maximumPrimaryColumnWidth = 342
+                self.minimumPrimaryColumnWidth = 342
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
     
@@ -61,20 +63,20 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
-            var myAddres = IPAMyAddressViewController()
+            let myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)
 
         case 1:
-            var recent = IPARecentProductsViewController()
+            let recent = IPARecentProductsViewController()
             self.navigation.pushViewController(recent, animated: true)
         case 2:
-            var order = IPAOrderViewController()
+            let order = IPAOrderViewController()
             self.navigation.pushViewController(order, animated: true)
         case 3:
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
-            var recent = IPAHelpViewController()
+            let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
         case 4:
             scanTicket()
@@ -83,29 +85,29 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
-            var recent = IPAHelpViewController()
+            let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
         case 6:
             //Notifica
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC") as? UIViewController
             self.navigation.pushViewController(controller!, animated: true)
         case 7:
-            var recent = IPAHelpViewController()
+            let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: true)
             
         case 8:
-            var recent = IPATermViewController()
+            let recent = IPATermViewController()
             self.navigation.pushViewController(recent, animated: true)
         case 9:
             
-            var recent = IPASupportViewController()
+            let recent = IPASupportViewController()
             self.navigation.pushViewController(recent, animated: true)
         case 10:
-            var edit = IPAEditProfileViewController()
+            let edit = IPAEditProfileViewController()
             var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
             self.navigation.pushViewController(edit, animated: true)
         default :
-            println("other pressed")
+            print("other pressed")
         }
         
 //        selected = row
@@ -148,7 +150,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         controller.searchContextType = .WithText
         controller.titleHeader = value
         controller.textToSearch = value
-        var controllernav = self.navigationController
+        let controllernav = self.navigationController
         if controllernav != nil {
           //  if controllernav!.delegate != nil {
             //    controllernav!.delegate = nil
@@ -175,10 +177,10 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         if value == nil {
             return
         }
-        println("Code \(value)")
+        print("Code \(value)")
         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-        var service = GRProductByTicket()
+        let service = GRProductByTicket()
         service.callService(service.buildParams(value!),
             successBlock: { (result: NSDictionary) -> Void in
                 if let items = result["items"] as? [AnyObject] {
@@ -196,15 +198,15 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
                     var products:[AnyObject] = []
                     for var idx = 0; idx < items.count; idx++ {
                         var item = items[idx] as! [String:AnyObject]
-                        var upc = item["upc"] as! String
-                        var quantity = item["quantity"] as! NSNumber
-                        var param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        let upc = item["upc"] as! String
+                        let quantity = item["quantity"] as! NSNumber
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
                         products.append(param)
                     }
                     
-                    var fmt = NSDateFormatter()
+                    let fmt = NSDateFormatter()
                     fmt.dateFormat = "MMM d hh:mm:ss"
-                    var name = fmt.stringFromDate(NSDate())
+                    let name = fmt.stringFromDate(NSDate())
                     var number = 0;
                     
                     

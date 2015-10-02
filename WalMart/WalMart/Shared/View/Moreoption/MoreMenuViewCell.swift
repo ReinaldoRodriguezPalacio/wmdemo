@@ -39,12 +39,12 @@ class MoreMenuViewCell : UITableViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         //self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
         self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
         self.imageProfile!.frame = CGRectMake(0.0, 0.0, bounds.height, bounds.height)
         
-        var width = bounds.width - bounds.height
+        let width = bounds.width - bounds.height
        // self.title!.frame = CGRectMake(self.imageProfile!.frame.maxX, 0.0, width, bounds.height)
         self.tsepInView!.frame = CGRectMake(self.imageProfile!.frame.maxX, bounds.height - AppDelegate.separatorHeigth(), width, AppDelegate.separatorHeigth())
         
@@ -73,7 +73,7 @@ class MoreMenuViewCell : UITableViewCell {
 
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

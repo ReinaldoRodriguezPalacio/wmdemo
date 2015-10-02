@@ -58,8 +58,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.content.scrollDelegate = self
         self.view.addSubview(self.content)
        
-        let iconImage = UIImage(named:"button_bg")
-        let iconSelected = UIImage(named:"button_bg_active")
+        //let iconImage = UIImage(named:"button_bg")
+        //let iconSelected = UIImage(named:"button_bg_active")
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
@@ -103,8 +103,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewAddressMoral?.defaultPrefered = self.defaultPrefered
             self.content!.addSubview(self.viewAddressMoral!)
             self.viewAddressMoral!.delegate = self
-        default:
-            break
+       // default:
+       //     break
         }
     
         
@@ -130,8 +130,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.viewAddressFisical!.setItemWithDictionary(self.item!)
             case .FiscalMoral:
                 self.viewAddressMoral!.setItemWithDictionary(self.item!)
-            default:
-                break
+          //  default:
+          //      break
             }
         }
     }
@@ -142,7 +142,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalButton = UIButton()
             addressShipingButton = UIButton()
 
-            var checkTermOff : UIImage = UIImage(named:"checkTermOff")!
+            let checkTermOff : UIImage = UIImage(named:"checkTermOff")!
             var named = ""
             if isLogin {
                  named = "checkTermOn"
@@ -154,10 +154,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 addressFiscalButton!.setTitleColor(WMColor.loginTermsConditionTextColor , forState: UIControlState.Normal)
             }
             
-            var checkTermOn : UIImage = UIImage(named:named)!
+            let checkTermOn : UIImage = UIImage(named:named)!
             
-            var addressShipinglabel : UILabel? = nil
-            var addressFiscallabel: UILabel? = nil
+            //var addressShipinglabel : UILabel? = nil
+            //var addressFiscallabel: UILabel? = nil
         
             addressShipingButton!.setImage(checkTermOff, forState: UIControlState.Normal)
             addressShipingButton!.setImage(checkTermOn, forState: UIControlState.Selected)
@@ -208,8 +208,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         if viewTypeAdressFiscal==nil{
             viewTypeAdressFiscal = UIView(frame:CGRectMake(0,  self.viewTypeAdress != nil ? 45 : 0 , self.view.bounds.width , 78))
 
-            var checkTermOff : UIImage = UIImage(named:"checkTermOff")!
-            var checkTermOn : UIImage = UIImage(named:"checkAddressOn")!
+            let checkTermOff : UIImage = UIImage(named:"checkTermOff")!
+            let checkTermOn : UIImage = UIImage(named:"checkAddressOn")!
         
             var titleLabel: UILabel? = nil
             var viewButton : UIView? = nil
@@ -287,8 +287,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewAddressFisical!.textFieldDidEndEditing(textField)
         case .FiscalMoral:
             self.viewAddressMoral!.textFieldDidEndEditing(textField)
-        default:
-            break
+        //default:
+        //    break
         }
     }
     
@@ -317,9 +317,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        var bounds = self.view.bounds
-        let fieldHeight  : CGFloat = CGFloat(40)
-        let leftRightPadding  : CGFloat = CGFloat(15)
+        let bounds = self.view.bounds
+        //let fieldHeight  : CGFloat = CGFloat(40)
+        //let leftRightPadding  : CGFloat = CGFloat(15)
         var left : CGFloat = 87
         
         if self.idAddress != nil{
@@ -476,35 +476,35 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                         self.setContentSize()
                     }
             })
-        default:
-            break
+        //default:
+        //    break
         }
     }
     
     func setContentSize(){
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         switch (typeAddress ) {
         case .Shiping:
-            var height : CGFloat = self.viewAddress!.showSuburb == true ? 600 : 600-190
+            let height : CGFloat = self.viewAddress!.showSuburb == true ? 600 : 600-190
             self.viewAddress?.frame = CGRectMake(0.0, self.viewTypeAdress != nil ? 45 : 0 , bounds.width , height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 40 )
             self.content.bringSubviewToFront(self.viewAddress!)
         case .FiscalPerson:
             self.setupViewFiscal()
-            var height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
+            let height  : CGFloat = self.viewAddressFisical!.showSuburb == true ? 658 : 658-190
             self.viewAddressFisical?.frame = CGRectMake(0.0, self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressFisical!.frame.maxY + 40 )
             self.content!.bringSubviewToFront(self.viewTypeAdressFiscal!)
             self.content.bringSubviewToFront(self.viewAddressFisical!)
         case .FiscalMoral:
             self.setupViewFiscal()
-             var height  : CGFloat = self.viewAddressMoral!.showSuburb == true ? 610 : 610-190
+             let height  : CGFloat = self.viewAddressMoral!.showSuburb == true ? 610 : 610-190
             self.viewAddressMoral?.frame = CGRectMake(0.0,  self.viewTypeAdressFiscal!.frame.maxY, bounds.width , height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddressMoral!.frame.maxY + 40 )
             self.content!.bringSubviewToFront(self.viewTypeAdressFiscal!)
             self.content.bringSubviewToFront(self.viewAddressMoral!)
-        default:
-            break
+        //default:
+        //    break
         }
         
         if  isLogin {           
@@ -518,7 +518,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        var val = CGSizeMake(self.view.frame.width, content.contentSize.height)
+        let val = CGSizeMake(self.view.frame.width, content.contentSize.height)
         return val
     }
  
@@ -561,8 +561,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     service = UpdateFiscalAddressService()
                 }
             }
-        default:
-            break
+        //default:
+        //    break
         }
         if params != nil{
             self.view.endEditing(true)
@@ -601,7 +601,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
     
     func deleteAddress(sender:UIButton){
-        var service = DeleteAddressesByUserService()
+        let service = DeleteAddressesByUserService()
         service.buildParams(self.idAddress! as String)
         self.view.endEditing(true)
         if sender.tag == 100 {

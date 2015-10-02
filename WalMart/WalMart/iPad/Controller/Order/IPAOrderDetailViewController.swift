@@ -25,9 +25,9 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         
         if let image = self.buildImageToShare() {
             
-            var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
-            var rect = self.self.viewFooter!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
+            let rect = self.self.viewFooter!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
 
         }

@@ -11,7 +11,7 @@ import Foundation
 class GRLoginService : GRBaseService {
     
     func buildParams(email:String,password: String) -> NSDictionary {
-        var idDevice = UIDevice.currentDevice().identifierForVendor.UUIDString
+        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         return ["email":email,"password":password,"identifierDevice":idDevice]
     }
     
@@ -22,7 +22,7 @@ class GRLoginService : GRBaseService {
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-            var newResultCall = NSMutableDictionary(dictionary: resultCall)
+            let newResultCall = NSMutableDictionary(dictionary: resultCall)
             successBlock!(newResultCall)
            // successBlock!(resultCall)
             

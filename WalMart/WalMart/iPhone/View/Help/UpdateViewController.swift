@@ -105,7 +105,7 @@ class UpdateViewController: UIView {
     
     
     func goToAppStore() {
-        var url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+        let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
         if UIApplication.sharedApplication().canOpenURL(url!) == true  {
             UIApplication.sharedApplication().openURL(url!)
         }

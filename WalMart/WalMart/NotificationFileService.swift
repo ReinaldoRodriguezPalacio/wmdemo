@@ -25,7 +25,7 @@ class NotificationFileService : BaseService {
         
         let dateToday = NSDate()
         
-        var currentNots = getAllNotifications()
+        let currentNots = getAllNotifications()
         var itemsInDictionary = currentNots["items"] as! [AnyObject]
         notificationParamsToSave["date"] = dateFmt.stringFromDate(dateToday)
         notificationParamsToSave["hour"] = dateFmtHr.stringFromDate(dateToday)

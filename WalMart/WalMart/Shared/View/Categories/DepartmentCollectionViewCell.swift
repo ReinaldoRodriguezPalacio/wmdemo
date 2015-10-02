@@ -21,7 +21,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     var customCloseDep = false
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -99,7 +99,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             self.imageBackground.image = image
             //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
             }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                println(error)
+                print(error)
         }
         
         //self.titleLabel.text = title
@@ -179,38 +179,39 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let fileManager = NSFileManager.defaultManager()
         if (fileManager.fileExistsAtPath(getImagePath))
         {
-            var imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)!
+            let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)!
             return imageis
         }
         else
         {
-            let imageDefault = UIImage(named: fileName.stringByDeletingPathExtension)
+            let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
             if imageDefault != nil {
-                println("default image \(fileName.stringByDeletingPathExtension)")
+                print("default image \((fileName as NSString).stringByDeletingPathExtension)")
                 return imageDefault
             }
-            println("default walmart image \(fileName)")
+            print("default walmart image \(fileName)")
             return UIImage(named:defaultStr )
         }
     }
     
     func saveImageToDisk(fileName:String,image:UIImage,defaultImage:UIImage) {
         dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
-            let imageData : NSData = UIImagePNGRepresentation(image)
-            let imageDataLast : NSData = UIImagePNGRepresentation(defaultImage)
+            let imageData : NSData = UIImagePNGRepresentation(image)!
+            let imageDataLast : NSData = UIImagePNGRepresentation(defaultImage)!
             
             if imageData.MD5() != imageDataLast.MD5() {
                 let getImagePath = self.getImagePath(fileName)
-                let fileManager = NSFileManager.defaultManager()
+                //let fileManager = NSFileManager.defaultManager()
                 imageData.writeToFile(getImagePath, atomically: true)
                 
-                var error : NSError? = nil
                 let todeletecloud =  NSURL(fileURLWithPath: getImagePath)
-                if todeletecloud != nil {
-                    todeletecloud!.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey, error: &error)
+                do {
+                    try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+                } catch let error1 as NSError {
+                    print(error1.description)
+                } catch {
+                    fatalError()
                 }
-                
-                
             }
         })
     }
@@ -218,21 +219,26 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
 
     func getImagePath(fileName:String) -> String {
         let fileManager = NSFileManager.defaultManager()
-        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0] as! String
+        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0] as NSString
         paths = paths.stringByAppendingPathComponent("catimg")
         var isDir : ObjCBool = true
-        if fileManager.fileExistsAtPath(paths, isDirectory: &isDir) == false {
-            var err: NSErrorPointer = nil
-            fileManager.createDirectoryAtPath(paths, withIntermediateDirectories: true, attributes: nil, error: err)
+        if fileManager.fileExistsAtPath(paths as String, isDirectory: &isDir) == false {
+            let err: NSErrorPointer = nil
+            do {
+                try fileManager.createDirectoryAtPath(paths as String, withIntermediateDirectories: true, attributes: nil)
+            } catch let error as NSError {
+                err.memory = error
+            }
+        }
+        let todeletecloud =  NSURL(fileURLWithPath: paths as String)
+
+        do {
+            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+        } catch let error1 as NSError {
+             print(error1.description)
         }
         
-        var error : NSError? = nil
-        let todeletecloud =  NSURL(fileURLWithPath: paths)
-        if todeletecloud != nil {
-            todeletecloud!.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey, error: &error)
-        }
-        
-        var getImagePath = paths.stringByAppendingPathComponent(fileName)
+        let getImagePath = paths.stringByAppendingPathComponent(fileName)
         return getImagePath
     }
     

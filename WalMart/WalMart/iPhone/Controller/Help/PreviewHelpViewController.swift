@@ -42,12 +42,12 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
             }
             
             if resource == "privacy" {
-                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+                let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
                 let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
                 let manager = NSFileManager.defaultManager()
                 
                 if (manager.fileExistsAtPath(myFilePath)) {
-                    var request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath)!)
+                    let request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath))
                     self.webShowDetail.loadRequest(request)
                 }
                 else{
@@ -57,11 +57,11 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
                 }
             }
             else{
-                let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource as? String, ofType: self.type as? String)!
+                let htmlFile : NSString = NSBundle.mainBundle().pathForResource(resource as String, ofType: self.type as String)!
                 
                 switch self.type {
                 case "html":
-                    var  htmlString : NSString = NSString(contentsOfFile:htmlFile as String, encoding: NSUTF8StringEncoding, error: nil)!
+                    var  htmlString : NSString = try! NSString(contentsOfFile:htmlFile as String, encoding: NSUTF8StringEncoding)
                     
                     if imgFile != nil{
                         let imgFilePath  = NSBundle.mainBundle().pathForResource(imgFile as? String, ofType: "jpg")
@@ -85,7 +85,7 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         if self.titleText != nil  {
             self.webShowDetail!.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
         }

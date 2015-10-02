@@ -52,7 +52,7 @@ class DetailListViewCell: ProductTableViewCell {
 
         self.productPriceLabel!.textAlignment = .Left
 
-        self.quantityIndicator = UIButton.buttonWithType(.Custom) as? UIButton
+        self.quantityIndicator = UIButton(type: .Custom) as? UIButton
         self.quantityIndicator!.setTitle("", forState: .Normal)
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Disabled)
@@ -94,7 +94,7 @@ class DetailListViewCell: ProductTableViewCell {
     
 
     func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
-        var imageUrl = product["imageUrl"] as! String
+        let imageUrl = product["imageUrl"] as! String
         self.productImage!.contentMode = UIViewContentMode.Center
         self.productImage!.setImageWithURL(NSURL(string: imageUrl),
             placeholderImage: UIImage(named:"img_default_table"),
@@ -122,11 +122,11 @@ class DetailListViewCell: ProductTableViewCell {
         
         if let type = product["type"] as? String {
             let quantity = product["quantity"] as! NSNumber
-            var price = product["price"] as! NSNumber
+            let price = product["price"] as! NSNumber
             var text: String? = ""
             var total: Double = 0.0
             //Piezas
-            if type.toInt()! == 0 {
+            if Int(type)! == 0 {
                 if quantity.integerValue == 1 {
                     text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                 }
@@ -137,7 +137,7 @@ class DetailListViewCell: ProductTableViewCell {
             }
                 //Gramos
             else {
-                var q = quantity.doubleValue
+                let q = quantity.doubleValue
                 if q < 1000.0 {
                     text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
                 }
@@ -189,8 +189,8 @@ class DetailListViewCell: ProductTableViewCell {
     }
     
     func setValues(product:Product,disabled:Bool) {
-        var imageUrl = product.img
-        var description = product.desc
+        let imageUrl = product.img
+        let description = product.desc
         
         self.productImage!.contentMode = UIViewContentMode.Center
         self.productImage!.setImageWithURL(NSURL(string: imageUrl),
@@ -208,7 +208,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.productShortDescriptionLabel!.text = description
         
         let quantity = product.quantity
-        var price = product.price.doubleValue
+        let price = product.price.doubleValue
         var text: String? = ""
         var total: Double = 0.0
         //Piezas
@@ -223,7 +223,7 @@ class DetailListViewCell: ProductTableViewCell {
         }
         //Gramos
         else {
-            var q = quantity.doubleValue
+            let q = quantity.doubleValue
             if q < 1000.0 {
                 text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
             }
@@ -244,11 +244,11 @@ class DetailListViewCell: ProductTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        var bounds = self.frame.size
-        var sep: CGFloat = 16.0
+        let bounds = self.frame.size
+        let sep: CGFloat = 16.0
 
         self.productImage!.frame = CGRectMake(self.check!.frame.maxX, 0.0, 80.0, bounds.height)
-        var x:CGFloat = self.productImage!.frame.maxX + sep
+        let x:CGFloat = self.productImage!.frame.maxX + sep
         self.productShortDescriptionLabel!.frame = CGRectMake(x, sep, bounds.width - (x + sep), 28.0)
         if self.quantityIndicator!.enabled {
             var size = self.sizeForButton(self.quantityIndicator!)
@@ -272,9 +272,9 @@ class DetailListViewCell: ProductTableViewCell {
     }
     
     func sizeForButton(button:UIButton) -> CGSize {
-        var text = button.titleForState(.Normal)
-        var font = button.titleLabel!.font
-        var computedRect: CGRect = text!.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:font],
+        let text = button.titleForState(.Normal)
+        let font = button.titleLabel!.font
+        let computedRect: CGRect = text!.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:font],
             context: nil)
         return CGSizeMake(ceil(computedRect.size.width), ceil(computedRect.size.height))
     }
@@ -297,11 +297,11 @@ class DetailListViewCell: ProductTableViewCell {
         
         let imageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let colorSpace = CGColorSpaceCreateDeviceGray()
-        let context = CGBitmapContextCreate(nil, Int(image.size.width),  Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo.allZeros)
+        let context = CGBitmapContextCreate(nil, Int(image.size.width),  Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo().rawValue)
         CGContextDrawImage(context, imageRect,image.CGImage)
         let imageRef = CGBitmapContextCreateImage(context)
-        let newImage = UIImage(CGImage: imageRef)
-        return newImage!
+        let newImage = UIImage(CGImage: imageRef!)
+        return newImage
         
     }
     

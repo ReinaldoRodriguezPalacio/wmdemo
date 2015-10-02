@@ -82,8 +82,8 @@ class IPACustomBarViewController :  CustomBarViewController {
         var x: CGFloat = ((self.view.bounds.width / 2) - (435 / 2))  + CGFloat(space)
         for button in  self.buttonList {
             button.frame = CGRectMake(x, 2, TABBAR_HEIGHT, TABBAR_HEIGHT)
-            var spacing: CGFloat = 1.0 // the space between the image and text
-            var imageSize: CGSize = button.imageView!.frame.size
+            //var spacing: CGFloat = 1.0 // the space between the image and text
+            //var imageSize: CGSize = button.imageView!.frame.size
             x = CGRectGetMaxX(button.frame) + space
         }
     }
@@ -163,10 +163,9 @@ class IPACustomBarViewController :  CustomBarViewController {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build() as [NSObject : AnyObject])
             }
             
-            var contDetail = IPAProductDetailPageViewController()
+            let contDetail = IPAProductDetailPageViewController()
             //contDetail.upc = upc!
             let svcValidate = GRProductDetailService()
-            var controllernav = self.currentController as? UINavigationController
             
             
             let upcDesc : NSString = upc! as NSString
@@ -177,7 +176,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             svcValidate.callService(paddedUPC as String, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
-                var controllernav = self.currentController as? UINavigationController
+                let controllernav = self.currentController as? UINavigationController
                 controllernav?.pushViewController(contDetail, animated: true)
                 
                 }, errorBlock: { (error:NSError) -> Void in
@@ -188,7 +187,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     }
                     
                     contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
-                    var controllernav = self.currentController as? UINavigationController
+                    let controllernav = self.currentController as? UINavigationController
                     controllernav?.pushViewController(contDetail, animated: true)
             })
         }
@@ -202,8 +201,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
-            var controllernav = self.currentController as? UINavigationController
-            let controllersInNavigation = controllernav?.viewControllers.count
+            let controllernav = self.currentController as? UINavigationController
             if (controllernav?.topViewController as? SearchProductViewController != nil && isEditingSearch){
                 controllernav?.popViewControllerAnimated(false)
                 
@@ -228,7 +226,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         for item in controllerIdentifiers {
             let components = item.componentsSeparatedByString("-")
             let strController = components[0] as String
-            if let vc = storyboard!.instantiateViewControllerWithIdentifier(strController) as? UIViewController {
+            let vc = storyboard!.instantiateViewControllerWithIdentifier(strController)
                 if let navVC = vc as? UINavigationController {
                     if let loginVC = navVC.viewControllers.first as? LoginController {
                         if components.count > 1 {
@@ -240,13 +238,12 @@ class IPACustomBarViewController :  CustomBarViewController {
                     navController.delegate = self
                 }
                 self.viewControllers.append(vc)
-            }
         }
     }
 
     
     override func buttonSelected(sender:UIButton) {
-        var index = find(self.buttonList, sender)
+        let index = self.buttonList.indexOf(sender)
         if index == 2 {
             sender.selected = !isOpenWishlist
             if !self.isOpenWishlist {
@@ -313,7 +310,7 @@ class IPACustomBarViewController :  CustomBarViewController {
 //            return
 //        }
         
-        var controller = self.viewControllers[index!]
+        let controller = self.viewControllers[index!]
         if controller === self.currentController {
             //let controllerIdentifiers : [String] = ["categoriesVC","wishlitsVC","profileVC","moreVC"]
             let controllerIdentifiers : [String] = ["categoriesVC","wishlistVC","GRCategoriesVC",  "userListsVC","storeLocatorVC","moreVC"]//, "profileVC"
@@ -321,7 +318,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             if let navController = self.currentController as? UINavigationController {
                 if index! > 0 {
                     let newIndex = index! - 1
-                    if let vc = storyboard!.instantiateViewControllerWithIdentifier(controllerIdentifiers[newIndex]) as? UIViewController {
+                    let vc = storyboard!.instantiateViewControllerWithIdentifier(controllerIdentifiers[newIndex])
                         
                         self.displayContentController(vc)
                         if self.currentController != nil  {
@@ -332,7 +329,6 @@ class IPACustomBarViewController :  CustomBarViewController {
                         self.currentController = nil
                         self.currentController = vc
                         self.viewControllers[index!] = vc
-                    }
                 }
                 else {
                     super.buttonSelected(sender)
@@ -392,7 +388,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             vcRoot.openShoppingCart()
             vcRoot.view.userInteractionEnabled = false
             vcRoot.finishAnimation = {() -> Void in
-                println("")
+                print("")
                 vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
                 self.btnShopping?.userInteractionEnabled = true
                 self.btnCloseShopping?.enabled = true
@@ -415,7 +411,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
-        var controllernav = self.currentController as? UINavigationController
+        let controllernav = self.currentController as? UINavigationController
         controllernav?.pushViewController(controller, animated: true)
         self.btnSearch!.selected = false
     }

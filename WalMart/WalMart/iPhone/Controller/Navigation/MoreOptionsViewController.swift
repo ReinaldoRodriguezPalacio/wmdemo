@@ -102,7 +102,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     override func viewWillLayoutSubviews() {
-        var bounds = self.view.bounds.size
+        let bounds = self.view.bounds.size
         self.tableView!.frame = CGRectMake(0.0, profileView!.frame.maxY, bounds.width, bounds.height - profileView!.frame.maxY)
         self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )
          signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45, 109, 90, 24)
@@ -146,7 +146,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        var cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as! MoreMenuViewCell
+        let cell: MoreMenuViewCell! = tableView.dequeueReusableCellWithIdentifier("Cell") as! MoreMenuViewCell
         
         
         var currentOption : Int = 0
@@ -158,7 +158,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 2:
             currentOption = indexPath.row + 8
         default:
-            println("")
+            print("")
         }
         
         let srtOption = self.options[currentOption]
@@ -175,7 +175,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .CamFind : image = "Camfind-icon"
         case .TicketList : image = "menu_scanTicket"
         default :
-            println("option don't exist")
+            print("option don't exist")
         }
          if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
             switch (OptionsController(rawValue: srtOption)!) {
@@ -186,7 +186,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case .TicketList : image = "menu_scanTicket_disable"
             case .Notification : image = "menu_icon_notification"
             default :
-                println("option don't exist")
+                print("option don't exist")
             }
             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.regular_gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
         } else  {
@@ -215,12 +215,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 2:
             currentOption = indexPath.row + 8
         default:
-            println("")
+            print("")
         }
         
        
         
-        var optionTxt = self.options[currentOption]
+        let optionTxt = self.options[currentOption]
 
         switch (OptionsController(rawValue: optionTxt)!) {
             case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
@@ -263,7 +263,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .TicketList:
             scanTicket()
             default :
-                println("option don't exist")
+                print("option don't exist")
        
             
         }
@@ -356,14 +356,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     
                     }
                     , errorBlock: { (error:NSError) -> Void in
-                        println("")
+                        print("")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                 })
             }
             }, errorBlock: { (error:NSError) -> Void in
-                println("")
+                print("")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
@@ -382,7 +382,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             controller.searchContextType = .WithText
             controller.titleHeader = value
             controller.textToSearch = value
-            var controllernav = self.navigationController
+            let controllernav = self.navigationController
             controllernav?.pushViewController(controller, animated: true)
         }
     }
@@ -439,10 +439,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         if value == nil {
             return
         }
-        println("Code \(value)")
+        print("Code \(value)")
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-        var service = GRProductByTicket()
+        let service = GRProductByTicket()
         service.callService(service.buildParams(value!),
             successBlock: { (result: NSDictionary) -> Void in
                 if let items = result["items"] as? [AnyObject] {
@@ -460,15 +460,15 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     var products:[AnyObject] = []
                     for var idx = 0; idx < items.count; idx++ {
                         var item = items[idx] as! [String:AnyObject]
-                        var upc = item["upc"] as! String
-                        var quantity = item["quantity"] as! NSNumber
-                        var param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        let upc = item["upc"] as! String
+                        let quantity = item["quantity"] as! NSNumber
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
                         products.append(param)
                     }
                     
-                    var fmt = NSDateFormatter()
+                    let fmt = NSDateFormatter()
                     fmt.dateFormat = "MMM d hh:mm:ss"
-                    var name = fmt.stringFromDate(NSDate())
+                    let name = fmt.stringFromDate(NSDate())
                     var number = 0;
                     
                     

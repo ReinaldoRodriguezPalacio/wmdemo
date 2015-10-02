@@ -35,7 +35,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     var viewBgSel : UIView?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -75,7 +75,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.articlesTitle!.text = NSLocalizedString("list.articles",comment:"")
         self.contentView.addSubview(self.articlesTitle!)
         
-        self.copyBtn = UIButton.buttonWithType(.Custom) as? UIButton
+        self.copyBtn = UIButton(type: .Custom)
         self.copyBtn!.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
         self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -96,7 +96,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
         
-        var buttonDuplicate = UIButton()
+        let buttonDuplicate = UIButton()
         buttonDuplicate.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
         buttonDuplicate.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDuplicate.backgroundColor = WMColor.light_blue
@@ -122,12 +122,12 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        var bounds = self.frame.size
-        var sep: CGFloat = 16.0
+        let bounds = self.frame.size
+        let sep: CGFloat = 16.0
         self.iconView!.frame = CGRectMake(sep, 12, 40.0, 40.0)
-        var x = self.iconView!.frame.maxX + sep
+        let x = self.iconView!.frame.maxX + sep
         var width = bounds.width - x
-        var copyWidth: CGFloat = 55.0
+        let copyWidth: CGFloat = 55.0
 
         self.textField!.frame = CGRectMake(x, sep, width - sep, 40.0)
         if self.editing {
@@ -256,10 +256,10 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text
+        let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
 
-        if (count(keyword) > 25) {
+        if (keyword.characters.count > 25) {
             return false
         }
         
@@ -269,7 +269,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        var originalName = textField.text//self.listName!.text
+        let originalName = textField.text//self.listName!.text
         if textField.text != nil && originalName != textField.text! {
             if NewListTableViewCell.isValidName(textField) {
                 self.listDelegate?.didListChangeName(self, text:originalName)

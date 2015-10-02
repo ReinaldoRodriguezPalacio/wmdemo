@@ -18,9 +18,6 @@ class SearchCategoriesViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .None
         self.backgroundColor = UIColor.clearColor()
-
-        
-        var bounds = self.frame.size
         
         self.departament = UILabel()
         self.departament!.textColor = WMColor.searchTitleSectionColor
@@ -40,7 +37,7 @@ class SearchCategoriesViewCell: UITableViewCell {
         self.fontTitleKey = WMFont.fontMyriadProBoldOfSize(14)
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -54,7 +51,7 @@ class SearchCategoriesViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         self.contentView.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
         self.title!.frame = CGRectMake(15.0, 12, bounds.width - 30.0, 12)
         self.departament!.frame = CGRectMake(15 , 33 , bounds.width - 30.0 , 12)
@@ -68,7 +65,7 @@ class SearchCategoriesViewCell: UITableViewCell {
         }else{
             color = UIColor.clearColor()
         }
-        var codeChange = {() -> Void  in
+        let codeChange = {() -> Void  in
             self.backgroundColor = color
             self.contentView.backgroundColor = color
         }

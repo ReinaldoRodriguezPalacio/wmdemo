@@ -26,7 +26,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     var cellReuseid: String = ""
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -129,7 +129,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         var upcItems : [[String:String]] = []
-        var cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
         for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String

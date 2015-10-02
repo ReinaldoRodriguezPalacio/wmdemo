@@ -61,7 +61,7 @@ class IPOWMAlertViewController : UIViewController {
         
         spinImage = UIImageView()
         spinImage.image = UIImage(named:"waiting")
-        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, repeat: 100)
+        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, `repeat`: 100)
         
         self.view.addSubview(bgView)
         self.view.addSubview(viewBgImage)
@@ -72,7 +72,7 @@ class IPOWMAlertViewController : UIViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         
         if self.imageblur == nil {
             self.generateBlurImage()
@@ -122,7 +122,7 @@ class IPOWMAlertViewController : UIViewController {
     }
     
     class func showAlert(controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPOWMAlertViewController? {
-        var newAlert = IPOWMAlertViewController()
+        let newAlert = IPOWMAlertViewController()
         newAlert.imageWaiting = imageWaiting
         newAlert.imageDone = imageDone
         newAlert.imageError = imageError
@@ -161,7 +161,7 @@ class IPOWMAlertViewController : UIViewController {
                 self.viewBgImage.transform = CGAffineTransformMakeScale(1.0, 1.0)
             }
             }, completion: { (complete:Bool) -> Void in
-                println("cerrar dialogo Guardando...")
+                print("cerrar dialogo Guardando...")
                 
         })
     }
@@ -252,7 +252,7 @@ class IPOWMAlertViewController : UIViewController {
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController?.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+            self.parentViewController?.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             self.parentViewController!.view.layer.contents = nil
@@ -267,12 +267,12 @@ class IPOWMAlertViewController : UIViewController {
         self.view.sendSubviewToBack(self.imageblur!)
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeat:CGFloat) {
-        var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(repeat)
+        rotationAnimation.repeatCount = Float(`repeat`)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     

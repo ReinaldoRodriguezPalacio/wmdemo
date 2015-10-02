@@ -191,7 +191,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             var total : Double = 0
             for itemWishList in self.items {
                 if let priceStrUse = itemWishList["price"] as? String {
-                    let price = itemWishList["price"] as! NSString
+                    let price = priceStrUse as NSString
                     total = total + price.doubleValue
                 }
             }
@@ -248,7 +248,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
-        var paginatedProductDetail = IPAProductDetailPageViewController()
+        let paginatedProductDetail = IPAProductDetailPageViewController()
         paginatedProductDetail.ixSelected = indexPath.row
         paginatedProductDetail.itemsToShow = []
         for productRecomm  in items {
@@ -287,7 +287,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
             }
             }, errorBlock: { (error:NSError) -> Void in
-                println("delete pressed Errro \(error)")
+                print("delete pressed Errro \(error)")
         })
     }
     
@@ -376,7 +376,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let upcList = "\(strAllUPCs)"
         let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
-        var controller = UIActivityViewController(activityItems: [self,urlWmart!,imgResult], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [self,urlWmart!,imgResult], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
         
         popup!.presentPopoverFromRect(CGRectMake(30, 160, 10, 120), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
@@ -412,8 +412,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let imageHeader = UIImage(named: "wishlist_shareheaderipad")
         let totalImageSize = self.getImageWislistShareSize(imageHeader!)
         UIGraphicsBeginImageContextWithOptions(totalImageSize, false, 0.0);
-        var imageOffsetFactor = 0;
-        var imageSizeFactor = 0;
         imageHeader?.drawInRect(CGRectMake(0, 0, imageHeader!.size.width, imageHeader!.size.height))
         var ixWidht : CGFloat = 0
         var ixYSpace : CGFloat = imageHeader!.size.height
@@ -482,9 +480,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     
     func getImageWislistShareSize(header:UIImage) -> CGSize {
-        var modItems = (self.items.count / 2) + (self.items.count % 2)
-        var widthItem : CGFloat = (header.size.width / 2)
-        var height : CGFloat = header.size.height + CGFloat(modItems) * widthItem
+        let modItems = (self.items.count / 2) + (self.items.count % 2)
+        let widthItem : CGFloat = (header.size.width / 2)
+        let height : CGFloat = header.size.height + CGFloat(modItems) * widthItem
         return CGSize(width:header.size.width, height: height)
         
     }

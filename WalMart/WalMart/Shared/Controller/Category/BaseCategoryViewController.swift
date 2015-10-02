@@ -81,7 +81,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.categories.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
         }) { (Bool) -> Void in
-            println()
+            print("")
            self.delegate?.didSelectDeparmentAtIndex(indexPath)
         }
     }

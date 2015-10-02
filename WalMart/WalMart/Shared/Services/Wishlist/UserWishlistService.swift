@@ -25,8 +25,8 @@ class UserWishlistService : BaseService {
                 self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     
-                    var itemResult = resultCall[self.JSON_WISHLIST_RESULT] as! NSDictionary
-                    var itemWishList = itemResult["items"] as! [AnyObject]
+                    let itemResult = resultCall[self.JSON_WISHLIST_RESULT] as! NSDictionary
+                    let itemWishList = itemResult["items"] as! [AnyObject]
                     
                     let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -45,7 +45,13 @@ class UserWishlistService : BaseService {
                     }
                     
                     var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    } catch {
+                        fatalError()
+                    }
                     
                     var itemsInWishlist : [AnyObject] = []
                     
@@ -96,9 +102,15 @@ class UserWishlistService : BaseService {
                     
 
                     
-                    var result = ["items":itemsInWishlist]
+                    let result = ["items":itemsInWishlist]
                     
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    } catch {
+                        fatalError()
+                    }
                     
                     successBlock!(result)
                     }) { (error:NSError) -> Void in
@@ -121,7 +133,7 @@ class UserWishlistService : BaseService {
         if UserCurrentSession.sharedInstance().userSigned != nil {
             predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: WishlistStatus.Deleted.rawValue))
         }
-        var array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
+        let array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
         
         var returnDictionary = [:]
         var items : [AnyObject] = []
@@ -154,7 +166,13 @@ class UserWishlistService : BaseService {
                     }
                     
                     var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    } catch {
+                        fatalError()
+                    }
                     
                     
                     self.synchronizeAddedWishlistFromCoreData(successBlock, errorBlock:errorBlock)

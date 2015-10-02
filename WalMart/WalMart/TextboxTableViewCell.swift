@@ -13,7 +13,7 @@ class TextboxTableViewCell: UITableViewCell{
     var textbox: FormFieldView?
     var datePicker: UIDatePicker?
     var useDatePicker: Bool
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         self.useDatePicker = false
         super.init(coder: aDecoder)
         setup()
@@ -41,7 +41,7 @@ class TextboxTableViewCell: UITableViewCell{
             save: { (field:UITextField?) -> Void in
                 field?.resignFirstResponder()
                 if field != nil {
-                    if (field!.text == nil || field!.text.isEmpty) && self.useDatePicker {
+                    if (field!.text == nil || field!.text!.isEmpty) && self.useDatePicker {
                         self.dateChanged()
                     }
                 }
@@ -90,9 +90,9 @@ class TextboxTableViewCell: UITableViewCell{
     
     //MARK Date picker Delegate
      func dateChanged() {
-        var dateFmt = NSDateFormatter()
+        let dateFmt = NSDateFormatter()
         dateFmt.dateFormat = "d MMMM yyyy"
-        var date = self.datePicker!.date
+        let date = self.datePicker!.date
         self.textbox!.text = dateFmt.stringFromDate(date)
         self.textbox!.delegate?.textFieldDidEndEditing!(self.textbox!)
     }

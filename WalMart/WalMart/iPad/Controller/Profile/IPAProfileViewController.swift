@@ -34,7 +34,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.imageBG!.frame = CGRectMake(0,0,bounds.width, bounds.height )
         self.viewProfile!.frame = CGRectMake(0,0,bounds.width, bounds.height )
         self.imageProfile!.frame = CGRectMake((bounds.width - 24 )/2 , 45 , 24, 24 )

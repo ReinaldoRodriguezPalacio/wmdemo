@@ -110,10 +110,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        var buttonWidth: CGFloat = 55.0
-        var buttonHeight: CGFloat = 22.0
+        let buttonWidth: CGFloat = 55.0
+        let buttonHeight: CGFloat = 22.0
         
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.table!.frame =  CGRectMake(0,  self.header!.frame.maxY + SELECTORH , bounds.width, bounds.height - self.header!.frame.maxY - SELECTORH )
         //tamaño
         self.newAddressButton!.frame = CGRectMake(self.view.bounds.width - (buttonWidth + 16.0), (header!.bounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
@@ -174,7 +174,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.table.delegate = self
             self.table.dataSource = self
             self.table.reloadData()
-            println("sucess")
+            print("sucess")
             if self.viewLoad != nil{
                 self.viewLoad.stopAnnimating()
             }
@@ -184,7 +184,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     self.viewLoad.stopAnnimating()
                 }
                 self.viewLoad = nil
-                println("errorBlock")
+                print("errorBlock")
         })
     }
     
@@ -222,7 +222,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.table.delegate = self
             self.table.dataSource = self
             self.table.reloadData()
-            println("sucess")
+            print("sucess")
             //self.viewLoad.stopAnnimating()
             
             self.callServiceAddress()
@@ -230,7 +230,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             }, errorBlock: { (error:NSError) -> Void in
                 self.callServiceAddress()
                 //self.viewLoad.stopAnnimating()
-                println("errorBlock")
+                print("errorBlock")
         })
     }
 
@@ -265,7 +265,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var height: CGFloat = 46
+        let height: CGFloat = 46
         return height
     }
     
@@ -330,7 +330,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
         case 0:
-            println("delete pressed")
+            print("delete pressed")
             let indexPath = self.table.indexPathForCell(cell)
             if indexPath != nil {
                 var addressId = ""
@@ -356,7 +356,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 
             }
         default:
-            println("other pressed")
+            print("other pressed")
         }
         
     }
@@ -415,7 +415,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.addressController = AddressViewController()
             }
             var item: NSDictionary!
-            var allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as! [AnyObject])
+            let allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as [AnyObject])
             self.addressController!.allAddress =  allArray
             
             if indexPath.section == 0{
@@ -463,7 +463,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             if arrayAddressShipping.count == 0{
                 self.addressController!.defaultPrefered = true
             }
-            var allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as! [AnyObject])
+            let allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as [AnyObject])
             self.addressController!.allAddress =  allArray
             self.addressController!.typeAddress = TypeAddress.Shiping
             
@@ -508,7 +508,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                     self.callServiceAddressGR()
                     }, errorBlock: { (error:NSError) -> Void in
-                        println("error")
+                        print("error")
                 })
                 UserCurrentSession.sharedInstance().getStoreByAddress(result)
                 }, errorBlock: { (error:NSError) -> Void in
@@ -519,12 +519,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             let service = AddPreferedAddress()
             service.buildParams(addressID)
             service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
-                println("success")
+                print("success")
                 self.callServiceAddress()
                 }, errorBlock: {(error: NSError) in
                     self.viewLoad.stopAnnimating()
                     self.viewLoad = nil
-                    println("error")
+                    print("error")
             })
         }
     }
@@ -573,7 +573,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 }
                     
                 }, errorBlock: { (error:NSError) -> Void in
-                    println("error")
+                    print("error")
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
                      self.alertView = nil
@@ -588,7 +588,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     
     
     func deleteAddress(idAddress:String){
-        var service = DeleteAddressesByUserService()
+        let service = DeleteAddressesByUserService()
         service.buildParams(idAddress)
         
         if self.alertView == nil {
@@ -611,7 +611,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             }
             }
             , errorBlock: {(error: NSError) in
-                println("error")
+                print("error")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 self.alertView == nil

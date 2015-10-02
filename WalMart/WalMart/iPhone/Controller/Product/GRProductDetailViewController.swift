@@ -171,12 +171,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 
-                var product = GAIEcommerceProduct()
-                var builder = GAIDictionaryBuilder.createScreenView()
+                let product = GAIEcommerceProduct()
+                let builder = GAIDictionaryBuilder.createScreenView()
                 product.setId(self.upc as String)
                 product.setName(self.name as String)
                 
-                var action = GAIEcommerceProductAction();
+                let action = GAIEcommerceProductAction();
                 action.setAction(kGAIPADetail)
                 builder.setProductAction(action)
                 builder.addProduct(product)
@@ -186,10 +186,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             
             },errorBlock: { (error:NSError) -> Void in
-                var empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
-                    println("")
+                    print("")
                     self.navigationController!.popViewControllerAnimated(true)
                 }
                 self.view.addSubview(empty)
@@ -202,7 +202,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         if kind == UICollectionElementKindSectionHeader {
-            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! UICollectionReusableView
+            let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) 
             
             let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
             productDetailButtonGR.upc = self.upc as String
@@ -276,7 +276,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRectMake(0, 0, 320, 360))
             self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, atIndex: 0)
             
-            var bg = UIView(frame: CGRectMake(0.0, 0.0, 320.0, 360.0))
+            let bg = UIView(frame: CGRectMake(0.0, 0.0, 320.0, 360.0))
             bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
             self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
             
@@ -343,7 +343,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             selectQuantityGR.addUpdateNote = {() in
                 if self.productDetailButton.detailProductCart != nil {
                     let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-                    var frame = vc!.view.frame
+                    let frame = vc!.view.frame
                     
                     
                     let addShopping = ShoppingCartUpdateController()
@@ -372,7 +372,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
-                if self.onHandInventory.integerValue >= quantity.toInt() {
+                if self.onHandInventory.integerValue >= Int(quantity) {
                     self.closeContainer({ () -> Void in
                         self.productDetailButton.reloadShoppinhgButton()
                         }, completeClose: { () -> Void in
@@ -472,14 +472,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.listSelectorDidDeleteProduct(inList: listId)
             }
             else {*/
-            if quantity.toInt() <= 20000 {
+            if Int(quantity) <= 20000 {
             
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
             
-                var service = GRAddItemListService()
+                let service = GRAddItemListService()
                 let pesable = self.isPesable ? "1" : "0"
-                var productObject = service.buildProductObject(upc: self.upc as String, quantity:quantity.toInt()!,pesable:pesable,active:self.isActive)
+                let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
@@ -488,7 +488,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             self.removeListSelector(action: nil)
                         }
                     }, errorBlock: { (error:NSError) -> Void in
-                        println("Error at add product to list: \(error.localizedDescription)")
+                        print("Error at add product to list: \(error.localizedDescription)")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.alertView!.afterRemove = {
@@ -532,7 +532,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         detailService.buildParams(listId)
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
-                var service = GRDeleteItemListService()
+                let service = GRDeleteItemListService()
                 service.callService(service.buildParams(self.upc as? String),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
@@ -549,7 +549,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         }
                         
                     }, errorBlock: { (error:NSError) -> Void in
-                        println("Error at remove product from list: \(error.localizedDescription)")
+                        print("Error at remove product from list: \(error.localizedDescription)")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.alertView!.afterRemove = {
@@ -559,7 +559,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 )
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Error at retrieve list detail")
+                print("Error at retrieve list detail")
             }
         )
     }
@@ -575,11 +575,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             
-            var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+            let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
             detail!.upc = self.upc as String
             detail!.desc = self.name as String
             detail!.price = self.price
-            detail!.quantity = NSNumber(integer: quantity.toInt()!)
+            detail!.quantity = NSNumber(integer: Int(quantity)!)
             detail!.type = NSNumber(bool: self.isPesable)
             detail!.list = list
             
@@ -597,18 +597,30 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
 
             var error: NSError? = nil
-            context.save(&error)
+            do {
+                try context.save()
+            } catch let error1 as NSError {
+                error = error1
+            } catch {
+                fatalError()
+            }
             if error != nil {
-                println(error!.localizedDescription)
+                print(error!.localizedDescription)
             }
 
-            var count:Int = list.products.count
+            let count:Int = list.products.count
             list.countItem = NSNumber(integer: count)
 
             error = nil
-            context.save(&error)
+            do {
+                try context.save()
+            } catch let error1 as NSError {
+                error = error1
+            } catch {
+                fatalError()
+            }
             if error != nil {
-                println(error!.localizedDescription)
+                print(error!.localizedDescription)
             }
 
             self.removeListSelector(action: nil)
@@ -660,20 +672,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         context.deleteObject(product)
-
-        var error: NSError? = nil
-        context.save(&error)
-        if error != nil {
-            println(error!.localizedDescription)
+        do {
+            try context.save()
+        } catch {
+            abort()
         }
 
-        var count:Int = list.products.count
+        let count:Int = list.products.count
         list.countItem = NSNumber(integer: count)
-
-        error = nil
-        context.save(&error)
-        if error != nil {
-            println(error!.localizedDescription)
+        do {
+            try context.save()
+        } catch  {
+            abort()
         }
 
         self.removeListSelector(action: nil)
@@ -681,7 +691,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
 
     
-    func removeListSelector(#action:(()->Void)?) {
+    func removeListSelector(action action:(()->Void)?) {
         UIView.animateWithDuration(0.3,
             animations: { () -> Void in
                 self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height), animated: false)
@@ -751,7 +761,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
-        var pesable = isPesable ? "1" : "0"
+        let pesable = isPesable ? "1" : "0"
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
     }
     

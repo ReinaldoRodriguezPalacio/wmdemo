@@ -36,7 +36,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     }
     
     override func viewWillLayoutSubviews() {
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.separatorView!.frame = CGRectMake(342, 0.0, 1.0, bounds.height)
     }
 
@@ -61,7 +61,6 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     func showListDetail(forId idList:String?, orEntity entity:List?, andName name:String?) {
         self.currentListId = idList
         self.currentEntity = entity
-        var currentName = name
         
         if self.detailController == nil {
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
@@ -69,7 +68,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
         }
         else {
-            var oldDetailContainer = self.detailController
+            let oldDetailContainer = self.detailController
             oldDetailContainer?.view.removeFromSuperview()
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
             self.view.bringSubviewToFront(self.separatorView!)
@@ -124,7 +123,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
            
         }
         else {
-            var oldDetailContainer = self.detailController
+            let oldDetailContainer = self.detailController
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
             self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
             self.view.bringSubviewToFront(self.separatorView!)
@@ -154,17 +153,17 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     }
     
     func showEmptyViewForLists() {
-        var bounds = self.view.frame
-        var width = bounds.width - 342
+        let bounds = self.view.frame
+        let width = bounds.width - 342
         self.emptyView = UIView(frame: CGRectMake(342, 46, width,  bounds.height-46))
         self.emptyView!.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.emptyView!)
         
-        var bg = UIImageView(image: UIImage(named: "empty_lists"))
+        let bg = UIImageView(image: UIImage(named: "empty_lists"))
         bg.frame = CGRectMake(0.0, 0, width, bounds.height-46)
         self.emptyView!.addSubview(bg)
         
-        var labelOne = UILabel(frame: CGRectMake(0.0, 28.0, width, 20.0))
+        let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, width, 20.0))
         labelOne.textAlignment = .Center
         labelOne.textColor = WMColor.UIColorFromRGB(0x2870c9)
         labelOne.font = WMFont.fontMyriadProLightOfSize(16.0)
@@ -190,7 +189,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
 
     //MARK: -
     
-    func createDetailInstance(#idList:String?, listName:String?, entity:List?) {
+    func createDetailInstance(idList idList:String?, listName:String?, entity:List?) {
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? IPAUserListDetailViewController {
             vc.delegate = self
             vc.listId = idList
@@ -208,7 +207,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     //MARK: - IPAUserListDetailDelegate
     
     func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int) {
-        var controller = IPAProductDetailPageViewController()
+        let controller = IPAProductDetailPageViewController()
         controller.ixSelected = index
         controller.itemsToShow = products
         self.navigationController?.pushViewController(controller, animated: true)

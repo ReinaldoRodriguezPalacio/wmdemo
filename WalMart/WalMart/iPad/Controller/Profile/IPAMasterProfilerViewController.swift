@@ -29,15 +29,19 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
         self.delegate = self
         self.profile.delegate = self
         self.navigation = UINavigationController()
-        var recent = IPARecentProductsViewController()
+        let recent = IPARecentProductsViewController()
         self.navigation.pushViewController(recent, animated: true)
         selected = 0
         self.viewControllers = [profile, navigation];
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {
-            self.maximumPrimaryColumnWidth = 342.0
-            self.minimumPrimaryColumnWidth = 342.0
+            if #available(iOS 8.0, *) {
+                self.maximumPrimaryColumnWidth = 342.0
+                self.minimumPrimaryColumnWidth = 342.0
+            } else {
+                // Fallback on earlier versions
+            }
         }
        // self.view.addSubview(self.split.view)
         // Do any additional setup after loading the view.
@@ -59,28 +63,28 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
         switch row {
         case 0:
             self.profile.editProfileButton!.selected = false
-            var recent = IPARecentProductsViewController()
+            let recent = IPARecentProductsViewController()
             self.navigation.pushViewController(recent, animated: true)
         case 1:
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             self.profile.editProfileButton!.selected = false
-            var myAddres = IPAMyAddressViewController()
+            let myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)
         case 2:
             self.profile.editProfileButton!.selected = false
-            var order = IPAOrderViewController()
+            let order = IPAOrderViewController()
             
             self.navigation.pushViewController(order, animated: true)
         case 3:
-            var edit = IPAEditProfileViewController()
-            var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
+            let edit = IPAEditProfileViewController()
+            let indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
             self.profile.table.deselectRowAtIndexPath(indexPath, animated: true)
             edit.delegate  = self.profile
             self.navigation.pushViewController(edit, animated: true)
         default :
-            println("other pressed")
+            print("other pressed")
         }
         
         selected = row

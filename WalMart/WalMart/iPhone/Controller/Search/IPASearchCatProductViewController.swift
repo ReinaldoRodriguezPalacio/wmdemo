@@ -54,7 +54,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
-        var reusableView : UICollectionReusableView? = nil
+        let reusableView : UICollectionReusableView? = nil
         
         if kind == CSStickyHeaderParallaxHeader {
             let view = collection?.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! IPACatHeaderSearchReusable
@@ -77,7 +77,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             view.title!.setTitle(titleHeader, forState: UIControlState.Normal)
             
             
-            var attrStringLab = NSAttributedString(string:titleHeader!, attributes: [NSFontAttributeName : view.title!.titleLabel!.font])
+            let attrStringLab = NSAttributedString(string:titleHeader!, attributes: [NSFontAttributeName : view.title!.titleLabel!.font])
             
 
             let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)

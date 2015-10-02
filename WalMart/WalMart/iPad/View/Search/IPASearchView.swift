@@ -25,7 +25,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     var scanButton: UIButton?
     var scanLabel: UILabel?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -55,7 +55,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         backButton.addTarget(self, action: "closeSearch", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(backButton)
         
-        self.clearButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.clearButton = UIButton(type: .Custom)
         self.clearButton!.frame = CGRectMake(self.field.frame.width - 30, 0.0, 30, 30)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
@@ -79,7 +79,11 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             searchctrl =  IPASearchLastViewTableViewController()
             searchctrl.view.frame = CGRectMake(0,0,474,500)
             searchctrl.delegate = self.delegate
-            searchctrl.modalPresentationStyle = .Popover
+            if #available(iOS 8.0, *) {
+                searchctrl.modalPresentationStyle = .Popover
+            } else {
+                searchctrl.modalPresentationStyle = .FormSheet
+            }
             searchctrl.preferredContentSize = CGSizeMake(474, 500)
             searchctrl.table.alpha = 0
             searchctrl.afterselect = {() in
@@ -95,7 +99,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             
             let startY : CGFloat = 110.0
             
-            self.camButton = UIButton.buttonWithType(.Custom) as? UIButton
+            self.camButton = UIButton(type: .Custom)
             self.camButton!.frame = CGRectMake(128, startY, 64, 64)
             self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
             self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
@@ -112,7 +116,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             self.camLabel!.text = NSLocalizedString("search.info.button.camera",comment:"")
             searchctrl.view!.addSubview(self.camLabel!)
             
-            self.scanButton = UIButton.buttonWithType(.Custom) as? UIButton
+            self.scanButton = UIButton(type: .Custom)
             self.scanButton!.frame = CGRectMake(282, startY, 64, 64)
             self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
             self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
@@ -137,7 +141,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             popover!.presentPopoverFromRect(CGRectMake(48, self.frame.maxY - 20 , 0, 0), inView: self, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         }
         
-        self.showClearButtonIfNeeded(forTextValue: field.text)
+        self.showClearButtonIfNeeded(forTextValue: field.text!)
     }
     
     func closeSearch() {
@@ -158,7 +162,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Text.rawValue
-        if textField.text != nil && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
+        if textField.text != nil && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
             
             if !(validateText()) {
                 return false
@@ -166,14 +170,14 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             
             self.errorView?.removeFromSuperview()
             
-            if textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
+            if textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) >= 12 && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <= 16 {
                 
-                let strFieldValue = textField.text as NSString
+                let strFieldValue = textField.text! as NSString
                 if strFieldValue.integerValue > 0 {
-                    var code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    let code = textField.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                     var character = code
                     if self.isBarCodeUPC(code) {
-                        character = code.substringToIndex(advance(code.startIndex, count(code)-1 ))
+                        character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
                     }
                     delegate.selectKeyWord("", upc: character, truncate:true)
                     closePopOver()
@@ -183,7 +187,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text.uppercaseString, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false)
                         closePopOver()
                         closeSearch()
                         return true 
@@ -209,7 +213,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 }*/
             }
 //            self.field!.resignFirstResponder()
-            delegate.selectKeyWord(textField.text, upc: nil, truncate:false)
+            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false)
             closePopOver()
             closeSearch()
         }
@@ -218,7 +222,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text
+        let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if keyword.length() > 51{
             return false
@@ -246,7 +250,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             self.errorView!.setValues(field!.frame.width, strLabel:"Buscar", strValue: message)
             self.errorView!.frame =  CGRectMake(field!.frame.minX + 20, field!.frame.minY, errorView!.frame.width , errorView!.frame.height)
         }
-        var contentView = self.field!.superview!
+        let contentView = self.field!.superview!
         contentView.addSubview(self.errorView!)
         UIView.animateWithDuration(0.2, animations: {
             self.clearButton!.frame = CGRectMake(CGRectGetMaxX(self.field!.frame) - 49 , self.field!.frame.midY , 48, 40)
@@ -268,10 +272,14 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     }
     
     func validateRegEx (pattern:String,toValidate:String) -> Bool {
-        var error: NSError?
         
-        var regExVal = NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-        let matches = regExVal!.numberOfMatchesInString(toValidate, options: nil, range: NSMakeRange(0, count(toValidate)))
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
+        } catch {
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatchesInString(toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
         
         if matches > 0 {
             return true
@@ -360,7 +368,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         self.field!.text = ""
         searchctrl.elements = nil
         searchctrl.elementsCategories = nil
-        self.showClearButtonIfNeeded(forTextValue: self.field!.text)
+        self.showClearButtonIfNeeded(forTextValue: self.field!.text!)
         searchctrl.showTableIfNeeded()
         if self.errorView != nil {
             self.errorView?.removeFromSuperview()
@@ -417,23 +425,23 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             fullBarcode = "\(toFill)\(codeUPC)"
         }
         
-        var firstVal = (fullBarcode.substring(0, length: 1).toInt()! +
-            fullBarcode.substring(2, length: 1).toInt()! +
-            fullBarcode.substring(4, length: 1).toInt()! +
-            fullBarcode.substring(6, length: 1).toInt()! +
-            fullBarcode.substring(8, length: 1).toInt()! +
-            fullBarcode.substring(10, length: 1).toInt()! +
-            fullBarcode.substring(12, length: 1).toInt()!)
+        var firstVal = (Int(fullBarcode.substring(0, length: 1))! +
+            Int(fullBarcode.substring(2, length: 1))! +
+            Int(fullBarcode.substring(4, length: 1))! +
+            Int(fullBarcode.substring(6, length: 1))! +
+            Int(fullBarcode.substring(8, length: 1))! +
+            Int(fullBarcode.substring(10, length: 1))! +
+            Int(fullBarcode.substring(12, length: 1))!)
         firstVal *= 3
         
-        let secondVal = fullBarcode.substring(1, length: 1).toInt()! +
-            fullBarcode.substring(3, length: 1).toInt()! +
-            fullBarcode.substring(5, length: 1).toInt()! +
-            fullBarcode.substring(7, length: 1).toInt()! +
-            fullBarcode.substring(9, length: 1).toInt()! +
-            fullBarcode.substring(11, length: 1).toInt()!
+        let secondVal = Int(fullBarcode.substring(1, length: 1))! +
+            Int(fullBarcode.substring(3, length: 1))! +
+            Int(fullBarcode.substring(5, length: 1))! +
+            Int(fullBarcode.substring(7, length: 1))! +
+            Int(fullBarcode.substring(9, length: 1))! +
+            Int(fullBarcode.substring(11, length: 1))!
         
-        let verificationInt = fullBarcode.substring(13, length: 1).toInt()!
+        let verificationInt = Int(fullBarcode.substring(13, length: 1))!
         
         let result = firstVal + secondVal
         let resultVerInt : Int! = result != 0 ? 10 - (result % 10 ) : 0
@@ -461,7 +469,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     }
     
     func validateText() -> Bool {
-        let toValidate : NSString = field.text
+        let toValidate : NSString = field.text!
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if toValidate.isEqualToString(""){
             return false
@@ -470,11 +478,11 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
             showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
             return false
         }
-        if !validateSearch(field.text)  {
+        if !validateSearch(field.text!)  {
             showMessageValidation("Texto no permitido")
             return false
         }
-        if field.text.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
+        if field.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
             showMessageValidation("La longitud no puede ser mayor a 50 caracteres")
             return false
         }

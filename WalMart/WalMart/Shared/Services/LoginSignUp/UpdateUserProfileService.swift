@@ -32,23 +32,26 @@ class UpdateUserProfileService : BaseService {
                     if array.count > 0{
                         usr = array[0] as! User
                         
-                        var resultProfileJSON = params["profile"] as! NSDictionary
+                        let resultProfileJSON = params["profile"] as! NSDictionary
                         
                         usr.profile.name = resultProfileJSON["name"] as! String
                         usr.profile.lastName = resultProfileJSON["lastName"] as! String
-
-                        var error: NSError? = nil
-                        context.save(&error)
+                        do {
+                            try context.save()
+                        } catch let error1 as NSError {
+                            print(error1.description)
+                        } catch {
+                            fatalError()
+                        }
                         UserCurrentSession.sharedInstance().userSigned = usr
                         successBlock!(resultCall)
                     }
                 }
                 else{
                     let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    let message = resultCall["message"] as! String
-                    var error = NSError()
-                    //error.setValue(message, forKey:codeMessage)
-                    errorBlock!(error)
+                    //let message = resultCall["message"] as! String
+                    //errorDom(message, forKey:codeMessage)
+                    errorBlock!(errorDom)
                 }
             }
             

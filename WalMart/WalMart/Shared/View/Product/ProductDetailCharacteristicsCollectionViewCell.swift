@@ -14,7 +14,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
     var downBorder = UIView()
     var titleLabel = UILabel()
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -26,7 +26,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
     }
     
     func setup() {
-        var labelDesc = UILabel()
+        let labelDesc = UILabel()
         labelDesc.numberOfLines = 0
         self.addSubview(labelDesc)
         
@@ -103,12 +103,12 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
     
     class func buildAttributtedString(key:String, value:String,  colorKey:UIColor,  colorValue:UIColor , size:CGFloat ) -> NSAttributedString {
         var valueItem = NSMutableAttributedString()
-        var valuesDescItem = NSMutableAttributedString()
+        let valuesDescItem = NSMutableAttributedString()
         if key != ""{
-            var attrStringLab = NSAttributedString(string:"\(key): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])
+            let attrStringLab = NSAttributedString(string:"\(key): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(size),NSForegroundColorAttributeName:colorKey])
             valuesDescItem.appendAttributedString(attrStringLab)
         }
-        var attrStringVal = NSAttributedString(string:"\(value)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(size),NSForegroundColorAttributeName:colorValue])
+        let attrStringVal = NSAttributedString(string:"\(value)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(size),NSForegroundColorAttributeName:colorValue])
         valuesDescItem.appendAttributedString(attrStringVal)
         return valuesDescItem
     }
