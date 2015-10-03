@@ -22,9 +22,9 @@ class IPOBaseController : BaseController {
     }
     
     func scrollViewDidScroll(scrollView: UIScrollView) {
-        var currentOffset: CGFloat = scrollView.contentOffset.y
-        var differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
-        var differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
+        let currentOffset: CGFloat = scrollView.contentOffset.y
+        let differenceFromStart: CGFloat = self.startContentOffset! - currentOffset
+        let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
         lastContentOffset = currentOffset;
         
         if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {

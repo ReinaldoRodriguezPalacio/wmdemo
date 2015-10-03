@@ -43,9 +43,9 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.frame.size
-        var resumeHeight:CGFloat = 75.0
-        var footerHeight:CGFloat = 60.0
+        let bounds = self.view.frame.size
+        //var resumeHeight:CGFloat = 75.0
+        let footerHeight:CGFloat = 60.0
         
         //self.viewLoad.frame = self.view.bounds
         self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.bounds.width, 60)
@@ -59,10 +59,10 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         
         self.footer!.frame = CGRectMake(0.0, self.view.bounds.height - footerHeight, bounds.width, footerHeight)
         
-        var margin: CGFloat = 15.0
-        var widthField = self.view.bounds.width - (2*margin)
-        var fheight: CGFloat = 44.0
-        var lheight: CGFloat = 25.0
+        let margin: CGFloat = 15.0
+        let widthField = self.view.bounds.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        //var lheight: CGFloat = 25.0
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
         self.address!.frame = CGRectMake(margin, self.address!.frame.minY, widthField, fheight)
@@ -88,7 +88,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
     func addCartToList() {
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
-            var frame = self.view.frame
+            let frame = self.view.frame
             
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.hiddenOpenList = true
@@ -129,13 +129,13 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         }
     }
     
-    func removeListSelector(#action:(()->Void)?) {
+    func removeListSelector(action action:(()->Void)?) {
         if self.listSelectorController != nil {
             UIView.animateWithDuration(0.5,
                 delay: 0.0,
                 options: .LayoutSubviews,
                 animations: { () -> Void in
-                    var frame = self.view.frame
+                    let frame = self.view.frame
                     self.listSelectorController!.view.frame = CGRectMake(0, frame.height, frame.width, 0.0)
                     self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
                 }, completion: { (complete:Bool) -> Void in
@@ -165,7 +165,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
-        var service = GRAddItemListService()
+        let service = GRAddItemListService()
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
@@ -200,7 +200,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
                     self.removeListSelector(action: nil)
                 }
             }, errorBlock: { (error:NSError) -> Void in
-                println("Error at add product to list: \(error.localizedDescription)")
+                print("Error at add product to list: \(error.localizedDescription)")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 self.alertView!.afterRemove = {
@@ -214,7 +214,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        var products: [AnyObject] = []
+        //var products: [AnyObject] = []
         for var idx = 0; idx < self.itemsInCart.count; idx++ {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
@@ -239,7 +239,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
                 typeProdVal = typeProd.integerValue
             }
             
-            var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+            let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
             detail!.upc = item["upc"] as! String
             detail!.desc = item["description"] as! String
             detail!.price = "\(price)"
@@ -250,18 +250,26 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         }
         
         var error: NSError? = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
         if error != nil {
-            println(error!.localizedDescription)
+            print(error!.localizedDescription)
         }
         
-        var count:Int = list.products.count
+        let count:Int = list.products.count
         list.countItem = NSNumber(integer: count)
         
         error = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
         if error != nil {
-            println(error!.localizedDescription)
+            print(error!.localizedDescription)
         }
         
         self.removeListSelector(action: nil)
@@ -326,7 +334,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
             let description = item["description"] as? String
             let type = item["type"] as! String
             
-            var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
             products.append(serviceItem)
         }
         
@@ -337,7 +345,7 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
                 self.alertView!.showDoneIcon()
             },
             errorBlock: { (error:NSError) -> Void in
-                println(error)
+                print(error)
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
             }

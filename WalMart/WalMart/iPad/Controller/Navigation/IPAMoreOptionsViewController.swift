@@ -141,7 +141,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 2:
             currentOption = indexPath.row + 7
         default:
-            println("")
+            print("")
         }
 
         

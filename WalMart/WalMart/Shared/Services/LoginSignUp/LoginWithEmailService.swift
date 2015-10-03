@@ -22,7 +22,7 @@ class LoginWithEmailService : BaseService {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 &&  UserCurrentSession.sharedInstance().userSigned != nil{
-                    var resultCallMG = resultCall
+                    let resultCallMG = resultCall
                     let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUserGR
                     if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
                         let serviceGr = GRLoginService()
@@ -40,10 +40,10 @@ class LoginWithEmailService : BaseService {
                 }
                 else{
                     let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    let message = resultCall["message"] as! String
-                    var error = NSError()
+                    //let message = resultCall["message"] as! String
+                    //let error = NSError()
                     //error.setValue(message, forKey:codeMessage)
-                    errorBlock!(error)
+                    errorBlock!(errorDom)
                 }
             }
             }) { (error:NSError) -> Void in

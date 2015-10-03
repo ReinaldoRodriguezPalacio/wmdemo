@@ -48,7 +48,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
-        let departmentId = item["idDepto"] as! String
+        //let departmentId = item["idDepto"] as! String
         
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()
@@ -81,7 +81,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.categories.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
         }) { (Bool) -> Void in
-            println()
+            print("")
            self.delegate?.didSelectDeparmentAtIndex(indexPath)
         }
     }

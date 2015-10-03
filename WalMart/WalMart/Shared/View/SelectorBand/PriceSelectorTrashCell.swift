@@ -12,7 +12,7 @@ class PriceSelectorTrashCell: UICollectionViewCell {
 
     var icon: UIImageView?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

@@ -25,8 +25,8 @@ class UserWishlistService : BaseService {
                 self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     
-                    var itemResult = resultCall[self.JSON_WISHLIST_RESULT] as! NSDictionary
-                    var itemWishList = itemResult["items"] as! [AnyObject]
+                    let itemResult = resultCall[self.JSON_WISHLIST_RESULT] as! NSDictionary
+                    let itemWishList = itemResult["items"] as! [AnyObject]
                     
                     let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -44,8 +44,13 @@ class UserWishlistService : BaseService {
                         context.deleteObject(itemWishlist)
                     }
                     
-                    var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        print(error1.description)
+                    } catch {
+                        fatalError()
+                    }
                     
                     var itemsInWishlist : [AnyObject] = []
                     
@@ -96,9 +101,15 @@ class UserWishlistService : BaseService {
                     
 
                     
-                    var result = ["items":itemsInWishlist]
+                    let result = ["items":itemsInWishlist]
                     
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        print(error1.description)
+                    } catch {
+                        fatalError()
+                    }
                     
                     successBlock!(result)
                     }) { (error:NSError) -> Void in
@@ -114,19 +125,19 @@ class UserWishlistService : BaseService {
     
     func callCoreDataService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
         if UserCurrentSession.sharedInstance().userSigned != nil {
             predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: WishlistStatus.Deleted.rawValue))
         }
-        var array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
+        let array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
         
         var returnDictionary = [:]
         var items : [AnyObject] = []
-        var subtotal : Double = 0.0
-        var totalQuantity = 0
+        //var subtotal : Double = 0.0
+        //var totalQuantity = 0
         for itemWL in array {
             let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable]
             items.append(dictItem)
@@ -143,7 +154,6 @@ class UserWishlistService : BaseService {
         let deteted = Array(UserCurrentSession.sharedInstance().userSigned!.wishlist.filteredSetUsingPredicate(predicateDeleted)) as! [Wishlist]
         if deteted.count > 0 {
             let serviceDelete = DeleteItemWishlistService()
-            var arratUpcsDelete : [String] = []
             for itemDeleted in deteted {
                 serviceDelete.callServiceWithParams(["parameter":[itemDeleted.product.upc]], successBlock: { (result:NSDictionary) -> Void in
                     let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -152,9 +162,13 @@ class UserWishlistService : BaseService {
                     for wl in deteted {
                         context.deleteObject(wl)
                     }
-                    
-                    var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        print(error1.description)
+                    } catch {
+                        fatalError()
+                    }
                     
                     
                     self.synchronizeAddedWishlistFromCoreData(successBlock, errorBlock:errorBlock)
@@ -173,12 +187,12 @@ class UserWishlistService : BaseService {
     }
     
     func synchronizeAddedWishlistFromCoreData (successBlock:(() -> Void), errorBlock:((NSError) -> Void)?) {
-        let predicateUpdated = NSPredicate(format: "status == %@", NSNumber(integer:WishlistStatus.Created.rawValue))
+        //let predicateUpdated = NSPredicate(format: "status == %@", NSNumber(integer:WishlistStatus.Created.rawValue))
         let added = UserCurrentSession.sharedInstance().WishlistWithoutUser()
         if added != nil {
         if added!.count > 0 {
-            let serviceUpdate = ShoppingCartAddProductsService()
-            var arrayUpcsUpdate : [AnyObject] = []
+            //let serviceUpdate = ShoppingCartAddProductsService()
+            //var arrayUpcsUpdate : [AnyObject] = []
             
             for itemAdded in added! {
                 let serviceWishList = AddItemWishlistService()

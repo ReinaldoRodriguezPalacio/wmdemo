@@ -83,7 +83,7 @@ class AddItemWishlistService : BaseService {
             let array : [Wishlist] =  self.retrieve("Wishlist",sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]
             if array.count == 0 {
                 wishlistProduct = NSEntityDescription.insertNewObjectForEntityForName("Wishlist", inManagedObjectContext: context) as! Wishlist
-                var productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
+                let productBD =  NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as! Product
                 wishlistProduct.product = productBD
             }else{
                 wishlistProduct = array[0]
@@ -103,8 +103,11 @@ class AddItemWishlistService : BaseService {
                 wishlistProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }
         }
-        var error: NSError? = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch let error as NSError {
+            print(error.localizedDescription)
+        }
         
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)

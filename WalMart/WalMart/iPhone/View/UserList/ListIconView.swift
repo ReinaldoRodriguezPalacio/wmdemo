@@ -15,7 +15,7 @@ class ListIconView : UIView {
     var iconImageView: UIImageView?
     var indicator: UIActivityIndicatorView?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     
@@ -48,7 +48,7 @@ class ListIconView : UIView {
             self.titleLabel!.hidden = false
             self.addSubview(self.titleLabel!)
             
-            var size = self.sizeForLabel(self.titleLabel!)
+            let size = self.sizeForLabel(self.titleLabel!)
             self.titleLabel!.frame = CGRectMake(0.0, 0.0, size.width, size.height)
             //Se agregan 1 px para correccion de alineado
             self.titleLabel!.center = CGPointMake(self.frame.width/2, (self.frame.height/2) + 1)
@@ -79,7 +79,7 @@ class ListIconView : UIView {
     }
 
     func sizeForLabel(label:UILabel) -> CGSize {
-        var computedRect: CGRect = label.text!.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max),
+        let computedRect: CGRect = label.text!.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max),
             options: .UsesLineFragmentOrigin,
             attributes: [NSFontAttributeName:label.font],
             context: nil)

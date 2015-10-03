@@ -88,10 +88,10 @@ class OrderProductTableViewCell : ProductTableViewCell {
         let lblUPC = NSLocalizedString("previousorder.upc",comment:"")
 
         var valueItem = NSMutableAttributedString()
-        var attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
-        var attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
+        let attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
+        let attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
         
-        var valuesDescItem = NSMutableAttributedString()
+        let valuesDescItem = NSMutableAttributedString()
         valuesDescItem.appendAttributedString(attrStringLab)
         valuesDescItem.appendAttributedString(attrStringVal)
         
@@ -100,10 +100,10 @@ class OrderProductTableViewCell : ProductTableViewCell {
         let lblItems = NSLocalizedString("previousorder.quantity",comment:"")
         
         var valueItemQ = NSMutableAttributedString()
-        var attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
-        var attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
+        let attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
+        let attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
         
-        var valuesDescItemQ = NSMutableAttributedString()
+        let valuesDescItemQ = NSMutableAttributedString()
         valuesDescItemQ.appendAttributedString(attrStringLabQ)
         valuesDescItemQ.appendAttributedString(attrStringValQ)
         
@@ -150,7 +150,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
                         value: nil).build() as [NSObject : AnyObject])
                 }
                
-                let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as! String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable)
+                let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type.rawValue , pesable: (self.pesable == true ? "1" : "0"),isPreorderable:isPreorderable)
                 
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                 

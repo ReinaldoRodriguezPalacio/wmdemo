@@ -22,7 +22,7 @@ class IPOGroceriesView : UIView {
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -60,7 +60,7 @@ class IPOGroceriesView : UIView {
         if viewToBlur != nil {
             autoreleasepool {
                 UIGraphicsBeginImageContextWithOptions(self.frame.size, false, 1.0);
-                viewToBlur!.layer.renderInContext(UIGraphicsGetCurrentContext())
+                viewToBlur!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
                 let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
                 UIGraphicsEndImageContext();
                 viewToBlur!.layer.contents = nil

@@ -15,7 +15,7 @@ class GRProductBySearchService: GRBaseService {
         self.urlForSession = true
     }
     
-    func buildParamsForSearch(#text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
+    func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""), //"pText"
             JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""), //"idDepartment"
@@ -28,7 +28,7 @@ class GRProductBySearchService: GRBaseService {
     }
 
     func callService(params:NSDictionary, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        println("PARAMS FOR GRProductBySearchService")
+        print("PARAMS FOR GRProductBySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
             successBlock: { (resultJSON:NSDictionary) -> Void in
@@ -59,7 +59,7 @@ class GRProductBySearchService: GRBaseService {
                 }
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Error at search products in groceries \(error)")
+                print("Error at search products in groceries \(error)")
                 errorBlock?(error)
                 return
             }

@@ -67,8 +67,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.content.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.content)
         
-        let iconImage = UIImage(named:"button_bg")
-        let iconSelected = UIImage(named:"button_bg_active")
+        //let iconImage = UIImage(named:"button_bg")
+        //let iconSelected = UIImage(named:"button_bg_active")
         
         self.saveButton = WMRoundButton()
         //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
@@ -167,7 +167,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             field = confirmPassword!
             message = NSLocalizedString("field.validate.confirmpassword.equal", comment: "")
         }
-        if count(message) > 0 {
+        if message.characters.count > 0 {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
@@ -186,8 +186,8 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         }
         
         let service = UpdateUserProfileService()
-        var passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text) as String
-        var passNew = (self.password==nil ? "" : self.password!.text) as String
+        let passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text!) as String
+        let passNew = (self.password==nil ? "" : self.password!.text!) as String
         
         
         if let user = UserCurrentSession.sharedInstance().userSigned {

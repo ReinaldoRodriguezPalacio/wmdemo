@@ -17,7 +17,7 @@ class FiscalAddressPersonM: AddressView {
         super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -69,7 +69,6 @@ class FiscalAddressPersonM: AddressView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        var bounds = self.bounds
         self.corporateName?.frame = CGRectMake(leftRightPadding,  0, self.bounds.width - (leftRightPadding*2), fieldHeight)
         self.rfc?.frame = CGRectMake(leftRightPadding,  corporateName!.frame.maxY + 8, (self.corporateName!.frame.width / 2) - 5 , fieldHeight)
         self.ieps?.frame = CGRectMake(self.rfc!.frame.maxX + 10 , self.rfc!.frame.minY,   self.outdoornumber!.frame.width  , fieldHeight)
@@ -82,11 +81,11 @@ class FiscalAddressPersonM: AddressView {
     override func setItemWithDictionary(itemValues: NSDictionary) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.corporateName!.text = self.item!["corporateName"] as! String
-            self.rfc!.text = self.item!["rfc"] as! String
-            self.ieps!.text = self.item!["ieps"] as! String
-            self.email!.text = self.item!["rfcEmail"] as! String
-            self.telephone!.text = self.item!["phoneNumber"] as! String
+            self.corporateName!.text = self.item!["corporateName"] as? String
+            self.rfc!.text = self.item!["rfc"] as? String
+            self.ieps!.text = self.item!["ieps"] as? String
+            self.email!.text = self.item!["rfcEmail"] as? String
+            self.telephone!.text = self.item!["phoneNumber"] as? String
         }
     }
  
@@ -103,7 +102,7 @@ class FiscalAddressPersonM: AddressView {
         }
         if !error{
             error = viewError(telephone!)
-            let toValidate : NSString = telephone!.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let toValidate : NSString = telephone!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if toValidate.length > 2 {
                 if toValidate == "0000000000" || toValidate.substringToIndex(2) == "00" {
                     error = self.viewError(telephone!, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
@@ -119,13 +118,13 @@ class FiscalAddressPersonM: AddressView {
     
     override func getParams() -> [String:AnyObject]{
         var paramsAddress : [String:AnyObject] =   super.getParams()
-        var userParams = ["profile":["lastName2":"" ,"name":"Empresa" ,"lastName":"" ]]
+        let userParams = ["profile":["lastName2":"" ,"name":"Empresa" ,"lastName":"" ]]
         paramsAddress.updateValue(userParams, forKey: "user")
-        paramsAddress.updateValue(self.rfc!.text, forKey: "rfc")
-        paramsAddress.updateValue(self.email!.text, forKey: "rfcEmail")
-        paramsAddress.updateValue(self.ieps!.text, forKey: "ieps")
-        paramsAddress.updateValue(self.telephone!.text, forKey: "TelNumber")
-        paramsAddress.updateValue(self.corporateName!.text, forKey: "corporateName")
+        paramsAddress.updateValue(self.rfc!.text!, forKey: "rfc")
+        paramsAddress.updateValue(self.email!.text!, forKey: "rfcEmail")
+        paramsAddress.updateValue(self.ieps!.text!, forKey: "ieps")
+        paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
+        paramsAddress.updateValue(self.corporateName!.text!, forKey: "corporateName")
        // paramsAddress.updateValue("Empresa", forKey: "name")
         return paramsAddress
     }

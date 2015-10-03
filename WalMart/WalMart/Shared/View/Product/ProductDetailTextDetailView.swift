@@ -21,7 +21,7 @@ class ProductDetailTextDetailView : UIView {
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
        super.init(coder: aDecoder)
         setup()
     }
@@ -70,9 +70,9 @@ class ProductDetailTextDetailView : UIView {
     
     func generateBlurImage(viewBg:UIView,frame:CGRect) {
         var cloneImage : UIImage? = nil
-        var blurredImage : UIImage? = nil
+        //var blurredImage : UIImage? = nil
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext())
+        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         cloneImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         viewBg.layer.contents = nil
@@ -87,7 +87,7 @@ class ProductDetailTextDetailView : UIView {
     }
     
     deinit{
-        println("close image")
+        print("close image")
     }
     
     

@@ -35,10 +35,15 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
         familyTable.autoresizingMask = UIViewAutoresizing.None
         self.titleLabel!.text = NSLocalizedString("help.item.terms.condition", comment: "")
 
-        var error: NSError?
         let filePath =  NSBundle.mainBundle().pathForResource("termAndConditions", ofType: "json")
-        let jsonData = NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe, error: &error)
-        let resultArray = NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments, error: &error) as! [[String:AnyObject]]
+        let jsonData: NSData?
+        do {
+            jsonData = try NSData(contentsOfFile:filePath!, options: NSDataReadingOptions.DataReadingMappedIfSafe)
+        } catch let error as NSError {
+            print(error.localizedDescription)
+            jsonData = nil
+        }
+        let resultArray = (try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: NSJSONReadingOptions.AllowFragments)) as! [[String:AnyObject]]
         
         families = resultArray
 
@@ -49,7 +54,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         familyTable.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
     }
     
@@ -60,7 +65,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-         var bounds = self.view.bounds
+         let bounds = self.view.bounds
         familyTable.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
     }
     
@@ -130,7 +135,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if indexPath.row == 0  {
-            var changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
+            let changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
             if selectedFamily != nil {
                 deSelectSection(selectedFamily)
             }

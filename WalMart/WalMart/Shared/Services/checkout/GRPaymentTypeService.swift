@@ -21,7 +21,7 @@ class GRPaymentTypeService: GRBaseService {
             let arrayCall = resultCall["responseArray"] as! NSArray
             successBlock!(arrayCall)
         }) { (error:NSError) -> Void in
-            println("Error: \(error)")
+            print("Error: \(error)")
             errorBlock!(error)
         }
     }

@@ -28,11 +28,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
         super.viewDidLoad()
 
-        var shareWidth:CGFloat = 34.0
-        var separation:CGFloat = 16.0
+        let shareWidth:CGFloat = 34.0
+        let separation:CGFloat = 16.0
         var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
-        var y = (self.footerSection!.frame.height - shareWidth)/2
-        self.duplicateButton!.frame = CGRectMake(145, y, 34.0, 34.0)
+        let y = (self.footerSection!.frame.height - shareWidth)/2
        
         x = self.duplicateButton!.frame.maxX + 16.0
         self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
@@ -70,15 +69,15 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 //        }
         self.backButton?.frame = CGRectMake(0, (self.header!.frame.height - 46.0)/2, 46.0, 46.0)
         if CGRectEqualToRect(self.editBtn!.frame, CGRectZero) {
-            var headerBounds = self.header!.frame.size
-            var buttonWidth: CGFloat = 55.0
-            var buttonHeight: CGFloat = 22.0
+            let headerBounds = self.header!.frame.size
+            let buttonWidth: CGFloat = 55.0
+            let buttonHeight: CGFloat = 22.0
             self.editBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
             self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
         }
         
-        var x = self.shareButton!.frame.maxX + 16.0
-        var y = (self.footerSection!.frame.height - 34.0)/2
+        let x = self.shareButton!.frame.maxX + 16.0
+        let y = (self.footerSection!.frame.height - 34.0)/2
         
         addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
@@ -147,7 +146,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.deleteAllBtn!.alpha = 1.0
             })
-            var cells = self.tableView!.visibleCells()
+            var cells = self.tableView!.visibleCells
             for var idx = 0; idx < cells.count; idx++ {
                 if let cell = cells[idx] as? DetailListViewCell {
                     cell.setEditing(true, animated: false)
@@ -175,7 +174,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                     }
                 }
             )
-            var cells = self.tableView!.visibleCells()
+            var cells = self.tableView!.visibleCells
             for var idx = 0; idx < cells.count; idx++ {
                 if let cell = cells[idx] as? DetailListViewCell {
                     cell.hideUtilityButtonsAnimated(false)
@@ -204,11 +203,11 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                     value: nil).build() as [NSObject : AnyObject])
             }
             
-            var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
             //self.sharePopover!.backgroundColor = UIColor.greenColor()
-            var rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
+            let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
         }
     }
@@ -218,25 +217,25 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.emptyView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.emptyView!)
         
-        var bg = UIImageView(image: UIImage(named: "empty_list"))
+        let bg = UIImageView(image: UIImage(named: "empty_list"))
         bg.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 612)
         self.emptyView!.addSubview(bg)
         
-        var labelOne = UILabel(frame: CGRectMake(0.0, 28.0, self.view.bounds.width, 16.0))
+        let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, self.view.bounds.width, 16.0))
         labelOne.textAlignment = .Center
         labelOne.textColor = WMColor.UIColorFromRGB(0x2870c9)
         labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        var labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, self.view.bounds.width, 16))
+        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, self.view.bounds.width, 16))
         labelTwo.textAlignment = .Center
         labelTwo.textColor = WMColor.UIColorFromRGB(0x2870c9)
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
         
-        var icon = UIImageView(image: UIImage(named: "empty_list_icon"))
+        let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
         icon.frame = CGRectMake(280.0, labelOne.frame.maxY + 12.0, 16.0, 16.0)
         self.emptyView!.addSubview(icon)
     }
@@ -328,16 +327,16 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.quantitySelector!.addToCartAction = { (quantity:String) in
             
            
-            if quantity.toInt() <= 20000 {
+            if Int(quantity) <= 20000 {
             
              self.sharePopover?.dismissPopoverAnimated(false)
             
              if let item = self.products![indexPath!.row] as? [String:AnyObject] {
-                 var upc = item["upc"] as? String
-                 self.invokeUpdateProductFromListService(upc!, quantity: quantity.toInt()!)
+                 let upc = item["upc"] as? String
+                 self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
              }
              else if let item = self.products![indexPath!.row] as? Product {
-                 item.quantity = NSNumber(integer: quantity.toInt()!)
+                 item.quantity = NSNumber(integer: Int(quantity)!)
                  self.saveContext()
                  self.retrieveProductsLocally(true)
                  self.removeSelector()
@@ -357,7 +356,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
         self.quantitySelector!.backgroundColor = UIColor.clearColor()
         self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clearColor()
-        var controller = UIViewController()
+        let controller = UIViewController()
         controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 388.0)
         controller.view.addSubview(self.quantitySelector!)
         controller.view.backgroundColor = UIColor.clearColor()
@@ -366,7 +365,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
         self.sharePopover!.delegate = self
         self.sharePopover!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
-        var rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
+        let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
 
     }

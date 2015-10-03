@@ -15,7 +15,7 @@ extension String{
     //
     var listIconString : String {
         
-        if count(self.utf16) <= 1 {
+        if self.utf16.count <= 1 {
             return self.uppercaseString
         }
         

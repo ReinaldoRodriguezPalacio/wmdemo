@@ -36,7 +36,7 @@ class UserCurrentSession : NSObject {
         }
         
         dispatch_once(&Static.onceToken) {
-            Static.instance = self()
+            Static.instance = self.init()
         }
         
         return Static.instance!
@@ -55,13 +55,19 @@ class UserCurrentSession : NSObject {
         
         request.returnsObjectsAsFaults = false
         
-        var sorter = NSSortDescriptor(key:"lastLogin" , ascending:false)
+        let sorter = NSSortDescriptor(key:"lastLogin" , ascending:false)
         request.sortDescriptors = [sorter]
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         if fetchedResult?.count > 0 {
@@ -81,7 +87,7 @@ class UserCurrentSession : NSObject {
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
                 
                 loginService.callService(["email":emailUser], successBlock: { (result:NSDictionary) -> Void in
-                    println("User signed")
+                    print("User signed")
                     }, errorBlock: { (error:NSError) -> Void in
                 })
             }
@@ -92,7 +98,7 @@ class UserCurrentSession : NSObject {
   
     func createUpdateUser(userDictionaryMG:NSDictionary, userDictionaryGR:NSDictionary) {
         
-        var resultProfileJSONMG = userDictionaryMG["profile"] as! NSDictionary
+        let resultProfileJSONMG = userDictionaryMG["profile"] as! NSDictionary
         var resultProfileJSONGR : [String:AnyObject]? = nil
         if let userDictPrGR = userDictionaryGR["profile"] as? [String:AnyObject] {
             resultProfileJSONGR = userDictPrGR
@@ -141,7 +147,7 @@ class UserCurrentSession : NSObject {
         }
         
         
-        var date = NSDate()
+        let date = NSDate()
         usr.lastLogin = date
         
         //Fill profile MG
@@ -188,11 +194,11 @@ class UserCurrentSession : NSObject {
             profile.workNumberExtension = resultProfileJSONGR!["workNumberExtension"] as! String
         }
         
-        
-        
-        
-        var error: NSError? = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch {
+           print("context save error in createUpdateUser")
+        }
 
         self.userSigned = usr
         
@@ -224,16 +230,26 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         if fetchedResult != nil {
             for objDelete in fetchedResult! {
                 context.deleteObject(objDelete as! NSManagedObject)
             }
         }
-        context.save(&error)
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
     }
     
     func userItemsInWishlist() -> Int {
@@ -249,9 +265,15 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult!.count
@@ -271,9 +293,15 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult?.count != 0
@@ -292,9 +320,15 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult?.count != 0
@@ -318,9 +352,15 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult?.count != 0
@@ -345,9 +385,15 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         
@@ -374,9 +420,15 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult as? [Wishlist]
@@ -397,7 +449,7 @@ class UserCurrentSession : NSObject {
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
         if (sortBy != nil) {
-            var sorter = NSSortDescriptor(key:sortBy! , ascending:isAscending)
+            let sorter = NSSortDescriptor(key:sortBy! , ascending:isAscending)
             request.sortDescriptors = [sorter]
         }
         
@@ -407,9 +459,15 @@ class UserCurrentSession : NSObject {
         }
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         return fetchedResult!
     }
@@ -452,7 +510,7 @@ class UserCurrentSession : NSObject {
     func loadMGShoppingCart(endLoadSC:(() -> Void)) {
         let service = ShoppingCartProductsService()
         service.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            println(result)
+            print(result)
             self.itemsMG = result
             endLoadSC()
             }) { (error:NSError) -> Void in
@@ -559,20 +617,20 @@ class UserCurrentSession : NSObject {
     
     
     func updateTotalItemsInCarts() {
-        var countItems = self.numberOfArticlesMG() + numberOfArticlesGR()
+        let countItems = self.numberOfArticlesMG() + numberOfArticlesGR()
         let params = ["quantity":countItems]
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
     }
     
     
-    func updateTotalItemsInCarts(#itemsInGR:Int) {
-        var countItems = self.numberOfArticlesMG() + itemsInGR
+    func updateTotalItemsInCarts(itemsInGR itemsInGR:Int) {
+        let countItems = self.numberOfArticlesMG() + itemsInGR
         let params = ["quantity":countItems]
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
     }
     
-    func updateTotalItemsInCarts(#itemsInMG:Int) {
-        var countItems = itemsInMG + self.numberOfArticlesGR()
+    func updateTotalItemsInCarts(itemsInMG itemsInMG:Int) {
+        let countItems = itemsInMG + self.numberOfArticlesGR()
         let params = ["quantity":countItems]
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
     }
@@ -586,9 +644,15 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult as! [Cart]
@@ -614,9 +678,15 @@ class UserCurrentSession : NSObject {
         
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         if  fetchedResult?.count != 0 {
@@ -668,9 +738,9 @@ class UserCurrentSession : NSObject {
                 maximumAmount: 0)
             
             svcProfile.callService(requestParams: profileParams, successBlock: { (result:NSDictionary) -> Void in
-                println("Se actualizo el perfil")
+                print("Se actualizo el perfil")
                 }, errorBlock: { (error:NSError) -> Void in
-                    println("Se actualizo el perfil")
+                    print("Se actualizo el perfil")
             })
         }
     }
@@ -680,7 +750,7 @@ class UserCurrentSession : NSObject {
         let strUrlUsr = "superamaapp"
         let strApiKey = "R_a58bb67ba6a171692b80d85e05b89f17"
         let urlChange = NSURL(string: "http://api.bit.ly/v3/shorten?login=\(strUrlUsr)&apikey=\(strApiKey)&longUrl=\(urlCall)&format=txt")!
-        let strResult = String(contentsOfURL: urlChange, encoding: NSUTF8StringEncoding, error: nil)
+        let strResult = try? String(contentsOfURL: urlChange, encoding: NSUTF8StringEncoding)
         return strResult
     }
     
@@ -697,9 +767,15 @@ class UserCurrentSession : NSObject {
         request.predicate = predicate!
         
         var error: NSError? = nil
-        var fetchedResult = context.executeFetchRequest(request, error: &error)
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(request)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
         if error != nil {
-            println("errore: \(error)")
+            print("errore: \(error)")
         }
         
         return fetchedResult?.count != 0
@@ -709,7 +785,7 @@ class UserCurrentSession : NSObject {
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
         if self.storeName == nil || self.storeName!.isEmpty {
-            var serviceZip = GRZipCodeService()
+            let serviceZip = GRZipCodeService()
             serviceZip.buildParams(address["zipCode"] as! String)
             serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 let storesDic = result["stores"] as! [NSDictionary]

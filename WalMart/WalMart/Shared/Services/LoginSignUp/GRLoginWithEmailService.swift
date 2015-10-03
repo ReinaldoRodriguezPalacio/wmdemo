@@ -20,10 +20,7 @@ class GRLoginWithEmailService : GRBaseService {
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-            var newResultCall = NSMutableDictionary(dictionary: resultCall)
-            if let codeMessage = resultCall["codeMessage"] as? NSNumber {
-                
-            }
+            let newResultCall = NSMutableDictionary(dictionary: resultCall)
             successBlock!(newResultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

@@ -66,9 +66,13 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
                         cartDelete.status = NSNumber(integer:CartStatus.Deleted.rawValue)
                     }
                     var error: NSError? = nil
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error1 as NSError {
+                        error = error1
+                    }
                     if error != nil {
-                        println(error)
+                        print(error)
                     }
                 }
             }

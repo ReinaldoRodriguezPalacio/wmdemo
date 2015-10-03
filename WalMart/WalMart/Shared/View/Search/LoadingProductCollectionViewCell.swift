@@ -17,7 +17,7 @@ class LoadingProductCollectionViewCell: UICollectionViewCell {
     
     let margin: CGFloat = 15.0
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.setup()
     }
@@ -53,13 +53,13 @@ class LoadingProductCollectionViewCell: UICollectionViewCell {
     }
 
     override func layoutSubviews() {
-        var bounds = self.frame
-        var width: CGFloat = bounds.width - (self.margin*2.0)
+        let bounds = self.frame
+        let width: CGFloat = bounds.width - (self.margin*2.0)
         
-        var computedRect: CGRect = self.title!.text!.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.title!.font], context: nil)
+        let computedRect: CGRect = self.title!.text!.boundingRectWithSize(CGSizeMake(width, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.title!.font], context: nil)
         
         self.title!.frame = CGRectMake(self.margin, self.margin, width, computedRect.size.height)
-        var size = self.activityIndicator!.frame.size
+        let size = self.activityIndicator!.frame.size
         self.activityIndicator!.center = CGPointMake(bounds.size.width/2, CGRectGetMaxY(self.title!.frame) + 10.0 + (size.height/2))
         
     }

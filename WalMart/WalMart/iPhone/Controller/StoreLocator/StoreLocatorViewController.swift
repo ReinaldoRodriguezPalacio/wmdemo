@@ -64,7 +64,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.coreLocationManager = CLLocationManager()
         if(CLLocationManager.instancesRespondToSelector(Selector("requestWhenInUseAuthorization")))
         {
-            self.coreLocationManager.requestWhenInUseAuthorization()
+            if #available(iOS 8.0, *) {
+                self.coreLocationManager.requestWhenInUseAuthorization()
+            } else {
+                // Fallback on earlier versions
+            }
         }
         
         
@@ -210,7 +214,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         super.viewWillAppear(animated)
         self.memoryHotFix()
         self.coreLocationManager.startUpdatingLocation()
-        if self.clubMap!.userLocation != nil && !self.localizable {
+        if !self.localizable {
             self.zoomMapLocation(self.clubMap!.userLocation)
         }
     }
@@ -218,7 +222,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         if self.actionSheet != nil && self.actionSheet!.visible {
-            var cancelIdx = self.actionSheet!.cancelButtonIndex
+            let cancelIdx = self.actionSheet!.cancelButtonIndex
             self.actionSheet!.dismissWithClickedButtonIndex(cancelIdx, animated: false)
         }
         self.memoryHotFix()
@@ -227,7 +231,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     
     func startRunning() {
         self.coreLocationManager.startUpdatingLocation()
-        if self.clubMap!.userLocation != nil && !self.localizable{
+        if !self.localizable{
             self.zoomMapLocation(self.clubMap!.userLocation)
         }
     }
@@ -255,40 +259,38 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     
     //MARK: - MKMapViewDelegate
 
-    func mapView(mapView: MKMapView!, didUpdateUserLocation userLocation: MKUserLocation!) {
+    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
         if !self.localizable {
             self.zoomMapLocation(userLocation)
         }
-        if self.clubMap!.overlays != nil  {
-            if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
-                MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
-            }
+        if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
+            MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
         }
     }
 
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if let storeAnnotation = annotation as? StoreAnnotation {
             var view =  mapView.dequeueReusableAnnotationViewWithIdentifier(self.annotationIdentifier)
             if view == nil {
                 view = MKAnnotationView(annotation: storeAnnotation, reuseIdentifier: self.annotationIdentifier)
-                view.enabled = true
-                view.canShowCallout = false
-                view.image = UIImage(named: "pin")
+                view!.enabled = true
+                view!.canShowCallout = false
+                view!.image = UIImage(named: "pin")
             }
             else {
-                view.annotation = storeAnnotation
+                view!.annotation = storeAnnotation
             }
             return view
         }
         return nil
     }
     
-    func mapView(mapView: MKMapView!, didSelectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
         
-        let latResult = view.annotation.coordinate.latitude + 0.01
-        let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation.coordinate.longitude)
+        let latResult = view.annotation!.coordinate.latitude + 0.01
+        let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation!.coordinate.longitude)
         let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, 10000, 10000)
-        var isSameCenter = self.currentSelected === view
+        let isSameCenter = self.currentSelected === view
         self.clubMap!.setRegion(pointRect, animated: true)
         if let annotation = view.annotation as? StoreAnnotation {
             self.viewBgDetailView = UIView(frame:CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
@@ -297,8 +299,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             
             self.detailView = StoreView(frame:CGRectMake(0.0, 0.0, 256.0, 200.0))
             self.detailView!.delegate = self
-            self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation?.location)
-            var height = self.detailView!.retrieveCalculatedHeight()
+            self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation.location)
+            let height = self.detailView!.retrieveCalculatedHeight()
             self.detailView!.frame = CGRectMake(0.0, 0.0, 256.0, height)
             self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 100.0)
             
@@ -320,18 +322,18 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
     }
     
-    func mapView(mapView: MKMapView!, didDeselectAnnotationView view: MKAnnotationView!) {
+    func mapView(mapView: MKMapView, didDeselectAnnotationView view: MKAnnotationView) {
         view.image = UIImage(named: "pin")
     }
 
     
-    func mapView(mapView: MKMapView!, regionWillChangeAnimated animated: Bool){
+    func mapView(mapView: MKMapView, regionWillChangeAnimated animated: Bool){
         if !self.touchPosition {
             self.usrPositionBtn!.selected = false
         }
     }
     
-    func mapView(mapView: MKMapView!, regionDidChangeAnimated animated: Bool){
+    func mapView(mapView: MKMapView, regionDidChangeAnimated animated: Bool){
         self.touchPosition = false
     }
     
@@ -342,15 +344,15 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        var cell = collectionView.dequeueReusableCellWithReuseIdentifier("club", forIndexPath: indexPath) as! ClubLocatorTableViewCell
-        cell.setValues(self.items![indexPath.row], userLocation: self.clubMap!.userLocation?.location)
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("club", forIndexPath: indexPath) as! ClubLocatorTableViewCell
+        cell.setValues(self.items![indexPath.row], userLocation: self.clubMap!.userLocation.location)
         cell.delegate = self
         return cell
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         //return CGSizeMake(collectionView.frame.width, 250.0)
-        var store = self.items![indexPath.row]
+        let store = self.items![indexPath.row]
         return ClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: collectionView.frame.width)
     }
     
@@ -387,11 +389,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                         self.detailView = nil
                         self.clubMap!.deselectAnnotation(self.currentSelected!.annotation, animated: true)
                         
-                        if gotoPosition && self.clubMap!.userLocation != nil {
+                        if gotoPosition {
                             self.zoomMapLocation(self.clubMap!.userLocation)
                         }
                         else {
-                            if self.clubMap!.overlays != nil && self.clubMap!.overlays.count > 0 {
+                            if self.clubMap!.overlays.count > 0 {
                                 MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
                             }
                         }
@@ -439,9 +441,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.viewBgDetailView != nil {
             self.mapViewUserDidTap(true)
         }else {
-            if self.clubMap!.userLocation != nil {
-                self.zoomMapLocation(self.clubMap!.userLocation)
-            }
+            self.zoomMapLocation(self.clubMap!.userLocation)
         }
     }
 
@@ -518,7 +518,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             if self.localizable {
                 let coordinateMap =  CLLocationCoordinate2DMake(userLocation.coordinate.latitude
                     + 0.01, userLocation.coordinate.longitude)
-                let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, userLocation.location.horizontalAccuracy + 20001 , userLocation.location.horizontalAccuracy + 20000 )
+                let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, userLocation.location!.horizontalAccuracy + 20001 , userLocation.location!.horizontalAccuracy + 20000 )
                 self.clubMap!.setRegion(pointRect, animated: true)
             }
             self.localizable = true
@@ -527,7 +527,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             dispatch_after(time, dispatch_get_main_queue(), {
                 let coordinateMap =  CLLocationCoordinate2DMake(userLocation.coordinate.latitude
                     + 0.01, userLocation.coordinate.longitude)
-                let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, userLocation.location.horizontalAccuracy + 20000 , userLocation.location.horizontalAccuracy + 20000 )
+                let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, userLocation.location!.horizontalAccuracy + 20000 , userLocation.location!.horizontalAccuracy + 20000 )
                 self.clubMap!.setRegion(pointRect, animated: true)
                 
                 self.usrPositionBtn?.selected = true
@@ -549,12 +549,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: context)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        var error: NSError? = nil
-        var result: [Store] = context.executeFetchRequest(fetchRequest, error: &error) as! [Store]
+        let result: [Store] = (try! context.executeFetchRequest(fetchRequest)) as! [Store]
         self.items = result
         if result.count > 0 {
             for store in result {
-                var coordinate = CLLocationCoordinate2DMake(store.latitude!.doubleValue, store.longitude!.doubleValue)
+                let coordinate = CLLocationCoordinate2DMake(store.latitude!.doubleValue, store.longitude!.doubleValue)
                 let annotation = StoreAnnotation(coordinate: coordinate)
                 annotation.storeEntity = store
                 self.clubMap!.addAnnotation(annotation)
@@ -564,14 +563,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     
     func openAppleMaps(forCar flag:Bool) {
         if self.selectedStore != nil {
-            var coordinate = CLLocationCoordinate2DMake(self.selectedStore!.latitude!.doubleValue, self.selectedStore!.longitude!.doubleValue)
-            var placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
-            var mapItem = MKMapItem(placemark: placemark)
+            let coordinate = CLLocationCoordinate2DMake(self.selectedStore!.latitude!.doubleValue, self.selectedStore!.longitude!.doubleValue)
+            let placemark = MKPlacemark(coordinate: coordinate, addressDictionary: nil)
+            let mapItem = MKMapItem(placemark: placemark)
             mapItem.name = self.selectedStore!.name
             
             // Set the directions mode to "Walking"
             // Can use MKLaunchOptionsDirectionsModeDriving instead
-            var launchOptions: [NSObject : AnyObject]?
+            var launchOptions: [String : AnyObject]?
             if flag {
                 launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
             }
@@ -579,7 +578,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeWalking]
             }
             // Get the "Current User Location" MKMapItem
-            var currentLocationMapItem = MKMapItem.mapItemForCurrentLocation()
+            let currentLocationMapItem = MKMapItem.mapItemForCurrentLocation()
             // Pass the current location and destination map items to the Maps app
             // Set the direction mode in the launchOptions dictionary
             MKMapItem.openMapsWithItems([currentLocationMapItem, mapItem], launchOptions: launchOptions!)
@@ -591,13 +590,13 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         //comgooglemaps://?saddr=2025+Garcia+Ave,+Mountain+View,+CA,+USA&daddr=Google,+1600+Amphitheatre+Parkway,+Mountain+View,+CA,+United+States&center=37.423725,-122.0877&directionsmode=walking&zoom=17
         // driving, transit, bicycling or walking.
         if self.selectedStore != nil {
-            var gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
+            let gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
             if gmapsInstalled {
-                var coordinate = CLLocationCoordinate2DMake(self.selectedStore!.latitude!.doubleValue, self.selectedStore!.longitude!.doubleValue)
-                var mode = flag ? "driving" : "walking"
-                var string = String(format: "comgooglemaps://?daddr=%f,%f&directionsmode=%@", coordinate.latitude, coordinate.longitude, mode)
+                let coordinate = CLLocationCoordinate2DMake(self.selectedStore!.latitude!.doubleValue, self.selectedStore!.longitude!.doubleValue)
+                let mode = flag ? "driving" : "walking"
+                var string = String(format: "comgooglemaps://?daddr=%f,%f&directionsmode=%@", coordinate.latitude, coordinate.longitude, mode) as NSString
                 string = string.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-                var url = NSURL(string: string)
+                let url = NSURL(string: string as String)
                 UIApplication.sharedApplication().openURL(url!)
             }
             self.selectedStore = nil
@@ -617,13 +616,13 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                 value: nil).build() as [NSObject : AnyObject])
         }
         
-        var gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
+        let gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
         if gmapsInstalled {
             self.actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
             self.actionSheet!.actionSheetStyle = .Automatic
             self.actionSheetGmaps = self.actionSheet!.addButtonWithTitle("Google Maps")
             self.actionSheetAmaps = self.actionSheet!.addButtonWithTitle("Apple Maps")
-            var cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
+            let cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
             self.actionSheet!.cancelButtonIndex = cancelIdx
             self.instructionsForCar = flag
             self.actionSheet!.showInView(self.view)
@@ -643,8 +642,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
                     if let range = telephoneString.rangeOfString("AL", options: .CaseInsensitiveSearch, range: nil, locale: nil) {
                         telephoneString = telephoneString.substringToIndex(range.startIndex)
                     }
-                    let phoneStr = telephoneString.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "0123456789-+()").invertedSet)
-                    println(phoneStr)
+                    let phoneStr = telephoneString.stringByTrimmingCharactersInSet(NSCharacterSet(charactersInString: "0123456789-+()").invertedSet) as NSString
+                    print(phoneStr)
                     let resultStr = phoneStr.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)
                     let strTel = "telprompt://\(resultStr!)"
                     if UIApplication.sharedApplication().canOpenURL(NSURL(string: strTel)!) {
@@ -660,7 +659,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let opensText = String(format: NSLocalizedString("store.opens", comment:""), store.opens!)
         let textSend = "\(store.name!)\n\n\(store.address!) CP: \(store.zipCode!)\n\n\(telephoneText)\n\(opensText)"
         
-        var controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
     }
 
@@ -703,7 +702,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     func showTabBar() {
         bottomSpaceMap?.constant = 44
         bottomSpaceButton?.constant = 60
-        var space : CGFloat = 0
         if bottomSpaceButton != nil  {
             self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
         }
@@ -713,7 +711,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     func hideTabBar() {
         bottomSpaceMap?.constant = 0
         bottomSpaceButton?.constant = 16
-        var space : CGFloat = 0
         if bottomSpaceButton != nil  {
            self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
         }

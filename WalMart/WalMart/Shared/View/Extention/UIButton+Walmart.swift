@@ -22,7 +22,7 @@ class WMRoundButton : UIButton {
         layerBg.cornerRadius = size.height / 2
         
         UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        layerBg.renderInContext(UIGraphicsGetCurrentContext())
+        layerBg.renderInContext(UIGraphicsGetCurrentContext()!)
         let roundedImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         

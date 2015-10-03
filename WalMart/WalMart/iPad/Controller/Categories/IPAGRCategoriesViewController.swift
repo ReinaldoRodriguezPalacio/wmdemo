@@ -83,7 +83,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         var bgDepartment = item["idDepto"] as! String
-        var families = JSON(item["family"] as! [[String:AnyObject]])
+        let families = JSON(item["family"] as! [[String:AnyObject]])
         
         bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -103,7 +103,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         
         let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as! IPAGRCategoryCollectionViewCell!
-        var pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
+        let pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
         pontInViewNuew = pontInView
 
         let item = self.items![indexPath.row] as! [String:AnyObject]
@@ -199,7 +199,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     func didTapProduct(upcProduct: String, descProduct: String,imageProduct :UIImageView) {
         
 
-        var controller = IPAProductDetailPageViewController()
+        let controller = IPAProductDetailPageViewController()
         
         controller.itemsToShow = [["upc":upcProduct,"description":descProduct,"type":ResultObjectType.Groceries.rawValue]]
         controller.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
@@ -215,18 +215,18 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {
         var resultDict : [AnyObject] = []
-        if (canfigData.keys.filter {$0 == depto }).array.count > 0 {
+        if Array(canfigData.keys.filter {$0 == depto }).count > 0 {
             let linesToShow = JSON(canfigData[depto] as! [[String:String]])
             for lineDest in linesToShow.arrayValue {
                 for family in families.arrayValue {
                     for line in family["line"].arrayValue {
                         let lineOne = line["id"].stringValue
                         let lineTwo = lineDest["line"].stringValue
-                        if line["id"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-                            == lineDest["line"].stringValue.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
-                                var itemToShow = ["name": line["name"].stringValue,
+                        if lineOne.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+                            == lineTwo.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) {
+                                let itemToShow = ["name": line["name"].stringValue,
                                     "imageUrl": lineDest["imageUrl"].stringValue,
-                                    "line": lineDest["line"].stringValue ,
+                                    "line": lineTwo ,
                                     "family": family["id"].stringValue ,
                                     "department":depto]
                                 resultDict.append(itemToShow)
@@ -252,9 +252,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     //MARK changeStore
     func changeStore(){
-        var myAddress = MyAddressViewController()
+        let myAddress = MyAddressViewController()
         myAddress.addCloseButton()
-        var navController = UINavigationController(rootViewController: myAddress)
+        let navController = UINavigationController(rootViewController: myAddress)
         navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         navController.navigationBarHidden = true
         self.navigationController?.presentViewController(navController, animated: true, completion: nil)

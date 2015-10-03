@@ -71,12 +71,11 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
         
         let imageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let colorSpace = CGColorSpaceCreateDeviceGray()
-        let context = CGBitmapContextCreate(nil, Int(image.size.width), Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo.allZeros)
+        let context = CGBitmapContextCreate(nil, Int(image.size.width), Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo().rawValue)
         CGContextDrawImage(context, imageRect,image.CGImage)
         let imageRef = CGBitmapContextCreateImage(context)
-        let newImage = UIImage(CGImage: imageRef)
-        return newImage!
-        
+        let newImage = UIImage(CGImage: imageRef!)
+        return newImage
     }
     
 }

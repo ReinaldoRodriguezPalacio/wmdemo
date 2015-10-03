@@ -118,8 +118,8 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
 //            } else {
             
                 let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
-                let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
-            let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
+                //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
+                let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
                 let totArticlesGR = UserCurrentSession.sharedInstance().numberOfArticlesGR()
                 let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
                 self.viewSuper.setValues(WMColor.superBG,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance().estimateTotalGR())",totalColor:WMColor.superBG, empty: totArticlesGR == 0 )

@@ -57,6 +57,11 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         super.viewWillLayoutSubviews()
         emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
         notification?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        
+         emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        
+        notification?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -68,16 +73,16 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         
         let userInfo = allNotifications[indexPath.row] as! NSDictionary
         
-        let notiicationInfo = userInfo["notification"] as! NSDictionary
+        //let notiicationInfo = userInfo["notification"] as! NSDictionary
         let notiicationAPS = userInfo["aps"] as! NSDictionary
         let hour = userInfo["hour"] as! String
         let date = userInfo["date"] as! String
         
        
         
-        let type = notiicationInfo["type"] as! String
-        let name = notiicationInfo["name"] as! String
-        let value = notiicationInfo["value"] as! String
+        //let type = notiicationInfo["type"] as! String
+        //let name = notiicationInfo["name"] as! String
+        //let value = notiicationInfo["value"] as! String
         let message = notiicationAPS["alert"] as! String
         
         cell.descLabel?.text = message

@@ -31,7 +31,7 @@ class LoadingViewBk: UIView {
         }
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -54,9 +54,9 @@ class LoadingViewBk: UIView {
     }
     
     override func layoutSubviews() {
-        var width = self.frame.size.width - 20.0
-        var size = CGSizeMake(width, CGFloat.max)
-        var computedRect: CGRect = self.label!.text!.boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.label!.font], context: nil)
+        let width = self.frame.size.width - 20.0
+        let size = CGSizeMake(width, CGFloat.max)
+        let computedRect: CGRect = self.label!.text!.boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.label!.font], context: nil)
         self.label!.frame = CGRectMake(0.0,0.0,width, computedRect.size.height)
         self.label!.center = CGPointMake(self.frame.size.width/2,(self.frame.size.height/2) - computedRect.size.height)
         self.indicator!.center = CGPointMake(self.frame.size.width/2,(self.frame.size.height/2) + self.indicator!.frame.size.height)

@@ -63,7 +63,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         self.header?.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.header!)
         
-        self.close = UIButton.buttonWithType(.Custom) as? UIButton
+        self.close = UIButton(type: .Custom)
         self.close!.setImage(UIImage(named: "detail_close"), forState: .Normal)
         self.close!.addTarget(self, action: "closeModal", forControlEvents: .TouchUpInside)
         self.close!.backgroundColor = UIColor.whiteColor()
@@ -84,7 +84,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     }
     
     override func viewWillLayoutSubviews() {
-        var bounds = self.view.frame.size
+        let bounds = self.view.frame.size
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.maxX, 66)
         self.collectionView!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - self.header!.frame.maxY - self.pointSection!.frame.height)
         self.pointSection?.frame = CGRectMake(0, bounds.height - 46 , bounds.width, 46)
@@ -107,13 +107,13 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         
         var selectedButton: UIButton? = nil
         var buttons = Array<UIButton>()
-        var size = imagesToDisplay?.count
+        let size = imagesToDisplay?.count
         if size > 0 {
-            var bsize: CGFloat = 8.0
+            let bsize: CGFloat = 8.0
             var x: CGFloat = 0.0
-            var sep: CGFloat = 5.0
+            let sep: CGFloat = 5.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as! UIButton
+                let point = UIButton(type: .Custom)
                 point.frame = CGRectMake(x, 0, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
@@ -131,7 +131,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
                 self.pointContainer!.addSubview(point)
                 buttons.append(point)
             }
-            var pbounds = self.pointSection!.frame
+            let pbounds = self.pointSection!.frame
             self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
         }
       
@@ -149,14 +149,14 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         for button: UIButton in self.pointButtons! {
             button.selected = button === sender
         }
-        if let idx = find(self.pointButtons!, sender) {
+        if let idx = (self.pointButtons!).indexOf(sender) {
             self.collectionView!.scrollToItemAtIndexPath(NSIndexPath(forItem: idx, inSection: 0),
                 atScrollPosition: .CenteredHorizontally, animated: false)
         }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        var currentIndex = self.collectionView!.contentOffset.x / self.collectionView!.frame.size.width
+        let currentIndex = self.collectionView!.contentOffset.x / self.collectionView!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
         if let button = nsarray.objectAtIndex(self.currentItem!) as? UIButton {

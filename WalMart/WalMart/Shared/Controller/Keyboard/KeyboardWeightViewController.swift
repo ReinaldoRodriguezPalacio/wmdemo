@@ -91,7 +91,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
     
     
     func userSelectValue(value:String!) {
-        var resultText : NSString = "\(value)"
+        let resultText : NSString = "\(value)"
         currentValGr = resultText.doubleValue
         self.updateLabelW()
         self.updateShoppButton()
@@ -116,14 +116,14 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
             let tmpResult : NSString = "\(Int(currentValGr))g"
             lblQuantity.text = tmpResult as String
         }
-        let rectSize =  lblQuantity.attributedText.boundingRectWithSize(CGSizeMake(lblQuantity.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rectSize =  lblQuantity.attributedText!.boundingRectWithSize(CGSizeMake(lblQuantity.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         quantityWAnimate.frame = CGRectMake((lblQuantity.bounds.width / 2) + (rectSize.width / 2) + 3, 0, 1, lblQuantity.frame.height)
         
         
     }
     
     func updateShoppButton(){
-        var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         addButton.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)

@@ -56,7 +56,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("categoryCell", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
         
-        var currentItem = indexPath.row
+        let currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
             
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
@@ -68,7 +68,6 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         let item = items[currentItem] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         let bgDepartment = item["idDepto"] as! String
-        let departmentId = item["idDepto"] as! String
         /*var selected = false
         if selectedIndex != nil {
         selected = indexPath.row == selectedIndex.row
@@ -92,7 +91,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             case (0,0):
                 return CGSizeMake(self.view.frame.width - 16, 216)
             default:
-                println("")
+                print("")
             }
         }
         return CGSizeMake(((self.view.frame.width - 34 ) / 3) , 216)
@@ -171,7 +170,6 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
             
             let item = items[selectedIndex.row] as! [String:AnyObject]
-            let idDepartment = item["idDepto"] as! NSString
             let famArray : AnyObject = item["family"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
             

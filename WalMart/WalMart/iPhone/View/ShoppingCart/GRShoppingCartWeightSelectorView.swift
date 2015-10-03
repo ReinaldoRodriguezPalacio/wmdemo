@@ -10,7 +10,7 @@ import Foundation
 
 
 
-class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, KeyboardViewDelegate {
+class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     var CONS_MINVAL = 50.0
     var CONS_MAXVAL = 20000.0
@@ -73,7 +73,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     }
 
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -95,8 +95,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         self.backgroundView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
         self.backgroundView!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
         
-        
-        var currentY =  0.0
         if equivalenceByPiece.integerValue > 0 {
             btnChankePices = UIButton(frame:CGRectMake((self.frame.width / 2) - 60, startH + 17, 120, 18 ))
             btnChankePices.titleLabel?.font = WMFont.fontMyriadProSemiboldSize(12)
@@ -228,7 +226,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         lblQuantityN.text = "\(Int(currentValCstmGr))g"
         lblQuantityN.textAlignment = NSTextAlignment.Center
         
-        let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
+        //let gestureQuantityN = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
         
         let closeButtonN = UIButton(frame: CGRectMake(self.frame.width - 44, 0, 44, 44))
         closeButtonN.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
@@ -243,7 +241,6 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         keyboardN.delegate = self
         
         btnOkAddN = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
-        let strAdddToSCN = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         //btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
@@ -288,7 +285,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     
     func initViewForPices() {
         
-        var valueItemPzs = NSMutableAttributedString()
+        let valueItemPzs = NSMutableAttributedString()
         
         lblQuantityP = UILabel(frame:CGRectMake(16, btnChankePices.frame.maxY + 17 , containerWeightView.frame.width - 32, 40))
         lblQuantityP.font = WMFont.fontMyriadProRegularOfSize(40)
@@ -388,7 +385,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     
     override func generateBlurImage(viewBg:UIView,frame:CGRect) {
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);
-        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext())
+        viewBg.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         
         let cloneImage : UIImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
@@ -422,7 +419,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
                 tmpResult = resultText.doubleValue
             }
             
-            var equivalence : Int = self.equivalenceByPiece.integerValue * Int(tmpResult)
+            let equivalence : Int = self.equivalenceByPiece.integerValue * Int(tmpResult)
             if Double(equivalence) <= CONS_MAXVAL {
                 if  Double(equivalence) == 0
                 {
@@ -448,7 +445,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             }
             
             if keyboardN.typeKeyboard == NumericKeyboardViewType.Integer {
-                if count(resultText as String) > 5 {
+                if (resultText as String).characters.count > 5 {
                     return
                 }
                 currentValCstmGr = resultText.doubleValue
@@ -474,17 +471,17 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
                     return
                 }
                 
-                var kg = fullArray[0] as! String
-                if count(kg) > 2 {
+                let kg = fullArray[0] 
+                if kg.characters.count > 2 {
                     currentValKg = valOrigin
                     currentValCstmGr =  valcurrentOrigin
                     return
                 }
                 
                 if fullArray.count > 1 {
-                    var gr = fullArray[1] as! String
+                    let gr = fullArray[1] 
                     
-                        if count(gr) > 2 {
+                        if gr.characters.count > 2 {
                             currentValKg = valOrigin
                             currentValCstmGr =  valcurrentOrigin
                             return
@@ -509,7 +506,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             }
             updateShoppButtonN()
         } else {
-            var resultText : NSString = "\(value)"
+            let resultText : NSString = "\(value)"
             currentValGr = resultText.doubleValue
             self.updateLabelW()
              self.updateShoppButton()
@@ -577,7 +574,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     
     func updateShoppButton(){
         
-        var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
@@ -585,12 +582,12 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         var rectSize = CGRectZero
         if isUpcInShoppingCart {
             btnOkAdd.setTitle("\(strUpdateToSC) \(strPrice)", forState: UIControlState.Normal)
-            var attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
             
         } else {
             btnOkAdd.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
-            var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         }
         
@@ -607,7 +604,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     
     func updateShoppButtonN(){
         
-        var result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
+        let result = (priceProduct.doubleValue / 1000.0 ) * currentValCstmGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         let strUpdateToSC = NSLocalizedString("shoppingcart.updatetoshoppingcart",comment:"")
@@ -615,12 +612,12 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
         var rectSize = CGRectZero
         if isUpcInShoppingCart {
             btnOkAddN.setTitle("\(strUpdateToSC) \(strPrice)", forState: UIControlState.Normal)
-            var attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strUpdateToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
             
         } else {
             btnOkAddN.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)
-            var attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
+            let attrStringLab = NSAttributedString(string:"\(strAdddToSC) \(strPrice)", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(16)])
             rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(self.frame.width, 36), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         }
         
@@ -652,7 +649,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
             let tmpResult : NSString = "\(Int(currentValGr))g"
             lblQuantityW.text = tmpResult as String
         }
-        let rectSize =  lblQuantityW.attributedText.boundingRectWithSize(CGSizeMake(lblQuantityW.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let rectSize =  lblQuantityW.attributedText!.boundingRectWithSize(CGSizeMake(lblQuantityW.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         quantityWAnimate.frame = CGRectMake((lblQuantityW.bounds.width / 2) + (rectSize.width / 2) + 3, 0, 1, lblQuantityW.frame.height)
         
     }
@@ -679,10 +676,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView, Key
     
     func updateLabelP() {
         
-        var equivalence : Int = self.equivalenceByPiece.integerValue * Int(currentValPzs)
+        let equivalence : Int = self.equivalenceByPiece.integerValue * Int(currentValPzs)
         currentValGr = Double(equivalence)
         
-        var valueItemPzs = NSMutableAttributedString()
+        let valueItemPzs = NSMutableAttributedString()
         valueItemPzs.appendAttributedString(NSAttributedString(string: "\(Int(currentValPzs)) pzas", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(40),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         valueItemPzs.appendAttributedString(NSAttributedString(string: " (\(equivalence)gr)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(20),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         

@@ -9,7 +9,7 @@
 import Foundation
 
 
-class PrivacyViewController :  PreviewHelpViewController, UIScrollViewDelegate {
+class PrivacyViewController :  PreviewHelpViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +21,12 @@ class PrivacyViewController :  PreviewHelpViewController, UIScrollViewDelegate {
     
     override func loadPreview () {
         
-            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
+            let documentDirectory = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
             let myFilePath = documentDirectory.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
             let manager = NSFileManager.defaultManager()
             
             if (manager.fileExistsAtPath(myFilePath)) {
-                var request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath)!)
+                let request = NSURLRequest(URL: NSURL(fileURLWithPath: myFilePath))
                 self.webShowDetail.loadRequest(request)
             }
     }

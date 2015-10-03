@@ -25,13 +25,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         
         //Push notifications
-        if application.respondsToSelector("registerUserNotificationSettings:") {
-            var type = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound;
-            var setting = UIUserNotificationSettings(forTypes: type, categories: nil);
-            UIApplication.sharedApplication().registerUserNotificationSettings(setting);
-            UIApplication.sharedApplication().registerForRemoteNotifications();
-        } else {
-           application.registerForRemoteNotificationTypes( UIRemoteNotificationType.Badge | UIRemoteNotificationType.Sound | UIRemoteNotificationType.Alert )
+         if #available(iOS 8.0, *) {
+          if application.respondsToSelector("registerUserNotificationSettings:") {
+                let type: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
+                let setting = UIUserNotificationSettings(forTypes: type, categories: nil);
+                UIApplication.sharedApplication().registerUserNotificationSettings(setting);
+                UIApplication.sharedApplication().registerForRemoteNotifications();
+            }
+        }
+         else {
+           application.registerForRemoteNotificationTypes( [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert] )
         }
         
         
@@ -57,12 +60,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NSURLCache.setSharedURLCache(sharedCache)
         
      
-        var error : NSError? = nil
-        var paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true) as NSArray!
-        var docPath = paths[0] as! String
+        let paths = NSSearchPathForDirectoriesInDomains(.LibraryDirectory, .UserDomainMask, true) as NSArray!
+        let docPath = paths[0] as! String
         let todeletecloud =  NSURL(fileURLWithPath: docPath)
-        if todeletecloud != nil {
-            todeletecloud!.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey, error: &error)
+        do {
+            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+        } catch let error1 as NSError {
+            print(error1.description)
         }
         
         //Log request
@@ -103,8 +107,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         AFNetworkReachabilityManager.sharedManager().startMonitoring()
         AFNetworkActivityIndicatorManager.sharedManager().enabled = true
         
-        var storyboard = loadStoryboardDefinition()
-        var vc : AnyObject! = storyboard!.instantiateViewControllerWithIdentifier("principalVC")
+        let storyboard = loadStoryboardDefinition()
+        let vc : AnyObject! = storyboard!.instantiateViewControllerWithIdentifier("principalVC")
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window!.rootViewController = vc as! UIViewController!
         self.window!.makeKeyAndVisible()
@@ -167,7 +171,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.bcg.dev.WalMart" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as! NSURL
+        return urls[urls.count-1] 
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -184,18 +188,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         var options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true]
-        if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options, error: &error) == nil {
+        do {
+            try coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: options)
+        } catch var error1 as NSError {
+            error = error1
             coordinator = nil
             // Report any error we got.
-            let dict = NSMutableDictionary()
+            var dict = [NSObject : AnyObject]()
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain:"YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as [NSObject : AnyObject])
+            error = NSError(domain:"YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
             abort()
+        } catch {
+            fatalError()
         }
         return coordinator
     }()
@@ -215,11 +224,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func saveContext () {
         if let moc = self.managedObjectContext {
             var error: NSError? = nil
-            if moc.hasChanges && !moc.save(&error) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog("Unresolved error \(error), \(error!.userInfo)")
-                abort()
+            if moc.hasChanges {
+                do {
+                    try moc.save()
+                } catch let error1 as NSError {
+                    error = error1
+                    // Replace this implementation with code to handle the error appropriately.
+                    // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    NSLog("Unresolved error \(error), \(error!.userInfo)")
+                    abort()
+                }
             }
         }
     }
@@ -233,31 +247,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        var characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
+        let characterSet: NSCharacterSet = NSCharacterSet( charactersInString: "<>" )
         
-        var deviceTokenString: String = ( deviceToken.description as NSString )
+        let deviceTokenString: String = ( deviceToken.description as NSString )
             .stringByTrimmingCharactersInSet( characterSet )
             .stringByReplacingOccurrencesOfString( " ", withString: "" ) as String
         
         NSLog("Device token: \(deviceTokenString)")
-        println("Device token: \(deviceTokenString)")
+        print("Device token: \(deviceTokenString)")
    
-        var idDevice = UIDevice.currentDevice().identifierForVendor.UUIDString
-        var notService = NotificationService()
+        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let notService = NotificationService()
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice)
         notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
             //println( "Registrado para notificaciones")
 
             }) { (error:NSError) -> Void in
-            println( "Error device token: \(error.localizedDescription)" )
+            print( "Error device token: \(error.localizedDescription)" )
         }
         
-        println("deviceTokenString \(deviceTokenString)" )
+        print("deviceTokenString \(deviceTokenString)" )
     }
     
     func application( application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError ) {
         
-        println( error.localizedDescription )
+        print( error.localizedDescription )
     }
     
     class func scaleFactor() -> CGFloat {
@@ -279,7 +293,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
+            let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
+            tracker.send( eventTracker as! [NSObject : AnyObject])
         }
         
         let notiicationInfo = userInfo["notification"] as! NSDictionary
@@ -296,18 +311,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let customBar = self.window?.rootViewController as? CustomBarViewController {
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue, action: WMGAIUtils.EVENT_PUSHNOTIFICATION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
+                let eventTracker : NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue, action: WMGAIUtils.EVENT_PUSHNOTIFICATION.rawValue, label: value, value: nil).build()
+                tracker.send(eventTracker as! [NSObject : AnyObject])
             }
             
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
             {
                 customBar.handleNotification(type,name:name,value:value)
             }else{
-                var alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
+                let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                 alertNot?.showDoneIconWithoutClose()
                 alertNot?.setMessage(message)
                 alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
-                    let ale: ()? = alertNot?.close()
+                     alertNot?.close()
                     }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
                         customBar.handleNotification(type,name:name,value:value)
                         alertNot?.close()
@@ -326,7 +342,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         handleURL(url)
         return true
     }
@@ -335,15 +351,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     
     func handleURL(url: NSURL){
-        var stringCompare = url.absoluteString! as NSString
-        var rangeEnd = stringCompare.rangeOfString("walmartmg://")
+        let stringCompare = url.absoluteString as NSString
+        let rangeEnd = stringCompare.rangeOfString("walmartmg://")
         if rangeEnd.location != NSNotFound {
             let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmg://", withString: "") as NSString
-            var params : Dictionary<String,String>?  = nil
             var components = strAction.componentsSeparatedByString("_")
             if(components.count > 1){
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
-                    let cmpStr  = components[0] as! String
+                    let cmpStr  = components[0] 
                     let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
                     customBar.handleNotification(cmpStr,name:"",value:strValue)
                 }
@@ -362,5 +377,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
 
-}
-
+}  

@@ -125,7 +125,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             save: { (field:UITextField?) -> Void in
                 field?.resignFirstResponder()
                 if field != nil {
-                    if field!.text == nil || field!.text.isEmpty {
+                    if field!.text == nil || field!.text!.isEmpty {
                         if field === self.deliveryDate {
                             self.dateChanged()
                         }
@@ -376,9 +376,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.frame.size
+        let bounds = self.view.frame.size
         var resumeHeight:CGFloat = 75.0
-        var footerHeight:CGFloat = 60.0
+        let footerHeight:CGFloat = 60.0
         
         self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
         self.footer!.frame = CGRectMake(0.0, self.view.frame.height - footerHeight, bounds.width, footerHeight)
@@ -391,18 +391,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     //MARK: - Build Views
     
     func buildSubViews(){
-        var bounds = self.view.frame.size
-        var footerHeight:CGFloat = 60.0
+        let bounds = self.view.frame.size
+        let footerHeight:CGFloat = 60.0
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
         self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
         
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
         
-        var margin: CGFloat = 15.0
-        var widthField = self.view.frame.width - (2*margin)
-        var fheight: CGFloat = 44.0
-        var lheight: CGFloat = 25.0
+        let margin: CGFloat = 15.0
+        let widthField = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        let lheight: CGFloat = 25.0
         
         self.payPalFuturePaymentField!.alpha = 0
         var referenceFrame = self.paymentOptions!.frame
@@ -447,9 +447,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.footer!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.footer!)
         
-        var bounds = self.view.frame.size
-        var footerHeight:CGFloat = 60.0
-        self.buttonShop = UIButton.buttonWithType(.Custom) as? UIButton
+        let bounds = self.view.frame.size
+        let footerHeight:CGFloat = 60.0
+        self.buttonShop = UIButton(type: .Custom) as? UIButton
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.shoppingCartShopBgColor
         self.buttonShop!.layer.cornerRadius = 17
@@ -460,7 +460,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
-        var sectionTitle = UILabel(frame: frame)
+        let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
@@ -522,7 +522,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
      //MARK: - UIDatePicker
     
     func dateChanged() {
-        var date = self.deliveryDatePicker!.date
+        let date = self.deliveryDatePicker!.date
         self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
         self.selectedDate = date
         buildSlotsPicker(date)
@@ -600,7 +600,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
         self.addViewLoad()
         
-        var service = GRPaymentTypeService()
+        let service = GRPaymentTypeService()
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
                 self.paymentOptionsItems = result as [AnyObject]
@@ -621,7 +621,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Error at invoke payment type service")
+                print("Error at invoke payment type service")
                 self.removeViewLoad()
                 endCallPaymentOptions()
             }
@@ -681,20 +681,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 //self.removeViewLoad()
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
-                    println("Error at invoke address user service")
+                    print("Error at invoke address user service")
             })
         }
     }
     
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
         self.addViewLoad()
-        var service = GRAddressByUserService()
+        let service = GRAddressByUserService()
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
                     self.addressItems = items as [AnyObject]
                     if items.count > 0 {
-                        var ixCurrent = 0
+                        let ixCurrent = 0
                         for dictDir in items {
                             if let preferred = dictDir["preferred"] as? NSNumber {
                                 if self.selectedAddress == nil {
@@ -733,7 +733,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }, errorBlock: { (error:NSError) -> Void in
                 
                 self.removeViewLoad()
-                println("Error at invoke address user service")
+                print("Error at invoke address user service")
                 endCallAddress()
             }
         )
@@ -767,7 +767,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func invokeDeliveryTypesService(endCallTypeService:(() -> Void)) {
         self.addViewLoad()
-        var service = GRDeliveryTypeService()
+        let service = GRDeliveryTypeService()
         let shouldFreeShepping = (discountsFreeShippingAssociated && asociateDiscount) || (discountsFreeShippingNotAssociated && !asociateDiscount)
         service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
         service.callService(requestParams: [:],
@@ -815,7 +815,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             },
             errorBlock: { (error:NSError) -> Void in
                 self.removeViewLoad()
-                println("Error at invoke delivery type service")
+                print("Error at invoke delivery type service")
                 endCallTypeService()
             }
         )
@@ -832,7 +832,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.removeViewLoad()
             }
             
-            var date = NSDate()
+            let date = NSDate()
             self.selectedDate = date
             self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
             self.buildAndConfigureDeliveryType()
@@ -860,7 +860,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokeTimeBandsService(date:String,endCallTypeService:(() -> Void)) {
-        var service = GRTimeBands()
+        let service = GRTimeBands()
         let params = service.buildParams(date, addressId: self.selectedAddress!)
         service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
                // var date = self.deliveryDatePicker!.date
@@ -868,8 +868,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if let day = result["day"] as? String {
                     if let month = result["month"] as? String {
                         if let year = result["year"] as? String {
-                            var dateSlot = "\(day)/\(month)/\(year)"
-                            var date = self.parseDateString(dateSlot)
+                            let dateSlot = "\(day)/\(month)/\(year)"
+                            let date = self.parseDateString(dateSlot)
                             self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
                             self.selectedDate = date
                             self.deliveryDatePicker!.date = date
@@ -888,7 +888,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func parseDateString(dateStr:String, format:String="dd/MM/yyyy") -> NSDate {
-        var dateFmt = NSDateFormatter()
+        let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
         dateFmt.dateFormat = format
         return dateFmt.dateFromString(dateStr)!
@@ -1019,7 +1019,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.sAddredssForm.street.text = result["street"] as! String!
                 let neighborhoodID = result["neighborhoodID"] as! String!
                 let storeID = result["storeID"] as! String!
-                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text, neighborhoodID: neighborhoodID, storeID: storeID)
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
                 self.sAddredssForm.idAddress = result["addressID"] as! String!
                 }) { (error:NSError) -> Void in
             }
@@ -1045,7 +1045,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             if self.addressItems?.count < 12 {
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
-                println("Se realizao la direccion")
+                print("Se realizao la direccion")
                 self.picker!.closeNew()
                 self.picker!.closePicker()
                 self.selectedAddress = resultCall["addressID"] as! String!
@@ -1151,7 +1151,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let total = UserCurrentSession.sharedInstance().estimateTotalGR() - self.savings
             
-            let components : NSDateComponents = NSCalendar.currentCalendar().components(NSCalendarUnit.YearCalendarUnit|NSCalendarUnit.MonthCalendarUnit|NSCalendarUnit.DayCalendarUnit, fromDate: self.selectedDate)
+            let components : NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.NSYearCalendarUnit, NSCalendarUnit.NSMonthCalendarUnit, NSCalendarUnit.NSDayCalendarUnit], fromDate: self.selectedDate)
             
             
             let dateMonth = components.month
@@ -1177,16 +1177,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text, authorizationId: "", paymentTypeString: self.paymentOptions!.text,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
-                println(resultCall)
+                print(resultCall)
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
                 let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
                 
                 let trakingNumber = purchaseOrder["trackingNumber"] as! String
                 let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
-                let deliveryTypeString = purchaseOrder["deliveryTypeString"] as! String
                 let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
                 let hour = purchaseOrder["hour"] as! String
                 let subTotal = purchaseOrder["subTotal"] as! NSNumber
@@ -1265,7 +1264,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func showAddressPicker(){
-        var itemsAddress : [String] = self.getItemsTOSelectAddres()
+        let itemsAddress : [String] = self.getItemsTOSelectAddres()
         self.picker!.selected = self.selectedAddressIx
         self.picker!.sender = self.address!
         self.picker!.delegate = self
@@ -1297,12 +1296,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func validate() -> Bool{
-        var error = viewError(deliverySchedule!)
+        let error = viewError(deliverySchedule!)
         return !error
     }
     
     func viewError(field: FormFieldView)-> Bool{
-        var message = field.validate()
+        let message = field.validate()
         return self.viewError(field,message: message)
     }
     
@@ -1345,7 +1344,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func screenShotMethod() {
         //Create the UIImage
         UIGraphicsBeginImageContext(view.frame.size)
-        view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
@@ -1370,7 +1369,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 itemPrice = (Double(quantity) / 1000.0) * itemPrice
                 quantity = 1
             }
-            var payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
+            let payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
             payPalItems.append(payPalItem)
         }
         // Los cupones y descuentos se agregan como item negativo.
@@ -1406,13 +1405,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func initPayPalConfig() -> PayPalConfiguration{
         // Set up payPalConfig
-        var payPalConfig = PayPalConfiguration()// default
+        let payPalConfig = PayPalConfiguration()// default
         payPalConfig.acceptCreditCards = false;
         payPalConfig.merchantName = "Walmart"
         payPalConfig.merchantPrivacyPolicyURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
         payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
         payPalConfig.rememberUser = true
-        payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] as! String 
+        payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] 
         payPalConfig.payPalShippingAddressOption = .Provided;
         return payPalConfig
     }
@@ -1468,14 +1467,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     // PayPalPaymentDelegate
     func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
         buttonShop?.enabled = true
-        var message = "Tu pago ha sido cancelado"
+        let message = "Tu pago ha sido cancelado"
         self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
-        println("PayPal Payment Success !")
-        println(completedPayment!.description)
+        print("PayPal Payment Success !")
+        print(completedPayment!.description)
         
        
         if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
@@ -1492,17 +1491,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
      // PayPalFuturePaymentDelegate
     func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
-        println("PayPal Future Payment Authorization Canceled")
+        print("PayPal Future Payment Authorization Canceled")
         buttonShop?.enabled = true
-        var message = "Hubo un error al momento de generar la orden, intenta más tarde"
+        let message = "Hubo un error al momento de generar la orden, intenta más tarde"
         self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     func payPalFuturePaymentViewController(futurePaymentViewController: PayPalFuturePaymentViewController!, didAuthorizeFuturePayment futurePaymentAuthorization: [NSObject : AnyObject]!) {
-        println("PayPal Future Payment Authorization Success!")
+        print("PayPal Future Payment Authorization Success!")
         // send authorization to your server to get refresh token.
-        println(futurePaymentAuthorization!.description)
+        print(futurePaymentAuthorization!.description)
         let futurePaymentService = GRPayPalFuturePaymentService()
         let responce = futurePaymentAuthorization["response"] as! [NSObject : AnyObject]
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
@@ -1510,7 +1509,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
              self.showPayPalPaymentController()
             }, errorBlock: { (error:NSError) -> Void in
                 //Mandar alerta
-                var message = "Hubo un error al momento de generar la orden, intenta más tarde"
+                let message = "Hubo un error al momento de generar la orden, intenta más tarde"
                 self.invokePayPalCancelService(message)
         })
         buttonShop?.enabled = true

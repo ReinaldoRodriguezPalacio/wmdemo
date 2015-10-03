@@ -24,7 +24,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
 
     var delegate: NewListTableViewCellDelegate?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -40,7 +40,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.inputNameList!.placeholder = NSLocalizedString("list.new.placeholder", comment:"")
         self.contentView.addSubview(self.inputNameList!)
         
-        self.saveButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.saveButton = UIButton(type: .Custom)
         self.saveButton!.frame = CGRectMake(0.0, 0.0, 46.0, 40.0)
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
@@ -50,7 +50,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always
 
-        self.scanTicketBtn = UIButton.buttonWithType(.Custom) as? UIButton
+        self.scanTicketBtn = UIButton(type: .Custom)
         self.scanTicketBtn!.setImage(UIImage(named: "list_scan_ticket"), forState: .Normal)
         self.scanTicketBtn!.addTarget(self, action: "scanTicket:", forControlEvents: .TouchUpInside)
         self.contentView.addSubview(self.scanTicketBtn!)
@@ -62,7 +62,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         if let user = UserCurrentSession.sharedInstance().userSigned {
             self.scanTicketBtn!.hidden = false
             self.scanTicketBtn!.frame = CGRectMake(16.0, (bounds.height - 40.0)/2, 40.0, 40.0)
@@ -78,10 +78,10 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     //MAR: - UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let strNSString : NSString = textField.text
+        let strNSString : NSString = textField.text!
         let newString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         
-        return (count(newString) > 25) ? false : true
+        return (newString.characters.count > 25) ? false : true
     }
     
     //MARK: - Actions
@@ -114,38 +114,38 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         if field == nil {
             return false
         }
-        var string = field?.text
+        let string = field?.text
         if string == nil || string!.isEmpty {
-            var alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             return false
         }
         
-        var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
 
-        var trimmedString = string!.stringByTrimmingCharactersInSet(whitespaceset)
-        var length = trimmedString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+        let trimmedString = string!.stringByTrimmingCharactersInSet(whitespaceset)
+        let length = trimmedString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
         if length == 0 {
-            var alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             return false
         }
         if length < 2 {
-            var alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("list.new.validation.name.tiny", comment:""))
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             return false
         }
         
-        var alphanumericset = NSCharacterSet(charactersInString: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").invertedSet
-        var cleanedName = (trimmedString.componentsSeparatedByCharactersInSet(alphanumericset) as NSArray).componentsJoinedByString("")
+        let alphanumericset = NSCharacterSet(charactersInString: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").invertedSet
+        let cleanedName = (trimmedString.componentsSeparatedByCharactersInSet(alphanumericset) as NSArray).componentsJoinedByString("")
         if trimmedString != cleanedName {
-            var alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
                 UIImage(named:"noAvaliable"))
             alert!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
             alert!.showErrorIcon(NSLocalizedString("Ok", comment:""))

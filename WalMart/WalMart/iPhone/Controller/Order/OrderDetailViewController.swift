@@ -60,7 +60,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.viewFooter!.backgroundColor = WMColor.shoppingCartFooter
         
         
-        var y = (self.viewFooter!.frame.height - 34.0)/2
+        let y = (self.viewFooter!.frame.height - 34.0)/2
         if self.type == ResultObjectType.Groceries {
             self.addToListButton = UIButton()
             self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
@@ -76,7 +76,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.shareButton!.addTarget(self, action: "shareList", forControlEvents: .TouchUpInside)
         self.viewFooter!.addSubview(self.shareButton!)
         
-        var x = self.shareButton!.frame.maxX + 16.0
+        let x = self.shareButton!.frame.maxX + 16.0
         
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, (self.viewFooter!.frame.width - (x + 16.0)) - 32, 34.0))
         self.addToCartButton!.backgroundColor = WMColor.shoppingCartShopBgColor
@@ -109,7 +109,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
         self.viewFooter.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         
-        var y = (self.viewFooter!.frame.height - 34.0)/2
+        let y = (self.viewFooter!.frame.height - 34.0)/2
 
         if self.type == ResultObjectType.Groceries {
             self.addToListButton!.frame = CGRectMake(16.0, y, 34.0, 34.0)
@@ -264,7 +264,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         case 1:
             return
         default:
-            println("Detail product")
+            print("Detail product")
          
         }
         } else {
@@ -377,11 +377,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 let deliveryType = result["deliveryType"] as! String
                 let name = result["name"] as! String
                 let address = result["deliveryAddress"] as! String
-                var guide = ""
-                if let fedexGuide = result["guide"] as? String {
-                    guide = fedexGuide
-                }
-                
                 
                 let statusLbl = NSLocalizedString("previousorder.status",comment:"")
                 let dateLbl = NSLocalizedString("previousorder.date",comment:"")
@@ -404,7 +399,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 
                 for itemProduct in resultsProducts {
                     let guide = itemProduct["fedexGuide"] as! String
-                    var urlGuide = itemProduct["urlfedexGuide"] as! String
+                    let urlGuide = itemProduct["urlfedexGuide"] as! String
                     
                     let itemFedexFound = itemsFedex.filter({ (itemFedexFilter) -> Bool in
                         let itemTwo =  itemFedexFilter["fedexGuide"] as! String
@@ -452,10 +447,10 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             
             let statusLbl = NSLocalizedString("previousorder.status",comment:"")
             let dateLbl = NSLocalizedString("previousorder.date",comment:"")
-            let nameLbl = NSLocalizedString("previousorder.name",comment:"")
+            //let nameLbl = NSLocalizedString("previousorder.name",comment:"")
             let deliveryTypeLbl = NSLocalizedString("previousorder.deliverytype",comment:"")
-            let addressLbl = NSLocalizedString("previousorder.address",comment:"")
-            let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
+            //let addressLbl = NSLocalizedString("previousorder.address",comment:"")
+            //let fedexLbl = NSLocalizedString("previousorder.fedex",comment:"")
             
             details.append(["label":statusLbl,"value":statusGR])
             details.append(["label":dateLbl,"value":deliveryDate])
@@ -478,7 +473,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func addCartToList() {
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
-            var frame = self.view.frame
+            let frame = self.view.frame
             
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
@@ -500,7 +495,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 },
                 completion: { (finished:Bool) -> Void in
                     if finished {
-                        var footerFrame = self.viewFooter!.frame
+                        let footerFrame = self.viewFooter!.frame
                         self.listSelectorController!.tableView!.contentInset = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
                         self.listSelectorController!.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
                     }
@@ -587,7 +582,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         params["type"] = type.rawValue
         params["comments"] = ""
         if let type = item["type"] as? String {
-            if type.toInt()! == 0 { //Piezas
+            if Int(type)! == 0 { //Piezas
                 params["onHandInventory"] = "99"
             }
             else { //Gramos
@@ -601,21 +596,21 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func shareList() {
       
         if let image = self.buildImageToShare() {
-            var controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         }
     }
     
     func buildImageToShare() -> UIImage? {
-        var oldFrame : CGRect = self.tableDetailOrder!.frame
+        let oldFrame : CGRect = self.tableDetailOrder!.frame
         var frame : CGRect = self.tableDetailOrder!.frame
         frame.size.height = self.tableDetailOrder!.contentSize.height
         self.tableDetailOrder!.frame = frame
         
         //UIGraphicsBeginImageContext(self.tableDetailOrder!.bounds.size)
         UIGraphicsBeginImageContextWithOptions(self.tableDetailOrder!.bounds.size, false, 2.0)
-        self.tableDetailOrder!.layer.renderInContext(UIGraphicsGetCurrentContext())
-        var saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        self.tableDetailOrder!.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         self.tableDetailOrder!.frame = oldFrame
@@ -623,13 +618,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     }
     
-    func removeListSelector(#action:(()->Void)?) {
+    func removeListSelector(action action:(()->Void)?) {
         if self.listSelectorController != nil {
             UIView.animateWithDuration(0.5,
                 delay: 0.0,
                 options: .LayoutSubviews,
                 animations: { () -> Void in
-                    var frame = self.view.frame
+                    let frame = self.view.frame
                     self.listSelectorController!.view.frame = CGRectMake(0, frame.height, frame.width, 0.0)
                     self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
                 }, completion: { (complete:Bool) -> Void in
@@ -678,7 +673,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
         
-        var service = GRAddItemListService()
+        let service = GRAddItemListService()
         var products: [AnyObject] = []
         for var idx = 0; idx < self.itemDetailProducts.count; idx++ {
             let item = self.itemDetailProducts[idx] as! [String:AnyObject]
@@ -712,7 +707,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     self.removeListSelector(action: nil)
                 }
             }, errorBlock: { (error:NSError) -> Void in
-                println("Error at add product to list: \(error.localizedDescription)")
+                print("Error at add product to list: \(error.localizedDescription)")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 self.alertView!.afterRemove = {
@@ -732,7 +727,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func listSelectorDidShowList(listId: String, andName name:String) {
-        var storyboard = self.loadStoryboardDefinition()
+        let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
             vc.listId = listId
             vc.listName = name
@@ -742,7 +737,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func listSelectorDidShowListLocally(list: List) {
-        var storyboard = self.loadStoryboardDefinition()
+        let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
             vc.listEntity = list
             vc.listName = list.name
@@ -785,7 +780,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             let description = item["description"] as? String
             let type = item["type"] as? String
             
-            var serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl, description: description, price: price, type: type)
             products.append(serviceItem)
         }
         
@@ -796,7 +791,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.alertView!.showDoneIcon()
             },
             errorBlock: { (error:NSError) -> Void in
-                println(error)
+                print(error)
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
             }

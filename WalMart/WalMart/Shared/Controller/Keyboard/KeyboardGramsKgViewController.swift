@@ -89,7 +89,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         }
         
         if keyboardView.typeKeyboard == NumericKeyboardViewType.Integer {
-            if count(resultText as String) > 5 {
+            if (resultText as String).characters.count > 5 {
                 return
             }
             currentValCstmGr = resultText.doubleValue
@@ -115,17 +115,17 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
                 return
             }
             
-            var kg = fullArray[0] as! String
-            if count(kg) > 2 {
+            let kg = fullArray[0] 
+            if kg.characters.count > 2 {
                 currentValKg = valOrigin
                 currentValCstmGr =  valcurrentOrigin
                 return
             }
             
             if fullArray.count > 1 {
-                var gr = fullArray[1] as! String
+                let gr = fullArray[1] 
                 
-                if count(gr) > 2 {
+                if gr.characters.count > 2 {
                     currentValKg = valOrigin
                     currentValCstmGr =  valcurrentOrigin
                     return
@@ -164,7 +164,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
     }
     
     func updateShoppButton(){
-        var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         addButton.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)

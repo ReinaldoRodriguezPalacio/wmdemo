@@ -72,7 +72,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             fetchRequest.predicate = predicate
             
             var error: NSError? = nil
-            var result: [Cart] = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as! [Cart]
+            var result: [Cart] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Cart]
             if result.count > 0 {
                 detail = result[0]
             }
@@ -90,7 +90,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     
    
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -168,7 +168,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         animation.center = self.listButton.center
         animation.image = UIImage(named:"detail_addToList")
         animation.tag = 99999
-        runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeat: 100)
+        runSpinAnimationOnView(animation, duration: 100, rotations: 1, `repeat`: 100)
         self.addSubview(animation)
         
         //event
@@ -209,12 +209,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         delegate.showProductDetail()
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeat:CGFloat) {
-        var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(repeat)
+        rotationAnimation.repeatCount = Float(`repeat`)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     
@@ -248,9 +248,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
   
     func reloadButton(){
         
-        var buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
+        let buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
         
-        var buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : isAviableToShoppingCart ? WMColor.productDetailShoppingCartBtnBGColor : WMColor.productDetailShoppingCartNDBtnBGColor
+        let buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : isAviableToShoppingCart ? WMColor.productDetailShoppingCartBtnBGColor : WMColor.productDetailShoppingCartNDBtnBGColor
         
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -272,7 +272,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 let quantity = detailProductCart!.quantity
                 //var price = detail!.product.price as NSNumber
                 var text: String? = ""
-                var total: Double = 0.0
+                //var total: Double = 0.0
                 //Piezas
                 if self.isPesable == false {
                     if quantity.integerValue == 1 {
@@ -285,7 +285,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 }
                     //Gramos
                 else {
-                    var q = quantity.doubleValue
+                    let q = quantity.doubleValue
                     if q < 1000.0 {
                         text = String(format: NSLocalizedString("list.detail.quantity.gr", comment:""), quantity)
                     }
@@ -293,7 +293,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                         let kg = q/1000.0
                         text = String(format: NSLocalizedString("list.detail.quantity.kg", comment:""), NSNumber(double: kg))
                     }
-                    let kgrams = quantity.doubleValue / 1000.0
+                    //let kgrams = quantity.doubleValue / 1000.0
                     //total = (kgrams * price.doubleValue)
                 }
             

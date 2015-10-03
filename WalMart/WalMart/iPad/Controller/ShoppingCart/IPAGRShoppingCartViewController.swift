@@ -129,7 +129,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 
             })
             }, errorBlock: { (error:NSError) -> Void in
-                println("error")
+                print("error")
         })
         
         
@@ -144,14 +144,14 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         let imageHeader = UIImage(fromView: self.viewHerader)
         let screen = self.tableShoppingCart.screenshot()
         let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,screen])
-        var controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
+        let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
         popup!.presentPopoverFromRect(CGRectMake(620, 650, 300, 250), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Down, animated: true)
         
         //self.navigationController!.presentViewController(controller, animated: true, completion: nil)
     }
 
-    override     func userShouldChangeQuantity(cell:GRProductShoppingCartTableViewCell) {
+    override func userShouldChangeQuantity(cell:GRProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
             let frameDetail = CGRectMake(0, 0, 320, 568)
             if cell.typeProd == 1 {
@@ -165,7 +165,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
-                if cell.onHandInventory.integerValue >= quantity.toInt() {
+                if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantityGR?.closeAction()
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     
@@ -191,7 +191,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             selectQuantityGR?.addUpdateNote = {() in
                 let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-                var frame = vc!.view.frame
+                let frame = vc!.view.frame
                 
                 
                 let addShopping = ShoppingCartUpdateController()
@@ -230,7 +230,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
         } else {
             let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-            var frame = vc!.view.frame
+            let frame = vc!.view.frame
             
             
             let addShopping = ShoppingCartUpdateController()

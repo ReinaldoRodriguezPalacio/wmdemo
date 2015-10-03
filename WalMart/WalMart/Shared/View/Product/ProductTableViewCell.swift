@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ProductTableViewCell :SWTableViewCell {
+class ProductTableViewCell : SWTableViewCell {
     var placeHolderImage : UIImage? = nil
     
     var productImage : UIImageView? = nil
@@ -22,7 +22,7 @@ class ProductTableViewCell :SWTableViewCell {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

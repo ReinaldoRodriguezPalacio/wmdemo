@@ -33,7 +33,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
 //               self.removeFilter()
 //            }
             super.viewWillLayoutSubviews()
-            var bounds = self.view.bounds
+            let bounds = self.view.bounds
             self.titleLabel!.sizeToFit()
             self.titleLabel!.frame = CGRectMake((bounds.width - self.titleLabel!.frame.width) / 2,  0, titleLabel!.frame.width , self.header!.frame.height)
             frameTitle = self.titleLabel!.frame
@@ -71,7 +71,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row < self.allProducts!.count {
 
-            var paginatedProductDetail = IPAProductDetailPageViewController()
+            let paginatedProductDetail = IPAProductDetailPageViewController()
             paginatedProductDetail.ixSelected = indexPath.row
             paginatedProductDetail.itemsToShow = []
             for product in self.allProducts! {
@@ -129,7 +129,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
 
         //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()
-        var controller = UIViewController()
+        let controller = UIViewController()
         controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
         controller.view.addSubview(self.filterController!.view)
         controller.view.backgroundColor = UIColor.clearColor()

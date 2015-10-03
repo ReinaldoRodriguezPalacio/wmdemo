@@ -16,14 +16,14 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
 
     var distanceFmt: NSNumberFormatter?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        var backgroundColorView = UIView()
+        let backgroundColorView = UIView()
         backgroundColorView.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
         self.selectedBackgroundView = backgroundColorView
 
@@ -56,8 +56,8 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         super.setValues(store, userLocation: userLocation)
         var distanceTxt: String? = ""
         if userLocation != nil {
-            var storeLocation: CLLocation = CLLocation(latitude: self.store!.latitude!.doubleValue, longitude: self.store!.longitude!.doubleValue)
-            var distance: CLLocationDistance = userLocation!.distanceFromLocation(storeLocation)
+            let storeLocation: CLLocation = CLLocation(latitude: self.store!.latitude!.doubleValue, longitude: self.store!.longitude!.doubleValue)
+            let distance: CLLocationDistance = userLocation!.distanceFromLocation(storeLocation)
             distanceTxt = self.distanceFmt!.stringFromNumber(NSNumber(double: distance/1000))
         }
         
@@ -66,14 +66,14 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
     }
 
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         let sep:CGFloat = 16.0
         let width:CGFloat = bounds.width - (2*sep)
         
         self.storeIcon!.frame = CGRectMake(sep, sep, 16.0, 16.0)
         self.titleLabel!.frame = CGRectMake(self.storeIcon!.frame.maxX + sep, sep, width - (self.storeIcon!.frame.maxX + sep), 17.0)
         self.distanceLabel!.frame = CGRectMake(self.storeIcon!.frame.maxX + sep, self.titleLabel!.frame.maxY, width - (self.storeIcon!.frame.maxX + sep), 12.0)
-        var computedRect = self.size(forLabel: self.addressLabel, andSize: CGSizeMake(width, CGFloat.max))
+        let computedRect = self.size(forLabel: self.addressLabel, andSize: CGSizeMake(width, CGFloat.max))
         self.addressLabel.frame = CGRectMake(sep, self.distanceLabel!.frame.maxY + 16.0, width, computedRect.height)
         self.phoneLabel!.frame = CGRectMake(sep, self.addressLabel.frame.maxY + 16.0, width, 17.0)
         self.hoursOpenLabel!.frame = CGRectMake(sep, self.phoneLabel.frame.maxY, width, 17.0)
@@ -90,8 +90,8 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         height += 12.0 //Distance
         height += 16.0
         if let address = store.address {
-            var text = "\(address) CP: \(store.zipCode!)"
-            var addressSize = ClubLocatorTableViewCell.size(forText: text, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSizeMake(width_, CGFloat.max))
+            let text = "\(address) CP: \(store.zipCode!)"
+            let addressSize = ClubLocatorTableViewCell.size(forText: text, withFont: WMFont.fontMyriadProRegularOfSize(13), andSize: CGSizeMake(width_, CGFloat.max))
             height += addressSize.height
         }
         height += 16.0

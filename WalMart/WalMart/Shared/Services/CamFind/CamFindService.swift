@@ -11,12 +11,14 @@ import Foundation
 class CamFindService : BaseService {
 
     func buildParams(image: UIImage) -> NSDictionary {
-        let data = UIImageJPEGRepresentation(image, 1.0)
-        return ["image_request[image]": data,"image_request[language]": "es-MX","image_request[locale]": "es-MX"]
+        let data = UIImageJPEGRepresentation(image, 1.0) as! AnyObject
+        let language = "es-MX"
+        let params: NSDictionary  = NSDictionary(dictionary: ["image_request[image]": data,"image_request[language]": language,"image_request[locale]": language])
+        return params
     }
     
     func callService(paramsDic: NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        var manager = AFHTTPSessionManager()
+        let manager = AFHTTPSessionManager()
         manager.requestSerializer = AFHTTPRequestSerializer() as AFHTTPRequestSerializer
         manager.requestSerializer!.setValue("CloudSight \(self.getCamFindAPIKey())", forHTTPHeaderField: "Authorization")
         
@@ -31,7 +33,7 @@ class CamFindService : BaseService {
     }
     
     func checkImg(tokenStr: String, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        var manager = AFHTTPSessionManager()
+        let manager = AFHTTPSessionManager()
         manager.requestSerializer = AFHTTPRequestSerializer() as AFHTTPRequestSerializer
         manager.requestSerializer!.setValue("CloudSight \(self.getCamFindAPIKey())", forHTTPHeaderField: "Authorization")
         

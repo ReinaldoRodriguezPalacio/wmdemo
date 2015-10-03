@@ -18,7 +18,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
     var doneValues : Bool = false
     
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -61,7 +61,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         if doneValues  { return }
         doneValues = true
         
-        var first = true
+        //var first = true
         var currntY : CGFloat = 45.0
         let lblPagos = NSLocalizedString("productdetail.paiments",comment:"")
         let lblOf = NSLocalizedString("productdetail.of",comment:"")

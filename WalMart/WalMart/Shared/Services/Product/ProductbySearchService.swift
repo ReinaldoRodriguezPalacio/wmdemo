@@ -10,7 +10,7 @@ import Foundation
 
 class ProductbySearchService : BaseService {
     
-    func buildParamsForSearch(#text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
+    func buildParamsForSearch(text text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""),
             JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""),
@@ -24,7 +24,7 @@ class ProductbySearchService : BaseService {
     
     
     func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        println("PARAMS FOR ProductbySearchService")
+        print("PARAMS FOR ProductbySearchService")
         self.jsonFromObject(params)
         self.callPOSTService(params,
             successBlock: { (resultJSON:NSDictionary) -> Void in

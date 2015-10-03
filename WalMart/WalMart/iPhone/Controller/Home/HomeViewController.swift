@@ -41,10 +41,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
         
-        let recommendItemsService = RecommendedItemsService()
+        //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
         
-        let exclusiveItemsService = GRExclusiveItemsService()
+        //let exclusiveItemsService = GRExclusiveItemsService()
         self.exclusiveItems = []
     
         
@@ -74,7 +74,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
 
-        let offset = collection.frame.maxY - self.view.bounds.maxY
+        //let offset = collection.frame.maxY - self.view.bounds.maxY
              
     }
     // MARK: - UICollectionViewDataSource
@@ -210,7 +210,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Banner.rawValue
         
-        var params : Dictionary<String,String>?  = nil
+        //var params : Dictionary<String,String>?  = nil
         var components = queryBanner.componentsSeparatedByString("_")
         if(components.count <= 1){
             return
@@ -272,15 +272,15 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
     func getCategories() -> [String]{
         
-        var specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
-        var specialsGRCat : [String:AnyObject] = RecommendedCategory.groceriescategory
+        let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
+        //var specialsGRCat : [String:AnyObject] = RecommendedCategory.groceriescategory
         var categories : [String] = []
         self.recommendCategoryItems = [:]
         
         for itemRec in self.recommendItems! {
             var nameCategory = "Otros"
             let upc = itemRec["upc"] as! String!
-            var isCategorySpecial = false
+            //var isCategorySpecial = false
             
             for special in  specialsCat {
                 
@@ -296,10 +296,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                         array.append(itemRec)
                         recommendCategoryItems.updateValue(array, forKey: nameCategory)
                     } else {
-                        var itemsRec = [itemRec]
+                        let itemsRec = [itemRec]
                         recommendCategoryItems[nameCategory] = itemsRec
                     }
-                    isCategorySpecial = true
+                    //isCategorySpecial = true
                     break
                 }
             }
@@ -322,7 +322,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
         }
         
-        categories.sort { (item, seconditem) -> Bool in
+        categories.sortInPlace { (item, seconditem) -> Bool in
             let first = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
             let second = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
             let firstItem = first[0] as! NSDictionary

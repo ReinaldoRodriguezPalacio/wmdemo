@@ -28,7 +28,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
        super.init(coder: aDecoder)
         setup()
     }
@@ -165,7 +165,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         
 
         delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
-        //delegate.didTapLine(<#name: String#>, department: <#String#>, family: <#String#>, line: <#String#>)
+        //delegate.didTapLine(name: String, department: String, family: String, line: String)
         
         
         //delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!,imageProduct: viewC.productImage!)

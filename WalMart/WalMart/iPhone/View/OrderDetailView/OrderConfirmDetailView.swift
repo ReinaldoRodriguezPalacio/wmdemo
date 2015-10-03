@@ -53,7 +53,7 @@ class OrderConfirmDetailView : UIView {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
         setup()
     }
@@ -170,7 +170,7 @@ class OrderConfirmDetailView : UIView {
     
     class func initDetail()  -> OrderConfirmDetailView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        var frame = vc!.view.bounds
+        //var frame = vc!.view.bounds
         if vc != nil {
             return initDetail(vc!)
         }
@@ -254,7 +254,7 @@ class OrderConfirmDetailView : UIView {
             self.viewLoadingDoneAnimate.backgroundColor = WMColor.green.colorWithAlphaComponent(0.5)
 
             self.iconLoadingDone.image = UIImage(named:"done_order")
-            var animation = CAKeyframeAnimation()
+            let animation = CAKeyframeAnimation()
             animation.keyPath = "transform.scale"
             animation.duration = 0.6
             animation.removedOnCompletion = false
@@ -309,14 +309,14 @@ class OrderConfirmDetailView : UIView {
     }
     
     func labelTitle(frame:CGRect) -> UILabel {
-        var labelTitleItem = UILabel(frame: frame)
+        let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(12)
         labelTitleItem.textColor = WMColor.confirmTitleItem
         return labelTitleItem
     }
     
     func labelValue(frame:CGRect) -> UILabel {
-        var labelTitleItem = UILabel(frame: frame)
+        let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(14)
         labelTitleItem.textColor = WMColor.headerViewBgCollor
         return labelTitleItem

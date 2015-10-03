@@ -22,15 +22,15 @@ class IPASupportViewController: SupportViewController {
         
         imgConfirm.image = UIImage(named: "support-empty")
         
-        var attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
+        let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
             attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),
                 NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
         
-        var attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
+        let attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
             attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldCondOfSize(18),
                 NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
         
-        var valuesDescItem = NSMutableAttributedString()
+        let valuesDescItem = NSMutableAttributedString()
         valuesDescItem.appendAttributedString(attrStringLab)
         valuesDescItem.appendAttributedString(attrStringVal)
         
@@ -110,7 +110,7 @@ class IPASupportViewController: SupportViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         
         self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 48 , bounds.width, 15 )
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY + 5  , bounds.width, 15 )

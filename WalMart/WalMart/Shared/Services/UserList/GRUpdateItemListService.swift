@@ -12,11 +12,11 @@ class GRUpdateItemListService: GRBaseService {
 
     //[{"upc": "0750105530007", "quantity": 3.0, "comments": "", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""}]
     
-    func buildParams(#upc:String, quantity:Int) -> [AnyObject] {
+    func buildParams(upc upc:String, quantity:Int) -> [AnyObject] {
         return [self.buildProductObject(upc: upc, quantity: quantity)]
     }
     
-    func buildProductObject(#upc:String, quantity:Int) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:Int) -> [String:AnyObject] {
         return ["upc":upc, "quantity":quantity, "comments":"", "longDescription": "", "pesable": "", "equivalenceByPiece": "", "promoDescription": "", "productIsInStores": ""]
     }
     

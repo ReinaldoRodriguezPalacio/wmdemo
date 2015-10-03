@@ -26,7 +26,7 @@ class ShoppingCartButton : UIButton {
         
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
    
@@ -68,8 +68,8 @@ class ShoppingCartButton : UIButton {
     }
     
     class func sizeForQuantity(quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
-        var quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
-        var attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
+        let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
+        let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
         let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         
         
@@ -97,7 +97,7 @@ class ShoppingCartButton : UIButton {
             }
             else {
                 
-               var y =  Double(quantity)
+               let y =  Double(quantity)
                 let kg = y/1000
                 quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.kg", comment:""), NSNumber(double:  kg))
             }

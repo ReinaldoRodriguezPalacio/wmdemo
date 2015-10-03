@@ -20,7 +20,7 @@ class ShippingAddress: AddressView {
         super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -87,9 +87,9 @@ class ShippingAddress: AddressView {
     override func setItemWithDictionary(itemValues: NSDictionary) {
         super.setItemWithDictionary(itemValues)
         if self.item != nil && self.idAddress != nil {
-            self.name!.text = self.item!["firstName"] as! String
-            self.lastName!.text = self.item!["lastName"] as! String
-            self.telephone!.text = self.item!["phoneNumber"] as! String
+            self.name!.text = self.item!["firstName"] as? String
+            self.lastName!.text = self.item!["lastName"] as? String
+            self.telephone!.text = self.item!["phoneNumber"] as? String
         }
     }
     
@@ -100,7 +100,7 @@ class ShippingAddress: AddressView {
         }
         if !error{
             error = viewError(telephone!)
-            let toValidate : NSString = telephone!.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            let toValidate : NSString = telephone!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             if toValidate.length > 2 {
                 if toValidate == "0000000000" || toValidate.substringToIndex(2) == "00" {
                     error = self.viewError(telephone!, message: NSLocalizedString("field.validate.telephone.invalid",comment:""))
@@ -115,9 +115,9 @@ class ShippingAddress: AddressView {
     
     override func getParams() -> [String:AnyObject]{
         var paramsAddress : [String:AnyObject] =   super.getParams()
-        var userParams = ["profile":["lastName2":"" ,"name":self.name!.text ,"lastName":self.lastName!.text ]]
-        paramsAddress.updateValue(userParams, forKey: "user")
-        paramsAddress.updateValue(self.telephone!.text, forKey: "TelNumber")
+        let userParams: [String:AnyObject] = ["profile":["lastName2":"" ,"name":self.name!.text! ,"lastName":self.lastName!.text! ]] as [String:AnyObject]
+        paramsAddress.updateValue(userParams as AnyObject, forKey: "user")
+        paramsAddress.updateValue(self.telephone!.text!, forKey: "TelNumber")
         return paramsAddress
     }
     

@@ -68,8 +68,8 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         self.content = TPKeyboardAvoidingScrollView()
         self.content.scrollDelegate = self
         self.content.delegate = self
-        let checkTermOff = UIImage(named:"checkTermOff")
-        let checkTermOn = UIImage(named:"checkTermOn")
+        //let checkTermOff = UIImage(named:"checkTermOff")
+        //let checkTermOn = UIImage(named:"checkTermOn")
         
         self.name = FormFieldView()
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
@@ -131,11 +131,11 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
         let currentDate = NSDate()
-        var comps = NSDateComponents()
+        let comps = NSDateComponents()
         comps.year = -18
-        var maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
+        let maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
         comps.year = -100
-        var minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions.allZeros)
+        let minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
 
         self.inputBirthdateView = UIDatePicker()
         self.inputBirthdateView!.datePickerMode = .Date
@@ -264,7 +264,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         let fieldHeight  : CGFloat = CGFloat(40)
         let leftRightPadding  : CGFloat = CGFloat(15)
         self.content.frame = CGRectMake(0, 0 , self.view.bounds.width , self.view.bounds.height)
@@ -340,7 +340,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             self.previewHelp!.resource = "privacy"
             self.previewHelp!.type = "pdf"
             self.previewHelp!.view.frame =  CGRectMake(self.name!.frame.minX ,  40, self.content!.frame.width - (self.name!.frame.minX * 2) , self.content!.frame.height - 60 )
-            self.close = UIButton.buttonWithType(.Custom) as? UIButton
+            self.close = UIButton(type: .Custom)
             self.close!.setImage(UIImage(named: "termsClose"), forState: .Normal)
             self.close!.addTarget(self, action: "closeNoticePrivacy", forControlEvents: .TouchUpInside)
             self.close!.backgroundColor = UIColor.clearColor()
@@ -394,7 +394,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
             
-            let params = service.buildParamsWithMembership(email!.text, password:  password!.text, name: name!.text, lastName: lastName!.text,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
+            let params = service.buildParamsWithMembership(email!.text!, password:  password!.text!, name: name!.text!, lastName: lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
             
             if alertAddress == nil {
                 alertAddress = GRFormAddressAlertView.initAddressAlert()!
@@ -412,14 +412,14 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    
                     let login = LoginService()
-                    login.callService(login.buildParams(self.email!.text, password: self.password!.text), successBlock: { (dict:NSDictionary) -> Void in
+                    login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                         
                         
-                         println("")
+                         print("")
                           self.alertAddress?.registryAddress(dictSend)
                         
                         }, errorBlock: { (error:NSError) -> Void in
-                             println("")
+                             print("")
                           self.alertAddress?.registryAddress(dictSend)
                     })
                     
@@ -442,7 +442,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             }
             
             alertAddress?.cancelPress = {() in
-                println("")
+                print("")
               self.alertAddress?.closePicker()
             }
             
@@ -540,7 +540,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
     }
     
     func viewError(field: FormFieldView)-> Bool{
-        var message = field.validate()
+        let message = field.validate()
         if message != nil  {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
@@ -556,7 +556,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         errorView.focusError = nil
         errorView.setValues(280, strLabel:"", strValue: message)
         errorView.frame =  CGRectMake(10, view.frame.minY, errorView.frame.width , errorView.frame.height)
-        var contentView = view.superview!
+        let contentView = view.superview!
         contentView.addSubview(errorView)
         contentView.bringSubviewToFront(view)
         UIView.animateWithDuration(0.2, animations: {
@@ -584,7 +584,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             errorView.setValues(field.frame.width, strLabel:nameField, strValue: message)
             errorView.frame =  CGRectMake(field.frame.minX - 5, field.frame.minY, errorView.frame.width , errorView.frame.height)
         }
-        var contentView = field.superview!
+        let contentView = field.superview!
         contentView.addSubview(errorView)
         contentView.bringSubviewToFront(field)
         UIView.animateWithDuration(0.2, animations: {
@@ -601,11 +601,14 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
     }
     
     class func isValidEmail(email: String ) -> Bool{
-        var error: NSError?
         let regExEmailPattern : String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
-        
-        var regExVal = NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-        let matches = regExVal!.numberOfMatchesInString(email, options: nil, range: NSMakeRange(0, count(email)))
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpressionOptions.CaseInsensitive)
+        } catch {
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatchesInString(email, options: [], range: NSMakeRange(0, email.characters.count))
         
         if matches > 0 {
             return true
@@ -614,7 +617,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
     }
     
     func dateChanged() {
-        var date = self.inputBirthdateView!.date
+        let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
         self.dateVal = date
     }
@@ -664,14 +667,14 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             labelTerms!.numberOfLines = 0
             labelTerms!.font = WMFont.fontMyriadProRegularOfSize(12)
             
-            var paragraphStyle = NSMutableParagraphStyle()
+            let paragraphStyle = NSMutableParagraphStyle()
             paragraphStyle.lineSpacing = 4
             
-            var valueItem = NSMutableAttributedString()
-            var valuesDescItem = NSMutableAttributedString()
-            var attrStringLab = NSAttributedString(string: NSLocalizedString("signup.info.provacity", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName:UIColor.whiteColor()])
+            //var valueItem = NSMutableAttributedString()
+            let valuesDescItem = NSMutableAttributedString()
+            let attrStringLab = NSAttributedString(string: NSLocalizedString("signup.info.provacity", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(12), NSForegroundColorAttributeName:UIColor.whiteColor()])
             valuesDescItem.appendAttributedString(attrStringLab)
-            var attrStringVal = NSAttributedString(string: NSLocalizedString("profile.terms.privacy", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12),NSForegroundColorAttributeName:UIColor.whiteColor()])
+            let attrStringVal = NSAttributedString(string: NSLocalizedString("profile.terms.privacy", comment: "") , attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldSize(12),NSForegroundColorAttributeName:UIColor.whiteColor()])
             valuesDescItem.appendAttributedString(attrStringVal)
             valuesDescItem.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, valuesDescItem.length))
             labelTerms!.attributedText = valuesDescItem

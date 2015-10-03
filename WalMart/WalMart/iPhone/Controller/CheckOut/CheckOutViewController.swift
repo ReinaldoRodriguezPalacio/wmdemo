@@ -56,12 +56,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-       
-        if request.URL!.absoluteString != nil {
-             println("URL shouldStartLoadWithRequest ::: \(request.URL!.absoluteString)")
-            
-            
-            var string = request.URL!.absoluteString! as NSString
+            print("URL shouldStartLoadWithRequest ::: \(request.URL!.absoluteString)")
+            let string = request.URL!.absoluteString as NSString
             var range = string.rangeOfString("/m_inicio.aspx")
             if range.location != NSNotFound {
                 
@@ -87,11 +83,11 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 back()
             }
             
-            var rangeMobile = string.rangeOfString("/m_")
-            var rangeMobilePayment = string.rangeOfString("/m_CreditCardPayment.aspx")
-            var rangePayment = string.rangeOfString("/CreditCardPayment.aspx")
+            let rangeMobile = string.rangeOfString("/m_")
+            let rangeMobilePayment = string.rangeOfString("/m_CreditCardPayment.aspx")
+            let rangePayment = string.rangeOfString("/CreditCardPayment.aspx")
             range = string.rangeOfString("/m_Mi-Cuenta.aspx")
-            var rangeMobileIngresa = string.rangeOfString("/m_Ingresar.aspx")
+            let rangeMobileIngresa = string.rangeOfString("/m_Ingresar.aspx")
             if range.location == NSNotFound && rangeMobileIngresa.location == NSNotFound && rangeMobile.location != NSNotFound && rangeMobilePayment.location ==  NSNotFound && rangePayment.location ==  NSNotFound {
                 back()
             }
@@ -102,14 +98,12 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 webCheckOut.loadRequest(request)
                 return false
             }
-        }
-        
         return true
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        println("URL::: \(webView.request?.URL!.absoluteString)")
-        var string = webView.request!.URL!.absoluteString! as NSString
+        print("URL::: \(webView.request?.URL!.absoluteString)")
+        let string = webView.request!.URL!.absoluteString as NSString
         var range = string.rangeOfString("www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)")
         if range.location != NSNotFound {
             //CheckoutiPad
@@ -131,7 +125,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             }
         }
         
-        var rangeEnd = string.rangeOfString("/app_Confirmacion-Pedido.aspx")
+        let rangeEnd = string.rangeOfString("/app_Confirmacion-Pedido.aspx")
         if rangeEnd.location != NSNotFound && !didLoginWithEmail {
             didLoginWithEmail = true
             let loginService = LoginWithEmailService()
@@ -151,7 +145,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             finishLoadCheckOut!()
         }
         
-        println("URL::: \(webView.request)")
+        print("URL::: \(webView.request)")
         
     }
     
@@ -176,19 +170,18 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     func screenShotMethod() {
         //Create the UIImage
-        let scrollWeb = self.webCheckOut.scrollView
         UIGraphicsBeginImageContext(CGSizeMake(self.webCheckOut.frame.width, self.webCheckOut.frame.height - 60))
         
-        self.webCheckOut.layer.renderInContext(UIGraphicsGetCurrentContext())
+        self.webCheckOut.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         
         UIGraphicsEndImageContext()
         
         let library =  ALAssetsLibrary()
         library.saveImage(image, toAlbum: "Walmart", completion: { (url:NSURL!, error:NSError!) -> Void in
-            println("saved image")
+            print("saved image")
             }) { (error:NSError!) -> Void in
-                println("Error saving image")
+                print("Error saving image")
               
 
         }

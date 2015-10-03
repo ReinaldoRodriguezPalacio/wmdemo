@@ -34,14 +34,14 @@ class TmpIPAHomeViewController : BaseController {
         self.view.bringSubviewToFront(self.headerView)
         
         
-        let timmer =  NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "disapearSuperView", userInfo: nil, repeats: false)
+          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "disapearSuperView", userInfo: nil, repeats: false)
         
     }
     
     func apearSuperView (){
         isShowingGroceriesView = true
         supperIndicator.image = UIImage(named: "home_switch_On")
-        let timmer =  NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "disapearSuperView", userInfo: nil, repeats: false)
+          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "disapearSuperView", userInfo: nil, repeats: false)
         self.viewSuper.generateBlurImageWithView(self.webview)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.viewSuper.frame = CGRectMake(0,self.headerView.frame.maxY, self.viewSuper.frame.width, self.viewSuper.frame.height)

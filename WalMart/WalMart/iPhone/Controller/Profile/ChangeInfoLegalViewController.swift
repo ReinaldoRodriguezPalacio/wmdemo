@@ -67,8 +67,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.declineSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
         self.declineSharePersonal!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
         
-        let iconImage = UIImage(named:"button_bg")
-        let iconSelected = UIImage(named:"button_bg_active")
+        //let iconImage = UIImage(named:"button_bg")
+        //let iconSelected = UIImage(named:"button_bg_active")
         
         self.saveButton = WMRoundButton()
         //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)

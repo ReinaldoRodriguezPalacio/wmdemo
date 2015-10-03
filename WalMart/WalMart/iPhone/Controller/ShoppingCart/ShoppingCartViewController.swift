@@ -13,7 +13,6 @@ protocol ShoppingCartViewControllerDelegate {
     func returnToView()
 }
 
-
 class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate {
     
     var viewLoad : WMLoadingView!
@@ -276,7 +275,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let animation = UIImageView(frame: CGRectMake(0, 0,36, 36));
             animation.center = self.buttonWishlist.center
             animation.image = UIImage(named:"detail_addToList")
-            runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeat: 100)
+            runSpinAnimationOnView(animation, duration: 100, rotations: 1, `repeat`: 100)
             self.viewFooter.addSubview(animation)
             
             
@@ -286,7 +285,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 let upc = shoppingCartProduct["upc"] as! String
                 let desc = shoppingCartProduct["description"] as! String
                 let price = shoppingCartProduct["price"] as! String
-                let quantity = shoppingCartProduct["quantity"] as! String
+                //let quantity = shoppingCartProduct["quantity"] as! String
                 
                 var onHandInventory = "0"
                 if let inventory = shoppingCartProduct["onHandInventory"] as? String {
@@ -322,13 +321,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeat:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
         
-        var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(repeat)
+        rotationAnimation.repeatCount = Float(`repeat`)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
         
     }
@@ -513,11 +512,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     @IBAction func editAction(sender: AnyObject) {
         isEdditing = !isEdditing
         if (isEdditing) {
-            let currentCells = self.viewShoppingCart.visibleCells()
+            let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
-                    cell.setEditing(true, animated: false)
-                    cell.showLeftUtilityButtonsAnimated(true)
+                    let productCell = cell as! ProductShoppingCartTableViewCell
+                    productCell.setEditing(true, animated: false)
+                    productCell.showLeftUtilityButtonsAnimated(true)
                 }
             }
             editButton.selected = true
@@ -531,11 +531,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             })
             
         }else{
-            let currentCells = self.viewShoppingCart.visibleCells()
+            let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
-                    cell.setEditing(false, animated: false)
-                    cell.hideUtilityButtonsAnimated(false)
+                    let productCell = cell as! ProductShoppingCartTableViewCell
+                    productCell.setEditing(false, animated: false)
+                    productCell.hideUtilityButtonsAnimated(false)
                 }
             }
             editButton.selected = false
@@ -569,7 +570,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func deleteProduct(cell:ProductShoppingCartTableViewCell) {
-        var toUseCellIndex = self.viewShoppingCart.indexPathForCell(cell)
+        let toUseCellIndex = self.viewShoppingCart.indexPathForCell(cell)
         if toUseCellIndex != nil {
             let indexPath : NSIndexPath = toUseCellIndex!
             deleteRowAtIndexPath(indexPath)
@@ -586,7 +587,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 deleteRowAtIndexPath(indexPath!)
             }
         default :
-            println("other pressed")
+            print("other pressed")
         }
     }
     
@@ -597,7 +598,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //deleteRowAtIndexPath(indexPath)
              cell.showRightUtilityButtonsAnimated(true)
         default :
-            println("other pressed")
+            print("other pressed")
         }
     }
     
@@ -623,7 +624,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             
             }, errorBlock: { (error:NSError) -> Void in
-                println("delete pressed Errro \(error)")
+                print("delete pressed Errro \(error)")
         })
     }
 
@@ -636,8 +637,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 return true
             case SWCellState.CellStateCenter:
                 return !isEdditing
-            default:
-                return !isEdditing && !self.isSelectingProducts
+            //default:
+            //   return !isEdditing && !self.isSelectingProducts
         }
     }
     
@@ -719,10 +720,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
 
     func getExpensive() -> String {
-        var priceLasiItem = 0.0
+        let priceLasiItem = 0.0
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
-            let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
+            //let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
             let price = shoppingCartProduct["price"] as! NSString
             if price.doubleValue < priceLasiItem {
                 continue
@@ -762,12 +763,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.canceledAction = false
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7
-        let storyboard = self.loadStoryboardDefinition()
+        //let storyboard = self.loadStoryboardDefinition()
         let addressService = AddressByUserService()
         
         self.buttonShop.enabled = true
         self.buttonShop.alpha = 1.0
-        var cont = LoginController.showLogin()
+        let cont = LoginController.showLogin()
         var user = ""
         if UserCurrentSession.sharedInstance().userSigned != nil {
             cont!.noAccount?.hidden = true
@@ -802,7 +803,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     }
                 }
                 if presentAddres {
-                    var address = AddressViewController()
+                    let address = AddressViewController()
                     address.typeAddress = TypeAddress.Shiping
                     address.item =  NSDictionary()
                     address.successCallBack = {() in
@@ -815,8 +816,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                     self.buttonShop.enabled = true
                     self.buttonShop.alpha = 1.0
-                    println("errorBlock")
-                    var address = AddressViewController()
+                    print("errorBlock")
+                    let address = AddressViewController()
                     address.typeAddress = TypeAddress.Shiping
                     address.item =  NSDictionary()
                     address.successCallBack = {() in
@@ -855,7 +856,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     loginController.alertView?.okCancelCallBack = {() in
                         //check.back()
                         self.canceledAction = true
-                        let response = self.navigationController?.popToRootViewControllerAnimated(true)
+                        //let response = self.navigationController?.popToRootViewControllerAnimated(true)
                         
                         if loginController.alertView != nil {
                             loginController.closeAlert(true, messageSucesss: false)
@@ -929,7 +930,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                                         //check.back()
                                         self.canceledAction = true
                                         if self.navigationController != nil {
-                                            let response = self.navigationController!.popViewControllerAnimated(false)
+                                            //let response = self.navigationController!.popViewControllerAnimated(false)
                                             loginController.closeAlert(true, messageSucesss: false)
                                         }
                                     }
@@ -972,7 +973,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(viewCapture.frame.size, false, 1.0);
-            viewCapture.layer.renderInContext(UIGraphicsGetCurrentContext())
+            viewCapture.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
@@ -994,7 +995,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.itemsUPC = result!
                     if self.itemsUPC.count > 3 {
                         var arrayUPCS = self.itemsUPC as [AnyObject]
-                        arrayUPCS.sort({ (before, after) -> Bool in
+                        arrayUPCS.sortInPlace({ (before, after) -> Bool in
                             let priceB = before["price"] as! NSString
                             let priceA = after["price"] as! NSString
                             return priceB.doubleValue < priceA.doubleValue
@@ -1018,7 +1019,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     
                 }
                 }, errorBlock: { (error:NSError) -> Void in
-                    println("Termina sevicio app")
+                    print("Termina sevicio app")
             })
         }
     }
@@ -1075,7 +1076,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.viewLoad = nil
                 }
                 
-                println("done")
+                print("done")
                 self.navigationController?.popToRootViewControllerAnimated(true)
             })
             

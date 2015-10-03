@@ -12,7 +12,7 @@ class ImageDisplayCollectionViewCell: UICollectionViewCell {
  
     var scrollView: ImageScrollView?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -33,7 +33,7 @@ class ImageDisplayCollectionViewCell: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.contentView.frame
+        let bounds = self.contentView.frame
         self.scrollView!.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
         self.scrollView!.contentSize = bounds.size
     }

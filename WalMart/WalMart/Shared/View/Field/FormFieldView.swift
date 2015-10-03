@@ -51,7 +51,7 @@ class FormFieldView : UIEdgeTextField {
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -144,14 +144,14 @@ class FormFieldView : UIEdgeTextField {
     func validate() -> String? {
         self.isValid = true
         var message : String? = nil
-        self.text = self.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        self.text = self.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if isRequired{
             if self.text == "" {
                 self.isValid = false
                 message =  NSLocalizedString("field.validate.required",comment:"")
             }
         }
-        let elementsInText = count(self.text)
+        let elementsInText = self.text!.characters.count
         if maxLength > 0 && elementsInText > 0 {
             if elementsInText > maxLength {
                 self.isValid = false
@@ -205,15 +205,20 @@ class FormFieldView : UIEdgeTextField {
                 case .Phone:
                     validate = self.validatePhone()
                 case .Email:
-                    self.isValid =  SignUpViewController.isValidEmail(self.text)
+                    self.isValid =  SignUpViewController.isValidEmail(self.text!)
                 default:
                     break
             }
             
             if validate != nil {
-                var error: NSError?
-                var regExVal = NSRegularExpression(pattern: validate!, options: NSRegularExpressionOptions.CaseInsensitive, error: &error)
-                let matches = regExVal!.numberOfMatchesInString(self.text, options: nil, range: NSMakeRange(0, count(self.text)))
+                var regExVal: NSRegularExpression?
+                do {
+                    regExVal = try NSRegularExpression(pattern: validate!, options: NSRegularExpressionOptions.CaseInsensitive)
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                    regExVal = nil
+                }
+                let matches = regExVal!.numberOfMatchesInString(self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))
                 
                 if matches > 0 {
                     self.isValid = true
@@ -334,7 +339,7 @@ class CustomFormFIeldDelegate : NSObject, UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         if let field = textField as? FormFieldView {
             if field.maxLength > 0 {
-                var txtAfterUpdate:NSString = textField.text as NSString
+                var txtAfterUpdate:NSString = textField.text! as NSString
                 txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
                 self.delegateOnChange?.textField!(textField, shouldChangeCharactersInRange: range, replacementString: string)
                 return txtAfterUpdate.length <= field.maxLength

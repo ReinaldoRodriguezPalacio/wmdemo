@@ -17,7 +17,7 @@ class NewListView: UIControl, UITextFieldDelegate {
 
     var delegate: NewListTableViewCellDelegate?
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
@@ -56,7 +56,7 @@ class NewListView: UIControl, UITextFieldDelegate {
 //        self.saveBarButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
 //        inputView.addSubview(self.saveBarButton!)
 
-        self.saveButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.saveButton = UIButton(type: .Custom)
         self.saveButton!.frame = CGRectMake(0.0, 0.0, 46.0, 40.0)
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.save", comment:""), forState: .Normal)
@@ -100,7 +100,7 @@ class ListFieldSearch: UITextField {
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

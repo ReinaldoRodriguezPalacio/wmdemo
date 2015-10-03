@@ -46,7 +46,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     }
     
     func showTableIfNeeded() {
-        var bounds = self.view.frame.size
+        let bounds = self.view.frame.size
         if (self.elements == nil || self.elements!.count == 0)
             && (self.elementsCategories == nil || self.elementsCategories!.count == 0) {
                 
@@ -274,7 +274,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         
         dispatch_async(dispatch_get_main_queue(), {
             self.dataBase.inDatabase { (db:FMDatabase!) -> Void in
-                var select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
+                let select = WalMartSqliteDB.instance.buildSearchProductKeywordsQuery(keyword: string)
                 var load = false
                 self.cancelSearch = false
                 if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
@@ -283,9 +283,9 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                         if  self.cancelSearch {
                             break
                         }
-                        var keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
-                        var upc = rs.stringForColumn("upc")
-                        var price = rs.stringForColumn("price")
+                        let keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
+                        let upc = rs.stringForColumn("upc")
+                        let price = rs.stringForColumn("price")
                         keywords.append([KEYWORD_TITLE_COLUMN:keyword , "upc":upc , "price":price  ])
                     }
                     rs.close()
@@ -295,7 +295,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                 }
                 
                 if  !self.cancelSearch {
-                    var selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
+                    let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesKeywordsQuery(keyword: string)
                     self.cancelSearch = false
                     if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
                         var keywords = Array<AnyObject>()
@@ -307,13 +307,13 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
                             let depto = rs.stringForColumn("departament")
                             let family = rs.stringForColumn("family")
                             
-                            var keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
-                            var description = "\(depto) > \(family)"
+                            let keyword = rs.stringForColumn(KEYWORD_TITLE_COLUMN)
+                            let description = "\(depto) > \(family)"
                             //                            var description = rs.stringForColumn("departament")
-                            var idLine = rs.stringForColumn("idLine")
-                            var idDepto = rs.stringForColumn("idDepto")
-                            var idFamily = rs.stringForColumn("idFamily")
-                            var type = rs.stringForColumn("type")
+                            let idLine = rs.stringForColumn("idLine")
+                            let idDepto = rs.stringForColumn("idDepto")
+                            let idFamily = rs.stringForColumn("idFamily")
+                            let type = rs.stringForColumn("type")
                             
                             keywords.append([KEYWORD_TITLE_COLUMN:keyword , "departament":description, "idLine":idLine, "idFamily":idFamily, "idDepto":idDepto, "type":type])
                         }

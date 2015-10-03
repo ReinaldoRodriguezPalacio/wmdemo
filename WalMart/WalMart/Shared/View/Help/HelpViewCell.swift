@@ -12,7 +12,7 @@ class HelpViewCell: UITableViewCell {
     var titleLabel : UILabel!
     var viewLine : UIView!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

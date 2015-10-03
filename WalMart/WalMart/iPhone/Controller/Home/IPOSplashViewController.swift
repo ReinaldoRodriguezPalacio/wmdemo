@@ -63,12 +63,12 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             self.configureWebView(result)
             if error == nil{
                 self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
-                if let privateNot = result["privaceNotice"] as? [AnyObject] {
+                if let privateNot = result["privaceNotice"] as? NSArray {
                     let dateFormatter = NSDateFormatter()
                     dateFormatter.dateFormat = "dd/MM/yyyy"
-                    let sinceDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("sinceDate") as! String)!
-                    let untilDate = dateFormatter.dateFromString(result["privaceNotice"]?.objectAtIndex(0).objectForKey("untilDate") as! String)!
-                    let version = result["privaceNotice"]?.objectAtIndex(0).objectForKey("version") as! NSNumber
+                    let sinceDate = dateFormatter.dateFromString(privateNot.objectAtIndex(0).objectForKey("sinceDate") as! String)!
+                    let untilDate = dateFormatter.dateFromString(privateNot.objectAtIndex(0).objectForKey("untilDate") as! String)!
+                    let version = privateNot.objectAtIndex(0).objectForKey("version") as! NSNumber
                     let versionAP = "AP\(version)" as String!
                     
                     UserCurrentSession.sharedInstance().dateStart = sinceDate
@@ -82,22 +82,28 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 
                 
                 if requiredAP {
-                    var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as! String
-                    var filePath = paths.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
+                    let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as NSString
+                    let filePath = paths.stringByAppendingPathComponent("AvisoPrivacidad.pdf")
 //                    var checkValidation = NSFileManager.defaultManager()
                     if (NSFileManager.defaultManager().fileExistsAtPath(filePath)) {
-                        let ok:Bool = NSFileManager.defaultManager().removeItemAtPath(filePath, error: &error)
+                        do {
+                            try NSFileManager.defaultManager().removeItemAtPath(filePath)
+                        } catch let error1 as NSError {
+                            error = error1
+                        } catch {
+                            fatalError()
+                        }
                     }
                     
                     let url = result["privaceNotice"]?.objectAtIndex(0).objectForKey("url") as! String
-                    var request = NSURLRequest(URL: NSURL(string:url)!)
+                    let request = NSURLRequest(URL: NSURL(string:url)!)
                     let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
                     let manager = AFURLSessionManager(sessionConfiguration: configuration)
                     let downloadTask = manager.downloadTaskWithRequest(request, progress: nil, destination: { (url:NSURL!, urlResponse:NSURLResponse!) -> NSURL! in
-                        let file =  NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: NSSearchPathDomainMask.UserDomainMask, appropriateForURL: nil, create: false, error: nil)
+                        let file =  try? NSFileManager.defaultManager().URLForDirectory(.DocumentDirectory, inDomain: NSSearchPathDomainMask.UserDomainMask, appropriateForURL: nil, create: false)
                         return file?.URLByAppendingPathComponent("AvisoPrivacidad.pdf")
                         }, completionHandler: { (response:NSURLResponse!, fileUrl:NSURL!, error:NSError!) -> Void in
-                            println("File Path : \(fileUrl)")
+                            print("File Path : \(fileUrl)")
                     })
                     downloadTask.resume()
                 }
@@ -128,8 +134,12 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         else {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
-        var error: NSError? = nil
-        var result = context.executeFetchRequest(fetchRequest, error: &error) as! [Param]?
+        var result: [Param]? = nil
+        do{
+            result = try context.executeFetchRequest(fetchRequest) as? [Param]
+        }catch{
+            print("retrieveParam error in executeFetchRequest")
+        }
         var parameter: Param? = nil
         if result != nil && result!.count > 0 {
             parameter = result!.first
@@ -162,18 +172,17 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
-        
-        
-        if request.URL!.absoluteString!.hasPrefix("ios:") {
+        if request.URL!.absoluteString.hasPrefix("ios:") {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.splashDefault.alpha = 0
                 }) { (response:Bool) -> Void in
                     self.splashDefault.removeFromSuperview()
             }
             return false
-        }else {
-            NSURLConnection(request: request, delegate: self)
         }
+        //else {
+       //     NSURLConnection(request: request, delegate: self)
+       // }
         
         return true
     }
@@ -189,7 +198,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
     }
     
-    func webView(webView: UIWebView, didFailLoadWithError error: NSError) {
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
         
     }
     func configureWebView(itemsconfig:NSDictionary) {
@@ -279,46 +288,45 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let recommendedItems = RecommendedItemsService()
         let paramsRec = Dictionary<String, String>()
         recommendedItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
-            println("Call service RecommendedItemsService success")
+            print("Call service RecommendedItemsService success")
             }) { (error:NSError) -> Void in
-                println("Call service RecommendedItemsService error \(error)")
+                print("Call service RecommendedItemsService error \(error)")
         }
         
         let exclusiveGrItems = GRExclusiveItemsService()
-        let paramsExc = Dictionary<String, String>()
         exclusiveGrItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
-            println("Call service GRExclusiveItemsService success")
+            print("Call service GRExclusiveItemsService success")
             }) { (error:NSError) -> Void in
-                println("Call service GRExclusiveItemsService error \(error)")
+                print("Call service GRExclusiveItemsService error \(error)")
         }
         
         
         let categoryService = CategoryService()
         categoryService.callService(Dictionary<String, String>(),
-            successBlock: { (response:NSDictionary) -> Void in println("Call service CategoryService success") },
-            errorBlock: { (error:NSError) -> Void in println("Call service CategoryService error \(error)") }
+            successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },
+            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
         
         let categoryGRService = GRCategoryService()
         categoryGRService.callService(Dictionary<String, String>(),
-            successBlock: { (response:NSDictionary) -> Void in println("Call service GRCategoryService success") },
-            errorBlock: { (error:NSError) -> Void in println("Call service CategoryService error \(error)") }
+            successBlock: { (response:NSDictionary) -> Void in print("Call service GRCategoryService success") },
+            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
         
         let defaultlist = DefaultListService()
         defaultlist.callService({ (result:NSDictionary) -> Void in
-            println("Call DefaultListService sucess")
+            print("Call DefaultListService sucess")
             }, errorBlock: { (error:NSError) -> Void in
-                println("Call DefaultListService error \(error)")
+                print("Call DefaultListService error \(error)")
         })
         
         let storeService = StoreLocatorService()
         storeService.callService(
             { (response:NSDictionary) -> Void in
-                println("Call StoreLocatorService sucess")
+                print("Call StoreLocatorService sucess")
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Call StoreLocatorService error \(error)")
+                print("Call StoreLocatorService error \(error)")
             }
         )
         
@@ -329,7 +337,8 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_STORELACATION.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
+            let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
+            tracker.send(eventTracker as! [NSObject : AnyObject])
         }
         
         /*let shoppingCartUpdateBg = ShoppingCartProductsService()
@@ -352,15 +361,15 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let banService = BannerService()
         let params = Dictionary<String, String>()
         banService.callService(params, successBlock: { (result:NSDictionary) -> Void in
-            println("Call service BannerService success")
+            print("Call service BannerService success")
             }) { (error:NSError) -> Void in
-                println("Call service BannerService error \(error)")
+                print("Call service BannerService error \(error)")
         }
         
     }
     
     deinit{
-        println("Deinit splash")
+        print("Deinit splash")
     }
     
     

@@ -102,7 +102,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
 //                self.emptyView.frame = CGRectMake(0, 0 , self.view.bounds.width, self.view.bounds.height)
 //            } else {
             let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
-            let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
+            //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
             let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
             let totArticlesGR = UserCurrentSession.sharedInstance().numberOfArticlesGR()
             let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
@@ -181,7 +181,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     }
     
     func closeShoppingCart () {
-        var originalHeight : CGFloat = 0.0
+        //var originalHeight : CGFloat = 0.0
         
         
         self.navigationController!.view.frame = CGRectMake(self.navigationController!.view.frame.minX,62 , self.navigationController!.view.frame.width,  self.navigationController!.view.frame.height)

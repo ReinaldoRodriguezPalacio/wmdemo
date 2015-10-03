@@ -10,7 +10,7 @@ import UIKit
 
 extension String {
     func length() -> Int {
-        return count(self)
+        return self.characters.count
     }
     
     func trim() -> String {
@@ -32,7 +32,14 @@ extension String {
     }
     
     func contains(other: String) -> Bool {
-        return (self as NSString).containsString(other)
+        var contains = false
+        if #available(iOS 8.0, *) {
+            contains = (self as NSString).containsString(other)
+        } else {
+            contains = (self as NSString).rangeOfString(other).location > 0
+        }
+        
+        return contains
     }
     
     // http://stackoverflow.com/questions/6644004/how-to-check-if-nsstring-is-contains-a-numeric-value

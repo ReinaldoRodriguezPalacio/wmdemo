@@ -25,10 +25,10 @@ class LinesForSearchService: BaseService {
                 if let response = json["responseArray"] as? [AnyObject] {
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
                         self.buildResponse(response, successBuildBlock: { (dictionary:[String : AnyObject]) -> Void in
-                            var values = [AnyObject](dictionary.values)
+                            let values = [AnyObject](dictionary.values)
                             self.jsonFromObject(values)
                             dispatch_async(dispatch_get_main_queue(),  { () -> Void in
-                                println("")
+                                print("")
                                 successBlock?(values)
                             });
                         })
@@ -41,11 +41,11 @@ class LinesForSearchService: BaseService {
             },
             failure: {(request:NSURLSessionDataTask!, error:NSError!) in
                 if error.code == -1005 {
-                    println("Response Error : \(error) \n Response \(request.response)")
+                    print("Response Error : \(error) \n Response \(request.response)")
                     self.callService(params, successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
-                println("Response Error : \(error) \n Response \(request.response)")
+                print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
         
@@ -78,10 +78,10 @@ class LinesForSearchService: BaseService {
         
         printTimestamp("buildResponse LinesForSearchService")
         
-        let service = GRCategoryService()
-        var categories = service.getCategoriesContent() as NSArray
+        //let service = GRCategoryService()
+        //var categories = service.getCategoriesContent() as NSArray
         
-        var tmpArray : [[String:AnyObject]] = []
+        //var tmpArray : [[String:AnyObject]] = []
         
         var strInLines : String = ""
         for var i = 0; i < response.count; i++ {
@@ -97,7 +97,7 @@ class LinesForSearchService: BaseService {
             }
         }
         
-        var dictionary: [String:AnyObject] = [:]
+        let dictionary: [String:AnyObject] = [:]
         
         if strInLines == "" {
             return  successBuildBlock!(dictionary)
@@ -106,9 +106,9 @@ class LinesForSearchService: BaseService {
         WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
             var dictionary: [String:AnyObject] = [:]
             //NSLog("Ejecuta busqueda")
-            var selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
+            let selectCategories = WalMartSqliteDB.instance.buildSearchCategoriesIdLineQuery(idline: strInLines)
             if let rs = db.executeQuery(selectCategories, withArgumentsInArray:nil) {
-                var keywords = Array<AnyObject>()
+                //var keywords = Array<AnyObject>()
                 self.printTimestamp("query execute  LinesForSearchService")
                 while rs.next() {
                     
@@ -134,7 +134,7 @@ class LinesForSearchService: BaseService {
                         dictionary[idDepto] = cdepto
                     }
                     
-                    var families = cdepto!["families"] as! NSMutableDictionary
+                    let families = cdepto!["families"] as! NSMutableDictionary
                     var cfamily = families[idFamily] as? [String:AnyObject]
                     if cfamily == nil {
                         families[idFamily] = [
@@ -148,9 +148,9 @@ class LinesForSearchService: BaseService {
                         cfamily = families[idFamily] as? [String:AnyObject]
                     }
                     
-                    var lines = cfamily!["lines"] as! NSMutableDictionary
+                    let lines = cfamily!["lines"] as! NSMutableDictionary
                     
-                    var cline = [
+                    let cline = [
                         "id" : idLine,
                         "name" : (linName),
                         "level" : NSNumber(integer: 2),

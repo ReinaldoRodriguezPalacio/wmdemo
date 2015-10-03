@@ -32,7 +32,7 @@ class GRPaypalUpdateOrderService: GRBaseService{
                                                     "businessId": leapRequest["businessId"].stringValue]
         
         
-        var fixedSlot : [String:AnyObject]  = ["date": slot["date"].intValue,
+        let fixedSlot : [String:AnyObject]  = ["date": slot["date"].intValue,
                                                 "storeId": slot["storeId"].intValue,
                                                 "slotId": slot["slotId"].intValue,
                                                 "transactionId": slot["transactionId"].intValue,

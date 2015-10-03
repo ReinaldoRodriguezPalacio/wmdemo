@@ -75,7 +75,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
     }
     
     func updateShoppButton(){
-        var result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
+        let result = (priceProduct.doubleValue / 1000.0 ) * currentValGr
         let strPrice = CurrencyCustomLabel.formatString("\(result)")
         let strAdddToSC = NSLocalizedString("shoppingcart.addtoshoppingcart",comment:"")
         addButton.setTitle("\(strAdddToSC) \(strPrice)", forState: UIControlState.Normal)

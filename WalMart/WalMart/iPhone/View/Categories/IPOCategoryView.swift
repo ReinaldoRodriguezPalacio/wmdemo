@@ -26,7 +26,7 @@ class IPOCategoryView : CategoryView {
     override func setup() {
         super.setup()
         
-        let imageBg : CGFloat = 98
+        //let imageBg : CGFloat = 98
         
         titleLabel.numberOfLines = 2
         

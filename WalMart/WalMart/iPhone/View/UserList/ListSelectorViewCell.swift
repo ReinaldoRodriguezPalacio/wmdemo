@@ -23,14 +23,14 @@ class ListSelectorViewCell: UITableViewCell {
     
     var delegate: ListSelectorCellDelegate?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.indicator = UIButton.buttonWithType(.Custom) as? UIButton
+        self.indicator = UIButton(type: .Custom) as? UIButton
         self.indicator!.setBackgroundImage(UIImage(named: "list_selector_indicator.png"), forState: .Normal)
         self.indicator!.setBackgroundImage(UIImage(named: "list_selector_indicator_selected.png"), forState: .Selected)
         self.indicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -53,7 +53,7 @@ class ListSelectorViewCell: UITableViewCell {
         self.articlesTitle!.backgroundColor = UIColor.clearColor()
         self.contentView.addSubview(self.articlesTitle!)
 
-        self.openDetail = UIButton.buttonWithType(.Custom) as? UIButton
+        self.openDetail = UIButton(type: .Custom) as? UIButton
         self.openDetail!.setTitle(NSLocalizedString("list.selector.openDetail", comment:""), forState: .Normal)
         self.openDetail!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.openDetail!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
@@ -89,7 +89,7 @@ class ListSelectorViewCell: UITableViewCell {
         self.openDetail!.hidden = hiddenOpenList
     }
     
-    func setupIcon(#title:String, productIncluded:Bool) {
+    func setupIcon(title title:String, productIncluded:Bool) {
         if productIncluded {
             self.indicator!.selected = true
         } else {
@@ -109,7 +109,7 @@ class ListSelectorViewCell: UITableViewCell {
             tempView.layer.cornerRadius = 20
             
             UIGraphicsBeginImageContextWithOptions(CGSizeMake(40.0, 40.0), false, 2.0)
-            tempView.layer.renderInContext(UIGraphicsGetCurrentContext())
+            tempView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             screenShot = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
@@ -117,9 +117,9 @@ class ListSelectorViewCell: UITableViewCell {
     }
 
     override func layoutSubviews() {
-        var frame = self.contentView.frame
+        let frame = self.contentView.frame
         self.indicator!.frame = CGRectMake(16.0, 8.0, 40.0, 40.0)
-        var x = CGRectGetMaxX(self.indicator!.frame) + 16.0
+        let x = CGRectGetMaxX(self.indicator!.frame) + 16.0
         self.listName!.frame = CGRectMake(x, 16.0, frame.width - (x + 72.0), 16.0)
         self.articlesTitle!.frame = CGRectMake(x, self.listName!.frame.maxY, frame.width - (x + 72.0), 14.0)
         self.openDetail!.frame = CGRectMake(frame.width - 56.0, 8.0, 40.0, 40.0)

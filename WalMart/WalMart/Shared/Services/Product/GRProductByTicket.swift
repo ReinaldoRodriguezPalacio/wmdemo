@@ -16,7 +16,7 @@ class GRProductByTicket: GRBaseService {
     }
 
     func callService(params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        println(params)
+        print(params)
         self.callPOSTService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 //self.jsonFromObject(resultCall)
@@ -32,13 +32,13 @@ class GRProductByTicket: GRBaseService {
 
     override func validateCodeMessage(response:NSDictionary) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
-            var message = response["message"] as! NSString
+            let message = response["message"] as! NSString
             if codeMessage.integerValue == -12 {
-                println("WARNING : Response with warning \(message)")
+                print("WARNING : Response with warning \(message)")
                 return nil
             }
             if codeMessage.integerValue != 0 {
-                println("ERROR : Response with error \(message)")
+                print("ERROR : Response with error \(message)")
                 return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:message])
             }
         }

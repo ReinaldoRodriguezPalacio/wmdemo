@@ -41,9 +41,14 @@ class ShoppingCartProductsService : BaseService {
                     for cart in array {
                         context.deleteObject(cart)
                     }
-                    
-                    var error: NSError? = nil
-                    context.save(&error)
+
+                    do {
+                        try context.save()
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    } catch {
+                        fatalError()
+                    }
                     
                     for shoppingCartProduct in itemsInShoppingCart {
                         
@@ -107,7 +112,13 @@ class ShoppingCartProductsService : BaseService {
                     }
                     
                     
-                    context.save(&error)
+                    do {
+                        try context.save()
+                    } catch let error as NSError {
+                        print(error.localizedDescription)
+                    } catch {
+                        fatalError()
+                    }
                     
                     successBlock!(resultCall)
                     ShoppingCartService.isSynchronizing  = false
@@ -125,7 +136,7 @@ class ShoppingCartProductsService : BaseService {
                             }
                             
                             successBlock!(["items":[],"subtotal":NSNumber(double: 0.0)])
-                            let params = ["quantity":0]
+                            //let params = ["quantity":0]
                             //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
                         }else{
                             errorBlock!(error)
@@ -133,7 +144,7 @@ class ShoppingCartProductsService : BaseService {
                 }
                 
                 }, errorBlock: { (error:NSError) -> Void in
-                    println("Error: \(error)")
+                    print("Error: \(error)")
             })
         }else{
             callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
@@ -142,13 +153,13 @@ class ShoppingCartProductsService : BaseService {
     }
     
     func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
         if UserCurrentSession.sharedInstance().userSigned != nil {
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
         }
-        var array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+        let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         var returnDictionary = [:]
         var items : [AnyObject] = []
         var subtotal : Double = 0.0
@@ -173,7 +184,7 @@ class ShoppingCartProductsService : BaseService {
 
         returnDictionary = ["subtotal":NSNumber(double: subtotal),"ivaSubtotal":NSNumber(double: iva),"totalEstimado":NSNumber(double: totalest),"items":items]
         
-        let params = ["quantity":totalQuantity]
+        //let params = ["quantity":totalQuantity]
     
        // NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
         if successBlock != nil {
@@ -191,14 +202,17 @@ class ShoppingCartProductsService : BaseService {
         if deteted.count > 0 {
             let serviceDelete = ShoppingCartDeleteProductsService()
             var arratUpcsDelete : [String] = []
-            var currentItem = 0
+            //var currentItem = 0
             let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             for itemDeleted in deteted {
                 
                 itemDeleted.status = CartStatus.Synchronized.rawValue
-                var error: NSError? = nil
-                context.save(&error)
+                do {
+                    try context.save()
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
                 
                 arratUpcsDelete.append(itemDeleted.product.upc)
                 
@@ -252,8 +266,11 @@ class ShoppingCartProductsService : BaseService {
                 arrayUpcsUpdate.append(serviceUpdate.builParamSvc(itemUpdated.product.upc, quantity: itemUpdated.quantity.stringValue, comments: ""))
                 itemUpdated.status = CartStatus.Synchronized.rawValue
             }
-            var error: NSError? = nil
-            context.save(&error)
+            do {
+                try context.save()
+            } catch let error as NSError {
+                print(error.localizedDescription)
+            }
             
             serviceUpdate.callService(arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
                 ShoppingCartService.isSynchronizing = false

@@ -10,7 +10,7 @@ import UIKit
 
 class NewListSelectorViewCell: NewListTableViewCell {
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -30,7 +30,7 @@ class NewListSelectorViewCell: NewListTableViewCell {
     }
     
     override func layoutSubviews() {
-        var bounds = self.frame.size
+        let bounds = self.frame.size
         self.inputNameList!.text = ""
         self.inputNameList!.frame = CGRectMake(16.0, 8.0, bounds.width - 32.0, 40.0)
     }

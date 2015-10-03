@@ -24,7 +24,7 @@ class WeightKeyboardView : UIView {
     var strTitles : [String] = ["100 gramos","un\ncuarto","medio kilo","tres cuartos","un\nkilo"]
     
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
     }
@@ -158,7 +158,7 @@ class WeightKeyboardView : UIView {
             tempView.layer.cornerRadius = size.width / 2
             
             UIGraphicsBeginImageContext(size);
-            tempView.layer.renderInContext(UIGraphicsGetCurrentContext())
+            tempView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             screenShot = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
         }
@@ -173,7 +173,7 @@ class WeightKeyboardView : UIView {
         if self.superview != nil {
             let currentX  : CGFloat = (self.superview!.frame.width / 2) -  (maxButtonX / 2)
             self.frame = CGRectMake(currentX, self.frame.minY, self.frame.width,  self.frame.height)
-            println(self.frame)
+            print(self.frame)
             
         }
         

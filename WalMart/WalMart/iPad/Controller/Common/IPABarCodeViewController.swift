@@ -45,8 +45,8 @@ class IPABarCodeViewController: BarCodeViewController {
         return true
     }
     
-    override func supportedInterfaceOrientations() -> Int {
-        return Int(UIInterfaceOrientationMask.Landscape.rawValue)
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Landscape
     }
     
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {

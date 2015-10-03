@@ -14,7 +14,7 @@ class IPAProductDetailCrossSellView : ProductDetailCrossSellView {
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         var upcItems : [[String:String]] = []
-        var cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
+        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell
         for upcStr in itemsUPC {
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String

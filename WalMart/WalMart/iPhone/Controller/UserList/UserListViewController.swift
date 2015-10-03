@@ -79,7 +79,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.titleLabel?.textAlignment = .Left
         self.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
-        self.newListBtn = UIButton.buttonWithType(.Custom) as? UIButton
+        self.newListBtn = UIButton(type: .Custom)
         self.newListBtn!.setTitle(NSLocalizedString("list.new", comment:""), forState: .Normal)
         self.newListBtn!.setTitle(NSLocalizedString("list.endnew", comment:""), forState: .Selected)
         self.newListBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
@@ -91,7 +91,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.header!.addSubview(self.newListBtn!)
         
-        self.editBtn = UIButton.buttonWithType(.Custom) as? UIButton
+        self.editBtn = UIButton(type: .Custom)
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
         self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
@@ -157,24 +157,24 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         super.viewDidLayoutSubviews()
         
         if CGRectEqualToRect(self.newListBtn!.frame, CGRectZero) {
-            var headerBounds = self.header!.frame.size
-            var buttonWidth: CGFloat = 55.0
-            var buttonHeight: CGFloat = 22.0
+            let headerBounds = self.header!.frame.size
+            let buttonWidth: CGFloat = 55.0
+            let buttonHeight: CGFloat = 22.0
             self.titleLabel!.frame = CGRectMake(16.0, 0.0, (headerBounds.width/2) - 16.0, headerBounds.height)
             self.newListBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth   + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
             self.editBtn!.frame = CGRectMake(self.newListBtn!.frame.minX - (buttonWidth + 8.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
         }
         
-        var bounds = self.view.frame.size
+        let bounds = self.view.frame.size
         self.searchField!.frame = CGRectMake(16.0, 12.0, bounds.width - 32.0, 40.0)
         
         self.viewSeparator.frame = CGRectMake(0, searchContainer!.frame.height  - AppDelegate.separatorHeigth() , searchContainer!.frame.width,   AppDelegate.separatorHeigth())
     }
     
     func reloadListFormUpdate (){
-        println("Notificacion para actualizar lista")
+        print("Notificacion para actualizar lista")
         self.reloadList(success: nil, failure: nil)
-        println("Lista actualizada correctamente")
+        print("Lista actualizada correctamente")
     }
     
     func checkEditBtn(){
@@ -197,8 +197,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: - List Utilities
     
     func duplicateList(){
-        var indexpath = self.tableuserlist!.indexPathForSelectedRow() // NSIndexPath(forRow: 1, inSection: 1)
-        var cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
+        let indexpath = self.tableuserlist!.indexPathForSelectedRow // NSIndexPath(forRow: 1, inSection: 1)
+        let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
         self.duplicateList(cell!)
     }
     
@@ -225,8 +225,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         })
     }
     
-    func reloadList(#success:(()->Void)?, failure:((error:NSError)->Void)?){
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+    func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -285,8 +285,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    func reloadWithoutTableReload(#success:(()->Void)?, failure:((error:NSError)->Void)?){
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+    func reloadWithoutTableReload(success success:(()->Void)?, failure:((error:NSError)->Void)?){
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -365,7 +365,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingSuperlists = false
                     CATransaction.begin()
                     CATransaction.setCompletionBlock({ () -> Void in
-                        var cells = self.tableuserlist!.visibleCells()
+                        let cells = self.tableuserlist!.visibleCells
                         for cellObj in cells {
                             if let cell = cellObj as? ListTableViewCell {
                                 cell.enableEditing = true
@@ -388,7 +388,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
                     
-                    if let user = UserCurrentSession.sharedInstance().userSigned {
+                    if let _ = UserCurrentSession.sharedInstance().userSigned {
                         self.alertView = nil
                         self.invokeUpdateListService()
                     }
@@ -400,7 +400,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingSuperlists = true
                     CATransaction.begin()
                     CATransaction.setCompletionBlock({ () -> Void in
-                        var cells = self.tableuserlist!.visibleCells()
+                        var cells = self.tableuserlist!.visibleCells
                         for var idx = 0; idx < cells.count; idx++ {
                             if let cell = cells[idx] as? ListTableViewCell {
                                 cell.listName!.text = cell.textField!.text
@@ -472,7 +472,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                     
                                     CATransaction.begin()
                                     CATransaction.setCompletionBlock({ () -> Void in
-                                        var cells = self.tableuserlist!.visibleCells()
+                                        var cells = self.tableuserlist!.visibleCells
                                         for var idx = 0; idx < cells.count; idx++ {
                                             if let cell = cells[idx] as? ListTableViewCell {
                                                 cell.enableDuplicateList(true)
@@ -508,7 +508,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     CATransaction.setCompletionBlock({ () -> Void in
                         CATransaction.begin()
                         CATransaction.setCompletionBlock({ () -> Void in
-                            var cells = self.tableuserlist!.visibleCells()
+                            var cells = self.tableuserlist!.visibleCells
                             for var idx = 0; idx < cells.count; idx++ {
                                 if let cell = cells[idx] as? ListTableViewCell {
                                     cell.enableDuplicateList(false)
@@ -595,7 +595,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                 let listId = listItem["id"] as! String
-                var listName = listItem["name"] as! String
+                let listName = listItem["name"] as! String
 //                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
 //                    println("pase por acas")
 //                }, itemsUserList: self.itemsUserList!)
@@ -623,8 +623,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
                     
-                    var copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
-                    var clist = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: self.managedContext!) as? List
+                    let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+                    let clist = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: self.managedContext!) as? List
                     clist!.name = copyName
                     clist!.registryDate = NSDate()
                     clist!.countItem = NSNumber(integer: 0)
@@ -632,13 +632,17 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     let fetchRequest = NSFetchRequest()
                     fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
                     fetchRequest.predicate = NSPredicate(format: "list == %@", listItem)
-                    var error: NSError? = nil
-                    var result: [Product]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [Product]
+                     var result: [Product]? = nil
+                    do{
+                         result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [Product]
+                    }catch{
+                       print("Error executeFetchRequest")
+                    }
                     if result != nil && result!.count > 0 {
                         clist!.countItem = NSNumber(integer: result!.count)
                         for var idx = 0; idx < result!.count; idx++ {
-                            var item = result![idx]
-                            var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
+                            let item = result![idx]
+                            let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
                             detail!.upc = item.upc
                             detail!.img = item.img
                             detail!.desc = item.desc
@@ -684,7 +688,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
             if let listItem = self.itemsUserList![idx] as? NSDictionary {
                 let listId = listItem["id"] as! String
-                var listName = listItem["name"] as! String
                 
 //                if text == nil || text!.isEmpty {
 //                    self.listToUpdate!.removeValueForKey(listId)
@@ -694,13 +697,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.listToUpdate![listId] = text
             }
             else if let listEntity = self.itemsUserList![idx] as? List {
-                var entityId = listEntity.objectID.URIRepresentation().absoluteString
+                let entityId = listEntity.objectID.URIRepresentation().absoluteString
                 
 //                if cell.textField!.text == nil || cell.textField!.text!.isEmpty {
 //                    self.listToUpdate!.removeValueForKey(entityId!)
 //                }
                 
-                self.listToUpdate![entityId!] = text
+                self.listToUpdate![entityId] = text
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
@@ -748,7 +751,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 }
             }
         default:
-            println("other pressed")
+            print("other pressed")
         }
     }
     
@@ -757,7 +760,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         case 0:
             cell.showRightUtilityButtonsAnimated(true)
         default :
-            println("other pressed")
+            print("other pressed")
         }
     }
     
@@ -774,8 +777,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
         case SWCellState.CellStateCenter:
             return !self.isEditingUserList
-        default:
-            return !self.isEditingUserList
+        //default:
+        //    return !self.isEditingUserList
         }
     }
     
@@ -844,11 +847,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
             self.view.addSubview(self.helpView!)
             
-            var icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))
+            let icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))
             icon.frame = CGRectMake(12.0, self.header!.frame.maxY + 16.0, 48.0, 48.0)
             self.helpView!.addSubview(icon)
             
-            var message = UILabel(frame: CGRectMake(icon.frame.maxX + 12.0, self.header!.frame.maxY + 20.0, self.view.bounds.width - 88.0, 40.0))
+            let message = UILabel(frame: CGRectMake(icon.frame.maxX + 12.0, self.header!.frame.maxY + 20.0, self.view.bounds.width - 88.0, 40.0))
             message.numberOfLines = 0
             message.textColor = UIColor.whiteColor()
             message.textAlignment = .Center
@@ -856,7 +859,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             message.text = NSLocalizedString("list.message.help", comment:"")
             self.helpView!.addSubview(message)
             
-            var arrow = UIImageView(image: UIImage(named: "list_arrow_help"))
+            let arrow = UIImageView(image: UIImage(named: "list_arrow_help"))
             arrow.frame = CGRectMake(icon.frame.midX, message.frame.maxY - 5.0, 80.0, 28.0)
             self.helpView!.addSubview(arrow)
             
@@ -899,15 +902,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func showWishlist() {
         WishlistService.shouldupdate = true
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("wishlitsItemVC") as? UIViewController {
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
+        let vc = storyboard!.instantiateViewControllerWithIdentifier("wishlitsItemVC")
+        self.navigationController!.pushViewController(vc, animated: true)
+        
     }
     
     func showDefaultLists() {
-        if let vc = storyboard!.instantiateViewControllerWithIdentifier("defaultListVC") as? UIViewController {
-            self.navigationController!.pushViewController(vc, animated: true)
-        }
+        let vc = storyboard!.instantiateViewControllerWithIdentifier("defaultListVC")
+        self.navigationController!.pushViewController(vc, animated: true)
     }
     
     
@@ -1177,7 +1179,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
             let array = Array(self.listToUpdate!.keys)
             for var idx = 0; idx < array.count; idx++ {
-                var idList = array[idx]
+                let idList = array[idx]
                 
                 var list:List? = nil
                 for var idxl = 0; idxl < self.itemsUserList!.count; idxl++ {
@@ -1191,7 +1193,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
                 if list != nil {
                     
-                    var name = self.listToUpdate![idList]!
+                    let name = self.listToUpdate![idList]!
                     if name.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
                         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                         self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
@@ -1235,7 +1237,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     })
                 },
                 errorBlock:{ (error:NSError) -> Void in
-                    println("Error at delete list \(listId)")
+                    print("Error at delete list \(listId)")
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
                     self.deleteListServiceInvoked = false
@@ -1255,7 +1257,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             let array = Array(self.listToUpdate!.keys)
             let firstKey = array.first
-            var name = self.listToUpdate![firstKey!]
+            let name = self.listToUpdate![firstKey!]
             
             if name == nil || name!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).isEmpty {
                 self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
@@ -1269,10 +1271,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 return
             }
             
-            var whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+            let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
             
-            var trimmedString = name!.stringByTrimmingCharactersInSet(whitespaceset)
-            var length = trimmedString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
+            let trimmedString = name!.stringByTrimmingCharactersInSet(whitespaceset)
+            let length = trimmedString.lengthOfBytesUsingEncoding(NSUTF8StringEncoding)
             if length == 0 {
                 self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
@@ -1284,8 +1286,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 return
             }
             
-            var alphanumericset = NSCharacterSet(charactersInString: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").invertedSet
-            var cleanedName = (trimmedString.componentsSeparatedByCharactersInSet(alphanumericset) as NSArray).componentsJoinedByString("")
+            let alphanumericset = NSCharacterSet(charactersInString: "áéíóúÁÉÍÓÚabcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890 ").invertedSet
+            let cleanedName = (trimmedString.componentsSeparatedByCharactersInSet(alphanumericset) as NSArray).componentsJoinedByString("")
             if trimmedString != cleanedName {
                 self.alertView!.setMessage(NSLocalizedString("list.new.validation.name.notvalid", comment:""))
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
@@ -1377,10 +1379,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if value == nil {
             return
         }
-        println("Code \(value)")
+        print("Code \(value)")
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-        var service = GRProductByTicket()
+        let service = GRProductByTicket()
         service.callService(service.buildParams(value!),
             successBlock: { (result: NSDictionary) -> Void in
                 if let items = result["items"] as? [AnyObject] {
@@ -1398,13 +1400,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     var products:[AnyObject] = []
                     for var idx = 0; idx < items.count; idx++ {
                         var item = items[idx] as! [String:AnyObject]
-                        var upc = item["upc"] as! String
-                        var quantity = item["quantity"] as! NSNumber
-                        var param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        let upc = item["upc"] as! String
+                        let quantity = item["quantity"] as! NSNumber
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
                         products.append(param)
                     }
                     
-                    var fmt = NSDateFormatter()
+                    let fmt = NSDateFormatter()
                     fmt.dateFormat = "MMM d"
                     var name = fmt.stringFromDate(NSDate())
                     var number = 0;
@@ -1466,25 +1468,25 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     override func willShowTabbar() {
         self.isShowingTabBar = true
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        /*UIView.animateWithDuration(0.2, animations: { () -> Void in
             var bounds = self.view.frame.size
-            //self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 101.0, 40.0, 40.0)
-        })
+            self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 101.0, 40.0, 40.0)
+        })*/
     }
     
     override func willHideTabbar() {
         self.isShowingTabBar = false
-        UIView.animateWithDuration(0.2, animations: { () -> Void in
+        /*UIView.animateWithDuration(0.2, animations: { () -> Void in
             var bounds = self.view.frame.size
-            //self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 56.0, 40.0, 40.0)
-        })
+            self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 56.0, 40.0, 40.0)
+        })*/
     }
     
     //MARK: - UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         
-        var txtAfterUpdate : NSString = textField.text as String
+        var txtAfterUpdate : NSString = textField.text! as String
         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
         
         self.itemsUserList = self.searchForItems(txtAfterUpdate as String)
@@ -1503,10 +1505,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func keyboardWillShow(aNotification: NSNotification) {
         var info = aNotification.userInfo
-        var kbFrame = info![UIKeyboardFrameEndUserInfoKey] as? NSValue
-        var duration = info![UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-        var animationDuration: NSTimeInterval = duration!.doubleValue
-        var keyboardFrame = kbFrame!.CGRectValue()
+        let kbFrame = info![UIKeyboardFrameEndUserInfoKey] as? NSValue
+        let duration = info![UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
+        let animationDuration: NSTimeInterval = duration!.doubleValue
+        let keyboardFrame = kbFrame!.CGRectValue()
         
         
         //Event
@@ -1530,8 +1532,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func keyboardWillHide(aNotification: NSNotification) {
         var info = aNotification.userInfo
-        var duration = info![UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-        var animationDuration: NSTimeInterval = duration!.doubleValue
+        let duration = info![UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
+        let animationDuration: NSTimeInterval = duration!.doubleValue
         
         UIView.animateWithDuration(animationDuration, animations: { () -> Void in
             self.tableuserlist!.contentInset = UIEdgeInsetsZero
@@ -1544,8 +1546,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
         fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [List]
+        var result: [List]? = nil
+        do{
+            result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
+        }
+        catch{
+            print("retrieveNotSyncList error")
+        }
         return result
     }
     
@@ -1559,11 +1566,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
-        var error: NSError? = nil
-        var result = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [Param]
         var parameter: Param? = nil
-        if result != nil && result!.count > 0 {
-            parameter = result!.first
+        do{
+            let result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [Param]
+            if result != nil && result!.count > 0 {
+                parameter = result!.first
+            }
+            
+        }
+        catch{
+            print("retrieveParam error")
         }
         return parameter
     }
@@ -1573,7 +1585,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             param.value = value
         }
         else {
-            var param = NSEntityDescription.insertNewObjectForEntityForName("Param", inManagedObjectContext: self.managedContext!) as? Param
+            let param = NSEntityDescription.insertNewObjectForEntityForName("Param", inManagedObjectContext: self.managedContext!) as? Param
             if let user = UserCurrentSession.sharedInstance().userSigned {
                 param!.user = user
             }
@@ -1584,10 +1596,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func saveContext() {
-        var error: NSError? = nil
-        self.managedContext!.save(&error)
-        if error != nil {
-            println("error at save context on UserListViewController: \(error!.localizedDescription)")
+        do {
+            try self.managedContext!.save()
+        } catch {
+            print("error at save context on UserListViewController")
         }
     }
     
@@ -1603,7 +1615,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if textUpdate != "" {
             fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)",textUpdate,textUpdate)
         }
-        var labelTracker : String = String(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)", textUpdate,textUpdate)
+        let labelTracker : String = String(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)", textUpdate,textUpdate)
         //Event
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
@@ -1611,11 +1623,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 label: labelTracker,
                 value: nil).build() as [NSObject:AnyObject])
         }
-        
-        var error: NSError? = nil
-        var result: [List]? = self.managedContext!.executeFetchRequest(fetchRequest, error: &error) as? [List]
-        println(result)
-        
+        var result: [List]? =  nil
+        do{
+            result =  try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
+            print(result)
+
+        }catch{
+            print("searchForItems Error")
+        }
         return result
     }
     

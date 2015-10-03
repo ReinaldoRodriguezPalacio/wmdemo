@@ -14,7 +14,7 @@ class SelectorBandCell: UICollectionViewCell {
     var normalFont: UIFont? = nil
     var selectedFont: UIFont? = nil
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     

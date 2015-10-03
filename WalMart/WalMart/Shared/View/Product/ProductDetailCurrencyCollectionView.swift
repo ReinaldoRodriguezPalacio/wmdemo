@@ -12,7 +12,7 @@ class ProductDetailCurrencyCollectionView : UITableViewCell {
     
     var titleLabel : CurrencyCustomLabel!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }

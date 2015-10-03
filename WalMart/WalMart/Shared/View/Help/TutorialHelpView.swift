@@ -28,7 +28,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         setup()
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -156,13 +156,13 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         self.pointSection!.addSubview(self.pointContainer!)
         
         var buttons = Array<UIButton>()
-        var size = self.items!.count + 1
+        let size = self.items!.count + 1
         if size > 0 {
-            var bsize: CGFloat = 8.0
+            let bsize: CGFloat = 8.0
             var x: CGFloat = 0.0
-            var sep: CGFloat = 5.0
+            let sep: CGFloat = 5.0
             for var idx = 0; idx < size; ++idx {
-                var point = UIButton.buttonWithType(.Custom) as! UIButton
+                let point = UIButton(type: .Custom)
                 point.frame = CGRectMake(x, 0, bsize, bsize)
                 point.setImage(UIImage(named: "control_help_inactivo"), forState: .Normal)
                 point.setImage(UIImage(named: "control_help_activo"), forState: .Selected)
@@ -176,7 +176,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
                 self.pointContainer!.addSubview(point)
                 buttons.append(point)
             }
-            var pbounds = self.pointSection!.frame
+            let pbounds = self.pointSection!.frame
             self.pointContainer!.frame = CGRectMake((pbounds.size.width - x)/2,  (20.0 - bsize)/2, x, 20.0)
         }
         self.pointButtons = buttons
@@ -187,13 +187,13 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         for button: UIButton in self.pointButtons! {
             button.selected = button === sender
         }
-        if let idx = find(self.pointButtons!, sender) {
+        if let idx = (self.pointButtons!).indexOf(sender) {
             self.scrollHelp!.scrollRectToVisible(CGRectMake(0, 0, self.frame.width, self.scrollHelp!.frame.height), animated: true)
         }
     }
     
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-        var currentIndex = self.scrollHelp!.contentOffset.x / self.scrollHelp!.frame.size.width
+        let currentIndex = self.scrollHelp!.contentOffset.x / self.scrollHelp!.frame.size.width
         self.currentItem = Int(currentIndex)
         let nsarray = self.pointButtons! as NSArray
         if let button = nsarray.objectAtIndex(self.currentItem!) as? UIButton {

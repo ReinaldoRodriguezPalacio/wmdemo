@@ -17,9 +17,9 @@ class BaseController : UIViewController {
         return storyboard;
     }
         
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         let rotation = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.Landscape
-         return Int(rotation.rawValue)
+         return rotation
     }
     
     //WHITE BAR

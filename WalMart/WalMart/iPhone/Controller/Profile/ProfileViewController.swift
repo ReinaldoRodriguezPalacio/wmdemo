@@ -117,7 +117,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     
 
     override func viewWillLayoutSubviews() {
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         self.viewProfile!.frame = CGRectMake(0,0,bounds.width, bounds.height )
         self.imageBG!.frame = CGRectMake(0,0,bounds.width, 210 )
         self.imageProfile!.frame = CGRectMake((bounds.width - 24 )/2 , 40 , 24, 24 )
@@ -146,7 +146,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var height: CGFloat = 65
+        let height: CGFloat = 65
         return height
     }
     
@@ -163,7 +163,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         }
         
         if cell.selectedBackgroundView != nil {
-            cell.selectedBackgroundView.removeFromSuperview()
+            cell.selectedBackgroundView!.removeFromSuperview()
             cell.selectedBackgroundView = nil
         }
         return cell
@@ -220,7 +220,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                     
                     }
                     , errorBlock: { (error:NSError) -> Void in
-                    println("")
+                    print("")
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
                     self.signOutButton?.enabled = true
@@ -228,7 +228,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
                 })
             }
             }, errorBlock: { (error:NSError) -> Void in
-                println("")
+                print("")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
                 self.signOutButton?.enabled = true

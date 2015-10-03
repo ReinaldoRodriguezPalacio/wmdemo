@@ -141,7 +141,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.viewCenter!.clipsToBounds = true
         self.viewCenter.addSubview(self.content!)
         
-        self.close = UIButton.buttonWithType(.Custom) as? UIButton
+        self.close = UIButton(type: .Custom)
         self.close!.setImage(UIImage(named: "close"), forState: .Normal)
         self.close!.addTarget(self, action: "closeModal", forControlEvents: .TouchUpInside)
         self.close!.backgroundColor = UIColor.clearColor()
@@ -165,7 +165,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     override func viewWillLayoutSubviews() {
         if !viewAnimated {
             super.viewWillLayoutSubviews()
-            var bounds = self.view.bounds
+            let bounds = self.view.bounds
             let fieldHeight  : CGFloat = CGFloat(44)
             let leftRightPadding  : CGFloat = CGFloat(15)
       
@@ -196,9 +196,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         super.viewWillAppear(animated)
         if UserCurrentSession.sharedInstance().userSigned != nil && self.controllerTo != nil {
             let storyboard = self.loadStoryboardDefinition()
-            if let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo) as? UIViewController {
-                self.navigationController!.pushViewController(vc, animated: false)
-            }
+            let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+            self.navigationController!.pushViewController(vc, animated: false)
         }
     }
     
@@ -217,7 +216,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         var cloneImage : UIImage? = nil
         autoreleasepool {
             UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, 1.0);
-            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext())
+            self.parentViewController!.view.layer.renderInContext(UIGraphicsGetCurrentContext()!)
             cloneImage = UIGraphicsGetImageFromCurrentImageContext();
             UIGraphicsEndImageContext();
             self.parentViewController!.view.layer.contents = nil
@@ -235,7 +234,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
          return CGSizeMake( content.contentSize.width, content.contentSize.height)
     }
    
-    func textFieldDidEndEditing(textField: UITextField!) {
+    func textFieldDidEndEditing(textField: UITextField) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -346,8 +345,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
             
             let service = LoginService()
-            var emails = email!.text
-            let params  = service.buildParams(emails.trim(), password: password!.text)
+            let emails = email!.text
+            let params  = service.buildParams(emails!.trim(), password: password!.text!)
             self.callService(params, alertViewService: self.alertView)
         }else{
             signInButton!.enabled = true
@@ -362,9 +361,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
                     let storyboard = self.loadStoryboardDefinition()
-                    if let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo) as? UIViewController {
-                        self.navigationController!.pushViewController(vc, animated: true)
-                    }
+                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+                    self.navigationController!.pushViewController(vc, animated: true)
                 }
             }else {
                 if self.closeAlertOnSuccess {
@@ -378,7 +376,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             }
             , errorBlock: {(error: NSError) in
-                println("error")
+                print("error")
                 if error.code == -300 {
                     self.signInButton!.enabled = true
                     let addressService = AddressByUserService()
@@ -387,7 +385,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                         if let shippingAddress = address["shippingAddresses"] as? NSArray
                         {
                             if shippingAddress.count > 0 {
-                                var alertAddress = GRFormAddressAlertView.initAddressAlert()!
+                                let alertAddress = GRFormAddressAlertView.initAddressAlert()!
                                 for dictAddress in shippingAddress {
                                     if let pref = dictAddress["preferred"] as? NSNumber{
                                         if pref == 1{
@@ -434,7 +432,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func showAddressForm(params:NSDictionary,  alertViewService : IPOWMAlertViewController?) {
-        var alertAddress = GRFormAddressAlertView.initAddressAlert()!
+        let alertAddress = GRFormAddressAlertView.initAddressAlert()!
         alertAddress.showAddressAlert()
         alertAddress.alertSaveSuccess = {() in
             self.callService(params, alertViewService: alertViewService)
@@ -479,8 +477,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func viewError(field: UIEdgeTextFieldImage)-> Bool{
-        var message = field.validate()
-        if count(message) > 0 {
+        let message = field.validate()
+        if message.characters.count > 0 {
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
@@ -492,7 +490,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     func forgot(sender:UIButton) {
         self.textFieldDidEndEditing(self.email!)
-        var error = viewError(self.email!)
+        let error = viewError(self.email!)
         if !error {
             self.view.endEditing(true)
             if sender.tag == 100 {
@@ -503,14 +501,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
 
             self.alertView!.setMessage(NSLocalizedString("profile.message.sending",comment:""))
             let service = ForgotPasswordService()
-            service.callService(self.email!.text, successBlock: { (result: NSDictionary) -> Void in
+            service.callService(self.email!.text!, successBlock: { (result: NSDictionary) -> Void in
                 if let message = result["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
                 }//if let message = resultCall!["message"] as? String {
-                println("successBlock")
+                print("successBlock")
             }) { (error:NSError) -> Void in
-                println("error")
+                print("error")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
             }
@@ -519,7 +517,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
-        let text = textField.text as NSString
+        let text = textField.text! as NSString
         let resultingString = text.stringByReplacingCharactersInRange(range, withString: string) as NSString
         let whitespaceSet = NSCharacterSet.whitespaceCharacterSet()
         if resultingString.rangeOfCharacterFromSet(whitespaceSet).location == NSNotFound {

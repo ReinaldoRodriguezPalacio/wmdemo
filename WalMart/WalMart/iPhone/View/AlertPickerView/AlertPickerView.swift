@@ -59,7 +59,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         setup()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
         setup()
     }
@@ -159,7 +159,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         {
             self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             
-            var cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
+            let cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
             cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
             cell.textbox!.maxLength = 0
             
@@ -187,7 +187,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         else
         {
             self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
-            var cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
+            let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.textLabel?.text = itemsToShow[indexPath.row]
             if self.selected != nil {
                 cell.setSelected(indexPath.row == self.selected.row, animated: true)
@@ -236,7 +236,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         replacementString string: String) -> Bool
     {
         let formField = textField as! FormFieldView
-        let textValue = (textField.text as NSString).stringByReplacingCharactersInRange(range, withString:string)
+        let textValue = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString:string)
     
         textboxValues?[formField.nameField] = textValue as String
         return true
@@ -246,9 +246,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         let formField = textField as! FormFieldView
         var text = formField.text
         
-        if NSLocalizedString("checkout.discount.dateAdmission", comment:"") == formField.nameField! && !text.isEmpty
+        if NSLocalizedString("checkout.discount.dateAdmission", comment:"") == formField.nameField! && !text!.isEmpty
         {
-            text = TextboxTableViewCell.parseDateString(text,format:"d MMMM yyyy")
+            text = TextboxTableViewCell.parseDateString(text!,format:"d MMMM yyyy")
         }
         
         textboxValues?[formField.nameField] = text
@@ -257,7 +257,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     class func initPicker()  -> AlertPickerView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        var frame = vc!.view.bounds
         if vc != nil {
             return initPicker(vc!)
         }

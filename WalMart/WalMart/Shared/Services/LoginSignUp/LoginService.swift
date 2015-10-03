@@ -12,7 +12,7 @@ import CoreData
 class LoginService : BaseService {
     
     func buildParams(email:String,password: String) -> NSDictionary {
-        var idDevice = UIDevice.currentDevice().identifierForVendor.UUIDString
+        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let lowCaseUser = email.lowercaseString
         return ["email":lowCaseUser,"password":password,"identifierDevice":idDevice]
     }
@@ -21,7 +21,7 @@ class LoginService : BaseService {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {
-                    var resultCallMG = resultCall
+                    let resultCallMG = resultCall
 
                     let grLoginService = GRLoginService()
                     grLoginService.callService(params, successBlock: { (resultCallGR:NSDictionary) -> Void in
@@ -32,9 +32,7 @@ class LoginService : BaseService {
                     })
                 }
                 else{
-                    let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    let message = resultCall["message"] as! String
-                    var error = NSError()
+                    let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
                     errorBlock!(error)
                 }
             }

@@ -225,12 +225,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if requiredAP != "true" {
             if (untilDate.compare(nowDate!) == NSComparisonResult.OrderedDescending && sinceDate.compare(nowDate!) == NSComparisonResult.OrderedAscending) || untilDate.compare(nowDate!) == NSComparisonResult.OrderedSame || sinceDate.compare(nowDate!) == NSComparisonResult.OrderedSame {
                 self.addOrUpdateParam(version, value: "false")
-                var alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+                let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alertNot?.showDoneIconWithoutClose()
                 alertNot?.setMessage(NSLocalizedString("privace.notice.message", comment: ""))
                 alertNot?.addActionButtonsWithCustomText(NSLocalizedString("update.later", comment: ""),
                     leftAction: { () -> Void in
-                        let ale: ()? = alertNot?.close()
+                         alertNot?.close()
                     },
                     rightText: NSLocalizedString("noti.godetail", comment: ""),
                     rightAction: { () -> Void in
@@ -241,7 +241,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         }
                         
                         self.addOrUpdateParam(version, value: "true")
-                        let ale: ()? = alertNot?.close()
+                        alertNot?.close()
                 })
             }
         }
@@ -260,12 +260,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
         }
-        var error: NSError? = nil
-        var result = context.executeFetchRequest(fetchRequest, error: &error) as! [Param]?
         var parameter: Param? = nil
-        if result != nil && result!.count > 0 {
-            parameter = result!.first
+        
+        do {
+            let result = try context.executeFetchRequest(fetchRequest) as! [Param]
+            if  result.count > 0 {
+                parameter = result.first
+            }
+        } catch let error as NSError {
+            print("Fetch failed: \(error.localizedDescription)")
         }
+        
         return parameter
     }
     
@@ -277,7 +282,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             param.value = value
         }
         else {
-            var param = NSEntityDescription.insertNewObjectForEntityForName("Param", inManagedObjectContext: context) as? Param
+            let param = NSEntityDescription.insertNewObjectForEntityForName("Param", inManagedObjectContext: context) as? Param
             if let user = UserCurrentSession.sharedInstance().userSigned {
                 param!.user = user
             }
@@ -285,9 +290,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             param!.value = value
         }
         var error: NSError? = nil
-        context.save(&error)
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
         if error != nil {
-            println("error at save context: \(error!.localizedDescription)")
+            print("error at save context: \(error!.localizedDescription)")
         }
     }
     
@@ -295,13 +304,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func createTabBarButtons() {
         if isTabBarCreated == false {
             isTabBarCreated = true
-            var images = self.retrieveTabBarOptions()
+            let images = self.retrieveTabBarOptions()
             let space = (320 - (CGFloat(images.count) * TABBAR_HEIGHT))/6
             var x: CGFloat = ((self.view.bounds.width / 2) - (320 / 2))  + CGFloat(space)
             for image in images {
                 var title = NSString(format: "tabbar.%@", image)
                 title = NSLocalizedString(title as String, comment: "")
-                var button = UIButton()
+                let button = UIButton()
                 button.setImage(UIImage(named: image), forState: .Normal)
                 button.setImage(UIImage(named: NSString(format: "%@_active", image) as String), forState: .Selected)
                 button.setImage(UIImage(named: NSString(format: "%@_active", image) as String), forState: .Highlighted)
@@ -310,8 +319,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 button.selected = image == "tabBar_home"
                 button.frame = CGRectMake(x, 2, TABBAR_HEIGHT, TABBAR_HEIGHT)
                 
-                var spacing: CGFloat = 1.0 // the space between the image and text
-                var imageSize: CGSize = button.imageView!.frame.size
+                //var spacing: CGFloat = 1.0 // the space between the image and text
+                //var imageSize: CGSize = button.imageView!.frame.size
                 
                 
                 x = CGRectGetMaxX(button.frame) + space
@@ -331,8 +340,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         var x: CGFloat = ((self.view.bounds.width / 2) - (320 / 2))  + CGFloat(space)
         for button in  self.buttonList {
             button.frame = CGRectMake(x, 2, TABBAR_HEIGHT, TABBAR_HEIGHT)
-            var spacing: CGFloat = 1.0 // the space between the image and text
-            var imageSize: CGSize = button.imageView!.frame.size
+            //var spacing: CGFloat = 1.0 // the space between the image and text
+            //var imageSize: CGSize = button.imageView!.frame.size
             x = CGRectGetMaxX(button.frame) + space
         }
     }
@@ -346,7 +355,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "homeEmbedSegue" {
-            var controller = segue.destinationViewController as? UINavigationController
+            let controller = segue.destinationViewController as? UINavigationController
             self.viewControllers.append(controller!)
             controller?.delegate = self
             self.currentController = controller
@@ -363,10 +372,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.closeSearch(false,sender:sender)
         }
         else {
-            var index = find(self.buttonList, sender)
+            let index = self.buttonList.indexOf(sender)
             
             
-            var controller = self.viewControllers[index!]
+            let controller = self.viewControllers[index!]
             if controller === self.currentController {
                 if let navController = self.currentController as? UINavigationController {
                     navController.popToRootViewControllerAnimated(true)
@@ -436,7 +445,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func setTabBarHidden(hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
         
-        let bounds: CGRect = self.view.frame
+        //let bounds: CGRect = self.view.frame
         if(hidden)
         {
             self.isTabBarHidden = true
@@ -583,11 +592,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func openSearchProduct(){
         if let navController = self.currentController! as? UINavigationController {
-            
             if self.searchController == nil  {
                 
                 if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()as [NSObject : AnyObject])
+                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()
+                    tracker.send( eventTracker as! [NSObject : AnyObject])
                 }
                 
                 if self.imageBlurView != nil {
@@ -667,15 +676,15 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpForSearchView"))
             controller.view.addSubview(self.helpView!)
             
-            var icon = UIImageView(image: UIImage(named: "search_scan_help"))
+            let icon = UIImageView(image: UIImage(named: "search_scan_help"))
             icon.frame = CGRectMake(189.0, 11.0, 55.0, 48.0)
             self.helpView!.addSubview(icon)
             
-            var arrow = UIImageView(image: UIImage(named: "search_scan_arrow_help"))
+            let arrow = UIImageView(image: UIImage(named: "search_scan_arrow_help"))
             arrow.frame = CGRectMake(icon.center.x - 75.0, icon.frame.maxY, 80.0, 36.0)
             self.helpView!.addSubview(arrow)
             
-            var message = UILabel(frame: CGRectMake(16.0, arrow.frame.maxY, self.view.bounds.width - 88.0, 40.0))
+            let message = UILabel(frame: CGRectMake(16.0, arrow.frame.maxY, self.view.bounds.width - 88.0, 40.0))
             message.numberOfLines = 0
             message.textColor = UIColor.whiteColor()
             message.textAlignment = .Center
@@ -728,7 +737,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.searchController!.view.frame = CGRectMake(self.container!.frame.minX, -1 * (self.container!.frame.height + self.buttonContainer!.frame.height), self.container!.frame.width, self.container!.frame.height + self.buttonContainer!.frame.height)
                     self.btnSearch?.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
                     
-                    let param = self.searchController!.field!.resignFirstResponder()
+                     self.searchController!.field!.resignFirstResponder()
                 },
                 completion: {(bool : Bool) in
                     if bool {
@@ -750,7 +759,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func selectKeyWord(keyWord:String, upc:String?, truncate:Bool ){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build() as [NSObject : AnyObject])
+                let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build()
+                tracker.send( eventTracker as! [String : AnyObject])
             }
             
             
@@ -764,7 +774,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
-                var controllernav = self.currentController as? UINavigationController
+                let controllernav = self.currentController as? UINavigationController
                 controllernav?.pushViewController(controller, animated: true)
                 
                 }, errorBlock: { (error:NSError) -> Void in
@@ -775,19 +785,19 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     }
                     
                     controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
-                    var controllernav = self.currentController as? UINavigationController
+                    let controllernav = self.currentController as? UINavigationController
                     controllernav?.pushViewController(controller, animated: true)
             })
         }
         else{
             
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as [NSObject : AnyObject])
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as NSDictionary as! [NSObject : AnyObject])
             }
             let controllernav = self.currentController as? UINavigationController
             let controllersInNavigation = controllernav?.viewControllers.count
-            if (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil && isEditingSearch){
-                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+            if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){
+                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
                 isEditingSearch = false
             }
             let controller = SearchProductViewController()
@@ -811,7 +821,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.idDepartment = depto == nil ? "_" :  depto
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
-        var controllernav = self.currentController as? UINavigationController
+        let controllernav = self.currentController as? UINavigationController
         controllernav?.pushViewController(controller, animated: true)
 //        self.btnSearch!.selected = false
 //        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
@@ -958,7 +968,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             vcRoot.delegate = self
             self.btnShopping?.userInteractionEnabled = false
             vcRoot.finishAnimation = {() -> Void in
-                println("")
+                print("")
                 vcRoot.view.addGestureRecognizer(self.gestureCloseShoppingCart)
                 self.btnShopping?.userInteractionEnabled = true
                 self.btnCloseShopping?.enabled = true
@@ -1047,15 +1057,15 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func removeAllCookies() {
-        var storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         var cookies = storage.cookiesForURL(NSURL(string: "https://www.walmart.com.mx")!)
         for var idx = 0; idx < cookies!.count; idx++ {
-            var cookie = cookies![idx] as! NSHTTPCookie
+            let cookie = cookies![idx] 
             storage.deleteCookie(cookie)
         }
         cookies =   storage.cookiesForURL(NSURL(string: "https://www.aclaraciones.com.mx")!)
         for var idx = 0; idx < cookies!.count; idx++ {
-            var cookie = cookies![idx] as! NSHTTPCookie
+            let cookie = cookies![idx] 
             storage.deleteCookie(cookie)
         }
     }
@@ -1069,7 +1079,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             imageLoadingCart.hidden = true
             imageLoadingCart.center = self.btnShopping!.center
             self.headerView.addSubview(imageLoadingCart)
-            runSpinAnimationOnView(imageLoadingCart, duration: 100, rotations: 1, repeat: 100)
+            runSpinAnimationOnView(imageLoadingCart, duration: 100, rotations: 1, `repeat`: 100)
             
         }
     }
@@ -1083,13 +1093,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeat:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
         if btnShopping?.selected == false {
-            var rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+            let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
             rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
             rotationAnimation.duration = CFTimeInterval(duration)
             rotationAnimation.cumulative = true
-            rotationAnimation.repeatCount = Float(repeat)
+            rotationAnimation.repeatCount = Float(`repeat`)
             
             view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
             
@@ -1178,7 +1188,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[2])
         default:
-            println("No value type for notification")
+            print("No value type for notification")
             return false
         }
         

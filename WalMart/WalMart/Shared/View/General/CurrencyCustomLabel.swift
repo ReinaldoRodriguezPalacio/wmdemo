@@ -27,7 +27,7 @@ class CurrencyCustomLabel : UIView  {
         setupView()
     }
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
         setupView()
     }
@@ -147,7 +147,7 @@ class CurrencyCustomLabel : UIView  {
             self.hasLine = true
             let sizeTotal : CGSize = sizeOfLabel()
             
-            var line: CALayer = CALayer()
+            let line: CALayer = CALayer()
             line.frame = CGRectMake(self.label1!.frame.minX,sizeTotal.height / 2,totalWidth, 1)
             line.backgroundColor = WMColor.searchProductPriceThroughLineColor.CGColor
             self.layer.insertSublayer(line, atIndex: 0)

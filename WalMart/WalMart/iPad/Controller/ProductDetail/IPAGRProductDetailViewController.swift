@@ -56,13 +56,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.detail = result["longDescription"] as! String
             self.saving = ""
             if let savingResult = result["promoDescription"] as? String {
-                self.saving = result["promoDescription"] as! String
+                self.saving = savingResult
             }
             self.characteristics = []
             var allCharacteristics : [AnyObject] = []
             
             let strLabel = "UPC"
-            let strValue = self.upc
+            //let strValue = self.upc
             allCharacteristics.append(["label":strLabel,"value":self.upc])
             
             if let carStr = result["characteristics"] as? String {
@@ -164,12 +164,12 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 
-                var product = GAIEcommerceProduct()
-                var builder = GAIDictionaryBuilder.createScreenView()
+                let product = GAIEcommerceProduct()
+                let builder = GAIDictionaryBuilder.createScreenView()
                 product.setId(self.upc as String)
                 product.setName(self.name as String)
                 
-                var action = GAIEcommerceProductAction();
+                let action = GAIEcommerceProductAction();
                 action.setAction(kGAIPADetail)
                 builder.setProductAction(action)
                 builder.addProduct(product)
@@ -180,11 +180,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
            
             }) { (error:NSError) -> Void in
               //  var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-                var empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
-                    println("")
+                    print("")
                     self.navigationController!.popViewControllerAnimated(true)
                 }
                 self.view.addSubview(empty)
@@ -196,7 +196,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
+        //let headerView = UIView()
         switch section {
         case 0:
             return nil
@@ -231,8 +231,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
     override func loadCrossSell() {
         NSLog("lcs 1")
-        var service = GRProductBySearchService()
-        var params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6)
+        let service = GRProductBySearchService()
+        let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 NSLog("lcs 2")
@@ -248,7 +248,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                  
                         var price : NSString = ""
                         if let value = item["price"] as? String {
-                            price = item["price"] as! String
+                            price = value
                         }
                         else if let value = item["price"] as? NSNumber {
                             price = "\(value)"
@@ -268,7 +268,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 }
                 
             }, errorBlock: {(error: NSError) in
-                println(error)
+                print(error)
                 
             }
         )
@@ -301,7 +301,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     
     override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
-        let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
+        //let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
         
         if self.isShowShoppingCart || self.isShowProductDetail  {
             self.closeContainer(
@@ -346,7 +346,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.listSelectorController!.view.clipsToBounds = true
         self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.tabledetail, frame: frameDetail)
         self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, atIndex: 0)
-        var bg = UIView(frame: frameDetail)
+        let bg = UIView(frame: frameDetail)
         bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
         self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
         opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
@@ -376,14 +376,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         selectQuantityGR?.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
         selectQuantityGR?.addToCartAction = { (quantity:String) in
-            if self.onHandInventory.integerValue >= quantity.toInt() {
+            if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
                         
-                        var pesable = self.isPesable ? "1" : "0"
+                        let pesable = self.isPesable ? "1" : "0"
                         
                         var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable,isPreorderable:"false")
                         params.updateValue(comments, forKey: "comments")
@@ -410,7 +410,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         selectQuantityGR.addUpdateNote = {() in
             if self.productDetailButton.detailProductCart != nil {
                 let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-                var frame = vc!.view.frame
+                let frame = vc!.view.frame
                 
                 
                 let addShopping = ShoppingCartUpdateController()
@@ -507,9 +507,9 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
             
-                var service = GRAddItemListService()
+                let service = GRAddItemListService()
             let pesable =  self.isPesable ? "1" : "0"
-            var productObject = service.buildProductObject(upc: self.upc as String, quantity:quantity.toInt()!,pesable:pesable,active:self.isActive)
+            let productObject = service.buildProductObject(upc: self.upc as String, quantity:Int(quantity)!,pesable:pesable,active:self.isActive)
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
@@ -518,7 +518,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                             self.removeListSelector(action: nil, closeRow:true)
                     }
                     }, errorBlock: { (error:NSError) -> Void in
-                        println("Error at add product to list: \(error.localizedDescription)")
+                        print("Error at add product to list: \(error.localizedDescription)")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.alertView!.afterRemove = {
@@ -547,7 +547,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         detailService.buildParams(listId)
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
-                var service = GRDeleteItemListService()
+                let service = GRDeleteItemListService()
                 service.callService(service.buildParams(self.upc as String),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
@@ -556,7 +556,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                             self.removeListSelector(action: nil, closeRow:true)
                         }
                     }, errorBlock: { (error:NSError) -> Void in
-                        println("Error at remove product from list: \(error.localizedDescription)")
+                        print("Error at remove product from list: \(error.localizedDescription)")
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
                         self.alertView!.afterRemove = {
@@ -566,7 +566,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 )
             },
             errorBlock: { (error:NSError) -> Void in
-                println("Error at retrieve list detail")
+                print("Error at retrieve list detail")
             }
         )
     }
@@ -580,27 +580,39 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.selectQuantityGR!.addToCartAction = { (quantity:String) in
             let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-            var detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
+            let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
             detail!.upc = self.upc as String
             detail!.desc = self.name as String
             detail!.price = self.price
-            detail!.quantity = NSNumber(integer: quantity.toInt()!)
+            detail!.quantity = NSNumber(integer: Int(quantity)!)
             detail!.type = NSNumber(bool: self.isPesable)
             detail!.list = list
             if self.imageUrl.count > 0 {
                 detail!.img = self.imageUrl[0] as! NSString as String
             }
             var error: NSError? = nil
-            context.save(&error)
-            if error != nil {
-                println(error!.localizedDescription)
+            do {
+                try context.save()
+            } catch let error1 as NSError {
+                error = error1
+            } catch {
+                fatalError()
             }
-            var count:Int = list.products.count
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+            let count:Int = list.products.count
             list.countItem = NSNumber(integer: count)
             error = nil
-            context.save(&error)
+            do {
+                try context.save()
+            } catch let error1 as NSError {
+                error = error1
+            } catch {
+                fatalError()
+            }
             if error != nil {
-                println(error!.localizedDescription)
+                print(error!.localizedDescription)
             }
             self.removeListSelector(action: nil, closeRow:true)
         }
@@ -620,17 +632,17 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         context.deleteObject(product)
-        var error: NSError? = nil
-        context.save(&error)
-        if error != nil {
-            println(error!.localizedDescription)
+        do {
+            try context.save()
+        } catch {
+            abort()
         }
-        var count:Int = list.products.count
+        let count:Int = list.products.count
         list.countItem = NSNumber(integer: count)
-        error = nil
-        context.save(&error)
-        if error != nil {
-            println(error!.localizedDescription)
+        do {
+            try context.save()
+        } catch {
+           abort()
         }
         self.removeListSelector(action: nil, closeRow:true)
     }
@@ -688,7 +700,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     //MARK: - IPAUserListDetailDelegate
     func showProductListDetail(fromProducts products:[AnyObject], indexSelected index:Int) {
-        var controller = IPAProductDetailPageViewController()
+        let controller = IPAProductDetailPageViewController()
         controller.ixSelected = index
         controller.itemsToShow = products
         self.pagerController!.navigationController?.delegate = self
@@ -706,7 +718,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.removeDetailListSelector(action: nil)
     }
     
-    override func removeListSelector(#action:(()->Void)?, closeRow:Bool ) {
+    override func removeListSelector(action action:(()->Void)?, closeRow:Bool ) {
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
@@ -720,7 +732,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
     
     
-    func removeDetailListSelector(#action:(()->Void)?) {
+    func removeDetailListSelector(action action:(()->Void)?) {
         NSLog("27")
         if visibleDetailList {
             UIView.animateWithDuration(0.5,
@@ -754,7 +766,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
-        var pesable = isPesable ? "1" : "0"
+        let pesable = isPesable ? "1" : "0"
         return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"comments":self.comments,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
     }
     
@@ -814,7 +826,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         switch point {
        
         case (0,2) :
-            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+            let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         case (0,4) :
             if self.saving != ""{
@@ -831,7 +843,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
                 cell = cellAhorro
                
             } else{
-                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath) as? UITableViewCell
+                let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
                 cell = cellSpace
             }
         default :
@@ -841,7 +853,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
     }
     
     override func sleectedImage(indexPath:NSIndexPath) {
-        var controller = ImageDisplayCollectionViewController()
+        let controller = ImageDisplayCollectionViewController()
         controller.name = self.name as String
         
         var imagesLarge : [String] = []

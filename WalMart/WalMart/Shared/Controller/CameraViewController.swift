@@ -71,7 +71,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.topBarView!.addSubview(topBackgroundView!)
         self.view.addSubview(self.topBarView!)
         
-        self.camFlashButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.camFlashButton = UIButton(type: .Custom)
         self.camFlashButton!.setImage(UIImage(named:"camfind_flash"), forState: .Normal)
         self.camFlashButton!.addTarget(self, action: "toggleFlash", forControlEvents: UIControlEvents.TouchUpInside)
         self.topBarView!.addSubview(self.camFlashButton!)
@@ -83,7 +83,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.messageLabel!.textColor = UIColor.whiteColor()
         self.messageLabel!.text = NSLocalizedString("camfind.message.photo",comment:"")
         
-        self.camChangeButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.camChangeButton = UIButton(type: .Custom)
         self.camChangeButton!.tag = 1;
         self.camChangeButton!.setImage(UIImage(named:"camfind_switchCam"), forState: .Normal)
         self.camChangeButton!.addTarget(self, action: "changeCamera", forControlEvents: UIControlEvents.TouchUpInside)
@@ -97,7 +97,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.view.addSubview(self.bottomBarView!)
         
         
-        self.cancelButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.cancelButton = UIButton(type: .Custom)
         self.cancelButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -106,18 +106,18 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.cancelButton!.setTitle(NSLocalizedString("product.searh.cancel",  comment: ""), forState: UIControlState.Normal)
         self.cancelButton!.addTarget(self, action: "closeCamera", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.camButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.camButton = UIButton(type: .Custom)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto"), forState: .Normal)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto_active"), forState: .Highlighted)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto_active"), forState: .Selected)
         self.camButton!.addTarget(self, action: "takePhoto", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.getLastImageFromLibrary()
-        self.loadImageButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.loadImageButton = UIButton(type: .Custom)
         self.loadImageButton!.setImage(self.getImageWithColor(UIColor.blackColor(), size: CGSizeMake(40.0, 40.0)), forState: .Normal)
         self.loadImageButton!.addTarget(self, action: "loadImageFromLibrary:", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.repeatButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.repeatButton = UIButton(type: .Custom)
         self.repeatButton!.setTitle("Repetir Foto", forState: UIControlState.Normal)
         self.repeatButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
         self.repeatButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -127,7 +127,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.repeatButton!.alpha = 0
         self.view!.addSubview(self.repeatButton!)
         
-        self.okButton = UIButton.buttonWithType(.Custom) as? UIButton
+        self.okButton = UIButton(type: .Custom)
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
         self.okButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
         self.okButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -253,16 +253,16 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             return
         }
         
-        var status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
+        let status = AVCaptureDevice.authorizationStatusForMediaType(AVMediaTypeVideo)
         switch(status) {
         case AVAuthorizationStatus.Authorized : // authorized
-            println("Authorized")
+            print("Authorized")
             break
         case AVAuthorizationStatus.Denied: // denied
             UIAlertView(title: "Permisos", message: "Walmart necesita permiso para accesar a la cámara", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "Settings").show()
             return
         case AVAuthorizationStatus.Restricted: // restricted
-            println("Restricted")
+            print("Restricted")
             return
         case AVAuthorizationStatus.NotDetermined:  // not determined
             AVCaptureDevice.requestAccessForMediaType(AVMediaTypeVideo, completionHandler: { (granted:Bool) -> Void in
@@ -276,7 +276,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         }
         
         captureSession = AVCaptureSession()
-        videoInput = AVCaptureDeviceInput(device: videoDevice, error: nil)
+        videoInput = try? AVCaptureDeviceInput(device: videoDevice)
         if captureSession!.canAddInput(videoInput) == true {
             captureSession!.addInput(videoInput)
         }
@@ -303,7 +303,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         if captureSession!.canAddOutput(stillImageOutput) {
             captureSession!.addOutput(stillImageOutput)
             
-            self.view.layer.insertSublayer(previewLayer, below: topBarView?.layer)
+            self.view.layer.insertSublayer(previewLayer!, below: topBarView?.layer)
             self.startRunning()
         }
     }
@@ -339,11 +339,17 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     func toggleFlash() {
         let device = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         if (device.hasTorch) {
-            device.lockForConfiguration(nil)
+            do {
+                try device.lockForConfiguration()
+            } catch _ {
+            }
             if (device.torchMode == AVCaptureTorchMode.On) {
                 device.torchMode = AVCaptureTorchMode.Off
             } else {
-                device.setTorchModeOnWithLevel(1.0, error: nil)
+                do {
+                    try device.setTorchModeOnWithLevel(1.0)
+                } catch _ {
+                }
             }
             device.unlockForConfiguration()
         }
@@ -354,11 +360,11 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
             stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
                 if (sampleBuffer != nil) {
-                    var imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
-                    var dataProvider = CGDataProviderCreateWithCFData(imageData)
-                    var cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, kCGRenderingIntentDefault)
+                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+                    let dataProvider = CGDataProviderCreateWithCFData(imageData)
+                    let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
                     
-                    var image = UIImage(CGImage: cgImageRef, scale: 1.0, orientation: UIImageOrientation.Right)
+                    let image = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Right)
                     self.capturedImage.image = image
                     self.stopRunning()
                     self.showPreview()
@@ -533,7 +539,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         let hasAlpha = false
         let scale: CGFloat = 0.0
         
-        var sizeChange = CGSizeMake(80, 80) as CGSize
+        let sizeChange = CGSizeMake(80, 80) as CGSize
         UIGraphicsBeginImageContextWithOptions(sizeChange, !hasAlpha, scale)
         imageObj.drawInRect(CGRect(origin: CGPointZero, size: sizeChange))
         let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
@@ -554,8 +560,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         viewBgImage.addSubview(imageProduct)
         
         UIGraphicsBeginImageContext(viewBgImage.frame.size)
-        viewBgImage.layer.renderInContext(UIGraphicsGetCurrentContext())
-        var roundedImage = UIGraphicsGetImageFromCurrentImageContext()
+        viewBgImage.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return roundedImage
@@ -596,12 +602,12 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         }
     }
     
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if IS_IPAD {
-            return Int(UIInterfaceOrientationMask.LandscapeLeft.rawValue) | Int(UIInterfaceOrientationMask.LandscapeRight.rawValue)
+            return [UIInterfaceOrientationMask.LandscapeLeft, UIInterfaceOrientationMask.LandscapeRight]
         }
         else {
-            return Int(UIInterfaceOrientationMask.Portrait.rawValue)
+            return UIInterfaceOrientationMask.Portrait
         }
         
     }
@@ -638,8 +644,12 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if !UIApplicationOpenSettingsURLString.isEmpty {
-                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+            if #available(iOS 8.0, *) {
+                if !UIApplicationOpenSettingsURLString.isEmpty {
+                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
+                }
+            } else {
+                // Fallback on earlier versions
             }
         }
         self.closeCamera()
@@ -701,7 +711,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     // MARK: - UIImagePickerControllerDelegate Methods
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
         if IS_IPAD{
             self.popover!.dismissPopoverAnimated(true)
         }

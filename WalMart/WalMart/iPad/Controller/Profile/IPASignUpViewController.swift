@@ -16,7 +16,7 @@ class IPASignUpViewController: SignUpViewController {
 
     override func viewWillLayoutSubviews() {
         //super.viewWillLayoutSubviews()
-        var bounds = self.view.bounds
+        let bounds = self.view.bounds
         let fieldHeight  : CGFloat = CGFloat(40)
         let leftRightPadding  : CGFloat = CGFloat(0)
         

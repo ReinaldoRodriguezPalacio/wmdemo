@@ -27,7 +27,7 @@ class FilterOrderViewCell: UITableViewCell {
     var buttons: [UIButton]?
     var delegate: FilterOrderViewCellDelegate?
 
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
@@ -36,7 +36,7 @@ class FilterOrderViewCell: UITableViewCell {
         self.selectionStyle = .None
         
         if IS_IPAD {
-            var oldFrame = self.contentView.frame as CGRect
+            let oldFrame = self.contentView.frame as CGRect
             self.contentView.frame = CGRectMake( oldFrame.origin.x,oldFrame.origin.y,oldFrame.size.width,oldFrame.size.height + 60)
         }
         self.descAscButton = self.buildButton(FilterType.descriptionAsc)
@@ -52,10 +52,10 @@ class FilterOrderViewCell: UITableViewCell {
     }
     
     override func layoutSubviews() {
-        var size = self.frame.size
-        var rest = size.width - (CGFloat(self.buttons!.count - 1) * self.BUTTON_WIDTH)
-        var separation = rest/CGFloat(self.buttons!.count )
-        var y : CGFloat = 20.0
+        let size = self.frame.size
+        let rest = size.width - (CGFloat(self.buttons!.count - 1) * self.BUTTON_WIDTH)
+        let separation = rest/CGFloat(self.buttons!.count )
+        let y : CGFloat = 20.0
         var x = separation
         for button in self.buttons! {
             if button == self.popularityButton! {
@@ -109,7 +109,7 @@ class FilterOrderViewCell: UITableViewCell {
                 }
             }
             
-            var index = find(self.buttons!, sender)
+            let index = (self.buttons!).indexOf(sender)
             
             var order: String? = nil
             switch (index!) {
@@ -129,16 +129,16 @@ class FilterOrderViewCell: UITableViewCell {
     
     func buildButton(type:FilterType) -> UIButton {
         
-        var button = UIButton.buttonWithType(.Custom) as? UIButton
-        button!.setTitle(NSLocalizedString(type.rawValue, comment:""), forState: .Normal)
-        button!.setTitleColor(WMColor.navigationTilteTextColor, forState: .Normal)
-        button!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Selected)
-        button!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        button!.layer.cornerRadius = self.BUTTON_HEIGHT/2
-        button!.layer.borderWidth = 1.0
-        button!.layer.borderColor = WMColor.navigationTilteTextColor.CGColor
-        button!.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
-        self.contentView.addSubview(button!)
-        return button!
+        let button = UIButton(type: .Custom)
+        button.setTitle(NSLocalizedString(type.rawValue, comment:""), forState: .Normal)
+        button.setTitleColor(WMColor.navigationTilteTextColor, forState: .Normal)
+        button.setTitleColor(WMColor.navigationFilterTextColor, forState: .Selected)
+        button.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+        button.layer.cornerRadius = self.BUTTON_HEIGHT/2
+        button.layer.borderWidth = 1.0
+        button.layer.borderColor = WMColor.navigationTilteTextColor.CGColor
+        button.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
+        self.contentView.addSubview(button)
+        return button
     }
 }
