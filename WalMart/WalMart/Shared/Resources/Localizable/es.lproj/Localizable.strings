@@ -420,9 +420,10 @@
 "gr.address.field.betweenFisrt" = "Primer calle";
 "gr.address.field.betweenSecond" = "Segunda calle";
 "gr.address.field.addressNotOk" = "Por el momento, no tenemos cobertura para llevar tu súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
-//"gr.address.field.addressNotOk" = "Por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
 "gr.address.field.notStore" = "Este C.P, sólo tiene cobertura para comprar artículos de Tecnología, Hogar y más; no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección yendo a tu Perfil cuando lo desees.";
-//"gr.address.field.notStore" = "Con este código postal, sólo podrás comprar artículos de Tecnología, Hogar y más; pero por el momento, no podemos llevarte el súper a esa dirección. Puedes agregar una nueva dirección para el envío de tu súper desde tu perfil.";
+"gr.address.MyAddress" = "Mis Direcciones de Súper";
+"gr.address.table.header" ="Elige una dirección para ver tu tienda";
+
 
 //GroceriesCheckout descriptions
 "gr.confirmacall" = "Deseo recibir llamada de confirmación.";
