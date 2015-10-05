@@ -196,11 +196,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.segmentedView!.frame.origin.y == 16 {
             self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
         }
-        var space : CGFloat = 0
-        if bottomSpaceButton != nil  {
-            space = bottomSpaceButton!.constant
-        }
-       // self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (space - 16))
+//        var space : CGFloat = 0
+//        if bottomSpaceButton != nil  {
+//            space = bottomSpaceButton!.constant
+//        }
+//        self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (space - 16))
 
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame

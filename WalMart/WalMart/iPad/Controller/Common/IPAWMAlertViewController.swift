@@ -24,7 +24,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
     
     override class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPAWMAlertViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        var frame = vc!.view.bounds
+        //var frame = vc!.view.bounds
         if vc != nil {
             return showAlert(vc!,imageWaiting:imageWaiting,imageDone:imageDone,imageError:imageError)
         }

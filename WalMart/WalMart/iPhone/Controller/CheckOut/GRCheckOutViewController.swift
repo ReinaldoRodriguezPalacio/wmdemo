@@ -133,13 +133,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
         })
         
-        var margin: CGFloat = 15.0
-        var width = self.view.frame.width - (2*margin)
-        var fheight: CGFloat = 44.0
-        var lheight: CGFloat = 25.0
+        let margin: CGFloat = 15.0
+        let width = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        let lheight: CGFloat = 25.0
         
         //Opciones de Pago
-        var sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.paymentOptions", comment:""), frame: CGRectMake(margin, 20.0, width, lheight))
+        let sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.paymentOptions", comment:""), frame: CGRectMake(margin, 20.0, width, lheight))
         self.content.addSubview(sectionTitle)
         
         self.paymentOptions = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + 10.0, width, fheight))
@@ -204,7 +204,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.deliveryDatePicker!.datePickerMode = .Date
         self.deliveryDatePicker!.date = NSDate()
         
-         var SECS_IN_DAY:NSTimeInterval = 60 * 60 * 24
+         let SECS_IN_DAY:NSTimeInterval = 60 * 60 * 24
          var maxDate =  NSDate()
          maxDate = maxDate.dateByAddingTimeInterval(SECS_IN_DAY * 6.0)
         
@@ -377,7 +377,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.frame.size
-        var resumeHeight:CGFloat = 75.0
+        //var resumeHeight:CGFloat = 75.0
         let footerHeight:CGFloat = 60.0
         
         self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
@@ -449,7 +449,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         let bounds = self.view.frame.size
         let footerHeight:CGFloat = 60.0
-        self.buttonShop = UIButton(type: .Custom) as? UIButton
+        self.buttonShop = UIButton(type: .Custom) as UIButton
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.shoppingCartShopBgColor
         self.buttonShop!.layer.cornerRadius = 17
@@ -547,7 +547,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 let selectedSlot = self.slotsItems![0] as! NSDictionary
                 self.selectedTimeSlotTypeIx = NSIndexPath(forRow: 0, inSection: 0)
-                self.deliverySchedule!.text = selectedSlot["displayText"] as! String
+                self.deliverySchedule!.text = selectedSlot["displayText"] as? String
             }
             else {
                 self.deliverySchedule!.text = ""
@@ -806,7 +806,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if self.shipmentItems!.count > 0 {
                     let shipName = self.shipmentItems![0] as! NSDictionary
                     self.selectedShipmentTypeIx = NSIndexPath(forRow: 0, inSection: 0)
-                    self.shipmentType!.text = shipName["name"] as! String
+                    self.shipmentType!.text = shipName["name"] as? String
                 }
                 self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                 self.removeViewLoad()

@@ -27,7 +27,7 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
                 upcSend = upc
                 let quantity = itemSvc["quantity"] as! String
                 let comments = itemSvc["comments"] as! String
-                itemsSvc.append(builParamSvc(upc,quantity:quantity,comments:comments))
+                itemsSvc.append(builParamSvc(upcSend,quantity:quantity,comments:comments))
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                 

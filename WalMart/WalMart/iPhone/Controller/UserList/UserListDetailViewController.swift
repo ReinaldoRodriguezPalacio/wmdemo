@@ -680,38 +680,41 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let controller = ProductDetailPageViewController()
-        var productsToShow:[AnyObject] = []
-        for var idx = 0; idx < self.products!.count; idx++ {
-            if let product = self.products![idx] as? [String:AnyObject] {
-                let upc = product["upc"] as! String
-                let description = product["description"] as! String
-                //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                        label: upc,
-                        value: nil).build() as [NSObject : AnyObject])
+
+        
+            let controller = ProductDetailPageViewController()
+            var productsToShow:[AnyObject] = []
+            for var idx = 0; idx < self.products!.count; idx++ {
+                if let product = self.products![idx] as? [String:AnyObject] {
+                    let upc = product["upc"] as! String
+                    let description = product["description"] as! String
+                    //Event
+                    if let tracker = GAI.sharedInstance().defaultTracker {
+                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+                            action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
+                            label: upc,
+                            value: nil).build() as [NSObject : AnyObject])
+                    }
+                    
+                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
-                
-                productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-            }
-            else if let product = self.products![idx] as? Product {
-                
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                        label:product.upc,
-                        value: nil).build() as [NSObject : AnyObject])
+                else if let product = self.products![idx] as? Product {
+                    
+                    if let tracker = GAI.sharedInstance().defaultTracker {
+                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+                            action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
+                            label:product.upc,
+                            value: nil).build() as [NSObject : AnyObject])
+                    }
+                    
+                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
-                
-                productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
             }
-        }
-        print(productsToShow)
-        controller.itemsToShow = productsToShow
-        controller.ixSelected = indexPath.row
-        self.navigationController!.pushViewController(controller, animated: true)
+            print(productsToShow)
+            controller.itemsToShow = productsToShow
+            controller.ixSelected = indexPath.row
+            self.navigationController!.pushViewController(controller, animated: true)
+        
     }
     
     //MARK: - SWTableViewCellDelegate

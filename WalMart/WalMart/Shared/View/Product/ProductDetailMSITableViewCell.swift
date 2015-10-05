@@ -47,7 +47,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
     }
     
     func setValues(msi:NSArray){
-        var first = true
+        //var first = true
         var currntY : CGFloat = 5.0
         let lblPagos = NSLocalizedString("productdetail.paiments",comment:"")
         let lblOf = NSLocalizedString("productdetail.of",comment:"")

@@ -70,7 +70,7 @@ class GRLinesForSearchService: GRBaseService {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         
-        let service = GRCategoryService()
+        //let service = GRCategoryService()
         //var categories = service.getCategoriesContent() as NSArray
         
         //var tmpArray : [[String:AnyObject]] = []
