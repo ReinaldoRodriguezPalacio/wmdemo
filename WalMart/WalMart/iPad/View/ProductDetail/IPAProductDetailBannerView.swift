@@ -134,8 +134,6 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         super.layoutSubviews()
         self.collection.frame  = self.bounds
         self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
-        self.presale.frame =  CGRectMake((self.collection.frame.width / 2) - (widthPresale / 2), self.collection.frame.height-20, widthPresale, 14)
-        
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -193,12 +193,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubMap!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
         self.clubCollection?.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
 
-        self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
+        if self.segmentedView!.frame.origin.y == 16 {
+            self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
+        }
         var space : CGFloat = 0
         if bottomSpaceButton != nil  {
             space = bottomSpaceButton!.constant
         }
-        self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (space - 16))
+       // self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (space - 16))
 
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame

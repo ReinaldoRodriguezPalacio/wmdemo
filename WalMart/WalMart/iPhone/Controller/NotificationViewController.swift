@@ -55,6 +55,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        notification?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
         
          emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
         
