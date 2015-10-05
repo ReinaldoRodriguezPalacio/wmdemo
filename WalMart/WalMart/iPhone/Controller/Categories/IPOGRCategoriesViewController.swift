@@ -26,13 +26,15 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "search_edit")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Súper - \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ")
+            let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString) ")
             myString.appendAttributedString(attachmentString)
-            self.titleLabel?.numberOfLines = 2;
-            self.titleLabel?.attributedText = myString;
-            self.titleLabel?.userInteractionEnabled = true;
+            self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 120, self.header!.frame.maxY)
+            self.titleLabel!.numberOfLines = 2;
+            self.titleLabel!.attributedText = myString;
+            self.titleLabel!.userInteractionEnabled = true;
+            self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(13)
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
-            self.titleLabel?.addGestureRecognizer(tapGesture)
+            self.titleLabel!.addGestureRecognizer(tapGesture)
 
         }
     }
@@ -387,7 +389,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        let controller = MyAddressViewController()
+        let controller = GRMyAddressViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }
 

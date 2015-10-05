@@ -65,6 +65,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func setup() {
         picker = AlertPickerView.initPickerWithDefault()
+
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 if field! == self.zipcode {

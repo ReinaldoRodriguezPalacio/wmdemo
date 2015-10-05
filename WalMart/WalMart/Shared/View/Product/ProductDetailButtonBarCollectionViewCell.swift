@@ -71,7 +71,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             
             fetchRequest.predicate = predicate
             
-            var error: NSError? = nil
+            //var error: NSError? = nil
             var result: [Cart] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Cart]
             if result.count > 0 {
                 detail = result[0]

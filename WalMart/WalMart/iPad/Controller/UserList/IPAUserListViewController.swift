@@ -170,7 +170,7 @@ class IPAUserListViewController: UserListViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        var wishList = false
+        //var wishList = false
         if indexPath.section == 0 {
             if indexPath.row == 0 && self.newListEnabled {
                 return

@@ -87,7 +87,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         let lblUPC = NSLocalizedString("previousorder.upc",comment:"")
 
-        var valueItem = NSMutableAttributedString()
+        //var valueItem = NSMutableAttributedString()
         let attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
         let attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
         
@@ -99,7 +99,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         let lblItems = NSLocalizedString("previousorder.quantity",comment:"")
         
-        var valueItemQ = NSMutableAttributedString()
+        //var valueItemQ = NSMutableAttributedString()
         let attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
         let attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
         

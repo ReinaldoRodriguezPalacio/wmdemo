@@ -69,11 +69,10 @@ class DeleteItemWishlistService : BaseService {
                 }
 
             }
-            var error: NSError? = nil
             do {
                 try context.save()
-            } catch let error1 as NSError {
-                error = error1
+            } catch let error as NSError {
+                print(error.localizedDescription)
             }
                 
         }

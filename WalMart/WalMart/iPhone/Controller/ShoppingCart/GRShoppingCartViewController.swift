@@ -598,8 +598,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             return true
         case SWCellState.CellStateCenter:
             return !isEdditing
-        default:
-            return !isEdditing
+        //default:
+        //    return !isEdditing
         }
     }
     

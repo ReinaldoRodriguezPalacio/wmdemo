@@ -18,6 +18,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var viewLoad : WMLoadingView!
     var alertView : IPOWMAlertViewController? = nil
     var allAddress: NSArray! = []
+    var showGRAddressForm: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,11 +53,13 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm.scrollDelegate = self
         scrollForm.contentSize = CGSizeMake( self.view.bounds.width, 720)
-        
-        sAddredssForm = FormSuperAddressView(frame: CGRectMake(0, 0, self.view.bounds.width, 700))
+        if(self.showGRAddressForm){
+            sAddredssForm = GRFormSuperAddressView(frame: CGRectMake(0, 0, self.view.bounds.width, 700))
+        }else{
+            sAddredssForm = FormSuperAddressView(frame: CGRectMake(0, 0, self.view.bounds.width, 700))
+        }
         sAddredssForm.delegateFormAdd = self
         sAddredssForm.allAddress = self.allAddress
-        
         scrollForm.addSubview(sAddredssForm)
         self.view.addSubview(scrollForm)
     }
@@ -77,7 +80,6 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         sAddredssForm.frame = CGRectMake(0, 0,  self.view.bounds.width, 700)
         scrollForm.contentSize = CGSizeMake( self.view.bounds.width, 720)
         scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.maxY)
-
     }
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {

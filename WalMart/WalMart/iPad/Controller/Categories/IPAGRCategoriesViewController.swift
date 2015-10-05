@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPAGRCategoriesViewController :  NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAGRCategoryCollectionViewCellDelegate {
+class IPAGRCategoriesViewController :  NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAGRCategoryCollectionViewCellDelegate, GRMyAddressViewControllerDelegate {
     
     var items : [AnyObject]? = []
     @IBOutlet var colCategories : UICollectionView!
@@ -22,17 +22,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if UserCurrentSession.sharedInstance().userSigned != nil {
-            let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "search_edit")
-            let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Súper - \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ")
-            myString.appendAttributedString(attachmentString)
-            self.titleLabel?.numberOfLines = 2;
-            self.titleLabel?.attributedText = myString;
-            self.titleLabel?.userInteractionEnabled = true;
-            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
-            self.titleLabel?.addGestureRecognizer(tapGesture)
-            
+           self.setStoreName()
         }
     }
 
@@ -252,11 +242,30 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     //MARK changeStore
     func changeStore(){
-        let myAddress = MyAddressViewController()
+        let myAddress = GRMyAddressViewController()
         myAddress.addCloseButton()
+        myAddress.delegate = self
         let navController = UINavigationController(rootViewController: myAddress)
         navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         navController.navigationBarHidden = true
         self.navigationController?.presentViewController(navController, animated: true, completion: nil)
+    }
+    
+    func setStoreName(){
+        let attachment = NSTextAttachment()
+        attachment.image = UIImage(named: "search_edit")
+        let attachmentString = NSAttributedString(attachment: attachment)
+        let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString) ")
+        myString.appendAttributedString(attachmentString)
+        self.titleLabel?.numberOfLines = 2;
+        self.titleLabel?.attributedText = myString;
+        self.titleLabel?.userInteractionEnabled = true;
+        let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+        self.titleLabel?.addGestureRecognizer(tapGesture)
+
+    }
+    
+    func okAction() {
+        self.setStoreName()
     }
 }
