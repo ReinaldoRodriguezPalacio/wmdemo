@@ -279,7 +279,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     func showPicker() {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         vc!.view.addSubview(self)
-        vc!.view.bringSubviewToFront(self)
+        //vc!.view.bringSubviewToFront(self)
         self.startAnimating()
         
     }
