@@ -449,7 +449,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         let bounds = self.view.frame.size
         let footerHeight:CGFloat = 60.0
-        self.buttonShop = UIButton(type: .Custom)
+        self.buttonShop = UIButton(type: .Custom) as UIButton
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.shoppingCartShopBgColor
         self.buttonShop!.layer.cornerRadius = 17
@@ -547,7 +547,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 let selectedSlot = self.slotsItems![0] as! NSDictionary
                 self.selectedTimeSlotTypeIx = NSIndexPath(forRow: 0, inSection: 0)
-                self.deliverySchedule!.text = selectedSlot["displayText"] as! String
+                self.deliverySchedule!.text = selectedSlot["displayText"] as? String
             }
             else {
                 self.deliverySchedule!.text = ""
@@ -806,7 +806,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if self.shipmentItems!.count > 0 {
                     let shipName = self.shipmentItems![0] as! NSDictionary
                     self.selectedShipmentTypeIx = NSIndexPath(forRow: 0, inSection: 0)
-                    self.shipmentType!.text = shipName["name"] as! String
+                    self.shipmentType!.text = shipName["name"] as? String
                 }
                 self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                 self.removeViewLoad()

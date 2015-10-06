@@ -170,7 +170,7 @@ class IPAUserListViewController: UserListViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        //var wishList = false
+        
         if indexPath.section == 0 {
             if indexPath.row == 0 && self.newListEnabled {
                 return
@@ -236,7 +236,7 @@ class IPAUserListViewController: UserListViewController {
     
     override func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
         //Solo en caso de existir una sesion se consulta al backend por las listas del usuario
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.sharedInstance().userSigned != nil {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in

@@ -149,7 +149,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     
     class func initAddressAlert()  -> GRFormAddressAlertView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-        var frame = vc!.view.bounds
+        //var frame = vc!.view.bounds
         if vc != nil {
             return initAddressAlert(vc!)
         }

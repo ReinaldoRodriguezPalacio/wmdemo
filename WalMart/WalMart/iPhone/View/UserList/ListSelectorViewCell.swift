@@ -30,7 +30,7 @@ class ListSelectorViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        self.indicator = UIButton(type: .Custom) as? UIButton
+        self.indicator = UIButton(type: .Custom) as UIButton
         self.indicator!.setBackgroundImage(UIImage(named: "list_selector_indicator.png"), forState: .Normal)
         self.indicator!.setBackgroundImage(UIImage(named: "list_selector_indicator_selected.png"), forState: .Selected)
         self.indicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -53,7 +53,7 @@ class ListSelectorViewCell: UITableViewCell {
         self.articlesTitle!.backgroundColor = UIColor.clearColor()
         self.contentView.addSubview(self.articlesTitle!)
 
-        self.openDetail = UIButton(type: .Custom) as? UIButton
+        self.openDetail = UIButton(type: .Custom) as UIButton
         self.openDetail!.setTitle(NSLocalizedString("list.selector.openDetail", comment:""), forState: .Normal)
         self.openDetail!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.openDetail!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)

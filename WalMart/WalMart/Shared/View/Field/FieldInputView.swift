@@ -34,7 +34,7 @@ class FieldInputView: UIInputView {
     }
     
     func setup(){
-        self.saveBarButton = UIButton(type: .Custom) as? UIButton
+        self.saveBarButton = UIButton(type: .Custom) as UIButton
         self.saveBarButton!.frame = CGRectMake(self.bounds.width - 100 , 0, 100, self.bounds.height)
         self.saveBarButton!.setTitle(self.titleSave, forState: .Normal)
         self.saveBarButton!.backgroundColor = UIColor.clearColor()

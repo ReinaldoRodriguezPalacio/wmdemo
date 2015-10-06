@@ -28,7 +28,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var errorView: FormFieldErrorView?
     var alertView: IPOWMAlertViewController?
     
-    var saveButton: UIButton?
+    var saveButton: WMRoundButton?
     var changePasswordButton: UIButton?
     var legalInformation: UIButton?
     
@@ -145,7 +145,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         let iconImage = UIImage(named:"button_bg")
         let iconSelected = UIImage(named:"button_bg_active")
         
-        self.saveButton = UIButton()
+        self.saveButton = WMRoundButton()
         self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
         self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -153,8 +153,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.saveButton?.tintColor = WMColor.navigationFilterTextColor
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
-        self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width, 0, 0.0);
-        self.saveButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (77 - iconImage!.size.width) / 2 , 0.0, 0.0)
+        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        //self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width, 0, 0.0);
+        //self.saveButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (77 - iconImage!.size.width) / 2 , 0.0, 0.0)
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0
         self.header?.addSubview(self.saveButton!)
@@ -199,7 +200,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
-        self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 87, self.header!.frame.height)
+        self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 71, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
         self.content.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
         
