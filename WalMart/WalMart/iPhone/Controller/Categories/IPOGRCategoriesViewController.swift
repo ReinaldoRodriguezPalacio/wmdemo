@@ -26,7 +26,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "search_edit")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString) ")
+            let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString)")
             myString.appendAttributedString(attachmentString)
             self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 120, self.header!.frame.maxY)
             self.titleLabel!.numberOfLines = 2;
