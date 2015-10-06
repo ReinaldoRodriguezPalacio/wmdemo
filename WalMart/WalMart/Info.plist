@@ -199,9 +199,9 @@
 			<key>WalmartMG.GRDeleteUserListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/deleteList</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/getDeliveryTypes.json</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountActiveService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/getAciveDiscount.json</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getAciveDiscount</string>
 			<key>WalmartMG.GRDiscountAssociateService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
@@ -219,7 +219,7 @@
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.GRPaymentTypeService</key>
-			<string>https://dl.dropboxusercontent.com/u/10098759/getPaymentType.json</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPaymentType</string>
 			<key>WalmartMG.GRPaypalUpdateOrderService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/updateOrderStatusPaypal</string>
 			<key>WalmartMG.GRPreviousOrdersService</key>

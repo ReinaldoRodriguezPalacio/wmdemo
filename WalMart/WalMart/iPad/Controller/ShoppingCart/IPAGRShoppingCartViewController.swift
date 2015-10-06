@@ -225,7 +225,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             let viewController = UIViewController()
             viewController.view = selectQuantityGR
+            viewController.view.frame = frameDetail
             popup = UIPopoverController(contentViewController: viewController)
+            popup!.setPopoverContentSize(CGSizeMake(320, 568), animated: true)
             popup!.presentPopoverFromRect(CGRectMake(cell.changeQuantity.frame.origin.x - 10, (cell.frame.minY - self.tableShoppingCart.contentOffset.y - 165) , 320, 568), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
             
         } else {
