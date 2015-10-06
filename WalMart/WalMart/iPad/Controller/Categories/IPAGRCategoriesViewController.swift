@@ -248,6 +248,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let navController = UINavigationController(rootViewController: myAddress)
         navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         navController.navigationBarHidden = true
+        navController.view.layer.cornerRadius = 8.0
         self.navigationController?.presentViewController(navController, animated: true, completion: nil)
     }
     

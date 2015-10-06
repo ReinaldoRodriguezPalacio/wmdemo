@@ -114,6 +114,69 @@ class GRMyAddressViewController: MyAddressViewController {
         self.navigationController!.pushViewController(self.superAddressController, animated: true)
     }
     
+    override func deleteAddressGR(idAddress:String){
+        if self.hasCloseButton!
+        {
+            self.alertView = IPOWMAlertViewController.showAlert(self,imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+        }
+        else{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+        }
+        
+        self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
+        
+        let service = GRAddressAddService()
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = idAddress
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            
+            let name = result["name"] as! String!
+            let outerNumber = result["outerNumber"] as! String!
+            let innerNumber = result["innerNumber"] as! String!
+            let reference1 = result["reference1"] as! String!
+            let reference2 = result["reference2"] as! String!
+            let zipCode = result["zipCode"] as! String!
+            let street = result["street"] as! String!
+            let city = result["city"] as! String!
+            let state = result["state"] as! String!
+            let county = result["county"] as! String!
+            
+            let neighborhoodID = result["neighborhoodID"] as! String!
+            let storeID = result["storeID"] as! String!
+            
+            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID, operationType: "B", preferred: false)
+            
+            service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+                
+                
+                if let message = result["message"] as? String {
+                    if self.alertView != nil {
+                        self.alertView!.setMessage("\(message)")
+                        self.alertView!.showDoneIcon()
+                    }
+                }
+                self.alertView = nil
+                
+                if self.btnSuper.selected {
+                    self.callServiceAddressGR()
+                }else{
+                    self.callServiceAddress()
+                }
+                
+                }, errorBlock: { (error:NSError) -> Void in
+                    print("error")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    self.alertView = nil
+                    
+            })
+            }, errorBlock: { (error:NSError) -> Void in
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
+                self.alertView = nil
+        })
+    }
+    
     func closeAddressView(){
         self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
         delegate?.okAction()
