@@ -19,6 +19,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var alertView : IPOWMAlertViewController? = nil
     var allAddress: NSArray! = []
     var showGRAddressForm: Bool = false
+    var isPreferred: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,6 +155,10 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                     self.alertView!.setMessage("\(message)")
                 }
                 self.alertView!.showDoneIcon()
+                if self.isPreferred{
+                    UserCurrentSession.sharedInstance().addressName = dictSend!["Name"] as? String
+                }
+                
                 }) { (error:NSError) -> Void in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
@@ -201,7 +206,12 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         if dictSend != nil {
             self.view.endEditing(true)
             self.scrollForm.resignFirstResponder()
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            if showGRAddressForm{
+                self.alertView = IPOWMAlertViewController.showAlert(self, imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            }
+            else{
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            }
             self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 print("Se realizao la direccion")

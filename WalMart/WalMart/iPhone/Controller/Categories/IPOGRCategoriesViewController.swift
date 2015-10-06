@@ -33,6 +33,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             self.titleLabel!.attributedText = myString;
             self.titleLabel!.userInteractionEnabled = true;
             self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(13)
+            self.titleLabel!.textAlignment = .Left
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
             self.titleLabel!.addGestureRecognizer(tapGesture)
 

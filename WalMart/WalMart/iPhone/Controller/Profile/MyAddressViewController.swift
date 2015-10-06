@@ -397,6 +397,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.superAddressController.addressId = item["id"] as! String
             self.superAddressController!.view.frame = self.view.frame
             self.superAddressController.setValues(item["id"] as! String)
+            self.superAddressController.isPreferred = (item["preferred"] as! Int) == 1
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
