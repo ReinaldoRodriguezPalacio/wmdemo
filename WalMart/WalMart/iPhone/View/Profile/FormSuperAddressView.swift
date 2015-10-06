@@ -298,12 +298,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
                         alertView!.showDoneIconWithoutClose()
                         alertView!.showOkButton("OK", colorButton: WMColor.green)
-                        self.showErrorLabel(true)
                     }
-                    else
-                    {
-                        self.showErrorLabel(false)
-                    }
+                    
+                    self.showErrorLabel(self.stores.count == 0)
                     
                     //Default Values
                     if self.neighborhoods.count > 0 {
@@ -350,10 +347,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         self.neighborhoods = []
                         self.stores = []
                         
-                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                        alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
-                        alertView!.showDoneIconWithoutClose()
-                        alertView!.showOkButton("OK", colorButton: WMColor.green)
+                        if !self.store.isRequired
+                        {
+                            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                            alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
+                            alertView!.showDoneIconWithoutClose()
+                            alertView!.showOkButton("OK", colorButton: WMColor.green)
+                        }
                         self.showErrorLabel(true)
 //                        
 //                        if self.errorView == nil{

@@ -72,7 +72,7 @@ class GRMyAddressViewController: MyAddressViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.addressController = IPAAddressViewController()
-        self.showGRAddressForm = true
+        self.showGRAddressForm = self.hasCloseButton
         super.tableView(tableView, didSelectRowAtIndexPath:indexPath)
     }
     
