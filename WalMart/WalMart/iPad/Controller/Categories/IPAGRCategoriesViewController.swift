@@ -253,16 +253,18 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func setStoreName(){
-        let attachment = NSTextAttachment()
-        attachment.image = UIImage(named: "search_edit")
-        let attachmentString = NSAttributedString(attachment: attachment)
-        let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString) ")
-        myString.appendAttributedString(attachmentString)
-        self.titleLabel?.numberOfLines = 2;
-        self.titleLabel?.attributedText = myString;
-        self.titleLabel?.userInteractionEnabled = true;
-        let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
-        self.titleLabel?.addGestureRecognizer(tapGesture)
+        if UserCurrentSession.sharedInstance().addressName != nil {
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "search_edit")
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString) ")
+            myString.appendAttributedString(attachmentString)
+            self.titleLabel?.numberOfLines = 2;
+            self.titleLabel?.attributedText = myString;
+            self.titleLabel?.userInteractionEnabled = true;
+            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+            self.titleLabel?.addGestureRecognizer(tapGesture)
+        }
 
     }
     

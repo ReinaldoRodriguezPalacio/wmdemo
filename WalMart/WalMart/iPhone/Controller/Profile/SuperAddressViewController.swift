@@ -20,6 +20,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var allAddress: NSArray! = []
     var showGRAddressForm: Bool = false
     var isPreferred: Bool = false
+    var saveButtonBottom: WMRoundButton?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,6 +42,15 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         self.saveButton!.alpha = 0
         self.saveButton!.tag = 1
         self.header?.addSubview(self.saveButton!)
+        
+        self.saveButtonBottom = WMRoundButton()
+        self.saveButtonBottom?.setFontTitle(WMFont.fontMyriadProRegularOfSize(13))
+        self.saveButtonBottom?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(98, 34), forUIControlState: UIControlState.Normal)
+        self.saveButtonBottom!.setTitle(NSLocalizedString("profile.save", comment:"" ).capitalizedString , forState: UIControlState.Normal)
+        self.saveButtonBottom!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButtonBottom!.tag = 1
+        self.saveButton!.hidden = true
+        self.view.addSubview(self.saveButtonBottom!)
         
         if addressId != "" {
             deleteButton = UIButton()
@@ -81,6 +91,10 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         sAddredssForm.frame = CGRectMake(0, 0,  self.view.bounds.width, 700)
         scrollForm.contentSize = CGSizeMake( self.view.bounds.width, 720)
         scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.maxY)
+        
+        if self.showGRAddressForm{
+            self.setSaveButtonToBottom()
+        }
     }
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
@@ -141,6 +155,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.view.endEditing(true)
             self.scrollForm.resignFirstResponder()
             if showGRAddressForm{
+                self.saveButton!.hidden = true
                 self.alertView = IPOWMAlertViewController.showAlert(self, imageWaiting: UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             }
             else{
@@ -164,6 +179,17 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                     self.alertView!.showErrorIcon("Ok")
             }
         }
+    }
+    
+    func setSaveButtonToBottom(){
+        scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.height - 65)
+        self.saveButtonBottom!.frame = CGRectMake((self.view.frame.width/2) - 36 ,scrollForm.frame.maxY + 15, 98, 34)
+        let line: CALayer = CALayer()
+        line.frame = CGRectMake(0.0, scrollForm.frame.maxY, self.view.bounds.width,1.0)
+        line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        self.view.layer.insertSublayer(line, atIndex: 0)
+        self.saveButton!.removeFromSuperview()
+        self.saveButtonBottom!.hidden = false
     }
     
     func setValues(addressId:NSString) {
