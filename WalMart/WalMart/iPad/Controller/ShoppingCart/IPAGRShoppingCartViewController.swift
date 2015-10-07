@@ -31,7 +31,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         viewTitleCheckout.textColor = WMColor.shoppingCartHeaderTextColor
         viewTitleCheckout.text = "Verifica tu pedido"
         viewTitleCheckout.textAlignment = .Center
-        self.viewHerader.addSubview(viewTitleCheckout)
+        viewTitleCheckout.backgroundColor = WMColor.shoppingCartHeader
+        self.view.addSubview(viewTitleCheckout)
         
         self.viewFooter.hidden = true
         self.view.backgroundColor = UIColor.clearColor()
@@ -58,9 +59,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.viewHerader.frame = CGRectMake(0, 0, self.view.frame.width, 46)
+        self.viewHerader.frame = CGRectMake(0, 0, self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), 46)
         self.tableShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), self.view.frame.height  - self.viewHerader.frame.maxY)
-        viewSeparator!.frame = CGRectMake(self.tableShoppingCart.frame.maxX, self.tableShoppingCart.frame.minY, AppDelegate.separatorHeigth(), self.tableShoppingCart.frame.height)
+        viewSeparator!.frame = CGRectMake(self.tableShoppingCart.frame.maxX, 0, AppDelegate.separatorHeigth(), self.tableShoppingCart.frame.height)
         viewShowLogin?.frame = containerGROrder.bounds
         ctrlCheckOut?.view.frame = containerGROrder.bounds
         self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)

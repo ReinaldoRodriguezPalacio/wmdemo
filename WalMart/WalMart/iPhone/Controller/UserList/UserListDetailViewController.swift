@@ -680,7 +680,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-
+        
         
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
@@ -711,10 +711,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
             }
             print(productsToShow)
+        if indexPath.row < productsToShow.count {
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
             self.navigationController!.pushViewController(controller, animated: true)
-        
+        }
     }
     
     //MARK: - SWTableViewCellDelegate

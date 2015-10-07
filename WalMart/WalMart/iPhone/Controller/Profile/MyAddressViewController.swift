@@ -273,7 +273,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         if indexPath.section == 0{
             if btnSuper.selected {
                 item = self.arrayAddressShippingGR![indexPath.item] as! NSDictionary
-                isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
+                //isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
+                isViewLine = true
             } else {
                 item = self.arrayAddressShipping![indexPath.item] as! NSDictionary
                 isViewLine = (indexPath.row == self.arrayAddressShipping!.count - 1) ? false:true
