@@ -25,6 +25,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     var equivalenceByPiece : NSNumber! = NSNumber(int:0)
     var stock : Bool! = true
+    var idFamily: String = ""
+    var idLine : String =  ""
+    var idDepartment: String = ""
     
     override func loadDataFromService() {
         
@@ -107,9 +110,17 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     self.isActive  = stockSvc.boolValue
                 }
             }
+            if let department = result["department"] as? NSDictionary {
+                self.idDepartment = department["idDepto"] as! String
+            }
 
+            if let family = result["family"] as? NSDictionary {
+                self.idFamily = family["id"] as! String
+            }
             
-            
+            if let line = result["line"] as? NSDictionary {
+                self.idLine = line["id"] as! String
+            }
             
             if let equivalence = result["equivalenceByPiece"] as? NSNumber {
                 self.equivalenceByPiece = equivalence
@@ -876,5 +887,49 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         }
     }
     
+    override func loadCrossSell() {
+        NSLog("lcs 1")
+        let service = GRProductBySearchService()
+        let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6)
+        service.callService(params,
+            successBlock: { (arrayProduct:NSArray?) -> Void in
+                NSLog("lcs 2")
+                if arrayProduct != nil && arrayProduct!.count > 0 {
+                    NSLog("lcs 2")
+                    var keywords = Array<AnyObject>()
+                    for item in arrayProduct as! [AnyObject] {
+                        
+                        if self.upc !=  item["upc"] as! String {
+                            
+                            var urlArray : [String] = []
+                            urlArray.append(item["imageUrl"] as! String)
+                            
+                            var price : NSString = ""
+                            if let value = item["price"] as? String {
+                                price = value
+                            }
+                            else if let value = item["price"] as? NSNumber {
+                                price = "\(value)"
+                            }
+                            
+                            keywords.append(["codeMessage":"0","description":item["description"] as! String, "imageUrl":urlArray, "price" : price,  "upc" :item["upc"], "type" : ResultObjectType.Groceries.rawValue ])
+                        }
+                        
+                        if keywords.count == 5 {
+                            break
+                        }
+                    }
+                    self.itemsCrossSellUPC = keywords
+                    if self.itemsCrossSellUPC.count > 0{
+                         self.showCrossSell()
+                    }
+                }
+                
+            }, errorBlock: {(error: NSError) in
+                print(error)
+                
+            }
+        )
+    }
     
 }
