@@ -384,7 +384,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         myAddress.onClosePicker = { () in   self.newModalView?.removeFromSuperview()}
         let navController = UINavigationController(rootViewController: myAddress)
         navController.navigationBarHidden = true
-        navController.view.frame = CGRectMake(0, 0, 288, 450)
+        navController.view.frame = CGRectMake(0, 0, self.view.frame.width - 30, self.view.frame.height - 30)
         newModalView = AlertModalView.initModalWithNavController(navController)
         newModalView!.showPicker()
     }
