@@ -86,6 +86,74 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         }
     }
     
+     //MARK: Delegate item cell
+    override func didChangeQuantity(cell:DetailListViewCell){
+        
+                   
+            let indexPath = self.tableView!.indexPathForCell(cell)
+            if indexPath == nil {
+                return
+            }
+            var isPesable = false
+            var price: NSNumber? = nil
+            
+            let item = self.detailItems![indexPath!.row]
+            if let pesable = item["type"] as? NSString {
+                isPesable = pesable.intValue == 1
+            }
+            price = item["price"] as? NSNumber
+            
+            
+            let width:CGFloat = self.view.frame.width
+            var height:CGFloat = (self.view.frame.height - self.header!.frame.height) + 2.0
+            if TabBarHidden.isTabBarHidden {
+                height += 45.0
+            }
+            let selectorFrame = CGRectMake(0, self.view.frame.height, width, height)
+            
+            if isPesable {
+                self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
+            }
+            else {
+                self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,upcProduct:cell.upcVal!)
+            }
+            self.view.addSubview(self.quantitySelector!)
+            self.quantitySelector!.closeAction = { () in
+                self.removeSelector()
+            }
+            //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
+            self.quantitySelector!.addToCartAction = { (quantity:String) in
+                var item = self.detailItems![indexPath!.row]
+                //var upc = item["upc"] as? String
+                item["quantity"] = NSNumber(integer:Int(quantity)!)
+                self.detailItems![indexPath!.row] = item
+                self.tableView?.reloadData()
+                self.removeSelector()
+                self.updateTotalLabel()
+                //TODO: Update quantity
+            }
+            
+            self.quantitySelector!.backgroundColor = UIColor.clearColor()
+            self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clearColor()
+            let controller = UIViewController()
+            controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 388.0)
+            controller.view.addSubview(self.quantitySelector!)
+            controller.view.backgroundColor = UIColor.clearColor()
+            
+            self.sharePopover = UIPopoverController(contentViewController: controller)
+            self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
+            self.sharePopover!.delegate = self
+            self.sharePopover!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+            let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
+            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+            
+//            UIView.animateWithDuration(0.5, animations: { () -> Void in
+//                self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
+//            })
+            
+      
+    }
+    
     //MARK: - UIPopoverControllerDelegate
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.sharePopover = nil

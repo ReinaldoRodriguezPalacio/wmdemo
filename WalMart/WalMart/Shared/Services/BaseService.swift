@@ -22,6 +22,7 @@ let JSON_KEY_SORT = "sort"
 let JSON_KEY_STARTOFFSET = "startOffSet"
 let JSON_KEY_MAXRESULTS = "maxResults"
 let JSON_KEY_ISFACET = "isFacet"
+let JSON_KEY_BRAND = "brand"
 
 
 
@@ -160,12 +161,12 @@ class BaseService : NSObject {
         let afManager = getManager()
        //TODO: Quitar no debe de ir
         var url = serviceUrl()
-        if url == "http://192.168.43.192:8085/walmartmg/login/getItemByUpc" || url == "https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc"{
-          let upc = params as! String
-            if upc == "00471093738428"{
-                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
-            }
-        }
+//        if url == "http://192.168.43.192:8085/walmartmg/login/getItemByUpc" || url == "https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc"{
+//          let upc = params as! String
+//            if upc == "00471093738428"{
+//                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
+//            }
+//        }
         
         afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary

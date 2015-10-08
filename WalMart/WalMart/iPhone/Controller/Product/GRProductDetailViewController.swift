@@ -890,7 +890,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func loadCrossSell() {
         NSLog("lcs 1")
         let service = GRProductBySearchService()
-        let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6)
+        let params = service.buildParamsForSearch(text: "", family: self.idFamily, line: self.idLine, sort: FilterType.descriptionAsc.rawValue, departament: self.idDepartment, start: 0, maxResult: 6,brand:"")
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 NSLog("lcs 2")

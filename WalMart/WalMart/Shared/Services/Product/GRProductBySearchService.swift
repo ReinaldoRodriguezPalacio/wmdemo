@@ -15,7 +15,7 @@ class GRProductBySearchService: GRBaseService {
         self.urlForSession = true
     }
     
-    func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
+    func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""), //"pText"
             JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""), //"idDepartment"
@@ -24,6 +24,7 @@ class GRProductBySearchService: GRBaseService {
             JSON_KEY_SORT:(idSort != nil ? idSort! : ""), //"sort"
             JSON_KEY_STARTOFFSET:"\(startOffSet)", //startOffSet
             JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
+            ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
         ] as [String:AnyObject]
     }
 
@@ -34,10 +35,12 @@ class GRProductBySearchService: GRBaseService {
             successBlock: { (resultJSON:NSDictionary) -> Void in
 //                println("RESULT FOR GRProductBySearchService")
 //                self.jsonFromObject(resultJSON)
+                
                 if let error = self.validateCodeMessage(resultJSON) {
                     errorBlock?(error)
                     return
                 }
+                
                 if let items = resultJSON[JSON_KEY_RESPONSEARRAY] as? NSArray {
                     self.saveKeywords(items) //Creating keywords
                     

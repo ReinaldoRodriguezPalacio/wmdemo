@@ -60,8 +60,8 @@
 
 //filter
 "filter.title" = "Filtrar";
-"filter.apply" = "Aplicar";
-"filter.button.title" = "Filtrar";
+"filter.apply" = "aplicar";
+"filter.button.title" = "filtrar";
 "filter.button.clean" = "Sin filtros";
 "filter.section.order" = "Ordenar";
 "filter.section.categories" = "Elige una Categoría";

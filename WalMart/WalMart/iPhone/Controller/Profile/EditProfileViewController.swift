@@ -142,20 +142,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         let attrString = NSMutableAttributedString(string: NSLocalizedString("profile.terms", comment: ""))
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
-        let iconImage = UIImage(named:"button_bg")
-        let iconSelected = UIImage(named:"button_bg_active")
-        
         self.saveButton = WMRoundButton()
-        self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
-        self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton?.tintColor = WMColor.navigationFilterTextColor
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
         self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        //self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width, 0, 0.0);
-        //self.saveButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (77 - iconImage!.size.width) / 2 , 0.0, 0.0)
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0
         self.header?.addSubview(self.saveButton!)
@@ -338,11 +331,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
                 }//if let message = resultCall!["message"] as? String {
+                self.saveButton!.hidden = true
+                
                 if self.delegate == nil {
                     self.navigationController!.popViewControllerAnimated(true)
                 }
                 else{
-                    self.saveButton!.hidden = true
+                    
                     if self.passworCurrent != nil{
                         self.content?.addSubview(self.changePasswordButton!)
                         self.passworCurrent!.removeFromSuperview()

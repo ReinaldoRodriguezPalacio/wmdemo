@@ -91,15 +91,17 @@ class FilterCategoryViewCell: UITableViewCell {
         self.check!.highlighted = selected
     }
     
-    func setValuesFacets(item:[String:AnyObject], selected:Bool){
+    func setValuesFacets(item:[String:AnyObject]?,nameBrand:String, selected:Bool){
         
         self.type = .facet
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "check_blue")
         
-        self.name!.text = item["itemName"] as? String
-        self.upcs = item["upcs"] as? [String]
+        self.name!.text = item != nil ? item!["itemName"] as? String : nameBrand
+        if item != nil {
+            self.upcs = item!["upcs"] as? [String]
+        }
         self.check!.highlighted = selected
     }
     

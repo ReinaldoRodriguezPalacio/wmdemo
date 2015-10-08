@@ -71,7 +71,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         viewAddress = UIView()
         var width = self.bounds.width
         
-        if self.isIpad == true {
+        if IS_IPAD {
             width = 1024.0
         }
         
