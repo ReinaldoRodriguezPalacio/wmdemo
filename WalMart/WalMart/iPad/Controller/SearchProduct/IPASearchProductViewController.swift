@@ -120,6 +120,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.searchContext = self.searchContextType
             self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
             self.filterController!.view.backgroundColor = UIColor.clearColor()
+            self.filterController!.facetGr = self.facetGr
             self.filterController!.successCallBack  = { () in
                 self.sharePopover?.dismissPopoverAnimated(true)
                 return

@@ -145,14 +145,17 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         if self.facetGr != nil {
+            var filterSelect = false
             for selElement in self.selectedFacetGr!.keys {
-                  let valSelected =  self.selectedFacetGr?[selElement]
-                if (valSelected != nil) {
-                 self.delegate?.sendBrandFilter(selElement)
+                let valSelected =  self.selectedFacetGr?[selElement]
+                if (valSelected == true) {
+                    self.delegate?.sendBrandFilter(selElement)
+                    filterSelect =  !filterSelect
                 }
-                
             }
-            
+            if !filterSelect {
+                self.delegate?.sendBrandFilter("")
+            }
         }
         
         
@@ -456,11 +459,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
-//            for keyObj in self.selectedFacetGr!.keys {
-//                if keyObj.row == 0 {
-//                    self.selectedFacetGr?.updateValue(false, forKey: keyObj)
-//                }
-//            }
+
             self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
             return
         }

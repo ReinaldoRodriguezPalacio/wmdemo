@@ -16,6 +16,7 @@ class SearchItemsByUPCService : BaseService {
     }
     
     func callService(upcs:[String],successJSONBlock:((JSON) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.jsonFromObject(buildParams(upcs))
         callPOSTService(buildParams(upcs), successBlock: { (result:NSDictionary) -> Void in
             
             
