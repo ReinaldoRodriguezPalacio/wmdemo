@@ -12,6 +12,7 @@ protocol FilterProductsViewControllerDelegate {
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
     func apply(order:String, upcs: [String])
     func removeFilters()
+    func sendBrandFilter(brandFilter:String)
 }
 
 class FilterProductsViewController: NavigationViewController, UITableViewDelegate, UITableViewDataSource, FilterOrderViewCellDelegate,SliderTableViewCellDelegate {
@@ -41,6 +42,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var selectedOrder: String?
     var isGroceriesSearch: Bool = true
     var facet: NSArray? = nil
+    var facetGr: NSArray? = nil
+    var selectedFacetGr: [String:Bool]?
 
     var delegate:FilterProductsViewControllerDelegate?
     var successCallBack : (() -> Void)? = nil
@@ -95,7 +98,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.tableView!.registerClass(SliderTableViewCell.self, forCellReuseIdentifier: self.sliderCellId)
         
         self.selectedElementsFacet = [:]
-        
+        self.selectedFacetGr = [:]
         
     }
     
@@ -140,6 +143,19 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
         }
+        
+        if self.facetGr != nil {
+            for selElement in self.selectedFacetGr!.keys {
+                  let valSelected =  self.selectedFacetGr?[selElement]
+                if (valSelected != nil) {
+                 self.delegate?.sendBrandFilter(selElement)
+                }
+                
+            }
+            
+        }
+        
+        
         
         //Filtros de MG Funcionan diferente
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
@@ -238,6 +254,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
     }
     
+
+    
     func removeFilters() {
         self.delegate?.removeFilters()
         if successCallBack != nil {
@@ -256,6 +274,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
             return 1 + facet!.count
+        }
+        
+        if self.facetGr != nil {// new
+            return 2
         }
         return 1
        // return self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText ? 2 : 1
@@ -283,6 +305,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
            
         }
+        
+        if self.facetGr != nil {
+            return self.facetGr != nil ? self.facetGr!.count : 0
+        }
+        
         return 0
     }
     
@@ -295,11 +322,28 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         
+        if self.facetGr != nil{
+            
+            let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
+            let item = self.facetGr![indexPath.row ] as? String
+            
+            var selected = false
+            let valSelected =  self.selectedFacetGr?[item!]
+            if ((valSelected) != nil) {
+                selected = valSelected!
+            }
+            
+            selectedFacetGr?.updateValue(selected,forKey: item!)
+            
+            listCell.setValuesFacets(nil,nameBrand:item!, selected: selected)
+
+            return listCell
+            
+        }
+        
         
         
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
-            
-                
             let facetInfo = facet![indexPath.section - 1] as! NSDictionary
             
             if  let typeFacet = facetInfo["type"] as? String {
@@ -315,7 +359,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     if indexPath.row > 0 {
                         let facetitem = facetInfo["itemsFacet"] as! [[String:AnyObject]]
                         let item = facetitem[indexPath.row - 1]
-                        listCell.setValuesFacets(item, selected: selected)
+                        listCell.setValuesFacets(item,nameBrand:"", selected: selected)
                     } else {
                         if self.selectedElementsFacet!.count == 0  {
                             self.selectedElementsFacet!.updateValue(true, forKey: indexPath)
@@ -400,6 +444,24 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
+            return
+        }
+        
+        if self.facetGr != nil {
+            
+            let item = self.facetGr![indexPath.row ] as? String
+            var currentVal = true
+            if let savedVal = self.selectedFacetGr![item!] {
+                currentVal = !savedVal
+            }
+            
+            self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
+//            for keyObj in self.selectedFacetGr!.keys {
+//                if keyObj.row == 0 {
+//                    self.selectedFacetGr?.updateValue(false, forKey: keyObj)
+//                }
+//            }
+            self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
             return
         }
         
@@ -530,6 +592,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
                 let facetName = facet![section - 1] as! NSDictionary
                 title.text = facetName["name"] as? String
+            }
+            if self.facetGr !=  nil {
+                title.text = "Marca"
             }
             
         }

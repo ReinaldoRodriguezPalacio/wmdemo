@@ -186,8 +186,8 @@ didCompleteWithError:(NSError *)error
                 userInfo[AFNetworkingTaskDidCompleteSerializedResponseKey] = responseObject;
             }
             
-            NSString* strObj = [[NSString alloc] initWithData:[NSData dataWithData:self.mutableData] encoding:NSUTF8StringEncoding];
-            userInfo[AFNetworkingTaskDidCompleteSerializedResponseKey] = strObj;
+//            NSString* strObj = [[NSString alloc] initWithData:[NSData dataWithData:self.mutableData] encoding:NSUTF8StringEncoding];
+//            userInfo[AFNetworkingTaskDidCompleteSerializedResponseKey] = strObj;
     
 
             if (serializationError) {

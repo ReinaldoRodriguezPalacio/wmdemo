@@ -61,11 +61,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var idLine:String?
     var idSort:String?
     var maxResult: Int = 20
+    var brandText: String? = ""
     
     var viewBgSelectorBtn : UIView!
     var btnSuper : UIButton!
     var btnTech : UIButton!
     var facet : [[String:AnyObject]]!
+    var facetGr : NSArray? = nil
     
     var controllerFilter : FilterProductsViewController!
     
@@ -156,14 +158,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.view.addSubview(viewBgSelectorBtn)
         
-
-        
         self.view.addSubview(collection!)
         self.titleLabel?.text = titleHeader
         
-        
-         self.getServiceProduct(resetTable: false)
-        
+        self.getServiceProduct(resetTable: false)
+        if  self.searchContextType == .WithCategoryForGR {
+            self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+        }
     }
     
     func setTitleWithEdit(){
@@ -526,7 +527,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         let service = GRProductBySearchService()
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
+        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:"")
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -726,10 +727,28 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             controllerFilter.searchContext = self.searchContextType
+            controllerFilter?.facetGr = self.facetGr
+            
         }
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
+    func getFacet(idDepartament:String,textSearch:String?,idFamily:String?){
+       let serviceFacet = GRFacets()
+      
+        serviceFacet.callService(idDepartament,stringSearch:textSearch == nil ? "" : textSearch!,idFamily: idFamily == nil ? "" : idFamily!,
+            successBlock: { (result:NSArray) -> Void in
+                self.facetGr = result
+                print(result)
+            },
+            errorBlock: { (error:NSError) -> Void in
+                print("Error at invoke payment type service")
+              
+            }
+        )
+ 
+    
+    }
     
     //MARK: - FilterProductsViewControllerDelegate
     
@@ -762,6 +781,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.showLoadingIfNeeded(false)
         self.getServiceProduct(resetTable: true)
+    }
+    
+    func sendBrandFilter(brandFilter: String) {
+        self.brandText = brandFilter
     }
     
     func apply(order:String, upcs: [String]) {

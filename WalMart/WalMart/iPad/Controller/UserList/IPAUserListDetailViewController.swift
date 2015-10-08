@@ -315,6 +315,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
         if isPesable {
             self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:equivalenceByPiece,upcProduct:cell.upcVal!)
+            
         }
         else {
             self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,upcProduct:cell.upcVal!)
