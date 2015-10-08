@@ -255,7 +255,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     //MARK Show alerts
     
-    class func initPicker()  -> AlertPickerView? {
+    class func initPicker()  -> AlertModalView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         if vc != nil {
             return initPicker(vc!)
@@ -263,8 +263,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         return nil
     }
     
-    class func initPicker(controller:UIViewController) -> AlertPickerView? {
-        let newAlert = AlertPickerView(frame:controller.view.bounds)
+    class func initPicker(controller:UIViewController) -> AlertModalView? {
+        let newAlert = AlertModalView(frame:controller.view.bounds)
         controller.view.addSubview(newAlert)
         newAlert.startAnimating()
         return newAlert

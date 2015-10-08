@@ -170,10 +170,6 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                     self.alertView!.setMessage("\(message)")
                 }
                 self.alertView!.showDoneIcon()
-                if self.isPreferred{
-                    UserCurrentSession.sharedInstance().addressName = dictSend!["Name"] as? String
-                }
-                
                 }) { (error:NSError) -> Void in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")

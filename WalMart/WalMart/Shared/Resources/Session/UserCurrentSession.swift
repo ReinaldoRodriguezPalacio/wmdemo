@@ -27,7 +27,6 @@ class UserCurrentSession : NSObject {
     var version : String! = ""
     var storeName: String? = nil
     var storeId: String? = nil
-    var addressName: String? = nil
     
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
@@ -784,7 +783,6 @@ class UserCurrentSession : NSObject {
     
     func getStoreByAddress(address: NSDictionary){
         self.storeId = address["storeID"] as? String
-        self.addressName = address["name"] as? String
         self.storeName = address["storeName"] as? String
         if self.storeName == nil || self.storeName!.isEmpty {
             let serviceZip = GRZipCodeService()

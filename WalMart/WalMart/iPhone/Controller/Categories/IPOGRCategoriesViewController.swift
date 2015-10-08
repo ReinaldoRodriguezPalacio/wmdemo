@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate {
+class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate, GRMyAddressViewControllerDelegate {
 
     let CELL_HEIGHT : CGFloat = 98
     var viewFamily: UIView!
@@ -19,24 +19,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var familyController : FamilyViewController!
     var canfigData : [String:AnyObject]! = [:]
     var itemsExclusive : [AnyObject]? = []
+    var newModalView: AlertModalView? = nil
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if UserCurrentSession.sharedInstance().userSigned != nil {
-            let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "search_edit")
-            let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString)")
-            myString.appendAttributedString(attachmentString)
-            self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 120, self.header!.frame.maxY)
-            self.titleLabel!.numberOfLines = 2;
-            self.titleLabel!.attributedText = myString;
-            self.titleLabel!.userInteractionEnabled = true;
-            self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(13)
-            self.titleLabel!.textAlignment = .Left
-            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
-            self.titleLabel!.addGestureRecognizer(tapGesture)
-
+            self.setStoreName()
         }
     }
     
@@ -390,8 +378,40 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        let controller = GRMyAddressViewController()
-        self.navigationController!.pushViewController(controller, animated: true)
+        let myAddress = GRMyAddressViewController()
+        myAddress.addCloseButton()
+        myAddress.delegate = self
+        myAddress.onClosePicker = { () in   self.newModalView?.removeFromSuperview()}
+        let navController = UINavigationController(rootViewController: myAddress)
+        navController.navigationBarHidden = true
+        navController.view.frame = CGRectMake(0, 0, 288, 450)
+        newModalView = AlertModalView.initModalWithNavController(navController)
+        newModalView!.showPicker()
+    }
+    
+    func setStoreName(){
+        if UserCurrentSession.sharedInstance().storeName != nil {
+            let attachment = NSTextAttachment()
+            attachment.image = UIImage(named: "arrow")
+            let attachmentString = NSAttributedString(attachment: attachment)
+            let myString = NSMutableAttributedString(string: "Tu tienda: ")
+            let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(13)]
+            let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ", attributes:attrs)
+            myString.appendAttributedString(boldString)
+            myString.appendAttributedString(attachmentString)
+            self.titleLabel?.numberOfLines = 2;
+            self.titleLabel?.attributedText = myString;
+            self.titleLabel?.textAlignment = .Left
+            self.titleLabel?.userInteractionEnabled = true;
+            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+            self.titleLabel?.addGestureRecognizer(tapGesture)
+            self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
+        }
+        
+    }
+    
+    func okAction() {
+        self.setStoreName()
     }
 
 }

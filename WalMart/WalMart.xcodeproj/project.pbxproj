@@ -373,6 +373,7 @@
 		6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */; };
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; settings = {ASSET_TAGS = (); }; };
+		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; settings = {ASSET_TAGS = (); }; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
 		6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
@@ -893,6 +894,7 @@
 		6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
+		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOptionsViewController.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
@@ -2417,6 +2419,7 @@
 				56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */,
 				8BCA19711AAA619100065072 /* AlertButtomView.swift */,
 				6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */,
+				6C512F521BC6CD6200EA47ED /* AlertModalView.swift */,
 			);
 			name = AlertPickerView;
 			sourceTree = "<group>";
@@ -2998,6 +3001,7 @@
 				5606BC2919BA3EFE002A70ED /* ProductDetailCrossSellItemCollectionViewCell.swift in Sources */,
 				568B5BE31AA0FD3700EB7B53 /* IPAPreShoppingCartViewController.swift in Sources */,
 				AC6AAE9C19CCC3AC004081C4 /* OrderViewController.swift in Sources */,
+				6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */,
 				04D2A3961A2FD27A008DAE37 /* MapKitUtils.m in Sources */,
 				8B19FD581AB0F3AC005A6D9E /* IPASupportViewController.swift in Sources */,
 				AC6EF06719B1361D00DB28AF /* SearchProductViewController.swift in Sources */,

@@ -17,6 +17,7 @@ class GRMyAddressViewController: MyAddressViewController {
     var delegate: GRMyAddressViewControllerDelegate?
     var okButton: UIButton? = nil
     var hasCloseButton: Bool! = false
+    var onClosePicker : (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +51,7 @@ class GRMyAddressViewController: MyAddressViewController {
         let bounds = self.view.bounds
         //tamaño
         self.newAddressButton!.frame = CGRectMake(self.view.bounds.width - (buttonWidth + 16.0), (header!.bounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
-        self.titleLabel!.frame = CGRectMake(self.newAddressButton!.frame.width , 0, self.view.bounds.width - (self.newAddressButton!.frame.width * 2), self.header!.frame.maxY)
+        self.titleLabel!.frame = CGRectMake(self.newAddressButton!.frame.width - 10 , 0, self.view.bounds.width - (self.newAddressButton!.frame.width * 2), self.header!.frame.maxY)
         self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         if self.hasCloseButton! {
@@ -178,12 +179,12 @@ class GRMyAddressViewController: MyAddressViewController {
     }
     
     func closeAddressView(){
-        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+        self.onClosePicker?()
         delegate?.okAction()
     }
     
     func okAction() {
-       self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+       self.onClosePicker?()
        delegate?.okAction()
     }
 }

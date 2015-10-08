@@ -932,4 +932,19 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         )
     }
     
+    // MARK: - Collection view config
+   override func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect) {
+        let controller = ProductDetailPageViewController()
+        controller.ixSelected = index
+        controller.itemsToShow = []
+        for product  in items {
+            let upc : NSString = product["upc"]!
+            let desc : NSString = product["description"]!
+            let type : NSString = ResultObjectType.Groceries.rawValue
+            controller.itemsToShow.append(["upc":upc,"description":desc,"type":type])
+        }
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
+
+    
 }

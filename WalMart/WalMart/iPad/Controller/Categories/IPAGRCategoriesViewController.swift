@@ -245,6 +245,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let myAddress = GRMyAddressViewController()
         myAddress.addCloseButton()
         myAddress.delegate = self
+        myAddress.onClosePicker = { () in   self.navigationController?.dismissViewControllerAnimated(true, completion: nil)}
         let navController = UINavigationController(rootViewController: myAddress)
         navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
         navController.navigationBarHidden = true
@@ -253,11 +254,14 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().addressName != nil {
+        if UserCurrentSession.sharedInstance().storeName != nil {
             let attachment = NSTextAttachment()
-            attachment.image = UIImage(named: "search_edit")
+            attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Súper - Entrega en \(UserCurrentSession.sharedInstance().addressName!.capitalizedString) ")
+            let myString = NSMutableAttributedString(string: "Tu tienda: ")
+            let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(16)]
+            let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ", attributes:attrs)
+            myString.appendAttributedString(boldString)
             myString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = myString;
