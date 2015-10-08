@@ -114,7 +114,9 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         if self.saveButton!.hidden {
             self.saveButton!.hidden = false
             self.sAddredssForm.removeErrorLog()
-            self.changeTitleLabel()
+            if !self.showGRAddressForm {
+                self.changeTitleLabel()
+            }
         }
     }
     
@@ -136,7 +138,9 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         self.saveButton!.alpha = 1.0
         self.saveButton!.hidden = false
         self.sAddredssForm.removeErrorLog()
-        self.changeTitleLabel()
+        if !self.showGRAddressForm {
+            self.changeTitleLabel()
+        }
     }
     
     func save(sender:UIButton) {
@@ -178,7 +182,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     }
     
     func setSaveButtonToBottom(){
-        scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.height - 65)
+        scrollForm.frame = CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.frame.height - self.header!.frame.height - 60)
         self.saveButtonBottom!.frame = CGRectMake((self.view.frame.width/2) - 49 ,scrollForm.frame.maxY + 15, 98, 34)
         let line: CALayer = CALayer()
         line.frame = CGRectMake(0.0, scrollForm.frame.maxY, self.view.bounds.width,1.0)

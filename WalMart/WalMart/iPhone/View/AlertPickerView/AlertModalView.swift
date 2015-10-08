@@ -45,7 +45,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
-        viewContent = UIView(frame: CGRectMake(0, 0, 288, 450))
+        viewContent = UIView(frame: CGRectMake(0, 0, 200, 200))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
         viewContent.clipsToBounds = true
@@ -99,6 +99,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = AlertModalView(frame:vc!.view.bounds)
         vc?.addChildViewController(controllerShow)
+        newAlert.viewContent.frame.size = controllerShow.view.frame.size
         newAlert.viewContent.addSubview(controllerShow.view)
         return newAlert
     }
