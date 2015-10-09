@@ -335,10 +335,21 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if ((valSelected) != nil) {
                 selected = valSelected!
             }
-            
-            selectedFacetGr?.updateValue(selected,forKey: item!)
-            
-            listCell.setValuesFacets(nil,nameBrand:item!, selected: selected)
+            if indexPath.row > 0 {
+                selectedFacetGr?.updateValue(selected,forKey: item!)
+                listCell.setValuesFacets(nil,nameBrand:item!, selected: selected)
+            }else{
+                if self.selectedFacetGr!.count == 0  {
+                    self.selectedFacetGr!.updateValue(true, forKey: item!)
+                    selected = true
+                } else {
+                    selected = false
+                    if ((valSelected) != nil) {
+                        selected = valSelected!
+                    }
+                }
+                listCell.setValuesSelectAll(selected)
+            }
 
             return listCell
             
@@ -454,13 +465,20 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             let item = self.facetGr![indexPath.row ] as? String
             var currentVal = true
+            for var items in self.selectedFacetGr! {
+                if items.1 == true{
+                    self.selectedFacetGr!.updateValue(false, forKey: items.0)
+                    break
+                }
+            }
+            
             if let savedVal = self.selectedFacetGr![item!] {
                 currentVal = !savedVal
             }
             
             self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
-
-            self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
             return
         }
         
