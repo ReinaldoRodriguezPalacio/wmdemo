@@ -328,33 +328,30 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.facetGr != nil{
             
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
-            var item = ""
+            var  item = self.facetGr![indexPath.row ] as! String
             
             var selected = false
+            
+            
             let valSelected =  self.selectedFacetGr?[item]
             if ((valSelected) != nil) {
                 selected = valSelected!
             }
-            if indexPath.row > 0 {
-                item = self.facetGr![indexPath.row - 1] as! String
-                selectedFacetGr?.updateValue(selected,forKey: item)
-                listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
-            }else{
-                if self.selectedFacetGr!.count == 0  {
-                     item = self.facetGr![indexPath.row ] as! String
-                    self.selectedFacetGr!.updateValue(true, forKey: item)
-                    selected = true
-                } else {
-                    selected = false
-                    if ((valSelected) != nil) {
-                        selected = valSelected!
-                    }
-                }
-                listCell.setValuesSelectAll(selected)
-            }
-
-            return listCell
+            selectedFacetGr?.updateValue(selected,forKey: item)
+            listCell.setValuesFacets(nil,nameBrand:item, selected: selected )
             
+            if self.selectedFacetGr!.count == 0  {
+                item = self.facetGr![indexPath.row ] as! String
+                self.selectedFacetGr!.updateValue(true, forKey: item)
+                selected = true
+            } else {
+                selected = false
+                if ((valSelected) != nil) {
+                    selected = valSelected!
+                }
+            }
+            
+            return listCell
         }
         
         
@@ -465,13 +462,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         if self.facetGr != nil {
             
-            if indexPath.row == 0 {
-                self.selectedFacetGr = [:]
-                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
-                return
-            }
-            
-            let item = self.facetGr![indexPath.row ] as? String
+            let item = self.facetGr![indexPath.row] as? String
             var currentVal = true
             for var items in self.selectedFacetGr! {
                 if items.1 == true{
@@ -485,8 +476,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             self.selectedFacetGr!.updateValue(currentVal, forKey: item!)
-            self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.None)
-            //self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
+            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
             return
         }
         
