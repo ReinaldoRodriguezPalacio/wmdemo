@@ -36,22 +36,23 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.titleLabel?.text = NSLocalizedString("more.notification.title", comment: "")
         
         
-        let serviceSave = NotificationFileService()
-        let dict = serviceSave.getAllNotifications()
-        allNotifications = dict["items"] as! [AnyObject]
-        
-        if allNotifications.count == 0 {
-            emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
-            self.view.addSubview(emptyView!)
-        } else {
-            notification = UITableView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
-            notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
-            self.notification.dataSource = self
-            self.notification.delegate = self
-            self.notification.reloadData()
-            self.view.addSubview(notification)
+        let pushNotificationService = PushNotificationService()
+        pushNotificationService.callService({ (dict) -> Void in
+            self.allNotifications = self.getNotificationsForDevice(dict)
+            if self.allNotifications.count == 0 {
+                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.view.addSubview(self.emptyView!)
+            } else {
+                self.notification = UITableView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
+                self.notification.dataSource = self
+                self.notification.delegate = self
+                self.notification.reloadData()
+                self.view.addSubview(self.notification)
+            }
+
+            }, errorBlock: { (error) -> Void in print("Error pushNotificationService")})
         }
-    }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -71,19 +72,10 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellNot") as! NotificationTableViewCell
         
-        let userInfo = allNotifications[indexPath.row] as! NSDictionary
-        
-        //let notiicationInfo = userInfo["notification"] as! NSDictionary
-        let notiicationAPS = userInfo["aps"] as! NSDictionary
-        let hour = userInfo["hour"] as! String
-        let date = userInfo["date"] as! String
-        
-       
-        
-        //let type = notiicationInfo["type"] as! String
-        //let name = notiicationInfo["name"] as! String
-        //let value = notiicationInfo["value"] as! String
-        let message = notiicationAPS["alert"] as! String
+        let notiicationInfo = allNotifications[indexPath.row] as! NSDictionary
+        let hour = notiicationInfo["hour"] as! String
+        let date = notiicationInfo["date"] as! String
+        let message = notiicationInfo["body"] as! String
         
         cell.descLabel?.text = message
         cell.dateLabel?.text = date
@@ -101,10 +93,9 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if selectable  {
             selectable = false
-            let userInfo = allNotifications[indexPath.row] as! NSDictionary
-            let notiicationInfo = userInfo["notification"] as! NSDictionary
+            let notiicationInfo = allNotifications[indexPath.row] as! NSDictionary
             let type = notiicationInfo["type"] as! String
-            let name = notiicationInfo["name"] as! String
+            let name = ""
             let value = notiicationInfo["value"] as! String
             let window = UIApplication.sharedApplication().keyWindow
             
@@ -118,6 +109,23 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }
     }
     
+    func getNotificationsForDevice(dict: NSDictionary) -> [AnyObject]{
+        let notifications = dict["notifications"] as! [AnyObject]
+        var showNotifications: [AnyObject] = []
+        for notif in notifications{
+            let device = notif["device"] as! String
+            if IS_IPHONE && device == "iphone" {
+                showNotifications.append(notif)
+            }
+            if IS_IPAD && device == "ipad" {
+                 showNotifications.append(notif)
+            }
+            if device == "" {
+                 showNotifications.append(notif)
+            }
+        }
+       return showNotifications
+    }
     
     override func viewWillAppear(animated: Bool) {
         self.selectable = true
