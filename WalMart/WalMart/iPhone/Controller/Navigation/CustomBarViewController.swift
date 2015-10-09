@@ -1177,6 +1177,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
         }
         
+        
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
         case "": self.buttonSelected(self.buttonList[0])

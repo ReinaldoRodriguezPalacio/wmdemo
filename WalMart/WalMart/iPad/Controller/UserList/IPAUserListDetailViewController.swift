@@ -33,6 +33,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
         let y = (self.footerSection!.frame.height - shareWidth)/2
        
+        self.duplicateButton!.frame = CGRectMake(145, y, 34.0, 34.0)
+        
         x = self.duplicateButton!.frame.maxX + 16.0
         self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
         x = self.shareButton!.frame.maxX + separation
