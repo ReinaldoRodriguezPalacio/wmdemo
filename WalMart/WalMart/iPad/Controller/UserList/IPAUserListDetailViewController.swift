@@ -370,6 +370,19 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
 
     }
+    
+    override func duplicate() {
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
+            //self.itemsUserList =
+            self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+                self.delegate?.reloadTableListUser()
+                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                self.alertView!.showDoneIcon()
+            })
+        }else{
+            NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
+        }
+    }
 
     //MARK: - UIPopoverControllerDelegate
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
