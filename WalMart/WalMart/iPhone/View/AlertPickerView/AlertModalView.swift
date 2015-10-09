@@ -8,18 +8,6 @@
 
 import Foundation
 
-protocol AlertModalViewDelegate {
-    func didSelectOption(picker:AlertModalView,indexPath: NSIndexPath,selectedStr:String)
-    func didDeSelectOption(picker:AlertModalView)
-    
-    func viewReplaceContent(frame:CGRect) -> UIView!
-    func saveReplaceViewSelected()
-    
-    func buttomViewSelected(sender:UIButton)
-    
-}
-
-
 class AlertModalView : UIView, UITextFieldDelegate {
     
     var viewContent : UIView!
@@ -48,7 +36,6 @@ class AlertModalView : UIView, UITextFieldDelegate {
         viewContent = UIView(frame: CGRectMake(0, 0, 200, 200))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
-        viewContent.clipsToBounds = true
         self.stopRemoveView! = false
         self.addSubview(viewContent)
     }
@@ -63,7 +50,6 @@ class AlertModalView : UIView, UITextFieldDelegate {
     
     override func layoutSubviews() {
         viewContent.center = self.center
-        viewContent.clipsToBounds = false
     }
     
     func closePicker() {
@@ -99,8 +85,9 @@ class AlertModalView : UIView, UITextFieldDelegate {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = AlertModalView(frame:vc!.view.bounds)
         vc?.addChildViewController(controllerShow)
-        newAlert.viewContent.frame.size = controllerShow.view.frame.size
+        newAlert.viewContent.frame.size = CGSize(width: controllerShow.view.frame.size.width + 4, height: controllerShow.view.frame.size.height + 4)  //controllerShow.view.frame.size
         newAlert.viewContent.addSubview(controllerShow.view)
+        controllerShow.view.center = newAlert.viewContent.center
         return newAlert
     }
     
