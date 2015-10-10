@@ -36,7 +36,6 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     override func viewDidLoad() {
         super.viewDidLoad()
         self.titleLabel?.text = defaultListName
-        
     
     }
     

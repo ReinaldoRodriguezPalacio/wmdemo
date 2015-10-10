@@ -196,7 +196,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466038618.79064"
+                  timestampString = "466117528.989211"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "119"
@@ -211,7 +211,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466038618.790796"
+                  timestampString = "466117528.98942"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "120"
@@ -308,7 +308,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466038618.794324"
+                  timestampString = "466117528.99333"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "195"
@@ -323,7 +323,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466038618.794487"
+                  timestampString = "466117528.993522"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "196"
@@ -786,86 +786,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/UserList/UserListViewController.swift"
-            timestampString = "465153674.566322"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1258"
-            endingLineNumber = "1258"
-            landmarkName = "invokeUpdateListService()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/UserList/UserListViewController.swift"
-            timestampString = "465153674.566322"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1268"
-            endingLineNumber = "1268"
-            landmarkName = "invokeUpdateListService()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/UserList/UserListViewController.swift"
-            timestampString = "465153674.566322"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1273"
-            endingLineNumber = "1273"
-            landmarkName = "invokeUpdateListService()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/UserList/UserListViewController.swift"
-            timestampString = "465153674.566322"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1282"
-            endingLineNumber = "1282"
-            landmarkName = "invokeUpdateListService()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/UserList/UserListViewController.swift"
-            timestampString = "465153730.722113"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1242"
-            endingLineNumber = "1242"
-            landmarkName = "invokeDeleteListService(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Order/OrderViewController.swift"
             timestampString = "465231796.689859"
             startingColumnNumber = "9223372036854775807"
@@ -1027,11 +947,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPad/Controller/UserList/IPAUserListDetailViewController.swift"
-            timestampString = "465866361.767076"
+            timestampString = "466101876.499059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "254"
-            endingLineNumber = "254"
+            startingLineNumber = "256"
+            endingLineNumber = "256"
             landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1043,27 +963,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPad/Controller/UserList/IPAUserListDetailViewController.swift"
-            timestampString = "465866364.964785"
+            timestampString = "466101876.499059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "244"
-            endingLineNumber = "244"
-            landmarkName = "showLoadingView()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPad/Controller/UserList/IPAUserListDetailViewController.swift"
-            timestampString = "465866368.326059"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "290"
-            endingLineNumber = "290"
+            startingLineNumber = "292"
+            endingLineNumber = "292"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1075,11 +979,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPad/Controller/UserList/IPAUserListDetailViewController.swift"
-            timestampString = "465866405.147259"
+            timestampString = "466101876.499059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316"
+            startingLineNumber = "318"
+            endingLineNumber = "318"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1091,11 +995,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/DefaultList/DefaultListDetailViewController.swift"
-            timestampString = "465866461.149876"
+            timestampString = "466102854.850628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "175"
-            endingLineNumber = "175"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1107,11 +1011,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPad/Controller/DefaultList/IPADefaultListDetailViewController.swift"
-            timestampString = "465866560.060333"
+            timestampString = "466104132.861007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1123,11 +1027,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/DefaultList/DefaultListDetailViewController.swift"
-            timestampString = "465866653.446558"
+            timestampString = "466102854.850628"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "203"
+            endingLineNumber = "203"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1139,11 +1043,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPad/Controller/UserList/IPAUserListDetailViewController.swift"
-            timestampString = "465866729.564781"
+            timestampString = "466101876.499059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "331"
-            endingLineNumber = "331"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1155,11 +1059,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPad/Controller/UserList/IPAUserListDetailViewController.swift"
-            timestampString = "465866733.186959"
+            timestampString = "466101876.499059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "358"
-            endingLineNumber = "358"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "didChangeQuantity(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1251,7 +1155,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/EditProfileViewController.swift"
-                  timestampString = "466038618.818757"
+                  timestampString = "466117529.016166"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "100"
@@ -1266,7 +1170,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/EditProfileViewController.swift"
-                  timestampString = "466038618.818915"
+                  timestampString = "466117529.016308"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "101"
@@ -1363,7 +1267,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/SignUpViewController.swift"
-                  timestampString = "466038618.820247"
+                  timestampString = "466117529.017715"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "125"
@@ -1378,7 +1282,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/SignUpViewController.swift"
-                  timestampString = "466038618.820418"
+                  timestampString = "466117529.017887"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "126"
@@ -1427,7 +1331,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/View/Profile/AddressView.swift"
-                  timestampString = "466038618.821809"
+                  timestampString = "466117529.019282"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "78"
@@ -1442,7 +1346,7 @@
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/View/Profile/AddressView.swift"
-                  timestampString = "466038618.821999"
+                  timestampString = "466117529.01946"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "79"
@@ -1459,11 +1363,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "588"
-            endingLineNumber = "588"
+            startingLineNumber = "614"
+            endingLineNumber = "614"
             landmarkName = "tableView(_:viewForHeaderInSection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1475,11 +1379,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "592"
-            endingLineNumber = "592"
+            startingLineNumber = "618"
+            endingLineNumber = "618"
             landmarkName = "tableView(_:viewForHeaderInSection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1491,11 +1395,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "589"
-            endingLineNumber = "589"
+            startingLineNumber = "615"
+            endingLineNumber = "615"
             landmarkName = "tableView(_:viewForHeaderInSection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1523,11 +1427,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "757"
-            endingLineNumber = "757"
+            startingLineNumber = "783"
+            endingLineNumber = "783"
             landmarkName = "invokeRetrieveLinesForMG(successBlock:errorBlock:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1603,11 +1507,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "584"
-            endingLineNumber = "584"
+            startingLineNumber = "610"
+            endingLineNumber = "610"
             landmarkName = "tableView(_:viewForHeaderInSection:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1667,11 +1571,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038468.245857"
+            timestampString = "466116347.487134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365"
+            startingLineNumber = "378"
+            endingLineNumber = "378"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1699,11 +1603,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "494"
-            endingLineNumber = "494"
+            startingLineNumber = "520"
+            endingLineNumber = "520"
             landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1859,11 +1763,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038616.986771"
+            timestampString = "466117308.16897"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
+            startingLineNumber = "514"
+            endingLineNumber = "514"
             landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -2111,31 +2015,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038468.245857"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "457"
-            endingLineNumber = "457"
-            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
-            timestampString = "466038468.245857"
+            timestampString = "466116347.487134"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "341"
-            endingLineNumber = "341"
+            startingLineNumber = "343"
+            endingLineNumber = "343"
             landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -2169,6 +2057,118 @@
             startingLineNumber = "156"
             endingLineNumber = "156"
             landmarkName = "applyFilters()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
+            timestampString = "466116347.487134"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "380"
+            endingLineNumber = "380"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
+            timestampString = "466116347.487134"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "389"
+            endingLineNumber = "389"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPad/Controller/DefaultList/IPADefaultListDetailViewController.swift"
+            timestampString = "466104132.861007"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "viewWillLayoutSubviews()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPad/Controller/DefaultList/IPADefaultListDetailViewController.swift"
+            timestampString = "466104132.861007"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "80"
+            endingLineNumber = "80"
+            landmarkName = "shareList()"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
+            timestampString = "466117308.16897"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "476"
+            endingLineNumber = "476"
+            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
+            timestampString = "466117308.16897"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "487"
+            endingLineNumber = "487"
+            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/Product/FilterProductsViewController.swift"
+            timestampString = "466117308.16897"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "484"
+            endingLineNumber = "484"
+            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

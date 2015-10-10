@@ -24,6 +24,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 
         self.toggleViewBtn?.removeFromSuperview()
         self.toggleViewBtn = nil
+        self.backButton?.hidden = true
     }
     
     override func viewWillLayoutSubviews() {

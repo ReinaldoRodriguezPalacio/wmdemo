@@ -16,6 +16,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
     
     var sharePopover: UIPopoverController?
     var delegate : IPADefaultListDetailViewControllerDelegate?
+    var isShared =  false
     
     override func willShowTabbar() {
         isShowingTabBar = false
@@ -53,22 +54,30 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let shareWidth:CGFloat = 34.0
+        let separation:CGFloat = 16.0
+        var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
+        let y = (self.footerSection!.frame.height - shareWidth)/2
         
-        tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
-        
-        self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , self.view.frame.width, 72)
-        let x = self.shareButton!.frame.maxX + 16.0
-        let y = (self.footerSection!.frame.height - 34.0)/2
-        addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
-        self.customLabel?.frame  = self.addToCartButton!.bounds
+        if !isShared {
+          tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+        }
+            self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , self.view.frame.width, 72)
+            self.duplicateButton?.frame = CGRectMake(145, y, 34.0, 34.0)
+            
+            x = self.duplicateButton!.frame.maxX + 16.0
+            self.shareButton!.frame = CGRectMake(x, y, shareWidth, shareWidth)
+            x = self.shareButton!.frame.maxX + separation
+            addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
+            self.customLabel?.frame  = self.addToCartButton!.bounds
+      
     }
 
     
     override func shareList() {
+        isShared = true
 
         if let image = self.buildImageToShare() {
-            
-            
             //Event
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
