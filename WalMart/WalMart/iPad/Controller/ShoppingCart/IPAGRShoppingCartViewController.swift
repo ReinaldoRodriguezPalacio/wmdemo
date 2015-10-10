@@ -192,8 +192,10 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             selectQuantityGR?.addUpdateNote = {() in
                 let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-                let frame = vc!.view.frame
-                
+                var frame = vc!.view.frame
+                if (NSFoundationVersionNumber < NSFoundationVersionNumber_iOS_8_0) {
+                    frame = CGRectMake(0, 0, vc!.view.frame.height, vc!.view.frame.width)
+                }
                 
                 let addShopping = ShoppingCartUpdateController()
                 let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
