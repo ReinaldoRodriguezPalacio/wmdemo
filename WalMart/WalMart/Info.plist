@@ -97,6 +97,8 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.GRFacets</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
