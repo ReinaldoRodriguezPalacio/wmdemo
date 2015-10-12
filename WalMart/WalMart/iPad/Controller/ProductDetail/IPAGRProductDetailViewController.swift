@@ -65,7 +65,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             //let strValue = self.upc
             allCharacteristics.append(["label":strLabel,"value":self.upc])
             
-            if let carStr = result["characteristics"] as? String {
+            if var carStr = result["characteristics"] as? String {
+                 carStr = carStr.stringByReplacingOccurrencesOfString("^", withString: "\n")
                 allCharacteristics.append(["label":"Características","value":carStr])
             }
             for characteristic in self.characteristics  {
