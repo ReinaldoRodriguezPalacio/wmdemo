@@ -11,15 +11,14 @@ import Foundation
 
 class GRFacets : GRBaseService {
     
-    func callService(storeId:String,stringSearch:String,idFamily:String, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(requestParams: ["storeID":"","pText":stringSearch,"idFamily":idFamily,"idLine":""], successBlock: successBlock, errorBlock: errorBlock)
+    func callService(storeId:String,stringSearch:String,idFamily:String,idLine:String, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(requestParams: ["storeID":"","pText":stringSearch,"idFamily":idFamily,"idLine":idLine], successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(requestParams params:AnyObject, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-            let arrayCall = resultCall["brands"] as! NSArray
-            successBlock!(arrayCall)
+            successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 print("Error: \(error)")
                 errorBlock!(error)

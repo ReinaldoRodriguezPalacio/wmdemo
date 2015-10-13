@@ -102,7 +102,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         collection!.delegate = self
         
         collection!.backgroundColor = UIColor.whiteColor()
-        self.idSort =  FilterType.none.rawValue
+         self.idSort =  FilterType.none.rawValue
+        if self.searchContextType! == .WithCategoryForMG {
+            self.idSort =  FilterType.rankingASC.rawValue
+        }
+       
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
         let iconSelected = UIImage(color: WMColor.regular_blue, size: CGSizeMake(55, 22), radius: 11)
@@ -736,9 +740,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func getFacet(idDepartament:String,textSearch:String?,idFamily:String?){
        let serviceFacet = GRFacets()
       
-        serviceFacet.callService(idDepartament,stringSearch:textSearch == nil ? "" : textSearch!,idFamily: idFamily == nil ? "" : idFamily!,
-            successBlock: { (result:NSArray) -> Void in
-                self.facetGr = result
+        serviceFacet.callService(idDepartament,stringSearch:textSearch == nil ? "" : textSearch!,idFamily: idFamily == nil ? "" : idFamily!,idLine:self.idLine!,
+            successBlock: { (result:NSDictionary) -> Void in
+                let arrayCall = result["brands"] as! NSArray
+                
+                self.facetGr = arrayCall
                 print(result)
             },
             errorBlock: { (error:NSError) -> Void in
