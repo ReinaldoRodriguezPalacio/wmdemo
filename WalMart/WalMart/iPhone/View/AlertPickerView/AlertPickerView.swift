@@ -198,6 +198,10 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if self.selected == nil{
+            self.selected = indexPath
+        }
+        
         if self.selected.row != indexPath.row {
             let lastSelected = self.selected
             self.selected = indexPath
