@@ -930,8 +930,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                 self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
                             }
                             return
-                        }
-                        
+                        }else{
+                            buildAndConfigureDeliveryType()
+                      }
                     }else{
                         buildAndConfigureDeliveryType()
                     }

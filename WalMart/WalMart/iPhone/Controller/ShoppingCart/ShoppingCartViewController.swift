@@ -807,6 +807,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     address.typeAddress = TypeAddress.Shiping
                     address.item =  NSDictionary()
                     address.successCallBack = {() in
+                        address.closeAlert()
+                        if(cont!.email?.text == nil || cont!.email?.text == "" ){
+                            cont!.email?.text = cont!.signUp.email?.text
+                            cont!.password?.text = cont!.signUp.password?.text
+                        }
                         self.presentedCheckOut(cont!, address: address)
                     }
                     self.navigationController!.pushViewController(address, animated: true)
@@ -821,6 +826,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     address.typeAddress = TypeAddress.Shiping
                     address.item =  NSDictionary()
                     address.successCallBack = {() in
+                        address.closeAlert()
+                        if(cont!.email?.text == nil || cont!.email?.text == "" ){
+                            cont!.email?.text = cont!.signUp.email?.text
+                            cont!.password?.text = cont!.signUp.password?.text
+                        }
                         self.presentedCheckOut(cont!, address: address)
                     }
                     self.navigationController!.pushViewController(address, animated: true)
