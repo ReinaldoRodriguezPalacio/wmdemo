@@ -72,43 +72,43 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         //let checkTermOn = UIImage(named:"checkTermOn")
         
         self.name = FormFieldView()
-        self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.isRequired = true
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.typeField = TypeField.Name
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
         self.name!.minLength = 3
         self.name!.maxLength = 25
         
         self.lastName = FormFieldView()
-        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.isRequired = true
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.typeField = TypeField.String
         self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
        
         self.email = FormFieldView()
+        self.email!.isRequired = true
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
         self.email!.keyboardType = UIKeyboardType.EmailAddress
-        self.email!.isRequired = true
         self.email!.typeField = TypeField.Email
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
         self.email!.maxLength = 45
         self.email!.autocapitalizationType = UITextAutocapitalizationType.None
         
         self.password = FormFieldView()
+        self.password!.isRequired = true
         self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
         self.password!.secureTextEntry = true
-        self.password!.isRequired = true
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
         
         self.confirmPassword = FormFieldView()
+        self.confirmPassword!.isRequired = true
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
         self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.isRequired = true
         self.confirmPassword!.typeField = TypeField.Password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
         self.confirmPassword!.minLength = 8
@@ -116,10 +116,10 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         
         
         self.birthDate = FormFieldView()
+        self.birthDate!.isRequired = true
         self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
         self.birthDate!.typeField = .None
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
-        self.birthDate!.isRequired = true
         self.birthDate!.disablePaste = true
         
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in

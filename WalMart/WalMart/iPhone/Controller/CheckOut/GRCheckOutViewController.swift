@@ -151,8 +151,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.paymentOptions!)
         
         self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,paymentOptions!.frame.maxY + 10.0,width,fheight))
+        self.payPalFuturePaymentField!.isRequired = false
         self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
-        self.payPalFuturePaymentField!.isRequired = true
         self.payPalFuturePaymentField!.typeField = TypeField.Check
         self.payPalFuturePaymentField!.setImageTypeField()
         self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
@@ -174,16 +174,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(sectionTitleShipment)
 
         self.address = FormFieldView(frame: CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, width, fheight))
-        self.address!.setCustomPlaceholder(NSLocalizedString("checkout.field.address", comment:""))
         self.address!.isRequired = true
+        self.address!.setCustomPlaceholder(NSLocalizedString("checkout.field.address", comment:""))
         self.address!.typeField = TypeField.List
         self.address!.setImageTypeField()
         self.address!.nameField = NSLocalizedString("checkout.field.address", comment:"")
         self.content.addSubview(self.address!)
 
         self.shipmentType = FormFieldView(frame: CGRectMake(margin, self.address!.frame.maxY + 5.0, width, fheight))
-        self.shipmentType!.setCustomPlaceholder(NSLocalizedString("checkout.field.shipmentType", comment:""))
         self.shipmentType!.isRequired = true
+        self.shipmentType!.setCustomPlaceholder(NSLocalizedString("checkout.field.shipmentType", comment:""))
         self.shipmentType!.typeField = TypeField.List
         self.shipmentType!.setImageTypeField()
         self.shipmentType!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
@@ -191,8 +191,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
 
         self.deliveryDate = FormFieldView(frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, width, fheight))
-        self.deliveryDate!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliveryDate", comment:""))
         self.deliveryDate!.isRequired = true
+        self.deliveryDate!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliveryDate", comment:""))
         self.deliveryDate!.typeField = TypeField.List
         self.deliveryDate!.setImageTypeField()
         self.deliveryDate!.nameField = NSLocalizedString("checkout.field.deliveryDate", comment:"")
@@ -216,8 +216,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.deliveryDate!.inputView = self.deliveryDatePicker!
         
         self.deliverySchedule = FormFieldView(frame: CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, width, fheight))
-        self.deliverySchedule!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliverySchedule", comment:""))
         self.deliverySchedule!.isRequired = true
+        self.deliverySchedule!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliverySchedule", comment:""))
         self.deliverySchedule!.typeField = TypeField.List
         self.deliverySchedule!.setImageTypeField()
         self.deliverySchedule!.nameField = NSLocalizedString("checkout.field.deliverySchedule", comment:"")

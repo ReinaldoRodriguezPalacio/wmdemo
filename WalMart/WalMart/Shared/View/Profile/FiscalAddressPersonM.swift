@@ -25,16 +25,16 @@ class FiscalAddressPersonM: AddressView {
         super.setup()
         
         self.corporateName = FormFieldView()
-        self.corporateName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name.moral",comment:""))
         self.corporateName!.isRequired = true
+        self.corporateName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name.moral",comment:""))
         self.corporateName!.typeField = TypeField.Name
         self.corporateName!.minLength = 2
         self.corporateName!.maxLength = 20
         self.corporateName!.nameField = NSLocalizedString("profile.address.person.name.moral",comment:"")
         
         self.rfc = FormFieldView()
-        self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.isRequired = true
+        self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.typeField = TypeField.RFCM
         self.rfc!.minLength = 12
         self.rfc!.maxLength = 12
@@ -42,9 +42,9 @@ class FiscalAddressPersonM: AddressView {
         self.rfc!.validMessageText = "field.validate.text.invalid.rfc"
         
         self.ieps = FormFieldView()
+        self.ieps!.isRequired = false
         self.ieps!.setCustomPlaceholder(NSLocalizedString("profile.address.ieps",comment:""))
         self.ieps!.typeField = TypeField.Number
-        self.ieps!.isRequired = false
         self.ieps!.minLength = 14
         self.ieps!.maxLength = 14
         self.ieps!.keyboardType = UIKeyboardType.NumberPad

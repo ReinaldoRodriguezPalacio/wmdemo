@@ -66,35 +66,35 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content.scrollDelegate = self
 
         self.name = FormFieldView()
-        self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.isRequired = true
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.typeField = TypeField.Name
         self.name!.minLength = 2
         self.name!.maxLength = 25
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
         
         self.lastName = FormFieldView()
-        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.isRequired = true
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.typeField = TypeField.String
         self.lastName!.minLength = 2
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
         
         self.email = FormFieldView()
+        self.email!.isRequired = true
         self.email!.setCustomPlaceholder(NSLocalizedString("profile.email",comment:""))
         self.email!.keyboardType = UIKeyboardType.EmailAddress
-        self.email!.isRequired = true
         self.email!.typeField = TypeField.Email
         self.email!.maxLength = 45
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
         self.email!.enabled = false
 
         self.birthDate = FormFieldView()
+        self.birthDate!.isRequired = true
         self.birthDate!.setCustomPlaceholder(NSLocalizedString("profile.birthDate",comment:""))
         self.birthDate!.typeField = .None
         self.birthDate!.nameField = NSLocalizedString("profile.birthDate",comment:"")
-        self.birthDate!.isRequired = true
         self.birthDate!.disablePaste = true
         
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in

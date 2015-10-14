@@ -35,25 +35,25 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         
         
         self.passworCurrent = FormFieldView()
+        self.passworCurrent!.isRequired = true
         self.passworCurrent!.setCustomPlaceholder(NSLocalizedString("profile.password.current",comment:""))
         self.passworCurrent!.secureTextEntry = true
-        self.passworCurrent!.isRequired = true
         self.passworCurrent!.typeField = TypeField.Password
         self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
         
         self.password = FormFieldView()
+        self.password!.isRequired = true
         self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
         self.password!.secureTextEntry = true
-        self.password!.isRequired = true
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
         
         self.confirmPassword = FormFieldView()
+        self.confirmPassword!.isRequired = true
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
         self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.isRequired = true
         self.confirmPassword!.typeField = TypeField.Password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
         self.confirmPassword!.minLength = 8
