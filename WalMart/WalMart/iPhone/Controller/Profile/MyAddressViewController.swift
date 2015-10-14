@@ -162,7 +162,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.newAddressButton!.hidden = !self.emptyView!.hidden || self.arrayAddressShippingGR.count >= 12
                 
             }else{
-                self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count + self.arrayAddressShipping.count) >= 12
+                self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             }
             
            
@@ -210,7 +210,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 self.newAddressButton!.hidden = !self.emptyView!.hidden || self.arrayAddressShippingGR.count >= 12
                 
             }else{
-                self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count + self.arrayAddressShipping.count) >= 12
+                self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             }
             
             //self.newAddressButton!.hidden = !self.emptyView!.hidden || self.arrayAddressShippingGR.count >= 12
@@ -462,9 +462,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             if arrayAddressShipping.count == 0{
                 self.addressController!.defaultPrefered = true
             }
+            
             let allArray = self.arrayAddressShipping!.arrayByAddingObjectsFromArray(arrayAddressFiscal as [AnyObject])
             self.addressController!.allAddress =  allArray
             self.addressController!.typeAddress = TypeAddress.Shiping
+            self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count
+            self.addressController!.addressShippingCont = self.arrayAddressShipping!.count
             
             
             if let tracker = GAI.sharedInstance().defaultTracker {
@@ -638,7 +641,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             sender.selected = true;
             btnSuper.selected = false
             
-            self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count + self.arrayAddressShipping.count) >= 12
+            self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue)
