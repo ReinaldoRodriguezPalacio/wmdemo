@@ -423,7 +423,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/notifications.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -595,6 +595,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.GRPayPalFuturePaymentService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
+			<key>WalmartMG.GRPaypalUpdateOrderService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateOrderStatusPaypal</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -820,6 +824,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.AddShippingAddressService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
