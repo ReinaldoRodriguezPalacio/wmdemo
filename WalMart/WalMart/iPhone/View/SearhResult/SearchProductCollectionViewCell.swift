@@ -35,7 +35,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
     
         
-        
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
         self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(12)
@@ -74,7 +73,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool) {
         
-        
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         imagePresale.hidden = !isPreorderable
@@ -83,8 +81,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             if IS_IPHONE {
                 self.productShortDescriptionLabel?.textAlignment = .Right
             }
-            self.productShortDescriptionLabel?.frame = CGRectMake(39, 0,self.frame.width - 40 , 46)
-            self.productShortDescriptionLabel?.lineBreakMode =  .ByClipping
+            self.productShortDescriptionLabel?.frame = CGRectMake(38, 0,self.frame.width - 42 , 46)
+            self.productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
         }else{
             self.productShortDescriptionLabel?.textAlignment = .Center
             self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
