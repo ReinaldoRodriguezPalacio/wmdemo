@@ -202,6 +202,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.searchContextType == SearchServiceContextType.WithText
         {
             self.setTitleWithEdit()
+            self.originalSearchContextType = self.searchContextType
         }
         else
         {
@@ -234,7 +235,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         
         var startPoint = self.header!.frame.maxY
-        if self.searchContextType == SearchServiceContextType.WithText {
+        if self.originalSearchContextType == SearchServiceContextType.WithText {
             viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28)
             startPoint = viewBgSelectorBtn.frame.maxY + 16
         }else {
@@ -592,7 +593,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.showLoadingIfNeeded(true)
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.searchContextType == SearchServiceContextType.WithText {
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.originalSearchContextType == SearchServiceContextType.WithText {
             
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
             self.filterButton?.alpha = 0
@@ -631,7 +632,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         else {
             
-            if self.searchContextType != nil && self.searchContextType == SearchServiceContextType.WithText && self.allProducts != nil {
+            if self.searchContextType != nil && self.originalSearchContextType == SearchServiceContextType.WithText && self.allProducts != nil {
                 //println("sorting values from text search")
                 //Order items
                 switch (FilterType(rawValue: self.idSort!)!) {
@@ -730,10 +731,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.isGroceriesSearch = self.btnSuper.selected
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-            controllerFilter.searchContext = self.searchContextType
+            //controllerFilter.searchContext = self.searchContextType
             controllerFilter?.facetGr = self.facetGr
             
         }
+        controllerFilter.isGroceriesSearch = self.btnSuper.selected
+        controllerFilter.searchContext = self.searchContextType
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
@@ -879,6 +882,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }) { (error:NSError) -> Void in
             print(error)
         }
+        
+    }
+    
+    func removeSelectedFilters(){
+        //Quitamos los filtros despues de la busqueda.
+        //self.idSort = self.originalSort
+        self.searchContextType = self.originalSearchContextType
+        if self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
+            self.idDepartment = nil
+            self.idFamily = nil
+            self.idLine = nil
+        }
+        
+        self.allProducts = []
+        self.mgResults!.resetResult()
+        self.grResults!.resetResult()
+        self.controllerFilter = nil
     }
     
     func removeFilters() {
@@ -919,11 +939,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             btnTech.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
+            self.searchContextType = SearchServiceContextType.WithCategoryForGR
         } else if sender == btnTech &&  !sender.selected {
             sender.selected = true
             btnSuper.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
+            self.searchContextType = SearchServiceContextType.WithCategoryForMG
         }
         
     }
