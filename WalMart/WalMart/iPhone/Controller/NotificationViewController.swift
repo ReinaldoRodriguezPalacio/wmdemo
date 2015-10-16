@@ -51,7 +51,11 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 self.view.addSubview(self.notification)
             }
 
-            }, errorBlock: { (error) -> Void in print("Error pushNotificationService")})
+            }, errorBlock: {
+                (error) -> Void in print("Error pushNotificationService")
+                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.view.addSubview(self.emptyView!)
+                })
         }
     
     override func viewWillLayoutSubviews() {
@@ -97,13 +101,13 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             let type = notiicationInfo["type"] as! String
             let name = ""
             let value = notiicationInfo["value"] as! String
-            let bussines = notiicationInfo["bussines"] as! String
+            let business = notiicationInfo["business"] as! String
             
             let window = UIApplication.sharedApplication().keyWindow
             
             if let customBar = window!.rootViewController  as? CustomBarViewController {
                 
-                let handled = customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                let handled = customBar.handleNotification(type,name:name,value:value,bussines:business)
                 if !handled {
                     selectable = true
                 }
@@ -112,18 +116,19 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     }
     
     func getNotificationsForDevice(dict: NSDictionary) -> [AnyObject]{
-        let notifications = dict["notifications"] as! [AnyObject]
         var showNotifications: [AnyObject] = []
-        for notif in notifications{
-            let device = notif["device"] as! String
-            if IS_IPHONE && device == "iphone" {
-                showNotifications.append(notif)
-            }
-            if IS_IPAD && device == "ipad" {
-                 showNotifications.append(notif)
-            }
-            if device == "" {
-                 showNotifications.append(notif)
+        if let notifications = dict["notifications"] as? [AnyObject]{
+            for notif in notifications{
+                let device = notif["device"] as! String
+                if IS_IPHONE && device == "iphone" {
+                    showNotifications.append(notif)
+                }
+                if IS_IPAD && device == "ipad" {
+                    showNotifications.append(notif)
+                }
+                if device == "" {
+                    showNotifications.append(notif)
+                }
             }
         }
        return showNotifications

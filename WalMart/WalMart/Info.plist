@@ -423,7 +423,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.PushNotificationService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/notifications.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
