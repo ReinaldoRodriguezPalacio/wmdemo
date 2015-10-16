@@ -216,7 +216,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                     return
                 }
                 
-                customBar.handleNotification(strAction,name:"",value:strValue)
+                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"")
             }
         }
     }

@@ -304,6 +304,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let name = notiicationInfo["name"] as! String
         let value = notiicationInfo["value"] as! String
         let message = notiicationAPS["alert"] as! String
+        let bussines = notiicationAPS["bussines"] as! String
         
         let serviceSave = NotificationFileService()
         serviceSave.saveNotification(userInfo)
@@ -317,7 +318,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
             {
-                customBar.handleNotification(type,name:name,value:value)
+                customBar.handleNotification(type,name:name,value:value,bussines:bussines)
             }else{
                 let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                 alertNot?.showDoneIconWithoutClose()
@@ -325,7 +326,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
                      alertNot?.close()
                     }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
-                        customBar.handleNotification(type,name:name,value:value)
+                        customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                 })
             }
@@ -360,7 +361,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
                     let cmpStr  = components[0] 
                     let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
-                    customBar.handleNotification(cmpStr,name:"",value:strValue)
+                    customBar.handleNotification(cmpStr,name:"",value:strValue,bussines:"mg")
                 }
             }
         }
