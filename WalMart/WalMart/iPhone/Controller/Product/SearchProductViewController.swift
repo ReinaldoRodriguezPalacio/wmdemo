@@ -425,10 +425,35 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             switch self.searchContextType! {
             case .WithCategoryForMG :
                 print("Searching products for Category In MG")
-                self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                if self.originalSearchContextType != nil && self.originalSearchContextType == .WithText{
+                    self.invokeSearchproductsInMG(
+                        actionSuccess: { () -> Void in
+                            self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        },
+                        actionError: { () -> Void in
+                            self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        }
+                    )
+                }
+                else{
+                    self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                }
             case .WithCategoryForGR :
                 print("Searching products for Category In Groceries")
-                self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                if self.originalSearchContextType != nil && self.originalSearchContextType == .WithText{
+                    self.invokeSearchProductsInGroceries(
+                        actionSuccess: { () -> Void in
+                            self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        },
+                        actionError: { () -> Void in
+                            self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        }
+                    )
+                }
+                else{
+                    self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                }
+
             default :
                 print("Searching products for text")
                 self.invokeSearchProductsInGroceries(
