@@ -304,7 +304,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let name = notiicationInfo["name"] as! String
         let value = notiicationInfo["value"] as! String
         let message = notiicationAPS["alert"] as! String
-        let bussines = notiicationAPS["bussines"] as! String
+        let bussines = notiicationInfo["business"] as! String
         
         let serviceSave = NotificationFileService()
         serviceSave.saveNotification(userInfo)
