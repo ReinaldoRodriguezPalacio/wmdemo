@@ -374,7 +374,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             let index = self.buttonList.indexOf(sender)
             
-            
             let controller = self.viewControllers[index!]
             if controller === self.currentController {
                 if let navController = self.currentController as? UINavigationController {
@@ -398,6 +397,22 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.btnShopping!.enabled = true
             self.btnSearch!.selected = false
             
+            var action = ""
+            switch (index!) {
+            case 0:
+                action = WMGAIUtils.ACTION_OPEN_HOME.rawValue
+            case 1:
+                action = WMGAIUtils.ACTION_OPEN_MG.rawValue
+            case 2:
+                action = WMGAIUtils.ACTION_OPEN_GR.rawValue
+            case 3:
+                action = WMGAIUtils.ACTION_OPEN_LIST.rawValue
+            case 4:
+                action = WMGAIUtils.ACTION_OPEN_MORE_OPTION.rawValue
+            default:
+                action = WMGAIUtils.ACTION_OPEN_HOME.rawValue
+            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: action, label: "")
         }
     }
     
@@ -577,6 +592,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.clearSearch()
                 self.openSearchProduct()
             }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         }
         else{
             self.closeSearch(false, sender: nil)
@@ -593,11 +609,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func openSearchProduct(){
         if let navController = self.currentController! as? UINavigationController {
             if self.searchController == nil  {
-                
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()
-                    tracker.send( eventTracker as! [NSObject : AnyObject])
-                }
                 
                 if self.imageBlurView != nil {
                     self.imageBlurView?.removeFromSuperview()
@@ -940,7 +951,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 }
                 self.btnCloseShopping?.enabled = false
                 self.btnCloseShopping?.alpha = 1
-                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
             }
             else {
                 
@@ -1152,6 +1163,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func logoTap(){
         self.buttonSelected(self.buttonList[0])
         self.closeShoppingCart()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NAVIGATION_BAR.rawValue, action: WMGAIUtils.ACTION_GO_TO_HOME.rawValue, label: "")
     }
     
     func hidebadge() {

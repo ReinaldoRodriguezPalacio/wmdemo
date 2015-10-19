@@ -184,15 +184,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let type = recommendProduct["type"] as! String
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
             
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(desc) - \(upc)")
             
-            
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue ), label: upc , value: nil).build() as [NSObject : AnyObject])
-                
-            }
-
             self.navigationController!.pushViewController(controller, animated: true)
         }
     }
@@ -215,31 +208,39 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if(components.count <= 1){
             return
         }
+        var action = ""
+        var label = ""
+        
         let bannerStr : NSString = queryBanner
         switch components[0] {
         case "f":
             let val = bannerStr.substringFromIndex(2)
             showProducts(forDepartmentId: nil, andFamilyId: val, andLineId: nil,type:type)
+            action = WMGAIUtils.ACTION_VIEW_BANNER_CATEGORY.rawValue
+            label = val
         case "c":
             let val = bannerStr.substringFromIndex(2)
             showProducts(forDepartmentId: val, andFamilyId: nil, andLineId: nil,type:type)
+            action = WMGAIUtils.ACTION_VIEW_BANNER_CATEGORY.rawValue
+            label = val
         case "l":
             let val = bannerStr.substringFromIndex(2)
             showProducts(forDepartmentId: nil, andFamilyId: nil, andLineId: val,type:type)
+            action = WMGAIUtils.ACTION_VIEW_BANNER_CATEGORY.rawValue
+            label = val
         case "UPC":
             let val = bannerStr.substringFromIndex(4)
             showProductDetail(val,type: type)
+            action = WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue
+            label = val
         default:
             return
         }
        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            if type == ResultObjectType.Groceries.rawValue    {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.GR_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build() as [NSObject : AnyObject])
-            }else
-            {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.MG_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build() as [NSObject : AnyObject])
-            }
+        if type == ResultObjectType.Groceries.rawValue {
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_BANNER_COLLECTION_VIEW.rawValue, action: action, label: label)
+        }else{
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_BANNER_COLLECTION_VIEW.rawValue, action: action, label: label)
         }
         
     }
@@ -446,6 +447,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 })
             }
             //collection.reloadData()
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAROUSEL.rawValue, action: WMGAIUtils.ACTION_CHANGE_ITEM.rawValue, label: catNameFilterNew)
         }
     }
     

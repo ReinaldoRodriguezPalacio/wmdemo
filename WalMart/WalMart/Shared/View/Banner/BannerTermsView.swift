@@ -48,9 +48,7 @@ class BannerTermsView : UIView {
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
         closeButton.addTarget(self, action: "removeFromSuperview", forControlEvents: UIControlEvents.TouchUpInside)
         viewBg.addSubview(closeButton)
-
-        
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_BANNER_TERMS.rawValue, action: WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue, label: "")
     }
     
     
