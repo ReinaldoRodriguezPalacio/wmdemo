@@ -343,7 +343,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         self.buttonShop!.enabled = false
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                 self.buttonShop!.enabled = true
                 self.performSegueWithIdentifier("checkoutVC", sender: self)

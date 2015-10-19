@@ -46,7 +46,7 @@ class ShoppingCartAddProductsService : BaseService {
         
         
         
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             
             var itemsSvc : [[String:AnyObject]] = []
             var itemsWishList : [String] = []
@@ -146,7 +146,7 @@ class ShoppingCartAddProductsService : BaseService {
             
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! String)
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! String,UserCurrentSession.sharedInstance().userSigned!)
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
@@ -177,7 +177,7 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.status = NSNumber(integer: statusForProduct())
             cartProduct.type = ResultObjectType.Mg.rawValue
 
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }
         }

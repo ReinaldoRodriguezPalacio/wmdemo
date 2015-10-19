@@ -46,6 +46,9 @@ class UserCurrentSession : NSObject {
         
     }
     
+    class func hasLoggedUser() -> Bool{
+        return !(UserCurrentSession.sharedInstance().userSigned == nil)
+    }
     
     func searchForCurrentUser(){
         
@@ -712,7 +715,7 @@ class UserCurrentSession : NSObject {
     
     func updatePhoneProfile() {
         if self.mustUpdatePhone {
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone
                 UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = self.workNumber
                 UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber

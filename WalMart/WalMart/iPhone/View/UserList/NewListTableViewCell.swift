@@ -63,7 +63,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
     
     override func layoutSubviews() {
         let bounds = self.frame.size
-        if  UserCurrentSession.sharedInstance().userSigned != nil {
+        if  UserCurrentSession.hasLoggedUser() {
             self.scanTicketBtn!.hidden = false
             self.scanTicketBtn!.frame = CGRectMake(16.0, (bounds.height - 40.0)/2, 40.0, 40.0)
             self.inputNameList!.frame = CGRectMake(self.scanTicketBtn!.frame.maxX + 16.0, (bounds.height - 40.0)/2, bounds.width - 88.0, 40.0)

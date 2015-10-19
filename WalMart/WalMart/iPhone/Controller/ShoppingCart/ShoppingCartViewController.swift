@@ -770,7 +770,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.buttonShop.alpha = 1.0
         let cont = LoginController.showLogin()
         var user = ""
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             cont!.noAccount?.hidden = true
             cont!.registryButton?.hidden = true
             cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
@@ -786,7 +786,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         cont!.successCallBack = {() in
             
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
                     NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
                     //self.reloadShoppingCart()

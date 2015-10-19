@@ -226,7 +226,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -286,7 +286,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func reloadWithoutTableReload(success success:(()->Void)?, failure:((error:NSError)->Void)?){
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -388,7 +388,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
                     
-                    if let _ = UserCurrentSession.sharedInstance().userSigned {
+                    if UserCurrentSession.hasLoggedUser() {
                         self.alertView = nil
                         self.invokeUpdateListService()
                     }
@@ -840,7 +840,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         
-        if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
+        if requiredHelp && UserCurrentSession.hasLoggedUser() {
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
             self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
             self.helpView!.alpha = 0.0
