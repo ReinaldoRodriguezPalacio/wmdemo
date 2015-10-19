@@ -557,7 +557,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         let service = GRProductBySearchService()
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "rating" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -598,7 +598,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
-        
+       
+        if  self.searchContextType == .WithCategoryForGR {
+            self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+        }
      
         if btnSuper.selected   {
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
@@ -752,7 +755,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter = FilterProductsViewController()
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
-            controllerFilter.selectedOrder = self.idSort!
+            controllerFilter.selectedOrder = self.idSort! == "" ? "rating" :self.idSort!
             controllerFilter.isGroceriesSearch = self.btnSuper.selected
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
