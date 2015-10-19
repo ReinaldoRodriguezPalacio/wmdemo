@@ -160,7 +160,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             cont!.closeAlert(true, messageSucesss: false)
         }
         
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             cont!.noAccount?.hidden = true
             cont!.registryButton?.hidden = true
             cont!.valueEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
@@ -170,7 +170,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
         cont!.successCallBack = {() in
             
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
                      NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
                     self.reloadShoppingCart()

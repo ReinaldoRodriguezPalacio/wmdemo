@@ -194,7 +194,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        if UserCurrentSession.sharedInstance().userSigned != nil && self.controllerTo != nil {
+        if UserCurrentSession.hasLoggedUser() && self.controllerTo != nil {
             let storyboard = self.loadStoryboardDefinition()
             let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
             self.navigationController!.pushViewController(vc, animated: false)

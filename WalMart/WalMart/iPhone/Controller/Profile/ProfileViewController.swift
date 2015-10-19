@@ -133,11 +133,11 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     
     func setValues(){
         var user: User?
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             user = UserCurrentSession.sharedInstance().userSigned!
             self.nameLabel!.text = (user!.profile.name as String) + " " + (user!.profile.lastName as String)
             self.emailLabel!.text = user!.email as String
-        }//if UserCurrentSession.sharedInstance().userSigned != nil
+        }//if UserCurrentSession.hasLoggedUser()
        
     }
     
@@ -207,7 +207,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         signOutButton?.enabled = false
         let shoppingCartUpdateBg = ShoppingCartProductsService()
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            if  UserCurrentSession.sharedInstance().userSigned != nil {
+            if  UserCurrentSession.hasLoggedUser() {
                 UserCurrentSession.sharedInstance().userSigned = nil
                 UserCurrentSession.sharedInstance().deleteAllUsers()
                 self.signOutButton?.enabled = true

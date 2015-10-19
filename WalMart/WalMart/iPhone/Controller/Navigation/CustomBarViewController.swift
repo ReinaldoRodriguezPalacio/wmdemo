@@ -405,7 +405,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let storyboard = self.loadStoryboardDefinition()
         
         //var   = "loginVC-profileItemVC" as String
-        if UserCurrentSession.sharedInstance().userSigned != nil{
+        if UserCurrentSession.hasLoggedUser() {
             //controllerProfile = "profileVC"
         }
         
@@ -1211,6 +1211,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         if (requiredHelp && self.helpView == nil ) || force {
+            
+            
+            
             let bounds = self.view.bounds
             
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
@@ -1223,6 +1226,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let imageArray = [["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
             totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
             totuView.onClose = {() in
+                
                 self.removeHelpForSearchView()
                 self.addOrUpdateParam("mainHelp", value: "false")
             }

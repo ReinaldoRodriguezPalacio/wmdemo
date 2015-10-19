@@ -125,7 +125,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             buttonFinish.layer.cornerRadius = 18
             buttonFinish.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
             buttonFinish.backgroundColor = WMColor.green
-            buttonFinish.addTarget(self, action: "removeHelp", forControlEvents: UIControlEvents.TouchUpInside)
+            buttonFinish.addTarget(self, action: "finishRemoveHelp", forControlEvents: UIControlEvents.TouchUpInside)
             viewFinish.addSubview(buttonFinish)
 
             
@@ -144,6 +144,16 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     
     func removeHelp() {
         if onClose != nil {
+            let category = UserCurrentSession.hasLoggedUser() ? WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue :WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue
+            BaseController.analiticsTag(category, action: WMGAIUtils.ACTION_CLOSE_TUTORIAL.rawValue, label: "")
+            onClose()
+        }
+    }
+    
+    func finishRemoveHelp(){
+        if onClose != nil {
+            let category = UserCurrentSession.hasLoggedUser() ? WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue :WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue
+            BaseController.analiticsTag(category, action: WMGAIUtils.ACTION_CLOSE_END_TUTORIAL.rawValue, label: "")
             onClose()
         }
     }

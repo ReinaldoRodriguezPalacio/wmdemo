@@ -125,6 +125,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 return
             }
         }
+        self.filterController!.facetGr = self.facetGr
         self.filterController!.isGroceriesSearch = self.btnSuper.selected
         self.filterController!.searchContext = self.searchContextType
         let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)

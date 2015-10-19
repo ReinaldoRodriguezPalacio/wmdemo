@@ -92,7 +92,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //        default :
 //            println("option don't exist")
 //        }
-//        if UserCurrentSession.sharedInstance().userSigned != nil || indexPath.section != 0 {
+//        if UserCurrentSession.hasLoggedUser() || indexPath.section != 0 {
 //            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
 //        } else if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
 //            switch (OptionsController(rawValue: srtOption)!) {

@@ -32,5 +32,10 @@ class BaseController : UIViewController {
         return true
     }
     
+    class func analiticsTag(category:String, action: String, label:String){
+           ////////
+        print("Category: \(category) Action: \(action) Label: \(label)")
+    }
+    
    
 }

@@ -23,7 +23,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             self.setStoreName()
         }
     }

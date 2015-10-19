@@ -89,7 +89,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         super.viewWillAppear(animated)
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in
                 self.loading?.stopAnnimating()
@@ -374,7 +374,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
     
     override func duplicate() {
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             //self.itemsUserList =
             self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
                 self.delegate?.reloadTableListUser()

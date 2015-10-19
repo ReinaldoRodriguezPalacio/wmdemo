@@ -35,7 +35,7 @@ class AddItemWishlistService : BaseService {
     
     func callService(params:NSArray, mustUpdateWishList:Bool, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             //Se actualza la lista del usuario
             var itemsSvc : [[String:AnyObject]] = []
             for itemSvc in params as NSArray {
@@ -77,7 +77,7 @@ class AddItemWishlistService : BaseService {
             })
             var wishlistProduct : Wishlist
             var predicate = NSPredicate(format: "product.upc == %@ && user == nil",product["upc"] as! NSString)
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
             }
             let array : [Wishlist] =  self.retrieve("Wishlist",sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]
@@ -99,7 +99,7 @@ class AddItemWishlistService : BaseService {
             wishlistProduct.product.onHandInventory = product["onHandInventory"] as! String
             
             wishlistProduct.status = NSNumber(integer: WishlistStatus.Created.rawValue)
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 wishlistProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }
         }
