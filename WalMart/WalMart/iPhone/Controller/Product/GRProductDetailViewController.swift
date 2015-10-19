@@ -392,7 +392,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             self.isShowShoppingCart = false
                             //self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
                             let params = self.buildParamsUpdateShoppingCart(quantity)
-                            
+                            self.sendAnalytics("AddtoShopiingCart", action:"AddtoShopiingCart" , labelAnalytic: self.name as String)
                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                             
                     })
@@ -495,6 +495,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 service.callService(service.buildParams(idList: listId, upcs: [productObject]),
                     successBlock: { (result:NSDictionary) -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                        self.sendAnalytics("AddProducttoList", action: "AddProducttoList", labelAnalytic:"\(self.upc) \(self.name)" )
+                        
                         self.alertView!.showDoneIcon()
                         self.alertView!.afterRemove = {
                             self.removeListSelector(action: nil)
