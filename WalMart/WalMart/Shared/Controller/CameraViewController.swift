@@ -437,6 +437,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     func closeCamera(){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
             self.delegate!.photoCaptured(nil, done: { () -> Void in
             })
         })
@@ -492,7 +493,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
 //                    self.alertView!.showDoneIcon()
                     self.dismissViewControllerAnimated(true, completion: nil)
                     self.delegate!.photoCaptured(name, done: { () -> Void in
-                        
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
                     })
                     // self.delegate!.photoCaptured(name)
                     

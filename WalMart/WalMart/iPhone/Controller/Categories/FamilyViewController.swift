@@ -100,7 +100,9 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 selectSection(indexPath)
                 self.familyTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
             }
-            
+            let label = families[indexPath.section]["name"] as! String
+            let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
+            BaseController.sendAnalytics("MG_CATEGORY_\(labelCategory)_AUTH", categoryNoAuth:"MG_CATEGORY_\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
         }
         else {
             let selectedSection = families[indexPath.section]
@@ -115,6 +117,7 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
                 case .CategoryForMG : controller.searchContextType = .WithCategoryForMG
                 //default : print("No se ha indicado tipo de categorias.")
                 }
+             
             }
             controller.titleHeader = itemLine["name"] as? String
             controller.idDepartment = departmentId
@@ -122,6 +125,9 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
             controller.idLine = itemLine["id"] as? String
 
             self.navigationController!.pushViewController(controller, animated: true)
+            let label = itemLine["name"] as! String
+            let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
+            BaseController.sendAnalytics("MG_CATEGORY_\(labelCategory)_AUTH", categoryNoAuth:"MG_CATEGORY_\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
         }
     }
     

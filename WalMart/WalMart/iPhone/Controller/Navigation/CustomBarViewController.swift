@@ -595,6 +595,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         }
         else{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
             self.closeSearch(false, sender: nil)
         }
     }

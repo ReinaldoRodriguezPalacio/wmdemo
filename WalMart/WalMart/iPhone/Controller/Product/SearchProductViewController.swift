@@ -557,7 +557,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         let service = GRProductBySearchService()
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "rating" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
