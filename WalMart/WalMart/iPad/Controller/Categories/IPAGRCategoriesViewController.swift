@@ -21,7 +21,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
            self.setStoreName()
         }
     }

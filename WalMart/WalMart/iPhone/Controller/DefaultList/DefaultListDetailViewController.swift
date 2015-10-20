@@ -442,7 +442,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         let service = GRUserListService()
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             
             service.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 

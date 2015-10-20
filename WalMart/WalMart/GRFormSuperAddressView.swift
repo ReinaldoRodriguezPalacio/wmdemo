@@ -66,32 +66,32 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.errorLabelStore!.hidden = true
         
         self.addressName = FormFieldView()
-        self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.isRequired = true
+        self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.typeField = TypeField.Alphanumeric
         self.addressName!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
         self.addressName!.minLength = 3
         self.addressName!.maxLength = 25
         
         self.street = FormFieldView()
-        self.street!.setCustomPlaceholder(NSLocalizedString("gr.address.field.street",comment:""))
         self.street!.isRequired = true
+        self.street!.setCustomPlaceholder(NSLocalizedString("gr.address.field.street",comment:""))
         self.street!.typeField = TypeField.Alphanumeric
         self.street!.nameField = NSLocalizedString("gr.address.field.street",comment:"")
         self.street!.minLength = 2
         self.street!.maxLength = 50
         
         self.outdoornumber = FormFieldView()
-        self.outdoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.outdoornumber",comment:""))
         self.outdoornumber!.isRequired = true
+        self.outdoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.outdoornumber",comment:""))
         self.outdoornumber!.typeField = TypeField.NumAddress
         self.outdoornumber!.minLength = 1
         self.outdoornumber!.maxLength = 15
         self.outdoornumber!.nameField = NSLocalizedString("gr.address.field.outdoornumber",comment:"")
         
         self.indoornumber = FormFieldView()
-        self.indoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.indoornumber",comment:""))
         self.indoornumber!.isRequired = false
+        self.indoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.indoornumber",comment:""))
         self.indoornumber!.typeField = TypeField.NumAddress
         self.indoornumber!.minLength = 0
         self.indoornumber!.maxLength = 15
@@ -99,8 +99,8 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         
         
         self.zipcode = FormFieldView()
-        self.zipcode!.setCustomPlaceholder(NSLocalizedString("gr.address.field.zipcode",comment:""))
         self.zipcode!.isRequired = true
+        self.zipcode!.setCustomPlaceholder(NSLocalizedString("gr.address.field.zipcode",comment:""))
         self.zipcode!.typeField = TypeField.Number
         self.zipcode!.minLength = 5
         self.zipcode!.maxLength = 5
@@ -114,14 +114,14 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelStore!.textColor = WMColor.listAddressHeaderSectionColor
         
         self.store = FormFieldView()
-        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
         self.store!.isRequired = true
+        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
         self.store!.typeField = TypeField.List
         self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
         
         self.suburb = FormFieldView()
-        self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
         self.suburb!.isRequired = false
+        self.suburb!.setCustomPlaceholder(NSLocalizedString("gr.address.field.suburb",comment:""))
         self.suburb!.typeField = TypeField.List
         self.suburb!.nameField = NSLocalizedString("gr.address.field.suburb",comment:"")
         
@@ -133,16 +133,16 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelBetween!.textColor = WMColor.listAddressHeaderSectionColor
         
         self.betweenFisrt = FormFieldView()
-        self.betweenFisrt!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
         self.betweenFisrt!.isRequired = false
+        self.betweenFisrt!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenFisrt",comment:""))
         self.betweenFisrt!.typeField = TypeField.Alphanumeric
         self.betweenFisrt!.nameField = NSLocalizedString("gr.address.field.betweenFisrt",comment:"")
         self.betweenFisrt!.minLength = 2
         self.betweenFisrt!.maxLength = 100
         
         self.betweenSecond = FormFieldView()
-        self.betweenSecond!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenSecond",comment:""))
         self.betweenSecond!.isRequired = false
+        self.betweenSecond!.setCustomPlaceholder(NSLocalizedString("gr.address.field.betweenSecond",comment:""))
         self.betweenSecond!.typeField = TypeField.Alphanumeric
         self.betweenSecond!.nameField = NSLocalizedString("gr.address.field.betweenSecond",comment:"")
         self.betweenSecond!.minLength = 2
@@ -181,7 +181,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.cellPhone!.inputAccessoryView = viewAccess
         
         
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
             self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
             self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String

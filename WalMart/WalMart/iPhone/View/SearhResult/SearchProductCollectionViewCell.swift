@@ -29,12 +29,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         super.setup()
         
         //presale
-        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
 
     
-        
         
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
@@ -74,10 +73,20 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool) {
         
-        
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         imagePresale.hidden = !isPreorderable
+        
+        if isPreorderable {
+            if IS_IPHONE {
+                self.productShortDescriptionLabel?.textAlignment = .Right
+            }
+            self.productShortDescriptionLabel?.frame = CGRectMake(38, 0,self.frame.width - 42 , 46)
+            self.productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
+        }else{
+            self.productShortDescriptionLabel?.textAlignment = .Center
+            self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
+        }
         
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)

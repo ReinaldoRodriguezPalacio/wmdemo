@@ -173,7 +173,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func loadServiceItems(complete:(()->Void)?) {
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in
                 if self.loading != nil {
@@ -1024,7 +1024,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     label: "\(upc) - \(quantity)",
                     value: nil).build() as [NSObject : AnyObject])
             }
-            
+            self.sendAnalytics("KeyboardGram", action: "UpdateList", labelAnalytic: upc)
         
         let service = GRUpdateItemListService()
         service.callService(service.buildParams(upc: upc, quantity: quantity),
@@ -1225,7 +1225,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func duplicate() {
-        if let _ = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                 self.alertView!.showDoneIcon()

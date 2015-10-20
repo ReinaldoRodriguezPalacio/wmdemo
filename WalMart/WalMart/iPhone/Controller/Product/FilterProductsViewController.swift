@@ -12,6 +12,7 @@ protocol FilterProductsViewControllerDelegate {
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
     func apply(order:String, upcs: [String])
     func removeFilters()
+    func removeSelectedFilters()
     func sendBrandFilter(brandFilter:String)
 }
 
@@ -254,7 +255,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }else {
             self.navigationController!.popViewControllerAnimated(true)
         }
-        
+       self.delegate?.removeSelectedFilters()
     }
     
 

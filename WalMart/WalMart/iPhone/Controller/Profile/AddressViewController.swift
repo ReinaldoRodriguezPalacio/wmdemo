@@ -40,6 +40,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var alertView : IPOWMAlertViewController? = nil
     var isLogin : Bool = false
     var isIpad : Bool = false
+    var addressShippingCont: Int! = 0
+    var addressFiscalCount: Int! = 0
     
     var validateZip =  false
     
@@ -530,6 +532,35 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 label: "", value: nil).build() as [NSObject : AnyObject])
         }
         
+        if sender.tag == 100 {
+            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+        }else{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+        }
+        
+        if typeAddress == .Shiping && addressShippingCont >= 12 {
+            self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
+            if self.successCallBack == nil {
+                self.closeAlert()
+                NSTimer.scheduledTimerWithTimeInterval(1.7, target: self, selector: "popView", userInfo: nil, repeats: false)
+            }else {
+                
+                self.successCallBack!()
+            }
+            return
+        }
+        else if (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral)  && addressFiscalCount >= 12 {
+            self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
+            if self.successCallBack == nil {
+                self.closeAlert()
+                NSTimer.scheduledTimerWithTimeInterval(1.7, target: self, selector: "popView", userInfo: nil, repeats: false)
+            }else {
+                
+                self.successCallBack!()
+            }
+            return
+        }
+        
         
         var params : NSDictionary? = nil
         var service :  BaseService!
@@ -566,12 +597,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         if params != nil{
             self.view.endEditing(true)
-            if sender.tag == 100 {
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            }else{
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            }
-
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {
@@ -592,6 +617,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     self.alertView!.showErrorIcon("Ok")
             })
         }
+    }
+    
+    func popView(){
+       self.navigationController!.popViewControllerAnimated(true)
     }
 
     func closeAlert(){

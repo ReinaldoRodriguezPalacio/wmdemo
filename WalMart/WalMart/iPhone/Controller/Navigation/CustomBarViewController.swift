@@ -1167,7 +1167,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     
-    func handleNotification(type:String,name:String,value:String) -> Bool {
+    func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
         
         let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         

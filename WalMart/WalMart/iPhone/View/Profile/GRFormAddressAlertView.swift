@@ -105,6 +105,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         sAddredssForm = FormSuperAddressView(frame: CGRectMake(viewContentOptions.bounds.minX , viewContentOptions.bounds.minY, viewContentOptions.bounds.width, 720))
        //     viewContentOptions.bounds)
         sAddredssForm.store!.isRequired = false
+        sAddredssForm.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
         sAddredssForm.delegateFormAdd = self
         scrollForm.addSubview(sAddredssForm)
         viewContentOptions.addSubview(scrollForm)

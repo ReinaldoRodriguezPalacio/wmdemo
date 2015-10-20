@@ -343,7 +343,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            if  UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 UserCurrentSession.sharedInstance().userSigned = nil
                 UserCurrentSession.sharedInstance().deleteAllUsers()
                 self.reloadButtonSession()

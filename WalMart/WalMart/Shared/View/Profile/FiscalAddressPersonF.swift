@@ -27,32 +27,32 @@ class FiscalAddressPersonF: AddressView {
         super.setup()
         
         self.name = FormFieldView()
-        self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name",comment:""))
         self.name!.isRequired = true
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.person.name",comment:""))
         self.name!.typeField = TypeField.Name
         self.name!.minLength = 2
         self.name!.maxLength = 25
         self.name!.nameField = NSLocalizedString("profile.address.person.name",comment:"")
         
         self.lastName = FormFieldView()
-        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName",comment:""))
         self.lastName!.isRequired = true
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName",comment:""))
         self.lastName!.typeField = TypeField.String
         self.lastName!.minLength = 2
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.address.person.lastName",comment:"")
         
         self.lastName2 = FormFieldView()
-        self.lastName2!.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName2",comment:""))
         self.lastName2!.isRequired = false
+        self.lastName2!.setCustomPlaceholder(NSLocalizedString("profile.address.person.lastName2",comment:""))
         self.lastName2!.typeField = TypeField.String
         self.lastName2!.minLength = 2
         self.lastName2!.maxLength = 25
         self.lastName2!.nameField = NSLocalizedString("profile.address.person.lastName2",comment:"")
         
         self.rfc = FormFieldView()
-        self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.isRequired = true
+        self.rfc!.setCustomPlaceholder(NSLocalizedString("profile.address.rfc",comment:""))
         self.rfc!.typeField = TypeField.RFC
         self.rfc!.minLength = 10
         self.rfc!.maxLength = 13
@@ -60,9 +60,9 @@ class FiscalAddressPersonF: AddressView {
         self.rfc!.nameField = NSLocalizedString("profile.address.rfc",comment:"")
         
         self.ieps = FormFieldView()
+        self.ieps!.isRequired = false
         self.ieps!.setCustomPlaceholder(NSLocalizedString("profile.address.ieps",comment:""))
         self.ieps!.typeField = TypeField.Number
-        self.ieps!.isRequired = false
         self.ieps!.minLength = 14
         self.ieps!.maxLength = 14
         self.ieps!.keyboardType = UIKeyboardType.NumberPad
@@ -70,8 +70,8 @@ class FiscalAddressPersonF: AddressView {
         self.ieps!.nameField = NSLocalizedString("profile.address.ieps",comment:"")
         
         self.email = FormFieldView()
-        self.email!.setCustomPlaceholder(NSLocalizedString("profile.address.email",comment:""))
         self.email!.isRequired = true
+        self.email!.setCustomPlaceholder(NSLocalizedString("profile.address.email",comment:""))
         self.email!.typeField = TypeField.Email
         self.email!.nameField = NSLocalizedString("profile.address.email",comment:"")
         self.email!.maxLength = 45

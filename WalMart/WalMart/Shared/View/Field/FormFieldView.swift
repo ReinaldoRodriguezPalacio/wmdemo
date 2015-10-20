@@ -31,7 +31,7 @@ class FormFieldView : UIEdgeTextField {
     let textBorderOff = UIColor.whiteColor().CGColor
     let textBorderError = WMColor.profileErrorColor.CGColor
     
-    var isRequired : Bool = false
+    var isRequired : Bool = false 
     var nameField : String!
     var validMessageText : String!
     var typeField : TypeField = TypeField.None
@@ -68,11 +68,20 @@ class FormFieldView : UIEdgeTextField {
     }
    
     func setCustomPlaceholder(placeholder : String){
-        self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
+        var str = placeholder
+        if(self.isRequired){
+           str = "*" + placeholder
+        }
+        
+        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
     }
     
     func setCustomPlaceholderRegular(placeholder : String){
-        self.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+        var str = placeholder
+        if(self.isRequired){
+            str = "*" + placeholder
+        }
+        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
     func setSelectedCheck( isCheck: Bool){

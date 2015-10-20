@@ -29,7 +29,7 @@ class ShoppingCartDeleteProductsService : BaseService {
     }
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
                 //let shoppingService = ShoppingCartProductsService()
                 //shoppingService.callService([:], successBlock: successBlock, errorBlock: errorBlock)
@@ -57,7 +57,7 @@ class ShoppingCartDeleteProductsService : BaseService {
             for paramItem in parameter {
                 let upc = paramItem as! NSString
                 var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
-                if UserCurrentSession.sharedInstance().userSigned != nil {
+                if UserCurrentSession.hasLoggedUser() {
                     predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
                 }
                 let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
