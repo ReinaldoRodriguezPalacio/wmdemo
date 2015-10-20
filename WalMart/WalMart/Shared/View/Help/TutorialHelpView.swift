@@ -144,16 +144,14 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     
     func removeHelp() {
         if onClose != nil {
-            let category = UserCurrentSession.hasLoggedUser() ? WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue :WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue
-            BaseController.analiticsTag(category, action: WMGAIUtils.ACTION_CLOSE_TUTORIAL.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_CLOSE_TUTORIAL.rawValue, label: "")
             onClose()
         }
     }
     
     func finishRemoveHelp(){
         if onClose != nil {
-            let category = UserCurrentSession.hasLoggedUser() ? WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue :WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue
-            BaseController.analiticsTag(category, action: WMGAIUtils.ACTION_CLOSE_END_TUTORIAL.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_END_TUTORIAL.rawValue, label: "")
             onClose()
         }
     }
