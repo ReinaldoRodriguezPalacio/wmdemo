@@ -13,6 +13,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
     
     var borderViewTop : UIView!
     var iconDiscount : UIImageView!
+    var imagePresale : UIImageView!
     
     
     override func setup() {
@@ -21,6 +22,10 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         iconDiscount = UIImageView(image:UIImage(named:"saving_icon"))
         iconDiscount.frame = CGRectMake(8,8,19,19)
         self.addSubview(iconDiscount)
+        
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
 
         productShortDescriptionLabel!.numberOfLines = 3
         
@@ -48,9 +53,11 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
     
     
     
-    func setValues(productImageURL:String,productShortDescription:String,productPrice:String,saving:String) {
+    func setValues(productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool ) {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
+        imagePresale.hidden = !preorderable
+
         
     }
     

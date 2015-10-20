@@ -1011,7 +1011,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     label: "\(upc) - \(quantity)",
                     value: nil).build() as [NSObject : AnyObject])
             }
-            
+            self.sendAnalytics("KeyboardGram", action: "UpdateList", labelAnalytic: upc)
         
         let service = GRUpdateItemListService()
         service.callService(service.buildParams(upc: upc, quantity: quantity),
