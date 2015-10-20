@@ -52,7 +52,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func setup() {
         let collectionLayout = UICollectionViewFlowLayout()
         collectionLayout.scrollDirection = UICollectionViewScrollDirection.Horizontal
-        collection = UICollectionView(frame: CGRectMake(self.bounds.minX, 16, self.bounds.width, self.bounds.height - 54), collectionViewLayout: collectionLayout)
+        collection = UICollectionView(frame: CGRectMake(self.bounds.minX, self.bounds.minY, self.bounds.width, self.bounds.height - 54), collectionViewLayout: collectionLayout)
         collection.registerClass(ProductDetailBannerMediaCollectionViewCell.self, forCellWithReuseIdentifier: "imageCell")
         collection.dataSource = self
         collection.delegate = self

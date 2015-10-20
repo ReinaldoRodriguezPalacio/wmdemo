@@ -59,7 +59,7 @@ class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnim
                 UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
                     fromViewController!.view.alpha = 0.0
                     //toViewController!.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                    self.imageTranslate.frame = CGRectMake(0, 58, 682, 352)
+                    self.imageTranslate.frame = CGRectMake(0, 58, 682, 354)
                     //toViewController!.view.frame = containerView.frame
                     }, completion: { (complete:Bool) -> Void in
                         UIView.animateWithDuration(0.3, animations: { () -> Void in

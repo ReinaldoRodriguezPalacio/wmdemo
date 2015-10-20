@@ -13,7 +13,7 @@ enum WMGAIUtils : String {
 
 //case GAI_APP_KEY = "UA-52615607-1" // productivo
 //case GAI_APP_KEY = "UA-68704781-1" // desarrollo
-case GAI_APP_KEY = "UA-62456603-1"
+case GAI_APP_KEY = "UA-68704781-1"
 
 
 
