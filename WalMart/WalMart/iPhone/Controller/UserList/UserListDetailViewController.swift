@@ -182,13 +182,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.loading = nil
                 
                 
-                self.selectedItems = []
-                self.selectedItems = NSMutableArray()
-                if self.products != nil  && self.products!.count > 0  {
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.addObject(i)
+                if self.selectedItems == nil {
+                    self.selectedItems = NSMutableArray()
+                    if self.products != nil  && self.products!.count > 0  {
+                        for i in 0...self.products!.count - 1 {
+                            self.selectedItems?.addObject(i)
+                        }
+                        self.updateTotalLabel()
                     }
-                    self.updateTotalLabel()
                 }
                 
                 complete?()
@@ -196,14 +197,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         else {
             self.retrieveProductsLocally(false)
-            if self.products == nil  || self.products!.count == 0 {
-                self.selectedItems = []
-            } else {
-                self.selectedItems = NSMutableArray()
-                for i in 0...self.products!.count - 1 {
-                    self.selectedItems?.addObject(i)
+            if self.selectedItems == nil {
+                if self.products == nil  || self.products!.count == 0 {
+                    self.selectedItems = []
+                } else {
+                    self.selectedItems = NSMutableArray()
+                    for i in 0...self.products!.count - 1 {
+                        self.selectedItems?.addObject(i)
+                    }
+                    self.updateTotalLabel()
                 }
-                self.updateTotalLabel()
             }
             complete?()
         }
@@ -736,6 +739,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if self.selectedItems!.containsObject(indexPath.row) {
                             self.selectedItems?.removeObject(indexPath.row)
                         }
+                        let newSelected  = NSMutableArray()
+                        for idxVal  in selectedItems! {
+                            let idx = idxVal as! Int
+                            if idx > indexPath.row {
+                                newSelected.addObject(idx - 1)
+                            } else {
+                                newSelected.addObject(idx)
+                            }
+                        }
+                        selectedItems = newSelected
                         self.invokeDeleteProductFromListService(upc)
                     }
                 }
@@ -881,14 +894,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.products = result["items"] as? [AnyObject]
                 self.titleLabel?.text = result["name"] as? String
                 
-                
-                if self.products == nil || self.products!.count == 0  {
-                    self.selectedItems = []
-                } else {
-                    
-                    self.selectedItems = NSMutableArray()
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.addObject(i)
+                if self.selectedItems == nil {
+                    if self.products == nil || self.products!.count == 0  {
+                        self.selectedItems = []
+                    } else {
+                        self.selectedItems = NSMutableArray()
+                        for i in 0...self.products!.count - 1 {
+                            self.selectedItems?.addObject(i)
+                        }
                     }
                 }
                 
@@ -1071,7 +1084,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 //self.reloadTableListUser()
             }
             
-           
+           if self.selectedItems == nil {
             self.selectedItems = []
             self.selectedItems = NSMutableArray()
             if self.products != nil  && self.products!.count > 0  {
@@ -1079,6 +1092,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.selectedItems?.addObject(i)
                 }
                 self.updateTotalLabel()
+            }
             }
             
             self.updateTotalLabel()
