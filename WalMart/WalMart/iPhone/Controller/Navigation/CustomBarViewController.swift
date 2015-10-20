@@ -756,7 +756,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-    func selectKeyWord(keyWord:String, upc:String?, truncate:Bool ){
+    func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
                 let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build()
@@ -801,6 +801,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 isEditingSearch = false
             }
             let controller = SearchProductViewController()
+            controller.upcsToShow = upcs
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
@@ -1181,8 +1182,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
         case "": self.buttonSelected(self.buttonList[0])
-        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true)
-        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true)
+        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
+        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
         case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG )
         case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)

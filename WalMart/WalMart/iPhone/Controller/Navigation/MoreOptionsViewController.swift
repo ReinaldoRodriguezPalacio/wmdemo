@@ -371,7 +371,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?,done: (() -> Void))
+    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void))
     {
         if value != nil || value == "" {
             if let tracker = GAI.sharedInstance().defaultTracker {

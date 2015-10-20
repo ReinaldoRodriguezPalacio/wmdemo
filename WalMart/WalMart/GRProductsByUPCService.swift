@@ -14,6 +14,14 @@ class GRProductsByUPCService : GRBaseService {
     let JSON_ITEMS_RESULT = "items"
     
     
+    func buildParamServiceUpcs(upcs:[String]) -> [[String:String]] {
+        var paramsForOneQuantity : [[String:String]] = []
+        for upcSearch in upcs {
+            paramsForOneQuantity.append(buildParamService(upcSearch, quantity: "1"))
+        }
+        return paramsForOneQuantity
+    }
+    
     func buildParamService(upc:String,quantity:String) -> [String:String] {
         return ["upc":upc,"quantity":quantity]
     }

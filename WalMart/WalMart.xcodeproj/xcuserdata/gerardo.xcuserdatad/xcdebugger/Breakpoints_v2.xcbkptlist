@@ -73,7 +73,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "565"
             endingLineNumber = "565"
-            landmarkName = "startRunning()"
+            landmarkName = "maskRoundedImage(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -89,7 +89,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "582"
             endingLineNumber = "582"
-            landmarkName = "applicationWillEnterForeground(_:)"
+            landmarkName = "startRunning()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,7 +105,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "586"
             endingLineNumber = "586"
-            landmarkName = "applicationDidEnterBackground(_:)"
+            landmarkName = "stopRunning()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -195,8 +195,8 @@
                   symbolName = "WalmartMG.BarCodeViewController.setupCaptureSession (WalmartMG.BarCodeViewController)() -&gt; ()"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466117528.989211"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
+                  timestampString = "467050434.018512"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "119"
@@ -210,8 +210,8 @@
                   symbolName = "WalmartMG.BarCodeViewController.(setupCaptureSession (WalmartMG.BarCodeViewController) -&gt; () -&gt; ()).(closure #1)"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466117528.98942"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
+                  timestampString = "467050434.01868"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "120"
@@ -307,8 +307,8 @@
                   symbolName = "WalmartMG.BarCodeViewController.closeAlert (WalmartMG.BarCodeViewController)() -&gt; ()"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466117528.99333"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
+                  timestampString = "467050434.022799"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "195"
@@ -322,8 +322,8 @@
                   symbolName = "WalmartMG.BarCodeViewController.(closeAlert (WalmartMG.BarCodeViewController) -&gt; () -&gt; ()).(closure #1)"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
-                  timestampString = "466117528.993522"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/Controller/BarCodeViewController.swift"
+                  timestampString = "467050434.022974"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "196"
@@ -570,22 +570,6 @@
             startingLineNumber = "461"
             endingLineNumber = "461"
             landmarkName = "searchProductKeywords(_:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WalMart/Shared/View/Product/ProductDetailButtonBarCollectionViewCell.swift"
-            timestampString = "465318594.006501"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "237"
-            endingLineNumber = "237"
-            landmarkName = "reloadShoppinhgButton()"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -1154,13 +1138,13 @@
                   symbolName = "WalmartMG.EditProfileViewController.viewDidLoad (WalmartMG.EditProfileViewController)() -&gt; ()"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/EditProfileViewController.swift"
-                  timestampString = "466117529.016166"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Profile/EditProfileViewController.swift"
+                  timestampString = "467050434.046463"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "100"
                   endingLineNumber = "100"
-                  offsetFromSymbolStart = "12026">
+                  offsetFromSymbolStart = "12028">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1169,8 +1153,8 @@
                   symbolName = "WalmartMG.EditProfileViewController.(viewDidLoad (WalmartMG.EditProfileViewController) -&gt; () -&gt; ()).(closure #1)"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/EditProfileViewController.swift"
-                  timestampString = "466117529.016308"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Profile/EditProfileViewController.swift"
+                  timestampString = "467050434.046632"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "101"
@@ -1266,13 +1250,13 @@
                   symbolName = "WalmartMG.SignUpViewController.viewDidLoad (WalmartMG.SignUpViewController)() -&gt; ()"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/SignUpViewController.swift"
-                  timestampString = "466117529.017715"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Profile/SignUpViewController.swift"
+                  timestampString = "467050434.048099"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "125"
                   endingLineNumber = "125"
-                  offsetFromSymbolStart = "14511">
+                  offsetFromSymbolStart = "14513">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -1281,8 +1265,8 @@
                   symbolName = "WalmartMG.SignUpViewController.(viewDidLoad (WalmartMG.SignUpViewController) -&gt; () -&gt; ()).(closure #1)"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/iPhone/Controller/Profile/SignUpViewController.swift"
-                  timestampString = "466117529.017887"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Profile/SignUpViewController.swift"
+                  timestampString = "467050434.048253"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "126"
@@ -1330,8 +1314,8 @@
                   symbolName = "WalmartMG.AddressView.setup (WalmartMG.AddressView)() -&gt; ()"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/View/Profile/AddressView.swift"
-                  timestampString = "466117529.019282"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/View/Profile/AddressView.swift"
+                  timestampString = "467050434.049828"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "78"
@@ -1345,8 +1329,8 @@
                   symbolName = "WalmartMG.AddressView.(setup (WalmartMG.AddressView) -&gt; () -&gt; ()).(closure #1)"
                   moduleName = "WalmartMG"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gerardo/walmart-ios/WalMart/WalMart/Shared/View/Profile/AddressView.swift"
-                  timestampString = "466117529.01946"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/View/Profile/AddressView.swift"
+                  timestampString = "467050434.049984"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "79"
@@ -1658,6 +1642,38 @@
             endingLineNumber = "818"
             landmarkName = "showProducts(forDepartmentId:andFamilyId:andLineId:andTitleHeader:andSearchContextType:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.CustomBarViewController.showProducts (WalmartMG.CustomBarViewController)(forDepartmentId : Swift.Optional&lt;Swift.String&gt;, andFamilyId : Swift.Optional&lt;Swift.String&gt;, andLineId : Swift.Optional&lt;Swift.String&gt;, andTitleHeader : Swift.String, andSearchContextType : WalmartMG.SearchServiceContextType) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Navigation/CustomBarViewController.swift"
+                  timestampString = "467050434.054848"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "820"
+                  endingLineNumber = "820"
+                  offsetFromSymbolStart = "213">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "protocol witness for WalmartMG.SearchViewControllerDelegate.showProducts &lt;A where A: WalmartMG.SearchViewControllerDelegate&gt; (A)(forDepartmentId : Swift.Optional&lt;Swift.String&gt;, andFamilyId : Swift.Optional&lt;Swift.String&gt;, andLineId : Swift.Optional&lt;Swift.String&gt;, andTitleHeader : Swift.String, andSearchContextType : WalmartMG.SearchServiceContextType) -&gt; () in conformance WalmartMG.CustomBarViewController : WalmartMG.SearchViewControllerDelegate in WalmartMG"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Navigation/CustomBarViewController.swift"
+                  timestampString = "467050434.055016"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "818"
+                  endingLineNumber = "818"
+                  offsetFromSymbolStart = "93">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1842,22 +1858,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WalMart/iPhone/Controller/Product/GRProductDetailViewController.swift"
-            timestampString = "465957042.371318"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "892"
-            endingLineNumber = "892"
-            landmarkName = "loadCrossSell()"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
             timestampString = "466012035.27565"
             startingColumnNumber = "9223372036854775807"
@@ -1962,6 +1962,38 @@
             endingLineNumber = "758"
             landmarkName = "apply(_:filters:isForGroceries:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.SearchProductViewController.updateViewAfterInvokeService (WalmartMG.SearchProductViewController)(resetTable : Swift.Bool) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
+                  timestampString = "467050434.061854"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "758"
+                  endingLineNumber = "758"
+                  offsetFromSymbolStart = "11376">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.SearchProductViewController.(updateViewAfterInvokeService (WalmartMG.SearchProductViewController) -&gt; (resetTable : Swift.Bool) -&gt; ()).(closure #3)"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/iPhone/Controller/Product/SearchProductViewController.swift"
+                  timestampString = "467050434.062023"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "759"
+                  endingLineNumber = "759"
+                  offsetFromSymbolStart = "30">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1994,6 +2026,38 @@
             endingLineNumber = "25"
             landmarkName = "callService(requestParams:successBlock:errorBlock:)"
             landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.GRFacets.callService (WalmartMG.GRFacets)(requestParams : Swift.AnyObject, successBlock : Swift.Optional&lt;(ObjectiveC.NSDictionary) -&gt; ()&gt;, errorBlock : Swift.Optional&lt;(ObjectiveC.NSError) -&gt; ()&gt;) -&gt; ()"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/Services/Product/GRFacets.swift"
+                  timestampString = "467050434.063623"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "527">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WalmartMG.GRFacets.(callService (WalmartMG.GRFacets) -&gt; (requestParams : Swift.AnyObject, successBlock : Swift.Optional&lt;(ObjectiveC.NSDictionary) -&gt; ()&gt;, errorBlock : Swift.Optional&lt;(ObjectiveC.NSError) -&gt; ()&gt;) -&gt; ()).(closure #2)"
+                  moduleName = "WalmartMG"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/gerardo/Developer/Projects/WalmartiOS/WalMart/WalMart/Shared/Services/Product/GRFacets.swift"
+                  timestampString = "467050434.063784"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "25"
+                  endingLineNumber = "25"
+                  offsetFromSymbolStart = "606">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -2169,6 +2233,22 @@
             startingLineNumber = "484"
             endingLineNumber = "484"
             landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WalMart/iPhone/Controller/UserList/UserListDetailViewController.swift"
+            timestampString = "467050433.894825"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1088"
+            endingLineNumber = "1088"
+            landmarkName = "retrieveProductsLocally(_:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
