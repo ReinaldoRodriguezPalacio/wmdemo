@@ -220,6 +220,8 @@ class UserCurrentSession : NSObject {
         deleteAllObjectsNamed("User")
         itemsMG = nil
         itemsGR = nil
+        storeName = nil
+        storeId = nil
     }
     
     func deleteAllObjectsInShoppingCart() {

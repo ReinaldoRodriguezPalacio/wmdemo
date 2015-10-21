@@ -531,14 +531,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
                 label: "", value: nil).build() as [NSObject : AnyObject])
         }
-        
-        if sender.tag == 100 {
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-        }else{
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-        }
-        
         if typeAddress == .Shiping && addressShippingCont >= 12 {
+            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
             if self.successCallBack == nil {
                 self.closeAlert()
@@ -550,6 +544,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             return
         }
         else if (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral)  && addressFiscalCount >= 12 {
+            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
             if self.successCallBack == nil {
                 self.closeAlert()
@@ -597,6 +592,11 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         if params != nil{
             self.view.endEditing(true)
+            if sender.tag == 100 {
+                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            }else{
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            }
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {

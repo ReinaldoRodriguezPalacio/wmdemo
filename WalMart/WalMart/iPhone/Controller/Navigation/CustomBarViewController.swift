@@ -595,6 +595,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         }
         else{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
             self.closeSearch(false, sender: nil)
         }
     }
@@ -1065,6 +1066,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func userLogOut(not:NSNotification) {
         self.removeAllCookies()
         self.buttonSelected(self.buttonList[0])
+        self.viewControllers.removeRange(1..<self.viewControllers.count)
+        self.createInstanceOfControllers()
     }
     
     func removeAllCookies() {
@@ -1257,8 +1260,4 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showHelp() {
         reviewHelp(true)
     }
-    
-    
-    
-    
 }

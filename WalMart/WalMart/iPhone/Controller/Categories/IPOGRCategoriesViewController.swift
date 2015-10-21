@@ -23,9 +23,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if UserCurrentSession.hasLoggedUser() {
-            self.setStoreName()
-        }
     }
     
     override func viewDidLoad() {
@@ -88,6 +85,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
         familyController.view.frame = viewFamily.bounds
+        if UserCurrentSession.hasLoggedUser() {
+            self.setStoreName()
+        }
     }
     
     func loadDepartments() -> [AnyObject]? {
