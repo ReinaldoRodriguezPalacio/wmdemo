@@ -1066,6 +1066,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func userLogOut(not:NSNotification) {
         self.removeAllCookies()
         self.buttonSelected(self.buttonList[0])
+        self.viewControllers.removeRange(1..<self.viewControllers.count)
+        self.createInstanceOfControllers()
     }
     
     func removeAllCookies() {
@@ -1258,8 +1260,4 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showHelp() {
         reviewHelp(true)
     }
-    
-    
-    
-    
 }
