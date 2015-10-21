@@ -1003,20 +1003,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
-            
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_CHANGEQUANTITY.rawValue,
-                    label: "\(upc) - \(quantity)",
-                    value: nil).build() as [NSObject : AnyObject])
-            }
-            self.sendAnalytics("KeyboardGram", action: "UpdateList", labelAnalytic: upc)
         
         let service = GRUpdateItemListService()
         service.callService(service.buildParams(upc: upc, quantity: quantity),
             successBlock: { (result:NSDictionary) -> Void in
+                
                 self.invokeDetailListService({ () -> Void in
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_UPDATE_LIST.rawValue, label:upc)
+                    
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                     self.alertView!.showDoneIcon()
                     self.alertView!.afterRemove = {

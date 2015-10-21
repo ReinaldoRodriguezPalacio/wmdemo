@@ -117,7 +117,7 @@ class FilterOrderViewCell: UITableViewCell {
             case 1 : order = FilterType.descriptionDesc.rawValue
             case 2 : order = FilterType.priceAsc.rawValue
             case 3 : order = FilterType.priceDesc.rawValue
-            case 4 : order =  "rating"
+            case 4 : order = FilterType.popularity.rawValue
             default: order = FilterType.none.rawValue
             }
             

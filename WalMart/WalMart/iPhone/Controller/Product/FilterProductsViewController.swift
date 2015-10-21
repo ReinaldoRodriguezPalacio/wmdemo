@@ -311,7 +311,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         if self.facetGr != nil {
-            return self.facetGr != nil ? self.facetGr!.count : 0
+            return self.facetGr != nil ? self.facetGr!.count + 1: 0
         }
         
         return 0
@@ -329,27 +329,31 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.facetGr != nil{
             
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
-            var  item = self.facetGr![indexPath.row ] as! String
+            var item = self.facetGr![indexPath.row] as? String
+            
             
             var selected = false
-            
-            
-            let valSelected =  self.selectedFacetGr?[item]
+            let valSelected =  self.selectedFacetGr?[item!]
             if ((valSelected) != nil) {
                 selected = valSelected!
             }
-            selectedFacetGr?.updateValue(selected,forKey: item)
-            listCell.setValuesFacets(nil,nameBrand:item, selected: selected )
             
-            if self.selectedFacetGr!.count == 0  {
-                item = self.facetGr![indexPath.row ] as! String
-                self.selectedFacetGr!.updateValue(true, forKey: item)
-                selected = true
-            } else {
-                selected = false
-                if ((valSelected) != nil) {
-                    selected = valSelected!
+            
+            if indexPath.row > 0 {
+                 item = self.facetGr![indexPath.row - 1] as? String
+                selectedFacetGr?.updateValue(selected,forKey: item!)
+                listCell.setValuesFacets(nil,nameBrand:item!, selected: selected)
+                
+            }else{
+                
+                if self.selectedFacetGr!.count == 0  {
+                    self.selectedFacetGr!.updateValue(true, forKey: item!)
+                    selected = true
+                } else {
+                    selected = false
                 }
+                
+                listCell.setValuesSelectAll(selected)
             }
             
             return listCell

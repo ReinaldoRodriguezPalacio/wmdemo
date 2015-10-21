@@ -402,6 +402,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     override func closeSelectQuantity() {
         if closeAction != nil {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_CLOSE_KEYBOARD.rawValue, label:"" )
             closeAction()
         }
     }
@@ -557,7 +558,9 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     
     func btnMoreAction() {
+      
         if (currentValGr + 50.0) < CONS_MAXVAL {
+              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_ADD_GRAMS.rawValue , label:"" )
             currentValGr = currentValGr + 50
             self.updateShoppButton()
             self.updateLabelW()
@@ -565,7 +568,10 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     }
     
     func btnLessAction() {
+        
+        
         if (currentValGr - 50.0) > CONS_MINVAL {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_DECREASE_GRAMS.rawValue , label:"" )
             currentValGr = currentValGr - 50
             self.updateShoppButton()
             self.updateLabelW()
@@ -688,6 +694,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     }
     
     func changetonumberpad(sender:AnyObject) {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue, label:"" )
         customValue = true
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.containerView.frame = CGRectMake(-self.containerWeightView.frame.maxX, 0, self.containerView.frame.width, self.containerView.frame.height)
@@ -697,6 +704,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     }
     
     func backToWeight() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_BACK_KEYBOARG_GRAMS.rawValue, label:"" )
         self.customValue = false
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.containerView.frame = CGRectMake(0, 0, self.containerView.frame.width, self.containerView.frame.height)

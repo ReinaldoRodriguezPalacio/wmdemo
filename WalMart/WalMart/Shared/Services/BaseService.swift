@@ -34,6 +34,7 @@ enum FilterType : String {
     case priceDesc = "priceDESC"
     case popularity = "popularity"
     case rankingASC = "rankingASC"
+    case rating = "rating"
 }
 
 enum ResultObjectType : String {

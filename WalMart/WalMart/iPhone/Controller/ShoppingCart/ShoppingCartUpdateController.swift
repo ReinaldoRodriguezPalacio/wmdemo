@@ -596,6 +596,7 @@ class ShoppingCartUpdateController : UIViewController {
     }
     
     func close() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_CLOSE_NOTE.rawValue, label:"")
         self.removeFromParentViewController()
         self.view.removeFromSuperview()
     }
