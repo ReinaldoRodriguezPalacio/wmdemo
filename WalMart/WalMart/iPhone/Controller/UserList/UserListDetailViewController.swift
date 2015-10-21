@@ -1220,38 +1220,41 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func updateLustName() {
         if self.nameField?.text != self.titleLabel?.text {
-            
-            
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-            self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
-            
-            let detailService = GRUserListDetailService()
-            detailService.buildParams(listId!)
-            detailService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
-                    let service = GRUpdateListService()
-                    service.callService(self.nameField!.text!,
-                        successBlock: { (result:NSDictionary) -> Void in
-                           self.titleLabel?.text = self.nameField?.text
-                            self.loadServiceItems({ () -> Void in
-                                self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
-                                self.alertView!.showDoneIcon()
-                            })
-                        },
-                        errorBlock: { (error:NSError) -> Void in
-                                self.alertView!.setMessage(error.localizedDescription)
-                                self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                },
-                errorBlock: { (error:NSError) -> Void in
-                    
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                }
-            )
+            if self.nameField?.text != "" {
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+                self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
+                let detailService = GRUserListDetailService()
+                detailService.buildParams(listId!)
+                detailService.callService([:],
+                    successBlock: { (result:NSDictionary) -> Void in
+                        let service = GRUpdateListService()
+                        service.callService(self.nameField!.text!,
+                            successBlock: { (result:NSDictionary) -> Void in
+                            self.titleLabel?.text = self.nameField?.text
+                                self.loadServiceItems({ () -> Void in
+                                    self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
+                                    self.alertView!.showDoneIcon()
+                                })
+                            },
+                            errorBlock: { (error:NSError) -> Void in
+                                    self.alertView!.setMessage(error.localizedDescription)
+                                    self.alertView!.showErrorIcon("Ok")
+                            }
+                        )
+                    },
+                    errorBlock: { (error:NSError) -> Void in
+                            self.alertView!.setMessage(error.localizedDescription)
+                            self.alertView!.showErrorIcon("Ok")
+                    }
+                )
+            }
+            else{
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+                    UIImage(named:"noAvaliable"))
+                self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                self.nameField?.text = self.titleLabel?.text
+            }
         }
     }
-    
-
 }
