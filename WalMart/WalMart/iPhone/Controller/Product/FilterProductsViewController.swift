@@ -331,25 +331,31 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.facetGr != nil{
             
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
-            var item = self.facetGr![indexPath.row] as? String
+            
+            var item :String = ""
+            if indexPath.row > 0 {
+                item = self.facetGr![indexPath.row - 1] as! String
+            }else{
+                item = ""//self.facetGr![indexPath.row ] as! String
+            }
             
             
             var selected = false
-            let valSelected =  self.selectedFacetGr?[item!]
+            let valSelected =  self.selectedFacetGr?[item]
             if ((valSelected) != nil) {
                 selected = valSelected!
             }
             
             
             if indexPath.row > 0 {
-                 item = self.facetGr![indexPath.row - 1] as? String
-                selectedFacetGr?.updateValue(selected,forKey: item!)
-                listCell.setValuesFacets(nil,nameBrand:item!, selected: selected)
+                 item = self.facetGr![indexPath.row - 1] as! String
+                selectedFacetGr?.updateValue(selected,forKey: item)
+                listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
                 
             }else{
                 
                 if self.selectedFacetGr!.count == 0  {
-                    self.selectedFacetGr!.updateValue(true, forKey: item!)
+                    self.selectedFacetGr!.updateValue(true, forKey: item)
                     selected = true
                 } else {
                     selected = false
@@ -469,8 +475,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         if self.facetGr != nil {
+            if indexPath.row == 0 {
+                self.selectedFacetGr = [:]
+                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                return
+            }
             
-            let item = self.facetGr![indexPath.row] as? String
+            let item = self.facetGr![indexPath.row - 1] as? String
             var currentVal = true
             for var items in self.selectedFacetGr! {
                 if items.1 == true{
