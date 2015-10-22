@@ -139,6 +139,8 @@ class ChangeInfoLegalViewController : NavigationViewController {
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             }
             
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label:"")
+            
             self.view.endEditing(true)
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
@@ -159,6 +161,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
     
     func checkSelected(sender:UIButton) {
         sender.selected = !(sender.selected)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:sender.selected ? WMGAIUtils.ACTION_ENABLE_PROMO.rawValue : WMGAIUtils.ACTION_DISBALE_PROMO.rawValue, label: "")
         if errorView != nil{
             if errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -180,9 +183,11 @@ class ChangeInfoLegalViewController : NavigationViewController {
     
     func changeCons(sender:UIButton) {
         if sender == self.acceptSharePersonal {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_ACEPT.rawValue, label: "")
             self.acceptSharePersonal?.selected = true
             self.declineSharePersonal?.selected = false
         } else if sender == self.declineSharePersonal  {
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_ACEPT.rawValue, label: "")
             self.acceptSharePersonal?.selected = false
             self.declineSharePersonal?.selected = true
         }

@@ -601,13 +601,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 detail!.img = self.imageUrl[0] as! NSString as String
             }
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                    action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLISTCOMPLETE.rawValue ,
-                    label: "\(self.upc) - \(list.name)",
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue , action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label:"\(self.name as String) \(self.upc as String)")
             
 
             var error: NSError? = nil

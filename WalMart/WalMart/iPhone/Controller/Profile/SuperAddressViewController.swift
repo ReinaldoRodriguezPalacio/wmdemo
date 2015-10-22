@@ -147,14 +147,12 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.view.endEditing(true)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
-                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
         
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:false)
+        
+        BaseController.sendAnalytics(self.addressId == "" ? WMGAIUtils.CATEGORY_GR_NEW_ADDRESS.rawValue : WMGAIUtils.CATEGORY_GR_EDIT_ADDRESS.rawValue, action:self.addressId == "" ? WMGAIUtils.ACTION_GR_SAVE_ADDRESS.rawValue :WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue , label:"")
+        
         if dictSend != nil {
             self.view.endEditing(true)
             self.scrollForm.resignFirstResponder()

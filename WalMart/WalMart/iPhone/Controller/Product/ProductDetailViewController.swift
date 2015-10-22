@@ -496,10 +496,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.detailCollectionView.scrollEnabled = true
                         self.isShowShoppingCart = false
                         
-                        //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue) , label: "\(self.upc) - \(self.name)", value: nil).build() as [NSObject : AnyObject])
-                        }
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_MG_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CART_MG_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(self.upc) - \(self.name)")
+        
 
                 
                         UIView.animateWithDuration(0.2,
