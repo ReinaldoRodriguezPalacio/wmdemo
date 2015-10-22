@@ -11,7 +11,7 @@ import AVFoundation
 import QuartzCore
 
 protocol CameraViewControllerDelegate{
-    func photoCaptured(value: String?,done: (() -> Void))
+    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void))
 }
 
 enum CameraType {
@@ -438,7 +438,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     func closeCamera(){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
-            self.delegate!.photoCaptured(nil, done: { () -> Void in
+            self.delegate!.photoCaptured(nil,upcs:nil, done: { () -> Void in
             })
         })
     }
@@ -489,40 +489,46 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
                 switch resp {
                 case ("completed"):
                     let name = response.objectForKey("name") as! String
-//                    self.alertView!.setMessage("Imagen encontrada\n: \(name)")
-//                    self.alertView!.showDoneIcon()
+                    var items : [String] = []
+                    let allItems = response.objectForKey("items") as! [[String:AnyObject]]
+                    for item in allItems {
+                        let data = item["data"] as! [String:String]
+                        let valueData = data["product_id"]
+                        items.append(valueData!)
+                    }
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    self.delegate!.photoCaptured(name, done: { () -> Void in
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
-                    })
-                    // self.delegate!.photoCaptured(name)
                     
+                    // self.delegate!.photoCaptured(name)
+                    self.delegate!.photoCaptured(name,upcs:items, done: { () -> Void in
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
+                    })
+
                     break;
                 case ("not completed"):
                     self.checkPhotoStatus(token)
                     break;
                 case ("not found"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
                         })
                         //self.delegate!.photoCaptured("")
                     })
                     break;
                 case ("skipped"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
                         })
                     })
                     break;
                 case ("timeout"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
                         })
                     })
                     break;
                 case ("error"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("", done: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
                         })
                     })
                     break;

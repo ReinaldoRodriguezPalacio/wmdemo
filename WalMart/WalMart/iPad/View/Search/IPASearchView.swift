@@ -179,7 +179,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                     if self.isBarCodeUPC(code) {
                         character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
                     }
-                    delegate.selectKeyWord("", upc: character, truncate:true)
+                    delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     closePopOver()
                     closeSearch()
                     return true
@@ -187,7 +187,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
-                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false,upcs:nil)
                         closePopOver()
                         closeSearch()
                         return true 
@@ -213,7 +213,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
                 }*/
             }
 //            self.field!.resignFirstResponder()
-            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false)
+            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs:nil)
             closePopOver()
             closeSearch()
         }
@@ -299,7 +299,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     func barcodeCaptured(value:String?) {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
         if value != nil {
-            self.delegate.selectKeyWord("", upc: value, truncate:false)
+            self.delegate.selectKeyWord("", upc: value, truncate:false,upcs:nil)
         }
         else if !self.field!.isFirstResponder() {
             self.field!.becomeFirstResponder()
@@ -316,7 +316,7 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?,done: (() -> Void)) {
+    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
         if value != nil || value == "" {
 //            self.field!.becomeFirstResponder()
             self.field.text = value

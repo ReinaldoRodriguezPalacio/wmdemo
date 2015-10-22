@@ -267,6 +267,7 @@
 		569E004E19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E004D19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift */; };
 		569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E004F19BE438300756B88 /* ProductTableViewCell.swift */; };
 		569E005219BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569E005119BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift */; };
+		569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 569FCA0F1BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift */; settings = {ASSET_TAGS = (); }; };
 		56A242D41A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */; };
 		56A491081B26450C0030A730 /* KeyboardGramsKgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */; };
 		56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */; };
@@ -778,6 +779,7 @@
 		569E004D19BE42A800756B88 /* ProductShoppingCartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductShoppingCartTableViewCell.swift; path = iPhone/View/ShoppingCart/ProductShoppingCartTableViewCell.swift; sourceTree = "<group>"; };
 		569E004F19BE438300756B88 /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductTableViewCell.swift; path = Shared/View/Product/ProductTableViewCell.swift; sourceTree = "<group>"; };
 		569E005119BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartTotalsTableViewCell.swift; path = iPhone/View/ShoppingCart/ShoppingCartTotalsTableViewCell.swift; sourceTree = "<group>"; };
+		569FCA0F1BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionHeaderSearchHeader.swift; path = iPhone/View/SearhResult/SectionHeaderSearchHeader.swift; sourceTree = "<group>"; };
 		56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartAnimationController.swift; path = iPhone/Controller/ShoppingCart/PreShoppingCartAnimationController.swift; sourceTree = "<group>"; };
 		56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardGramsKgViewController.swift; path = Shared/Controller/Keyboard/KeyboardGramsKgViewController.swift; sourceTree = "<group>"; };
 		56A6153119CC93D1006FFFE5 /* WalMart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart.xcdatamodel; sourceTree = "<group>"; };
@@ -2732,6 +2734,7 @@
 				AC6EF06919B13E2E00DB28AF /* SearchProductCollectionViewCell.swift */,
 				04D15BCA1A96503D00860919 /* FilterOrderViewCell.swift */,
 				04D15BCC1A96593600860919 /* FilterCategoryViewCell.swift */,
+				569FCA0F1BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift */,
 			);
 			name = SearchResult;
 			sourceTree = "<group>";
@@ -3054,6 +3057,7 @@
 				5670232E1AB0C91700FDCD91 /* IPAGRShoppingCartViewController.swift in Sources */,
 				56EECE8B1B02EC630091F491 /* GRNutrimentalInfoView.swift in Sources */,
 				56C211881A24F1F4002D1C91 /* NotificationService.swift in Sources */,
+				569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */,
 				568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */,
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
 				564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */,

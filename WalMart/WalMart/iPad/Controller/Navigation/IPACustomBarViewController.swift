@@ -157,7 +157,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
     }
 
-    override func selectKeyWord(keyWord:String, upc:String?, truncate:Bool){
+    override func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]?){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build() as [NSObject : AnyObject])

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchViewControllerDelegate {
-    func selectKeyWord(keyWord:String,upc:String?, truncate:Bool)
+    func selectKeyWord(keyWord:String,upc:String?, truncate:Bool,upcs:[String]?)
     func searchControllerScanButtonClicked(controller: BarCodeViewControllerDelegate!)
     func searchControllerCamButtonClicked(controller: CameraViewControllerDelegate!)
     func closeSearch(addShoping:Bool, sender:UIButton?)
@@ -19,6 +19,7 @@ protocol SearchViewControllerDelegate {
 class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BarCodeViewControllerDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
     var elements: [AnyObject]?
+    var upcItems: [String]?
     var elementsCategories: [AnyObject]?
     var currentKey: String?
     var header: UIView?
@@ -408,19 +409,19 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     if self.isBarCodeUPC(code) {
                         character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
                     }
-                    delegate.selectKeyWord("", upc: character, truncate:true)
+                    delegate.selectKeyWord("", upc: character, truncate:true,upcs:nil)
                     return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
               
-                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false)
+                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false,upcs:nil)
                         return true
                     }
                 }
             }
-            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false)
+            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs: self.upcItems)
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
         }
         else{
@@ -602,10 +603,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?,done: (() -> Void)) {
+    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
         self.field!.becomeFirstResponder()
         if value != nil {
             self.field!.text = value
+            self.upcItems = upcs
             self.textFieldShouldReturn(self.field!)
             delegate.closeSearch(false, sender:nil)
             done()
@@ -616,7 +618,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func barcodeCaptured(value:String?) {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
         if value != nil {
-            self.delegate.selectKeyWord("", upc: value, truncate:true)
+            self.delegate.selectKeyWord("", upc: value, truncate:true,upcs:nil)
         }
         else if !self.field!.isFirstResponder() {
             self.field!.becomeFirstResponder()

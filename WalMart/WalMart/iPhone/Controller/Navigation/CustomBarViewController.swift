@@ -88,6 +88,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var isEditingSearch: Bool = false
     
     
+    
+    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -374,6 +376,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             let index = self.buttonList.indexOf(sender)
             
+            
             let controller = self.viewControllers[index!]
             if controller === self.currentController {
                 if let navController = self.currentController as? UINavigationController {
@@ -397,22 +400,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.btnShopping!.enabled = true
             self.btnSearch!.selected = false
             
-            var action = ""
-            switch (index!) {
-            case 0:
-                action = WMGAIUtils.ACTION_OPEN_HOME.rawValue
-            case 1:
-                action = WMGAIUtils.ACTION_OPEN_MG.rawValue
-            case 2:
-                action = WMGAIUtils.ACTION_OPEN_GR.rawValue
-            case 3:
-                action = WMGAIUtils.ACTION_OPEN_LIST.rawValue
-            case 4:
-                action = WMGAIUtils.ACTION_OPEN_MORE_OPTION.rawValue
-            default:
-                action = WMGAIUtils.ACTION_OPEN_HOME.rawValue
-            }
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: action, label: "")
         }
     }
     
@@ -420,7 +407,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let storyboard = self.loadStoryboardDefinition()
         
         //var   = "loginVC-profileItemVC" as String
-        if UserCurrentSession.hasLoggedUser() {
+        if UserCurrentSession.sharedInstance().userSigned != nil{
             //controllerProfile = "profileVC"
         }
         
@@ -592,7 +579,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.clearSearch()
                 self.openSearchProduct()
             }
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
         }
         else{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
@@ -610,6 +596,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func openSearchProduct(){
         if let navController = self.currentController! as? UINavigationController {
             if self.searchController == nil  {
+                
+                if let tracker = GAI.sharedInstance().defaultTracker {
+                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()
+                    tracker.send( eventTracker as! [NSObject : AnyObject])
+                }
                 
                 if self.imageBlurView != nil {
                     self.imageBlurView?.removeFromSuperview()
@@ -768,7 +759,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-    func selectKeyWord(keyWord:String, upc:String?, truncate:Bool ){
+    func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
                 let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build()
@@ -813,6 +804,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 isEditingSearch = false
             }
             let controller = SearchProductViewController()
+            controller.upcsToShow = upcs
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
@@ -952,7 +944,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 }
                 self.btnCloseShopping?.enabled = false
                 self.btnCloseShopping?.alpha = 1
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
+                
             }
             else {
                 
@@ -1166,7 +1158,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func logoTap(){
         self.buttonSelected(self.buttonList[0])
         self.closeShoppingCart()
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NAVIGATION_BAR.rawValue, action: WMGAIUtils.ACTION_GO_TO_HOME.rawValue, label: "")
     }
     
     func hidebadge() {
@@ -1195,23 +1186,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
-            
         case "": self.buttonSelected(self.buttonList[0])
-        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true)
-        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true)
-            
-        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
-            
-        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG )
-            
-        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
-            
+        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
+        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
+        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG )
+        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)
+        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[2])
         default:
             print("No value type for notification")
             return false
-            
         }
         
         return true
@@ -1226,9 +1211,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         if (requiredHelp && self.helpView == nil ) || force {
-            
-            
-            
             let bounds = self.view.bounds
             
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
@@ -1241,7 +1223,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let imageArray = [["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
             totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
             totuView.onClose = {() in
-                
                 self.removeHelpForSearchView()
                 self.addOrUpdateParam("mainHelp", value: "false")
             }
