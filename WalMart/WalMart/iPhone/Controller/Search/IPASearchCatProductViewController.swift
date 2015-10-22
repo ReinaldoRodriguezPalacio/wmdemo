@@ -52,7 +52,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     
     
     
-    override func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
         
         let reusableView : UICollectionReusableView? = nil
         

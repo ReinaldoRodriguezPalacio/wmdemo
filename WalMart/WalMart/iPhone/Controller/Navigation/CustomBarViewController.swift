@@ -88,6 +88,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var isEditingSearch: Bool = false
     
     
+    
+    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

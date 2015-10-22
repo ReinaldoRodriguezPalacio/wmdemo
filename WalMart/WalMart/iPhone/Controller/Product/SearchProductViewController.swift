@@ -73,6 +73,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var firstOpen  = true
     
+    var upcsToShow : [String]? = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
