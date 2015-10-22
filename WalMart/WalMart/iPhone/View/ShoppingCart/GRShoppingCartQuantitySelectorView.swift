@@ -214,6 +214,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func closeSelectQuantity() {
         if closeAction != nil {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_QUANTITY_KEYBOARD_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_QUANTITY_KEYBOARD_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_CLOSE_KEYBOARD.rawValue , label:"")
             closeAction()
         }
     }

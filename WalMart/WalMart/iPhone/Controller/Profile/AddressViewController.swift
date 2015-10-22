@@ -525,12 +525,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
  
     func save(sender:UIButton) {
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
-                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
+    
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_EDIT_ADDRESS.rawValue ,action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue , label:"")
         if typeAddress == .Shiping && addressShippingCont >= 12 {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))

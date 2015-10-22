@@ -816,6 +816,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
+                    BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_UPDATE_LIST.rawValue , label: item.desc)
                     item.quantity = NSNumber(integer: Int(quantity)!)
                     self.saveContext()
                     self.retrieveProductsLocally(true)
