@@ -9,7 +9,7 @@
 import UIKit
 
 protocol SearchViewControllerDelegate {
-    func selectKeyWord(keyWord:String,upc:String?, truncate:Bool,upcs:[String]?)
+    func selectKeyWord(keyWord:String,upc:String?, truncate:Bool)
     func searchControllerScanButtonClicked(controller: BarCodeViewControllerDelegate!)
     func searchControllerCamButtonClicked(controller: CameraViewControllerDelegate!)
     func closeSearch(addShoping:Bool, sender:UIButton?)
@@ -19,7 +19,6 @@ protocol SearchViewControllerDelegate {
 class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BarCodeViewControllerDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
     var elements: [AnyObject]?
-    var upcItems: [String]?
     var elementsCategories: [AnyObject]?
     var currentKey: String?
     var header: UIView?
@@ -42,7 +41,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     var all: Bool = false
     var cancelSearch: Bool = true
     var dataBase : FMDatabaseQueue! = WalMartSqliteDB.instance.dataBase
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -409,19 +408,20 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     if self.isBarCodeUPC(code) {
                         character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
                     }
-                    delegate.selectKeyWord("", upc: character, truncate:true,upcs:upcItems)
+                    delegate.selectKeyWord("", upc: character, truncate:true)
                     return true
                 }
                 if strFieldValue.substringToIndex(1).uppercaseString == "B" {
                     let validateNumeric: NSString = strFieldValue.substringFromIndex(1)
                     if validateNumeric.doubleValue > 0 {
               
-                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false,upcs:upcItems)
+                        delegate.selectKeyWord("", upc: textField.text!.uppercaseString, truncate:false)
                         return true
                     }
                 }
             }
-            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs:upcItems)
+            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
         }
         else{
             UIView.animateWithDuration(1.0, animations: {
@@ -585,6 +585,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.field!.resignFirstResponder()
         }
         self.delegate?.searchControllerScanButtonClicked(self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_BARCODE_SCANNED_UPC.rawValue, label: "")
     }
     
     func showCamera(sender:UIButton) {
@@ -592,18 +593,19 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             self.field!.resignFirstResponder()
         }
         self.delegate?.searchControllerCamButtonClicked(self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
     }
     
     func cancel(sender:UIButton) {
         delegate.closeSearch(false, sender:nil)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
     }
     
     // MARK: - CameraViewControllerDelegate
-    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
+    func photoCaptured(value: String?,done: (() -> Void)) {
         self.field!.becomeFirstResponder()
         if value != nil {
             self.field!.text = value
-            self.upcItems = upcs
             self.textFieldShouldReturn(self.field!)
             delegate.closeSearch(false, sender:nil)
             done()
@@ -614,7 +616,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func barcodeCaptured(value:String?) {
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
         if value != nil {
-            self.delegate.selectKeyWord("", upc: value, truncate:true,upcs:upcItems)
+            self.delegate.selectKeyWord("", upc: value, truncate:true)
         }
         else if !self.field!.isFirstResponder() {
             self.field!.becomeFirstResponder()

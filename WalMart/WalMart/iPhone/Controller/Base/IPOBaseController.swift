@@ -93,10 +93,4 @@ class IPOBaseController : BaseController {
         
     }
     
-    func sendAnalytics(category:String,action:String,labelAnalytic:String){
-        print("sendAnalytics --\(category) -- \(action) \(labelAnalytic) ")
-    
-    }
-    
-    
 }

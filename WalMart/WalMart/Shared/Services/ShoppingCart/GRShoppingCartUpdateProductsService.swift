@@ -31,8 +31,6 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                 
-             
-                
                 if updateSC {
                     let shoppingService = GRShoppingCartProductsService()
                     shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)

@@ -144,18 +144,16 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let controller = ProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
+        var product = self.detailItems![indexPath.row]
+        var upc = product["upc"] as! NSString
+        var description = product["description"] as! NSString
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
+        
         for var idx = 0; idx < self.detailItems!.count; idx++ {
-            let product = self.detailItems![idx]
-            let upc = product["upc"] as! NSString
-            let description = product["description"] as! NSString
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                    label: upc as String,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
-            
+            product = self.detailItems![idx]
+            upc = product["upc"] as! NSString
+            description = product["description"] as! NSString
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }
         controller.itemsToShow = productsToShow
@@ -220,6 +218,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
             })
             
+            let product = self.detailItems![indexPath!.row]
+            let upc = product["upc"] as! NSString
+            let description = product["description"] as! NSString
+            let action = isPesable ? WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue : WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue
+            //Event
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action:action, label: "\(description) - \(upc)")
         }
         else {
             self.removeSelector()
@@ -247,11 +251,20 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     
     func didDisable(disaable:Bool, cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPathForCell(cell)
+        var action = ""
         if disaable {
             self.selectedItems?.removeObject(indexPath!.row)
+            action = WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue
         } else {
             self.selectedItems?.addObject(indexPath!.row)
+            action = WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue
         }
+        let product = self.detailItems![indexPath!.row]
+        let upc = product["upc"] as! NSString
+        let description = product["description"] as! NSString
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action:action, label: "\(description) - \(upc)")
+        
         self.updateTotalLabel()
     }
     
@@ -261,14 +274,8 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     func shareList() {
 
         if let image = self.buildImageToShare() {
-            
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
-                    label: self.defaultListName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -317,14 +324,8 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         }
         
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
-            
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHOPALL.rawValue,
-                    label: self.defaultListName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
             
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
@@ -431,6 +432,9 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
 
     func duplicate() {
         self.invokeSaveListToDuplicateService(defaultListName!, successDuplicateList: { () -> Void in
+            //Event
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label: self.defaultListName!)
+            
             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
             self.alertView!.showDoneIcon()
         })

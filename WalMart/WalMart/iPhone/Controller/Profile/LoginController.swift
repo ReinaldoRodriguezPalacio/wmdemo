@@ -246,6 +246,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     func registryUser() {
         if self.signUp == nil{
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
 
             self.signUp = SignUpViewController()
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
@@ -319,6 +321,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func signIn(sender:UIButton) {
         signInButton!.enabled = false
         if validateUser() {
+         
             self.view.endEditing(true)
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -328,15 +331,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                   self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.loginSignOutButonBgColor)
                 }
             }
-
             
-                  //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LOGIN.rawValue,
-                                action: WMGAIUtils.EVENT_LOGIN_USERDIDLOGIN.rawValue ,
-                                label: nil,
-                                value: nil).build() as [NSObject : AnyObject])
-                        }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
             
             self.alertView?.okCancelCallBack = self.okCancelCallBack
             self.alertView!.afterRemove = {() -> Void in
@@ -492,6 +488,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.textFieldDidEndEditing(self.email!)
         let error = viewError(self.email!)
         if !error {
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_FORGOT_PASSWORD.rawValue, action: WMGAIUtils.ACTION_RECOVER_PASSWORD.rawValue, label:"")
+            
             self.view.endEditing(true)
             if sender.tag == 100 {
                  self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"forgot_waiting"),imageDone:UIImage(named:"forgot_passwordOk"),imageError:UIImage(named:"forgot_passwordError"))

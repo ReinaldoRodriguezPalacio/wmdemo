@@ -48,7 +48,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     lazy var mgResults: SearchResult? = SearchResult()
     lazy var grResults: SearchResult? = SearchResult()
     var allProducts: NSArray? = []
-    var upcsToShow: [String]? = nil
     
     var titleHeader: String?
 
@@ -73,10 +72,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var controllerFilter : FilterProductsViewController!
     
     var firstOpen  = true
-    
-    var itemsUPCMG: NSArray? = []
-    var itemsUPCGR: NSArray? = []
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,8 +98,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         collection = getCollectionView()
         collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")
         collection?.registerClass(LoadingProductCollectionViewCell.self, forCellWithReuseIdentifier: "loadCell")
-        collection?.registerClass(SectionHeaderSearchHeader.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "header")
-        collection?.allowsMultipleSelection = true
         collection!.dataSource = self
         collection!.delegate = self
         
@@ -178,10 +171,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
-    func setTitleWithEdit() -> UILabel {
-        
-        let titleLabel = UILabel()
-        
+    func setTitleWithEdit(){
         var titleText = titleHeader!
         if titleText.length() > 47
         {
@@ -193,18 +183,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let attachmentString = NSAttributedString(attachment: attachment)
         let myString = NSMutableAttributedString(string: "\(titleText) ")
         myString.appendAttributedString(attachmentString)
-        titleLabel.numberOfLines = 2;
-        titleLabel.attributedText = myString;
-        titleLabel.userInteractionEnabled = true;
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleLabel.numberOfLines = 2
+        self.titleLabel?.numberOfLines = 2;
+        self.titleLabel?.attributedText = myString;
+        self.titleLabel?.userInteractionEnabled = true;
         let tapGesture = UITapGestureRecognizer(target: self, action: "editSearch")
-        titleLabel.addGestureRecognizer(tapGesture)
-        
-        return titleLabel
-        
-        
+        self.titleLabel?.addGestureRecognizer(tapGesture)
     }
     
     func editSearch(){
@@ -218,13 +201,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(collection!)
         if self.searchContextType == SearchServiceContextType.WithText
         {
-            if self.upcsToShow?.count == 0 {
-                self.titleLabel = self.setTitleWithEdit()
-                self.header?.addSubview(self.titleLabel!)
-            } else {
-                self.filterButton!.removeFromSuperview()
-                self.titleLabel?.text = "Resultados"
-            }
+            self.setTitleWithEdit()
+            self.originalSearchContextType = self.searchContextType
         }
         else
         {
@@ -257,7 +235,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         
         var startPoint = self.header!.frame.maxY
-        if self.searchContextType == SearchServiceContextType.WithText {
+        if self.originalSearchContextType == SearchServiceContextType.WithText {
             viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28)
             startPoint = viewBgSelectorBtn.frame.maxY + 16
         }else {
@@ -281,56 +259,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.loading!.frame = self.collection!.frame
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if upcsToShow?.count > 0 {
-            return 2
-        }
-        return 1
-    }
-    
-    
-
-    
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader  {
-            let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! SectionHeaderSearchHeader
-            
-            view.title = setTitleWithEdit()
-            view.title?.textAlignment = .Center
-            view.addSubview(view.title!)
-            view.addSubview(self.filterButton!)
-            
-            
-            
-            view.backgroundColor = WMColor.light_gray
-            
-            if indexPath.section == 0 {
-                view.frame = CGRectMake(0, 0, 0, 0)
-            }
-            
-            
-            return view
-        }
-        return UICollectionReusableView(frame: CGRectZero)
-    }
-    
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
-            return CGSizeZero
-        }
-        return CGSizeMake(self.view.frame.width, 44)
-    }
-    
     //MARK: - UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if upcsToShow?.count > 0 && section == 0 {
-            if self.btnSuper.selected {
-                return self.itemsUPCGR!.count
-            } else {
-                return self.itemsUPCMG!.count
-            }
-        }
         var size = 0
         if let count = self.allProducts?.count {
             var commonTotal = 0
@@ -369,17 +299,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.allProducts?.count <= indexPath.item {
             return cell
         }
-        
-        var item : NSDictionary = [:]
-        if indexPath.section == 0 && self.upcsToShow?.count > 0 {
-            if self.btnSuper.selected {
-                item = self.itemsUPCGR![indexPath.item] as! NSDictionary
-            } else {
-                item = self.itemsUPCMG![indexPath.item] as! NSDictionary
-            }
-        } else {
-            item = self.allProducts?[indexPath.item] as! NSDictionary
-        }
+        let item = self.allProducts?[indexPath.item] as! NSDictionary
         
         let upc = item["upc"] as! String
         let description = item["description"] as? String
@@ -501,61 +421,55 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let sucessBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
         let errorBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
         
-        
-        
         if self.searchContextType != nil {
-            self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
-                self.invokeSearchUPCMG { () -> Void in
-                    switch self.searchContextType! {
-                    case .WithCategoryForMG :
-                        print("Searching products for Category In MG")
-                        self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
-                    case .WithCategoryForGR :
-                        print("Searching products for Category In Groceries")
-                        self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
-                    default :
-                        print("Searching products for text")
-                        self.invokeSearchProductsInGroceries(
-                            actionSuccess: { () -> Void in
-                                self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
-                            },
-                            actionError: { () -> Void in
-                                self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
-                            }
-                        )
-                    }
+            switch self.searchContextType! {
+            case .WithCategoryForMG :
+                print("Searching products for Category In MG")
+                if self.originalSearchContextType != nil && self.originalSearchContextType == .WithText{
+                    self.invokeSearchproductsInMG(
+                        actionSuccess: { () -> Void in
+                            self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        },
+                        actionError: { () -> Void in
+                            self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        }
+                    )
                 }
-            })
+                else{
+                    self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                }
+            case .WithCategoryForGR :
+                print("Searching products for Category In Groceries")
+                if self.originalSearchContextType != nil && self.originalSearchContextType == .WithText{
+                    self.invokeSearchProductsInGroceries(
+                        actionSuccess: { () -> Void in
+                            self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        },
+                        actionError: { () -> Void in
+                            self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        }
+                    )
+                }
+                else{
+                    self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                }
+
+            default :
+                print("Searching products for text")
+                self.invokeSearchProductsInGroceries(
+                    actionSuccess: { () -> Void in
+                        self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                    },
+                    actionError: { () -> Void in
+                        self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                    }
+                )
+            }
         }
         else {
             print("No existe contexto de busqueda. Es necesario indicar el contexto")
         }
         
-    }
-    
-    
-    func invokeSearchUPCGroceries(actionSuccess actionSuccess:(() -> Void)?) {
-        if self.upcsToShow?.count > 0 {
-            let serviceUPC = GRProductsByUPCService()
-            serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
-                self.itemsUPCGR = result["items"] as! NSArray
-                actionSuccess?()
-                }, errorBlock: { (error:NSError) -> Void in
-                    actionSuccess?()
-            })
-        }
-    }
-    
-    func invokeSearchUPCMG(actionSuccess actionSuccess:(() -> Void)?) {
-        if self.upcsToShow?.count > 0 {
-            let serviceUPC = SearchItemsByUPCService()
-            serviceUPC.callService(self.upcsToShow!, successJSONBlock: { (result:JSON) -> Void in
-                self.itemsUPCMG = result.arrayObject
-                actionSuccess?()
-                }) { (error:NSError) -> Void in
-                   actionSuccess?()
-            }
-        }
     }
     
     func invokeSearchproductsInMG(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
@@ -642,8 +556,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             startOffSet++
         }
         
-        let service = GRProductBySearchService()
-        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
+        let service = GRProductBySearchService()//TODO Agregar rating al idSort
+        let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
                 if arrayProduct != nil && arrayProduct!.count > 0 {
@@ -684,7 +598,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func updateViewAfterInvokeService(resetTable resetTable:Bool) {
-        
+       
+        if  self.searchContextType == .WithCategoryForGR {
+            if self.idDepartment !=  nil {
+                self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+            }
+        }
      
         if btnSuper.selected   {
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
@@ -704,7 +623,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.showLoadingIfNeeded(true)
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.searchContextType == SearchServiceContextType.WithText {
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.originalSearchContextType == SearchServiceContextType.WithText {
             
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
             self.filterButton?.alpha = 0
@@ -743,7 +662,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         else {
             
-            if self.searchContextType != nil && self.searchContextType == SearchServiceContextType.WithText && self.allProducts != nil {
+            if self.searchContextType != nil && self.originalSearchContextType == SearchServiceContextType.WithText && self.allProducts != nil {
                 //println("sorting values from text search")
                 //Order items
                 switch (FilterType(rawValue: self.idSort!)!) {
@@ -838,14 +757,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter = FilterProductsViewController()
             controllerFilter.facet = self.facet
             controllerFilter.textToSearch = self.textToSearch
-            controllerFilter.selectedOrder = self.idSort!
+            controllerFilter.selectedOrder = self.idSort!//self.idSort! == "" ? "rating" :self.idSort!
             controllerFilter.isGroceriesSearch = self.btnSuper.selected
             controllerFilter.delegate = self
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-            controllerFilter.searchContext = self.searchContextType
+            //controllerFilter.searchContext = self.searchContextType
             controllerFilter?.facetGr = self.facetGr
             
         }
+        controllerFilter.isGroceriesSearch = self.btnSuper.selected
+        controllerFilter.searchContext = self.searchContextType
         self.navigationController?.pushViewController(controllerFilter, animated: true)
     }
     
@@ -991,13 +912,29 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }) { (error:NSError) -> Void in
             print(error)
         }
+        
+    }
+    
+    func removeSelectedFilters(){
+        //Quitamos los filtros despues de la busqueda.
+        //self.idSort = self.originalSort
+        self.searchContextType = self.originalSearchContextType
+        if self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
+            self.idDepartment = nil
+            self.idFamily = nil
+            self.idLine = nil
+        }
+        
+        self.allProducts = []
+        self.mgResults!.resetResult()
+        self.grResults!.resetResult()
+        self.controllerFilter = nil
     }
     
     func removeFilters() {
         
         self.idSort = self.originalSort
         self.searchContextType = self.originalSearchContextType
-       
         if self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
             self.idDepartment = nil
             self.idFamily = nil
@@ -1022,12 +959,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func getCollectionView() -> UICollectionView {
-        let customlayout = CSStickyHeaderFlowLayout()
-        customlayout.disableStickyHeaders = false
-        customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
-//        let customlayout = UICollectionViewFlowLayout()
-//        customlayout.headerReferenceSize = CGSizeMake(0, 44);
-        return UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
+        return UICollectionView(frame: self.view.bounds, collectionViewLayout: UICollectionViewFlowLayout())
     }
     
     //MARK: Filter Super Tecnologia 
@@ -1037,11 +969,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             btnTech.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
+            self.searchContextType = SearchServiceContextType.WithCategoryForGR
         } else if sender == btnTech &&  !sender.selected {
             sender.selected = true
             btnSuper.selected = false
             self.allProducts = nil
             updateViewAfterInvokeService(resetTable:true)
+            self.searchContextType = SearchServiceContextType.WithCategoryForMG
         }
         
     }

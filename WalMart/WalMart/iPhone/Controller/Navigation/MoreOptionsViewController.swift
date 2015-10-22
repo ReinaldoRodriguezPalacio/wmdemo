@@ -218,30 +218,38 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             print("")
         }
         
-       
+        
         
         let optionTxt = self.options[currentOption]
-
+        
         switch (OptionsController(rawValue: optionTxt)!) {
-            case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
-            case .Profile :
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
-                        action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                        label: nil,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
-                
-                let controller = EditProfileViewController()
-                self.navigationController!.pushViewController(controller, animated: true)
-            case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
-            case .Contact: self.performSegueWithIdentifier("supportHelp", sender: self)
-            case .StoreLocator: self.performSegueWithIdentifier("storeLocator", sender: self)
-            case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
+        case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
+        case .Profile :
+            if let tracker = GAI.sharedInstance().defaultTracker {
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
+                    action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
+                    label: nil,
+                    value: nil).build() as [NSObject : AnyObject])
+            }
+            
+            let controller = EditProfileViewController()
+            self.navigationController!.pushViewController(controller, animated: true)
+        case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_TERMS_AND_CONDITIONS.rawValue, label: "")
+        case .Contact: self.performSegueWithIdentifier("supportHelp", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SUPPORT.rawValue, label: "")
+        case .StoreLocator: self.performSegueWithIdentifier("storeLocator", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_STORE_LOCATOR.rawValue, label: "")
+        case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
         case .Recents:
-                let controller = RecentProductsViewController()
-                self.navigationController!.pushViewController(controller, animated: true)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_ITEMES_PURCHASED.rawValue, label: "")
+            let controller = RecentProductsViewController()
+            self.navigationController!.pushViewController(controller, animated: true)
         case .Address:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
+            
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
@@ -249,22 +257,25 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let controller = MyAddressViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         case .Orders :
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PREVIOUS_ORDERS.rawValue, label: "")
             let controller = OrderViewController()
             //controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
         case .CamFind:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue , label: "" )
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
         case .Factura:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
         case .TicketList:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
             //default :
             //    print("option don't exist")
-       
             
         }
         
@@ -305,6 +316,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func openLoginOrProfile() {
         if UserCurrentSession.sharedInstance().userSigned == nil{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label:"")
+            
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in
                 self.tableView?.reloadData()
@@ -319,6 +332,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
         }
         else {
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action:WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label:"")
             self.signOut(nil)
         }
     }
@@ -413,13 +427,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     func editProfile(sender:UIButton) {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label:"")
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }

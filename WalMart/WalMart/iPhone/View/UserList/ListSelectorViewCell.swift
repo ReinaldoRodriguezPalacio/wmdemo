@@ -98,6 +98,8 @@ class ListSelectorViewCell: UITableViewCell {
     }
     
     func showListDetail() {
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: self.listName!.text!)
         self.delegate?.didShowListDetail(self)
     }
     

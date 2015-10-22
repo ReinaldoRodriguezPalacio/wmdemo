@@ -23,9 +23,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if UserCurrentSession.hasLoggedUser() {
-            self.setStoreName()
-        }
     }
     
     override func viewDidLoad() {
@@ -88,6 +85,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
         familyController.view.frame = viewFamily.bounds
+        if UserCurrentSession.hasLoggedUser() {
+            self.setStoreName()
+        }
     }
     
     func loadDepartments() -> [AnyObject]? {
@@ -171,6 +171,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func collapse(sender:UIButton) {
         sender.selected = !sender.selected
         self.collapsed = !self.collapsed
+        if self.collapsed{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_HIDE_HIGHLIGHTS.rawValue, label: "")
+        }
         self.categoriesTable.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
         
     }
@@ -257,8 +260,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                                     
                             })
                         }
-                        
-                       
+                        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_ACCESSORY_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_ACCESSORY_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
                     }
                     
                     newView.startFrame = newView.bounds
@@ -312,16 +314,13 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                             
                         })
                     }
-                    
-                    
+                    //EVENT
+                    let label = item["description"] as! String
+                    let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
+                    BaseController.sendAnalytics("GR_CATEGORY_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR_CATEGORY_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
                     print("End")
-                    
-
-                    
                     self.view.addSubview(newView)
                 }
-                
-                
                 
         }
         
@@ -341,7 +340,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         controller.idLine = line
         
         self.navigationController!.pushViewController(controller, animated: true)
-    
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_VIEW_RECOMMENDED.rawValue, label: name)
     }
 
     

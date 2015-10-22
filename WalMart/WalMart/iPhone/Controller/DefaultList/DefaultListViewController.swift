@@ -105,6 +105,9 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         destDetailList.defaultListName = itemList["name"] as? String
         destDetailList.detailItems = itemList["items"] as? [[String:AnyObject]]
         
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA.rawValue, action: WMGAIUtils.ACTION_OPEN_PRACTILISTA.rawValue, label: itemList["name"] as! String)
+        
         self.navigationController?.pushViewController(destDetailList, animated: true)
     }
     
