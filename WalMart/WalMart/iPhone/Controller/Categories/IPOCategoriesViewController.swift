@@ -117,7 +117,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         })
         //EVENT
         let label = item["description"] as! String
-        BaseController.sendAnalytics("MG_CATEGORY_\(label.uppercaseString)_VIEW_AUTH", categoryNoAuth: "MG_CATEGORY_\(label.uppercaseString)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
+        let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
+        BaseController.sendAnalytics("MG_CATEGORY_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_CATEGORY_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
     }
     
     func openGroceriesCategories() {

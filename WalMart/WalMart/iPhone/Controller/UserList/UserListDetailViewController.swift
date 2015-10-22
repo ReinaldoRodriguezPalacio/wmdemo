@@ -239,12 +239,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.footerSection!.alpha = 0
             }, completion: { (complete:Bool) -> Void in
                 //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_EDIT.rawValue,
-                        label: self.listName,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: self.listName!)
                 
                 
                 self.deleteAllBtn!.hidden = false
@@ -273,15 +268,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 
                 self.updateLustName()
-                
-                //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_ENDEDIT.rawValue,
-                        label: self.listName,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
-                
                 UIView.animateWithDuration(0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 1.0
@@ -322,12 +308,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let image = self.buildImageToShare() {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
-                    label: self.listName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.listName!)
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -385,14 +366,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if self.products != nil && self.products!.count > 0 {
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHOPALL.rawValue,
-                    label: self.listName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
-            
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
@@ -441,6 +414,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 upcs.append(params)
             }
+            //Event
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.listName!)
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
         }
     }
@@ -449,12 +424,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.products != nil && self.products!.count > 0 {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_DELETEALL.rawValue,
-                    label: self.listName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_MYLIST.rawValue, label: self.listName!)
             
             
             
@@ -528,6 +498,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button.layer.cornerRadius = 20.0
         self.emptyView!.addSubview(button)
+        
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_MY_LISTS_DETAIL_EMPTY.rawValue, label: "")
     }
     
     func removeEmpyView() {
@@ -688,25 +661,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let product = self.products![idx] as? [String:AnyObject] {
                     let upc = product["upc"] as! String
                     let description = product["description"] as! String
-                    //Event
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                            action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                            label: upc,
-                            value: nil).build() as [NSObject : AnyObject])
+                    if(idx == indexPath.row){
+                        //EVENT
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(description) - \(upc)")
                     }
-                    
                     productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
                 else if let product = self.products![idx] as? Product {
-                    
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                            action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                            label:product.upc,
-                            value: nil).build() as [NSObject : AnyObject])
+                    if(idx == indexPath.row){
+                        //EVENT
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(product.desc) - \(product.upc)")
                     }
-                    
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
             }
@@ -726,13 +691,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if let indexPath = self.tableView!.indexPathForCell(cell) {
                 if let item = self.products![indexPath.row] as? NSDictionary {
                     if let upc = item["upc"] as? String {
-                        //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                                action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_DELETEPRODUCT.rawValue,
-                                label: upc,
-                                value: nil).build() as [NSObject : AnyObject])
-                        }
+                        let description = item["description"] as! String
+                        //EVENT
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(description) - \(upc)")
+                        
                         if self.selectedItems!.containsObject(indexPath.row) {
                             self.selectedItems?.removeObject(indexPath.row)
                         }
@@ -740,6 +702,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
                 else if let item = self.products![indexPath.row] as? Product {
+                    //EVENT
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(item.desc) - \(item.upc)")
+                    
                     self.managedContext!.deleteObject(item)
                     self.saveContext()
                     let count:Int = self.listEntity!.products.count
@@ -790,6 +755,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
         if self.quantitySelector == nil {
+            var action = ""
+            var productName = ""
+            var productUpc = ""
             
             let indexPath = self.tableView!.indexPathForCell(cell)
             if indexPath == nil {
@@ -818,10 +786,25 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             if isPesable {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
+                action = WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue
             }
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
+                action = WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue
             }
+            
+            if let item = self.products![indexPath!.row] as? [String:AnyObject] {
+                let upc = item["upc"] as? String
+                productName = item["description"] as! String
+                productUpc = upc!
+            }
+            else if let item = self.products![indexPath!.row] as? Product {
+                productName = item.desc
+                productUpc = item.upc
+            }
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:action, label: "\(productName) - \(productUpc)")
+            
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
@@ -843,7 +826,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
             })
-            
         }
         else {
             self.removeSelector()
@@ -1170,9 +1152,25 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func didDisable(disaable:Bool,cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPathForCell(cell)
+        var productName = ""
+        var productUpc = ""
+        if let item = self.products![indexPath!.row] as? [String:AnyObject] {
+            let upc = item["upc"] as? String
+            productName = item["description"] as! String
+            productUpc = upc!
+        }
+        else if let item = self.products![indexPath!.row] as? Product {
+            productName = item.desc
+            productUpc = item.upc
+        }
+        
         if disaable {
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label:"\(productName) - \(productUpc)")
             self.selectedItems?.removeObject(indexPath!.row)
         } else {
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label:"\(productName) - \(productUpc)")
             self.selectedItems?.addObject(indexPath!.row)
         }
         self.updateTotalLabel()
@@ -1213,6 +1211,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }else{
          NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
         }
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label:self.listName!)
     }
     
 
@@ -1256,5 +1256,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.nameField?.text = self.titleLabel?.text
             }
         }
+    }
+    
+    override func back() {
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label:"")
+        super.back()
     }
 }
