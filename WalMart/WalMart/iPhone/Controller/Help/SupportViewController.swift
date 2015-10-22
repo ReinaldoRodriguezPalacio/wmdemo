@@ -196,9 +196,12 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
          }
             
         }else{
-            self.buttomMail.selected = false
+            self.buttomCall.selected = false
             self.pikerBtn!.showPicker()
         }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: sender == self.buttomCall ? WMGAIUtils.ACTION_CALL_SUPPORT.rawValue :WMGAIUtils.ACTION_EMAIL_SUPPORT.rawValue, label:"")
+        
     }
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {

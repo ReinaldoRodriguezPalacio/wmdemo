@@ -239,6 +239,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 print("Se realizao la direccion")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label: "")
                 self.navigationController?.popViewControllerAnimated(true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")

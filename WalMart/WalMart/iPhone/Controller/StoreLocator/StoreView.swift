@@ -130,14 +130,7 @@ class StoreView: UIView {
             distanceTxt = self.distanceFmt!.stringFromNumber(NSNumber(double: distance/1000))
         }
         
-        //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHOWSTOREDETAIL.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_STOREDETAIL.rawValue, label:self.store!.name!)
         self.titleLabel!.text = self.store!.name
         self.distanceLabel!.text = String(format: NSLocalizedString("store.distance", comment:""), distanceTxt!)
         self.addressLabel!.text = "\(self.store!.address!) CP: \(self.store!.zipCode!)"
@@ -200,53 +193,24 @@ class StoreView: UIView {
     //MARK: - Actions
     
     func showStepRoute() {
-        //Event
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-
         self.delegate?.showInstructions(self.store!, forCar: false)
     }
 
     func showCarRoute() {
         
-        //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue , categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_MAP_ROUTE_STORE.rawValue , label:self.store!.name!)
         self.delegate?.showInstructions(self.store!, forCar: true)
     }
     
     func makePhoneCall() {
-        //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_CALLSTORE.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue , categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_MAP_CALL_STORE.rawValue , label:self.store!.name!)
 
         self.delegate?.makeCallForStore(self.store!)
     }
     
     func shareStore() {
         
-        //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
-                label: self.store!.name!,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue , categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_MAP_SHARE_STORE.rawValue , label:self.store!.name!)
         self.delegate?.shareStore(self.store!)
     }
     

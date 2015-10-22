@@ -526,7 +526,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
  
     func save(sender:UIButton) {
     
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_EDIT_ADDRESS.rawValue ,action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue , label:"")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_EDIT_ADDRESS.rawValue ,action:self.idAddress != nil ? WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue : WMGAIUtils.ACTION_MG_SAVE_ADDRESS.rawValue , label:"")
         if typeAddress == .Shiping && addressShippingCont >= 12 {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
@@ -637,6 +637,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
         service.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

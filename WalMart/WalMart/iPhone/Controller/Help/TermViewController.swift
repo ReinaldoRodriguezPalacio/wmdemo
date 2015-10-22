@@ -153,7 +153,8 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             let selectedSection = families[indexPath.section]
             let linesArr = selectedSection["line"] as! NSArray
             let item = linesArr[indexPath.row - 1] as! NSDictionary
-
+            
+            
             if delegate != nil {
                 delegate!.selectedDetail(indexPath.row, item: item)
             }
@@ -169,8 +170,15 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
                 }
                 self.navigationController!.pushViewController(controller, animated: true)
             }
+            
+            var action : String = item["title"] as! String
+            action =  action.stringByReplacingOccurrencesOfString(" ", withString:"_").uppercaseString
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:"ACTION_OPEN_\(action)" , label:"")
+            
         }
-        }
+        
+        
+    }
     
     func numberOfRowsInSection(section:Int) -> Int {
         if section < families.count {

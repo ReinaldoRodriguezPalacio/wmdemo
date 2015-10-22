@@ -103,6 +103,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             let value = notiicationInfo["value"] as! String
             let business = notiicationInfo["business"] as! String
             
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_DETAIL_NOTIFICATION.rawValue , label:"\(type) \(value) \(business)")
             let window = UIApplication.sharedApplication().keyWindow
             
             if let customBar = window!.rootViewController  as? CustomBarViewController {

@@ -103,6 +103,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: self.recentProductItems[0]["description"] as! String)
+        
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = getUPCItems()
         controller.ixSelected = indexPath.row
@@ -112,7 +114,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
 
     func getUPCItems() -> [[String:String]] {
-
         var upcItems : [[String:String]] = []
         for shoppingCartProduct in  recentProductItems {
             let upc = shoppingCartProduct["upc"] as! String
