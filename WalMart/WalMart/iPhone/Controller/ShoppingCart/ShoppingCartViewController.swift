@@ -29,7 +29,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var delegate : ShoppingCartViewControllerDelegate!
     var titleView : UILabel!
     var buttonWishlist : UIButton!
-    var addProductToShopingCart : UIButton? = nil
+    //var addProductToShopingCart : UIButton? = nil
 
     var closeButton : UIButton!
     
@@ -264,6 +264,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func closeShoppingCart () {
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue,categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue,action:WMGAIUtils.ACTION_BACK_PRE_SHOPPING_CART.rawValue , label: "")
         self.navigationController!.popToRootViewControllerAnimated(true)
     }
 
@@ -277,10 +279,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             animation.image = UIImage(named:"detail_addToList")
             runSpinAnimationOnView(animation, duration: 100, rotations: 1, `repeat`: 100)
             self.viewFooter.addSubview(animation)
-            
-            
-            
             var ixCount = 1
+            
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue,categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue,action:WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue , label: "")
+            
             for shoppingCartProduct  in self.itemsInShoppingCart {
                 let upc = shoppingCartProduct["upc"] as! String
                 let desc = shoppingCartProduct["description"] as! String
@@ -431,6 +434,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
+            
+            let item = self.itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+            let  name = item["description"] as! String
+            let upc = item["upc"] as! String
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             if self.navigationController != nil {
                 self.navigationController!.pushViewController(controller, animated: true)
             }
@@ -530,6 +539,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 self.titleView.frame = CGRectMake(self.titleView.frame.minX - 30, self.titleView.frame.minY, self.titleView.frame.width, self.titleView.frame.height)
             })
             
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_EDIT_CART.rawValue, label: "")
+            
         }else{
             let currentCells = self.viewShoppingCart.visibleCells
             for cell in currentCells {
@@ -613,6 +625,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(itemWishlist["description"] as! String) - \(upc)")
+        
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
             self.itemsInShoppingCart.removeAtIndex(indexPath.row)
             
@@ -752,7 +767,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func startEdditingQuantity() {
-        self.isSelectingProducts = true
+       self.isSelectingProducts = true
     }
     func endEdditingQuantity(){
         self.isSelectingProducts = false
@@ -760,6 +775,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     func showloginshop() {
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN_PRE_CHECKOUT.rawValue, label: "")
+        
         self.canceledAction = false
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7
@@ -1087,6 +1105,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
                 
                 print("done")
+                
+                //EVENT
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
+                
                 self.navigationController?.popToRootViewControllerAnimated(true)
             })
             
@@ -1098,6 +1120,4 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func checkOutController() -> CheckOutViewController {
         return CheckOutViewController()
     }
-    
-
 }
