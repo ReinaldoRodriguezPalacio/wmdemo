@@ -13,7 +13,7 @@ class GRShoppingCartProductsService : GRBaseService {
 
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //if !ShoppingCartService.isSynchronizing {
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 synchronizeWebShoppingCartFromCoreData({ () -> Void in
                     self.callGETService(params,
                         successBlock: { (resultCall:NSDictionary) -> Void in
@@ -129,7 +129,7 @@ class GRShoppingCartProductsService : GRBaseService {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
         }
         var arrayUPCQuantity : [[String:String]] = []

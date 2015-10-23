@@ -32,7 +32,7 @@ class DeleteItemWishlistService : BaseService {
     
     func callServiceWithParams(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         WishlistService.shouldupdate = true
-         if UserCurrentSession.sharedInstance().userSigned != nil {
+         if UserCurrentSession.hasLoggedUser() {
             self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
                 
                 //Se actualza la lista del usuario
@@ -59,7 +59,7 @@ class DeleteItemWishlistService : BaseService {
             for upcVal in parameter {
                 let upc = upcVal as! String
                 var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
-                if UserCurrentSession.sharedInstance().userSigned != nil {
+                if UserCurrentSession.hasLoggedUser() {
                     predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
                 }
                 let array : [Wishlist] =  self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]

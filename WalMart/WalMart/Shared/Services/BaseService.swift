@@ -34,6 +34,7 @@ enum FilterType : String {
     case priceDesc = "priceDESC"
     case popularity = "popularity"
     case rankingASC = "rankingASC"
+    case rating = "rating"
 }
 
 enum ResultObjectType : String {
@@ -96,7 +97,7 @@ class BaseService : NSObject {
         
         let lockQueue = dispatch_queue_create("com.test.LockQueue", nil)
         dispatch_sync(lockQueue) {
-            if UserCurrentSession.sharedInstance().userSigned != nil && self.shouldIncludeHeaders() {
+            if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
                 let timeInterval = NSDate().timeIntervalSince1970
                 let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue)
                 let uuid  = NSUUID().UUIDString
@@ -173,7 +174,7 @@ class BaseService : NSObject {
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
-                    if UserCurrentSession.sharedInstance().userSigned != nil {
+                    if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
                         loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
                         let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
@@ -217,7 +218,7 @@ class BaseService : NSObject {
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {
-                    if UserCurrentSession.sharedInstance().userSigned != nil {
+                    if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
                         //loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
                         let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
@@ -450,7 +451,7 @@ class BaseService : NSObject {
                 let resultJSON = json as! NSDictionary
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
-                        if UserCurrentSession.sharedInstance().userSigned != nil {
+                        if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithEmailService()
                             loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
                             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email

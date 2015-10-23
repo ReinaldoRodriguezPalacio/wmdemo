@@ -186,9 +186,11 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                         let code = metaObj.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         let character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
                         self.delegate!.barcodeCaptured(character)
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
                     }
                     else {
                         self.delegate!.barcodeCaptured(metaObj.stringValue!)
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: metaObj.stringValue!)
                     }
                 })
             }
@@ -197,7 +199,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     
     func closeAlert(){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
-             self.delegate!.barcodeCaptured(nil)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
+            self.delegate!.barcodeCaptured(nil)
         })
     }
     

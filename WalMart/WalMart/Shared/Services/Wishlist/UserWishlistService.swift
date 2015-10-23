@@ -20,7 +20,7 @@ class UserWishlistService : BaseService {
     
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
        
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
              self.synchronizeWishListFromCoreData({ () -> Void in
                 self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
                     
@@ -129,7 +129,7 @@ class UserWishlistService : BaseService {
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: WishlistStatus.Deleted.rawValue))
         }
         let array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]

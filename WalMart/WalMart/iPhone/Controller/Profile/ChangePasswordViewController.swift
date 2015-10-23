@@ -40,25 +40,25 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         
         
         self.passworCurrent = FormFieldView()
+        self.passworCurrent!.isRequired = true
         self.passworCurrent!.setCustomPlaceholder(NSLocalizedString("profile.password.current",comment:""))
         self.passworCurrent!.secureTextEntry = true
-        self.passworCurrent!.isRequired = true
         self.passworCurrent!.typeField = TypeField.Password
         self.passworCurrent!.nameField = NSLocalizedString("profile.password.current",comment:"")
         
         self.password = FormFieldView()
+        self.password!.isRequired = true
         self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
         self.password!.secureTextEntry = true
-        self.password!.isRequired = true
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
         
         self.confirmPassword = FormFieldView()
+        self.confirmPassword!.isRequired = true
         self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
         self.confirmPassword!.secureTextEntry = true
-        self.confirmPassword!.isRequired = true
         self.confirmPassword!.typeField = TypeField.Password
         self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
         self.confirmPassword!.minLength = 8
@@ -215,20 +215,12 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             }
             
-            
-            if self.passworCurrent != nil{
-                // Evente change password
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
-                        action:WMGAIUtils.EVENT_PROFILE_CHANGEPASSWORD.rawValue,
-                        label: nil,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
-            }
-            
+
             self.view.endEditing(true)
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"SUCCES")
                 if let message = resultCall!["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                     self.alertView!.showDoneIcon()
@@ -236,6 +228,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
                 self.navigationController!.popViewControllerAnimated(true)
                 }
                 , errorBlock: {(error: NSError) in
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue , label:"FAILED")
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
             })

@@ -65,7 +65,7 @@ class ShoppingCartUpdateController : UIViewController {
         
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: "closeAlert", forControlEvents: UIControlEvents.TouchUpInside)
         closeButton.frame = CGRectMake(0, 5, 44, 44)
         
         viewBgImage = UIView(frame: CGRectMake((self.view.frame.width / 2) - 40, 100, 80, 80))
@@ -174,8 +174,6 @@ class ShoppingCartUpdateController : UIViewController {
             var paramsitems : [AnyObject] = []
             
             var type : NSString = ""
-            var upcs:NSString = ""
-            var quantities:NSString = ""
             
             for itemToShop in allItems {
                 
@@ -203,8 +201,6 @@ class ShoppingCartUpdateController : UIViewController {
                 if let pesableP = itemToShop["pesable"] as? NSString{
                     pesable = pesableP
                 }
-                upcs  = itemToShop["upc"] as! String
-                quantities = itemToShop["quantity"] as! String
                 
                 let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable)
                 
@@ -217,13 +213,7 @@ class ShoppingCartUpdateController : UIViewController {
             serviceAddProduct.callService(requestParams : paramsitems, successBlock: { (result:NSDictionary) -> Void in
                 self.finishCall = true
                 
-                //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                        action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue ,
-                        label: " \(upcs) - \(quantities)", value: nil).build() as [NSObject : AnyObject])
-                }
-                if self.timmer == nil {
+                    if self.timmer == nil {
                     self.showDoneIcon()
                     WishlistService.shouldupdate = true
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
@@ -242,14 +232,6 @@ class ShoppingCartUpdateController : UIViewController {
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
                     self.finishCall = true
                     
-                   
-                    
-                    //Event
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                            action:WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue ,
-                            label: " \(upcs) - \(quantities)", value: nil).build() as [NSObject : AnyObject])
-                    }
                     if self.timmer == nil {
                         self.showDoneIcon()
                         WishlistService.shouldupdate = true
@@ -289,22 +271,13 @@ class ShoppingCartUpdateController : UIViewController {
                     if let commentsParams = params["comments"] as? NSString{
                         self.comments = commentsParams as String
                     }
-                    let upcs:NSString = params["upc"] as! NSString
-                    let quantities:NSString = params["quantity"] as! NSString
                     
                     serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString, successBlock: { (result:NSDictionary) -> Void in
                         
                         self.finishCall = true
                         if self.timmer == nil {
                             self.showDoneIcon()
-                           
-                            //Event
-                            if let tracker = GAI.sharedInstance().defaultTracker {
-                                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                                    action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue ,
-                                    label: " \(upcs) - \(quantities)", value: nil).build() as [NSObject : AnyObject])
-                            }
-
+                            
                             
                             WishlistService.shouldupdate = true
                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
@@ -470,7 +443,7 @@ class ShoppingCartUpdateController : UIViewController {
             keepShoppingButton.backgroundColor = WMColor.productAddToCartKeepShoppingBg
             keepShoppingButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             keepShoppingButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
-            keepShoppingButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+            keepShoppingButton.addTarget(self, action: "keepShopping", forControlEvents: UIControlEvents.TouchUpInside)
             
             goToShoppingCartButton = UIButton(frame:CGRectMake(keepShoppingButton.frame.maxX + 11, keepShoppingButton.frame.minY,keepShoppingButton.frame.width, keepShoppingButton.frame.height))
             goToShoppingCartButton.layer.cornerRadius = 20
@@ -487,9 +460,24 @@ class ShoppingCartUpdateController : UIViewController {
         }
     }
     
+    func closeAlert(){
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_CLOSED.rawValue, label:"")
+        self.close()
+    }
+    
+    func keepShopping(){
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_CONTINUE_BUYING.rawValue, label:"")
+        self.close()
+    }
+    
     func goShoppingCart() {
         self.close()
         if goToShoppingCart != nil {
+            //Event
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label:"")
+            
             goToShoppingCart()
         }
     }
@@ -499,6 +487,9 @@ class ShoppingCartUpdateController : UIViewController {
         if self.commentTextView?.field?.text.trim() ==  ""{
             return
         }
+        
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
         
         self.view.endEditing(true)
         self.titleLabel.frame = CGRectMake(self.titleLabel.frame.minX,  viewBgImage.frame.maxY + 23, self.titleLabel.frame.width, 18)
@@ -673,15 +664,10 @@ class ShoppingCartUpdateController : UIViewController {
                                     self.imageDone.hidden = true
                                     self.imageDone.removeFromSuperview()
                                 }
-                                
-                                
+
                                 //Event
-                                if let tracker = GAI.sharedInstance().defaultTracker {
-                                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                                        action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCARTADDCOMMENT.rawValue ,
-                                        label:self.comments, value: nil).build() as [NSObject : AnyObject])
-                                }
-                                
+                                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_SHOPPING_CART_ALERT.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE.rawValue, label:"")
+
                                 
                                 self.titleLabel.hidden = true
                                 self.commentTextView!.field?.text = self.comments

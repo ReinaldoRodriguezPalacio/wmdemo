@@ -27,16 +27,16 @@ class ShippingAddress: AddressView {
     override func setup(){
         super.setup()
         self.name = FormFieldView()
-        self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.name",comment:""))
         self.name!.isRequired = true
+        self.name!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.name",comment:""))
         self.name!.typeField = TypeField.Name
         self.name!.nameField = NSLocalizedString("profile.address.shiping.name",comment:"")
         self.name!.minLength = 2
         self.name!.maxLength = 25
         
         self.lastName = FormFieldView()
-        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.lastname",comment:""))
         self.lastName!.isRequired = true
+        self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.address.shiping.lastname",comment:""))
         self.lastName!.typeField = TypeField.String
         self.lastName!.nameField = NSLocalizedString("profile.address.shiping.lastname",comment:"")
         self.lastName!.minLength = 2

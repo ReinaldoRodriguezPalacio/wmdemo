@@ -40,13 +40,6 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
         
         super.viewDidLoad()
         
-        //SCREEN
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        
         viewSuper = PreShoppingCartView(frame: CGRectZero)
         self.view.addSubview(viewSuper)
         viewSuper.tapAction =  { () -> Void in
@@ -122,9 +115,14 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             
             self.viewSuper.tapAction =  { () -> Void in
                 if totArticlesGR > 0 {
+                    //Event
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_GR_OPEN_SHOPPING_CART.rawValue, label: "")
+                    
                     self.yPointOpen = self.viewSuper.imgBackground.convertRect(self.viewSuper.imgBackground.frame, toView: self.view).maxY
                     self.performSegueWithIdentifier("shoppingCartGR", sender: self)
                 } else {
+                    //Event
+                    BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
                 }
             }
@@ -132,9 +130,14 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             
             self.viewMG.tapAction =  { () -> Void in
                 if totArticlesMG > 0 {
+                    //Event
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_MG_OPEN_SHOPPING_CART.rawValue, label: "")
+                    
                     self.yPointOpen = self.viewMG.imgBackground.convertRect(self.viewMG.imgBackground.frame, toView: self.view).maxY
                     self.performSegueWithIdentifier("shoppingCartMG", sender: self)
                 } else {
+                    //Event
+                    BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
                 }
             }
@@ -189,7 +192,8 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     func closeShoppingCart () {
         //var originalHeight : CGFloat = 0.0
         
-        
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
         self.navigationController!.view.frame = CGRectMake(self.navigationController!.view.frame.minX,62 , self.navigationController!.view.frame.width,  self.navigationController!.view.frame.height)
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in

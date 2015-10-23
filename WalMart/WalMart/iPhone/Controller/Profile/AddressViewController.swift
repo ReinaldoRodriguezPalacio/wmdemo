@@ -40,6 +40,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var alertView : IPOWMAlertViewController? = nil
     var isLogin : Bool = false
     var isIpad : Bool = false
+    var addressShippingCont: Int! = 0
+    var addressFiscalCount: Int! = 0
     
     var validateZip =  false
     

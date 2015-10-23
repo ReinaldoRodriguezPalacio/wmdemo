@@ -88,6 +88,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var isEditingSearch: Bool = false
     
     
+    
+    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -583,6 +585,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
         }
         else{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
             self.closeSearch(false, sender: nil)
         }
     }
@@ -760,7 +763,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-    func selectKeyWord(keyWord:String, upc:String?, truncate:Bool ){
+    func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
             if let tracker = GAI.sharedInstance().defaultTracker {
                 let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build()
@@ -805,6 +808,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 isEditingSearch = false
             }
             let controller = SearchProductViewController()
+            controller.upcsToShow = upcs
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
@@ -1058,6 +1062,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func userLogOut(not:NSNotification) {
         self.removeAllCookies()
         self.buttonSelected(self.buttonList[0])
+        self.viewControllers.removeRange(1..<self.viewControllers.count)
+        self.createInstanceOfControllers()
     }
     
     func removeAllCookies() {
@@ -1170,7 +1176,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     
-    func handleNotification(type:String,name:String,value:String) -> Bool {
+    func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
         
         let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
@@ -1185,8 +1191,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
         case "": self.buttonSelected(self.buttonList[0])
-        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true)
-        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true)
+        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
+        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
         case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG )
         case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:.WithCategoryForMG)
@@ -1239,8 +1245,4 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showHelp() {
         reviewHelp(true)
     }
-    
-    
-    
-    
 }

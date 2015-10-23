@@ -184,6 +184,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }
     
     func startEdditingQuantity() {
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "\(desc) - \(upc)")
+        
         self.delegateProduct.startEdditingQuantity()
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel?.alpha = 0.0

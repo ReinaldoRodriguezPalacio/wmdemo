@@ -12,6 +12,7 @@ protocol FilterProductsViewControllerDelegate {
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool)
     func apply(order:String, upcs: [String])
     func removeFilters()
+    func removeSelectedFilters()
     func sendBrandFilter(brandFilter:String)
 }
 
@@ -51,6 +52,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var prices: NSArray?
     var upcPrices: NSArray?
     var upcByPrice: NSArray?
+    var brandFacets: [String] = []
     
     
     override func getScreenGAIName() -> String {
@@ -211,6 +213,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             self.delegate?.apply(self.selectedOrder!, upcs: upcs)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
             if successCallBack != nil {
                 self.successCallBack!()
             }else {
@@ -252,13 +255,13 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
 
         self.delegate?.apply(self.selectedOrder!, filters: filters.count > 0 ? filters : nil, isForGroceries: groceriesType)
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "")
         if successCallBack != nil {
             self.successCallBack!()
         }else {
             self.navigationController!.popViewControllerAnimated(true)
         }
-        
+       self.delegate?.removeSelectedFilters()
     }
     
 
@@ -314,7 +317,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         if self.facetGr != nil {
-            return self.facetGr != nil ? self.facetGr!.count : 0
+            return self.facetGr != nil ? self.facetGr!.count + 1: 0
         }
         
         return 0
@@ -332,27 +335,37 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if self.facetGr != nil{
             
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
-            var  item = self.facetGr![indexPath.row ] as! String
+            
+            var item :String = ""
+            if indexPath.row > 0 {
+                item = self.facetGr![indexPath.row - 1] as! String
+            }else{
+                item = ""//self.facetGr![indexPath.row ] as! String
+            }
+            
             
             var selected = false
-            
-            
             let valSelected =  self.selectedFacetGr?[item]
             if ((valSelected) != nil) {
                 selected = valSelected!
             }
-            selectedFacetGr?.updateValue(selected,forKey: item)
-            listCell.setValuesFacets(nil,nameBrand:item, selected: selected )
             
-            if self.selectedFacetGr!.count == 0  {
-                item = self.facetGr![indexPath.row ] as! String
-                self.selectedFacetGr!.updateValue(true, forKey: item)
-                selected = true
-            } else {
-                selected = false
-                if ((valSelected) != nil) {
-                    selected = valSelected!
+            
+            if indexPath.row > 0 {
+                 item = self.facetGr![indexPath.row - 1] as! String
+                selectedFacetGr?.updateValue(selected,forKey: item)
+                listCell.setValuesFacets(nil,nameBrand:item, selected: selected)
+                
+            }else{
+                
+                if self.selectedFacetGr!.count == 0  {
+                    self.selectedFacetGr!.updateValue(true, forKey: item)
+                    selected = true
+                } else {
+                    selected = false
                 }
+                
+                listCell.setValuesSelectAll(selected)
             }
             
             return listCell
@@ -376,6 +389,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     if indexPath.row > 0 {
                         let facetitem = facetInfo["itemsFacet"] as! [[String:AnyObject]]
                         let item = facetitem[indexPath.row - 1]
+                        self.addBrandFacet(item["itemName"] as! String)
                         listCell.setValuesFacets(item,nameBrand:"", selected: selected)
                     } else {
                         if self.selectedElementsFacet!.count == 0  {
@@ -465,8 +479,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         if self.facetGr != nil {
+            if indexPath.row == 0 {
+                self.selectedFacetGr = [:]
+                self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
+                return
+            }
             
-            let item = self.facetGr![indexPath.row] as? String
+            let item = self.facetGr![indexPath.row - 1] as? String
             var currentVal = true
             for var items in self.selectedFacetGr! {
                 if items.1 == true{
@@ -491,6 +511,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             if indexPath.row == 0 {
                 self.selectedElementsFacet = [:]
                 self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: UITableViewRowAnimation.Fade)
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: "Seleccionar todos")
                 return
             }
             
@@ -506,6 +527,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     self.selectedElementsFacet?.updateValue(false, forKey: keyObj)
                 }
             }
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
             self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
             //self.removeButton!.hidden = false
             
@@ -832,6 +854,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func rangerSliderDidChangeValues(forLowPrice low:Int, andHighPrice high:Int) {
         self.filterProductsByPrice(forLowPrice: low, andHighPrice: high)
+        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_SLIDER_PRICE_RANGE_SELECT.rawValue, label: "\(self.prices![low]) - \(self.prices![high])")
     }
     
     func filterProductsByPrice(forLowPrice low:Int, andHighPrice high:Int) {
@@ -855,6 +878,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
         }
         self.upcByPrice = array
+    }
+    
+    func addBrandFacet(brand:String){
+        if !self.brandFacets.contains(brand){
+            self.brandFacets.append(brand)
+        }
     }
     
 }

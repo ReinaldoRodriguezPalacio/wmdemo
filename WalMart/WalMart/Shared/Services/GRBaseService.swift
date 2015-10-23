@@ -17,7 +17,7 @@ class GRBaseService : BaseService {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
         var serviceConfigDictionary = ConfigServices.ConfigIdGR
         if self.urlForSession {
-            serviceConfigDictionary = UserCurrentSession.sharedInstance().userSigned != nil ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdGR
+            serviceConfigDictionary = UserCurrentSession.hasLoggedUser() ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdGR
         }
         let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
         let environmentServices = services[environment] as! [String:AnyObject]
@@ -27,7 +27,7 @@ class GRBaseService : BaseService {
     }
 
     override func getManager() -> AFHTTPSessionManager {
-        if UserCurrentSession.sharedInstance().userSigned != nil && shouldIncludeHeaders() {
+        if UserCurrentSession.hasLoggedUser() && shouldIncludeHeaders() {
             let timeInterval = NSDate().timeIntervalSince1970
             let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue) // Time in milis "1400705132881"//
             let uuid  = NSUUID().UUIDString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//

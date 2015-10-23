@@ -52,7 +52,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     }
     
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:AnyObject]] = []
             var upcSend = ""
             for itemSvc in params as! NSArray {
@@ -110,7 +110,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             
             var cartProduct : Cart
             var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
             }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
@@ -145,7 +145,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 cartProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             }
             
-            if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.hasLoggedUser() {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!
             }
         }

@@ -116,7 +116,7 @@ class IPAUserListViewController: UserListViewController {
             requiredHelp = !(param.value == "false")
         }
         
-        if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
+        if requiredHelp && UserCurrentSession.hasLoggedUser() {
             var view = self.view
             if self.delegate != nil {
                 view = self.delegate!.viewForContainer()
@@ -238,7 +238,7 @@ class IPAUserListViewController: UserListViewController {
     
     override func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
         //Solo en caso de existir una sesion se consulta al backend por las listas del usuario
-        if UserCurrentSession.sharedInstance().userSigned != nil {
+        if UserCurrentSession.hasLoggedUser() {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in

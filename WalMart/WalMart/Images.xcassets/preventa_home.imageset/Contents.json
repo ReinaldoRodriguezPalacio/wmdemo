@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "preventa_home.png"
+      "filename" : "preventa_home.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "preventa_home_@2x.png"
+      "filename" : "preventa_home@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

@@ -46,6 +46,17 @@ class BaseController : UIViewController {
         return true
     }
     
+    class func sendAnalytics(category:String, action: String, label:String){
+           ////////
+        print("Category: \(category) Action: \(action) Label: \(label)")
+    }
+    
+    class func sendAnalytics(categoryAuth:String, categoryNoAuth:String, action: String, label:String){
+        let category = UserCurrentSession.hasLoggedUser() ? categoryAuth : categoryNoAuth
+        BaseController.sendAnalytics(category, action: action, label: label)
+    }
+
+    
    
     func getScreenGAIName() -> String {
         fatalError("SCreeen name not implemented");

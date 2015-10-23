@@ -117,7 +117,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             self.filterController!.selectedOrder = self.idSort!
             self.filterController!.delegate = self
             self.filterController!.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
-            self.filterController!.searchContext = self.searchContextType
             self.filterController!.view.frame = CGRectMake(0.0, 0.0, 320.0, 390.0)
             self.filterController!.view.backgroundColor = UIColor.clearColor()
             self.filterController!.facetGr = self.facetGr
@@ -126,7 +125,9 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 return
             }
         }
-        
+        self.filterController!.facetGr = self.facetGr
+        self.filterController!.isGroceriesSearch = self.btnSuper.selected
+        self.filterController!.searchContext = self.searchContextType
         let pointPop =  self.filterButton!.convertPoint(CGPointMake(self.filterButton!.frame.minX,  self.filterButton!.frame.maxY / 2  ), toView:self.view)
 
         //self.filterController!.view.backgroundView!.backgroundColor = UIColor.clearColor()

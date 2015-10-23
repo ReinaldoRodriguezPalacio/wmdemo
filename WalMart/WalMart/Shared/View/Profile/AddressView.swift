@@ -93,40 +93,40 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
         self.keyboardBar = viewAccess
         shortNameField = FormFieldView()
-        shortNameField!.setCustomPlaceholder(NSLocalizedString("profile.address.shortName",comment:""))
         self.shortNameField!.isRequired = true
+        shortNameField!.setCustomPlaceholder(NSLocalizedString("profile.address.shortName",comment:""))
         self.shortNameField!.typeField = TypeField.Alphanumeric
         self.shortNameField!.minLength = 3
         self.shortNameField!.maxLength = 50
         self.shortNameField!.nameField = NSLocalizedString("profile.address.shortName",comment:"")
         
         street = FormFieldView()
-        street!.setCustomPlaceholder(NSLocalizedString("profile.address.street",comment:""))
         self.street!.isRequired = true
+        street!.setCustomPlaceholder(NSLocalizedString("profile.address.street",comment:""))
         self.street!.typeField = TypeField.Alphanumeric
         self.street!.minLength = 2
         self.street!.maxLength = 50
         self.street!.nameField = NSLocalizedString("profile.address.street",comment:"")
         
         outdoornumber = FormFieldView()
-        outdoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.outdoornumber",comment:""))
         self.outdoornumber!.isRequired = true
+        outdoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.outdoornumber",comment:""))
         self.outdoornumber!.typeField = TypeField.NumAddress
         self.outdoornumber!.minLength = 0
         self.outdoornumber!.maxLength = 15
         self.outdoornumber!.nameField = NSLocalizedString("profile.address.outdoornumber",comment:"")
         
         indoornumber = FormFieldView()
-        indoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
         self.indoornumber!.isRequired = false
+        indoornumber!.setCustomPlaceholder(NSLocalizedString("profile.address.indoornumber",comment:""))
         self.indoornumber!.typeField = TypeField.NumAddress
         self.indoornumber!.minLength = 0
         self.indoornumber!.maxLength = 15
         self.indoornumber!.nameField = NSLocalizedString("profile.address.indoornumber",comment:"")
         
         zipcode = FormFieldView()
-        zipcode!.setCustomPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
         self.zipcode!.isRequired = true
+        zipcode!.setCustomPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
         self.zipcode!.typeField = TypeField.Number
         self.zipcode!.minLength = 5
         self.zipcode!.maxLength = 5
@@ -136,8 +136,8 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.zipcode!.inputAccessoryView = self.keyboardBar
         
         suburb = FormFieldView()
-        suburb!.setCustomPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
         self.suburb!.isRequired = true
+        suburb!.setCustomPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
         self.suburb!.typeField = TypeField.List
         self.suburb!.nameField = NSLocalizedString("profile.address.suburb",comment:"")
         suburb!.delegate = self
@@ -145,24 +145,24 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.suburb!.hidden = true
         
         municipality = FormFieldView()
-        municipality!.setCustomPlaceholder(NSLocalizedString("profile.address.municipality",comment:""))
         self.municipality!.isRequired = true
+        municipality!.setCustomPlaceholder(NSLocalizedString("profile.address.municipality",comment:""))
         self.municipality!.typeField = TypeField.None
         self.municipality!.nameField = NSLocalizedString("profile.address.municipality",comment:"")
         self.municipality!.enabled = false
         self.municipality!.hidden = true
         
         city = FormFieldView()
-        city!.setCustomPlaceholder(NSLocalizedString("profile.address.city",comment:""))
         self.city!.isRequired = true
+        city!.setCustomPlaceholder(NSLocalizedString("profile.address.city",comment:""))
         self.city!.typeField = TypeField.None
         self.city!.nameField = NSLocalizedString("profile.address.city",comment:"")
         self.city!.enabled = false
         self.city!.hidden = true
         
         state = FormFieldView()
-        state!.setCustomPlaceholder(NSLocalizedString("profile.address.state",comment:""))
         self.state!.isRequired = true
+        state!.setCustomPlaceholder(NSLocalizedString("profile.address.state",comment:""))
         self.state!.typeField = TypeField.None
         self.state!.nameField = NSLocalizedString("profile.address.state",comment:"")
         self.state!.enabled = false
@@ -194,8 +194,8 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.preferedLabel!.textAlignment = .Right
         
         self.telephone = FormFieldView()
-        self.telephone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone",comment:""))
         self.telephone!.isRequired = true
+        self.telephone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone",comment:""))
         self.telephone!.typeField = TypeField.Number
         self.telephone!.nameField = NSLocalizedString("profile.address.telephone",comment:"")
         self.telephone!.minLength = 10

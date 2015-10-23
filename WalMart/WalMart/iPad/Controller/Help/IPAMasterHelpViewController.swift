@@ -138,13 +138,14 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     }
     
     // MARK: - CameraViewControllerDelegate
-   func photoCaptured(value: String?,done: (() -> Void)) {
+   func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
         if value != nil || value == "" {
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
         }
         
         let controller = IPASearchProductViewController()
+        controller.upcsToShow = upcs
         controller.searchContextType = .WithText
         controller.titleHeader = value
         controller.textToSearch = value
