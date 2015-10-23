@@ -19,6 +19,7 @@ protocol SearchViewControllerDelegate {
 class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BarCodeViewControllerDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
     var elements: [AnyObject]?
+    var upcItems: [String]?
     var elementsCategories: [AnyObject]?
     var currentKey: String?
     var header: UIView?
@@ -420,7 +421,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
                     }
                 }
             }
-            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs:nil)
+            delegate.selectKeyWord(textField.text!, upc: nil, truncate:false,upcs: self.upcItems)
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action:WMGAIUtils.ACTION_TEXT_SEARCH.rawValue , label: textField.text!)
         }
         else{
@@ -606,6 +607,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.field!.becomeFirstResponder()
         if value != nil {
             self.field!.text = value
+            self.upcItems = upcs
             self.textFieldShouldReturn(self.field!)
             delegate.closeSearch(false, sender:nil)
             done()

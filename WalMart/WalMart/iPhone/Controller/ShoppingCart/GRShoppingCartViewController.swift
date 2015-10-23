@@ -183,6 +183,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func closeShoppingCart() {
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue,categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue,action:WMGAIUtils.ACTION_BACK_PRE_SHOPPING_CART.rawValue , label: "")
+        
         self.navigationController!.popToRootViewControllerAnimated(true)
     }
     
@@ -328,6 +331,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
+            
+            let item = self.itemsInCart[indexPath.row] as! [String:AnyObject]
+            let  name = item["description"] as! String
+            let upc = item["upc"] as! String
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
+            
             if self.navigationController  != nil {
                 self.navigationController!.pushViewController(controller, animated: true)
             }
@@ -335,14 +345,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func showshoppingcart() {
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_SHOPPINGCART.rawValue,
-                action: WMGAIUtils.EVENT_GR_EVENT_SHOPPINGCART_SHOP.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
-        
         self.buttonShop!.enabled = false
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
+        
         if UserCurrentSession.hasLoggedUser() {
             UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                 self.buttonShop!.enabled = true
@@ -376,6 +382,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,upcProduct:cell.upc)
             }
             
+            //EVENT
+            let action = cell.pesable ? WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue : WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action:action, label: "\(cell.desc) - \(cell.upc)")
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
@@ -439,6 +448,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             
             self.view.addSubview(selectQuantityGR)
             
+            
         } else {
             let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
             let frame = vc!.view.frame
@@ -500,6 +510,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             editButton.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)
             //editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
             
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_EDIT_CART.rawValue, label: "")
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
@@ -676,7 +688,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 viewLoad.startAnnimating(false)
                 self.view.addSubview(viewLoad)
             }
-            
+        
+            let descriptions =  itemGRSC["description"] as! String
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
+        
             serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
                 UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                     self.itemsInCart.removeAtIndex(indexPath.row)
@@ -715,6 +730,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         }
         
         serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
+            
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
+            
             UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
                 //self.loadGRShoppingCart()
                 
@@ -722,8 +741,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     self.viewLoad.stopAnnimating()
                     self.viewLoad = nil
                 }
-                
                 print("done")
+                
                 if self.onClose != nil {
                     self.onClose?(isClose:true)
                     self.navigationController?.popViewControllerAnimated(true)
@@ -744,6 +763,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     
     func shareShoppingCart() {
+        //EVENT
+        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        
         self.removeListSelector(action: nil)
         let imageHead = UIImage(named:"detail_HeaderMail")
         let imageHeader = UIImage(fromView: self.viewHerader)
@@ -791,6 +813,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
                 self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
             })
+            
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_MY_LIST.rawValue, label: "")
+            
         }
         else {
             self.removeListSelector(action: nil)

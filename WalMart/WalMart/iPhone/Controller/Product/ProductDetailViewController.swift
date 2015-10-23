@@ -496,7 +496,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.detailCollectionView.scrollEnabled = true
                         self.isShowShoppingCart = false
                         
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_MG_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CART_MG_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(self.upc) - \(self.name)")
+                        BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(self.upc) - \(self.name)")
         
 
                 
