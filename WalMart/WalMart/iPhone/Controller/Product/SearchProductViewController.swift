@@ -36,7 +36,7 @@ enum SearchServiceContextType {
     case WithCategoryForGR
 }
 
-class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate {
+class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate, SearchProductCollectionViewCellDelegate {
 
     var contentCollectionOffset: CGPoint?
     var collection: UICollectionView?
@@ -76,6 +76,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var itemsUPCMG: NSArray? = []
     var itemsUPCGR: NSArray? = []
+    var selectQuantityGR : GRShoppingCartQuantitySelectorView!
+    var selectQuantity : ShoppingCartQuantitySelectorView!
 
     
     override func viewDidLoad() {
@@ -449,7 +451,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             type:type as String,
             pesable : isPesable
         )
-        
+        cell.delegate = self
         return cell
     }
     
@@ -1076,5 +1078,130 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.searchContextType = SearchServiceContextType.WithCategoryForMG
         }
         
+    }
+    
+    //MARK: SearchProductCollectionViewCellDelegate
+    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+        var prodQuantity = "1"
+        if cell.pesable! {
+            prodQuantity = "50"
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:0.0,upcProduct:cell.upc)
+            
+        }else{
+            prodQuantity = "1"
+            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),upcProduct:cell.upc)
+        }
+        
+        //EVENT
+        let action = cell.pesable! ? WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue : WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue
+        BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action:action, label: "\(cell.desc) - \(cell.upc)")
+        
+        selectQuantityGR?.addToCartAction = { (quantity:String) in
+            //let quantity : Int = quantity.toInt()!
+            if cell.onHandInventory.integerValue >= Int(quantity) {
+                self.selectQuantityGR?.closeAction()
+                let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                
+                //CAMBIA IMAGEN CARRO SELECCIONADO
+                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+            } else {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                
+                let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                
+                var secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                
+                if cell.pesable! {
+                    secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                }
+                
+                let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
+                alert!.setMessage(msgInventory)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            }
+        }
+        
+        selectQuantityGR?.addUpdateNote = {() in
+            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+            let frame = vc!.view.frame
+            
+            
+            let addShopping = ShoppingCartUpdateController()
+            let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: prodQuantity)
+            addShopping.params = paramsToSC
+            vc!.addChildViewController(addShopping)
+            addShopping.view.frame = frame
+            vc!.view.addSubview(addShopping.view)
+            addShopping.didMoveToParentViewController(vc!)
+            addShopping.typeProduct = ResultObjectType.Groceries
+            addShopping.goToShoppingCart = {() in }
+            addShopping.removeSpinner()
+            addShopping.addActionButtons()
+            addShopping.addNoteToProduct(nil)
+            
+        }
+        selectQuantityGR?.userSelectValue(prodQuantity)
+        selectQuantityGR?.first = true
+        selectQuantityGR?.showNoteButtonComplete()
+        selectQuantityGR?.closeAction = { () in
+            self.selectQuantityGR.removeFromSuperview()
+        }
+        self.view.addSubview(selectQuantityGR)
+    }
+    
+     func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
+        selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRectMake(0,0, self.view.frame.width,self.view.frame.height),priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
+        selectQuantity!.closeAction = { () in
+            self.selectQuantity.removeFromSuperview()
+        }
+
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(cell.desc) - \(cell.upc)")
+
+        selectQuantity!.addToCartAction =
+            { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                if cell.onHandInventory.integerValue >= Int(quantity) {
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
+                
+                    UIView.animateWithDuration(0.2,
+                        animations: { () -> Void in
+                            self.selectQuantity!.removeFromSuperview()
+                        },
+                        completion: { (animated:Bool) -> Void in
+                            self.selectQuantity = nil
+                            //CAMBIA IMAGEN CARRO SELECCIONADO
+                            cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                        }
+                    )
+                }
+                else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+        }
+        
+        self.view.addSubview(selectQuantity)
+    }
+    
+    func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String) -> [String:AnyObject] {
+        let pesable = cell.pesable! ? "1" : "0"
+        
+        if cell.type == ResultObjectType.Groceries.rawValue {
+           return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+        }
+        else {
+            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable]
+        }
     }
 }

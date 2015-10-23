@@ -31,12 +31,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         super.viewDidLoad()
         self.backButton?.hidden = true
         
-        //SCREEN
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_PRODUCTSCATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Súper"
         

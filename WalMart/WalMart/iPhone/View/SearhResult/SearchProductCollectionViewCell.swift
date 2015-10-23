@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol SearchProductCollectionViewCellDelegate{
+    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell)
+    func selectMGQuantityForItem(cell: SearchProductCollectionViewCell)
+}
+
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     var addProductToShopingCart : UIButton? = nil
@@ -23,6 +28,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var isPreorderable: String!
     var presale : UILabel!
     var imagePresale : UIImageView!
+    var delegate: SearchProductCollectionViewCellDelegate?
 
     
     override func setup() {
@@ -125,6 +131,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.pesable = pesable
         self.isPreorderable = "\(isPreorderable)"
         
+        if self.pesable! { self.onHandInventory = "20000"}
+        
         isDisabled = false
         if isActive == false || onHandInventory == 0  {
             self.addProductToShopingCart!.setImage(UIImage(named: "products_cart_disabled"), forState: UIControlState.Normal)
@@ -141,38 +149,14 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func addProductToShoping(){
         if !isDisabled {
-            
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
             if !hasUPC {
-                //if self.type ==
-                var quanty = "1"
                 if self.type == ResultObjectType.Groceries.rawValue    {
-                    
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.GR_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-                    }
-                    
-                    if self.pesable == true {
-                        quanty = "50"
-                    }
-                    
-                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type, pesable: (self.pesable == true ? "1" : "0"),isPreorderable:"false")
-                    
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
-                    
+                    self.delegate?.selectGRQuantityForItem(self)
                 }
                 else {
-
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_CATEGORY.rawValue, action: WMGAIUtils.MG_EVENT_PRODUCTSCATEGORY_ADDTOSHOPPINGCART.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-                    }
-                    
-                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,wishlist:false,type:self.type,pesable:"0",isPreorderable:self.isPreorderable)
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    self.delegate?.selectMGQuantityForItem(self)
                 }
-                
-                //CAMBIA IMAGEN CARRO SELECCIONADO
-                self.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
@@ -185,7 +169,5 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
         }
     }
-
-
 }
 
