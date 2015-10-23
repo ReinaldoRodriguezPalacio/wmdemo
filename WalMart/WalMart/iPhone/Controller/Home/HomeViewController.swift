@@ -24,6 +24,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_HOME.rawValue
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -233,15 +237,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             return
         }
        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            if type == ResultObjectType.Groceries.rawValue    {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.GR_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build() as [NSObject : AnyObject])
-            }else
-            {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MODULE_HOME.rawValue, action: WMGAIUtils.MG_EVENT_BANNERPRESS.rawValue, label: queryBanner, value: nil).build() as [NSObject : AnyObject])
-            }
-        }
-        
+              
     }
     
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){

@@ -22,15 +22,15 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var isPreferred: Bool = false
     var saveButtonBottom: WMRoundButton?
     
+    
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_ADDRESSESDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        
+              
         self.view.backgroundColor = UIColor.whiteColor()
         
         self.saveButton = WMRoundButton()
@@ -147,12 +147,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.view.endEditing(true)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
-                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
-        
+              
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:false)
         if dictSend != nil {

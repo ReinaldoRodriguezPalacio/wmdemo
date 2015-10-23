@@ -56,13 +56,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
         
         
        
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_SIGNUP.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        self.dateFmt = NSDateFormatter()
+               self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
         self.content = TPKeyboardAvoidingScrollView()
@@ -406,9 +400,6 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
 
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SIGNUP.rawValue, action: WMGAIUtils.EVENT_SIGNUP_CREATEUSER.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-                }
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                    
                     let login = LoginService()

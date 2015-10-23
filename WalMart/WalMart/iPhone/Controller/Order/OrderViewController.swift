@@ -19,18 +19,23 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     var isShowingTabBar : Bool = true
     var isShowingButtonFactura : Bool = false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPreviousOrders", name: ProfileNotification.updateProfile.rawValue, object: nil)
         
         //Event recent purch
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
+//                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES.rawValue,
+//                label: nil,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         
         viewLoad = WMLoadingView(frame:CGRectZero)
@@ -128,12 +133,13 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             let statusStr = item["status"] as! String
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-                    label: trackingStr,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
+//                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
+//                    label: trackingStr,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             detailController.trackingNumber = trackingStr
             detailController.status = statusStr
@@ -146,12 +152,13 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             let statusStr = item["status"] as! String
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-                    label: trackingStr,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
+//                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
+//                    label: trackingStr,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             

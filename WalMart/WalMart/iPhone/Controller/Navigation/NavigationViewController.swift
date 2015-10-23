@@ -64,4 +64,10 @@ class NavigationViewController: IPOBaseController {
             self.navigationController!.popViewControllerAnimated(true)
         }
     }
+    
+    
+    
+    
+    
+    
 }

@@ -36,11 +36,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     var timmer : NSTimer!
 
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue)
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MGPREVIOUSORDERSDETAIL.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
@@ -521,10 +525,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     upcs.append(getItemToShoppingCart(item as! NSDictionary))
                     //Event
                     if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
-                            action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
-                            label: item["upc"] as! String ,
-                            value: nil).build() as [NSObject : AnyObject])
+                        //TODOGAI:
+//                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
+//                            action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
+//                            label: item["upc"] as! String ,
+//                            value: nil).build() as [NSObject : AnyObject])
                     }
                     
                 }
@@ -535,10 +540,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                         upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
                         //Event
                         if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
-                                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
-                                label: itemProd["upc"] as! String ,
-                                value: nil).build() as [NSObject : AnyObject])
+                            //TODOGAI:
+//                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
+//                                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
+//                                label: itemProd["upc"] as! String ,
+//                                value: nil).build() as [NSObject : AnyObject])
                         }
                     }
                 }

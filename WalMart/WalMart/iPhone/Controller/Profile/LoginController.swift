@@ -37,7 +37,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
      var addressViewController : AddressViewController!
     
     var okCancelCallBack : (() -> Void)? = nil
-
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_LOGIN.rawValue
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -268,15 +271,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 })
             }
             self.signUp.successCallBack =  {() in
-                
-                //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SIGNUP.rawValue,
-                        action:WMGAIUtils.EVENT_LOGIN_CREATEACCOUNT.rawValue,
-                        label: nil ,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
-                
+                              
                 let service = LoginService()
                 let params  = service.buildParams(self.signUp.email!.text!, password: self.signUp.password!.text!)
                 self.alertView = self.signUp.alertView!

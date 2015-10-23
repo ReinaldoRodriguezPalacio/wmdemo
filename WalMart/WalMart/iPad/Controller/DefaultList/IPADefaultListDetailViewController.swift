@@ -35,12 +35,13 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                    label: upc as String,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            //TODOGAI:
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
+//                    label: upc as String,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }
@@ -79,12 +80,13 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
 
         if let image = self.buildImageToShare() {
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
-                    label: self.defaultListName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            //TODOGAI:
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
+//                    label: self.defaultListName,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)

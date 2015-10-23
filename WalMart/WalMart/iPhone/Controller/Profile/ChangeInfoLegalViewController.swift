@@ -21,6 +21,12 @@ class ChangeInfoLegalViewController : NavigationViewController {
     var declineSharePersonal : UIButton? = nil
     var lblPersonalData : UILabel!
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_LEGALINFORMATION.rawValue
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

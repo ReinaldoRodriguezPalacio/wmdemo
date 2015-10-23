@@ -66,15 +66,7 @@ class IPAOrderViewController: OrderViewController {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-                    label: trackingStr,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
-            
-            detailController.trackingNumber = trackingStr
+                      detailController.trackingNumber = trackingStr
             detailController.status = statusStr
             detailController.date = dateStr
             self.navigationController!.pushViewController(detailController, animated: true)
@@ -84,14 +76,7 @@ class IPAOrderViewController: OrderViewController {
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-                    label: trackingStr,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
-            
+                     
             
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             

@@ -36,7 +36,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
 
     var emptyView : IPOShoppingCartEmptyView!
     
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
+    }
      
     override func viewDidLoad() {
         
@@ -336,11 +338,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func showshoppingcart() {
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_SHOPPINGCART.rawValue,
-                action: WMGAIUtils.EVENT_GR_EVENT_SHOPPINGCART_SHOP.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
         
         self.buttonShop!.enabled = false
         if UserCurrentSession.sharedInstance().userSigned != nil {

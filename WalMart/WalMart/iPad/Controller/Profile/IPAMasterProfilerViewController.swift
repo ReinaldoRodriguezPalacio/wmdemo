@@ -67,7 +67,7 @@ class IPAMasterProfilerViewController: UISplitViewController, UISplitViewControl
             self.navigation.pushViewController(recent, animated: true)
         case 1:
             if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
             }
             self.profile.editProfileButton!.selected = false
             let myAddres = IPAMyAddressViewController()

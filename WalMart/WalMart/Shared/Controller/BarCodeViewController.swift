@@ -31,6 +31,10 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var helpText: String?
     var applyPadding = true
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SCANBARCODE.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

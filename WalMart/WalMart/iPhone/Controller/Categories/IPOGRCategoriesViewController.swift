@@ -21,6 +21,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var itemsExclusive : [AnyObject]? = []
     var newModalView: AlertModalView? = nil
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
+    }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -32,10 +35,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         super.viewDidLoad()
         //self.familyController.categoriesType = .CategoryForGR
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_CATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+      
         
         self.categoriesTable.registerClass(IPOGRDepartmentSpecialTableViewCell.self, forCellReuseIdentifier: "cellspecials")
         self.categoriesTable.separatorStyle = .None

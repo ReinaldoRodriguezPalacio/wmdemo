@@ -131,12 +131,13 @@ class StoreView: UIView {
         }
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHOWSTOREDETAIL.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHOWSTOREDETAIL.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         self.titleLabel!.text = self.store!.name
         self.distanceLabel!.text = String(format: NSLocalizedString("store.distance", comment:""), distanceTxt!)
@@ -201,13 +202,13 @@ class StoreView: UIView {
     
     func showStepRoute() {
         //Event
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
 
         self.delegate?.showInstructions(self.store!, forCar: false)
     }
@@ -215,24 +216,26 @@ class StoreView: UIView {
     func showCarRoute() {
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_DIRECTION.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
 
         self.delegate?.showInstructions(self.store!, forCar: true)
     }
     
     func makePhoneCall() {
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_CALLSTORE.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_CALLSTORE.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
 
         self.delegate?.makeCallForStore(self.store!)
     }
@@ -240,12 +243,13 @@ class StoreView: UIView {
     func shareStore() {
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
-                label: self.store!.name!,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
+//                label: self.store!.name!,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
 
         self.delegate?.shareStore(self.store!)
     }

@@ -16,6 +16,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     var selectedView : IPODepartmentCollectionViewCell!
     var landingItem : [String:String]? = nil
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
+    }
+    
     override func viewDidLoad() {
         
         let serviceBanner = BannerService()
@@ -31,11 +35,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         
         super.viewDidLoad()
         //screen
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_CATEGORIES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-
+       
         self.viewFamily = UIView()
         self.viewFamily.backgroundColor = UIColor.whiteColor()
         
@@ -128,10 +128,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory")
         self.navigationController?.pushViewController(grController!, animated: true)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_PRODUCTSCATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+       
         
         return
     }

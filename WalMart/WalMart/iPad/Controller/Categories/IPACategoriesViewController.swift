@@ -32,11 +32,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             }
             
         }
-
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_CATEGORIES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+        
         
         
         let serviceCategory = CategoryService()

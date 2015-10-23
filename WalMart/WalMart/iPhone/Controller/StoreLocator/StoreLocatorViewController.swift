@@ -46,15 +46,15 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var items: [Store]?
     var selectedStore: Store? //Only for maps directions
     var instructionsForCar = false
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_STORELACATION.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-
+      
         
         self.clubMap!.showsUserLocation = true
         self.clubMap!.delegate = self
@@ -369,12 +369,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.viewBgDetailView != nil {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                    action:WMGAIUtils.EVENT_STORELOCATOR_MAP_HIDESTOREDETAIL.rawValue,
-                    label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
             
             self.detailView!.transform = CGAffineTransformMakeScale(1.0, 1.0)
             UIView.animateWithDuration(0.5,
@@ -406,23 +400,13 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if segmentedControl.selectedSegmentIndex == 0 {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                    action:WMGAIUtils.EVENT_STORELOCATOR_MAP_MODE_MAP.rawValue,
-                    label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+           
             self.clubMap!.mapType = MKMapType.Standard
         }
         if segmentedControl.selectedSegmentIndex == 1 {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                    action:WMGAIUtils.EVENT_STORELOCATOR_MAP_MODE_SATELITE.rawValue,
-                    label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            
             self.clubMap!.mapType = MKMapType.Hybrid
         }
     }
@@ -431,12 +415,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.usrPositionBtn!.selected = true
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_USERLOCATION.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        
         
         if self.viewBgDetailView != nil {
             self.mapViewUserDidTap(true)
@@ -448,12 +427,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     @IBAction func showTableView(sender: AnyObject) {
         if self.isShowingMap {
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                    action:WMGAIUtils.EVENT_STORELOCATOR_MAP.rawValue,
-                    label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showmap",comment:""), forState: .Normal)
             self.clubMap!.hidden = true
             self.clubCollection!.hidden = false
@@ -462,12 +436,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
         else {
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                    action:WMGAIUtils.EVENT_STORELOCATOR_LIST.rawValue,
-                    label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
             self.clubMap!.hidden = false
             self.clubCollection!.hidden = true
@@ -609,12 +578,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.selectedStore = store
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_DIRECTIONS.rawValue,
-                label: store.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        
         
         let gmapsInstalled = UIApplication.sharedApplication().canOpenURL(NSURL(string: "comgooglemaps://")!)
         if gmapsInstalled {

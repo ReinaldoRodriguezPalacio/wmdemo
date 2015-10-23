@@ -97,6 +97,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
     var completeOrderDictionary: [String:AnyObject]! = [:]
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -1114,12 +1118,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func sendOrder() {
 
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
-                action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_SENDORDER.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
-
         
        
         
@@ -1227,25 +1225,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
                 
                 self.buttonShop?.enabled = false
-                
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
-                        action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_SENDORDER.rawValue,
-                        label: trakingNumber, value: nil).build() as [NSObject : AnyObject])
-                }
-
+         
                 
                 //self.performSegueWithIdentifier("showOrderDetail", sender: self)
                 
                 }) { (error:NSError) -> Void in
                     
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
-                            action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_CONFIRMORDER.rawValue,
-                            label: "", value: nil).build() as [NSObject : AnyObject])
-                    }
-                    
-                    
+                                     
                     self.buttonShop?.enabled = true
                    // println("Error \(error)")
                     

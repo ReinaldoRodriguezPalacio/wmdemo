@@ -95,6 +95,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }()
     
     
+    override func getScreenGAIName() -> String {
+        return "SCREEN_SPLASHLOADAPP"
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

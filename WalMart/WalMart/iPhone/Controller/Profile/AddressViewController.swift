@@ -43,13 +43,17 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     
     var validateZip =  false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGNEWADDRESSDELIVERY.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_ADDRESSESDETAIL.rawValue)
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
@@ -524,11 +528,13 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
  
     func save(sender:UIButton) {
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
-                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI 
+//        
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
+//                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
+//                label: "", value: nil).build() as [NSObject : AnyObject])
+//        }
         
         
         var params : NSDictionary? = nil

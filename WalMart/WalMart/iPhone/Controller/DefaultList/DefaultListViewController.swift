@@ -16,6 +16,11 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
     var itemsLists : [AnyObject] =  []
     var viewLoad: WMLoadingView?
     
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRACTILISTA.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.titleLabel?.text = "Superlistas"

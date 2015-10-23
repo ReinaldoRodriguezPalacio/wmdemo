@@ -41,6 +41,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
+    }
+    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -373,13 +377,14 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             successBlock: { (result:NSDictionary) -> Void in
                 
                 //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-                        action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
-                        label: value,
-                        value: nil).build()
-                    tracker.send(eventTracker as! [NSObject: AnyObject])
-                }
+//                //TODOGAI
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                        action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
+//                        label: value,
+//                        value: nil).build()
+//                    tracker.send(eventTracker as! [NSObject: AnyObject])
+//                }
                 
                 self.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))

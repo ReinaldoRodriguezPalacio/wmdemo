@@ -30,6 +30,9 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     
     var alertView : IPOWMAlertViewController?
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PACTILISTASDETAILS.rawValue
+    }
     
     let CELL_ID = "listDefaultCell"
     
@@ -149,12 +152,13 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                    label: upc as String,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
+//                    label: upc as String,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
         }
@@ -263,12 +267,13 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         if let image = self.buildImageToShare() {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
-                    label: self.defaultListName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
+//                    label: self.defaultListName,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -319,12 +324,13 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         if self.selectedItems != nil && self.selectedItems!.count > 0 {
             
             //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHOPALL.rawValue,
-                    label: self.defaultListName,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHOPALL.rawValue,
+//                    label: self.defaultListName,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {

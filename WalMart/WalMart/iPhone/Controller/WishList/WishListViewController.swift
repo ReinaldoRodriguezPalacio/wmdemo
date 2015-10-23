@@ -32,12 +32,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var buttonShop : UIButton!
     var customlabel : CurrencyCustomLabel!
    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_WISHLISTEMPTY.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_WISHLIST.rawValue)
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_WISHLIST.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         

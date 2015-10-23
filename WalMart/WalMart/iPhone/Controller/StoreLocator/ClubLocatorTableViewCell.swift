@@ -120,12 +120,13 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
     func makePhoneCall() {
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_CALLSTORE.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_CALLSTORE.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         self.delegate?.makeCallForStore(self.store!)
     }
     
@@ -136,24 +137,26 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     func showRoute() {
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_DIRECTION.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_DIRECTION.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         self.delegate?.showInstructions(self.store!, forCar: true)
     }
     
     func showInMap() {
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
-                label: self.store!.name,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
+//                label: self.store!.name,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         self.delegate?.showInMap(self.store!)
     }

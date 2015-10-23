@@ -61,6 +61,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

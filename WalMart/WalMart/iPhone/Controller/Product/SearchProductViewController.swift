@@ -73,27 +73,26 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var firstOpen  = true
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.view.backgroundColor = UIColor.whiteColor()
-        
+    override func getScreenGAIName() -> String {
         if self.searchContextType != nil {
             switch self.searchContextType! {
             case .WithCategoryForMG :
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_CATEGORY.rawValue)
-                    tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-                }
+                return WMGAIUtils.SCREEN_MGSEARCHRESULT.rawValue
             case .WithCategoryForGR :
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_CATEGORY.rawValue)
-                    tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-                }
+                return WMGAIUtils.SCREEN_GRSEARCHRESULT.rawValue
             default :
                 break
             }
         }
+        return ""
+    }
+    
+    override func viewDidLoad() {   
+        super.viewDidLoad()
+        
+        self.view.backgroundColor = UIColor.whiteColor()
+        
+        
         
         collection = getCollectionView()
         collection?.registerClass(SearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "productSearch")

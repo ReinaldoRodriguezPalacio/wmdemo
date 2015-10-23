@@ -41,7 +41,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     var alertView: IPOWMAlertViewController?
     
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MOREOPTIONS.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,11 +83,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         self.reloadButtonSession()
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MORE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        tableView  = UITableView(frame: CGRectZero)
+               tableView  = UITableView(frame: CGRectZero)
         tableView!.registerClass(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
         tableView?.delegate = self
         tableView?.dataSource = self
@@ -225,12 +223,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         switch (OptionsController(rawValue: optionTxt)!) {
             case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
             case .Profile :
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
-                        action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                        label: nil,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
                 
                 let controller = EditProfileViewController()
                 self.navigationController!.pushViewController(controller, animated: true)
@@ -242,9 +234,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 let controller = RecentProductsViewController()
                 self.navigationController!.pushViewController(controller, animated: true)
         case .Address:
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
             
             let controller = MyAddressViewController()
             self.navigationController!.pushViewController(controller, animated: true)
@@ -413,13 +402,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     func editProfile(sender:UIButton) {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-        
+                
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }
