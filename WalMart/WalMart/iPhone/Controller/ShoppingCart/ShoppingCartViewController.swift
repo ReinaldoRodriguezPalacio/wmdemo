@@ -54,6 +54,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var emptyView : IPOShoppingCartEmptyView!
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -26,6 +26,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     var checkResponsive = "app_Checkout.aspx"
     var paramAppDevice = "device"
 
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_CHECKOUT.rawValue
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -25,19 +25,17 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
     var name: String? = nil
     var type: String! = ""
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_ZOOMPRODUCTDETAIL.rawValue
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-           
-            tracker.set(kGAIScreenName, value: (type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_SCREEN_SHOWLARTEIMAGES.rawValue : WMGAIUtils.MG_SCREEN_SHOWLARTEIMAGES.rawValue ))
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-            
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory((type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_SCREEN_SHOWLARTEIMAGES.rawValue : WMGAIUtils.MG_SCREEN_SHOWLARTEIMAGES.rawValue ), action: (type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_PRODUCTDETAIL_SHOWLARGEIMAGE.rawValue : WMGAIUtils.MG_EVENT_PRODUCTDETAIL_SHOWLARGEIMAGE.rawValue ), label: "", value: nil).build() as [NSObject : AnyObject])
-        }
-
+      
         self.collectionFlowLayout =  UICollectionViewFlowLayout()
         self.collectionFlowLayout!.minimumInteritemSpacing = 0.0
         self.collectionFlowLayout!.minimumLineSpacing = 0.0

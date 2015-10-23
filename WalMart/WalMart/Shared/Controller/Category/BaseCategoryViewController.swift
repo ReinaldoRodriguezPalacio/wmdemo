@@ -27,6 +27,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     var currentIndexSelected : NSIndexPath?
     var items : [AnyObject]? = []
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

@@ -30,7 +30,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     override func viewDidLoad() {
         super.viewDidLoad()
         self.backButton?.hidden = true
-        
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Súper"
         

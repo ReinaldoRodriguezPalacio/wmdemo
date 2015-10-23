@@ -16,6 +16,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     var selectedView : IPODepartmentCollectionViewCell!
     var landingItem : [String:String]? = nil
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
+    }
+    
     override func viewDidLoad() {
         
         let serviceBanner = BannerService()
@@ -30,6 +34,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         self.delegate = self
         
         super.viewDidLoad()
+        //screen
+       
         self.viewFamily = UIView()
         self.viewFamily.backgroundColor = UIColor.whiteColor()
         
@@ -101,7 +107,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 self.viewFamily.alpha = 0
             })
             self.closeDepartment()
-            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_ACCESSORY_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_ACCESSORY_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
         }
         
         selectedView.animateToOpenDepartment(self.view.frame.width, endAnumating: { () -> Void in
@@ -114,16 +119,17 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             })
             
             print("End")
+
         })
-        //EVENT
-        let label = item["description"] as! String
-        let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-        BaseController.sendAnalytics("MG_CATEGORY_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_CATEGORY_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
+
     }
     
     func openGroceriesCategories() {
         let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory")
         self.navigationController?.pushViewController(grController!, animated: true)
+        
+       
+        
         return
     }
     

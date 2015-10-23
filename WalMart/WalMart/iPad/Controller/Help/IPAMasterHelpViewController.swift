@@ -60,9 +60,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         
         switch row {
         case 0:
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
+           
             let myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)
 

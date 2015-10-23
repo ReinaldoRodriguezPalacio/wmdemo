@@ -19,6 +19,10 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     var emptyView : IPOEmptyNotificationView?
     
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_NOTIFICATION.rawValue
+    }
+    
     override func viewDidLoad() {
         
         

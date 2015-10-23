@@ -41,6 +41,10 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     var delegate: ListSelectorDelegate?
     var hiddenOpenList : Bool = false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_ADDTOLIST.rawValue
+    }
+    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -103,8 +107,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     //MARK: - Actions
     
     func closeSelector() {
-        //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action:WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
         self.delegate?.listSelectorDidClose()
     }
     
@@ -218,8 +220,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         }
         else if let entity = self.list![idx] as? List {
             let product = self.retrieveProductInList(forProduct: self.productUpc, inList: entity)
-            //EVENT
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.productUpc!) - \(entity.name)")
             //Actualizacion a servicio a traves del delegate
             if entity.idList != nil {
                 if product != nil {
@@ -377,7 +377,14 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             successBlock: { (result:NSDictionary) -> Void in
                 
                 //Event
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+//                //TODOGAI
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                        action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
+//                        label: value,
+//                        value: nil).build()
+//                    tracker.send(eventTracker as! [NSObject: AnyObject])
+//                }
                 
                 self.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))

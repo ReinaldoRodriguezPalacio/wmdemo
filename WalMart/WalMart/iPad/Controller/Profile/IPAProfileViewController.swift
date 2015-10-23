@@ -78,7 +78,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
         }
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
+            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
                 action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
                 label: nil,
                 value: nil).build() as [NSObject : AnyObject])

@@ -97,6 +97,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
     var completeOrderDictionary: [String:AnyObject]! = [:]
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -151,8 +155,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(self.paymentOptions!)
         
         self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,paymentOptions!.frame.maxY + 10.0,width,fheight))
-        self.payPalFuturePaymentField!.isRequired = false
         self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
+        self.payPalFuturePaymentField!.isRequired = true
         self.payPalFuturePaymentField!.typeField = TypeField.Check
         self.payPalFuturePaymentField!.setImageTypeField()
         self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
@@ -174,16 +178,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.content.addSubview(sectionTitleShipment)
 
         self.address = FormFieldView(frame: CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, width, fheight))
-        self.address!.isRequired = true
         self.address!.setCustomPlaceholder(NSLocalizedString("checkout.field.address", comment:""))
+        self.address!.isRequired = true
         self.address!.typeField = TypeField.List
         self.address!.setImageTypeField()
         self.address!.nameField = NSLocalizedString("checkout.field.address", comment:"")
         self.content.addSubview(self.address!)
 
         self.shipmentType = FormFieldView(frame: CGRectMake(margin, self.address!.frame.maxY + 5.0, width, fheight))
-        self.shipmentType!.isRequired = true
         self.shipmentType!.setCustomPlaceholder(NSLocalizedString("checkout.field.shipmentType", comment:""))
+        self.shipmentType!.isRequired = true
         self.shipmentType!.typeField = TypeField.List
         self.shipmentType!.setImageTypeField()
         self.shipmentType!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
@@ -191,8 +195,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
 
         self.deliveryDate = FormFieldView(frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, width, fheight))
-        self.deliveryDate!.isRequired = true
         self.deliveryDate!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliveryDate", comment:""))
+        self.deliveryDate!.isRequired = true
         self.deliveryDate!.typeField = TypeField.List
         self.deliveryDate!.setImageTypeField()
         self.deliveryDate!.nameField = NSLocalizedString("checkout.field.deliveryDate", comment:"")
@@ -216,8 +220,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.deliveryDate!.inputView = self.deliveryDatePicker!
         
         self.deliverySchedule = FormFieldView(frame: CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, width, fheight))
-        self.deliverySchedule!.isRequired = true
         self.deliverySchedule!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliverySchedule", comment:""))
+        self.deliverySchedule!.isRequired = true
         self.deliverySchedule!.typeField = TypeField.List
         self.deliverySchedule!.setImageTypeField()
         self.deliverySchedule!.nameField = NSLocalizedString("checkout.field.deliverySchedule", comment:"")
@@ -277,7 +281,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                 itemsPayments.append(text)
                             }
                         }
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_GENERATE_ORDER_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_PAYMENTOPTIONS.rawValue , label: "")
                         
                         
                         self.picker!.selected = self.selectedPaymentType
@@ -302,8 +305,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.picker!.hiddenRigthActionButton(true)
                     self.picker!.cellType = TypeField.Alphanumeric
                     self.picker!.showPicker()
-                    
-                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_GENERATE_ORDER_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                     
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
@@ -331,7 +332,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         
         self.confirmation!.onBecomeFirstResponder = {() in
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_CONFIRMATION.rawValue , label:"" )
             self.comments?.resignFirstResponder()
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
                 var itemsOrderOptions : [String] = []
@@ -526,7 +526,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
      //MARK: - UIDatePicker
     
     func dateChanged() {
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DATE_CHANGE.rawValue , label:"" )
         let date = self.deliveryDatePicker!.date
         self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
         self.selectedDate = date
@@ -558,7 +557,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.deliverySchedule!.text = ""
             }
             self.deliverySchedule!.onBecomeFirstResponder = {() in
-                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_TIME_DELIVERY.rawValue , label:"" )
                 var itemsSlots : [String] = []
                 for option in self.slotsItems! {
                     if let visible = option["isVisible"] as? NSNumber {
@@ -750,7 +748,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func buildAndConfigureDeliveryType() {
         if self.selectedAddress != nil {
         self.invokeDeliveryTypesService({ () -> Void in
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_TYPE_DELIVERY.rawValue , label:"" )
             self.shipmentType!.onBecomeFirstResponder = {() in
                 var itemsShipment : [String] = []
                 for option in self.shipmentItems! {
@@ -1121,7 +1118,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func sendOrder() {
 
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label:"" )
+        
+       
         
         buttonShop?.enabled = false
         
@@ -1227,25 +1225,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
                 
                 self.buttonShop?.enabled = false
-                
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
-                        action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_SENDORDER.rawValue,
-                        label: trakingNumber, value: nil).build() as [NSObject : AnyObject])
-                }
-
+         
                 
                 //self.performSegueWithIdentifier("showOrderDetail", sender: self)
                 
                 }) { (error:NSError) -> Void in
                     
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
-                            action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_CONFIRMORDER.rawValue,
-                            label: "", value: nil).build() as [NSObject : AnyObject])
-                    }
-                    
-                    
+                                     
                     self.buttonShop?.enabled = true
                    // println("Error \(error)")
                     

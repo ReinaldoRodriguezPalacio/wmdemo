@@ -21,6 +21,11 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
     
     var saveButton: WMRoundButton?
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_CHANGEPASSWORD.rawValue
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

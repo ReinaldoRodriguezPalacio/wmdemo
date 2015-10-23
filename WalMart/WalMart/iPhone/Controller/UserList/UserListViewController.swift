@@ -52,6 +52,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var deleteListServiceInvoked = false
     var needsToShowWishList = true
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MYLIST.rawValue
+    }
     
     var numberOfDefaultLists = 0
     
@@ -66,6 +69,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         super.viewDidLoad()
         
         tableuserlist?.multipleTouchEnabled = true
+        
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MYLIST.rawValue)
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
+        }
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22) // UIImage(named:"button_bg")
         let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(110, 44), radius: 22)
@@ -221,7 +229,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
-        if UserCurrentSession.hasLoggedUser() {
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -281,7 +289,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func reloadWithoutTableReload(success success:(()->Void)?, failure:((error:NSError)->Void)?){
-        if UserCurrentSession.hasLoggedUser() {
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
@@ -343,9 +351,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.newListBtn?.alpha = 0
             })
             
-            //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_EDIT_LIST.rawValue, label: "")
             
+            //Event
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_EDITLISTS.rawValue,
+//                    label: nil,
+//                    value: nil).build() as [NSObject:AnyObject])
+//            }
+//            
             self.hideSearchField({
                 self.changeFrameEditBtn(true, side: "right")
                 },
@@ -377,7 +392,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
                     
-                    if UserCurrentSession.hasLoggedUser() {
+                    if let _ = UserCurrentSession.sharedInstance().userSigned {
                         self.alertView = nil
                         self.invokeUpdateListService()
                     }
@@ -437,7 +452,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if !self.newListEnabled {
                 
                 //Event
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
+//                //TODOGAI
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                        action:WMGAIUtils.GR_EVENT_LISTS_NEWLIST.rawValue,
+//                        label: nil,
+//                        value: nil).build() as [NSObject:AnyObject])
+//                }
+                
                 
                 self.isShowingWishList = false
                 self.isShowingSuperlists = false
@@ -481,8 +503,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
             }
             else {
-                //Event
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
                 self.showSearchField({
                     self.editBtn!.alpha = 1
                     
@@ -544,8 +564,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     success: { () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                         self.alertView!.showDoneIcon()
-                        //Event
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+                        //TODOGAI
+//                        if let tracker = GAI.sharedInstance().defaultTracker {
+//                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_MYLIST.rawValue,
+//                                action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
+//                                label: value,
+//                                value: nil).build() as [NSObject:AnyObject])
+//                        }
                     },
                     failure: { (error) -> Void in
                         self.alertView!.setMessage(error.localizedDescription)
@@ -702,12 +727,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
                         //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-                                action:WMGAIUtils.GR_EVENT_LISTS_DELETE.rawValue,
-                                label: listItem["name"] as? String,
-                                value: nil).build() as [NSObject:AnyObject])
-                        }
+//                        //TODOGAI
+//                        if let tracker = GAI.sharedInstance().defaultTracker {
+//                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                                action:WMGAIUtils.GR_EVENT_LISTS_DELETE.rawValue,
+//                                label: listItem["name"] as? String,
+//                                value: nil).build() as [NSObject:AnyObject])
+//                        }
                         
                         self.invokeDeleteListService(listId)
                     }
@@ -820,7 +846,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         
-        if requiredHelp && UserCurrentSession.hasLoggedUser() {
+        if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
             self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
             self.helpView!.alpha = 0.0
@@ -881,9 +907,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func showWishlist() {
-        //Event
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_WISHLIST.rawValue, label: "")
-        
         WishlistService.shouldupdate = true
         let vc = storyboard!.instantiateViewControllerWithIdentifier("wishlitsItemVC")
         self.navigationController!.pushViewController(vc, animated: true)
@@ -891,9 +914,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func showDefaultLists() {
-        //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_SUPERLIST.rawValue, label: "")
-        
         let vc = storyboard!.instantiateViewControllerWithIdentifier("defaultListVC")
         self.navigationController!.pushViewController(vc, animated: true)
     }
@@ -1112,8 +1132,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.selectedListName = listItem["name"] as? String
                 
                 //Event
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
-                
+//                //TODOGAI
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
+//                        label: self.selectedListName,
+//                        value: nil).build() as [NSObject:AnyObject])
+//                }
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
         }
@@ -1123,7 +1148,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.selectedListName = listEntity.name
             
             //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action:WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
+//                    label: self.selectedListName,
+//                    value: nil).build() as [NSObject:AnyObject])
+//            }
             
             self.performSegueWithIdentifier("showListDetail", sender: self)
         }
@@ -1489,12 +1520,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-                action:WMGAIUtils.GR_EVENT_LISTS_SEARCH.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject:AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                action:WMGAIUtils.GR_EVENT_LISTS_SEARCH.rawValue,
+//                label: nil,
+//                value: nil).build() as [NSObject:AnyObject])
+//        }
         
         var height = keyboardFrame.size.height
         //height += self.searchContainer!.frame.height
@@ -1594,12 +1626,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         let labelTracker : String = String(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)", textUpdate,textUpdate)
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-                action:WMGAIUtils.GR_EVENT_LISTS_SEARCHCOMPLETE.rawValue,
-                label: labelTracker,
-                value: nil).build() as [NSObject:AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
+//                action:WMGAIUtils.GR_EVENT_LISTS_SEARCHCOMPLETE.rawValue,
+//                label: labelTracker,
+//                value: nil).build() as [NSObject:AnyObject])
+//        }
         var result: [List]? =  nil
         do{
             result =  try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]

@@ -22,6 +22,12 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
     var selName:String!
     var landingItem : [String:String]? = nil
     
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGDEPARTMENT.rawValue
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -32,11 +38,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             }
             
         }
-
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_CATEGORIES.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+        
         
         
         let serviceCategory = CategoryService()

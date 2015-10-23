@@ -18,6 +18,10 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var countAfterBefore : Int = 0
     var ctrlToShow : UIViewController!
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

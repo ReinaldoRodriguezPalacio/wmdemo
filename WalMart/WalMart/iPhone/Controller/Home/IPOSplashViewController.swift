@@ -46,6 +46,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     var didHideSplash : (() -> Void)? = nil
     var validateVersion : ((force:Bool) -> Void)? = nil
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SPLASH.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -335,12 +339,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     class func updateUserData() {
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_STORELACATION.rawValue)
-            let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-            tracker.send(eventTracker as! [NSObject : AnyObject])
-        }
-        
+              
         /*let shoppingCartUpdateBg = ShoppingCartProductsService()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
         println("Call service ShoppingCartProductsService start")

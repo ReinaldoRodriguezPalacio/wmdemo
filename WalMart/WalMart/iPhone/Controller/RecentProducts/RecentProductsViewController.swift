@@ -15,9 +15,13 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     //@IBOutlet var recentProducts : UITableView!
     
     var recentProducts : UITableView!
-    var recentProductItems : [AnyObject] = []
+    var recentProductItems : [AnyObject] = [] 
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
