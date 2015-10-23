@@ -277,6 +277,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                 itemsPayments.append(text)
                             }
                         }
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_GENERATE_ORDER_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_PAYMENTOPTIONS.rawValue , label: "")
                         
                         
                         self.picker!.selected = self.selectedPaymentType
@@ -301,6 +302,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.picker!.hiddenRigthActionButton(true)
                     self.picker!.cellType = TypeField.Alphanumeric
                     self.picker!.showPicker()
+                    
+                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_GENERATE_ORDER_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                     
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
@@ -328,6 +331,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         
         self.confirmation!.onBecomeFirstResponder = {() in
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_CONFIRMATION.rawValue , label:"" )
             self.comments?.resignFirstResponder()
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
                 var itemsOrderOptions : [String] = []
@@ -522,6 +526,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
      //MARK: - UIDatePicker
     
     func dateChanged() {
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DATE_CHANGE.rawValue , label:"" )
         let date = self.deliveryDatePicker!.date
         self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
         self.selectedDate = date
@@ -553,6 +558,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.deliverySchedule!.text = ""
             }
             self.deliverySchedule!.onBecomeFirstResponder = {() in
+                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_TIME_DELIVERY.rawValue , label:"" )
                 var itemsSlots : [String] = []
                 for option in self.slotsItems! {
                     if let visible = option["isVisible"] as? NSNumber {
@@ -744,6 +750,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func buildAndConfigureDeliveryType() {
         if self.selectedAddress != nil {
         self.invokeDeliveryTypesService({ () -> Void in
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_TYPE_DELIVERY.rawValue , label:"" )
             self.shipmentType!.onBecomeFirstResponder = {() in
                 var itemsShipment : [String] = []
                 for option in self.shipmentItems! {
@@ -1114,14 +1121,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func sendOrder() {
 
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_CHECKOUT.rawValue,
-                action: WMGAIUtils.EVENT_GR_EVENT_CHECKOUT_SENDORDER.rawValue,
-                label: "", value: nil).build() as [NSObject : AnyObject])
-        }
-
-        
-       
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label:"" )
         
         buttonShop?.enabled = false
         
