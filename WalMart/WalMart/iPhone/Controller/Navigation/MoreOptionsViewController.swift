@@ -360,7 +360,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     //MARK CameraViewControllerDelegate
-    func photoCaptured(value: String?,done: (() -> Void))
+    func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void))
     {
         if value != nil || value == "" {
             if let tracker = GAI.sharedInstance().defaultTracker {
@@ -369,6 +369,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             
             let controller = SearchProductViewController()
             controller.searchContextType = .WithText
+            controller.upcsToShow = upcs
             controller.titleHeader = value
             controller.textToSearch = value
             let controllernav = self.navigationController
