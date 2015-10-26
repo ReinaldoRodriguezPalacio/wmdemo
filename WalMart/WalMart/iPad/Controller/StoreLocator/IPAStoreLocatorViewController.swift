@@ -139,6 +139,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
 //                value: nil).build() as [NSObject : AnyObject])
 //        }
         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
+        
         self.detailView?.removeFromSuperview()
         self.detailView = nil
         
