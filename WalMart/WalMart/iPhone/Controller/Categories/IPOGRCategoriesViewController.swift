@@ -317,7 +317,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     //EVENT
                     let label = item["description"] as! String
                     let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-                    BaseController.sendAnalytics("GR_CATEGORY_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR_CATEGORY_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
+                    BaseController.sendAnalytics("GR\(labelCategory)_VIEW_AUTH", categoryNoAuth: "GR\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
                     print("End")
                     self.view.addSubview(newView)
                 }

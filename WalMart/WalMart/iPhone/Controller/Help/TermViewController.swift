@@ -177,7 +177,7 @@ class TermViewController: NavigationViewController,UITableViewDataSource,UITable
             
             var action : String = item["title"] as! String
             action =  action.stringByReplacingOccurrencesOfString(" ", withString:"_").uppercaseString
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:"ACTION_OPEN_\(action)" , label:"")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TERMS_CONDITION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_TERMS_CONDITION_NO_AUTH.rawValue , action:"OPEN_\(action)" , label:"")
             
         }
         
