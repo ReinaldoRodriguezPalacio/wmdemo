@@ -489,7 +489,7 @@ class ShoppingCartUpdateController : UIViewController {
         }
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
+        BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
         
         self.view.endEditing(true)
         self.titleLabel.frame = CGRectMake(self.titleLabel.frame.minX,  viewBgImage.frame.maxY + 23, self.titleLabel.frame.width, 18)
