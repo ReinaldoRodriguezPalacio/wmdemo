@@ -22,7 +22,7 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     
     
     override func shareList() {
-        
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
         if let image = self.buildImageToShare() {
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)

@@ -17,6 +17,10 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var controllerAnimateView : IPACategoriesResultViewController!
     var itemsExclusive : [AnyObject]? = []
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SUPER.rawValue
+    }
+    
     var pontInViewNuew = CGRectZero
     
     override func viewDidAppear(animated: Bool) {

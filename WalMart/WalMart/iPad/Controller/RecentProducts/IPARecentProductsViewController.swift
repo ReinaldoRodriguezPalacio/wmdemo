@@ -28,6 +28,8 @@ class IPARecentProductsViewController: RecentProductsViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: self.recentProductItems[0]["description"] as! String)
+        
         let controller = IPAProductDetailPageViewController()
         controller.itemsToShow = getUPCItems()
         controller.ixSelected = indexPath.row

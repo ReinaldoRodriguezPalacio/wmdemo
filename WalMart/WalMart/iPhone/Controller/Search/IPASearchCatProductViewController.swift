@@ -62,6 +62,8 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             
             view.setValues(imageBgCategory,imgIcon: imageIconCategory,titleStr: titleCategory!)
             view.delegate = delegateImgHeader
+            
+            
             return view
         }
         if kind == UICollectionElementKindSectionHeader {

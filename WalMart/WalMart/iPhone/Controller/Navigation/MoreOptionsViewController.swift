@@ -221,15 +221,20 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         let optionTxt = self.options[currentOption]
 
         switch (OptionsController(rawValue: optionTxt)!) {
-            case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
-            case .Profile :
-                
-                let controller = EditProfileViewController()
-                self.navigationController!.pushViewController(controller, animated: true)
-            case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
-            case .Contact: self.performSegueWithIdentifier("supportHelp", sender: self)
-            case .StoreLocator: self.performSegueWithIdentifier("storeLocator", sender: self)
-            case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
+        case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
+        case .Profile :
+            
+            let controller = EditProfileViewController()
+            self.navigationController!.pushViewController(controller, animated: true)
+        case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_TERMS_AND_CONDITIONS.rawValue, label: "")
+        case .Contact: self.performSegueWithIdentifier("supportHelp", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SUPPORT.rawValue, label: "")
+        case .StoreLocator: self.performSegueWithIdentifier("storeLocator", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_STORE_LOCATOR.rawValue, label: "")
+        case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
         case .Recents:
                 let controller = RecentProductsViewController()
                 self.navigationController!.pushViewController(controller, animated: true)
@@ -322,13 +327,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
-        //Event close sesion
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_CLOSESESSION.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in

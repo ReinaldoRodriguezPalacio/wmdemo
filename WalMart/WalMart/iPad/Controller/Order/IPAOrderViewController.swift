@@ -53,6 +53,8 @@ class IPAOrderViewController: OrderViewController {
     //MARK: - TableViewDelegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+     
         let item = self.items[indexPath.row] as! NSDictionary
         let detailController = IPAOrderDetailViewController()
         
@@ -66,7 +68,10 @@ class IPAOrderViewController: OrderViewController {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
             
-                      detailController.trackingNumber = trackingStr
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+            
+            detailController.trackingNumber = trackingStr
+
             detailController.status = statusStr
             detailController.date = dateStr
             self.navigationController!.pushViewController(detailController, animated: true)
@@ -76,8 +81,8 @@ class IPAOrderViewController: OrderViewController {
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-                     
-            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+                        
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             
             detailController.trackingNumber = trackingStr
