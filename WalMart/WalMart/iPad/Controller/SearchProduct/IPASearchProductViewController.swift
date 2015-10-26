@@ -14,6 +14,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     var currentCellSelected : NSIndexPath!
     var filterController: FilterProductsViewController?
     var sharePopover: UIPopoverController?
+    var selectQuantityPopover:  UIPopoverController?
     var imageBackground : UIImage? = nil
     var viewHeader : IPASectionHeaderSearchReusable!
     
@@ -266,4 +267,38 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return CGSizeMake(self.view.frame.width, 54)
     }
     
+    //MARK: SearchProductCollectionViewCellDelegate
+    override func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRectMake(0,0,320,394)
+        self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
+        
+        selectQuantityGR?.closeAction = { () in
+            self.selectQuantityPopover!.dismissPopoverAnimated(true)
+            
+        }
+        
+        let viewController = UIViewController()
+        viewController.view = selectQuantityGR
+        viewController.view.frame = frameDetail
+        selectQuantityPopover = UIPopoverController(contentViewController: viewController)
+        selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+        selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+    }
+    
+    override func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRectMake(0,0,320,394)
+        self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
+        
+        selectQuantity?.closeAction = { () in
+            self.selectQuantityPopover!.dismissPopoverAnimated(true)
+            
+        }
+        
+        let viewController = UIViewController()
+        viewController.view = selectQuantity
+        viewController.view.frame = frameDetail
+        selectQuantityPopover = UIPopoverController(contentViewController: viewController)
+        selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+        selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
+    }
 }

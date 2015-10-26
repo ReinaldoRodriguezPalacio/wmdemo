@@ -1075,21 +1075,25 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     //MARK: SearchProductCollectionViewCellDelegate
-    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
-        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+    
+    func buildGRSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
         var prodQuantity = "1"
         if cell.pesable! {
             prodQuantity = "50"
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:0.0,upcProduct:cell.upc)
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:0.0,upcProduct:cell.upc)
             
         }else{
             prodQuantity = "1"
-            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),upcProduct:cell.upc)
+            selectQuantityGR = GRShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),upcProduct:cell.upc)
         }
         
         //EVENT
         let action = cell.pesable! ? WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue : WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue
         BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action:action, label: "\(cell.desc) - \(cell.upc)")
+        
+        selectQuantityGR?.closeAction = { () in
+            self.selectQuantityGR.removeFromSuperview()
+        }
         
         selectQuantityGR?.addToCartAction = { (quantity:String) in
             //let quantity : Int = quantity.toInt()!
@@ -1140,31 +1144,33 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         selectQuantityGR?.userSelectValue(prodQuantity)
         selectQuantityGR?.first = true
         selectQuantityGR?.showNoteButtonComplete()
-        selectQuantityGR?.closeAction = { () in
-            self.selectQuantityGR.removeFromSuperview()
-        }
+    }
+    
+    func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+        self.buildGRSelectQuantityView(cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantityGR)
     }
     
-     func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
-        selectQuantity = ShoppingCartQuantitySelectorView(frame:CGRectMake(0,0, self.view.frame.width,self.view.frame.height),priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
+    func buildMGSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
+        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
         selectQuantity!.closeAction = { () in
             self.selectQuantity.removeFromSuperview()
         }
-
+        
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(cell.desc) - \(cell.upc)")
-
+        
         selectQuantity!.addToCartAction =
             { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
-                
+                    
                     UIView.animateWithDuration(0.2,
                         animations: { () -> Void in
-                            self.selectQuantity!.removeFromSuperview()
+                            self.selectQuantity!.closeAction()
                         },
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
@@ -1184,7 +1190,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                 }
         }
-        
+    }
+    
+    func selectMGQuantityForItem(cell: SearchProductCollectionViewCell) {
+        let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+        self.buildMGSelectQuantityView(cell, viewFrame: frameDetail)
         self.view.addSubview(selectQuantity)
     }
     
