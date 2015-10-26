@@ -150,13 +150,28 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     func addProductToShoping(){
         if !isDisabled {
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            var quanty = "1"
             if !hasUPC {
-                if self.type == ResultObjectType.Groceries.rawValue    {
-                    self.delegate?.selectGRQuantityForItem(self)
+                if self.type == ResultObjectType.Groceries.rawValue {
+                    if self.pesable == true {
+                        quanty = "50"
+                    }
+                    
+                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: quanty, comments:"", onHandInventory:self.onHandInventory as String, type:self.type, pesable: (self.pesable == true ? "1" : "0"),isPreorderable:"false")
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    
+
+                    //self.delegate?.selectGRQuantityForItem(self)
                 }
                 else {
-                    self.delegate?.selectMGQuantityForItem(self)
+                    let  params = CustomBarViewController.buildParamsUpdateShoppingCart(self.upc, desc: self.desc, imageURL: self.imageURL, price: self.price, quantity: "1",onHandInventory:self.onHandInventory as String,wishlist:false,type:self.type,pesable:"0",isPreorderable:self.isPreorderable)
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+
+                    //self.delegate?.selectMGQuantityForItem(self)
                 }
+                //CAMBIA IMAGEN CARRO SELECCIONADO
+                self.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
             }else{
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
