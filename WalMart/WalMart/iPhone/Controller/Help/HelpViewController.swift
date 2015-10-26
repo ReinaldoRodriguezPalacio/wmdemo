@@ -142,12 +142,15 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         selected = indexPath.row
 
         if  indexPath.row  == 2 {
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_RATE_APP.rawValue , label:"")
+            
             let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
             if UIApplication.sharedApplication().canOpenURL(url!) == true  {
                 UIApplication.sharedApplication().openURL(url!)
             }
         }
         else  if  indexPath.row  == 0 {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_TUTORIAL.rawValue , label:"Tutorial")
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHelp.rawValue, object: nil)
         } else {
             let item = self.array![0] as! NSDictionary
@@ -164,14 +167,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                 if  let imgFile = item["imgFile"] as? String{
                     controller.imgFile = imgFile
                 }
-                
-                //Event
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HELP.rawValue,
-                        action:WMGAIUtils.EVENT_HELP_DETAIL.rawValue,
-                        label: name,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTION.rawValue , label:name)
         
                 self.navigationController!.pushViewController(controller, animated: true)
             

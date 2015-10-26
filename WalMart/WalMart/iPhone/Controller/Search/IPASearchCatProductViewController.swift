@@ -61,6 +61,8 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
             
             view.setValues(imageBgCategory,imgIcon: imageIconCategory,titleStr: titleCategory!)
             view.delegate = delegateImgHeader
+            
+            
             return view
         }
         if kind == UICollectionElementKindSectionHeader {
@@ -146,11 +148,11 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     
     
     func setSelectedHeaderCat(){
-        self.viewHeader.setSelected()
+        self.viewHeader?.setSelected()
     }
     
     func dismissCategory() {
-        self.viewHeader.dismissPopover()
+        self.viewHeader?.dismissPopover()
     }
   
 

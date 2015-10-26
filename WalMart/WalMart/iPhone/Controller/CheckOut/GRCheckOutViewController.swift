@@ -830,7 +830,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     
     func reloadUserAddresses(){
-        self.addViewLoad();
+        self.addViewLoad()
 
         self.invokeAddressUserService({ () -> Void in
            self.getItemsTOSelectAddres()
@@ -919,6 +919,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
             }
             if formFieldObj ==  self.address! {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
@@ -949,12 +950,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
             }
             if formFieldObj ==  self.shipmentType! {
+                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_DELIVERY_TYPE.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
                 let shipment: AnyObject = self.shipmentItems![indexPath.row]
                 self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliverySchedule! {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_TIME_DELIVERY.rawValue , label: "")
                 self.deliverySchedule!.text = selectedStr
                 self.selectedTimeSlotTypeIx = indexPath
             }
@@ -964,6 +967,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
             }
             if formFieldObj == self.discountAssociate!{
+                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
             }
         }

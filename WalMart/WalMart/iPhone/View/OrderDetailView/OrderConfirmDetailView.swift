@@ -299,6 +299,7 @@ class OrderConfirmDetailView : UIView {
     }
     
     func okAction() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
         self.delegate.didFinishConfirm()
         self.removeFromSuperview()
     }

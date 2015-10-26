@@ -53,6 +53,8 @@ class IPAOrderViewController: OrderViewController {
     //MARK: - TableViewDelegate
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+     
         let item = self.items[indexPath.row] as! NSDictionary
         let detailController = IPAOrderDetailViewController()
         
@@ -66,13 +68,9 @@ class IPAOrderViewController: OrderViewController {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-                    label: trackingStr,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+            
+  
             
             detailController.trackingNumber = trackingStr
             detailController.status = statusStr
@@ -84,13 +82,7 @@ class IPAOrderViewController: OrderViewController {
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-                    label: trackingStr,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
             
             
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")

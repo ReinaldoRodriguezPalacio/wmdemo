@@ -226,12 +226,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
         case .Profile :
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
-                    action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                    label: nil,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
             
             let controller = EditProfileViewController()
             self.navigationController!.pushViewController(controller, animated: true)
@@ -347,13 +341,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
-        //Event close sesion
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_CLOSESESSION.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in

@@ -258,20 +258,17 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if !showFedexGuide {
-        switch indexPath.row {
-        case 0:
-            return
-        case 1:
-            return
-        default:
-            print("Detail product")
-         
+            switch indexPath.row {
+            case 0:
+                return
+            case 1:
+                return
+            default:
+                print("Detail product")
+                
+            }
         }
-        } else {
-           
-           
-
-        }
+        
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = getUPCItems(indexPath.section)
         controller.ixSelected = indexPath.row
@@ -334,6 +331,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     func getUPCItems() -> [[String:String]] {
         var upcItems : [[String:String]] = []
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: itemDetailProducts[0]["description"] as! String)
         for shoppingCartProduct in  itemDetailProducts {
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
@@ -350,6 +348,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         }
         let shoppingCartProduct  =   itemDetailProducts[section - 1] as! [String:AnyObject]
         if let  listUPCItems =  shoppingCartProduct["items"] as? NSArray {
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: listUPCItems[0]["description"] as! String)
+            
             for shoppingCartProductDetail in  listUPCItems {
                 let upc = shoppingCartProductDetail["upc"] as! String
                 let desc = shoppingCartProductDetail["description"] as! String
@@ -474,7 +474,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
             let frame = self.view.frame
-            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label: "")
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
@@ -515,31 +515,17 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func addListToCart (){
         
         if self.itemDetailProducts != nil && self.itemDetailProducts!.count > 0 {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
             var upcs: [AnyObject] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
                     upcs.append(getItemToShoppingCart(item as! NSDictionary))
-                    //Event
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
-                            action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
-                            label: item["upc"] as! String ,
-                            value: nil).build() as [NSObject : AnyObject])
-                    }
-                    
                 }
             } else {
                 for item in self.itemDetailProducts! {
                     let itmProdVal = item["items"] as! [[String:AnyObject]]
                     for itemProd in itmProdVal {
                         upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
-                        //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue,
-                                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL_ADDTOSHOPPINGCARTCOMPLETE.rawValue,
-                                label: itemProd["upc"] as! String ,
-                                value: nil).build() as [NSObject : AnyObject])
-                        }
                     }
                 }
             }
@@ -594,7 +580,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     
     func shareList() {
-      
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
         if let image = self.buildImageToShare() {
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
