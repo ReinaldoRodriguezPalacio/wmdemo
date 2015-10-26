@@ -1072,6 +1072,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.removeViewLoad()
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.close()
                 }
             }
             else{
@@ -1506,5 +1507,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
     
 }

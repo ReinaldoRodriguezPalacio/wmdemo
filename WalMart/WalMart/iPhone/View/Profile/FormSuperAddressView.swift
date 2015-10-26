@@ -349,7 +349,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         //self.currentZipCode  = ""
                         self.store.text = ""
                         self.suburb.text = ""
-                        
+                         self.storesDic = []
                         self.neighborhoods = []
                         self.stores = []
                         
@@ -582,8 +582,10 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let county =  resultDictVal["county"].stringValue
         var  neightId = ""
         if self.neighborhoods.count > 0 {
-            let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
-            neightId = neightDict["id"] as! String
+            if selectedNeighborhood !=  nil {
+                let neightDict =  self.neighborhoodsDic[selectedNeighborhood.row]
+                neightId = neightDict["id"] as! String
+            }
         }
         let name = self.addressName.text
         let outerNumber =  self.outdoornumber!.text
@@ -690,6 +692,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             //self.picker!.showPicker()
             
             }, errorBlock: { (error:NSError) -> Void in
+                print("error:: \(error)")
                 
         })
     }

@@ -13,6 +13,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     let timeInterval : NSTimeInterval = 10.0
     
     var webCheckOut : UIWebView!
+    var viewLoad : WMLoadingView?
     
     var username : String!
     var password : String!
@@ -29,9 +30,17 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
     }
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad!.backgroundColor = UIColor.whiteColor()
+            viewLoad!.startAnnimating(false)
+            self.view.addSubview(viewLoad!)
+        }
         
         self.titleLabel!.text = NSLocalizedString("checkout.title",comment:"")
         webCheckOut = UIWebView(frame:CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height - 66 ))
@@ -148,6 +157,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             finishLoadCheckOut!()
         }
         
+        self.viewLoad?.stopAnnimating()
         print("URL::: \(webView.request)")
         
     }
