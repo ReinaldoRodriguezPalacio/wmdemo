@@ -55,6 +55,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var brandFacets: [String] = []
     
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_FILTER.rawValue
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()

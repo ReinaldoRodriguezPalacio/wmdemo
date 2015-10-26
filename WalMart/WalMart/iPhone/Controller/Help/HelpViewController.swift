@@ -20,13 +20,13 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
     var array : NSArray!
     var selected : Int! = -1
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_HOWTOUSETHEAPP.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_HELP.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
+       
         
         self.table = UITableView()
         self.table.registerClass(HelpViewCell.self, forCellReuseIdentifier: "labelCell")
@@ -167,7 +167,9 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                 if  let imgFile = item["imgFile"] as? String{
                     controller.imgFile = imgFile
                 }
+                
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_APP.rawValue, action:WMGAIUtils.ACTION_OPEN_QUESTION.rawValue , label:name)
+
         
                 self.navigationController!.pushViewController(controller, animated: true)
             

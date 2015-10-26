@@ -19,6 +19,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     var delegateImgHeader : IPACatHeaderSearchReusableDelegate!
 
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

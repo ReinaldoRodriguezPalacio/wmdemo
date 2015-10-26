@@ -29,11 +29,6 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
          NSNotificationCenter.defaultCenter().addObserver(self, selector: "setValues", name: ProfileNotification.updateProfile.rawValue, object: nil)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PROFILE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-
         imageBG = UIImageView()
         imageBG!.image = UIImage(named: "profileBg")
         self.viewProfile = UIView()
@@ -174,10 +169,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
             let controller = RecentProductsViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         }else if indexPath.row == 1 {
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
-        
+            
             let controller = MyAddressViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         }else if indexPath.row == 2 {
@@ -240,13 +232,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
     
     func editProfile(sender:UIButton) {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-        
+                
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }

@@ -22,15 +22,15 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     var isPreferred: Bool = false
     var saveButtonBottom: WMRoundButton?
     
+    
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_ADDRESSESDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        
+              
         self.view.backgroundColor = UIColor.whiteColor()
         
         self.saveButton = WMRoundButton()
@@ -147,12 +147,9 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.view.endEditing(true)
         
-        
+              
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:false)
-        
-        BaseController.sendAnalytics(self.addressId == "" ? WMGAIUtils.CATEGORY_GR_NEW_ADDRESS.rawValue : WMGAIUtils.CATEGORY_GR_EDIT_ADDRESS.rawValue, action:self.addressId == "" ? WMGAIUtils.ACTION_GR_SAVE_ADDRESS.rawValue :WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue , label:"")
-        
         if dictSend != nil {
             self.view.endEditing(true)
             self.scrollForm.resignFirstResponder()
@@ -239,7 +236,6 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
             self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 print("Se realizao la direccion")
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label: "")
                 self.navigationController?.popViewControllerAnimated(true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")

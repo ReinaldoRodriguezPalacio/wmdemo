@@ -41,7 +41,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     var alertView: IPOWMAlertViewController?
     
-    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MOREOPTIONS.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,11 +83,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         self.reloadButtonSession()
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MORE.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        tableView  = UITableView(frame: CGRectZero)
+               tableView  = UITableView(frame: CGRectZero)
         tableView!.registerClass(MoreMenuViewCell.self, forCellReuseIdentifier: "Cell")
         tableView?.delegate = self
         tableView?.dataSource = self
@@ -218,10 +216,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             print("")
         }
         
-        
+       
         
         let optionTxt = self.options[currentOption]
-        
+
         switch (OptionsController(rawValue: optionTxt)!) {
         case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
@@ -238,38 +236,29 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
         case .Recents:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_ITEMES_PURCHASED.rawValue, label: "")
-            let controller = RecentProductsViewController()
-            self.navigationController!.pushViewController(controller, animated: true)
+                let controller = RecentProductsViewController()
+                self.navigationController!.pushViewController(controller, animated: true)
         case .Address:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PROFILE.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
             
             let controller = MyAddressViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         case .Orders :
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PREVIOUS_ORDERS.rawValue, label: "")
             let controller = OrderViewController()
             //controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
         case .CamFind:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue , label: "" )
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
         case .Factura:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
         case .TicketList:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
             //default :
             //    print("option don't exist")
+       
             
         }
         
@@ -310,8 +299,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func openLoginOrProfile() {
         if UserCurrentSession.sharedInstance().userSigned == nil{
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label:"")
-            
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in
                 self.tableView?.reloadData()
@@ -326,7 +313,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
         }
         else {
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action:WMGAIUtils.ACTION_CLOSE_SESSION.rawValue, label:"")
             self.signOut(nil)
         }
     }
@@ -345,7 +331,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let shoppingCartUpdateBg = ShoppingCartProductsService()
         shoppingCartUpdateBg.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            if UserCurrentSession.hasLoggedUser() {
+            if  UserCurrentSession.sharedInstance().userSigned != nil {
                 UserCurrentSession.sharedInstance().userSigned = nil
                 UserCurrentSession.sharedInstance().deleteAllUsers()
                 self.reloadButtonSession()
@@ -382,6 +368,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             
             let controller = SearchProductViewController()
             controller.searchContextType = .WithText
+            controller.upcsToShow = upcs
             controller.titleHeader = value
             controller.textToSearch = value
             let controllernav = self.navigationController
@@ -415,7 +402,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     func editProfile(sender:UIButton) {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label:"")
+                
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }

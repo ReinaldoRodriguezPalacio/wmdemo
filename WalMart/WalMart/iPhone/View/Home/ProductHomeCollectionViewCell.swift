@@ -48,18 +48,19 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         borderViewTop.backgroundColor = WMColor.lineSaparatorColor
         self.addSubview(borderViewTop)
         
-        
     }
-    
-    
     
     func setValues(productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool ) {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
         imagePresale.hidden = !preorderable
+        if  saving != "" && saving != "null"  {
+            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.savingTextColor, interLine: false)
+        }
 
         
     }
+    
     
     
     

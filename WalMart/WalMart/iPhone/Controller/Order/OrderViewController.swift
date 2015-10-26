@@ -19,18 +19,23 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     var isShowingTabBar : Bool = true
     var isShowingButtonFactura : Bool = false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PREVIOUSORDERS.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPreviousOrders", name: ProfileNotification.updateProfile.rawValue, object: nil)
         
         //Event recent purch
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
+//                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES.rawValue,
+//                label: nil,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         
         viewLoad = WMLoadingView(frame:CGRectZero)
@@ -60,6 +65,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         tabFooterView()
 
         
+        
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -125,7 +132,14 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+            //Event
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
+//                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
+//                    label: trackingStr,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             detailController.trackingNumber = trackingStr
             detailController.status = statusStr
@@ -137,7 +151,14 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue , label:trackingStr)
+            //Event
+//            //TODOGAI
+//            if let tracker = GAI.sharedInstance().defaultTracker {
+//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
+//                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
+//                    label: trackingStr,
+//                    value: nil).build() as [NSObject : AnyObject])
+//            }
             
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             
@@ -232,7 +253,6 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     func showWebView() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label:"")
         let webCtrl = IPOWebViewController()
         webCtrl.openURLFactura()
         self.presentViewController(webCtrl,animated:true,completion:nil)

@@ -291,12 +291,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue)
-            let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
-            tracker.send( eventTracker as! [NSObject : AnyObject])
-        }
-        
         let notiicationInfo = userInfo["notification"] as! NSDictionary
         let notiicationAPS = userInfo["aps"] as! NSDictionary
         
@@ -310,12 +304,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         serviceSave.saveNotification(userInfo)
         
         if let customBar = self.window?.rootViewController as? CustomBarViewController {
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                let eventTracker : NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue, action: WMGAIUtils.EVENT_PUSHNOTIFICATION.rawValue, label: value, value: nil).build()
-                tracker.send(eventTracker as! [NSObject : AnyObject])
-            }
-            
+                        
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
             {
                 customBar.handleNotification(type,name:name,value:value,bussines:bussines)

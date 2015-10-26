@@ -131,12 +131,13 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let store = self.items![indexPath.row]
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
-                label: store.name!,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
+//                label: store.name!,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         self.detailView?.removeFromSuperview()
         self.detailView = nil
@@ -228,12 +229,13 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
-                label: store.name!,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+//        //TODOGAI
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
+//                action:WMGAIUtils.EVENT_STORELOCATOR_MAP_SHARESTOREDETAIL.rawValue,
+//                label: store.name!,
+//                value: nil).build() as [NSObject : AnyObject])
+//        }
         
         let controller = UIActivityViewController(activityItems: [textSend], applicationActivities: nil)
         self.sharePopover = UIPopoverController(contentViewController: controller)

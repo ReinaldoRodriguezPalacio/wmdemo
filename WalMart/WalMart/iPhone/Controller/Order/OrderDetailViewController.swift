@@ -36,11 +36,15 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     var timmer : NSTimer!
 
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PREVIOUSORDERDETAIL.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_RECENTPURCHASES_DETAIL.rawValue)
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MGPREVIOUSORDERSDETAIL.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
@@ -526,6 +530,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     let itmProdVal = item["items"] as! [[String:AnyObject]]
                     for itemProd in itmProdVal {
                         upcs.append(getItemToShoppingCart(itemProd as NSDictionary))
+
                     }
                 }
             }

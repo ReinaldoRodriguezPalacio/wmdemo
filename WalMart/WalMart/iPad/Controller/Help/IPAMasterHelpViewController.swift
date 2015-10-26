@@ -61,6 +61,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         switch row {
         case 0:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
+
             let myAddres = IPAMyAddressViewController()
             self.navigation.pushViewController(myAddres, animated: true)
 

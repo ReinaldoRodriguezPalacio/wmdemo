@@ -17,6 +17,10 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var controllerAnimateView : IPACategoriesResultViewController!
     var itemsExclusive : [AnyObject]? = []
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SUPER.rawValue
+    }
+    
     var pontInViewNuew = CGRectZero
     
     override func viewDidAppear(animated: Bool) {
@@ -32,12 +36,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.backButton?.hidden = true
         
         //SCREEN
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_PRODUCTSCATEGORY.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
+                self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Súper"
         
         colCategories.backgroundColor = WMColor.navigationHeaderBgColor

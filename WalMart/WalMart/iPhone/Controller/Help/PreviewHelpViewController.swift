@@ -15,13 +15,14 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     var type: NSString!
     var imgFile : NSString? = nil
     var showTitle : Bool? = true
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_FREQUENTQUESTIONS.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_HELP_DETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
         
         if self.titleLabel == nil {
             self.header!.removeFromSuperview()

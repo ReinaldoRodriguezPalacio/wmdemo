@@ -261,4 +261,9 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         return "iPAProductSearch"
     }
     
+    
+    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSizeMake(self.view.frame.width, 54)
+    }
+    
 }

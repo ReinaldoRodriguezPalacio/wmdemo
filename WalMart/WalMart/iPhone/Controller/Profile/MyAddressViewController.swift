@@ -29,6 +29,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     var btnTech : UIButton!
     var showGRAddressForm: Bool = false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MYADDRESSES.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -402,11 +406,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.superAddressController!.view.frame = self.view.frame
             self.superAddressController.setValues(item["id"] as! String)
             self.superAddressController.isPreferred = (item["preferred"] as! Int) == 1
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
-            
+                      
             if let isAddressOK = item["isAddressOk"] as? String {
                 self.superAddressController!.sAddredssForm.showErrorLabel(isAddressOK == "False")
             }
@@ -443,11 +443,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             if let isAddressOK = item["isAddressOk"] as? String {
                 self.superAddressController!.sAddredssForm.showErrorLabel(isAddressOK == "False")
             }
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSES.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_EDIT_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
-            
+                     
             self.navigationController!.pushViewController(self.addressController!, animated: true)
         }
     }
@@ -458,9 +454,6 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.superAddressController = SuperAddressViewController()
                self.superAddressController!.allAddress =  self.arrayAddressShippingGR
             
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
             
             self.navigationController!.pushViewController(self.superAddressController, animated: true)
         } else {
@@ -478,11 +471,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             self.addressController!.addressFiscalCount = self.arrayAddressFiscal.count
             self.addressController!.addressShippingCont = self.arrayAddressShipping!.count
             
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
-
+           
             self.navigationController!.pushViewController(self.addressController!, animated: true)
         }
     }
@@ -645,14 +634,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             self.newAddressButton!.hidden = !self.emptyView!.hidden || arrayAddressShippingGR.count >= 12
             
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.set(kGAIScreenName, value: WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue)
-                tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-            }
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
-            
+                 
             table.reloadData()
         } else if sender == btnTech &&  !sender.selected {
             sender.selected = true;
@@ -660,15 +642,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             
             self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
             
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue)
-                tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-            }
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.MG_SCREEN_ADDRESSESLIST.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_MG.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-            }
-            
+                      
             table.reloadData()
         }//else if sender == btnTech &&  !sender.selected {
     }

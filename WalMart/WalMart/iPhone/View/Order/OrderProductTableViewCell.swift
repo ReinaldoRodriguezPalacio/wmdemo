@@ -141,7 +141,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
                 if self.pesable == true {
                     quanty = "50"
                 }
-                
+
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc) \(self.upc)")
                 
                 

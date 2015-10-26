@@ -48,6 +48,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     var containerEditName: UIView?
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MYLIST.rawValue
+        
+    }
+    
 
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -173,7 +178,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func loadServiceItems(complete:(()->Void)?) {
-        if UserCurrentSession.hasLoggedUser() {
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in
                 if self.loading != nil {
@@ -182,14 +187,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.loading = nil
                 
                 
-                if self.selectedItems == nil {
-                    self.selectedItems = NSMutableArray()
-                    if self.products != nil  && self.products!.count > 0  {
-                        for i in 0...self.products!.count - 1 {
-                            self.selectedItems?.addObject(i)
-                        }
-                        self.updateTotalLabel()
+                self.selectedItems = []
+                self.selectedItems = NSMutableArray()
+                if self.products != nil  && self.products!.count > 0  {
+                    for i in 0...self.products!.count - 1 {
+                        self.selectedItems?.addObject(i)
                     }
+                    self.updateTotalLabel()
                 }
                 
                 complete?()
@@ -197,16 +201,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         else {
             self.retrieveProductsLocally(false)
-            if self.selectedItems == nil {
-                if self.products == nil  || self.products!.count == 0 {
-                    self.selectedItems = []
-                } else {
-                    self.selectedItems = NSMutableArray()
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.addObject(i)
-                    }
-                    self.updateTotalLabel()
+            if self.products == nil  || self.products!.count == 0 {
+                self.selectedItems = []
+            } else {
+                self.selectedItems = NSMutableArray()
+                for i in 0...self.products!.count - 1 {
+                    self.selectedItems?.addObject(i)
                 }
+                self.updateTotalLabel()
             }
             complete?()
         }
@@ -241,8 +243,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.containerEditName!.alpha = 1
                 self.footerSection!.alpha = 0
             }, completion: { (complete:Bool) -> Void in
-                //Event
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: self.listName!)
                 
                 
                 self.deleteAllBtn!.hidden = false
@@ -271,6 +271,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 
                 self.updateLustName()
+                
+                
                 UIView.animateWithDuration(0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 1.0
@@ -309,9 +311,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
         if let image = self.buildImageToShare() {
-            
-            //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.listName!)
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -369,6 +368,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if self.products != nil && self.products!.count > 0 {
             
+            
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int
@@ -417,17 +417,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 upcs.append(params)
             }
-            //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.listName!)
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
         }
     }
     
     func deleteAll() {
         if self.products != nil && self.products!.count > 0 {
-            
-            //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_MYLIST.rawValue, label: self.listName!)
             
             
             
@@ -501,9 +496,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button.layer.cornerRadius = 20.0
         self.emptyView!.addSubview(button)
-        
-        //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_MY_LISTS_DETAIL_EMPTY.rawValue, label: "")
     }
     
     func removeEmpyView() {
@@ -664,17 +656,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if let product = self.products![idx] as? [String:AnyObject] {
                     let upc = product["upc"] as! String
                     let description = product["description"] as! String
-                    if(idx == indexPath.row){
-                        //EVENT
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(description) - \(upc)")
-                    }
+                    
                     productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
                 else if let product = self.products![idx] as? Product {
-                    if(idx == indexPath.row){
-                        //EVENT
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(product.desc) - \(product.upc)")
-                    }
+                    
+                   
+                    
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
             }
@@ -694,30 +682,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if let indexPath = self.tableView!.indexPathForCell(cell) {
                 if let item = self.products![indexPath.row] as? NSDictionary {
                     if let upc = item["upc"] as? String {
-                        let description = item["description"] as! String
-                        //EVENT
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(description) - \(upc)")
-                        
+                        //Event
+                      
                         if self.selectedItems!.containsObject(indexPath.row) {
                             self.selectedItems?.removeObject(indexPath.row)
                         }
-                        let newSelected  = NSMutableArray()
-                        for idxVal  in selectedItems! {
-                            let idx = idxVal as! Int
-                            if idx > indexPath.row {
-                                newSelected.addObject(idx - 1)
-                            } else {
-                                newSelected.addObject(idx)
-                            }
-                        }
-                        selectedItems = newSelected
                         self.invokeDeleteProductFromListService(upc)
                     }
                 }
                 else if let item = self.products![indexPath.row] as? Product {
-                    //EVENT
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(item.desc) - \(item.upc)")
-                    
                     self.managedContext!.deleteObject(item)
                     self.saveContext()
                     let count:Int = self.listEntity!.products.count
@@ -768,9 +741,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
         if self.quantitySelector == nil {
-            var action = ""
-            var productName = ""
-            var productUpc = ""
             
             let indexPath = self.tableView!.indexPathForCell(cell)
             if indexPath == nil {
@@ -799,25 +769,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             if isPesable {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: selectorFrame, priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
-                action = WMGAIUtils.ACTION_OPEN_KEYBOARD_KILO.rawValue
             }
             else {
                 self.quantitySelector = GRShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: price,upcProduct:cell.upcVal!)
-                action = WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue
             }
-            
-            if let item = self.products![indexPath!.row] as? [String:AnyObject] {
-                let upc = item["upc"] as? String
-                productName = item["description"] as! String
-                productUpc = upc!
-            }
-            else if let item = self.products![indexPath!.row] as? Product {
-                productName = item.desc
-                productUpc = item.upc
-            }
-            //EVENT
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:action, label: "\(productName) - \(productUpc)")
-            
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
@@ -829,7 +784,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.invokeUpdateProductFromListService(upc!, quantity: Int(quantity)!)
                 }
                 else if let item = self.products![indexPath!.row] as? Product {
-                    BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.GR_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_UPDATE_LIST.rawValue , label: item.desc)
                     item.quantity = NSNumber(integer: Int(quantity)!)
                     self.saveContext()
                     self.retrieveProductsLocally(true)
@@ -840,6 +794,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.quantitySelector!.frame = CGRectMake(0.0, 0.0, width, height)
             })
+            
         }
         else {
             self.removeSelector()
@@ -877,14 +832,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.products = result["items"] as? [AnyObject]
                 self.titleLabel?.text = result["name"] as? String
                 
-                if self.selectedItems == nil {
-                    if self.products == nil || self.products!.count == 0  {
-                        self.selectedItems = []
-                    } else {
-                        self.selectedItems = NSMutableArray()
-                        for i in 0...self.products!.count - 1 {
-                            self.selectedItems?.addObject(i)
-                        }
+                
+                if self.products == nil || self.products!.count == 0  {
+                    self.selectedItems = []
+                } else {
+                    
+                    self.selectedItems = NSMutableArray()
+                    for i in 0...self.products!.count - 1 {
+                        self.selectedItems?.addObject(i)
                     }
                 }
                 
@@ -999,14 +954,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
+                    
         
         let service = GRUpdateItemListService()
         service.callService(service.buildParams(upc: upc, quantity: quantity),
             successBlock: { (result:NSDictionary) -> Void in
-                
                 self.invokeDetailListService({ () -> Void in
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_WEIGHABLE.rawValue, action: WMGAIUtils.ACTION_UPDATE_LIST.rawValue, label:upc)
-                    
                     self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
                     self.alertView!.showDoneIcon()
                     self.alertView!.afterRemove = {
@@ -1061,7 +1014,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 //self.reloadTableListUser()
             }
             
-           if self.selectedItems == nil {
+           
             self.selectedItems = []
             self.selectedItems = NSMutableArray()
             if self.products != nil  && self.products!.count > 0  {
@@ -1069,7 +1022,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.selectedItems?.addObject(i)
                 }
                 self.updateTotalLabel()
-            }
             }
             
             self.updateTotalLabel()
@@ -1167,25 +1119,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func didDisable(disaable:Bool,cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPathForCell(cell)
-        var productName = ""
-        var productUpc = ""
-        if let item = self.products![indexPath!.row] as? [String:AnyObject] {
-            let upc = item["upc"] as? String
-            productName = item["description"] as! String
-            productUpc = upc!
-        }
-        else if let item = self.products![indexPath!.row] as? Product {
-            productName = item.desc
-            productUpc = item.upc
-        }
-        
         if disaable {
-            //EVENT
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DISABLE_PRODUCT.rawValue, label:"\(productName) - \(productUpc)")
             self.selectedItems?.removeObject(indexPath!.row)
         } else {
-            //EVENT
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_ENABLE_PRODUCT.rawValue, label:"\(productName) - \(productUpc)")
             self.selectedItems?.addObject(indexPath!.row)
         }
         self.updateTotalLabel()
@@ -1218,7 +1154,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func duplicate() {
-        if UserCurrentSession.hasLoggedUser() {
+        if let _ = UserCurrentSession.sharedInstance().userSigned {
             self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                 self.alertView!.showDoneIcon()
@@ -1226,8 +1162,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }else{
          NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
         }
-        //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue, label:self.listName!)
     }
     
 
@@ -1235,47 +1169,38 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func updateLustName() {
         if self.nameField?.text != self.titleLabel?.text {
-            if self.nameField?.text != "" {
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-                self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
-                let detailService = GRUserListDetailService()
-                detailService.buildParams(listId!)
-                detailService.callService([:],
-                    successBlock: { (result:NSDictionary) -> Void in
-                        let service = GRUpdateListService()
-                        service.callService(self.nameField!.text!,
-                            successBlock: { (result:NSDictionary) -> Void in
-                            self.titleLabel?.text = self.nameField?.text
-                                self.loadServiceItems({ () -> Void in
-                                    self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
-                                    self.alertView!.showDoneIcon()
-                                })
-                            },
-                            errorBlock: { (error:NSError) -> Void in
-                                    self.alertView!.setMessage(error.localizedDescription)
-                                    self.alertView!.showErrorIcon("Ok")
-                            }
-                        )
-                    },
-                    errorBlock: { (error:NSError) -> Void in
-                            self.alertView!.setMessage(error.localizedDescription)
-                            self.alertView!.showErrorIcon("Ok")
-                    }
-                )
-            }
-            else{
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
-                    UIImage(named:"noAvaliable"))
-                self.alertView!.setMessage(NSLocalizedString("list.new.validation.name", comment:""))
-                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-                self.nameField?.text = self.titleLabel?.text
-            }
+            
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
+            
+            let detailService = GRUserListDetailService()
+            detailService.buildParams(listId!)
+            detailService.callService([:],
+                successBlock: { (result:NSDictionary) -> Void in
+                    let service = GRUpdateListService()
+                    service.callService(self.nameField!.text!,
+                        successBlock: { (result:NSDictionary) -> Void in
+                           self.titleLabel?.text = self.nameField?.text
+                            self.loadServiceItems({ () -> Void in
+                                self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
+                                self.alertView!.showDoneIcon()
+                            })
+                        },
+                        errorBlock: { (error:NSError) -> Void in
+                                self.alertView!.setMessage(error.localizedDescription)
+                                self.alertView!.showErrorIcon("Ok")
+                        }
+                    )
+                },
+                errorBlock: { (error:NSError) -> Void in
+                    
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon("Ok")
+                }
+            )
         }
     }
     
-    override func back() {
-        //EVENT
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action: WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label:"")
-        super.back()
-    }
+
 }

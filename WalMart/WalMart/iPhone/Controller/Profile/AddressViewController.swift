@@ -45,13 +45,17 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     
     var validateZip =  false
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_MGNEWADDRESSDELIVERY.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.view.backgroundColor = UIColor.whiteColor()
         
         if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.MG_SCREEN_ADDRESSESDETAIL.rawValue)
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MGMYADDRESSES.rawValue)
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
 
@@ -525,32 +529,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
  
     func save(sender:UIButton) {
-    
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_EDIT_ADDRESS.rawValue ,action:self.idAddress != nil ? WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue : WMGAIUtils.ACTION_MG_SAVE_ADDRESS.rawValue , label:"")
-        if typeAddress == .Shiping && addressShippingCont >= 12 {
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
-            if self.successCallBack == nil {
-                self.closeAlert()
-                NSTimer.scheduledTimerWithTimeInterval(1.7, target: self, selector: "popView", userInfo: nil, repeats: false)
-            }else {
-                
-                self.successCallBack!()
-            }
-            return
-        }
-        else if (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral)  && addressFiscalCount >= 12 {
-            self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
-            if self.successCallBack == nil {
-                self.closeAlert()
-                NSTimer.scheduledTimerWithTimeInterval(1.7, target: self, selector: "popView", userInfo: nil, repeats: false)
-            }else {
-                
-                self.successCallBack!()
-            }
-            return
-        }
+        
+//        //TODOGAI 
+//        
+//        if let tracker = GAI.sharedInstance().defaultTracker {
+//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
+//                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
+//                label: "", value: nil).build() as [NSObject : AnyObject])
+//        }
         
         
         var params : NSDictionary? = nil
@@ -593,6 +579,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }else{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             }
+
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {
@@ -614,10 +601,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             })
         }
     }
-    
-    func popView(){
-       self.navigationController!.popViewControllerAnimated(true)
-    }
 
     func closeAlert(){
         if self.alertView != nil {
@@ -637,7 +620,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
         service.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_DELETE_ADDRESS.rawValue, label: "")
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

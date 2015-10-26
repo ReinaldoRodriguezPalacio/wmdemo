@@ -23,6 +23,10 @@ class FamilyViewController : IPOBaseController,UITableViewDataSource,UITableView
     
     var categoriesType: CategoriesType?
     
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         familyTable = UITableView()

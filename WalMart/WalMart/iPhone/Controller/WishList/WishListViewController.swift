@@ -32,9 +32,17 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     var buttonShop : UIButton!
     var customlabel : CurrencyCustomLabel!
    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_WISHLISTEMPTY.rawValue
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_WISHLIST.rawValue)
+            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
+        }
         
         self.titleLabel!.textColor = WMColor.wishlistTitleTextColor
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -78,8 +86,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         emptyView = IPOWishlistEmptyView(frame: CGRectZero)
         emptyView.returnAction = {() in
             self.back()
-            //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
         }
         self.view.addSubview(emptyView)
         
@@ -249,7 +255,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var itemsToSend : [[String:String]] = []
-        var nameUpc = ""
+        
         for itemWishlist in self.items {
             print("Wishlist : \(itemWishlist)")
             let upc = itemWishlist["upc"] as! String
@@ -257,17 +263,18 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let type = ResultObjectType.Mg.rawValue
             let dict = ["upc":upc,"description":desc,"type":type]
             itemsToSend.append(dict)
-            nameUpc = "\(desc) - \(upc)"
+
         }
         
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = itemsToSend
         controller.ixSelected = indexPath.row
         
-        //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_OPEN_DETAIL_WISHLIST.rawValue, label: nameUpc)
                
         self.navigationController!.pushViewController(controller, animated: true)
+        
+        
+        
     }
     
 
@@ -427,7 +434,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 self.deleteall.alpha = 1
                 self.titleLabel!.frame = CGRectMake(self.titleLabel!.frame.minX - 30, self.titleLabel!.frame.minY, self.titleLabel!.frame.width, self.titleLabel!.frame.height)
             })
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_EDIT_WISHLIST.rawValue, label: "")
+            
         }else{
             
             let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
@@ -501,7 +508,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             self.emptyView.hidden = self.items.count > 0
             
             //Event
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: upc)
+            if let tracker = GAI.sharedInstance().defaultTracker {
+                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
+                    action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_REMOVEFROMWISHLIST.rawValue ,
+                    label: upc,
+                    value: nil).build() as [NSObject : AnyObject])
+            }
             
             if self.items.count == 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
@@ -559,10 +571,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let upcList = "\(strAllUPCs)"
         let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
-        //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: upcList)
-
-        
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
     }
@@ -593,7 +601,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func senditemsToShoppingCart() {
         var params : [AnyObject] =  []
-        var strAllUPCs = ""
         for itemWishList in self.items {
             
             let upc = itemWishList["upc"] as! NSString
@@ -633,22 +640,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
                     print(paramsItem)
                     params.append(paramsItem)
-                    let strItemUpc = upc
-                    if strAllUPCs != "" {
-                        strAllUPCs = "\(strAllUPCs),\(strItemUpc)"
-                    } else {
-                        strAllUPCs = "\(strItemUpc)"
-                    }
-                    
                 }
                 
             }
         }
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"]
-            //Event
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label:strAllUPCs)
-            
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }
         
@@ -664,8 +661,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         serviceWishDelete.callServiceWithParams(["parameter":upcsWL], successBlock: { (result:NSDictionary) -> Void in
                 self.reloadWishlist()
                 self.editAction(self.edit)
-                //Event
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_WISHLIST.rawValue, label: "")
             }) { (error:NSError) -> Void in
                 self.reloadWishlist()
                 self.editAction(self.edit)

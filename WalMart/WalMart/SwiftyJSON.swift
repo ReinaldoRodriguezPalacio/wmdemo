@@ -1333,18 +1333,5 @@ extension JSON {
             return self.numberValue.integerValue
         }
     }
-    
-    @available(*, unavailable, renamed="uInt")
-    public var unsignedInteger: UInt? {
-        get {
-            return self.number!.unsignedLongValue
-        }
-    }
-    
-    @available(*, unavailable, renamed="uIntValue")
-    public var unsignedIntegerValue: UInt {
-        get {
-            return self.numberValue.unsignedLongValue
-        }
-    }
+
 }
