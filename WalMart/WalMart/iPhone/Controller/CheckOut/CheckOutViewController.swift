@@ -144,6 +144,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
             loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                print(response)
                 }, errorBlock: { (error:NSError) -> Void in
             })
         }
@@ -154,12 +155,17 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
         
         if finishLoadCheckOut != nil {
+               NSTimer.scheduledTimerWithTimeInterval(0.6, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
             finishLoadCheckOut!()
         }
         
-        self.viewLoad?.stopAnnimating()
+        
         print("URL::: \(webView.request)")
         
+    }
+    func removeViewLoading(){
+        print("removeViewLoading")
+        self.viewLoad?.stopAnnimating()
     }
     
     override func back() {
