@@ -340,8 +340,6 @@
 
 
 
-
-
 //Empty
 "empty.shoppingcart" = "Tu carrito está vacío.";
 "empty.return" = "Regresar";
@@ -349,7 +347,7 @@
 "empty.wishlist.title" = "Tu Wishlist está vacía";
 "empty.wishlist.text" = "Toca el ícono       de cada artículo para agregarlo.";
 "empty.address" = "No hay direcciones en tu perfil.";
-"empty.productdetail.barras" = "Escanea el código de barras de un artículo";
+"empty.productdetail.barras" = "Artículo no disponible";
 "empty.productdetail.recent" = "No existen artículos";
 "empty.productdetail.texto" ="Intenta con otro artículo";
 "empty.productdetail.banner" ="Información temporalmente no disponible, estamos trabajando en resolverlo";

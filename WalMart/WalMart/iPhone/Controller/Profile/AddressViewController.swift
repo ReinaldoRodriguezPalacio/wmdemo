@@ -579,6 +579,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {
                     self.alertView!.setMessage("\(message)")
+                    self.alertView!.showDoneIcon()
                 }
                 
                 if self.successCallBack == nil {
@@ -588,6 +589,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     
                     self.successCallBack!()
                 }
+                
                 
                 }
                 , errorBlock: {(error: NSError) in

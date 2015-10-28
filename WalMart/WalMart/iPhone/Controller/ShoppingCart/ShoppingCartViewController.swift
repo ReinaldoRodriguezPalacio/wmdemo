@@ -13,7 +13,7 @@ protocol ShoppingCartViewControllerDelegate {
     func returnToView()
 }
 
-class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate {
+class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableViewDataSource,ProductShoppingCartTableViewCellDelegate,SWTableViewCellDelegate,ProductDetailCrossSellViewDelegate,AlertPickerViewDelegate {
     
     var viewLoad : WMLoadingView!
     
@@ -50,6 +50,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var showCloseButton : Bool = true
 
     var itemsUPC = []
+    
+     var picker : AlertPickerView!
+     var selectedConfirmation : NSIndexPath!
+     var alertView: IPOWMAlertViewController?
     
     
     var emptyView : IPOShoppingCartEmptyView!
@@ -157,6 +161,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         
         
+        picker = AlertPickerView.initPickerWithDefault()
         
        initEmptyView()
         
@@ -777,8 +782,36 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.isSelectingProducts = false
     }
     
+    func openDiscount(){
+        let discountAssociateItems = [NSLocalizedString("checkout.discount.associateNumber", comment:""),NSLocalizedString("checkout.discount.dateAdmission", comment:""),NSLocalizedString("checkout.discount.determinant", comment:"")]
+        self.selectedConfirmation  = NSIndexPath(forRow: 0, inSection: 0)
+        
+        self.picker!.sender = self//self.discountAssociate!
+        self.picker!.titleHeader = NSLocalizedString("checkout.field.discountAssociate", comment:"")
+        self.picker!.delegate = self
+        self.picker!.selected = self.selectedConfirmation
+        self.picker!.setValues("Descuento de asociado", values: discountAssociateItems)
+        self.picker!.hiddenRigthActionButton(true)
+        self.picker!.cellType = TypeField.Alphanumeric
+        self.picker!.showPicker()
+
+    
+    }
     
     func showloginshop() {
+        
+        var isAsociate =  true
+        if isAsociate {
+            self.openDiscount()
+        }else{
+            self.showloginshopContinue()
+        }
+    }
+    
+    
+    func showloginshopContinue() {
+
+        self.openDiscount()
         //Event
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN_PRE_CHECKOUT.rawValue, label: "")
         
@@ -861,6 +894,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             })
         }
     }
+    
+    
     
     func presentedCheckOut(loginController: LoginController, address: AddressViewController?){
         UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
@@ -1124,4 +1159,63 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func checkOutController() -> CheckOutViewController {
         return CheckOutViewController()
     }
+    
+    //MARK: AlertPickerViewDelegate
+    func didSelectOption(picker: AlertPickerView, indexPath: NSIndexPath, selectedStr: String) {
+        
+        
+        let paramsDic = picker.textboxValues!
+        let associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
+        let dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+        let determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+        
+        let service = ValidateAssociateService()
+        
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"user_error"))
+         self.alertView?.setMessage("Validando datos del asociado")
+        
+        service.callService(service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant:determinant!),
+            successBlock: { (response:NSDictionary) -> Void in
+                print(response)
+                if response["codeMessage"] as! String ==  "0"{
+                    //Mostrar alerta y continuar
+                     self.alertView?.setMessage("Datos correctos")
+                    self.showloginshopContinue()
+                }else{
+                   
+                    self.alertView?.setMessage("Error el los datos del asociado")
+                    self.alertView!.showErrorIcon("Ok")
+                }
+       
+            }) { (error:NSError) -> Void in
+                // mostrar alerta de error de info
+                
+                self.alertView?.setMessage("Error el los datos del asociado")
+                 self.alertView!.showErrorIcon("Ok")
+                print(error)
+        }
+        
+    }
+  
+    func didDeSelectOption(picker:AlertPickerView){
+    }
+    
+    func viewReplaceContent(frame: CGRect) -> UIView! {
+        let view: UIView! =  UIView(frame: self.view.frame)
+        
+        
+        return view
+        
+    }
+
+    func saveReplaceViewSelected() {
+        
+    }
+    
+    func buttomViewSelected(sender: UIButton) {
+        
+    }
+
+
+    
 }

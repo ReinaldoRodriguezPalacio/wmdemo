@@ -349,6 +349,7 @@
 		56ED1B631A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED1B621A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift */; };
 		56ED38F91B1D21DA0003E7AC /* IPACheckOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED38F81B1D21DA0003E7AC /* IPACheckOutViewController.swift */; };
 		56EECE8B1B02EC630091F491 /* GRNutrimentalInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EECE8A1B02EC630091F491 /* GRNutrimentalInfoView.swift */; };
+		56EF144B1BE05CEF00F3A874 /* ValidateAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF144A1BE05CEF00F3A874 /* ValidateAssociateService.swift */; };
 		56EF81351A702FF600B81D09 /* GRShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF81341A702FF600B81D09 /* GRShoppingCartViewController.swift */; };
 		56EF81371A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF81361A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift */; };
 		56EF81391A706F8900B81D09 /* GRLoginWithEmailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF81381A706F8900B81D09 /* GRLoginWithEmailService.swift */; };
@@ -874,6 +875,7 @@
 		56ED1B621A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAGRCategoryCollectionViewCell.swift; path = iPad/View/Categories/IPAGRCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		56ED38F81B1D21DA0003E7AC /* IPACheckOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPACheckOutViewController.swift; path = iPad/Controller/CheckOut/IPACheckOutViewController.swift; sourceTree = "<group>"; };
 		56EECE8A1B02EC630091F491 /* GRNutrimentalInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRNutrimentalInfoView.swift; sourceTree = "<group>"; };
+		56EF144A1BE05CEF00F3A874 /* ValidateAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValidateAssociateService.swift; path = Shared/Services/checkout/ValidateAssociateService.swift; sourceTree = "<group>"; };
 		56EF81341A702FF600B81D09 /* GRShoppingCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartViewController.swift; path = iPhone/Controller/ShoppingCart/GRShoppingCartViewController.swift; sourceTree = "<group>"; };
 		56EF81361A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRProductShoppingCartTableViewCell.swift; path = iPhone/View/ShoppingCart/GRProductShoppingCartTableViewCell.swift; sourceTree = "<group>"; };
 		56EF81381A706F8900B81D09 /* GRLoginWithEmailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRLoginWithEmailService.swift; path = Shared/Services/LoginSignUp/GRLoginWithEmailService.swift; sourceTree = "<group>"; };
@@ -2518,6 +2520,7 @@
 				56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */,
 				56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */,
 				56684B301A02A57800DB2570 /* ReviewShoppingCartService.swift */,
+				56EF144A1BE05CEF00F3A874 /* ValidateAssociateService.swift */,
 			);
 			name = ShoppingCart;
 			sourceTree = "<group>";
@@ -3157,6 +3160,7 @@
 				56684B311A02A57800DB2570 /* ReviewShoppingCartService.swift in Sources */,
 				569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */,
 				56DFE4D219D057C9001811F5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				56EF144B1BE05CEF00F3A874 /* ValidateAssociateService.swift in Sources */,
 				569607A519B527D7005D20DC /* ProductDetailButtonBarCollectionViewCell.swift in Sources */,
 				AC536D3D19DB39CD007D2D42 /* HelpViewController.swift in Sources */,
 				5673D1421A9D500400DCD20B /* RSUnifiedCodeGenerator.swift in Sources */,

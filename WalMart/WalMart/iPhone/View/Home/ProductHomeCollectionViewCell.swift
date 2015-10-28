@@ -54,10 +54,9 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
         imagePresale.hidden = !preorderable
-        //TODO comentado por version
-//        if  saving != "" && saving != "null"  {
-//            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.savingTextColor, interLine: false)
-//        }
+        if  saving != "" && saving != "null"  {
+            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.savingTextColor, interLine: false)
+        }
 
         
     }

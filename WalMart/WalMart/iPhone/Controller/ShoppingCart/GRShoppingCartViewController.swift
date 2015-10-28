@@ -994,6 +994,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 self.listSelectorController!.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToListDone", comment:""))
                 self.alertView!.showDoneIcon()
+                self.removeListSelector(action: nil)
             },
             errorBlock: { (error:NSError) -> Void in
                 print(error)
