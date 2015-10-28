@@ -519,7 +519,7 @@
 //AvisoProvacidad
 "privace.notice.message" = "Nuestro Aviso de Privacidad ha cambiado, te invitamos a conocerlo.";
 
-//Bucando imagen
+//search image
 "camfind.search.messageone" = "Enviando imagen";
 "camfind.search.messagetwo" = "Identificando artículo";
 "camfind.search.messagetree" = "Buscando palabras clave";
@@ -538,8 +538,7 @@
 
 
 //Preventa
-
 "presale.title" = "PREVENTA";
 
-
-
+//Alertlogin
+"password.incorrect" = "Tu contraseña es incorrecta Recuerda que tienes 3 intentos antes de bloquear tu cuenta por 5 minutos";
