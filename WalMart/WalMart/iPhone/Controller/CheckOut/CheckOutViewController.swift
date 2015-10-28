@@ -35,12 +35,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad!.backgroundColor = UIColor.whiteColor()
-            viewLoad!.startAnnimating(false)
-            self.view.addSubview(viewLoad!)
-        }
+
         
         self.titleLabel!.text = NSLocalizedString("checkout.title",comment:"")
         webCheckOut = UIWebView(frame:CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height - 66 ))
@@ -54,6 +49,13 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         self.view.addSubview(webCheckOut)
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBadge.rawValue, object: nil)
+        
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad!.backgroundColor = UIColor.whiteColor()
+            viewLoad!.startAnnimating(true)
+            webCheckOut.addSubview(viewLoad!)
+        }
         
     }
     
@@ -114,7 +116,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
-        print("URL::: \(webView.request?.URL!.absoluteString)")
+        print("URL::: FinishLoad --\(webView.request?.URL!.absoluteString)")
         let string = webView.request!.URL!.absoluteString as NSString
         var range = string.rangeOfString("www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)")
         if range.location != NSNotFound {
@@ -155,12 +157,12 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
         
         if finishLoadCheckOut != nil {
-               NSTimer.scheduledTimerWithTimeInterval(0.6, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
+               NSTimer.scheduledTimerWithTimeInterval(0.9, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
             finishLoadCheckOut!()
         }
         
         
-        print("URL::: \(webView.request)")
+        print("URL:::-- \(webView.request)")
         
     }
     func removeViewLoading(){
