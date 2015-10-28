@@ -216,7 +216,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.header?.addSubview(self.filterButton!)
         self.view.addSubview(collection!)
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
-        if self.isTextSearch
+        let isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
+        if self.isTextSearch || isOriginalTextSearch
         {
             self.titleLabel = self.setTitleWithEdit()
             self.header?.addSubview(self.titleLabel!)
@@ -225,7 +226,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.filterButton!.removeFromSuperview()
                 self.titleLabel?.text = "Resultados"
             }
+            
             self.originalSearchContextType = self.searchContextType
+            //self.searchContextType = SearchServiceContextType.WithCategoryForGR
         }
         else
         {
