@@ -75,8 +75,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.totalsView.frame = CGRectMake(self.viewContent.frame.width - 341, self.imagePromotion.frame.maxY, 341, 168)
         
         self.viewSeparator.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewShoppingCart.frame.width,AppDelegate.separatorHeigth())
-        //self.buttonWishlist.frame = CGRectMake(16,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
-        self.buttonShop.frame = CGRectMake( 16, self.buttonShop.frame.minY, 341 - 32, self.buttonShop.frame.height)
+        self.buttonWishlist.frame = CGRectMake(16,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
+        self.buttonShop.frame = CGRectMake( 66, self.buttonShop.frame.minY, 341 - 82, self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
         self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
