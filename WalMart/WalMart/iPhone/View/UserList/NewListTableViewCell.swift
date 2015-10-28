@@ -45,7 +45,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
         self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.saveButton!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB37)//WMColor.green
+        self.saveButton!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always
