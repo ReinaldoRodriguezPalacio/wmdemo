@@ -33,6 +33,7 @@ enum SearchServiceContextType {
     case WithText
     case WithCategoryForMG
     case WithCategoryForGR
+    case WithTextForCamFind
 }
 
 class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate, SearchProductCollectionViewCellDelegate {
@@ -74,6 +75,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var itemsUPCGR: NSArray? = []
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var selectQuantity : ShoppingCartQuantitySelectorView!
+    var isTextSearch: Bool = false
 
     
     override func getScreenGAIName() -> String {
@@ -195,6 +197,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         titleLabel.textColor =  WMColor.navigationTilteTextColor
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
+        titleLabel.textAlignment = .Center
         
         let tapGesture = UITapGestureRecognizer(target: self, action: "editSearch")
         titleLabel.addGestureRecognizer(tapGesture)
@@ -212,13 +215,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.header?.addSubview(self.filterButton!)
         self.view.addSubview(collection!)
-        if self.searchContextType == SearchServiceContextType.WithText
+        self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
+        if self.isTextSearch
         {
-            self.setTitleWithEdit()
-            if self.upcsToShow?.count == 0 {
-                self.titleLabel = self.setTitleWithEdit()
-                self.header?.addSubview(self.titleLabel!)
-            } else {
+            self.titleLabel = self.setTitleWithEdit()
+            self.header?.addSubview(self.titleLabel!)
+            
+            if self.searchContextType == SearchServiceContextType.WithTextForCamFind && self.upcsToShow?.count != 0 {
                 self.filterButton!.removeFromSuperview()
                 self.titleLabel?.text = "Resultados"
             }
@@ -255,7 +258,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         
         var startPoint = self.header!.frame.maxY
-        if self.originalSearchContextType == SearchServiceContextType.WithText {
+        if self.isTextSearch {
             viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28)
             startPoint = viewBgSelectorBtn.frame.maxY + 16
         }else {
@@ -711,7 +714,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.showLoadingIfNeeded(true)
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.originalSearchContextType == SearchServiceContextType.WithText {
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
             
             //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
             self.filterButton?.alpha = 0
@@ -750,7 +753,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         else {
             
-            if self.searchContextType != nil && self.originalSearchContextType == SearchServiceContextType.WithText && self.allProducts != nil {
+            if self.searchContextType != nil && self.isTextSearch && self.allProducts != nil {
                 //println("sorting values from text search")
                 //Order items
                 switch (FilterType(rawValue: self.idSort!)!) {
@@ -891,7 +894,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         self.idSort = order
         
-        if filters != nil && self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
+        if filters != nil && self.originalSearchContextType != nil && self.isTextSearch {
             self.idDepartment = filters![JSON_KEY_IDDEPARTMENT] as? String
             self.idFamily = filters![JSON_KEY_IDFAMILY] as? String
             self.idLine = filters![JSON_KEY_IDLINE] as? String
@@ -1007,7 +1010,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //Quitamos los filtros despues de la busqueda.
         //self.idSort = self.originalSort
         self.searchContextType = self.originalSearchContextType
-        if self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
+        if self.originalSearchContextType != nil && self.isTextSearch {
             self.idDepartment = nil
             self.idFamily = nil
             self.idLine = nil
@@ -1023,7 +1026,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.idSort = self.originalSort
         self.searchContextType = self.originalSearchContextType
-        if self.originalSearchContextType != nil && self.originalSearchContextType! == SearchServiceContextType.WithText {
+        if self.originalSearchContextType != nil && self.isTextSearch {
             self.idDepartment = nil
             self.idFamily = nil
             self.idLine = nil

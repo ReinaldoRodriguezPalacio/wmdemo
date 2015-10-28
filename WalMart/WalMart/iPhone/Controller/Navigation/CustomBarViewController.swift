@@ -30,6 +30,7 @@ enum CustomBarNotification : String {
     case ClearShoppingCartGR = "kClearShoppingCartGR"
     case ClearShoppingCartMG = "kClearShoppingCartMG"
     case EditSearch = "kEditSearch"
+    case CamFindSearch = "kCamFindSearch"
     
     case ShowGRLists = "kShowGRLists"
     
@@ -127,6 +128,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "editSearch:", name: CustomBarNotification.EditSearch.rawValue, object: nil)
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showListsGR", name: CustomBarNotification.ShowGRLists.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "camFindSearch:", name: CustomBarNotification.CamFindSearch.rawValue, object: nil)
         
         
         
@@ -595,6 +597,24 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.openSearchProduct()
         self.searchController!.field!.text = searchKey
         self.isEditingSearch = true
+    }
+    
+    func camFindSearch(notification:NSNotification){
+        let searchDic = notification.object as! [String:AnyObject]
+        let upcs = searchDic["upcs"] as! [String]
+        let keyWord = searchDic["keyWord"] as! String
+        let controllernav = self.currentController as? UINavigationController
+        let controllersInNavigation = controllernav?.viewControllers.count
+        if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
+            isEditingSearch = false
+        }
+        let controller = SearchProductViewController()
+        controller.upcsToShow = upcs
+        controller.searchContextType = .WithTextForCamFind
+        controller.titleHeader = keyWord
+        controller.textToSearch = keyWord
+        controllernav?.pushViewController(controller, animated: true)
     }
     
     func openSearchProduct(){

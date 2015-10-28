@@ -610,10 +610,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
         self.field!.becomeFirstResponder()
         if value != nil {
-            self.field!.text = value
-            self.upcItems = upcs
-            self.textFieldShouldReturn(self.field!)
             delegate.closeSearch(false, sender:nil)
+            let params = ["upcs": upcs!, "keyWord":value!]
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
             done()
         }
     }
