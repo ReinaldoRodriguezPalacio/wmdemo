@@ -10,7 +10,8 @@ import Foundation
 
 struct WMColor {
     
-    static var savingTextColor: UIColor{return UIColorFromRGB(0x00C000)}
+    
+    static var savingTextColor: UIColor{return UIColorFromRGB(0x8EBB36)}
     
     static var headerViewBgCollor: UIColor{return UIColorFromRGB(0x2870C9)}
     static var gotosuperBgColor: UIColor{return UIColorFromRGB(0x62C900)}

@@ -67,10 +67,22 @@ class FormFieldView : UIEdgeTextField {
         self.isValid = true
     }
    
+    func setCustomAttributedPlaceholder(placeholder : NSMutableAttributedString){
+        var str = placeholder
+        if(self.isRequired){
+           let attrStr = NSMutableAttributedString()
+            attrStr.appendAttributedString(NSAttributedString(string: "*"))
+            attrStr.appendAttributedString(placeholder)
+            str = attrStr
+        }
+        
+        self.attributedPlaceholder = str
+    }
+    
     func setCustomPlaceholder(placeholder : String){
         var str = placeholder
         if(self.isRequired){
-           str = "*" + placeholder
+            str = "*" + placeholder
         }
         
         self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])

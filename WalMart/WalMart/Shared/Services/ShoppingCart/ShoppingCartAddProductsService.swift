@@ -126,12 +126,14 @@ class ShoppingCartAddProductsService : BaseService {
             return
         } else {
             for product in params as! NSArray {
-                let preorderable = product["isPreorderable"] as! String
+                
+                if let preorderable = product["isPreorderable"] as? String {
                 if preorderable == "true" && !UserCurrentSession.sharedInstance().isEmptyMG() {
                     let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
                     let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
                     errorBlock?(error)
                     return
+                    }
                 }
             }
         }
@@ -173,7 +175,7 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.onHandInventory = product["onHandInventory"] as! String
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
-            cartProduct.product.isPreorderable = product["isPreorderable"] as! String
+            cartProduct.product.isPreorderable =  product["isPreorderable"]  as? String == nil ? "false" : product["isPreorderable"] as! String
             cartProduct.status = NSNumber(integer: statusForProduct())
             cartProduct.type = ResultObjectType.Mg.rawValue
 
