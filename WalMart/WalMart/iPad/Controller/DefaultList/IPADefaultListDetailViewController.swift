@@ -120,7 +120,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             if TabBarHidden.isTabBarHidden {
                 height += 45.0
             }
-            let selectorFrame = CGRectMake(0, self.view.frame.height, width, height)
+            _ = CGRectMake(0, self.view.frame.height, width, height)
             
             if isPesable {
                 self.quantitySelector = GRShoppingCartWeightSelectorView(frame: CGRectMake(0.0, 0.0, 320.0, 388.0), priceProduct: price,equivalenceByPiece:cell.equivalenceByPiece!,upcProduct:cell.upcVal!)
@@ -130,7 +130,8 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             }
             self.view.addSubview(self.quantitySelector!)
             self.quantitySelector!.closeAction = { () in
-                self.removeSelector()
+                self.sharePopover!.dismissPopoverAnimated(true)
+                //self.removeSelector()
             }
             //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
@@ -142,8 +143,8 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
                 self.removeSelector()
                 self.updateTotalLabel()
                 //TODO: Update quantity
-            }
-            
+        }
+        
             self.quantitySelector!.backgroundColor = UIColor.clearColor()
             self.quantitySelector!.backgroundView!.backgroundColor = UIColor.clearColor()
             let controller = UIViewController()

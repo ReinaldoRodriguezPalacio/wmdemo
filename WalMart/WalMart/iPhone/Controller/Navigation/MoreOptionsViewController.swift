@@ -251,9 +251,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
         case .Factura:
-            let webCtrl = IPOWebViewController()
-            webCtrl.openURLFactura()
-            self.presentViewController(webCtrl,animated:true,completion:nil)
+            let invoiceController = InvoiceViewController()
+            self.navigationController!.pushViewController(invoiceController, animated: true)
         case .TicketList:
             scanTicket()
             //default :
