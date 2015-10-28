@@ -433,6 +433,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clubCollection!.hidden = false
             self.isShowingMap = false
             self.applyMapViewMemoryHotFix()
+            
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_LIST_STORE_LOCATOR.rawValue, label: "")
+            
+            
         }
         else {
             //Event
@@ -441,6 +446,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clubMap!.hidden = false
             self.clubCollection!.hidden = true
             self.isShowingMap = true
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_MAP_STORE_LOCATOR.rawValue, label: "")
         }
     }
 
@@ -678,6 +685,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if bottomSpaceButton != nil  {
            self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
         }
+    }
+    
+    override func back() {
+        super.back()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
     }
     
 }

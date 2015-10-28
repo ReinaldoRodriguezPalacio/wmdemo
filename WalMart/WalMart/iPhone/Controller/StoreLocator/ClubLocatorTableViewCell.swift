@@ -120,6 +120,12 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
     func makePhoneCall() {
         //Event
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_CALL_STORE.rawValue, label: self.store!.name!)
+        
+        
+        
+        
 //        //TODOGAI
 //        if let tracker = GAI.sharedInstance().defaultTracker {
 //            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
@@ -131,12 +137,21 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     }
     
     func shareStore() {
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_SHARE_STORE.rawValue, label: self.store!.name!)
+        
+        
+        
+        
+        
         self.delegate?.shareStore(self.store!)
     }
     
     func showRoute() {
         
         //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_LOCATOR_ROUTE_STORE.rawValue, label: self.store!.name!)
+        
 //        //TODOGAI
 //        if let tracker = GAI.sharedInstance().defaultTracker {
 //            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
@@ -150,13 +165,8 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
     func showInMap() {
         //Event
-//        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-//                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
-//                label: self.store!.name,
-//                value: nil).build() as [NSObject : AnyObject])
-//        }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: self.store!.name!)
         
         self.delegate?.showInMap(self.store!)
     }
@@ -169,7 +179,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
     class func calculateCellHeight(forStore store:Store, width:CGFloat) -> CGSize {
         let width_:CGFloat = width - 30.0
-
+        
         var height: CGFloat = 16.0 //Separation
         height += 17.0 //Name
         height += 16.0
