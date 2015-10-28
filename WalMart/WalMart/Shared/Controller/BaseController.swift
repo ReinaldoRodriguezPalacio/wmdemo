@@ -50,12 +50,12 @@ class BaseController : UIViewController {
            ////////
         print("Category: \(category) Action: \(action) Label: \(label)")
         
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(category,
-//                action:action,
-//                label: label,
-//                value: nil).build() as [NSObject : AnyObject])
-//        }
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            tracker.send(category,
+                action:action,
+                label: label,
+                value: nil).build() as [NSObject : AnyObject])
+        }
         
     }
     

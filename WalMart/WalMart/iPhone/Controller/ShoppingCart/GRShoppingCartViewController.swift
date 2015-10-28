@@ -899,7 +899,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             if let typeProd = item["type"] as? NSString {
                 typeProdVal = typeProd.integerValue
             }
-
+     
+            
             let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
             detail!.upc = item["upc"] as! String
             detail!.desc = item["description"] as! String
