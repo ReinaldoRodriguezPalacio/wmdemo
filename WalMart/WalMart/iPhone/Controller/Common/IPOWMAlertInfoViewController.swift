@@ -73,7 +73,12 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         messageLabel.attributedText = message
     }
     
-    class func showAlert(controller:UIViewController, title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
+    func setMessageLabelToCenter(){
+        messageLabel.frame.origin = CGPoint(x: 24,y: (self.view.frame.height/2) - (self.messageLabel.frame.height/2))
+    }
+    
+    
+    class func showAttributedAlert(controller:UIViewController, title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
         let newAlert = IPOWMAlertInfoViewController()
         controller.addChildViewController(newAlert)
         controller.view.addSubview(newAlert.view)
@@ -84,10 +89,30 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
 
     }
     
-    class func showAlert(title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
+     class func showAlert(controller:UIViewController, title: String, message:String)  -> IPOWMAlertInfoViewController? {
+        let newAlert = IPOWMAlertInfoViewController()
+        controller.addChildViewController(newAlert)
+        controller.view.addSubview(newAlert.view)
+        newAlert.view.frame = controller.view.bounds
+        newAlert.titleLabel.text = title
+        newAlert.setMessage(message)
+        return newAlert
+        
+    }
+    
+    class func showAlert(title: String, message:String)  -> IPOWMAlertInfoViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         if vc != nil {
             return showAlert(vc!,title:title,message:message)
+        }
+        return nil
+    }
+
+    
+    class func showAttributedAlert(title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
+        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        if vc != nil {
+            return showAttributedAlert(vc!,title:title,message:message)
         }
         return nil
     }

@@ -161,6 +161,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
         self.cancelButton!.layer.cornerRadius = 20
+        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.nextButton = UIButton(frame: CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY + 5.0, 140.0, fheight))
@@ -198,6 +199,23 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         sender.selected = !(sender.selected)
     }
     
+    override func back() {
+        self.showCancelAlert()
+    }
+    
+    func showCancelAlert(){
+        let message = NSMutableAttributedString()
+        message.appendAttributedString(NSAttributedString(string: "¿Seguro que deseas cerrar Facturación Electrónica? \n\n Los datos no serán guardados", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
+        self.alertView?.messageLabel.textAlignment = .Center
+        self.alertView?.setMessageLabelToCenter()
+        self.alertView?.addActionButtonsWithCustomText("Cancelar", leftAction: {(void) in
+            self.alertView?.close() }, rightText: "Continuar", rightAction: { (void) in
+            self.alertView?.close()
+            self.navigationController?.popViewControllerAnimated(true)
+        })
+    }
+    
     func showInfoAlert(){
         let message = NSMutableAttributedString()
         message.appendAttributedString(NSAttributedString(string: "Vigencia: ", attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
@@ -206,7 +224,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         message.appendAttributedString(NSAttributedString(string: "Para poder realizar su factura o cualquier modificación o consulta, es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         
         
-        self.alertView = IPOWMAlertInfoViewController.showAlert("Avisos", message: message)
+        self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("Avisos", message: message)
         self.alertView?.showOkButton("Continuar", colorButton: WMColor.loginSignInButonBgColor)
     }
 }
