@@ -75,6 +75,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.password!.secureTextEntry = true
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
+        self.password!.delegate = self
         //self.password!.minLength = 5
         //self.password!.maxLength = 15
         
@@ -416,7 +417,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.signInButton!.enabled = true
                 alertViewService!.okCancelCallBack = nil
                 if alertViewService != nil {
-                    alertViewService!.setMessage(error.localizedDescription)
+                    let strToUse = NSLocalizedString("password.incorrect",comment:"")
+                    alertViewService!.setMessage(strToUse)
                     alertViewService!.showErrorIcon("Ok")
                 }
         })
@@ -514,11 +516,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         let text = textField.text! as NSString
         let resultingString = text.stringByReplacingCharactersInRange(range, withString: string) as NSString
         let whitespaceSet = NSCharacterSet.whitespaceCharacterSet()
-        if resultingString.rangeOfCharacterFromSet(whitespaceSet).location == NSNotFound {
-            return true
-        } else {
+        if resultingString.rangeOfCharacterFromSet(whitespaceSet).location != NSNotFound {
             return false
         }
+        if textField == password {
+            return resultingString.length <= 20
+        }
+        return true
     }
 
 
