@@ -422,6 +422,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
