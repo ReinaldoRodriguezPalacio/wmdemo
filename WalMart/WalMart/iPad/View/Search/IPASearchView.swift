@@ -318,12 +318,10 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
     // MARK: - CameraViewControllerDelegate
     func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
         if value != nil || value == "" {
-//            self.field!.becomeFirstResponder()
-            self.field.text = value
             self.closeSearch()
             self.closePopOver()
-            
-            self.textFieldShouldReturn(self.field!)
+            let params = ["upcs": upcs!, "keyWord":value!]
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
             done()
         }
         

@@ -848,7 +848,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     //MARK: - FilterOrderViewCellDelegate
     
     func didChangeOrder(order:String) {
-        self.selectedOrder = order
+        var result = order
+        if (self.originalSearchContext! == SearchServiceContextType.WithCategoryForGR || self.searchContext! == SearchServiceContextType.WithCategoryForGR ) && order == "popularity"{
+            result = ""
+        }
+        self.selectedOrder = result
     }
 
     

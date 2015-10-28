@@ -110,6 +110,30 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.isEditingSearch = true
     }
     
+    override func camFindSearch(notification:NSNotification){
+        let searchDic = notification.object as! [String:AnyObject]
+        let upcs = searchDic["upcs"] as! [String]
+        let keyWord = searchDic["keyWord"] as! String
+        let controller = IPASearchProductViewController()
+        controller.searchContextType = .WithTextForCamFind
+        controller.titleHeader = keyWord
+        controller.textToSearch = keyWord
+        controller.upcsToShow = upcs
+        let controllernav = self.currentController as? UINavigationController
+        if (controllernav?.topViewController as? SearchProductViewController != nil && isEditingSearch){
+            controllernav?.popViewControllerAnimated(false)
+            
+            isEditingSearch = false
+        }
+        if controllernav != nil {
+            if controllernav!.delegate != nil {
+                controllernav!.delegate = nil
+            }
+            controllernav?.pushViewController(controller, animated: true)
+        }
+
+    }
+    
     override func openSearchProduct(){
         
         if let tracker = GAI.sharedInstance().defaultTracker {

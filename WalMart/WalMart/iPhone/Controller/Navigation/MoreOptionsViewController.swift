@@ -360,18 +360,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     //MARK CameraViewControllerDelegate
     func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void))
     {
-        if value != nil || value == "" {
+        if value != nil && value != "" {
             if let tracker = GAI.sharedInstance().defaultTracker {
                 tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: value, value: nil).build() as [NSObject : AnyObject])
             }
             
-            let controller = SearchProductViewController()
-            controller.searchContextType = .WithText
-            controller.upcsToShow = upcs
-            controller.titleHeader = value
-            controller.textToSearch = value
-            let controllernav = self.navigationController
-            controllernav?.pushViewController(controller, animated: true)
+            let params = ["upcs": upcs!, "keyWord":value!]
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            done()
         }
     }
     
