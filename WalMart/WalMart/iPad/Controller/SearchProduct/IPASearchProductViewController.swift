@@ -9,7 +9,7 @@
 import Foundation
 
 class IPASearchProductViewController : SearchProductViewController, UIPopoverControllerDelegate {
-    var frameTitle : CGRect = CGRectZero
+   // var frameTitle : CGRect = CGRectZero
     var viewAnimated : Bool = false
     var currentCellSelected : NSIndexPath!
     var filterController: FilterProductsViewController?
@@ -37,7 +37,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             let bounds = self.view.bounds
             self.titleLabel!.sizeToFit()
             self.titleLabel!.frame = CGRectMake((bounds.width - self.titleLabel!.frame.width) / 2,  0, titleLabel!.frame.width , self.header!.frame.height)
-            frameTitle = self.titleLabel!.frame
+           // frameTitle = self.titleLabel!.frame
         }
         self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 16, 320, 28)
         self.btnSuper.frame = CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2)
@@ -264,6 +264,9 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        if section == 0 || !(upcsToShow?.count > 0) {
+            return CGSizeZero
+        }
         return CGSizeMake(self.view.frame.width, 54)
     }
     

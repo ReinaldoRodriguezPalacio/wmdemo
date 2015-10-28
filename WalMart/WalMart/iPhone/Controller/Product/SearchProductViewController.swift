@@ -297,7 +297,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
-        if kind == UICollectionElementKindSectionHeader  {
+        if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! SectionHeaderSearchHeader
             
             view.title = setTitleWithEdit()
@@ -319,7 +319,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 {
+        if section == 0 || !(upcsToShow?.count > 0) {
             return CGSizeZero
         }
         return CGSizeMake(self.view.frame.width, 44)
@@ -513,10 +513,35 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     switch self.searchContextType! {
                     case .WithCategoryForMG :
                         print("Searching products for Category In MG")
-                        self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        if self.originalSearchContextType != nil && self.isTextSearch{
+                            self.invokeSearchproductsInMG(
+                                actionSuccess: { () -> Void in
+                                    self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                                },
+                                actionError: { () -> Void in
+                                    self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                                }
+                            )
+                        }
+                        else{
+                            self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                        }
+
                     case .WithCategoryForGR :
                         print("Searching products for Category In Groceries")
-                        self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        if self.originalSearchContextType != nil && self.isTextSearch{
+                            self.invokeSearchProductsInGroceries(
+                                actionSuccess: { () -> Void in
+                                    self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                                },
+                                actionError: { () -> Void in
+                                    self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                                }
+                            )
+                        }
+                        else{
+                            self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
+                        }
                     default :
                         print("Searching products for text")
                         self.invokeSearchProductsInGroceries(
