@@ -28,6 +28,8 @@ class UserCurrentSession : NSObject {
     var storeName: String? = nil
     var storeId: String? = nil
     
+    var isAssociated : String! = ""
+    
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
         struct Static {
@@ -49,6 +51,7 @@ class UserCurrentSession : NSObject {
     class func hasLoggedUser() -> Bool{
         return !(UserCurrentSession.sharedInstance().userSigned == nil)
     }
+
     
     func searchForCurrentUser(){
         
@@ -525,6 +528,8 @@ class UserCurrentSession : NSObject {
                 
         }
     }
+    
+    
     
     func loadGRShoppingCart(endLoadSC:(() -> Void)) {
         let service = GRShoppingCartProductsService()

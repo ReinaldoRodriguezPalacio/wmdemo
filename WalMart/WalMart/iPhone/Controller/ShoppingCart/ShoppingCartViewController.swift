@@ -801,13 +801,33 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func showloginshop() {
         
         var isAsociate =  true
-        if isAsociate {
+        
+        let servicePromotion = PromotionsMgService()
+        let paramsRec = Dictionary<String, String>()
+        servicePromotion.callService(paramsRec,
+            successBlock: { (response:NSDictionary) -> Void in
+                
+                let promotions = response["responseArray"] as! NSDictionary
+                let isActive = promotions["promotions"] as! NSArray
+                //let active  = isActive["isActive"] as! Bool
+                print(isActive)
+                UserCurrentSession.sharedInstance().isAssociated = "1"
+                
+            }) { (error:NSError) -> Void in
+                // mostrar alerta de error de info
+                print(error)
+        }
+        
+        
+        if UserCurrentSession.hasLoggedUser() && isAsociate {
             self.openDiscount()
         }else{
             self.showloginshopContinue()
         }
-    }
     
+    
+}
+
     
     func showloginshopContinue() {
 
@@ -1168,6 +1188,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
         let dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
         let determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+        
         
         let service = ValidateAssociateService()
         
