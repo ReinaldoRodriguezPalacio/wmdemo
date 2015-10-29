@@ -108,10 +108,21 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             }
         })
         
+        
+        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        let currentDate = NSDate()
+        let comps = NSDateComponents()
+        comps.year = -18
+        let maxDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        comps.year = -100
+        let minDate = calendar!.dateByAddingComponents(comps, toDate: currentDate, options: NSCalendarOptions())
+        
         self.inputBirthdateView = UIDatePicker()
         self.inputBirthdateView!.datePickerMode = .Date
         self.inputBirthdateView!.date = NSDate()
-        self.inputBirthdateView!.maximumDate = NSDate()
+        self.inputBirthdateView!.maximumDate = maxDate
+        self.inputBirthdateView!.minimumDate = minDate
+
         self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
