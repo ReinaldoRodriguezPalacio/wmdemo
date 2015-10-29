@@ -444,7 +444,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let itemWishlist = items[indexPath.row] as! [String:AnyObject]
         let upc = itemWishlist["upc"] as! String
         
-        let desc = itemWishlist["description"] as! String
+        let desc = itemWishlist["description"] == nil ? "" : itemWishlist["description"] as! String
         let price = itemWishlist["price"] as! NSString
         let imageArray = itemWishlist["imageUrl"] as! NSArray
         var imageUrl = ""

@@ -567,7 +567,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
-                self.itemsUPCGR = result["items"] as! NSArray
+                if result["items"] != nil {
+                 self.itemsUPCGR = result["items"] as! NSArray
+                }else {
+                 self.itemsUPCGR = []
+                }
+               
                 actionSuccess?()
                 }, errorBlock: { (error:NSError) -> Void in
                     actionSuccess?()

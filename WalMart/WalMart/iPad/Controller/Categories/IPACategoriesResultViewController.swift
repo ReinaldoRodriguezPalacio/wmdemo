@@ -171,7 +171,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         }
         
     }
-    
+        
     func didSelectLine(department:String,family:String,line:String, name:String) {
         
         familyController.departmentId = line
