@@ -15,9 +15,8 @@ class GRDeliveryTypeService : GRBaseService {
     var isFreeShiping: String?
     
     func buildParams(numProducts:String,addressId:String,nightHours:String,isFreeShiping:String) -> NSDictionary {
-        // MARK TODO: Mandar el parametro al terminar las pruebas
-        //return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours,"isFreeShiping":isFreeShiping]
-        return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours]
+        return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours,"isFreeShiping":isFreeShiping]
+        //return ["numProducts":numProducts, "addressId":addressId, "nightHours":nightHours]
     }
     
     func setParams(numProducts:String, addressId:String,isFreeShiping:String) {
@@ -27,7 +26,7 @@ class GRDeliveryTypeService : GRBaseService {
     }
     
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        
+        self.jsonFromObject(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!))
         self.callPOSTService(buildParams(self.numProducts!,addressId:self.addressId!,nightHours:"true",isFreeShiping:self.isFreeShiping!), successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in

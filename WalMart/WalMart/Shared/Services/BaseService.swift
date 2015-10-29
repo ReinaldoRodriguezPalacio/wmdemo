@@ -168,8 +168,7 @@ class BaseService : NSObject {
 //            if upc == "00471093738428"{
 //                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
 //            }
-//        }
-        
+
         afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
