@@ -73,8 +73,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }
         
         let svcUrlCar = serviceUrl(keyBgUrl)
-        let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
+        var imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let strinname = imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg")
+        imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(UIScreen.mainScreen().scale)x.jpg" )
+
         
         let imageHeader = self.loadImageFromDisk(strinname,defaultStr:strinname)
         self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead.stringByReplacingOccurrencesOfString("walmartmg", withString: "walmartgr")), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
