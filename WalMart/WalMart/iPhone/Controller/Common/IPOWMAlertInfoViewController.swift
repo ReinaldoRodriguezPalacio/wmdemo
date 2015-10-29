@@ -74,7 +74,10 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
     }
     
     func setMessageLabelToCenter(){
-        messageLabel.frame.origin = CGPoint(x: 24,y: (self.view.frame.height/2) - (self.messageLabel.frame.height/2))
+        let x = (self.view.frame.width/2) - (self.messageLabel.frame.width/2)
+        let y = (self.view.frame.height/2) - (self.messageLabel.frame.height/2)
+        print("X: \(x) y:\(y)")
+        messageLabel.frame.origin = CGPoint(x: x,y: y)
     }
     
     

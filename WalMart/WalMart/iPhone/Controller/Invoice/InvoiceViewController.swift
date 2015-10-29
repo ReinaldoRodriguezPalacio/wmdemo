@@ -205,7 +205,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     func showCancelAlert(){
         let message = NSMutableAttributedString()
-        message.appendAttributedString(NSAttributedString(string: "¿Seguro que deseas cerrar Facturación Electrónica? \n\n Los datos no serán guardados", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.appendAttributedString(NSAttributedString(string: "¿Seguro que deseas cerrar Facturación Electrónica? \n Los datos no serán guardados", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
         self.alertView?.messageLabel.textAlignment = .Center
         self.alertView?.setMessageLabelToCenter()

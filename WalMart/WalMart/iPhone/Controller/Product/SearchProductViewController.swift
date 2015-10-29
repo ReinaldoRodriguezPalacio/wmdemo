@@ -319,9 +319,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        if section == 0 || !(upcsToShow?.count > 0) {
-            return CGSizeZero
+        if section == 0 {
+          return CGSizeZero
         }
+        
         return CGSizeMake(self.view.frame.width, 44)
     }
     
