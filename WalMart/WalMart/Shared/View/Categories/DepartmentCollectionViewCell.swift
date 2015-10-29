@@ -74,9 +74,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let svcUrlCar = serviceUrl(keyBgUrl)
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
+        let strinname = imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg")
         
-        let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
-        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        let imageHeader = self.loadImageFromDisk(strinname,defaultStr:strinname)
+        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead.stringByReplacingOccurrencesOfString("walmartmg", withString: "walmartgr")), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
             self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
             }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in

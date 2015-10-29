@@ -110,7 +110,6 @@
 		563C955119E59DB2001AB7D4 /* Product.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563C955019E59DB2001AB7D4 /* Product.swift */; };
 		564118681B5FD6BA0009C6CD /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564118671B5FD6BA0009C6CD /* PrivacyViewController.swift */; };
 		5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5645789B19AE2E00006A7152 /* AppDelegate.swift */; };
-		564578A619AE2E00006A7152 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 564578A519AE2E00006A7152 /* Images.xcassets */; };
 		564578CC19AE3231006A7152 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 564578CB19AE3231006A7152 /* HomeViewController.swift */; };
 		564578CE19AE327A006A7152 /* Storyboard_iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 564578CD19AE327A006A7152 /* Storyboard_iphone.storyboard */; };
 		564578EA19AE33AB006A7152 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 564578D119AE33AB006A7152 /* AFHTTPRequestOperation.m */; };
@@ -481,6 +480,7 @@
 		AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */; };
 		AC88FA7419CA3FCD003BD859 /* UIEdgeTextFieldImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */; };
 		AC88FA7719CA48D6003BD859 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */; };
+		AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9AF41C1BE2B1B700C7638B /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
 		ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */; };
 		ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */; };
 		ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */; };
@@ -600,7 +600,6 @@
 		5645789619AE2E00006A7152 /* WalmartMG.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalmartMG.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5645789A19AE2E00006A7152 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5645789B19AE2E00006A7152 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		564578A519AE2E00006A7152 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		564578B019AE2E00006A7152 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		564578B119AE2E00006A7152 /* WalMartTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalMartTests.swift; sourceTree = "<group>"; };
 		564578CB19AE3231006A7152 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = iPhone/Controller/Home/HomeViewController.swift; sourceTree = "<group>"; };
@@ -1023,6 +1022,7 @@
 		AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextField.swift; path = Shared/View/Field/UIEdgeTextField.swift; sourceTree = "<group>"; };
 		AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextFieldImage.swift; path = Shared/View/Field/UIEdgeTextFieldImage.swift; sourceTree = "<group>"; };
 		AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = iPhone/Controller/Profile/SignUpViewController.swift; sourceTree = "<group>"; };
+		AC9AF41C1BE2B1B700C7638B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMyAddressViewController.swift; path = iPad/Controller/Profile/IPAMyAddressViewController.swift; sourceTree = "<group>"; };
 		ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAEditProfileViewController.swift; path = iPad/Controller/Profile/IPAEditProfileViewController.swift; sourceTree = "<group>"; };
 		ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
@@ -1328,7 +1328,6 @@
 				564578BD19AE2F84006A7152 /* iPhone */,
 				564578BC19AE2F66006A7152 /* Shared */,
 				5645789B19AE2E00006A7152 /* AppDelegate.swift */,
-				564578A519AE2E00006A7152 /* Images.xcassets */,
 				5645789919AE2E00006A7152 /* Supporting Files */,
 			);
 			path = WalMart;
@@ -1337,6 +1336,7 @@
 		5645789919AE2E00006A7152 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AC9AF41C1BE2B1B700C7638B /* Images.xcassets */,
 				AC59115819DDED5500EB095C /* Help */,
 				56527DD919AFA9A3008032C6 /* TestJSON */,
 				5645789A19AE2E00006A7152 /* Info.plist */,
@@ -2906,8 +2906,8 @@
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
+				AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */,
 				AC59115C19DDEEB700EB095C /* privacy.pdf in Resources */,
-				564578A619AE2E00006A7152 /* Images.xcassets in Resources */,
 				56527DCC19AFA8C2008032C6 /* MyriadPro-BoldCond.otf in Resources */,
 				56527DCD19AFA8C2008032C6 /* MyriadPro-BoldIt.otf in Resources */,
 				AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */,
