@@ -79,10 +79,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
 
         
-        let imageHeader = self.loadImageFromDisk(strinname,defaultStr:strinname)
+        let imageHeader = self.loadImageFromDisk(strinname,defaultStr:"header_default")
         self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead.stringByReplacingOccurrencesOfString("walmartmg", withString: "walmartgr")), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
-            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+            self.saveImageToDisk(imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg"), image: image,defaultImage:imageHeader)
             }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                 
         }
@@ -188,7 +188,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }
         else
         {
-            let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
+            let imageDefault = UIImage(named: (fileName.stringByReplacingOccurrencesOfString(".jpg", withString:"") as NSString).stringByDeletingPathExtension)
             if imageDefault != nil {
                 print("default image \((fileName as NSString).stringByDeletingPathExtension)")
                 return imageDefault
