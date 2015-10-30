@@ -75,7 +75,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let svcUrlCar = serviceUrl(keyBgUrl)
         var imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let strinname = imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg")
-        imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(UIScreen.mainScreen().scale)x.jpg" )
+        let scale = UIScreen.mainScreen().scale
+        imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
 
         
         let imageHeader = self.loadImageFromDisk(strinname,defaultStr:strinname)
