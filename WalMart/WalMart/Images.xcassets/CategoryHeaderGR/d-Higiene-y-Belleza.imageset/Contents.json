@@ -2,27 +2,27 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "d-Higiene-y-Belleza.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "d-Higiene-y-Belleza@2x.png"
+      "filename" : "d-higiene-y-belleza@2x-1.jpg",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
+      "filename" : "d-higiene-y-belleza@3x.jpg",
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "d-Higiene-y-Belleza-1.png"
+      "filename" : "d-higiene-y-belleza.jpg",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "d-Higiene-y-Belleza@2x-1.png"
+      "filename" : "d-higiene-y-belleza@2x.jpg",
+      "scale" : "2x"
     }
   ],
   "info" : {

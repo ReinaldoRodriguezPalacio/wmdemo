@@ -109,7 +109,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         CategoryShouldShowFamily.shouldshowfamily = true
         controllerAnimateView = IPACategoriesResultViewController()
         controllerAnimateView.setValues(idDepartment, family: idFamDefault, line: idLineDefault, name:nameLineDefault)
-        controllerAnimateView.imgCategory =  UIImage(named: idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString)
+        controllerAnimateView.imgCategory =  UIImage(named: "\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString).jpg")
+        
         controllerAnimateView.frameStart = pontInView
         controllerAnimateView.frameEnd = self.view.bounds
         controllerAnimateView.imgIcon = UIImage(named: "i_\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))")

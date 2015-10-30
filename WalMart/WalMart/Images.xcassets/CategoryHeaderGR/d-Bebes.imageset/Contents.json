@@ -2,27 +2,26 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "d-Bebes.png"
+      "filename" : "bebes_open.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "d-Bebes@2x.png"
+      "filename" : "bebes_open-1.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
+      "filename" : "bebes_open-2.png",
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "bebes.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "bebes@2x.png"
+      "scale" : "2x"
     }
   ],
   "info" : {

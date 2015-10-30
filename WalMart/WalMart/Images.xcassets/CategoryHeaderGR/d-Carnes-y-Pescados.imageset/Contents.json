@@ -2,27 +2,27 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "d-Carnes-y-Pescados.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "d-Carnes-y-Pescados@2x.png"
+      "filename" : "d-carnes-y-pescados@2x-1.jpg",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
+      "filename" : "d-carnes-y-pescados@3x.jpg",
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "d-Carnes-y-Pescados-1.png"
+      "filename" : "d-carnes-y-pescados.jpg",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "d-Carnes-y-Pescados@2x-1.png"
+      "filename" : "d-carnes-y-pescados@2x.jpg",
+      "scale" : "2x"
     }
   ],
   "info" : {

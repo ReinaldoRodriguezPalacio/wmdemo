@@ -264,6 +264,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        
+        
         if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG && !(self.upcsToShow?.count > 0) {
             return CGSizeZero
         }
