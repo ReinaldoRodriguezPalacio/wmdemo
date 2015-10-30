@@ -28,7 +28,7 @@ class UserCurrentSession : NSObject {
     var storeName: String? = nil
     var storeId: String? = nil
     
-    var isAssociated : String! = ""
+    var isAssociated : Int! = 0
     
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
@@ -724,21 +724,21 @@ class UserCurrentSession : NSObject {
     func validateUserAssociate(){
         
         if  UserCurrentSession.hasLoggedUser() {
-            if UserCurrentSession.sharedInstance().isAssociated == "" {
+            if UserCurrentSession.sharedInstance().isAssociated == 0 {
                 let servicePromotion = PromotionsMgService()
                 let paramsRec = Dictionary<String, String>()
                 servicePromotion.callService(paramsRec,
                     successBlock: { (response:NSDictionary) -> Void in
-                        let promotions = response["responseArray"] as! NSDictionary
-                        let morePromotion = promotions["promotions"] as! NSArray
-                        let isActive = morePromotion[0] as! NSDictionary
-                        //let active  = isActive["isActive"] as! Bool
-                        print(isActive["isActive"])
-                        UserCurrentSession.sharedInstance().isAssociated = "\(isActive["isActive"] as! Int)"
+                        let promotions = response["responseArray"] as! NSArray
+                        let promo = promotions[0] as! NSDictionary
+                        let isActive = promo["isActive"] as! Int
+                        
+                        print(isActive)
+                        UserCurrentSession.sharedInstance().isAssociated = isActive
                         
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
-                          UserCurrentSession.sharedInstance().isAssociated = "0"
+                          UserCurrentSession.sharedInstance().isAssociated = 0
                         print(error)
                 }
             }

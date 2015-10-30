@@ -800,7 +800,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func showloginshop() {
         
-        if UserCurrentSession.hasLoggedUser() && UserCurrentSession.sharedInstance().isAssociated == "1" {
+        if UserCurrentSession.hasLoggedUser() && UserCurrentSession.sharedInstance().isAssociated == 1 {
             self.openDiscount()
         }else{
             self.showloginshopContinue()
