@@ -44,14 +44,6 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         
     }
     
-    override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        return CGSizeMake(self.view.frame.width, 54)
-    }
-    
-    
-
-    
     override func viewWillLayoutSubviews() {
         contentCollectionOffset = CGPointZero
         self.collection!.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
