@@ -422,6 +422,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/promotionsmg.txt</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
