@@ -11,6 +11,7 @@ import Foundation
 class AlertModalView : UIView, UITextFieldDelegate {
     
     var viewContent : UIView!
+    var headerView: UIView!
     var bgView : UIView!
     var onClosePicker : (() -> Void)?
     var viewButtonClose : UIButton!
@@ -34,7 +35,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         self.addSubview(bgView)
         
         viewContent = UIView(frame: CGRectMake(0, 0, 200, 200))
-        viewContent.layer.cornerRadius = 6.0
+        viewContent.layer.cornerRadius = 8.0
         viewContent.backgroundColor = UIColor.whiteColor()
         self.stopRemoveView! = false
         self.addSubview(viewContent)
@@ -48,6 +49,26 @@ class AlertModalView : UIView, UITextFieldDelegate {
         self.addSubview(viewButton)
     }
     
+    func addHeaderAndTitle(title:String){
+        headerView = UIView(frame: CGRectMake(3, 3, viewContent.frame.width - 6, 46))
+        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        viewContent.addSubview(headerView)
+        
+        let titleLabel = UILabel(frame: headerView.bounds)
+        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textAlignment = .Center
+        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabel.numberOfLines = 2
+        titleLabel.text = title
+        titleLabel.textAlignment = .Center
+        
+        let viewButton = UIButton(frame: CGRectMake(6, 3, 40, 40))
+        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        headerView.addSubview(viewButton)
+        headerView.addSubview(titleLabel)
+    }
+    
     override func layoutSubviews() {
         viewContent.center = self.center
     }
@@ -57,6 +78,13 @@ class AlertModalView : UIView, UITextFieldDelegate {
         self.removeFromSuperview()
     }
     
+    func setContentView(view:UIView){
+        let width = view.frame.size.width + 4
+        let height = view.frame.size.height + 4
+        self.viewContent.frame.size = CGSize(width: width, height: height)  //controllerShow.view.frame.size
+        self.viewContent.addSubview(view)
+        view.center =  self.viewContent.center
+    }
     //MARK TextField delegate
     
     class func initModal()  -> AlertModalView? {
@@ -74,6 +102,19 @@ class AlertModalView : UIView, UITextFieldDelegate {
         newAlert.startAnimating()
         return newAlert
     }
+    
+    class func showAlertWithImage(alertTitle: String,contentViewSize: CGSize, image:UIImage) -> AlertModalView {
+        let modalView = AlertModalView.initModalWithDefault()
+        let innerView = UIView(frame: CGRectMake(0,0,contentViewSize.width,contentViewSize.height))
+        let imageView = UIImageView(image: image)
+        modalView.setContentView(innerView)
+        modalView.addHeaderAndTitle(alertTitle)
+        modalView.viewContent!.addSubview(imageView)
+        imageView.frame.origin = CGPoint(x: 35, y: 58)
+        modalView.showPicker()
+        return modalView
+    }
+
     
     class func initModalWithDefault() -> AlertModalView {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController

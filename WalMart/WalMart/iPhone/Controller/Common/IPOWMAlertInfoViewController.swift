@@ -58,7 +58,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         }
         
         if leftButton != nil {
-            leftButton.frame = CGRectMake((self.view.bounds.width / 2) - 134, self.messageLabel.frame.maxY + 16, 128, 32)
+            leftButton.frame = CGRectMake((self.view.bounds.width / 2) - 134, self.messageLabel.frame.maxY + 28, 128, 32)
         }
         
         if rightButton != nil {
@@ -73,13 +73,12 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         messageLabel.attributedText = message
     }
     
-    func setMessageLabelToCenter(){
-        let x = (self.view.frame.width/2) - (self.messageLabel.frame.width/2)
-        let y = (self.view.frame.height/2) - (self.messageLabel.frame.height/2)
-        print("X: \(x) y:\(y)")
-        messageLabel.frame.origin = CGPoint(x: x,y: y)
+    func setMessageLabelToCenter(labelWidth: CGFloat){
+        self.messageLabel.frame.size = CGSize(width: labelWidth, height: self.messageLabel.frame.height)
+        let x = (self.view.frame.width - self.messageLabel.frame.width)/2
+        let y = (self.view.frame.height - self.messageLabel.frame.height)/2
+        messageLabel.frame.origin = CGPoint(x: x,y: y - 50)
     }
-    
     
     class func showAttributedAlert(controller:UIViewController, title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
         let newAlert = IPOWMAlertInfoViewController()
@@ -102,6 +101,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         return newAlert
         
     }
+    
     
     class func showAlert(title: String, message:String)  -> IPOWMAlertInfoViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController

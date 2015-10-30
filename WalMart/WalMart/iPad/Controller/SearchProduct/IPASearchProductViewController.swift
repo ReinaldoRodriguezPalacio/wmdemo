@@ -268,14 +268,13 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             return CGSizeZero
         }
         
-        if self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.isTextSearch  && !(self.upcsToShow?.count > 0){
+        if !self.isTextSearch  && !(self.upcsToShow?.count > 0){
             return CGSizeZero
         }
         
         if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind && self.upcsToShow?.count > 0 {
             return CGSizeZero
         }
-        
         
         return CGSizeMake(self.view.frame.width, 54)
     }

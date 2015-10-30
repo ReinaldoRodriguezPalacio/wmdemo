@@ -330,7 +330,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if upcsToShow?.count > 0 && section == 0 {
             if self.btnSuper.selected {
-                return self.itemsUPCGR!.count
+                return (self.itemsUPCGR?.count > 0 ? self.itemsUPCGR!.count : 0)
             } else {
                 return self.itemsUPCMG!.count
             }
@@ -567,7 +567,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.upcsToShow?.count > 0 {
             let serviceUPC = GRProductsByUPCService()
             serviceUPC.callService(requestParams: serviceUPC.buildParamServiceUpcs(self.upcsToShow!), successBlock: { (result:NSDictionary) -> Void in
-                self.itemsUPCGR = result["items"] as! NSArray
+                self.itemsUPCGR = result["items"] as? NSArray
                 actionSuccess?()
                 }, errorBlock: { (error:NSError) -> Void in
                     actionSuccess?()
@@ -1153,29 +1153,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
         }
-        
-        selectQuantityGR?.addUpdateNote = {() in
-            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-            let frame = vc!.view.frame
-            
-            
-            let addShopping = ShoppingCartUpdateController()
-            let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: prodQuantity)
-            addShopping.params = paramsToSC
-            vc!.addChildViewController(addShopping)
-            addShopping.view.frame = frame
-            vc!.view.addSubview(addShopping.view)
-            addShopping.didMoveToParentViewController(vc!)
-            addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.goToShoppingCart = {() in }
-            addShopping.removeSpinner()
-            addShopping.addActionButtons()
-            addShopping.addNoteToProduct(nil)
-            
-        }
         selectQuantityGR?.userSelectValue(prodQuantity)
         selectQuantityGR?.first = true
-        selectQuantityGR?.showNoteButtonComplete()
     }
     
     func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {

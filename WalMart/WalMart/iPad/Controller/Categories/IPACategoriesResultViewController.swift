@@ -90,6 +90,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
         searchProduct.hiddenBack = true
         searchProduct.delegateHeader = self
         searchProduct.view.alpha = 0
+        //searchProduct.showHeader = true
         self.view.addSubview(viewImageContent)
        
         searchProduct.view.frame = CGRectMake(0, 0,  self.frameEnd.width,  self.frameEnd.height)// self.viewContainer.bounds

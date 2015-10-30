@@ -33,6 +33,8 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     var infoTCButton: UIButton?
     var infoTRButton: UIButton?
     
+    var modalView: AlertModalView?
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_INVOICE.rawValue
     }
@@ -71,6 +73,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         invoiceSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         invoiceSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         invoiceSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
+        invoiceSelect!.selected = true
         self.content.addSubview(self.invoiceSelect!)
         
         self.consultSelect = UIButton(frame: CGRectMake(invoiceSelect!.frame.maxX + 31,sectionTitle.frame.maxY,90,fheight))
@@ -147,10 +150,12 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         self.infoTCButton = UIButton(frame: CGRectMake(widthLessMargin - 16, infoMessage.frame.maxY + 20.0, 16, 16))
         self.infoTCButton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
+        self.infoTCButton!.addTarget(self, action: "infoImage:", forControlEvents: UIControlEvents.TouchUpInside)
         self.content.addSubview(self.infoTCButton!)
         
         self.infoTRButton = UIButton(frame: CGRectMake(widthLessMargin - 16, self.ticketNumber!.frame.maxY + 20.0, 16, 16))
         self.infoTRButton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
+        self.infoTRButton!.addTarget(self, action: "infoImage:", forControlEvents: UIControlEvents.TouchUpInside)
         self.content.addSubview(self.infoTRButton!)
         
         self.content.contentSize = CGSizeMake(self.view.frame.width, transactionNumber!.frame.maxY + 5.0)
@@ -170,6 +175,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nextButton!.backgroundColor = WMColor.loginSignInButonBgColor
         self.nextButton!.layer.cornerRadius = 20
+        self.cancelButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(nextButton!)
 
     }
@@ -203,12 +209,25 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.showCancelAlert()
     }
     
+    func infoImage(sender:UIButton){
+        var title = ""
+        var imageName = ""
+        if sender == self.infoTCButton{
+            title = "TC# en tu Ticket"
+            imageName = "ticket_tc"
+        }else{
+            title = "TR# en tu Ticket"
+            imageName = "ticket_tr"
+        }
+       self.modalView = AlertModalView.showAlertWithImage(title, contentViewSize: CGSize(width: 288, height: 470), image: UIImage(named: imageName)!)
+    }
+    
     func showCancelAlert(){
         let message = NSMutableAttributedString()
         message.appendAttributedString(NSAttributedString(string: "¿Seguro que deseas cerrar Facturación Electrónica? \n Los datos no serán guardados", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
         self.alertView?.messageLabel.textAlignment = .Center
-        self.alertView?.setMessageLabelToCenter()
+        self.alertView?.setMessageLabelToCenter(225.0)
         self.alertView?.addActionButtonsWithCustomText("Cancelar", leftAction: {(void) in
             self.alertView?.close() }, rightText: "Continuar", rightAction: { (void) in
             self.alertView?.close()
@@ -226,5 +245,10 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("Avisos", message: message)
         self.alertView?.showOkButton("Continuar", colorButton: WMColor.loginSignInButonBgColor)
+    }
+    
+    func next(){
+        let invoiceController = InvoiceViewController()
+        self.navigationController!.pushViewController(invoiceController, animated: true)
     }
 }

@@ -379,6 +379,7 @@
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
+		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
 		6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
@@ -905,6 +906,7 @@
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
+		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOptionsViewController.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
@@ -2494,6 +2496,7 @@
 			isa = PBXGroup;
 			children = (
 				6C3448921BDED9AB00092965 /* InvoiceViewController.swift */,
+				6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */,
 			);
 			name = Invoice;
 			sourceTree = "<group>";
@@ -3075,6 +3078,7 @@
 				5670232E1AB0C91700FDCD91 /* IPAGRShoppingCartViewController.swift in Sources */,
 				56EECE8B1B02EC630091F491 /* GRNutrimentalInfoView.swift in Sources */,
 				56C211881A24F1F4002D1C91 /* NotificationService.swift in Sources */,
+				6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */,
 				569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */,
 				568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */,
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
