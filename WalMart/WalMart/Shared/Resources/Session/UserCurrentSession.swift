@@ -88,6 +88,7 @@ class UserCurrentSession : NSObject {
                 }
                 
                 self.userSigned = userSigned
+                self.validateUserAssociate()
                 
                 let loginService = LoginWithEmailService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
@@ -209,6 +210,7 @@ class UserCurrentSession : NSObject {
         self.userSigned = usr
         
         updatePhoneProfile()
+        self.validateUserAssociate()
         
         self.invokeGroceriesUserListService()
         self.loadShoppingCarts { () -> Void in
@@ -717,6 +719,31 @@ class UserCurrentSession : NSObject {
             self.updatePhoneProfile()
         }
         
+    }
+    
+    func validateUserAssociate(){
+        
+        if  UserCurrentSession.hasLoggedUser() {
+            if UserCurrentSession.sharedInstance().isAssociated == "" {
+                let servicePromotion = PromotionsMgService()
+                let paramsRec = Dictionary<String, String>()
+                servicePromotion.callService(paramsRec,
+                    successBlock: { (response:NSDictionary) -> Void in
+                        let promotions = response["responseArray"] as! NSDictionary
+                        let morePromotion = promotions["promotions"] as! NSArray
+                        let isActive = morePromotion[0] as! NSDictionary
+                        //let active  = isActive["isActive"] as! Bool
+                        print(isActive["isActive"])
+                        UserCurrentSession.sharedInstance().isAssociated = "\(isActive["isActive"] as! Int)"
+                        
+                    }) { (error:NSError) -> Void in
+                        // mostrar alerta de error de info
+                          UserCurrentSession.sharedInstance().isAssociated = "0"
+                        print(error)
+                }
+            }
+        }
+    
     }
     
     

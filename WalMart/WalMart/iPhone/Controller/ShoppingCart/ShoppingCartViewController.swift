@@ -800,26 +800,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func showloginshop() {
         
-        var isAsociate =  true
-        
-        let servicePromotion = PromotionsMgService()
-        let paramsRec = Dictionary<String, String>()
-        servicePromotion.callService(paramsRec,
-            successBlock: { (response:NSDictionary) -> Void in
-                
-                let promotions = response["responseArray"] as! NSDictionary
-                let isActive = promotions["promotions"] as! NSArray
-                //let active  = isActive["isActive"] as! Bool
-                print(isActive)
-                UserCurrentSession.sharedInstance().isAssociated = "1"
-                
-            }) { (error:NSError) -> Void in
-                // mostrar alerta de error de info
-                print(error)
-        }
-        
-        
-        if UserCurrentSession.hasLoggedUser() && isAsociate {
+        if UserCurrentSession.hasLoggedUser() && UserCurrentSession.sharedInstance().isAssociated == "1" {
             self.openDiscount()
         }else{
             self.showloginshopContinue()
@@ -830,7 +811,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
     
     func showloginshopContinue() {
-
+        picker?.closePicker()
         self.openDiscount()
         //Event
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN_PRE_CHECKOUT.rawValue, label: "")
@@ -1189,32 +1170,67 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
         let determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
         
-        
-        let service = ValidateAssociateService()
-        
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"user_error"))
-         self.alertView?.setMessage("Validando datos del asociado")
+        self.alertView?.setMessage("Validando datos del asociado")
         
-        service.callService(service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant:determinant!),
-            successBlock: { (response:NSDictionary) -> Void in
-                print(response)
-                if response["codeMessage"] as! String ==  "0"{
-                    //Mostrar alerta y continuar
-                     self.alertView?.setMessage("Datos correctos")
-                    self.showloginshopContinue()
-                }else{
-                   
-                    self.alertView?.setMessage("Error el los datos del asociado")
-                    self.alertView!.showErrorIcon("Ok")
+        validateAssociate(associateNumber, dateAdmission:dateAdmission , determinant:determinant,completion: { (result:String) -> Void in
+            if result == ""{
+                let service = ValidateAssociateService()
+                service.callService(service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
+                    successBlock: { (response:NSDictionary) -> Void in
+                        print(response)
+                        if response["codeMessage"] as! String ==  "0"{
+                            //Mostrar alerta y continuar
+                            self.alertView?.setMessage("Datos correctos")
+                            self.alertView?.close()
+                            self.showloginshopContinue()
+                        }else{
+                            
+                            self.alertView?.setMessage("Error el los datos del asociado")
+                            self.alertView!.showErrorIcon("Ok")
+                        }
+                        
+                    }) { (error:NSError) -> Void in
+                        // mostrar alerta de error de info
+                        
+                        self.alertView?.setMessage("Error el los datos del asociado")
+                        self.alertView!.showErrorIcon("Ok")
+                        print(error)
                 }
-       
-            }) { (error:NSError) -> Void in
-                // mostrar alerta de error de info
-                
-                self.alertView?.setMessage("Error el los datos del asociado")
-                 self.alertView!.showErrorIcon("Ok")
-                print(error)
+            }else{
+                self.alertView?.setMessage("Error el los datos del asociado \(result)")
+                self.alertView!.showErrorIcon("Ok")
+            }
+        
+    })
+    
+        
+        
+    }
+    
+    func validateAssociate(associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (result:String) -> Void) {
+        var message = ""
+        
+        if associateNumber == nil {
+            if associateNumber?.trim() == ""{
+                message = "Número de acociado requerido"
+            }
+             message =  "Número de acociado requerido"
         }
+        else if dateAdmission == nil {
+            if dateAdmission?.trim() == ""{
+                 message =   "Fecha ingreso requerido"
+            }
+             message =  "Fecha ingreso requerido"
+        }
+        else if determinant == nil {
+            if determinant?.trim() == ""{
+                 message =  "Determinante requerido"
+            }
+             message =  "Determinante requerido"
+        }
+        
+        completion(result: message)
         
     }
   
