@@ -293,6 +293,12 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let isSameCenter = self.currentSelected === view
         self.clubMap!.setRegion(pointRect, animated: true)
         if let annotation = view.annotation as? StoreAnnotation {
+            
+  
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_STOREDETAIL.rawValue, label: annotation.storeEntity!.name!)
+            
+        
             self.viewBgDetailView = UIView(frame:CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
             self.viewBgDetailView!.backgroundColor = UIColor.clearColor()
             self.viewBgDetailView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "mapViewUserDidTap"))
@@ -414,8 +420,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     @IBAction func showUserPosition() {
         self.usrPositionBtn!.selected = true
         
-        //Event
         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_USER_CURRENT_LOCATION.rawValue , label:"")
         
         if self.viewBgDetailView != nil {
             self.mapViewUserDidTap(true)
@@ -460,22 +466,17 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if !self.btnMapView.selected {
             self.btnMapView.selected = !self.btnMapView.selected
             self.btnSatView.selected = !self.btnSatView.selected
-//            self.clubMap!.mapType = MKMapType.Hybrid
-//            self.clubMap!.mapType = MKMapType.Standard
-//
-//            if self.segmented!.selectedSegmentIndex == 0 {
-//                self.clubMap!.mapType = MKMapType.Hybrid
-//                self.clubMap!.mapType = MKMapType.Standard
-//            }
-//            else {
-//                self.clubMap!.mapType = MKMapType.Standard
-//                self.clubMap!.mapType = MKMapType.Hybrid
-//            }
+
+
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_MAP_TYPE.rawValue , label:"Satelite")
+
         } else {
             self.btnMapView.selected = !self.btnMapView.selected
             self.btnSatView.selected = !self.btnSatView.selected
-//            self.clubMap!.mapType = MKMapType.Standard
-//            self.clubMap!.mapType = MKMapType.Hybrid
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action: WMGAIUtils.ACTION_MAP_TYPE.rawValue , label:"Map")
+
+            
         }
         memoryHotFix()
     }
@@ -678,6 +679,11 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if bottomSpaceButton != nil  {
            self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
         }
+    }
+    
+    override func back() {
+        super.back()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_STORELOCATOR.rawValue, label: "")
     }
     
 }
