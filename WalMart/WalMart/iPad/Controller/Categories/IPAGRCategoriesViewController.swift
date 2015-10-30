@@ -112,7 +112,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString))
         
-        controllerAnimateView.imgCategory =  UIImage(named: "\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString)")
+        controllerAnimateView.imgCategory = UIImage(named: "\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString)")
         
         controllerAnimateView.frameStart = pontInView
         controllerAnimateView.frameEnd = self.view.bounds
