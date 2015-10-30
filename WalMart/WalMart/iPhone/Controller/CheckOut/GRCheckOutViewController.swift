@@ -96,6 +96,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var confirmOrderDictionary: [String:AnyObject]! = [:]
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
     var completeOrderDictionary: [String:AnyObject]! = [:]
+    var promotionIds: String! = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -418,7 +419,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
-        if showDiscountAsociate {
+        if showDiscountAsociate || UserCurrentSession.sharedInstance().isAssociated == 1
+        {
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
             
@@ -586,14 +588,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
         let discountActive  = GRDiscountActiveService()
         discountActive.callService({ (result:NSDictionary) -> Void in
-            if let result = result["discountsFreeShippingAssociated"] as? Bool {
-                self.discountsFreeShippingAssociated = result
+            if let res = result["discountsFreeShippingAssociated"] as? Bool {
+                self.discountsFreeShippingAssociated = res
             }
-            if let result = result["discountsFreeShippingNotAssociated"] as? Bool {
-                self.discountsFreeShippingNotAssociated = result
+            if let res = result["discountsFreeShippingNotAssociated"] as? Bool {
+                self.discountsFreeShippingNotAssociated = res
             }
-            if let result = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = result
+            if let res = result["discountsAssociated"] as? Bool {
+                self.showDiscountAsociate = res
             }
             endCallDiscountActive()
             }, errorBlock: { (error:NSError) -> Void in
@@ -630,6 +632,53 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 endCallPaymentOptions()
             }
         )
+    }
+    
+    func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String])
+    {
+        if pickerValues.count == discountAssociateItems.count
+        {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+            self.alertView!.setMessage("Validando Promociones")
+            
+            //self.addViewLoad()
+            var paramsDic: [String:String] = pickerValues
+            paramsDic["isAssociated"] = "\(UserCurrentSession.sharedInstance().isAssociated)"
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
+            let promotionsService = GRGetPromotionsService()
+            
+            
+            self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
+            self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+            self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+            
+            promotionsService.setParams(paramsDic)
+            promotionsService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
+                // self.removeViewLoad()
+                if resultCall["codeMessage"] as! Int == 0
+                {
+                    if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                        for promotion in listPromotions {
+                            self.promotionIds! += (self.promotionIds == "") ? "\(promotion["idPromotion"] as! Int)" : ",\(promotion["idPromotion"])"
+                        }
+                    }
+                    self.discountAssociate!.setSelectedCheck(true)
+                    self.invokeDeliveryTypesService({ () -> Void in
+                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                        self.alertView!.showDoneIcon()
+                    })
+                    
+                    self.discountAssociate!.onBecomeFirstResponder = { () in
+                    }
+                    
+                }
+                }, errorBlock: {(error: NSError) -> Void in
+                    //self.removeViewLoad()
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    print("Error at invoke address user service")
+            })
+        }
     }
     
     func invokeDiscountAssociateService(pickerValues: [String:String], discountAssociateItems: [String])
@@ -965,7 +1014,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             if formFieldObj == self.discountAssociate!{
                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
-                self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+                if self.showDiscountAsociate{
+                    self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+                }
+                if UserCurrentSession.sharedInstance().isAssociated == 1{
+                    self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+                }
             }
         }
     }
@@ -1181,7 +1235,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId())
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 print(resultCall)
@@ -1508,5 +1562,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
+    func getAppId() -> String{
+        IS_IPAD
+        return "iOS \(UIDevice.currentDevice().systemVersion) \(IS_IPAD ? "Ipad" : "Iphone")"
+    }
 }

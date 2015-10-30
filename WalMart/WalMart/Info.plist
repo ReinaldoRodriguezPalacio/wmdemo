@@ -97,6 +97,8 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -156,7 +158,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/sendOrderWithSlot</string>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
@@ -182,6 +184,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -241,7 +245,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlot</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
