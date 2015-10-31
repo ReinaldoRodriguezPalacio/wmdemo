@@ -97,6 +97,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
     var completeOrderDictionary: [String:AnyObject]! = [:]
     var promotionIds: String! = ""
+    var promotionsDesc: [String]! = []
+    var hasPromotionsButtons: Bool! = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -423,11 +425,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         {
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
-            
             self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleDiscount.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
-            self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,widthField,fheight)
-            self.sectionTitleShipment.frame =  CGRectMake(margin, self.discountAssociate!.frame.maxY + 20.0, widthField, lheight)
+            self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,widthField,fheight)
+            let posY = self.buildPromotionButtons()
+            self.sectionTitleShipment.frame =  CGRectMake(margin, posY, widthField, lheight)
             self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             
         } else {
@@ -474,7 +476,54 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         return sectionTitle
     }
     
+    func buildPromotionButtons() -> CGFloat{
+        let bounds = self.view.frame.size
+        var width = bounds.width - 32.0
+        width = (width/2) - 75.0
+        let margin: CGFloat = 15.0
+        let widthField = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        var posY = discountAssociate!.frame.maxY
+        var count =  0
+        if promotionsDesc.count > 0 && !self.hasPromotionsButtons {
+            posY -= 10
+            for promotion in self.promotionsDesc{
+                posY += CGFloat(40 * count)
+               let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
+                promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+                promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+                promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+                promSelect.setTitle(promotion, forState: UIControlState.Normal)
+                promSelect.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+                promSelect.titleLabel?.textAlignment = .Left
+                promSelect.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+                promSelect.titleEdgeInsets = UIEdgeInsetsMake(1, 1, 0, 0)
+                promSelect.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+                promSelect.selected = false
+                promSelect.tag = count
+                self.content.addSubview(promSelect)
+                count++
+            }
+            posY += 50
+            self.hasPromotionsButtons = true
+        }
+        else{
+            posY += CGFloat(40 * self.promotionsDesc.count)
+        }
+        return posY
+    }
+    
     //MARK: - Field Utils
+    
+    func promCheckSelected(sender: UIButton){
+        if(sender.selected){
+            sender.selected = false
+        }
+        else{
+            sender.selected = true
+        }
+    }
+    
     func paymentOption(atIndex index:Int) -> String {
         if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
             var option = self.paymentOptionsItems![index] as! [String:AnyObject]
@@ -660,6 +709,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
                         for promotion in listPromotions {
                             self.promotionIds! += (self.promotionIds == "") ? "\(promotion["idPromotion"] as! Int)" : ",\(promotion["idPromotion"])"
+                            self.promotionsDesc.append(promotion["promotion"] as! String)
                         }
                     }
                     self.discountAssociate!.setSelectedCheck(true)

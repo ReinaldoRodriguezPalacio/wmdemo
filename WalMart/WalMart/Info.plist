@@ -101,13 +101,10 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
-<<<<<<< HEAD
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
-=======
->>>>>>> Ver3.34B8-2
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -134,8 +131,6 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -193,13 +188,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-<<<<<<< HEAD
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
-=======
->>>>>>> Ver3.34B8-2
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -226,8 +218,6 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -440,15 +430,12 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-<<<<<<< HEAD
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/promotionsmg.txt</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
-=======
->>>>>>> Ver3.34B8-2
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -501,8 +488,6 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
-			<key>WalmartMG.PushNotificationService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -541,6 +526,8 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -622,6 +609,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
