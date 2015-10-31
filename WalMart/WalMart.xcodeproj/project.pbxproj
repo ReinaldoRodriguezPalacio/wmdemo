@@ -480,7 +480,7 @@
 		AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */; };
 		AC88FA7419CA3FCD003BD859 /* UIEdgeTextFieldImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */; };
 		AC88FA7719CA48D6003BD859 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */; };
-		AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9AF41C1BE2B1B700C7638B /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9AF41C1BE2B1B700C7638B /* Images.xcassets */; };
 		ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */; };
 		ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */; };
 		ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */; };
@@ -3390,8 +3390,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3436,8 +3436,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
