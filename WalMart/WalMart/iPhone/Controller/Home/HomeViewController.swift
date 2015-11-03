@@ -159,9 +159,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 if let preorderableVal  = recommendProduct["isPreorderable"] as? String {
                     preorderable = preorderableVal == "false" ? false : true
                 }
+                
+                var listPrice = false
+                if let originalListprice =  recommendProduct["original_listprice"] as? String {
+                    listPrice = originalListprice != "" ? true : false
+                }
 
                 
-                productCell.setValues(imageUrl, productShortDescription: desc, productPrice: price,saving:saving,preorderable:preorderable)
+                productCell.setValues(imageUrl, productShortDescription: desc, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice)
                
                 cell = productCell
         }

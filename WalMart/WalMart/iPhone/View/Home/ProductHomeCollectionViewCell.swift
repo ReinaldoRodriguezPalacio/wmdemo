@@ -50,12 +50,16 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         
     }
     
-    func setValues(productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool ) {
+    func setValues(productImageURL:String,productShortDescription:String,productPrice:String,saving:String,preorderable:Bool,listPrice:Bool ) {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
         imagePresale.hidden = !preorderable
         if  saving != "" && saving != "null"  {
             productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.savingTextColor, interLine: false)
+        }
+        if listPrice {
+            productPriceLabel!.label1?.textColor = WMColor.savingTextColor
+            productPriceLabel!.label2?.textColor = WMColor.savingTextColor
         }
 
         
