@@ -97,7 +97,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
     var completeOrderDictionary: [String:AnyObject]! = [:]
     var promotionIds: String! = ""
-    var promotionsDesc: [String]! = []
+    var promotionsDesc: [[String:String]]! = []
     var hasPromotionsButtons: Bool! = false
     
     override func getScreenGAIName() -> String {
@@ -493,7 +493,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
                 promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
                 promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-                promSelect.setTitle(promotion, forState: UIControlState.Normal)
+                promSelect.setTitle(promotion["promotion"], forState: UIControlState.Normal)
                 promSelect.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
                 promSelect.titleLabel?.textAlignment = .Left
                 promSelect.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
@@ -516,11 +516,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     //MARK: - Field Utils
     
     func promCheckSelected(sender: UIButton){
+        self.promotionIds! = ""
         if(sender.selected){
             sender.selected = false
+            self.promotionsDesc[sender.tag]["selected"] = "false"
         }
         else{
             sender.selected = true
+            self.promotionsDesc[sender.tag]["selected"] = "true"
+        }
+        
+        for prom in self.promotionsDesc{
+            if prom["selected"] == "true" {
+               self.promotionIds! += (self.promotionIds == "") ? "\(prom["idPromotion"]!)" : ",\(prom["idPromotion"]!)"
+            }
         }
     }
     
@@ -708,8 +717,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 {
                     if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
                         for promotion in listPromotions {
-                            self.promotionIds! += (self.promotionIds == "") ? "\(promotion["idPromotion"] as! Int)" : ",\(promotion["idPromotion"])"
-                            self.promotionsDesc.append(promotion["promotion"] as! String)
+                            self.promotionsDesc.append(["promotion":promotion["promotion"] as! String,"idPromotion":"\(promotion["idPromotion"] as! Int)","selected":"false"])
                         }
                     }
                     self.discountAssociate!.setSelectedCheck(true)
