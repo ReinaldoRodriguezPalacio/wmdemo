@@ -424,9 +424,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
         } else {
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! FilterCategoryViewCell
-            let selected = self.selectedElements![indexPath.row]
-            let item = self.tableElements![indexPath.row] as! [String:AnyObject]
-            listCell.setValues(item, selected:selected)
+            if self.selectedElements != nil {
+                let selected = self.selectedElements![indexPath.row]
+                let item = self.tableElements![indexPath.row] as! [String:AnyObject]
+                listCell.setValues(item, selected:selected)
+            }
             return listCell
         }
         return UITableViewCell()
@@ -736,11 +738,11 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             //Recarga view
             dispatch_async(dispatch_get_main_queue(), {
                 NSLog("Recagra view")
-                self.loading!.stopAnnimating()
+                self.loading?.stopAnnimating()
                 self.loading = nil
-                self.tableView!.delegate = self
-                self.tableView!.dataSource = self
-                self.tableView!.reloadData()
+                self.tableView?.delegate = self
+                self.tableView?.dataSource = self
+                self.tableView?.reloadData()
             })
         }
         
