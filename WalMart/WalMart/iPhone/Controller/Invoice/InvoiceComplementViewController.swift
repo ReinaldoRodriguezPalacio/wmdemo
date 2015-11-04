@@ -28,7 +28,6 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     var touristNoSelect: UIButton?
     var addressFiscalPersonSelect: UIButton?
     var addressFiscalMoralSelect: UIButton?
-    var infoIEPSutton: UIButton?
     var finishButton: UIButton?
     var returnButton: UIButton?
 
@@ -54,13 +53,8 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         
         
         //Inician secciones
-        self.sectionIEPS = self.buildSectionTitle("Declaro IEPS (Aplica solo para vinos y licores)", frame: CGRectMake(margin, headerHeight, width - 24, lheight))
+        self.sectionIEPS = self.buildSectionTitle("Declaro IEPS (Aplica solo para vinos y licores)", frame: CGRectMake(margin, headerHeight, width, lheight))
         self.view.addSubview(sectionIEPS)
-        
-        self.infoIEPSutton = UIButton(frame: CGRectMake(widthLessMargin - 16, headerHeight + 4, 16, 16))
-        self.infoIEPSutton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
-        self.infoIEPSutton!.addTarget(self, action: "infoIEPSImage:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.view.addSubview(self.infoIEPSutton!)
         
         iepsYesSelect = UIButton(frame: CGRectMake(margin,sectionIEPS.frame.maxY,45,fheight))
         iepsYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
