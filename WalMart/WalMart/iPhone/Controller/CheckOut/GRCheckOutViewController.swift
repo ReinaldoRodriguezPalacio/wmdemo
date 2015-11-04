@@ -528,7 +528,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         for prom in self.promotionsDesc{
             if prom["selected"] == "true" {
-               self.promotionIds! += (self.promotionIds == "") ? "\(prom["idPromotion"]!)" : ",\(prom["idPromotion"]!)"
+                let idPromotion = prom["idPromotion"]!
+               self.promotionIds! += (self.promotionIds == "") ? "\(idPromotion)" : ",\(idPromotion)"
             }
         }
     }
@@ -713,14 +714,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             promotionsService.setParams(paramsDic)
             promotionsService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
                 // self.removeViewLoad()
-                if resultCall["codeMessage"] as! Int == 0
+                if resultCall["codeMessage"] as! Int == 0 && resultCall["isAssociated"] as! Int == 1
                 {
                     if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
                         for promotion in listPromotions {
-                            self.promotionsDesc.append(["promotion":promotion["promotion"] as! String,"idPromotion":"\(promotion["idPromotion"] as! Int)","selected":"false"])
+                            let idPromotion = promotion["idPromotion"] as! Int
+                            let promotion = promotion["promotion"] as! String
+                            self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                         }
                     }
-                    self.discountAssociate!.setSelectedCheck(true)
+                    //self.discountAssociate!.setSelectedCheck(true)
                     self.invokeDeliveryTypesService({ () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
@@ -1622,6 +1625,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func getAppId() -> String{
         IS_IPAD
-        return "iOS \(UIDevice.currentDevice().systemVersion) \(IS_IPAD ? "Ipad" : "Iphone")"
+        let validateIpad = IS_IPAD ? "Ipad" : "Iphone"
+        return "iOS \(UIDevice.currentDevice().systemVersion) \(validateIpad)"
     }
 }
