@@ -29,8 +29,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var delegate : ShoppingCartViewControllerDelegate!
     var titleView : UILabel!
     var buttonWishlist : UIButton!
+    var buttonAsociate : UIButton!
     //var addProductToShopingCart : UIButton? = nil
 
+    var isEmployeeDiscount: Bool = false
+    
     var closeButton : UIButton!
     
     var idexesPath : [NSIndexPath]! = []
@@ -129,8 +132,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         viewFooter = UIView()
         viewFooter.backgroundColor = WMColor.shoppingCartFooter
-
-        buttonWishlist = UIButton(frame: CGRectMake(16, 16, 40, 40))
+        
+        var x:CGFloat = 16
+        if UserCurrentSession.sharedInstance().isAssociated == 1{
+            
+            buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
+            buttonAsociate.setImage(UIImage(named:"wishlist_done"), forState: UIControlState.Normal)
+            buttonAsociate.addTarget(self, action: "validateAsociate", forControlEvents: UIControlEvents.TouchUpInside)
+            viewFooter.addSubview(buttonAsociate)
+            x =  buttonAsociate.frame.maxX + 16
+        }
+        
+        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 40, 40))
         buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
         buttonWishlist.addTarget(self, action: "addToWishList", forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
@@ -800,14 +813,19 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func showloginshop() {
         
-        if UserCurrentSession.hasLoggedUser() && UserCurrentSession.sharedInstance().isAssociated == 1 {
-            self.openDiscount()
-        }else{
-            self.showloginshopContinue()
-        }
+//        if UserCurrentSession.hasLoggedUser() && UserCurrentSession.sharedInstance().isAssociated == 1 {
+//            self.openDiscount()
+//        }else{
+//            self.showloginshopContinue()
+//        }
+        
+         self.showloginshopContinue()
     
+    }
     
-}
+    func validateAsociate(){
+        self.openDiscount()
+    }
 
     
     func showloginshopContinue() {
@@ -907,6 +925,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.checkVC.afterclose = {() -> Void in self.checkVC = nil }
                     self.checkVC.username = loginController.email?.text
                     self.checkVC.password = loginController.password?.text
+                    self.checkVC.isEmployeeDiscount = self.isEmployeeDiscount
                     self.checkVC.finishLoadCheckOut = {() in
                        
                         if address != nil {
@@ -1183,21 +1202,23 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             //Mostrar alerta y continuar
                             self.alertView?.setMessage("Datos correctos")
                             self.alertView?.close()
+                            self.isEmployeeDiscount =  true
                             self.showloginshopContinue()
                         }else{
-                            
+                             self.isEmployeeDiscount =  false
                             self.alertView?.setMessage("Error el los datos del asociado")
                             self.alertView!.showErrorIcon("Ok")
                         }
                         
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
-                        
+                        self.isEmployeeDiscount =  false
                         self.alertView?.setMessage("Error el los datos del asociado")
                         self.alertView!.showErrorIcon("Ok")
                         print(error)
                 }
             }else{
+                self.isEmployeeDiscount =  false
                 self.alertView?.setMessage("Error el los datos del asociado \(result)")
                 self.alertView!.showErrorIcon("Ok")
             }
