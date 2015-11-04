@@ -118,6 +118,14 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.changeTitleLabel()
             }
         }
+        if let zipCode = sender as? FormFieldView{
+            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode {
+                self.sAddredssForm.suburb!.text = ""
+                self.sAddredssForm.selectedNeighborhood = nil
+                self.sAddredssForm.store!.text = ""
+                self.sAddredssForm.selectedStore = nil
+            }
+        }
     }
     
     func changeTitleLabel(){

@@ -257,11 +257,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var productsToShow:[AnyObject] = []
-        for product  in self.products! {
-            for var idx = 0; idx < self.products!.count; idx++ {
-                if let product = self.products![idx] as? [String:AnyObject] {
-                    let upc = product["upc"] as! String
-                    let description = product["description"] as! String
+        if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(GRShoppingCartTotalsTableViewCell){
+            for product  in self.products! {
+                for var idx = 0; idx < self.products!.count; idx++ {
+                    if let product = self.products![idx] as? [String:AnyObject] {
+                        let upc = product["upc"] as! String
+                        let description = product["description"] as! String
                     //Event
 //                    //TODOGAI
 //                    if let tracker = GAI.sharedInstance().defaultTracker {
@@ -271,9 +272,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 //                            value: nil).build() as [NSObject : AnyObject])
 //                    }
                     
-                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                }
-                else if let product = self.products![idx] as? Product {
+                        productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                    }
+                    else if let product = self.products![idx] as? Product {
                     
                     //Event
 //                    //TODOGAI
@@ -284,11 +285,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
 //                            value: nil).build() as [NSObject : AnyObject])
 //                    }
                     
-                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                        productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                    }
                 }
             }
+            self.delegate?.showProductListDetail(fromProducts: productsToShow, indexSelected: indexPath.row)
         }
-        self.delegate?.showProductListDetail(fromProducts: productsToShow, indexSelected: indexPath.row)
     }
 
     //MARK: - DetailListViewCellDelegate
