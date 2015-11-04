@@ -24,6 +24,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     var sectionTitle : UILabel!
     var sectionUserInfo : UILabel!
     var sectionTicketInfo : UILabel!
+    var infoMessage: UILabel!
     
     var invoiceSelect: UIButton?
     var consultSelect: UIButton?
@@ -119,11 +120,11 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.scanTicketButton!.layer.cornerRadius = 12
         self.content.addSubview(self.scanTicketButton!)
         
-        let infoMessage = UILabel(frame:  CGRectMake(margin, self.scanTicketButton!.frame.maxY + 10.0, width, lheight))
-        infoMessage.textColor = UIColor.grayColor()
-        infoMessage.font = WMFont.fontMyriadProLightOfSize(14)
-        infoMessage.text = "O ingresa manualmente los datos"
-        infoMessage.backgroundColor = UIColor.whiteColor()
+        self.infoMessage = UILabel(frame:  CGRectMake(margin, self.scanTicketButton!.frame.maxY + 10.0, width, lheight))
+        infoMessage!.textColor = UIColor.grayColor()
+        infoMessage!.font = WMFont.fontMyriadProLightOfSize(14)
+        infoMessage!.text = "O ingresa manualmente los datos"
+        infoMessage!.backgroundColor = UIColor.whiteColor()
         self.content.addSubview(infoMessage)
         
         self.ticketNumber = FormFieldView(frame: CGRectMake(margin, infoMessage.frame.maxY + 10.0, width - 24, fheight))
@@ -180,9 +181,36 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
 
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.content = TPKeyboardAvoidingScrollView()
+        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        
+        let margin: CGFloat = 15.0
+        let width = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 40.0
+        let lheight: CGFloat = 25.0
+        let widthLessMargin = self.view.frame.width - margin
+        
+        //Inician secciones
+        self.sectionTitle!.frame = CGRectMake(margin, 5.0, width, lheight)
+        self.invoiceSelect!.frame = CGRectMake(margin,sectionTitle.frame.maxY,80,fheight)
+        self.consultSelect!.frame = CGRectMake(invoiceSelect!.frame.maxX + 31,sectionTitle.frame.maxY,90,fheight)
+        self.sectionUserInfo.frame = CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight)
+        self.rfc!.frame = CGRectMake(margin, self.sectionUserInfo!.frame.maxY + 10.0, width, fheight)
+        self.zipCode!.frame = CGRectMake(margin, self.rfc!.frame.maxY + 5.0, width, fheight)
+        self.sectionTicketInfo.frame = CGRectMake(margin, self.zipCode!.frame.maxY + 10.0, width, lheight)
+        self.scanTicketButton!.frame = CGRectMake(margin, self.sectionTicketInfo!.frame.maxY + 10.0, width, 30.0)
+        self.infoMessage.frame =  CGRectMake(margin, self.scanTicketButton!.frame.maxY + 10.0, width, lheight)
+        self.ticketNumber!.frame = CGRectMake(margin, infoMessage.frame.maxY + 10.0, width - 24, fheight)
+        self.transactionNumber!.frame = CGRectMake(margin, self.ticketNumber!.frame.maxY + 5.0, width - 24, fheight)
+        self.infoTCButton!.frame = CGRectMake(widthLessMargin - 16, infoMessage.frame.maxY + 20.0, 16, 16)
+        self.infoTRButton!.frame = CGRectMake(widthLessMargin - 16, self.ticketNumber!.frame.maxY + 20.0, 16, 16)
+        self.content.contentSize = CGSizeMake(self.view.frame.width, transactionNumber!.frame.maxY + 5.0)
+        //self.cancelButton!.frame = CGRectMake(margin, self.content!.frame.maxY + 5.0, 140.0, fheight)
+        //self.nextButton!.frame = CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY + 5.0, 140.0, fheight)
     }
+
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)

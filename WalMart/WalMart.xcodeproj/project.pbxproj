@@ -379,6 +379,7 @@
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
+		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
@@ -908,6 +909,7 @@
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
+		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
@@ -1502,6 +1504,7 @@
 		564578C419AE302E006A7152 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6C6294FB1BEA844E00613FB3 /* Invoice */,
 				5A4FEE4F1B3B1A02002B9C12 /* DefaultList */,
 				56679E7E1B3228BF003A8CB9 /* MoreView */,
 				5673D1201A9D3F4700DCD20B /* OrderDetailView */,
@@ -2506,6 +2509,14 @@
 			name = Invoice;
 			sourceTree = "<group>";
 		};
+		6C6294FB1BEA844E00613FB3 /* Invoice */ = {
+			isa = PBXGroup;
+			children = (
+				6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */,
+			);
+			name = Invoice;
+			sourceTree = "<group>";
+		};
 		AC1CF41519EC7AA4006F1BC6 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -3278,6 +3289,7 @@
 				AC1CF41719EC7AFB006F1BC6 /* IPALoginController.swift in Sources */,
 				AC37F6BD19B90E48000BB80D /* AddShippingAddressService.swift in Sources */,
 				56679E801B3228DE003A8CB9 /* MoreSectionView.swift in Sources */,
+				6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */,
 				0424BA6F1A78303F0069323B /* GRProductDetailButtonBarCollectionViewCell.swift in Sources */,
 				04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */,
 				5696079319B4E8BC005D20DC /* IPOSplashViewController.swift in Sources */,

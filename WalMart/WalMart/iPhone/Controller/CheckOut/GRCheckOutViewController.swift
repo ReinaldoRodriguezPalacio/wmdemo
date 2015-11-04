@@ -171,7 +171,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         self.discountAssociate = FormFieldView(frame: CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,width,fheight))
         self.discountAssociate!.setCustomPlaceholder(NSLocalizedString("checkout.field.discountAssociate", comment:""))
-        self.discountAssociate!.isRequired = true
+        self.discountAssociate!.isRequired = false
         self.discountAssociate!.typeField = TypeField.Check
         self.discountAssociate!.setImageTypeField()
         self.discountAssociate!.nameField = NSLocalizedString("checkout.field.discountAssociate", comment:"")
@@ -494,11 +494,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
                 promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
                 promSelect.setTitle(promotion["promotion"], forState: UIControlState.Normal)
-                promSelect.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+                promSelect.titleLabel?.font = WMFont.fontMyriadProLightOfSize(14)
                 promSelect.titleLabel?.textAlignment = .Left
                 promSelect.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
-                promSelect.titleEdgeInsets = UIEdgeInsetsMake(1, 1, 0, 0)
-                promSelect.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0)
+                promSelect.titleEdgeInsets = UIEdgeInsetsMake(1, 4, 0, 0)
                 promSelect.selected = false
                 promSelect.tag = count
                 self.content.addSubview(promSelect)
@@ -520,10 +519,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if(sender.selected){
             sender.selected = false
             self.promotionsDesc[sender.tag]["selected"] = "false"
+            sender.titleLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         }
         else{
             sender.selected = true
             self.promotionsDesc[sender.tag]["selected"] = "true"
+            sender.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         }
         
         for prom in self.promotionsDesc{
@@ -619,7 +620,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.deliverySchedule!.onBecomeFirstResponder = {() in
                 var itemsSlots : [String] = []
                 for option in self.slotsItems! {
-                    if let visible = option["isVisible"] as? NSNumber {
+                    if let _ = option["isVisible"] as? NSNumber {
                         //if visible.boolValue {
                             if let text = option["displayText"] as? String {
                                 itemsSlots.append(text)
