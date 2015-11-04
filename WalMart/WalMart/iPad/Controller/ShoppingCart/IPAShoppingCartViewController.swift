@@ -141,7 +141,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
 
-    override func showloginshop() {
+    override func showloginshopContinue() {
+        
+        
+        
         self.canceledAction = false
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7

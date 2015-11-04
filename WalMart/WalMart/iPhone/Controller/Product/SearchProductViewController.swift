@@ -863,7 +863,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - Actions
     
     func returnBack() {
-        self.navigationController!.popViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func showLoadingIfNeeded(hidden: Bool ) {
