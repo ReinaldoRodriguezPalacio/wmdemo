@@ -421,4 +421,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.delegate!.closeUserListDetail()
         }
     }
+
+    override func invokeDeleteProductFromListService(upc: String) {
+        super.invokeDeleteProductFromListService(upc)
+        self.delegate!.reloadTableListUser()
+    }
 }

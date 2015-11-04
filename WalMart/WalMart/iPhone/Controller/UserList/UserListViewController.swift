@@ -251,6 +251,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             self.changeVisibilityBtn(self.editBtn!, visibility: 1)
                         }
                     }
+                    self.checkEditBtn()
                     success?()
                     return
                 },
@@ -283,7 +284,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.changeVisibilityBtn(self.editBtn!, visibility: 1)
                 }
             }
-            
+            self.checkEditBtn()
             success?()
         }
     }
@@ -726,14 +727,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
-                        //Event
-//                        //TODOGAI
-//                        if let tracker = GAI.sharedInstance().defaultTracker {
-//                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                                action:WMGAIUtils.GR_EVENT_LISTS_DELETE.rawValue,
-//                                label: listItem["name"] as? String,
-//                                value: nil).build() as [NSObject:AnyObject])
-//                        }
+
                         
                         self.invokeDeleteListService(listId)
                     }

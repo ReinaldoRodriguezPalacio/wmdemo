@@ -858,8 +858,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.removeEmpyView()
                 }
                 
-                
-                
                 action?()
             },
             errorBlock: { (error:NSError) -> Void in
@@ -894,7 +892,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             }
                             
                             if self.products == nil || self.products!.count == 0 {
-                                self.editBtn!.hidden = false
+                                self.editBtn!.hidden = true
                                 self.showEmptyView()
                             }
                             
@@ -1201,6 +1199,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             )
         }
     }
+    
     
 
 }

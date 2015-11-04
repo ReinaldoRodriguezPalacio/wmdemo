@@ -339,6 +339,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
             })
         }
+        
     }
     
     func updateShopButton() {
@@ -518,6 +519,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             if self.items.count == 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
             }
+            
+            self.updateEditButton()
+            
             
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")
@@ -709,7 +713,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 }
             
                 self.updateShopButton()
-            
+                self.updateEditButton()
                 self.wishlist.reloadData()
                 if self.items.count == 0 {
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
@@ -721,7 +725,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     self.viewLoad.stopAnnimating()
                 }
             }
+        
         )
     }
-    
+    func updateEditButton (){
+        
+        edit.hidden = self.items.count == 0
+        edit.selected = false
+        edit.backgroundColor = WMColor.wishlistEditButtonBgColor
+        edit.tintColor = WMColor.wishlistEditButtonBgColor
+
+    }
 }
