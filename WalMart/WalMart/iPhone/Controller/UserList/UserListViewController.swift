@@ -440,7 +440,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func showNewListField() {
-        if self.itemsUserList!.count >= 11 {
+        if self.itemsUserList!.count >= 12 {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
             self.alertView!.showErrorIcon("Ok")

@@ -175,7 +175,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nextButton!.backgroundColor = WMColor.loginSignInButonBgColor
         self.nextButton!.layer.cornerRadius = 20
-        self.cancelButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.nextButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(nextButton!)
 
     }
@@ -248,7 +248,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     }
     
     func next(){
-        let invoiceController = InvoiceViewController()
+        let invoiceController = InvoiceComplementViewController()
         self.navigationController!.pushViewController(invoiceController, animated: true)
     }
 }

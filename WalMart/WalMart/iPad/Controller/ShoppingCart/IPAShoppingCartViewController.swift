@@ -75,8 +75,18 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.totalsView.frame = CGRectMake(self.viewContent.frame.width - 341, self.imagePromotion.frame.maxY, 341, 168)
         
         self.viewSeparator.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewShoppingCart.frame.width,AppDelegate.separatorHeigth())
-        self.buttonWishlist.frame = CGRectMake(16,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
-        self.buttonShop.frame = CGRectMake( 66, self.buttonShop.frame.minY, 341 - 82, self.buttonShop.frame.height)
+        
+        var x : CGFloat = 16
+        var wShop : CGFloat =  341 - 82
+        if UserCurrentSession.sharedInstance().isAssociated == 1{
+            buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
+            x = buttonAsociate.frame.maxX + 16
+            wShop = 341 - 135
+        }
+        
+        self.buttonWishlist.frame = CGRectMake(x,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
+        
+        self.buttonShop.frame = CGRectMake( buttonWishlist.frame.maxX + 16, self.buttonShop.frame.minY, wShop , self.buttonShop.frame.height)
         //customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
         
         self.titleView.frame = CGRectMake(16, self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
@@ -141,7 +151,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
 
-    override func showloginshop() {
+    override func showloginshopContinue() {
+        
+        
+        
         self.canceledAction = false
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7

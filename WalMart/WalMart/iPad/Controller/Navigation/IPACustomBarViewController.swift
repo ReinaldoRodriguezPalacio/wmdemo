@@ -125,6 +125,20 @@ class IPACustomBarViewController :  CustomBarViewController {
             
             isEditingSearch = false
         }
+        if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
+            isOpenWishlist = false
+            self.buttonList[2].selected = isOpenWishlist
+            if  self.vcWishlist != nil {
+                self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
+                self.viewBgWishlist.alpha = 0
+                self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
+                self.vcWishlist.view.removeFromSuperview()
+                self.vcWishlist.removeFromParentViewController()
+                self.viewBgWishlist.removeFromSuperview()
+                self.vcWishlist = nil
+            }
+            
+        }
         if controllernav != nil {
             if controllernav!.delegate != nil {
                 controllernav!.delegate = nil
@@ -230,6 +244,20 @@ class IPACustomBarViewController :  CustomBarViewController {
                 controllernav?.popViewControllerAnimated(false)
                 
                 isEditingSearch = false
+            }
+            if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
+                isOpenWishlist = false
+                self.buttonList[2].selected = isOpenWishlist
+                if  self.vcWishlist != nil {
+                    self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
+                    self.viewBgWishlist.alpha = 0
+                    self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
+                    self.vcWishlist.view.removeFromSuperview()
+                    self.vcWishlist.removeFromParentViewController()
+                    self.viewBgWishlist.removeFromSuperview()
+                    self.vcWishlist = nil
+                }
+
             }
             if controllernav != nil {
                 if controllernav!.delegate != nil {

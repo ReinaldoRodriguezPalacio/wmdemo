@@ -23,6 +23,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     var finishLoadCheckOut : (() -> Void)? = nil
     var afterclose : (() -> Void)? = nil
+    var isEmployeeDiscount :Bool =  false
     
     var checkResponsive = "app_Checkout.aspx"
     var paramAppDevice = "device"
@@ -221,6 +222,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_subchannel').value='4';")
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osVersion').value='\(version)';")
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osName').value='iOS \(UIDevice.currentDevice().systemVersion)';")
+        let employe = self.isEmployeeDiscount ? "true" : "false"
+        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_isEmployeeDiscount').value='\(employe)';")
     }
     
    
