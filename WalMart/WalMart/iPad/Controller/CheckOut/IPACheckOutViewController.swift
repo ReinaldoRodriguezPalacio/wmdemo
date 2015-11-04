@@ -21,6 +21,8 @@ class IPACheckOutViewController : CheckOutViewController {
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_subchannel').value='3';")
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osVersion').value='\(version)';")
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_osName').value='iOS \(UIDevice.currentDevice().systemVersion)';")
+        let employe = self.isEmployeeDiscount ? "true" : "false"
+        webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_isEmployeeDiscount').value='\(employe)';")
         
         
 //        let doc = webView.stringByEvaluatingJavaScriptFromString("document.documentElement.outerHTML")
