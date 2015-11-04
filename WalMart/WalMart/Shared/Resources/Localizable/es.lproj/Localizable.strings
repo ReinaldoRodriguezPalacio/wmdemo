@@ -172,7 +172,7 @@
 "list.new.validation.name" = "El nombre de la lista no puede estar vacío.";
 "list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
 "list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
-"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario. Elimine ó actualice las existentes.";
+"list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, elimine ó actualice las existentes.";
 
 //ShoppingCart
 "shoppingcart.additem" = "Añadiendo";
