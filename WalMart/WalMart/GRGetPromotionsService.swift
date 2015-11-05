@@ -17,7 +17,7 @@ class GRGetPromotionsService: GRBaseService{
     var total:String?
     
     func buildParams(isAssociated: String,associateNumber:String, startDate:String, determinant: String, total: String) -> NSDictionary{
-        return ["isAssociated": isAssociated,"idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total]
+        return ["isAssociated": isAssociated == "1" ? "true":"false" ,"idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total]
     }
     
     func setParams(params:[String:String])

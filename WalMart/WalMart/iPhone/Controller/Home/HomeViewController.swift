@@ -145,9 +145,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 }
                 
                 var saving = ""
-                if let savingVal  = recommendProduct["saving"] as? String {
-                    saving = savingVal
-                }
                 if let savingVal  = recommendProduct["promoDescription"] as? String {
                     saving = savingVal
                 }
@@ -163,6 +160,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 var listPrice = false
                 if let originalListprice =  recommendProduct["original_listprice"] as? String {
                     listPrice = originalListprice != "" ? true : false
+                }
+                
+                if let savingVal  = recommendProduct["saving"] as? String {
+                    listPrice = savingVal != "" ? true : false
                 }
 
                 

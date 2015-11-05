@@ -1195,11 +1195,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         validateAssociate(associateNumber, dateAdmission:dateAdmission , determinant:determinant,completion: { (result:String) -> Void in
             if result == ""{
                 let service = ValidateAssociateService()
-                service.callService(service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
-                    successBlock: { (response:NSDictionary) -> Void in
+                service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
+                    succesBlock: { (response:NSDictionary) -> Void in
                         print(response)
-                        if response["codeMessage"] as! String ==  "0"{
-                            //Mostrar alerta y continuar
+                        if response["codeMessage"] as? Int ==  0{
+                            //Mostrar alerta y continua
                             self.alertView?.setMessage("Datos correctos")
                             self.alertView?.close()
                             self.isEmployeeDiscount =  true

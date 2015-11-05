@@ -16,14 +16,13 @@ class ValidateAssociateService : BaseService {
         return ["idAssociated":idAssociated!,"dateAdmission":dateAdmission!,"determinant":determinant!]
     }
     
-    func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-            
-            successBlock!(resultCall)
-            
-            }) { (error:NSError) -> Void in
+    func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
+        
+        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            succesBlock!(resultCall)
+            }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)
-        }
+        })
     }
     
 }
