@@ -215,6 +215,9 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     func checkTourist(sender:UIButton) {
         self.checkSelected(sender, yesButton: self.touristYesSelect!, noButton: self.touristNoSelect!)
+        if sender == self.touristYesSelect!{
+            showTouristForm()
+        }
     }
     
     func checkAddress(sender:UIButton) {
@@ -231,6 +234,12 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
             yesButton.selected = false
         }
         sender.selected = !(sender.selected)
+    }
+    
+    func showTouristForm(){
+        let touristView = TouristInformationForm(frame: CGRectMake(0, 0,  288, 465))
+        let modalView = AlertModalView.initModalWithView("Tipo de Tránsito",innerView: touristView)
+        modalView.showPicker()
     }
     
 }

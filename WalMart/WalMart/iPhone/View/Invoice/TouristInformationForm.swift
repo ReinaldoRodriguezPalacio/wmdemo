@@ -20,10 +20,21 @@ class TouristInformationForm: UIView {
     var transportCompany : FormFieldView!
     var transportId : FormFieldView!
     
+    var scrollForm: TPKeyboardAvoidingScrollView!
+    
     var invoiceSelect: UIButton?
     var consultSelect: UIButton?
     var saveButton: UIButton?
     var cancelButton: UIButton?
+    var arrivalButton: UIButton?
+    var departureButton: UIButton?
+    
+    let leftRightPadding  : CGFloat = CGFloat(16)
+    let errorLabelWidth  : CGFloat = CGFloat(150)
+    let fieldHeight  : CGFloat = CGFloat(40)
+    let separatorField  : CGFloat = CGFloat(8)
+    let checkTermEmpty : UIImage = UIImage(named:"check_empty")!
+    let checkTermFull : UIImage = UIImage(named:"check_full")!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -36,16 +47,38 @@ class TouristInformationForm: UIView {
     }
     
     func setup() {
-        var width = self.frame.width
-        if IS_IPAD {
-            width = 1024.0
-        }
-        
+    
+        self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)
+        self.addSubview(self.scrollForm)
         //Address Super
         self.titleForm = UILabel()
         self.titleForm!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleForm!.text =  "Tipo de Tránsito"
         self.titleForm!.textColor = WMColor.listAddressHeaderSectionColor
+        self.scrollForm.addSubview(self.titleForm!)
+        
+        self.arrivalButton = UIButton()
+        arrivalButton!.setImage(checkTermEmpty, forState: UIControlState.Normal)
+        arrivalButton!.setImage(checkTermFull, forState: UIControlState.Selected)
+        arrivalButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        arrivalButton!.setTitle("Arribo", forState: UIControlState.Normal)
+        arrivalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        arrivalButton!.titleLabel?.textAlignment = .Left
+        arrivalButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        arrivalButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
+        arrivalButton!.selected = true
+        self.scrollForm.addSubview(self.arrivalButton!)
+        
+        self.departureButton = UIButton()
+        departureButton!.setImage(checkTermEmpty, forState: UIControlState.Normal)
+        departureButton!.setImage(checkTermFull, forState: UIControlState.Selected)
+        departureButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        departureButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        departureButton!.setTitle("Salida", forState: UIControlState.Normal)
+        departureButton!.titleLabel?.textAlignment = .Left
+        departureButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
+        departureButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        self.scrollForm.addSubview(self.departureButton!)
         
         self.errorLabel = UILabel()
         self.errorLabel!.font = WMFont.fontMyriadProLightOfSize(14)
@@ -54,65 +87,124 @@ class TouristInformationForm: UIView {
         self.errorLabel!.numberOfLines = 3
         self.errorLabel!.textAlignment = NSTextAlignment.Right
         self.errorLabel!.hidden = true
+        self.scrollForm.addSubview(self.errorLabel!)
         
         self.date = FormFieldView()
         self.date!.isRequired = true
-        self.date!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.date!.setCustomPlaceholder("Fecha")
         self.date!.typeField = TypeField.Alphanumeric
-        self.date!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.date!.nameField = "Fecha"
         self.date!.minLength = 3
         self.date!.maxLength = 25
+        self.scrollForm.addSubview(self.date!)
         
         self.nationality = FormFieldView()
         self.nationality!.isRequired = true
-        self.nationality!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.nationality!.setCustomPlaceholder("Nacionalidad")
         self.nationality!.typeField = TypeField.Alphanumeric
-        self.nationality!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.nationality!.nameField = "Nacionalidad"
         self.nationality!.minLength = 3
         self.nationality!.maxLength = 25
+        self.scrollForm.addSubview(self.nationality!)
         
         self.documentType = FormFieldView()
         self.documentType!.isRequired = true
-        self.documentType!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.documentType!.setCustomPlaceholder("Tipo de documento")
         self.documentType!.typeField = TypeField.Alphanumeric
-        self.documentType!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.documentType!.nameField = "Tipo de documento"
         self.documentType!.minLength = 3
         self.documentType!.maxLength = 25
+        self.scrollForm.addSubview(self.documentType!)
         
         self.documentNumber = FormFieldView()
         self.documentNumber!.isRequired = true
-        self.documentNumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.documentNumber!.setCustomPlaceholder("Número de documento")
         self.documentNumber!.typeField = TypeField.Alphanumeric
-        self.documentNumber!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.documentNumber!.nameField = "Número de documento"
         self.documentNumber!.minLength = 3
         self.documentNumber!.maxLength = 25
+        self.scrollForm.addSubview(self.documentNumber!)
         
         self.transportWay = FormFieldView()
         self.transportWay!.isRequired = true
-        self.transportWay!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
-        self.transportWay!.typeField = TypeField.Alphanumeric
-        self.transportWay!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.transportWay!.setCustomPlaceholder("Via")
+        self.transportWay!.typeField = TypeField.List
+        self.transportWay!.nameField = "Via"
         self.transportWay!.minLength = 3
         self.transportWay!.maxLength = 25
+        self.scrollForm.addSubview(self.transportWay!)
         
         self.transportCompany = FormFieldView()
         self.transportCompany!.isRequired = true
-        self.transportCompany!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.transportCompany!.setCustomPlaceholder("Empresa transporte")
         self.transportCompany!.typeField = TypeField.Alphanumeric
-        self.transportCompany!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.transportCompany!.nameField = "Empresa transporte"
         self.transportCompany!.minLength = 3
         self.transportCompany!.maxLength = 25
+        self.scrollForm.addSubview(self.transportCompany!)
 
         self.transportId = FormFieldView()
         self.transportId!.isRequired = true
-        self.transportId!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
+        self.transportId!.setCustomPlaceholder("Id transporte")
         self.transportId!.typeField = TypeField.Alphanumeric
-        self.transportId!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.transportId!.nameField = "Id transporte"
         self.transportId!.minLength = 3
         self.transportId!.maxLength = 25
-
+        self.scrollForm.addSubview(self.transportId!)
         
+        self.cancelButton = UIButton()
+        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
+        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.cancelButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.cancelButton!.layer.cornerRadius = 17
+        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addSubview(cancelButton!)
         
+        self.saveButton = UIButton()
+        self.saveButton!.setTitle("Guardar", forState:.Normal)
+        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.saveButton!.layer.cornerRadius = 17
+        self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addSubview(saveButton!)
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let widthLessMargin = self.frame.width - leftRightPadding
+        let rightPadding = leftRightPadding * 2
+        self.scrollForm.frame = CGRectMake(0, 0, self.frame.width , self.frame.height - 66)
+        self.errorLabel.frame = CGRectMake((self.frame.width - leftRightPadding) - errorLabelWidth , 0, errorLabelWidth , fieldHeight)
+        self.titleForm.frame = CGRectMake(leftRightPadding, 52, self.frame.width - rightPadding , fieldHeight)
+        self.arrivalButton!.frame = CGRectMake(leftRightPadding, self.titleForm!.frame.maxY - 12, 65 , fieldHeight)
+        self.departureButton!.frame = CGRectMake(self.arrivalButton!.frame.maxX + 39, self.titleForm!.frame.maxY - 12, 65 , fieldHeight)
+        self.date.frame = CGRectMake(leftRightPadding, self.arrivalButton!.frame.maxY + 20, self.frame.width - rightPadding , fieldHeight)
+        self.nationality.frame = CGRectMake(leftRightPadding, self.date.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
+        self.documentType.frame = CGRectMake(leftRightPadding, self.nationality.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
+        self.documentNumber.frame = CGRectMake(leftRightPadding, self.documentType.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
+        self.transportWay.frame = CGRectMake(leftRightPadding, self.documentNumber.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
+        self.transportWay!.setImageTypeField()
+        self.transportCompany.frame = CGRectMake(leftRightPadding, self.transportWay.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
+        self.transportId.frame = CGRectMake(leftRightPadding, self.transportCompany.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
+        self.scrollForm.contentSize = CGSize(width: self.frame.width,height: self.transportId.frame.maxY + 20)
+        self.cancelButton!.frame = CGRectMake(leftRightPadding, self.scrollForm!.frame.maxY + 15.0, 125, 34)
+        self.saveButton!.frame = CGRectMake(widthLessMargin - 125 , self.scrollForm!.frame.maxY + 15.0, 125, 34)
+        
+    }
+    
+    func checkSelected(sender:UIButton) {
+        if sender.selected{
+            return
+        }
+        if sender == arrivalButton!{
+            departureButton!.selected = false
+        }else{
+            arrivalButton!.selected = false
+        }
+        sender.selected = !(sender.selected)
     }
     
     

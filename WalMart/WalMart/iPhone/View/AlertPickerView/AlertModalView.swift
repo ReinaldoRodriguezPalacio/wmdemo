@@ -122,6 +122,13 @@ class AlertModalView : UIView, UITextFieldDelegate {
         return newAlert
     }
     
+    class func initModalWithView(alertTitle: String, innerView:UIView) -> AlertModalView {
+        let modalView = AlertModalView.initModalWithDefault()
+        modalView.setContentView(innerView)
+        modalView.addHeaderAndTitle(alertTitle)
+        return modalView
+    }
+    
     class func initModalWithNavController(controllerShow:UINavigationController) -> AlertModalView {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = AlertModalView(frame:vc!.view.bounds)
