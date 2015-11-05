@@ -421,7 +421,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
-        if showDiscountAsociate || UserCurrentSession.sharedInstance().isAssociated == 1
+        if showDiscountAsociate
         {
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
@@ -489,17 +489,22 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             posY -= 10
             for promotion in self.promotionsDesc{
                 posY += CGFloat(40 * count)
+                
+                let titleLabel = UILabel(frame:CGRectMake(22, 0, widthField-22,fheight))
+                titleLabel.font = WMFont.fontMyriadProRegularOfSize(13)
+                titleLabel.text = promotion["promotion"]
+                titleLabel.numberOfLines = 2
+                titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+                titleLabel.textColor = WMColor.UIColorFromRGB(0x797F87)
+                
                let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
                 promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
                 promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-                promSelect.setTitle(promotion["promotion"], forState: UIControlState.Normal)
-                promSelect.titleLabel?.font = WMFont.fontMyriadProLightOfSize(14)
-                promSelect.titleLabel?.textAlignment = .Left
-                promSelect.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
-                promSelect.titleEdgeInsets = UIEdgeInsetsMake(1, 4, 0, 0)
+                promSelect.addSubview(titleLabel)
                 promSelect.selected = false
                 promSelect.tag = count
+                promSelect.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,widthField - 20)
                 self.content.addSubview(promSelect)
                 count++
             }
@@ -519,12 +524,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if(sender.selected){
             sender.selected = false
             self.promotionsDesc[sender.tag]["selected"] = "false"
-            sender.titleLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         }
         else{
             sender.selected = true
             self.promotionsDesc[sender.tag]["selected"] = "true"
-            sender.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         }
         
         for prom in self.promotionsDesc{
@@ -703,7 +706,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
-            paramsDic["isAssociated"] = "\(UserCurrentSession.sharedInstance().isAssociated)"
+            paramsDic["isAssociated"] = self.showDiscountAsociate ? "1":"0"
             paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
             let promotionsService = GRGetPromotionsService()
             
@@ -715,12 +718,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             promotionsService.setParams(paramsDic)
             promotionsService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
                 // self.removeViewLoad()
-                if resultCall["codeMessage"] as! Int == 0 && resultCall["isAssociated"] as! Int == 1
+                if resultCall["codeMessage"] as! Int == 0
                 {
-                    if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                    if let listPromotions = resultCall["listSamples"] as? [AnyObject]{
                         for promotion in listPromotions {
                             let idPromotion = promotion["idPromotion"] as! Int
-                            let promotion = promotion["promotion"] as! String
+                            let promotion = (promotion["promotion"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                             self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
                         }
                     }
@@ -729,10 +732,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
                     })
-                    
-                    self.discountAssociate!.onBecomeFirstResponder = { () in
-                    }
-                    
+                    self.buildSubViews()
                 }
                 }, errorBlock: {(error: NSError) -> Void in
                     //self.removeViewLoad()
@@ -748,8 +748,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if pickerValues.count == discountAssociateItems.count
         {
             
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-            self.alertView!.setMessage("Validando descuentos")
+            //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+            //self.alertView!.setMessage("Validando descuentos")
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
@@ -784,8 +784,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.asociateDiscount = true
                     
                     self.invokeDeliveryTypesService({ () -> Void in
-                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                        self.alertView!.showDoneIcon()
+                        //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                        //self.alertView!.showDoneIcon()
                     })
                     
                     self.discountAssociate!.onBecomeFirstResponder = { () in
@@ -794,8 +794,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 }, errorBlock: {(error: NSError) -> Void in
                 //self.removeViewLoad()
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
+                    //self.alertView!.setMessage(error.localizedDescription)
+                    //self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
         }
@@ -1078,8 +1078,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate{
                     self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
-                }
-                if UserCurrentSession.sharedInstance().isAssociated == 1{
                     self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                 }
             }
