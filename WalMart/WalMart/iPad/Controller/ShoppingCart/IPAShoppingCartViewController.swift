@@ -151,7 +151,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
     
 
-    override func showloginshopContinue() {
+    override func showloginshop() {
         
         
         

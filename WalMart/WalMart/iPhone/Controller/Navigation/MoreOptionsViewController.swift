@@ -445,7 +445,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     }
                     
                     let fmt = NSDateFormatter()
-                    fmt.dateFormat = "MMM d hh:mm:ss"
+                    fmt.dateFormat = "MMM d hh"
                     let name = fmt.stringFromDate(NSDate())
                     //var number = 0;
                     

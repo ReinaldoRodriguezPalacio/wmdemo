@@ -112,7 +112,6 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.scanTicketButton!.setTitle("Ingresar datos escaneando tu ticket", forState: UIControlState.Normal)
         self.scanTicketButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 15)
         self.scanTicketButton!.setImage(UIImage(named: "invoice_scan_ticket"), forState: UIControlState.Normal)
-        self.scanTicketButton!.setTitle("Ingresar datos escaneando tu ticket", forState: UIControlState.Normal)
         self.scanTicketButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.scanTicketButton!.titleLabel!.textAlignment = NSTextAlignment.Center
         self.scanTicketButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)

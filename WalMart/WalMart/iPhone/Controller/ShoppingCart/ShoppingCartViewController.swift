@@ -137,7 +137,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         if UserCurrentSession.sharedInstance().isAssociated == 1{
             
             buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
-            buttonAsociate.setImage(UIImage(named:"wishlist_done"), forState: UIControlState.Normal)
+            buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
+            buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
             buttonAsociate.addTarget(self, action: "validateAsociate", forControlEvents: UIControlEvents.TouchUpInside)
             viewFooter.addSubview(buttonAsociate)
             x =  buttonAsociate.frame.maxX + 16
@@ -811,26 +812,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     }
     
-    func showloginshop() {
-        
-//        if UserCurrentSession.hasLoggedUser() && UserCurrentSession.sharedInstance().isAssociated == 1 {
-//            self.openDiscount()
-//        }else{
-//            self.showloginshopContinue()
-//        }
-        
-         self.showloginshopContinue()
-    
-    }
-    
+
     func validateAsociate(){
         self.openDiscount()
     }
 
     
-    func showloginshopContinue() {
+    func showloginshop() {
         picker?.closePicker()
-        self.openDiscount()
         //Event
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN_PRE_CHECKOUT.rawValue, label: "")
         
@@ -1201,13 +1190,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         if response["codeMessage"] as? Int ==  0{
                             //Mostrar alerta y continua
                             self.alertView?.setMessage("Datos correctos")
+                            self.buttonAsociate.highlighted =  true
                             self.alertView?.close()
                             self.isEmployeeDiscount =  true
-                            self.showloginshopContinue()
+                            //self.showloginshop()
                         }else{
                              self.isEmployeeDiscount =  false
                             self.alertView?.setMessage("Error el los datos del asociado")
                             self.alertView!.showErrorIcon("Ok")
+                            self.buttonAsociate.highlighted =  false
                         }
                         
                     }) { (error:NSError) -> Void in
@@ -1215,12 +1206,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         self.isEmployeeDiscount =  false
                         self.alertView?.setMessage("Error el los datos del asociado")
                         self.alertView!.showErrorIcon("Ok")
+                         self.buttonAsociate.highlighted =  false
                         print(error)
                 }
             }else{
                 self.isEmployeeDiscount =  false
                 self.alertView?.setMessage("Error el los datos del asociado \(result)")
                 self.alertView!.showErrorIcon("Ok")
+                 self.buttonAsociate.highlighted =  false
             }
         
     })
@@ -1232,22 +1225,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func validateAssociate(associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (result:String) -> Void) {
         var message = ""
         
-        if associateNumber == nil {
-            if associateNumber?.trim() == ""{
-                message = "Número de acociado requerido"
-            }
+        if associateNumber == nil ||  associateNumber?.trim() == "" {
              message =  "Número de acociado requerido"
         }
-        else if dateAdmission == nil {
-            if dateAdmission?.trim() == ""{
-                 message =   "Fecha ingreso requerido"
-            }
+        else if dateAdmission == nil ||  dateAdmission?.trim() == ""{
              message =  "Fecha ingreso requerido"
         }
-        else if determinant == nil {
-            if determinant?.trim() == ""{
-                 message =  "Determinante requerido"
-            }
+        else if determinant == nil || determinant?.trim() == ""{
              message =  "Determinante requerido"
         }
         
