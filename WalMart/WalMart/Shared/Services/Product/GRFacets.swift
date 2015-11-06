@@ -11,6 +11,12 @@ import Foundation
 
 class GRFacets : GRBaseService {
     
+    override init() {
+        super.init()
+        self.urlForSession = true
+    }
+    
+    
     func callService(storeId:String,stringSearch:String,idFamily:String,idLine:String, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams: ["storeID":"","pText":stringSearch,"idFamily":idFamily,"idLine":idLine], successBlock: successBlock, errorBlock: errorBlock)
     }
