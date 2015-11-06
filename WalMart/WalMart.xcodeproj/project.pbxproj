@@ -278,6 +278,9 @@
 		56AC6EA01B39CC1C00C599A2 /* DefaultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC6E9F1B39CC1C00C599A2 /* DefaultListViewController.swift */; };
 		56AC6EA31B39D18800C599A2 /* DefaultListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AC6EA21B39D18800C599A2 /* DefaultListService.swift */; };
 		56AD15291A00375C00E1AFD9 /* IPAWishlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD15281A00375C00E1AFD9 /* IPAWishlistViewController.swift */; };
+		56AD99131BED1C4E00B0EB5D /* ReferedCustomer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD99121BED1C4E00B0EB5D /* ReferedCustomer.swift */; };
+		56AD99151BED1CA600B0EB5D /* AddReferedCustumer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD99141BED1CA600B0EB5D /* AddReferedCustumer.swift */; };
+		56AD99171BED1CE800B0EB5D /* ValidateActiveRefered.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AD99161BED1CE800B0EB5D /* ValidateActiveRefered.swift */; };
 		56AE80DE19D9BA8800D5DDA4 /* ProductDetailTextDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AE80DD19D9BA8800D5DDA4 /* ProductDetailTextDetailView.swift */; };
 		56AE80E019D9CBBF00D5DDA4 /* ProductDetailBundleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AE80DF19D9CBBF00D5DDA4 /* ProductDetailBundleTableViewCell.swift */; };
 		56AE80E219D9CC5000D5DDA4 /* ProductDetailBundleItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AE80E119D9CC5000D5DDA4 /* ProductDetailBundleItemCollectionViewCell.swift */; };
@@ -798,6 +801,9 @@
 		56AC6E9F1B39CC1C00C599A2 /* DefaultListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListViewController.swift; path = iPhone/Controller/DefaultList/DefaultListViewController.swift; sourceTree = "<group>"; };
 		56AC6EA21B39D18800C599A2 /* DefaultListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListService.swift; path = Shared/Services/DefaultList/DefaultListService.swift; sourceTree = "<group>"; };
 		56AD15281A00375C00E1AFD9 /* IPAWishlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAWishlistViewController.swift; path = iPad/Controller/Wishlist/IPAWishlistViewController.swift; sourceTree = "<group>"; };
+		56AD99121BED1C4E00B0EB5D /* ReferedCustomer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedCustomer.swift; path = Shared/Services/LoginSignUp/Referred/ReferedCustomer.swift; sourceTree = "<group>"; };
+		56AD99141BED1CA600B0EB5D /* AddReferedCustumer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddReferedCustumer.swift; path = Shared/Services/LoginSignUp/Referred/AddReferedCustumer.swift; sourceTree = "<group>"; };
+		56AD99161BED1CE800B0EB5D /* ValidateActiveRefered.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValidateActiveRefered.swift; path = Shared/Services/LoginSignUp/Referred/ValidateActiveRefered.swift; sourceTree = "<group>"; };
 		56AE80DD19D9BA8800D5DDA4 /* ProductDetailTextDetailView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailTextDetailView.swift; path = Shared/View/Product/ProductDetailTextDetailView.swift; sourceTree = "<group>"; };
 		56AE80DF19D9CBBF00D5DDA4 /* ProductDetailBundleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailBundleTableViewCell.swift; path = Shared/View/Product/ProductDetailBundleTableViewCell.swift; sourceTree = "<group>"; };
 		56AE80E119D9CC5000D5DDA4 /* ProductDetailBundleItemCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailBundleItemCollectionViewCell.swift; path = Shared/View/Product/ProductDetailBundleItemCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -2125,6 +2131,7 @@
 		5696078A19B4C718005D20DC /* LoginSignUp */ = {
 			isa = PBXGroup;
 			children = (
+				56AD99111BED1BD700B0EB5D /* Referred */,
 				AC37F6BB19B90E0F000BB80D /* Address */,
 				5696078B19B4C773005D20DC /* LoginService.swift */,
 				AC37F6B119B9042C000BB80D /* ZipCodeService.swift */,
@@ -2204,6 +2211,16 @@
 				56AD15281A00375C00E1AFD9 /* IPAWishlistViewController.swift */,
 			);
 			name = Wishlist;
+			sourceTree = "<group>";
+		};
+		56AD99111BED1BD700B0EB5D /* Referred */ = {
+			isa = PBXGroup;
+			children = (
+				56AD99121BED1C4E00B0EB5D /* ReferedCustomer.swift */,
+				56AD99141BED1CA600B0EB5D /* AddReferedCustumer.swift */,
+				56AD99161BED1CE800B0EB5D /* ValidateActiveRefered.swift */,
+			);
+			name = Referred;
 			sourceTree = "<group>";
 		};
 		56AE80E319D9F47E00D5DDA4 /* ScreenShot */ = {
@@ -3182,6 +3199,7 @@
 				569E005019BE438300756B88 /* ProductTableViewCell.swift in Sources */,
 				56DFE4D219D057C9001811F5 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				56EF144B1BE05CEF00F3A874 /* ValidateAssociateService.swift in Sources */,
+				56AD99131BED1C4E00B0EB5D /* ReferedCustomer.swift in Sources */,
 				569607A519B527D7005D20DC /* ProductDetailButtonBarCollectionViewCell.swift in Sources */,
 				AC536D3D19DB39CD007D2D42 /* HelpViewController.swift in Sources */,
 				5673D1421A9D500400DCD20B /* RSUnifiedCodeGenerator.swift in Sources */,
@@ -3234,6 +3252,7 @@
 				5673D13A1A9D500400DCD20B /* RSCodeLayer.swift in Sources */,
 				56DB80481B0225B8002E65F7 /* GRProductsByUPCService.swift in Sources */,
 				5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */,
+				56AD99151BED1CA600B0EB5D /* AddReferedCustumer.swift in Sources */,
 				AC88FA7719CA48D6003BD859 /* SignUpViewController.swift in Sources */,
 				AC6BC2C619EEC3B100835D03 /* IPAWMAlertViewController.swift in Sources */,
 				56F86FD11A8BD8F1002181D2 /* SelectItemTableViewCell.swift in Sources */,
@@ -3294,6 +3313,7 @@
 				04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */,
 				5696079319B4E8BC005D20DC /* IPOSplashViewController.swift in Sources */,
 				5618F0411B7D4C0F000338C7 /* GRDiscountActiveService.swift in Sources */,
+				56AD99171BED1CE800B0EB5D /* ValidateActiveRefered.swift in Sources */,
 				569607A119B5139D005D20DC /* ProductDetailBannerMediaCollectionViewCell.swift in Sources */,
 				56CCE9FE19DB0D3B0071D990 /* CheckOutViewController.swift in Sources */,
 				5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */,
@@ -3434,8 +3454,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3456,7 +3476,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "aac21f79-c4d9-4459-bb68-c993a1b7c8d6";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3480,8 +3500,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3495,7 +3515,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "aac21f79-c4d9-4459-bb68-c993a1b7c8d6";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -3508,8 +3528,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3530,7 +3550,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "aac21f79-c4d9-4459-bb68-c993a1b7c8d6";
+				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -3544,8 +3564,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				ENABLE_BITCODE = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3566,7 +3586,7 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "aac21f79-c4d9-4459-bb68-c993a1b7c8d6";
+				PROVISIONING_PROFILE = "";
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";

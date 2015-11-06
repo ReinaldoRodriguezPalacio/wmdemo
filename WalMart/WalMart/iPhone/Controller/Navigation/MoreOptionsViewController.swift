@@ -23,6 +23,8 @@ enum OptionsController : String {
     case Help = "Help"
     case Terms = "Terms"
     case Contact = "Contact"
+    
+    case Refered = "ReferedList"
 
 }
 
@@ -132,7 +134,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 3
+                return 3//4
             case 1:
                 return 5
             case 2:
@@ -172,6 +174,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Notification : image = "menu_icon_notification"
         case .CamFind : image = "Camfind-icon"
         case .TicketList : image = "menu_scanTicket"
+        case .Refered : image = "referidos_on"
         default :
             print("option don't exist")
         }
@@ -183,6 +186,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case .Orders : image = "Orders-disable-icon"
             case .TicketList : image = "menu_scanTicket_disable"
             case .Notification : image = "menu_icon_notification"
+            case .Refered : image = "referidos_off"
             default :
                 print("option don't exist")
             }
@@ -255,8 +259,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             self.navigationController!.pushViewController(invoiceController, animated: true)
         case .TicketList:
             scanTicket()
-            //default :
-            //    print("option don't exist")
+        case .Refered:
+            openRefered()
+            default :
+                print("option don't exist")
        
             
         }
@@ -471,6 +477,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                 self.alertView!.showErrorIcon("Ok")
             }
         )
+    }
+    
+    func openRefered (){
+        let invoiceController = InvoiceViewController()
+        self.navigationController!.pushViewController(invoiceController, animated: true)
+    
     }
     
     
