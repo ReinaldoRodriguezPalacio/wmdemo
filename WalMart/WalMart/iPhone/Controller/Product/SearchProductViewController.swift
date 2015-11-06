@@ -219,6 +219,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
         if self.isTextSearch || isOriginalTextSearch
         {
+            if self.titleLabel != nil{
+                self.titleLabel?.removeFromSuperview()
+                self.titleLabel = nil
+            }
+            
             self.titleLabel = self.setTitleWithEdit()
             self.header?.addSubview(self.titleLabel!)
             
@@ -227,8 +232,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.titleLabel?.text = "Resultados"
             }
             
-            self.originalSearchContextType = self.searchContextType
-            //self.searchContextType = SearchServiceContextType.WithCategoryForGR
+            if self.originalSearchContextType == nil{
+                self.originalSearchContextType = self.searchContextType
+            }
+            else{
+                self.isTextSearch = isOriginalTextSearch
+            }
         }
         else
         {
@@ -1048,7 +1057,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func removeSelectedFilters(){
         //Quitamos los filtros despues de la busqueda.
         //self.idSort = self.originalSort
-        self.searchContextType = self.originalSearchContextType
+        //self.searchContextType = self.originalSearchContextType
         if self.originalSearchContextType != nil && self.isTextSearch {
             self.idDepartment = nil
             self.idFamily = nil

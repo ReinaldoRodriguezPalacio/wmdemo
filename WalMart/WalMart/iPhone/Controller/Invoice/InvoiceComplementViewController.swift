@@ -162,7 +162,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.finishButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.finishButton!.backgroundColor = WMColor.loginSignInButonBgColor
         self.finishButton!.layer.cornerRadius = 20
-        self.finishButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.finishButton!.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(finishButton!)
     }
     
@@ -217,6 +217,10 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         return sectionTitle
     }
     
+    func confirm(){
+        self.showConfirmView()
+    }
+    
     func checkIEPS(sender:UIButton) {
         self.checkSelected(sender, yesButton: self.iepsYesSelect!, noButton: self.iepsNoSelect!)
         self.buildView()
@@ -248,6 +252,12 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     func showTouristForm(){
         let touristView = TouristInformationForm(frame: CGRectMake(0, 0,  288, 465))
         let modalView = AlertModalView.initModalWithView("Tipo de Tránsito",innerView: touristView)
+        modalView.showPicker()
+    }
+    
+    func showConfirmView(){
+        let confirmView = InvoiceConfirmView(frame: CGRectMake(0, 0,  288, 465))
+        let modalView = AlertModalView.initModalWithView("Confirmar Datos",innerView: confirmView)
         modalView.showPicker()
     }
     
