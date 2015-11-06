@@ -11,6 +11,7 @@ import UIKit
 protocol ListTableViewCellDelegate {
     func duplicateList(cell:ListTableViewCell)
     func didListChangeName(cell:ListTableViewCell, text:String?)
+    func editCell(cell:SWTableViewCell)
 }
 
 class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
@@ -252,6 +253,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     //MARK: - UITextFieldDelegate
     
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        self.listDelegate?.editCell(self)
         return true
     }
     
