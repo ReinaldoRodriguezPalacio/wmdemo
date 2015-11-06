@@ -51,6 +51,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     var deleteListServiceInvoked = false
     var needsToShowWishList = true
+    var cellEditing: SWTableViewCell? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -127,16 +128,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         let defaultListSvc = DefaultListService()
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
         self.showLoadingView()
         self.reloadList(
             success:{() -> Void in
@@ -713,6 +712,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             //println("list with id \(listId) included for update with name: \(cell.textField!.text!)")
         }
+    }
+    
+    func editCell(cell: SWTableViewCell) {
+      self.cellEditing = cell
     }
     
     //MARK: - SWTableViewCellDelegate
@@ -1508,39 +1511,18 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func keyboardWillShow(aNotification: NSNotification) {
         var info = aNotification.userInfo
         let kbFrame = info![UIKeyboardFrameEndUserInfoKey] as? NSValue
-        let duration = info![UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-        let animationDuration: NSTimeInterval = duration!.doubleValue
         let keyboardFrame = kbFrame!.CGRectValue()
-        
-        
-        //Event
-//        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                action:WMGAIUtils.GR_EVENT_LISTS_SEARCH.rawValue,
-//                label: nil,
-//                value: nil).build() as [NSObject:AnyObject])
-//        }
         
         var height = keyboardFrame.size.height
         //height += self.searchContainer!.frame.height
         height += 45.0 //TABBar height
-        
-        UIView.animateWithDuration(animationDuration, animations: { () -> Void in
-            self.tableuserlist!.contentInset = UIEdgeInsetsMake(0.0, 0.0, height, 0.0)
-            
-        })
-        
+        let indexPath =  self.tableuserlist!.indexPathForCell(self.cellEditing!)
+        self.tableuserlist!.contentInset = UIEdgeInsetsMake(0, 0, height, 0)
+        self.tableuserlist!.scrollToRowAtIndexPath(indexPath!, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
     }
     
     func keyboardWillHide(aNotification: NSNotification) {
-        var info = aNotification.userInfo
-        let duration = info![UIKeyboardAnimationDurationUserInfoKey] as? NSNumber
-        let animationDuration: NSTimeInterval = duration!.doubleValue
-        
-        UIView.animateWithDuration(animationDuration, animations: { () -> Void in
-            self.tableuserlist!.contentInset = UIEdgeInsetsZero
-        })
+        self.tableuserlist!.contentInset = UIEdgeInsetsZero
     }
     
     //MARK: - DB
