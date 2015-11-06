@@ -55,9 +55,6 @@ class IPACustomBarViewController :  CustomBarViewController {
         }
         self.view.bringSubviewToFront(self.splashVC.view)
         
-
-        
-        
     }
     
     override func retrieveTabBarOptions() -> [String] {
@@ -394,7 +391,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     
 
     override func addtoShopingCar() {
-        
+        self.view.endEditing(true)
         if self.searchView != nil {
             self.searchView.viewContent.clipsToBounds = true
             self.searchView.clipsToBounds = true
