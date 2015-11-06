@@ -525,8 +525,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type,"isPreorderable":isPreorderable]
     }
     
-    
     func addItemToShoppingCart(notification:NSNotification){
+        
         let addShopping = ShoppingCartUpdateController()
         if !btnShopping!.selected {
             addShopping.goToShoppingCart = {() in
@@ -1002,7 +1002,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             vcRoot.openShoppingCart()
         }
-        //self.view.endEditing(true)
+        self.view.endEditing(true)
     }
     
     
