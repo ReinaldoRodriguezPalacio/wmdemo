@@ -278,4 +278,11 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         let invoiceController = InvoiceComplementViewController()
         self.navigationController!.pushViewController(invoiceController, animated: true)
     }
+    
+    //MARK: TPKeyboardAvoidingScrollViewDelegate
+    
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
+        let val = CGSizeMake(self.view.frame.width, self.content.contentSize.height)
+        return val
+    }
 }

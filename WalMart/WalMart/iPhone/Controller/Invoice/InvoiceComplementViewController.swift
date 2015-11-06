@@ -16,6 +16,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     let margin: CGFloat = 15.0
     
     var address: FormFieldView?
+    var content: TPKeyboardAvoidingScrollView!
     
     var sectionIEPS : UILabel!
     var sectionTouristInfo : UILabel!
@@ -48,10 +49,16 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         let checkTermEmpty : UIImage = UIImage(named:"check_empty")!
         let checkTermFull : UIImage = UIImage(named:"check_full")!
         
+        self.content = TPKeyboardAvoidingScrollView()
+        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        self.content.delegate = self
+        self.content.scrollDelegate = self
+        self.content.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.content)
         
         //Inician secciones
-        self.sectionIEPS = self.buildSectionTitle("Declaro IEPS (Aplica solo para vinos y licores)", frame: CGRectMake(margin, headerHeight, width, lheight))
-        self.view.addSubview(sectionIEPS)
+        self.sectionIEPS = self.buildSectionTitle("Declaro IEPS (Aplica solo para vinos y licores)", frame: CGRectMake(margin, 0, width, lheight))
+        self.content.addSubview(sectionIEPS)
         
         iepsYesSelect = UIButton(frame: CGRectMake(margin,sectionIEPS.frame.maxY,45,fheight))
         iepsYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
@@ -62,7 +69,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsYesSelect!.titleLabel?.textAlignment = .Left
         iepsYesSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         iepsYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        self.view.addSubview(self.iepsYesSelect!)
+        self.content.addSubview(self.iepsYesSelect!)
         
         self.iepsNoSelect = UIButton(frame: CGRectMake(iepsYesSelect!.frame.maxX + 31,sectionIEPS.frame.maxY,50,fheight))
         iepsNoSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
@@ -74,10 +81,10 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         iepsNoSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         iepsNoSelect!.selected = true
-        self.view.addSubview(self.iepsNoSelect!)
+        self.content.addSubview(self.iepsNoSelect!)
         
         self.sectionTouristInfo = self.buildSectionTitle("¿Eres turista, pasajero en tránsito o extranjero?", frame: CGRectMake(margin, self.iepsYesSelect!.frame.maxY + 5.0, width, lheight))
-        self.view.addSubview(sectionTouristInfo)
+        self.content.addSubview(sectionTouristInfo)
         
         touristYesSelect = UIButton(frame: CGRectMake(margin,sectionTouristInfo.frame.maxY,45,fheight))
         touristYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
@@ -88,7 +95,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristYesSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         touristYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         touristYesSelect!.titleLabel?.textAlignment = .Left
-        self.view.addSubview(self.touristYesSelect!)
+        self.content.addSubview(self.touristYesSelect!)
         
         self.touristNoSelect = UIButton(frame: CGRectMake(touristYesSelect!.frame.maxX + 31,sectionTouristInfo.frame.maxY,50,fheight))
         touristNoSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
@@ -100,10 +107,10 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristNoSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         touristNoSelect!.selected = true
         touristNoSelect!.titleLabel?.textAlignment = .Left
-        self.view.addSubview(self.touristNoSelect!)
+        self.content.addSubview(self.touristNoSelect!)
         
         self.sectionSocialReason = self.buildSectionTitle("Razón Social", frame: CGRectMake(margin, self.touristYesSelect!.frame.maxY + 5.0, width, lheight))
-        self.view.addSubview(sectionSocialReason)
+        self.content.addSubview(sectionSocialReason)
         
         addressFiscalPersonSelect = UIButton(frame: CGRectMake(margin,sectionSocialReason.frame.maxY,113,fheight))
         addressFiscalPersonSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
@@ -115,7 +122,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalPersonSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         addressFiscalPersonSelect!.selected = true
         addressFiscalPersonSelect!.titleLabel?.textAlignment = .Left
-        self.view.addSubview(self.addressFiscalPersonSelect!)
+        self.content.addSubview(self.addressFiscalPersonSelect!)
         
         self.addressFiscalMoralSelect = UIButton(frame: CGRectMake(addressFiscalPersonSelect!.frame.maxX + 31,sectionSocialReason.frame.maxY,123,fheight))
         addressFiscalMoralSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
@@ -126,10 +133,10 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalMoralSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         addressFiscalMoralSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         addressFiscalMoralSelect!.titleLabel?.textAlignment = .Left
-        self.view.addSubview(self.addressFiscalMoralSelect!)
+        self.content.addSubview(self.addressFiscalMoralSelect!)
         
         self.sectionAddress = self.buildSectionTitle("Dirección de Facturación", frame: CGRectMake(margin, self.addressFiscalPersonSelect!.frame.maxY + 5.0, width, lheight))
-        self.view.addSubview(sectionAddress)
+        self.content.addSubview(sectionAddress)
         
         self.address = FormFieldView(frame: CGRectMake(margin, self.sectionAddress!.frame.maxY + 5.0, width, fheight))
         self.address!.isRequired = true
@@ -138,7 +145,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.address!.nameField = "Dirección"
         self.address!.maxLength = 6
         self.address!.setImageTypeField()
-        self.view.addSubview(self.address!)
+        self.content.addSubview(self.address!)
         
         self.returnButton = UIButton(frame: CGRectMake(margin, self.address!.frame.maxY + 25.0, 140.0, fheight))
         self.returnButton!.setTitle("Regresar", forState:.Normal)
@@ -170,7 +177,8 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         let widthLessMargin = self.view.frame.width - margin
         
         //Inician secciones
-        self.sectionIEPS.frame = CGRectMake(margin, headerHeight, width, lheight)
+        self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
+        self.sectionIEPS.frame = CGRectMake(margin, 16, width, lheight)
         self.iepsYesSelect!.frame = CGRectMake(margin,sectionIEPS.frame.maxY,45,fheight)
         self.iepsNoSelect!.frame = CGRectMake(iepsYesSelect!.frame.maxX + 31,sectionIEPS.frame.maxY,50,fheight)
         let posYsection = buildSectionTourist()
@@ -179,8 +187,9 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.addressFiscalMoralSelect!.frame = CGRectMake(addressFiscalPersonSelect!.frame.maxX + 31,sectionSocialReason.frame.maxY,123,fheight)
         self.sectionAddress.frame = CGRectMake(margin, self.addressFiscalPersonSelect!.frame.maxY + 5.0, width, lheight)
         self.address!.frame = CGRectMake(margin, self.sectionAddress!.frame.maxY + 5.0, width, fheight)
-        self.returnButton!.frame = CGRectMake(margin, self.address!.frame.maxY + 25.0, 140.0, fheight)
-        self.finishButton!.frame = CGRectMake(widthLessMargin - 140 , self.address!.frame.maxY + 25.0, 140.0, fheight)
+        self.content.contentSize = CGSizeMake(self.view.frame.width, address!.frame.maxY + 5.0)
+        self.returnButton!.frame = CGRectMake(margin, self.content!.frame.maxY - 15, 140.0, fheight)
+        self.finishButton!.frame = CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY - 15, 140.0, fheight)
     }
     
     func buildSectionTourist() -> CGFloat{
@@ -240,6 +249,13 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         let touristView = TouristInformationForm(frame: CGRectMake(0, 0,  288, 465))
         let modalView = AlertModalView.initModalWithView("Tipo de Tránsito",innerView: touristView)
         modalView.showPicker()
+    }
+    
+    //MARK: TPKeyboardAvoidingScrollViewDelegate
+    
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
+        let val = CGSizeMake(self.view.frame.width, self.content.contentSize.height)
+        return val
     }
     
 }

@@ -248,6 +248,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
     
+    override func viewDidAppear(animated: Bool){
+        super.viewDidAppear(animated)
+        self.collection!.reloadData()
+    }
+    
     func reloadUISearch() {
         self.collection!.reloadData()
     }
