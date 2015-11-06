@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TouristInformationForm: UIView {
+class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate {
     var titleForm : UILabel!
     var errorLabel: UILabel!
     
@@ -49,6 +49,9 @@ class TouristInformationForm: UIView {
     func setup() {
     
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)
+        self.scrollForm.delegate = self
+        self.scrollForm.scrollDelegate = self
+        self.scrollForm.backgroundColor = UIColor.whiteColor()
         self.addSubview(self.scrollForm)
         //Address Super
         self.titleForm = UILabel()
@@ -207,5 +210,11 @@ class TouristInformationForm: UIView {
         sender.selected = !(sender.selected)
     }
     
+    //MARK: TPKeyboardAvoidingScrollViewDelegate
+    
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
+        let val = CGSizeMake(self.frame.width, self.scrollForm.contentSize.height)
+        return val
+    }
     
 }
