@@ -341,7 +341,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func showEditionMode() {
         
 
-        
+        self.cellEditing = nil
         self.newListBtn?.enabled = false
         self.editBtn?.enabled = false
         
@@ -351,16 +351,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.newListBtn?.alpha = 0
             })
             
-            
-            //Event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_EDITLISTS.rawValue,
-//                    label: nil,
-//                    value: nil).build() as [NSObject:AnyObject])
-//            }
-//            
             self.hideSearchField({
                 self.changeFrameEditBtn(true, side: "right")
                 },
@@ -1516,9 +1506,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         var height = keyboardFrame.size.height
         //height += self.searchContainer!.frame.height
         height += 45.0 //TABBar height
-        let indexPath =  self.tableuserlist!.indexPathForCell(self.cellEditing!)
-        self.tableuserlist!.contentInset = UIEdgeInsetsMake(0, 0, height, 0)
-        self.tableuserlist!.scrollToRowAtIndexPath(indexPath!, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+        if self.cellEditing != nil {
+            let indexPath =  self.tableuserlist!.indexPathForCell(self.cellEditing!)
+            self.tableuserlist!.contentInset = UIEdgeInsetsMake(0, 0, height, 0)
+            self.tableuserlist!.scrollToRowAtIndexPath(indexPath!, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+        }
     }
     
     func keyboardWillHide(aNotification: NSNotification) {

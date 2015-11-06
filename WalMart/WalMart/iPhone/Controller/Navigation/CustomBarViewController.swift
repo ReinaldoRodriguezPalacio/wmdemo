@@ -621,10 +621,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if let navController = self.currentController! as? UINavigationController {
             if self.searchController == nil  {
                 
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()
-                    tracker.send( eventTracker as! [NSObject : AnyObject])
-                }
+//                if let tracker = GAI.sharedInstance().defaultTracker {
+//                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()
+//                    tracker.send( eventTracker as! [NSObject : AnyObject])
+//                }
                 
                 if self.imageBlurView != nil {
                     self.imageBlurView?.removeFromSuperview()

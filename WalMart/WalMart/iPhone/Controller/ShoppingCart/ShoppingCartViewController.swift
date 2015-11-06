@@ -57,6 +57,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      var picker : AlertPickerView!
      var selectedConfirmation : NSIndexPath!
      var alertView: IPOWMAlertViewController?
+    let headerHeight: CGFloat = 46
     
     
     var emptyView : IPOShoppingCartEmptyView!
@@ -172,8 +173,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.viewContent.addSubview(viewShoppingCart)
         self.viewContent.sendSubviewToBack(viewShoppingCart)
         self.viewContent.addSubview(viewFooter)
-        
-        
+
+
         
         picker = AlertPickerView.initPickerWithDefault()
         
@@ -808,10 +809,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.picker!.hiddenRigthActionButton(true)
         self.picker!.cellType = TypeField.Alphanumeric
         self.picker!.showPicker()
-
-    
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+        
     }
     
+    //Keyboart
+    func keyBoardWillShow() {
+        self.picker!.viewContent.center = CGPointMake(self.picker!.center.x, self.picker!.center.y - 85)
+    }
+    
+    func keyBoardWillHide() {
+        self.picker!.viewContent.center = self.picker!.center
+    }
 
     func validateAsociate(){
         self.openDiscount()
@@ -1196,7 +1207,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             //self.showloginshop()
                         }else{
                              self.isEmployeeDiscount =  false
-                            self.alertView?.setMessage("Error el los datos del asociado")
+                            self.alertView?.setMessage("Error en los datos del asociado")
                             self.alertView!.showErrorIcon("Ok")
                             self.buttonAsociate.highlighted =  false
                         }
@@ -1204,14 +1215,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
                         self.isEmployeeDiscount =  false
-                        self.alertView?.setMessage("Error el los datos del asociado")
+                        self.alertView?.setMessage("Error en los datos del asociado")
                         self.alertView!.showErrorIcon("Ok")
                          self.buttonAsociate.highlighted =  false
                         print(error)
                 }
             }else{
                 self.isEmployeeDiscount =  false
-                self.alertView?.setMessage("Error el los datos del asociado \(result)")
+                self.alertView?.setMessage("Error en los datos del asociado\(result)")
                 self.alertView!.showErrorIcon("Ok")
                  self.buttonAsociate.highlighted =  false
             }
@@ -1226,13 +1237,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var message = ""
         
         if associateNumber == nil ||  associateNumber?.trim() == "" {
-             message =  "Número de acociado requerido"
+             message =  ", Número de sociado requerido"
         }
         else if dateAdmission == nil ||  dateAdmission?.trim() == ""{
-             message =  "Fecha ingreso requerido"
+             message =  ", Fecha de ingreso requerida"
         }
         else if determinant == nil || determinant?.trim() == ""{
-             message =  "Determinante requerido"
+             message =  ", Determinante requerido"
         }
         
         completion(result: message)

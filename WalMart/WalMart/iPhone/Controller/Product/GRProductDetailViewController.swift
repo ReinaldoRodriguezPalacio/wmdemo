@@ -31,11 +31,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     override func loadDataFromService() {
         
-         self.type = ResultObjectType.Groceries
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.GR_EVENT_SHOWPRODUCTDETAIL.rawValue, label: upc as String, value: nil).build() as [NSObject : AnyObject])
-        }
+        self.type = ResultObjectType.Groceries
+    
 
         let productService = GRProductDetailService()
         productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
@@ -261,14 +258,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 }
             )
             return
-        }
-        
-        //event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
-                label: "\(upc)",
-                value: nil).build() as [NSObject : AnyObject])
         }
         
         if self.listSelectorController == nil {

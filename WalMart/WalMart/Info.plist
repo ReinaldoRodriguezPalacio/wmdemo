@@ -188,6 +188,12 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
+			<key>WalmartMG.AddReferedCustumer</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/addReferedCustomer.txt</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.GRFacets</key>

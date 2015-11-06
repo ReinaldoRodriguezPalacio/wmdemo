@@ -213,12 +213,6 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
                     if self.onHandInventory.integerValue >= Int(quantity) {
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         
-                        //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue , label: "\(self.upc) - \(self.name)", value: nil).build() as [NSObject : AnyObject])
-                        }
-                        
-                        
                         UIView.animateWithDuration(0.2,
                             animations: { () -> Void in
                                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0	)
