@@ -28,9 +28,11 @@ class IPAEditProfileViewController: EditProfileViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let fieldHeight: CGFloat = 40.0
        // self.content.frame = CGRectMake(0, self.header!.frame.maxY + 15 , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
+        self.femaleButton!.frame = CGRectMake((self.view.frame.width / 2) - 76,  birthDate!.frame.maxY + 8,  76 , fieldHeight)
+        self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 8, 76 , fieldHeight)
         
     }
-
     
 }

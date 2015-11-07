@@ -417,7 +417,6 @@ class IPACustomBarViewController :  CustomBarViewController {
         buttonSelected(self.buttonList[2])
     }
     
-
     override func addtoShopingCar() {
         self.view.endEditing(true)
         if self.searchView != nil {
