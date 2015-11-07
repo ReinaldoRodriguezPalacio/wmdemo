@@ -101,6 +101,12 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/isReferedActive</string>
+			<key>WalmartMG.AddReferedCustumer</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRFacets</key>
@@ -536,6 +542,12 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/isReferedActive</string>
+			<key>WalmartMG.AddReferedCustumer</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -619,6 +631,12 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/isReferedActive</string>
+			<key>WalmartMG.AddReferedCustumer</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.DefaultListService</key>

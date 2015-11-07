@@ -1206,7 +1206,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             self.isEmployeeDiscount =  true
                             //self.showloginshop()
                         }else{
-                             self.isEmployeeDiscount =  false
+                            self.isEmployeeDiscount =  false
                             self.alertView?.setMessage("Error en los datos del asociado")
                             self.alertView!.showErrorIcon("Ok")
                             self.buttonAsociate.highlighted =  false
