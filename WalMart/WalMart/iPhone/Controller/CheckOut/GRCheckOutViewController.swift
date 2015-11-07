@@ -740,6 +740,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
+        }else{
+            self.validateAssociate(pickerValues, completion: { (result:String) -> Void in
+                if result != "" {
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                    self.alertView?.setMessage("Error en los datos del asociado\(result)")
+                    self.alertView!.showErrorIcon("Ok")
+                }
+            })
         }
     }
     
@@ -854,8 +862,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         )
     }
     
-    
-    
     func buildAndConfigureDeliveryType() {
         if self.selectedAddress != nil {
         self.invokeDeliveryTypesService({ () -> Void in
@@ -936,6 +942,21 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         )
     }
     
+    func validateAssociate(pickerValues: [String:String], completion: (result:String) -> Void) {
+        var message = ""
+        if pickerValues[NSLocalizedString("checkout.discount.associateNumber", comment:"")] == nil ||  pickerValues[NSLocalizedString("checkout.discount.associateNumber", comment:"")]?.trim() == "" {
+            message =  ", Número de sociado requerido"
+        }
+        else if pickerValues[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ||  pickerValues[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]?.trim() == ""{
+            message =  ", Fecha de ingreso requerida"
+        }
+        else if pickerValues[NSLocalizedString("checkout.discount.determinant", comment:"")] == nil || pickerValues[NSLocalizedString("checkout.discount.determinant", comment:"")]?.trim() == ""{
+            message =  ", Determinante requerido"
+        }
+        
+        completion(result: message)
+        
+    }
     
     func reloadUserAddresses(){
         self.addViewLoad()
@@ -1076,7 +1097,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             if formFieldObj == self.discountAssociate!{
                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
-                if self.showDiscountAsociate{
+                if self.showDiscountAsociate {
                     self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                     self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                 }

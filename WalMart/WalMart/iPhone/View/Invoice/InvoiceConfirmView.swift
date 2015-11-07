@@ -35,6 +35,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
     var ieps: String?
     var socialReason: String?
     var address: String?
+    var layerLine: CALayer!
     
     let leftRightPadding  : CGFloat = CGFloat(16)
     let errorLabelWidth  : CGFloat = CGFloat(150)
@@ -52,6 +53,11 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
     }
     
     func setup() {
+        
+        self.layerLine = CALayer()
+        layerLine.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        self.layer.insertSublayer(layerLine, atIndex: 0)
+        
         self.scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm.delegate = self
         self.scrollForm.scrollDelegate = self
@@ -182,8 +188,9 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleSocialReason.frame = CGRectMake(leftRightPadding, self.iepsLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
         self.socialReasonLabel.frame = CGRectMake(leftRightPadding, self.titleSocialReason.frame.maxY, self.frame.width - rightPadding , fieldHeight)
         self.titleAddress.frame = CGRectMake(leftRightPadding, self.socialReasonLabel.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
-        self.addressLabel.frame = CGRectMake(leftRightPadding, self.titleAddress.frame.maxY, self.frame.width - rightPadding , fieldHeight)
+        self.addressLabel.frame = CGRectMake(leftRightPadding, self.titleAddress.frame.maxY, self.frame.width - rightPadding , fieldHeight * 2)
         self.scrollForm.contentSize = CGSize(width: self.frame.width,height: self.addressLabel.frame.maxY)
+        self.layerLine.frame = CGRectMake(0, self.scrollForm!.frame.maxY,  self.frame.width, 1)
         self.editButton!.frame = CGRectMake(leftRightPadding, self.scrollForm!.frame.maxY + 13.0, 125, 34)
         self.saveButton!.frame = CGRectMake(widthLessMargin - 125 , self.scrollForm!.frame.maxY + 13.0, 125, 34)
     }

@@ -28,6 +28,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
     var cancelButton: UIButton?
     var arrivalButton: UIButton?
     var departureButton: UIButton?
+    var layerLine: CALayer!
     
     let leftRightPadding  : CGFloat = CGFloat(16)
     let errorLabelWidth  : CGFloat = CGFloat(150)
@@ -48,6 +49,10 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
     
     func setup() {
     
+        self.layerLine = CALayer()
+        layerLine.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        self.layer.insertSublayer(layerLine, atIndex: 0)
+        
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)
         self.scrollForm.delegate = self
         self.scrollForm.scrollDelegate = self
@@ -193,6 +198,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.transportCompany.frame = CGRectMake(leftRightPadding, self.transportWay.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
         self.transportId.frame = CGRectMake(leftRightPadding, self.transportCompany.frame.maxY + separatorField, self.frame.width - rightPadding , fieldHeight)
         self.scrollForm.contentSize = CGSize(width: self.frame.width,height: self.transportId.frame.maxY + 20)
+        self.layerLine.frame = CGRectMake(0, self.scrollForm!.frame.maxY,  self.frame.width, 1)
         self.cancelButton!.frame = CGRectMake(leftRightPadding, self.scrollForm!.frame.maxY + 15.0, 125, 34)
         self.saveButton!.frame = CGRectMake(widthLessMargin - 125 , self.scrollForm!.frame.maxY + 15.0, 125, 34)
         

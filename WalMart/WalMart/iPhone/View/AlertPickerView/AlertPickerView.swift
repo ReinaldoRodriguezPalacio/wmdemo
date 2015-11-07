@@ -215,6 +215,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     }
     
     func okAction() {
+        
         if self.selected != nil && itemsToShow.count > 0 {
             delegate?.didSelectOption(self,indexPath:self.selected,selectedStr: self.itemsToShow[self.selected.row])
         }else {
@@ -241,8 +242,16 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     {
         let formField = textField as! FormFieldView
         let textValue = (textField.text! as NSString).stringByReplacingCharactersInRange(range, withString:string)
-    
-        textboxValues?[formField.nameField] = textValue as String
+        
+        let text = (textValue as String).trim()
+        if text == ""
+        {
+            textboxValues?.removeValueForKey(formField.nameField)
+        }
+        else{
+            textboxValues?[formField.nameField] = text
+        }
+        
         return true
     }
     
@@ -255,7 +264,15 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             text = TextboxTableViewCell.parseDateString(text!,format:"d MMMM yyyy")
         }
         
-        textboxValues?[formField.nameField] = text
+        text?.trim()
+        
+        if text == ""
+        {
+            textboxValues?.removeValueForKey(formField.nameField)
+        }
+        else{
+            textboxValues?[formField.nameField] = text
+        }
     }
     //MARK Show alerts
     
