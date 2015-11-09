@@ -340,7 +340,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func showEditionMode() {
         
-
+        self.cellEditing = nil
         
         self.newListBtn?.enabled = false
         self.editBtn?.enabled = false
@@ -1513,12 +1513,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let kbFrame = info![UIKeyboardFrameEndUserInfoKey] as? NSValue
         let keyboardFrame = kbFrame!.CGRectValue()
         
-        var height = keyboardFrame.size.height
-        //height += self.searchContainer!.frame.height
-        height += 45.0 //TABBar height
-        let indexPath =  self.tableuserlist!.indexPathForCell(self.cellEditing!)
-        self.tableuserlist!.contentInset = UIEdgeInsetsMake(0, 0, height, 0)
-        self.tableuserlist!.scrollToRowAtIndexPath(indexPath!, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+        if self.cellEditing != nil {
+            var height = keyboardFrame.size.height
+            height += 45.0 //TABBar height
+            let indexPath =  self.tableuserlist!.indexPathForCell(self.cellEditing!)
+            self.tableuserlist!.contentInset = UIEdgeInsetsMake(0, 0, height, 0)
+            self.tableuserlist!.scrollToRowAtIndexPath(indexPath!, atScrollPosition: UITableViewScrollPosition.Bottom, animated: false)
+        }
     }
     
     func keyboardWillHide(aNotification: NSNotification) {
