@@ -183,6 +183,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         gestureCloseShoppingCart.direction = UISwipeGestureRecognizerDirection.Up
         
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateMercuryDelivery", name: "delivery", object: nil)
+        
+        
+       
+
+
         
     }
     
@@ -1265,4 +1271,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func showHelp() {
         reviewHelp(true)
     }
+    
+    
+    func updateMercuryDelivery() {
+        if PostDelivery.sharedInstance().currentDeliveries != nil {
+            if PostDelivery.sharedInstance().currentDeliveries!.count > 0 {
+                PostDelivery.sharedInstance().showFollowView(self)
+            } else {
+                PostDelivery.sharedInstance().hideFollowView()
+            }
+        }
+    }
+
+    
 }

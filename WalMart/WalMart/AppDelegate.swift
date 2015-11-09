@@ -125,6 +125,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
+        
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            PostDelivery.postDeliveries(UserCurrentSession.sharedInstance().userSigned!.email as String)
+        }
+
+        
         //Clean all notifications
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
@@ -158,6 +164,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             imgView!.removeFromSuperview()
             IPOSplashViewController.updateUserData()
         }
+        
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            PostDelivery.postDeliveries(UserCurrentSession.sharedInstance().userSigned!.email as String)
+            NSNotificationCenter.defaultCenter().postNotificationName("delivery", object: nil)
+        }
+
     }
     
     func applicationWillTerminate(application: UIApplication) {

@@ -63,3 +63,7 @@
 //PayPal
 #import "PayPalMobile.h"
 
+
+// Stompkit
+#import "StompKit.h"
+

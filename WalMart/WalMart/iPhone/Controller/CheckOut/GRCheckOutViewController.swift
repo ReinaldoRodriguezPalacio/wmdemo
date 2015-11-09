@@ -97,6 +97,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
     var completeOrderDictionary: [String:AnyObject]! = [:]
     
+    
+    var mercury = false
+    var storeID = ""
+
+
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
     }
@@ -839,7 +845,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let date = NSDate()
             self.selectedDate = date
             self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
-            self.buildAndConfigureDeliveryType()
+            //self.buildAndConfigureDeliveryType()            
+            self.sendMercuryDeliveryValidation({ () -> Void in
+                self.buildAndConfigureDeliveryType()
+            }, onError: { () -> Void in
+                self.buildAndConfigureDeliveryType()
+            })
+
         })
     }
     
@@ -864,11 +876,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokeTimeBandsService(date:String,endCallTypeService:(() -> Void)) {
-        let service = GRTimeBands()
-        let params = service.buildParams(date, addressId: self.selectedAddress!)
-        service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
-               // var date = self.deliveryDatePicker!.date
-            
+        if !self.mercury {
+
+            let service = GRTimeBands()
+            let params = service.buildParams(date, addressId: self.selectedAddress!)
+            service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
+                // var date = self.deliveryDatePicker!.date
+                
                 if let day = result["day"] as? String {
                     if let month = result["month"] as? String {
                         if let year = result["year"] as? String {
@@ -883,11 +897,27 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.slotsItems = result["slots"] as! NSArray as [AnyObject]
                 self.addViewLoad()
                 endCallTypeService()
-            }) { (error:NSError) -> Void in
-                self.removeViewLoad()
-                self.slotsItems = []
+                }) { (error:NSError) -> Void in
+                    self.removeViewLoad()
+                    self.slotsItems = []
+                    endCallTypeService()
+            }
+        }else {
+            let deliveryService = PostDelivery()
+            deliveryService.validateMercurySlots(self.selectedDate, idShopper: "1", idStore: storeID, onSuccess: { (resultSuccess:AnyObject) -> Void in
+                let allSlots = resultSuccess["custom"] as! [AnyObject]
+                var allSlotsCustom : [AnyObject] = []
+                for slot in allSlots  {
+                    let beginDateRange = slot["beginDateRange"]
+                    let endDateRange = slot["endDateRange"]
+                    allSlotsCustom.append(["displayText":"\(beginDateRange) - \(endDateRange)","id":slot["id"],"isVisible":true])
+                }
+                self.slotsItems = allSlotsCustom
+                self.addViewLoad()
                 endCallTypeService()
+            })
         }
+
         
     }
     
@@ -1120,12 +1150,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
     }
     
-    
     func sendOrder() {
+        if !self.mercury {
+            sendOrderWalmart()
+        }else {
+            sendOrderMercury()
+        }
+    }
 
-        
-       
-        
+    func sendOrderWalmart() {
+
+
+    
+    
+    
         buttonShop?.enabled = false
         
         if validate() {
@@ -1181,74 +1219,74 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
-            
-              serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
-                print(resultCall)
-                let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
-                let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
-                
-                let trakingNumber = purchaseOrder["trackingNumber"] as! String
-                let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
-                let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
-                let hour = purchaseOrder["hour"] as! String
-                let subTotal = purchaseOrder["subTotal"] as! NSNumber
-                let total = purchaseOrder["total"] as! NSNumber
-                var authorizationId = ""
-                var correlationId = ""
-                if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
-                    authorizationId = authorizationIdVal
-                }
-                if let correlationIdVal = purchaseOrder["correlationId"] as? String {
-                    correlationId = correlationIdVal
-                }
-                
-                let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
-                let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-                
-                let formattedDate = deliveryDate.substringToIndex(10)
-                
-                let slot = purchaseOrder["slot"] as! NSDictionary
-                
-                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
-                self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber]
-                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal]
-                //PayPal
-                if paymentSelectedId == "-1"{
-                    if self.payPalFuturePayment{
-                        self.showPayPalFuturePaymentController()
-                    }else{
-                        self.showPayPalPaymentController()
-                    }
-                    return
-                }
+//            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping)
+//            
+//              serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
+//                print(resultCall)
+//                let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+//                let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
 //                
-//                if paymentSelectedId == "-3"{
-//                    self.invokePaypalUpdateOrderService()
+//                let trakingNumber = purchaseOrder["trackingNumber"] as! String
+//                let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
+//                let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
+//                let hour = purchaseOrder["hour"] as! String
+//                let subTotal = purchaseOrder["subTotal"] as! NSNumber
+//                let total = purchaseOrder["total"] as! NSNumber
+//                var authorizationId = ""
+//                var correlationId = ""
+//                if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
+//                    authorizationId = authorizationIdVal
 //                }
-                
-                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
-                
-                self.buttonShop?.enabled = false
-         
-                
-                //self.performSegueWithIdentifier("showOrderDetail", sender: self)
-                
-                }) { (error:NSError) -> Void in
-                    
-                                     
-                    self.buttonShop?.enabled = true
-                   // println("Error \(error)")
-                    
-                    if error.code == -400 {
-                          self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
-                    }
-                    else {
-                       self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
-                    }
-                    
-                    
-            }
+//                if let correlationIdVal = purchaseOrder["correlationId"] as? String {
+//                    correlationId = correlationIdVal
+//                }
+//                
+//                let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
+//                let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
+//                
+//                let formattedDate = deliveryDate.substringToIndex(10)
+//                
+//                let slot = purchaseOrder["slot"] as! NSDictionary
+//                
+//                self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
+//                self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber]
+//                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal]
+//                //PayPal
+//                if paymentSelectedId == "-1"{
+//                    if self.payPalFuturePayment{
+//                        self.showPayPalFuturePaymentController()
+//                    }else{
+//                        self.showPayPalPaymentController()
+//                    }
+//                    return
+//                }
+////                
+////                if paymentSelectedId == "-3"{
+////                    self.invokePaypalUpdateOrderService()
+////                }
+//                
+//                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
+//                
+//                self.buttonShop?.enabled = false
+//         
+//                
+//                //self.performSegueWithIdentifier("showOrderDetail", sender: self)
+//                
+//                }) { (error:NSError) -> Void in
+//                    
+//                                     
+//                    self.buttonShop?.enabled = true
+//                   // println("Error \(error)")
+//                    
+//                    if error.code == -400 {
+//                          self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+//                    }
+//                    else {
+//                       self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+//                    }
+//                    
+//                    
+//            }
 
         }else {
             buttonShop?.enabled = true
@@ -1507,6 +1545,171 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
     }
+    
+    
+    
+    func sendMercuryDeliveryValidation(onSuccess:(() -> Void),onError:(() -> Void)){
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = self.selectedAddress!
+        
+        
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            let nameAddress = result["name"] as! String!
+            //TODO: Missing
+            //            self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+            //            self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+            //            self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+            //            self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+            let postalCode = result["zipCode"] as! String!
+            let street = result["street"] as! String!
+            let state = result["state"] as! String!
+            let innerNumber = result["innerNumber"] as! String!
+            let outerNumber = result["outerNumber"] as! String!
+            let reference1 = result["reference1"] as! String!
+            let reference2 = result["reference2"] as! String!
+            let store = result["storeID"] as! String!
+            
+            let total = UserCurrentSession.sharedInstance().estimateTotalGR() - self.savings
+            let date = NSDate()
+            let postDeliveryMercury = PostDelivery()
+            let delivery = Delivery()
+            delivery.setOrder(date:date, deliveryInstructions: self.comments?.text,  orderTotalCost: total, orderShipmentCost: 70.0)
+            delivery.setDeliveryAddress(street, city: "", state: state, postalCode: postalCode, country: "", longitude: nil, latitude: nil,internalNumber:innerNumber,externalNumber:outerNumber,betweenStreet1:reference1,betweenStreet2:reference2,addressReference:"")
+            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+            for item in items {
+                
+                let upcItem = item["upc"] as! String
+                let shortDesc = item["description"] as! String
+                let longDesc = item["characteristics"] as! String
+                let price = item["price"] as! NSNumber
+                let quantity = item["quantity"  ] as! NSNumber
+                let total = price.doubleValue * quantity.doubleValue
+                let comments = item["comments"] as! String
+                let typeUnit = item["type"] as! String
+                let imageUrl = item["imageUrl"] as! String
+                
+                let unitTypeSend = typeUnit == "0" ? OrderItemUnit.Pice :  OrderItemUnit.Gram
+                
+                delivery.addItemToOrder(upcItem, name: shortDesc, unitSalePrice: price.doubleValue, totalPrice: total, upc: upcItem, shortDescription: shortDesc, longDescription: longDesc, thumbnailImage: imageUrl, quantity: quantity.longValue , unitType: unitTypeSend, comments: comments, additionType: nil, orderItemStatus: nil, marketplace: nil, modelNumber: nil, stock: nil, status: nil, aisle: "Sin clasificación", consecutive: nil)
+            }
+            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+            let userlastName = UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String
+            
+            
+            
+            
+            
+            delivery.setConsumer(userEmail, name: userName, lastName: userlastName)
+            delivery.setApplicationInfo(1,appName:"Walmart app")
+            delivery.setPaymentMethod(1,name:"Paypal")
+            
+            delivery.setDetailService(ServiceType.Normal, deliveryDate: self.selectedDate, idShopper: "", idStore: store,idTimeSlot:0)
+            delivery.storeID = store
+            self.storeID = store
+            
+            postDeliveryMercury.validateMercuryDelivery(delivery, onSuccess: { () -> Void in
+                self.mercury = true
+                onSuccess()
+                }, onError: { (error) -> Void in
+                    self.mercury = false
+                    onError()
+            })
+            
+            }, errorBlock: { (error:NSError) -> Void in
+                self.mercury = false
+                onError()
+        })
+    }
+    
+    func sendOrderMercury() {
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = self.selectedAddress!
+        
+        
+        serviceDetail = OrderConfirmDetailView.initDetail()
+        serviceDetail?.delegate = self
+        serviceDetail!.showDetail()
+        
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            let nameAddress = result["name"] as! String!
+            //TODO: Missing
+            //            self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+            //            self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+            //            self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+            //            self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+            let postalCode = result["zipCode"] as! String!
+            let street = result["street"] as! String!
+            let state = result["state"] as! String!
+            let innerNumber = result["innerNumber"] as! String!
+            let outerNumber = result["outerNumber"] as! String!
+            let reference1 = result["reference1"] as! String!
+            let reference2 = result["reference2"] as! String!
+            let store = result["storeID"] as! String!
+            
+            let total = UserCurrentSession.sharedInstance().estimateTotalGR() - self.savings
+            let date = NSDate()
+            let postDeliveryMercury = PostDelivery()
+            let delivery = Delivery()
+            delivery.setOrder(date:date, deliveryInstructions: self.comments?.text,  orderTotalCost: total, orderShipmentCost: 70.0)
+            delivery.setDeliveryAddress(street, city: "", state: state, postalCode: postalCode, country: "", longitude: nil, latitude: nil,internalNumber:innerNumber,externalNumber:outerNumber,betweenStreet1:reference1,betweenStreet2:reference2,addressReference:"")
+            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+            for item in items {
+                
+                let upcItem = item["upc"] as! String
+                let shortDesc = item["description"] as! String
+                let longDesc = item["characteristics"] as! String
+                let price = item["price"] as! NSNumber
+                let quantity = item["quantity"  ] as! NSNumber
+                let total = price.doubleValue * quantity.doubleValue
+                let comments = item["comments"] as! String
+                let typeUnit = item["type"] as! String
+                let imageUrl = item["imageUrl"] as! String
+                
+                let unitTypeSend = typeUnit == "0" ? OrderItemUnit.Pice :  OrderItemUnit.Gram
+                
+                delivery.addItemToOrder(upcItem, name: shortDesc, unitSalePrice: price.doubleValue, totalPrice: total, upc: upcItem, shortDescription: shortDesc, longDescription: longDesc, thumbnailImage: imageUrl, quantity: quantity.longValue , unitType: unitTypeSend, comments: comments, additionType: nil, orderItemStatus: nil, marketplace: nil, modelNumber: nil, stock: nil, status: nil, aisle: "Sin clasificación", consecutive: nil)
+            }
+            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+            let userlastName = UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String
+            delivery.setConsumer(userEmail, name: userName, lastName: userlastName)
+            delivery.setApplicationInfo(1,appName:"Walmart app")
+            
+            let paymentSel = self.paymentOptionsItems![self.selectedPaymentType.row] as! NSDictionary
+            let paymentSelectedId = paymentSel["id"] as! String
+            let paymentSelectedText = paymentSel["paymentType"] as! String
+            
+            
+            let slotSel = self.slotsItems![self.selectedTimeSlotTypeIx.row]  as! NSDictionary
+            let slotSelectedId = slotSel["id"] as! Int
+            
+            delivery.setPaymentMethod(1,name:paymentSelectedText)
+            delivery.setDetailService(ServiceType.Normal, deliveryDate: self.selectedDate, idShopper: "", idStore: store,idTimeSlot:slotSelectedId)
+            delivery.storeID = store
+            self.storeID = store
+            
+            let dateFormat = "dd/MM/yyyy"
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = dateFormat
+            
+            let formattedDate = formatter.stringFromDate(self.selectedDate)
+            let _total = UserCurrentSession.sharedInstance().estimateTotalGR() //- self.savings
+            let _formattedSubtotal = CurrencyCustomLabel.formatString(NSNumber(double:_total).stringValue)
+            
+            postDeliveryMercury.callMercuryDelivery(delivery, onPostDelivery: { (idDelivery) -> Void in
+                self.serviceDetail?.completeOrder(idDelivery, deliveryDate: formattedDate, deliveryHour: "Hora", paymentType: paymentSelectedText, subtotal: _formattedSubtotal, total: _formattedSubtotal)
+                self.buttonShop?.enabled = false
+                }, onError: { (error) -> Void in
+                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+            })
+            
+            
+            }, errorBlock: { (error:NSError) -> Void in
+                self.mercury = false
+        })
+    }
+
     
     
 }
