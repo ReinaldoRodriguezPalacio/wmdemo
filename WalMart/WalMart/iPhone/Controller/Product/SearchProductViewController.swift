@@ -441,7 +441,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isPreorderable = "true" == preordeable
         }
         
-        var onHandDefault = 10
+        var onHandDefault = 99
         if let onHandInventory = item["onHandInventory"] as? NSString {
             onHandDefault = onHandInventory.integerValue
         }

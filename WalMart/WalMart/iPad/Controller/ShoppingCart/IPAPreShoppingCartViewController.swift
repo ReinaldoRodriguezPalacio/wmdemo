@@ -311,6 +311,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                     vcResult.removeFromParentViewController()
                     vcResult.view.removeFromSuperview()
                     self.reloadpreShopingCard()
+                    self.closeShoppingCart()
                 }
                 
                 self.view.addSubview(vcResult.view)

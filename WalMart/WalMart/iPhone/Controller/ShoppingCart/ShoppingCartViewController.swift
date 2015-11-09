@@ -1237,7 +1237,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var message = ""
         
         if associateNumber == nil ||  associateNumber?.trim() == "" {
-             message =  ", Número de sociado requerido"
+             message =  ", Número de asociado requerido"
         }
         else if dateAdmission == nil ||  dateAdmission?.trim() == ""{
              message =  ", Fecha de ingreso requerida"

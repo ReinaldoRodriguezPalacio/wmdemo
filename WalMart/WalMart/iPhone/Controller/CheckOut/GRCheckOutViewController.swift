@@ -945,7 +945,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func validateAssociate(pickerValues: [String:String], completion: (result:String) -> Void) {
         var message = ""
         if pickerValues[NSLocalizedString("checkout.discount.associateNumber", comment:"")] == nil ||  pickerValues[NSLocalizedString("checkout.discount.associateNumber", comment:"")]?.trim() == "" {
-            message =  ", Número de sociado requerido"
+            message =  ", Número de asociado requerido"
         }
         else if pickerValues[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ||  pickerValues[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]?.trim() == ""{
             message =  ", Fecha de ingreso requerida"
