@@ -101,13 +101,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                    action:WMGAIUtils.MG_EVENT_PRODUCTDETAIL_RELATEDPRODUCT.rawValue,
-                    label: upc,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: desc)
             
             upcItems.append(["upc":upc,"description":desc])
         }
