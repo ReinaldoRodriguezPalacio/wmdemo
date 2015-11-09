@@ -132,6 +132,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
+            
             //Event
 //            //TODOGAI
 //            if let tracker = GAI.sharedInstance().defaultTracker {

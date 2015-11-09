@@ -189,12 +189,11 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
 
         self.alertView!.setMessage(NSLocalizedString("profile.message.logout",comment:""))
         //Event close sesion
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_CLOSESESSION.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+    
+        
+    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
+        
+
         
         signOutButton?.enabled = false
         let shoppingCartUpdateBg = ShoppingCartProductsService()

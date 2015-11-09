@@ -263,13 +263,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             return
         }
         
-        //event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
-                label: "\(upc)",
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
         
         if self.listSelectorController == nil {
             self.listSelectorContainer = UIView(frame: CGRectMake(0, 360.0, 320.0, 0.0))
