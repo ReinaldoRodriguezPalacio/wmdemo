@@ -101,12 +101,9 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
             let upc = upcStr["upc"] as! String
             let desc = upcStr["description"] as! String
             
-      
-
-           
-            
+        
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(desc)-\(upc)")
-           
+
             
             upcItems.append(["upc":upc,"description":desc])
         }
