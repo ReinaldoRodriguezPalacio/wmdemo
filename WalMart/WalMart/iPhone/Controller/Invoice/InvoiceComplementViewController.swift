@@ -9,7 +9,7 @@
 
 import Foundation
 
-class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate {
+class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,AlertPickerViewDelegate, AlertPickerSelectOptionDelegate {
     let headerHeight: CGFloat = 46
     let fheight: CGFloat = 40.0
     let lheight: CGFloat = 25.0
@@ -32,8 +32,16 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     var finishButton: UIButton?
     var returnButton: UIButton?
 
+    var arrayAddressFiscal: NSArray?
+    var arrayAddressFiscalNames: [String]! = []
+    var selectedAddress: NSDictionary?
     
     var modalView: AlertModalView?
+    var picker: AlertPickerView!
+    var viewLoad: WMLoadingView?
+    var addressFormFisical: FiscalAddressPersonF?
+    var addressFormMoral: FiscalAddressPersonM?
+    var scrollForm : TPKeyboardAvoidingScrollView!
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_INVOICE.rawValue
@@ -164,8 +172,34 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.finishButton!.layer.cornerRadius = 20
         self.finishButton!.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(finishButton!)
+        
+        self.picker = AlertPickerView.initPickerWithDefault()
+        self.addViewLoad()
+        self.callServiceAddress()
+        
+        self.address!.onBecomeFirstResponder = { () in
+            
+            let btnNewAddress = WMRoundButton()
+            btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
+            //newAddressButton = WMRoundButton()  0x8EBB36
+            btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
+            btnNewAddress.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+            btnNewAddress.layer.cornerRadius = 2.0
+        
+            self.picker!.addRigthActionButton(btnNewAddress)
+            self.picker!.selectOptionDelegate = self
+            self.picker!.selectDelegate = true
+            self.picker!.sender = self.address!
+            self.picker!.titleHeader = "Direcciones"
+            self.picker!.delegate = self
+            //self.picker!.selected = self.selectedConfirmation
+            self.picker!.setValues(self.address!.nameField, values: self.arrayAddressFiscalNames!)
+            self.picker!.hiddenRigthActionButton(false)
+            self.picker!.cellType = TypeField.Check
+            self.picker!.showPicker()
+        }
     }
-    
+
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.buildView()
@@ -261,11 +295,164 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         modalView.showPicker()
     }
     
+    func callServiceAddress(){
+        let addressService = AddressByUserService()
+        addressService.callService({ (resultCall:NSDictionary) -> Void in
+            self.arrayAddressFiscal = []
+            
+            if let fiscalAddress = resultCall["fiscalAddresses"] as? NSArray {
+                self.arrayAddressFiscal = fiscalAddress
+                self.getAddressFiscalNames(fiscalAddress)
+                self.removeViewLoad()
+            }
+            }, errorBlock: { (error:NSError) -> Void in
+                print("errorBlock")
+                self.removeViewLoad()
+        })
+    }
+    
+    func getAddressFiscalNames(fiscalAddresses:NSArray){
+        for address in fiscalAddresses{
+            self.arrayAddressFiscalNames?.append(address["name"] as! String)
+        }
+    }
+    
     //MARK: TPKeyboardAvoidingScrollViewDelegate
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
         let val = CGSizeMake(self.view.frame.width, self.content.contentSize.height)
         return val
+    }
+    
+    //MARK: AlertPickerViewDelegate
+    
+    func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
+        if let formFieldObj = picker.sender as? FormFieldView {
+            if formFieldObj == self.address!{
+                self.selectedAddress = self.arrayAddressFiscal![indexPath.row] as? NSDictionary
+                self.address?.text = selectedStr
+            }
+            
+        }
+    }
+    
+    func didDeSelectOption(picker:AlertPickerView) {
+        if let formFieldObj = picker.sender as? FormFieldView {
+            if formFieldObj == self.address!{
+                //TODO: Que hacer con la direccion
+            }
+            
+        }
+    }
+    
+    
+    
+    func buttomViewSelected(sender: UIButton) {
+    }
+    
+    
+    
+    func viewReplaceContent(frame:CGRect) -> UIView! {
+        scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
+        self.scrollForm.scrollDelegate = self
+        if self.addressFiscalPersonSelect!.selected {
+            scrollForm.contentSize = CGSizeMake(frame.width, 490)
+            scrollForm.addSubview(self.getFisicalPersonForm(CGRectMake(0, 16, 288, 465)))
+        }else{
+            scrollForm.contentSize = CGSizeMake(frame.width, 470)
+            scrollForm.addSubview(self.getMoralPersonForm(CGRectMake(0, 16, 288, 465)))
+        }
+        
+        /*if !self.selectedAddressHasStore{
+            let serviceAddress = GRAddressesByIDService()
+            serviceAddress.addressId = self.selectedAddress!
+            serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                self.sAddredssForm.addressName.text = result["name"] as! String!
+                self.sAddredssForm.outdoornumber.text = result["outerNumber"] as! String!
+                self.sAddredssForm.indoornumber.text = result["innerNumber"] as! String!
+                self.sAddredssForm.betweenFisrt.text = result["reference1"] as! String!
+                self.sAddredssForm.betweenSecond.text = result["reference2"] as! String!
+                self.sAddredssForm.zipcode.text = result["zipCode"] as! String!
+                self.sAddredssForm.street.text = result["street"] as! String!
+                let neighborhoodID = result["neighborhoodID"] as! String!
+                let storeID = result["storeID"] as! String!
+                self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: neighborhoodID, storeID: storeID)
+                self.sAddredssForm.idAddress = result["addressID"] as! String!
+                }) { (error:NSError) -> Void in
+            }
+        }*/
+        self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
+        return scrollForm
+    }
+    
+    func saveReplaceViewSelected() {
+        /*self.picker!.onClosePicker = nil
+        self.addViewLoad()
+        let service = GRAddressAddService()
+        let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
+        if dictSend != nil {
+            
+            self.scrollForm.resignFirstResponder()
+            
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+            if self.addressItems?.count < 12 {
+                service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+                    print("Se realizao la direccion")
+                    self.picker!.closeNew()
+                    self.picker!.closePicker()
+                    self.selectedAddress = resultCall["addressID"] as! String!
+                    if let message = resultCall["message"] as? String {
+                        self.alertView!.setMessage("\(message)")
+                    }
+                    self.alertView!.showDoneIcon()
+                    
+                    self.picker!.titleLabel.textAlignment = .Center
+                    self.picker!.titleLabel.frame =  CGRectMake(40, self.picker!.titleLabel.frame.origin.y, self.picker!.titleLabel.frame.width, self.picker!.titleLabel.frame.height)
+                    self.picker!.isNewAddres =  false
+                    self.reloadUserAddresses()
+                    
+                    }) { (error:NSError) -> Void in
+                        self.removeViewLoad()
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon("Ok")
+                        self.alertView!.close()
+                }
+            }
+            else{
+                self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }
+        }*/
+    }
+    
+    //MARK: AlertPickerSelectOptionDelegate
+    func didSelectOptionAtIndex(indexPath: NSIndexPath) {
+        
+    }
+    
+    func getFisicalPersonForm(frame:CGRect) -> FiscalAddressPersonF{
+        return FiscalAddressPersonF(frame: frame, isLogin: false, isIpad: false)
+    }
+    
+    func getMoralPersonForm(frame:CGRect) -> FiscalAddressPersonM{
+        return FiscalAddressPersonM(frame: frame, isLogin: false, isIpad: false)
+    }
+    
+    func addViewLoad(){
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad!.backgroundColor = UIColor.whiteColor()
+            viewLoad!.startAnnimating(true)
+            self.view.addSubview(viewLoad!)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
     }
     
 }

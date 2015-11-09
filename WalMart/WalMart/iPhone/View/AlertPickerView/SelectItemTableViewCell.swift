@@ -10,7 +10,7 @@ import Foundation
 
 class SelectItemTableViewCell : UITableViewCell {
     
-    
+    var showButton: UIButton?
     var checkSelected : UIImageView!
     
     required init?(coder aDecoder: NSCoder) {
@@ -34,8 +34,14 @@ class SelectItemTableViewCell : UITableViewCell {
         
         self.textLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textLabel?.textColor = WMColor.selectorPickerText
-        
         self.textLabel?.numberOfLines = 0
+        
+        self.showButton = UIButton()
+        self.showButton?.hidden = true
+        self.showButton?.setTitle("ver", forState: UIControlState.Normal)
+        self.showButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.showButton?.setTitleColor( WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+        addSubview(showButton!)
         
     }
     
@@ -44,7 +50,9 @@ class SelectItemTableViewCell : UITableViewCell {
         super.layoutSubviews()
         checkSelected.frame = CGRectMake(0, 0, 33, 46)
         
-        self.textLabel?.frame = CGRectMake(self.checkSelected.frame.maxX, self.textLabel!.frame.minY, 247.0, self.textLabel!.frame.height)
+        self.textLabel?.frame = CGRectMake(self.checkSelected.frame.maxX, self.textLabel!.frame.minY, 249, self.textLabel!.frame.height)
+        
+        self.showButton?.frame = CGRectMake(250, self.textLabel!.frame.minY, 22, self.textLabel!.frame.height)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

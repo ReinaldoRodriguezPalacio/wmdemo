@@ -1030,6 +1030,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         return dateFmt.dateFromString(dateStr)!
     }
     
+    //MARK: AlertPickerViewDelegate
     
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {

@@ -611,7 +611,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                     self.alertView!.showDoneIcon()
                 }
             }//if let message = resultCall!["message"] as? String {
-             self.alertView == nil
+             self.alertView = nil
             if self.btnSuper.selected {
                 self.callServiceAddressGR()
             }else{
@@ -622,7 +622,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 print("error")
                 self.alertView!.setMessage(error.localizedDescription)
                 self.alertView!.showErrorIcon("Ok")
-                self.alertView == nil
+                self.alertView = nil
         })
     }
 

@@ -17,7 +17,10 @@ protocol AlertPickerViewDelegate {
     func saveReplaceViewSelected()
     
     func buttomViewSelected(sender:UIButton)
-    
+}
+
+protocol AlertPickerSelectOptionDelegate {
+    func didSelectOptionAtIndex(indexPath: NSIndexPath)
 }
 
 class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate {
@@ -38,6 +41,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     var selected : NSIndexPath!
     var delegate : AlertPickerViewDelegate? = nil
+    var selectOptionDelegate: AlertPickerSelectOptionDelegate? = nil
     
     var sender : AnyObject? = nil
     
@@ -52,7 +56,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var cellType: TypeField! = TypeField.Check
     var textboxValues: [String:String]? = [:]
     var stopRemoveView: Bool? = false
-    var isNewAddres  =  false
+    var isNewAddres: Bool  =  false
+    var selectDelegate: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -191,6 +196,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             cell.textLabel?.text = itemsToShow[indexPath.row]
             if self.selected != nil {
                 cell.setSelected(indexPath.row == self.selected.row, animated: true)
+            }
+            if self.selectDelegate{
+                cell.showButton?.hidden = false
+                cell.showButton?.tag = indexPath.row
+                cell.showButton?.addTarget(self, action: "cellShowButtonSelected:", forControlEvents: UIControlEvents.TouchUpInside)
             }
             return cell
         }
@@ -436,6 +446,10 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
                     
             }
         }
+    }
+    
+    func cellShowButtonSelected(sender:UIButton){
+        self.selectOptionDelegate?.didSelectOptionAtIndex(NSIndexPath(forRow: sender.tag, inSection: 0))
     }
     
     func closeNew() {
