@@ -172,12 +172,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addSubview(animation)
         
         //event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue,
-                action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
-                label: upc,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_LIST.rawValue, label: "\(desc) - \(upc)")
         
         
         delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable, added: { (addedTWL:Bool) -> Void in

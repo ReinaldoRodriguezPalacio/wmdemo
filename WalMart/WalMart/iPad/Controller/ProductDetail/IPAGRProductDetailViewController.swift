@@ -34,9 +34,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     override func loadDataFromService() {
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.GR_EVENT_SHOWPRODUCTDETAIL.rawValue, label: upc as String, value: nil).build() as [NSObject : AnyObject])
-        }
+        
 
         let productService = GRProductDetailService()
         productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
@@ -178,6 +176,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
                 tracker.send(builder.build() as [NSObject : AnyObject])
             }
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
            
             }) { (error:NSError) -> Void in
               //  var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)

@@ -689,9 +689,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.type = ResultObjectType.Mg
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_PRODUCT_DETAIL_IMAGE_TAPPED.rawValue, label:  "\(upc) - \(name)")
-  
+
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
         
+       
         let productService = ProductDetailService()
         productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
             

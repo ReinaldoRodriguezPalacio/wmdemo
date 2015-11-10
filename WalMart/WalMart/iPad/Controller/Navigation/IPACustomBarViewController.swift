@@ -133,10 +133,10 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func openSearchProduct(){
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-        }
 
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
+        
         if (self.btnShopping!.selected){
             if let vcRoot = shoppingCartVC.viewControllers.first as? ShoppingCartViewController {
                 vcRoot.delegate = self
@@ -180,9 +180,7 @@ class IPACustomBarViewController :  CustomBarViewController {
 
     override func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]?){
         if upc != nil {
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build() as [NSObject : AnyObject])
-            }
+           
             
             let contDetail = IPAProductDetailPageViewController()
             //contDetail.upc = upc!
@@ -213,9 +211,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             })
         }
         else{
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as [NSObject : AnyObject])
-            }
+            
             
             
             let controller = IPASearchProductViewController()

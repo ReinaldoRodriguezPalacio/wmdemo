@@ -333,12 +333,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             
             if self.passworCurrent != nil{
                 // Evente change password
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
-                        action:WMGAIUtils.EVENT_PROFILE_CHANGEPASSWORD.rawValue,
-                        label: nil,
-                        value: nil).build() as [NSObject : AnyObject])
-                }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CHANGE_PASSWORD.rawValue, action: WMGAIUtils.ACTION_CHANGE_PASSWORD.rawValue, label: "")
+                
             }
             
             self.view.endEditing(true)

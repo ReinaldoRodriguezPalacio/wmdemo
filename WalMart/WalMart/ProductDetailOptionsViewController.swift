@@ -214,9 +214,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         
                         //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOSHOPPINGCART.rawValue , label: "\(self.upc) - \(self.name)", value: nil).build() as [NSObject : AnyObject])
-                        }
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "")
                         
                         
                         UIView.animateWithDuration(0.2,
