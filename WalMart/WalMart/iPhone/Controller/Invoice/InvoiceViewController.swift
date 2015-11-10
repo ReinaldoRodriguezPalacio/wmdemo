@@ -63,14 +63,14 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         
         //Inician secciones
-        self.sectionTitle = self.buildSectionTitle("¿Que deseas hacer?", frame: CGRectMake(margin, 5.0, width, lheight))
+        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("invoice.section.actionToDo",comment:""), frame: CGRectMake(margin, 5.0, width, lheight))
         self.content.addSubview(sectionTitle)
         
         invoiceSelect = UIButton(frame: CGRectMake(margin,sectionTitle.frame.maxY,80,fheight))
         invoiceSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         invoiceSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
         invoiceSelect!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-        invoiceSelect!.setTitle("Factura", forState: UIControlState.Normal)
+        invoiceSelect!.setTitle(NSLocalizedString("invoice.button.invoice",comment:""), forState: UIControlState.Normal)
         invoiceSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         invoiceSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         invoiceSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
@@ -82,34 +82,34 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         consultSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
         consultSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         consultSelect!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-        consultSelect!.setTitle("Consultar", forState: UIControlState.Normal)
+        consultSelect!.setTitle(NSLocalizedString("invoice.button.consult",comment:""), forState: UIControlState.Normal)
         consultSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
         consultSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
         self.content.addSubview(self.consultSelect!)
         
-        self.sectionUserInfo = self.buildSectionTitle("Tus Datos", frame: CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight))
+        self.sectionUserInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.yourdata",comment:""), frame: CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight))
         self.content.addSubview(sectionUserInfo)
         
         self.rfc = FormFieldView(frame: CGRectMake(margin, self.sectionUserInfo!.frame.maxY + 10.0, width, fheight))
         self.rfc!.isRequired = true
-        self.rfc!.setCustomPlaceholder("RFC")
+        self.rfc!.setCustomPlaceholder(NSLocalizedString("invoice.field.rfc",comment:""))
         self.rfc!.typeField = TypeField.String
-        self.rfc!.nameField = "RFC"
+        self.rfc!.nameField = "rfc"
         self.rfc!.maxLength = 13
         self.content.addSubview(self.rfc!)
         self.zipCode = FormFieldView(frame: CGRectMake(margin, self.rfc!.frame.maxY + 5.0, width, fheight))
         self.zipCode!.isRequired = true
-        self.zipCode!.setCustomPlaceholder("Codigo Postal")
+        self.zipCode!.setCustomPlaceholder(NSLocalizedString("invoice.field.zipcode",comment:""))
         self.zipCode!.typeField = TypeField.String
-        self.zipCode!.nameField = "Codigo Postal"
+        self.zipCode!.nameField = "zipCodce"
         self.zipCode!.maxLength = 6
         self.content.addSubview(self.zipCode!)
         
-        self.sectionTicketInfo = self.buildSectionTitle("Datos de tu compra", frame: CGRectMake(margin, self.zipCode!.frame.maxY + 10.0, width, lheight))
+        self.sectionTicketInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.purchase.data",comment:""), frame: CGRectMake(margin, self.zipCode!.frame.maxY + 10.0, width, lheight))
         self.content.addSubview(sectionTicketInfo)
         
         self.scanTicketButton = UIButton(frame: CGRectMake(margin, self.sectionTicketInfo!.frame.maxY + 10.0, width, 30.0))
-        self.scanTicketButton!.setTitle("Ingresar datos escaneando tu ticket", forState: UIControlState.Normal)
+        self.scanTicketButton!.setTitle(NSLocalizedString("invoice.button.scan",comment:""), forState: UIControlState.Normal)
         self.scanTicketButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 15)
         self.scanTicketButton!.setImage(UIImage(named: "invoice_scan_ticket"), forState: UIControlState.Normal)
         self.scanTicketButton!.titleLabel!.textColor = UIColor.whiteColor()
@@ -122,15 +122,16 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.infoMessage = UILabel(frame:  CGRectMake(margin, self.scanTicketButton!.frame.maxY + 10.0, width, lheight))
         infoMessage!.textColor = UIColor.grayColor()
         infoMessage!.font = WMFont.fontMyriadProLightOfSize(14)
-        infoMessage!.text = "O ingresa manualmente los datos"
+        infoMessage!.text = NSLocalizedString("invoice.section.write",comment:"")
         infoMessage!.backgroundColor = UIColor.whiteColor()
         self.content.addSubview(infoMessage)
         
         self.ticketNumber = FormFieldView(frame: CGRectMake(margin, infoMessage.frame.maxY + 10.0, width - 24, fheight))
         self.ticketNumber!.isRequired = true
         var placeholder = NSMutableAttributedString()
-        placeholder.appendAttributedString(NSAttributedString(string: "Número de ticket - ", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
-        placeholder.appendAttributedString(NSAttributedString(string: "TC# en tu ticket", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
+        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.ticketnumber",comment:"")
+, attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
+        placeholder.appendAttributedString(NSAttributedString(string:NSLocalizedString("invoice.field.tc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
         self.ticketNumber!.setCustomAttributedPlaceholder(placeholder)
         self.ticketNumber!.typeField = TypeField.String
         self.ticketNumber!.nameField = "ticketNumber"
@@ -140,8 +141,8 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.transactionNumber = FormFieldView(frame: CGRectMake(margin, self.ticketNumber!.frame.maxY + 5.0, width - 24, fheight))
         self.transactionNumber!.isRequired = true
         placeholder = NSMutableAttributedString()
-        placeholder.appendAttributedString(NSAttributedString(string: "Número de transaccion - ", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
-        placeholder.appendAttributedString(NSAttributedString(string: "TR# en tu ticket", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
+        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.transactionnumber",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
+        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.tr",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
         self.transactionNumber!.setCustomAttributedPlaceholder(placeholder)
         self.transactionNumber!.typeField = TypeField.String
         self.transactionNumber!.nameField = "transactionNumber"
@@ -161,7 +162,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.content.contentSize = CGSizeMake(self.view.frame.width, transactionNumber!.frame.maxY + 5.0)
         
         self.cancelButton = UIButton(frame: CGRectMake(margin, self.content!.frame.maxY + 5.0, 140.0, fheight))
-        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
+        self.cancelButton!.setTitle(NSLocalizedString("invoice.button.cancel",comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
@@ -170,7 +171,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.view.addSubview(cancelButton!)
         
         self.nextButton = UIButton(frame: CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY + 5.0, 140.0, fheight))
-        self.nextButton!.setTitle("Siguiente", forState:.Normal)
+        self.nextButton!.setTitle(NSLocalizedString("invoice.button.next",comment:""), forState:.Normal)
         self.nextButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nextButton!.backgroundColor = WMColor.loginSignInButonBgColor
@@ -251,12 +252,12 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     func showCancelAlert(){
         let message = NSMutableAttributedString()
-        message.appendAttributedString(NSAttributedString(string: "¿Seguro que deseas cerrar Facturación Electrónica? \n Los datos no serán guardados", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.message.exit",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
         self.alertView?.messageLabel.textAlignment = .Center
         self.alertView?.setMessageLabelToCenter(225.0)
-        self.alertView?.addActionButtonsWithCustomText("Cancelar", leftAction: {(void) in
-            self.alertView?.close() }, rightText: "Continuar", rightAction: { (void) in
+        self.alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
+            self.alertView?.close() }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
             self.alertView?.close()
             self.navigationController?.popViewControllerAnimated(true)
         })
@@ -264,14 +265,14 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     func showInfoAlert(){
         let message = NSMutableAttributedString()
-        message.appendAttributedString(NSAttributedString(string: "Vigencia: ", attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-        message.appendAttributedString(NSAttributedString(string: "Debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra (fecha impresa en el ticket)", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-        message.appendAttributedString(NSAttributedString(string: "\n \n Resguardo: ", attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-        message.appendAttributedString(NSAttributedString(string: "Para poder realizar su factura o cualquier modificación o consulta, es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.", attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.validity",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.validity.desc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.guard",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+        message.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.info.guard.desc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(15),NSForegroundColorAttributeName:UIColor.whiteColor()]))
         
         
-        self.alertView = IPOWMAlertInfoViewController.showAttributedAlert("Avisos", message: message)
-        self.alertView?.showOkButton("Continuar", colorButton: WMColor.loginSignInButonBgColor)
+        self.alertView = IPOWMAlertInfoViewController.showAttributedAlert(NSLocalizedString("invoice.advice",comment:""), message: message)
+        self.alertView?.showOkButton(NSLocalizedString("invoice.message.continue",comment:""), colorButton: WMColor.loginSignInButonBgColor)
     }
     
     func next(){

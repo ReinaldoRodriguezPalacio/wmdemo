@@ -423,6 +423,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             //controllerProfile = "profileVC"
         }
         
+        
         let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC" ,"userListsVC", "moreVC"]
         
         for item in controllerIdentifiers {
@@ -922,7 +923,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
         self.btnShopping?.alpha = 1
-
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue,action:WMGAIUtils.ACTION_CANCEL.rawValue , label:"")
         
         if let vcRoot = shoppingCartVC.viewControllers.first as? PreShoppingCartViewController {
             vcRoot.delegate = self
@@ -955,6 +957,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.endUpdatingShoppingCart(self)
                 self.hidebadge()
                 self.btnShopping?.alpha = 0
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue , label: "")
                 
                 if self.btnCloseShopping == nil {
                     self.btnCloseShopping = UIButton()
