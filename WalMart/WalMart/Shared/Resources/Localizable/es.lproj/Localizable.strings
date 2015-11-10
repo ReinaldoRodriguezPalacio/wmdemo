@@ -543,3 +543,28 @@
 
 //Alertlogin
 "password.incorrect" = "Tu contraseña es incorrecta Recuerda que tienes 3 intentos antes de bloquear tu cuenta por 5 minutos";
+
+//Invoice
+"invoice.section.actionToDo" = "¿Qué deseas hacer?";
+"invoice.button.invoice" = "Facturar";
+"invoice.button.consult" = "Consultar";
+"invoice.section.yourdata" = "Tus Datos";
+"invoice.field.rfc" = "RFC";
+"invoice.field.zipcode" = "Código Postal";
+"invoice.section.purchase.data" = "Datos de tu compra";
+"invoice.button.scan" = "Ingresar datos escaneando tu ticket";
+"invoice.section.write" = "O ingresa manualmente los datos";
+"invoice.field.ticketnumber" = "Número de ticket - ";
+"invoice.field.transactionnumber" = "Número de transacción - ";
+"invoice.field.tr" = "TR# en tu ticket";
+"invoice.field.tc" = "TC# en tu ticket";
+"invoice.button.cancel" = "Cancelar";
+"invoice.button.next" = "Siguiente";
+"invoice.message.exit" = "¿Seguro que deseas cerrar Facturación Electrónica? \n Los datos no serán guardados";
+"invoice.message.continue" = "Continuar";
+"invoice.advice" = "Avisos";
+"invoice.info.validity" = "Vigencia: ";
+"invoice.info.validity.desc" = "Debe hacerlo en un periodo no mayor a los 7 días naturales después de haber realizado su compra (fecha impresa en el ticket)";
+"invoice.info.guard" = "\n \n Resguardo: ";
+"invoice.info.guard.desc" = "Para poder realizar su factura o cualquier modificación o consulta, es importante que siempre conserve su ticket de compra, de lo contrario, no se podrá realizar ningún movimiento o consulta.";
+
