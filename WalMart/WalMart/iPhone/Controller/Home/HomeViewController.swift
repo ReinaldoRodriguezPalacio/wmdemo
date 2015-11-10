@@ -204,13 +204,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
             
             
-            
-            
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue ), label: upc , value: nil).build() as [NSObject : AnyObject])
-                
-            }
+            //ACTION_VIEW_SPECIAL_DETAILS
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_VIEW_SPECIAL_DETAILS.rawValue, label: "\(upc)\(desc)")
+
 
             self.navigationController!.pushViewController(controller, animated: true)
         }
