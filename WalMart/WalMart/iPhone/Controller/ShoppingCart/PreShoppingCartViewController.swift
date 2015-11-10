@@ -193,7 +193,6 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
         //var originalHeight : CGFloat = 0.0
         
         //Event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
         self.navigationController!.view.frame = CGRectMake(self.navigationController!.view.frame.minX,62 , self.navigationController!.view.frame.width,  self.navigationController!.view.frame.height)
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in
