@@ -627,10 +627,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if let navController = self.currentController! as? UINavigationController {
             if self.searchController == nil  {
                 
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHPRESS.rawValue, label: "", value: nil).build()
-                    tracker.send( eventTracker as! [NSObject : AnyObject])
-                }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_OPTIONS.rawValue, label: "")
                 
                 if self.imageBlurView != nil {
                     self.imageBlurView?.removeFromSuperview()
@@ -791,11 +788,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]? ){
         if upc != nil {
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: upc, value: nil).build()
-                tracker.send( eventTracker as! [String : AnyObject])
-            }
-            
+                
             
             let controller = ProductDetailPageViewController()
             let svcValidate = GRProductDetailService()
@@ -824,9 +817,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         else{
             
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue, action: WMGAIUtils.EVENT_SEARCHACTION.rawValue, label: keyWord, value: nil).build() as NSDictionary as! [NSObject : AnyObject])
-            }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
             let controllernav = self.currentController as? UINavigationController
             let controllersInNavigation = controllernav?.viewControllers.count
             if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){

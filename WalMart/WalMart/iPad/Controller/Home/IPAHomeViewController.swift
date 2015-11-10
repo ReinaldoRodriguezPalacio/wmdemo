@@ -48,9 +48,8 @@ class IPAHomeViewController : HomeViewController {
                 let type = productRecomm["type"] as! String
                 paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
                 
-                if let tracker = GAI.sharedInstance().defaultTracker {
-                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_HOME.rawValue , action:(type == ResultObjectType.Groceries.rawValue ? WMGAIUtils.GR_EVENT_SPECIALPRESS.rawValue : WMGAIUtils.MG_EVENT_SPECIALPRESS.rawValue), label: upc , value: nil).build() as [NSObject : AnyObject])
-                }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(desc) - \(upc)")
+                
             }
             
             let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! IPAProductHomeCollectionViewCell!

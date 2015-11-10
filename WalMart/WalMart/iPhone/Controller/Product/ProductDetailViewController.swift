@@ -689,10 +689,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.type = ResultObjectType.Mg
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.MG_EVENT_SHOWPRODUCTDETAIL.rawValue, label: "\(upc) - \(name)", value: nil).build() as [NSObject : AnyObject])
-        }
         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
+        
+       
         let productService = ProductDetailService()
         productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
             

@@ -507,17 +507,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             self.wishlist.reloadData()
             self.emptyView.hidden = self.items.count > 0
             
-            //Event
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                    action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_REMOVEFROMWISHLIST.rawValue ,
-                    label: upc,
-                    value: nil).build() as [NSObject : AnyObject])
-            }
+           
             
-            if self.items.count == 0 {
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-            }
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: upc)
+            
             
             }, errorBlock: { (error:NSError) -> Void in
                 print("delete pressed Errro \(error)")

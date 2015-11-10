@@ -108,10 +108,8 @@ class GRMyAddressViewController: MyAddressViewController {
         self.superAddressController = SuperAddressViewController()
         self.superAddressController!.showGRAddressForm = self.hasCloseButton
         self.superAddressController!.allAddress =  self.arrayAddressShippingGR
-            
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_SELECTEDADDRESS.rawValue, action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_GR.rawValue, label: "", value: nil).build() as [NSObject : AnyObject])
-        }
+         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
         self.navigationController!.pushViewController(self.superAddressController, animated: true)
     }
     

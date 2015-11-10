@@ -77,13 +77,8 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
             return
         }
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_EDITPROFILE.rawValue,
-                action:WMGAIUtils.EVENT_PROFILE_EDITPROFILE.rawValue,
-                label: nil,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-        
+       
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
         sender.selected = !sender.selected
         self.delegate.selectedDetail(3)
     }
