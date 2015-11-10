@@ -23,6 +23,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
     var addCurrent: Bool = true
+    var backAction: Bool = false
     
     var viewTerms : BannerTermsView!
     
@@ -88,13 +89,15 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         if self.currentItem > 0 {
             if addCurrent{
              self.currentItem = self.currentItem! - 1
-             addCurrent = false
+             //addCurrent = false
             }else{
+                self.currentItem = self.currentItem! - 1
                 addCurrent = true
             }
         }else {
             self.currentItem = dataSource!.count - 1
         }
+        backAction = true
         return getCurrentController()
     }
     
@@ -200,9 +203,14 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         if addCurrent{
             currentItem = currentItem! + 1
         }
+        if backAction {
+            currentItem = currentItem! + 1
+            backAction = false
+        }
         if currentItem!  == dataSource?.count {
             currentItem = 0
         }
+        
         self.visibleItem = currentItem!
         self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
         addCurrent = true
