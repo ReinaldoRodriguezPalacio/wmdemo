@@ -37,12 +37,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
     override func addProductToWishlist() {
         self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
         //event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue,
-                action:WMGAIUtils.GR_EVENT_PRODUCTDETAIL_ADDTOLIST.rawValue ,
-                label: upc,
-                value: nil).build() as [NSObject : AnyObject])
-        }
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
         self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable, added: { (addedTWL:Bool) -> Void in
             self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)

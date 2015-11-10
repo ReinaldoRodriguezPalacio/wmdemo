@@ -33,7 +33,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         
         self.type = ResultObjectType.Groceries
     
-
         let productService = GRProductDetailService()
         productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
             
@@ -192,6 +191,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
                 tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
                 tracker.send(builder.build() as [NSObject : AnyObject])
+                
             }
             
             },errorBlock: { (error:NSError) -> Void in
@@ -259,7 +259,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             )
             return
         }
+
+        //event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label:"")
         
+
         if self.listSelectorController == nil {
             self.listSelectorContainer = UIView(frame: CGRectMake(0, 360.0, 320.0, 0.0))
             self.listSelectorContainer!.clipsToBounds = true
@@ -544,12 +548,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                             self.removeListSelector(action: nil)
                         }
                         //Event
-                        if let tracker = GAI.sharedInstance().defaultTracker {
-                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                                action: WMGAIUtils.GR_EVENT_PRODUCTDETAIL_REMOVEFROMLIST.rawValue ,
-                                label: "\(self.upc) ",
-                                value: nil).build() as [NSObject : AnyObject])
-                        }
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "\(self.name) - \(self.upc)")
                         
                     }, errorBlock: { (error:NSError) -> Void in
                         print("Error at remove product from list: \(error.localizedDescription)")
@@ -784,10 +783,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     }
             })
         }
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: (self.type == ResultObjectType.Mg ?  WMGAIUtils.MG_EVENT_PRODUCTDETAIL_INFORMATION.rawValue : WMGAIUtils.GR_EVENT_PRODUCTDETAIL_INFORMATION.rawValue) , label: upc as String, value: nil).build() as [NSObject : AnyObject])
-        }
+
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_INFORMATION.rawValue, label: "\(name) - \(upc)")
         
         self.detailCollectionView.scrollsToTop = true
         self.detailCollectionView.scrollEnabled = false

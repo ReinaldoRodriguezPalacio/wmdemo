@@ -855,12 +855,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     added(true)
                     
                     //Event
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                            action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_ADDTOWISHLIST.rawValue ,
-                            label: upc,
-                            value: nil).build() as [NSObject : AnyObject])
-                    }
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
                     
                     self.showMessageWishList(NSLocalizedString("wishlist.ready",comment:""))
                     }) { (error:NSError) -> Void in
@@ -876,12 +871,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     added(true)
                     
                     //Event
-                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                            action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_REMOVEFROMWISHLIST.rawValue ,
-                            label: upc,
-                            value: nil).build() as [NSObject : AnyObject])
-                    }
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: "\(self.name) - \(self.upc)")
                     
                     self.showMessageWishList(NSLocalizedString("wishlist.deleted",comment:""))
                     }, errorBlock: { (error:NSError) -> Void in
@@ -944,9 +934,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadDataFromService() {
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue, action: WMGAIUtils.MG_EVENT_SHOWPRODUCTDETAIL.rawValue, label: upc as String, value: nil).build() as [NSObject : AnyObject])
-        }
+        
         
         let productService = ProductDetailService()
         productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
@@ -1077,6 +1065,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
             tracker.send(builder.build() as [NSObject : AnyObject])
         }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
+        
     }
     
     func removeListSelector(action action:(()->Void)?, closeRow: Bool ) {
@@ -1115,13 +1106,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tmpheaderView.backgroundColor = WMColor.productDetailHeaderBgColor
         
         //Event
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue,
-                action: WMGAIUtils.MG_EVENT_PRODUCTDETAIL_SHAREPRODUCT.rawValue ,
-                label: self.upc as String,
-                value: nil).build() as [NSObject : AnyObject])
-        }
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
         
         let tmptitlelbl = UILabel(frame: CGRectMake(0, 0,tmpheaderView.frame.width , tmpheaderView.frame.height))
         tmptitlelbl.textAlignment = .Center

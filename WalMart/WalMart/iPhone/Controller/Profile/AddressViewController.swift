@@ -524,16 +524,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
  
     func save(sender:UIButton) {
-        
-//        //TODOGAI 
-//        
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_ADDRESSES.rawValue,
-//                action: WMGAIUtils.EVENT_PROFILE_MYADDRESSES_CREATE_MG.rawValue,
-//                label: "", value: nil).build() as [NSObject : AnyObject])
-//        }
-        
-        
         var params : NSDictionary? = nil
         var service :  BaseService!
         switch (typeAddress ) {
