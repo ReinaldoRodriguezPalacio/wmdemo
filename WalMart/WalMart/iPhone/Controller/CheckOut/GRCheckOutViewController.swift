@@ -81,7 +81,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var sectionTitleShipment : UILabel!
     var sectionTitleConfirm : UILabel!
     
-    
+    var isAssociateSend : Bool =  false
     var showDiscountAsociate : Bool = false
     var asociateDiscount : Bool = false
     var discountsFreeShippingAssociated : Bool = false
@@ -270,8 +270,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         picker = AlertPickerView.initPickerWithDefault()
         
-        self.addViewLoad();
-        
+        self.addViewLoad()
         
         
         self.invokeDiscountActiveService { () -> Void in
@@ -316,10 +315,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 self.reloadUserAddresses()
                 
+                self.invokeGetPromotionsService(self.picker.textboxValues!, discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
+                    print("end service")
+                })
+                
             }
             //PayPal
             PayPalMobile.preconnectWithEnvironment(self.getPayPalEnvironment())
         }
+        
+    
         
         
         //Fill orders
@@ -518,7 +523,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     //MARK: - Field Utils
-    
+    var afterButton :UIButton?
     func promCheckSelected(sender: UIButton){
         self.promotionIds! = ""
         if(sender.selected){
@@ -526,7 +531,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.promotionsDesc[sender.tag]["selected"] = "false"
         }
         else{
+            
+            if afterButton != nil{
+                afterButton!.selected = false
+                self.promotionsDesc[afterButton!.tag]["selected"] = "false"
+            }
+
+            
             sender.selected = true
+            afterButton = sender
             self.promotionsDesc[sender.tag]["selected"] = "true"
         }
         
@@ -658,7 +671,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.discountsFreeShippingNotAssociated = res
             }
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = res
+                self.showDiscountAsociate = res//TODO validar flujo
             }
             endCallDiscountActive()
             }, errorBlock: { (error:NSError) -> Void in
@@ -697,16 +710,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         )
     }
     
-    func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String])
+    func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:(() -> Void))
     {
-        if pickerValues.count == discountAssociateItems.count
-        {
+        /*if pickerValues.count == discountAssociateItems.count
+        {*/
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             self.alertView!.setMessage("Validando Promociones")
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
-            paramsDic["isAssociated"] = self.showDiscountAsociate ? "1":"0"
+            paramsDic["isAssociated"] = self.isAssociateSend ? "1":"0"//self.showDiscountAsociate ? "1":"0"
             paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
             let promotionsService = GRGetPromotionsService()
             
@@ -714,17 +727,27 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
             self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
             self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
-            
+        
+        
             promotionsService.setParams(paramsDic)
             promotionsService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
-                    if let listPromotions = resultCall["listSamples"] as? [AnyObject]{
-                        for promotion in listPromotions {
-                            let idPromotion = promotion["idPromotion"] as! Int
-                            let promotion = (promotion["promotion"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                    if let listSamples = resultCall["listSamples"] as? [AnyObject]{
+                        for promotionln in listSamples {
+                            let isAsociate = promotionln["isAssociated"] as! Bool
+                            self.isAssociateSend = isAsociate
+                            
+                            let idPromotion = promotionln["idPromotion"] as! Int
+                            let promotion = (promotionln["promotion"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                             self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
+                        }
+                    }
+                    if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
+                        for promotionln in listPromotions {
+                            let idPromotion = promotionln["idPromotion"] as! Int
+                            self.promotionIds! += (self.promotionIds == "") ? "\(idPromotion)" : ",\(idPromotion)"
                         }
                     }
                     //self.discountAssociate!.setSelectedCheck(true)
@@ -733,14 +756,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.alertView!.showDoneIcon()
                     })
                     self.buildSubViews()
+                    endCallPromotions()
                 }
                 }, errorBlock: {(error: NSError) -> Void in
+                    endCallPromotions()
                     //self.removeViewLoad()
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
-        }else{
+        /*}else{
             self.validateAssociate(pickerValues, completion: { (result:String) -> Void in
                 if result != "" {
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -748,7 +773,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.alertView!.showErrorIcon("Ok")
                 }
             })
-        }
+        }*/
     }
     
     func invokeDiscountAssociateService(pickerValues: [String:String], discountAssociateItems: [String])
@@ -790,10 +815,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                     self.discountAssociate!.setSelectedCheck(true)
                     self.asociateDiscount = true
-                    
+                    self.isAssociateSend =  true
                     self.invokeDeliveryTypesService({ () -> Void in
                         //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         //self.alertView!.showDoneIcon()
+                    })
+                    
+                    self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
+                        print("end service from asociate")
                     })
                     
                     self.discountAssociate!.onBecomeFirstResponder = { () in
@@ -967,7 +996,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.showAddressPicker()
                 self.removeViewLoad()
             }
-            
+            //TODO 
             let date = NSDate()
             self.selectedDate = date
             self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
@@ -1100,7 +1129,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
-                    self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+                    //self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
+                 
                 }
             }
         }
