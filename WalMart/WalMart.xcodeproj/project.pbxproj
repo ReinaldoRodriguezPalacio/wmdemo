@@ -386,11 +386,15 @@
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
+		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
+		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
+		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
 		6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
 		6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */; };
 		6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11851B8B7D880013FE44 /* AdSupport.framework */; };
+		6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6CAE71BF2C9900026689F /* ReferedForm.swift */; };
 		6CFBA2211BED0CEA00573754 /* InvoiceConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */; };
 		6CFDD8A81BC8275000124667 /* PushNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDD8A71BC8275000124667 /* PushNotificationService.swift */; };
 		8B19FD541AB0F207005A6D9E /* IPAHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */; };
@@ -920,12 +924,16 @@
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
+		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
+		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
+		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
 		6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOptionsViewController.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
 		6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextboxTableViewCell.swift; sourceTree = "<group>"; };
 		6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libPayPalMobile.a; path = WalMart/Shared/Library/PayPalMobile/libPayPalMobile.a; sourceTree = "<group>"; };
 		6CEB11831B8B74D30013FE44 /* PayPalMobile */ = {isa = PBXFileReference; lastKnownFileType = folder; name = PayPalMobile; path = Shared/Library/PayPalMobile; sourceTree = "<group>"; };
 		6CEB11851B8B7D880013FE44 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		6CF6CAE71BF2C9900026689F /* ReferedForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedForm.swift; path = iPhone/View/Refered/ReferedForm.swift; sourceTree = "<group>"; };
 		6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceConfirmView.swift; path = iPhone/View/Invoice/InvoiceConfirmView.swift; sourceTree = "<group>"; };
 		6CFDD8A71BC8275000124667 /* PushNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotificationService.swift; path = Shared/Services/Notification/PushNotificationService.swift; sourceTree = "<group>"; };
 		8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpViewController.swift; path = iPad/Controller/Help/IPAHelpViewController.swift; sourceTree = "<group>"; };
@@ -1512,6 +1520,7 @@
 		564578C419AE302E006A7152 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				6C8D5C281BF26FAF0020962E /* Refered */,
 				6C6294FB1BEA844E00613FB3 /* Invoice */,
 				5A4FEE4F1B3B1A02002B9C12 /* DefaultList */,
 				56679E7E1B3228BF003A8CB9 /* MoreView */,
@@ -1534,6 +1543,7 @@
 		564578C519AE3032006A7152 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6C8D5C251BF250DD0020962E /* Refered */,
 				6C3448911BDED98100092965 /* Invoice */,
 				5ADA68CF1BA0EDC2006F1C01 /* Notification   */,
 				56AC6E9E1B39CBEB00C599A2 /* DefaultList */,
@@ -2537,6 +2547,24 @@
 			name = Invoice;
 			sourceTree = "<group>";
 		};
+		6C8D5C251BF250DD0020962E /* Refered */ = {
+			isa = PBXGroup;
+			children = (
+				6C8D5C261BF2518F0020962E /* ReferedViewController.swift */,
+			);
+			name = Refered;
+			sourceTree = "<group>";
+		};
+		6C8D5C281BF26FAF0020962E /* Refered */ = {
+			isa = PBXGroup;
+			children = (
+				6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */,
+				6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */,
+				6CF6CAE71BF2C9900026689F /* ReferedForm.swift */,
+			);
+			name = Refered;
+			sourceTree = "<group>";
+		};
 		AC1CF41519EC7AA4006F1BC6 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
@@ -3055,6 +3083,7 @@
 				5606BC3B19BA782C002A70ED /* SelectorBandHandler.swift in Sources */,
 				5686DA551B59A67B004D4211 /* SearchItemsByUPCService.swift in Sources */,
 				5669022F1A942C56000D6FA6 /* RecentProductsTableViewCell.swift in Sources */,
+				6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */,
 				56DFE4D719D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift in Sources */,
 				AC0918CA19D1DA7700BF48CA /* FiscalAddressPersonM.swift in Sources */,
 				56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */,
@@ -3113,6 +3142,7 @@
 				569E005219BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift in Sources */,
 				56527DB319AFA2F2008032C6 /* BannerCollectionViewCell.swift in Sources */,
 				5670232E1AB0C91700FDCD91 /* IPAGRShoppingCartViewController.swift in Sources */,
+				6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */,
 				56EECE8B1B02EC630091F491 /* GRNutrimentalInfoView.swift in Sources */,
 				56C211881A24F1F4002D1C91 /* NotificationService.swift in Sources */,
 				6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */,
@@ -3130,6 +3160,7 @@
 				5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */,
 				56ED38F91B1D21DA0003E7AC /* IPACheckOutViewController.swift in Sources */,
 				5608AF731A0AA7BE00176CB0 /* IPASectionHeaderSearchReusable.swift in Sources */,
+				6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */,
 				5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */,
 				8BCA19721AAA619100065072 /* AlertButtomView.swift in Sources */,
 				56DFE4CF19D057C9001811F5 /* SWCellScrollView.m in Sources */,
@@ -3216,6 +3247,7 @@
 				56152F7D19BF724C009F50E4 /* ShoppingCartAddProductsService.swift in Sources */,
 				564A98AD19D320DE0047D898 /* ShoppingCartQuantitySelectorView.swift in Sources */,
 				6C3448931BDED9AB00092965 /* InvoiceViewController.swift in Sources */,
+				6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */,
 				04448A381A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift in Sources */,
 				AC3B64F019BE657000564845 /* SearchSingleViewCell.swift in Sources */,
 				5688470719E8775A00D5C45D /* IPACustomBarViewController.swift in Sources */,

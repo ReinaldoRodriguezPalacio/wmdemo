@@ -14,7 +14,7 @@
 "moreoptions.title.Recents" = "Artículos más comprados";
 "moreoptions.title.Address" = "Mis Direcciones";
 "moreoptions.title.Orders" = "Pedidos anteriores";
-"moreoptions.title.Factura" = "Facturación electrónica";
+"moreoptions.title.Invoice" = "Facturación electrónica";
 "moreoptions.title.ReferedList" = "Referidos";
 
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";

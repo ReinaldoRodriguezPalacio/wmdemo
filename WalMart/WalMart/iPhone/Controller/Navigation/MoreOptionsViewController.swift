@@ -13,24 +13,25 @@ enum OptionsController : String {
     case Recents = "Recents"
     case Address = "Address"
     case Orders = "Orders"
-    case Factura = "Factura"
-    case Notification  = "Notification"
-
+    case Refered = "ReferedList"
+    
     case StoreLocator = "StoreLocator"
     case CamFind = "CamFind"
     case TicketList = "TicketList"
+    case Invoice = "Invoice"
+    case Notification  = "Notification"
 
     case Help = "Help"
     case Terms = "Terms"
     case Contact = "Contact"
     
-    case Refered = "ReferedList"
+    
 
 }
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate,BarCodeViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Factura.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Refered.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -134,7 +135,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 3//4
+                return 4
             case 1:
                 return 5
             case 2:
@@ -154,9 +155,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + 8
+            currentOption = indexPath.row + 9
         default:
             print("")
         }
@@ -170,7 +171,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Address : image = "Address-icon"
         case .Orders : image = "Orders-icon"
         case .StoreLocator : image = "StoreLocator-icon"
-        case .Factura : image = "Factura-icon"
+        case .Invoice : image = "Factura-icon"
         case .Notification : image = "menu_icon_notification"
         case .CamFind : image = "Camfind-icon"
         case .TicketList : image = "menu_scanTicket"
@@ -213,9 +214,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + 8
+            currentOption = indexPath.row + 9
         default:
             print("")
         }
@@ -254,7 +255,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
-        case .Factura:
+        case .Invoice:
             let invoiceController = InvoiceViewController()
             self.navigationController!.pushViewController(invoiceController, animated: true)
         case .TicketList:
@@ -480,8 +481,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     func openRefered (){
-        let invoiceController = InvoiceViewController()
-        self.navigationController!.pushViewController(invoiceController, animated: true)
+        let referedController = ReferedViewController()
+        self.navigationController!.pushViewController(referedController, animated: true)
     
     }
     

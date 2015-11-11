@@ -43,7 +43,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        self.titleLabel?.text = NSLocalizedString("moreoptions.title.Factura",comment:"")
+        self.titleLabel?.text = NSLocalizedString("moreoptions.title.Invoice",comment:"")
         self.showInfoAlert()
         
         self.content = TPKeyboardAvoidingScrollView()

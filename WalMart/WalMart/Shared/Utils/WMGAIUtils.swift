@@ -74,6 +74,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case SCREEN_FREQUENTQUESTIONS = "FrequentQuestions"
     case SCREEN_ZOOMPRODUCTDETAIL = "ZoomProductDetail"
     case SCREEN_INVOICE = "Invoice"
+    case SCREEN_REFERED = "Refered"
     
 //MARK - CATEGORY
     case GR_CATEGORY_BANNER_COLLECTION_VIEW =  "C_GrbannerCollectionView"
