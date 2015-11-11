@@ -18,6 +18,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     var referedDescLabel: UILabel?
     var addReferedButton: UIButton?
     var layerLine: CALayer!
+    var modalView: AlertModalView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REFERED.rawValue
@@ -61,6 +62,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         addReferedButton?.backgroundColor = WMColor.listAddressHeaderSectionColor
         addReferedButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         addReferedButton?.layer.cornerRadius = 16
+        addReferedButton?.addTarget(self, action: "addRefered", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(addReferedButton!)
 
     }
@@ -193,6 +195,12 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             }
             self.referedTable.deleteRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
         }
+    }
+    
+    func addRefered(){
+        let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
+        let modalView = AlertModalView.initModalWithView("Invitar a un Amigo",innerView: addreferedForm)
+        modalView.showPicker()
     }
 
 }

@@ -18,8 +18,8 @@ class ReferedForm: UIView{
     var layerLine: CALayer!
     let leftRightPadding  : CGFloat = CGFloat(16)
     let errorLabelWidth  : CGFloat = CGFloat(150)
-    let fieldHeight  : CGFloat = CGFloat(14)
-    let separatorField  : CGFloat = CGFloat(20)
+    let fieldHeight  : CGFloat = CGFloat(40)
+    let separatorField  : CGFloat = CGFloat(12)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -38,8 +38,9 @@ class ReferedForm: UIView{
         
         self.titleSection = UILabel()
         self.titleSection!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.titleSection!.text =  "Tipo de Tránsito"
+        self.titleSection!.text =  "Datos de mi referido"
         self.titleSection!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleSection!.textAlignment = .Left
         self.addSubview(self.titleSection!)
         
         self.name = FormFieldView()
@@ -61,18 +62,23 @@ class ReferedForm: UIView{
         self.addSubview(self.mail!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Guardar", forState:.Normal)
+        self.saveButton!.setTitle("Enviar", forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: "addRefered", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(saveButton!)
 
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        self.titleSection.frame = CGRectMake(leftRightPadding,58,self.frame.width - leftRightPadding,16)
+        self.name.frame = CGRectMake(leftRightPadding,titleSection.frame.maxY + separatorField,self.frame.width - (leftRightPadding * 2),fieldHeight)
+        self.mail.frame = CGRectMake(leftRightPadding,name.frame.maxY + separatorField,self.frame.width - (leftRightPadding * 2),fieldHeight)
+        self.layerLine.frame = CGRectMake(0,mail.frame.maxY + separatorField,self.frame.width,1)
+        self.saveButton!.frame = CGRectMake((self.frame.width - 98) / 2,layerLine.frame.maxY + 12,98,34)
     }
     
 }
