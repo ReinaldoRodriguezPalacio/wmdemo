@@ -948,10 +948,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.idLine = filters![JSON_KEY_IDLINE] as? String
             self.searchContextType = flag ? .WithCategoryForGR : .WithCategoryForMG
         }
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_FILTER.rawValue, action: flag ? WMGAIUtils.GR_EVENT_FILTERDATA.rawValue : WMGAIUtils.MG_EVENT_FILTERDATA.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-", value: nil).build() as [NSObject : AnyObject])
-        }
+
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
         
         self.allProducts = []
         self.mgResults!.resetResult()

@@ -50,7 +50,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
     func setup() {
     
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
         self.layer.insertSublayer(layerLine, atIndex: 0)
         
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)

@@ -50,7 +50,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        self.titleLabel?.text = NSLocalizedString("moreoptions.title.Factura",comment:"")
+        self.titleLabel?.text = NSLocalizedString("moreoptions.title.Invoice",comment:"")
         
         let width = self.view.frame.width - (2*margin)
         let widthLessMargin = self.view.frame.width - margin
