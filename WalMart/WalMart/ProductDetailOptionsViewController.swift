@@ -213,6 +213,9 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
                     if self.onHandInventory.integerValue >= Int(quantity) {
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         
+                        //Event
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label: "")
+
                         UIView.animateWithDuration(0.2,
                             animations: { () -> Void in
                                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0	)
