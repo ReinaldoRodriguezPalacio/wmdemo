@@ -24,7 +24,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         super.viewDidLoad()
         
         
-        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Refered.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
        
     }
 
@@ -51,7 +51,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
         case 0:
-            return 3
+            return 4
         case 1:
             return 4
         case 2:
@@ -137,9 +137,9 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + 7
+            currentOption = indexPath.row + 8
         default:
             print("")
         }

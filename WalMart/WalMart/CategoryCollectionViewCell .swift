@@ -160,7 +160,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
                     //                    })
                     
                     //Event
-                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAROUSEL.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAROUSEL.rawValue, action: WMGAIUtils.ACTION_CHANGE_ITEM.rawValue, label: self.selectedCat!.title!.text!)
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAROUSEL.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAROUSEL.rawValue, action:  WMGAIUtils.ACTION_CHANGE_ITEM.rawValue, label: self.selectedCat!.title!.text!)
                     
 
                     

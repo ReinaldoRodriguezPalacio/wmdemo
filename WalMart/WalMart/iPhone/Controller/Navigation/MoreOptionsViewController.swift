@@ -31,7 +31,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate,BarCodeViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Refered.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -135,7 +135,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 3
+                return 4
             case 1:
                 return 5
             case 2:
@@ -155,9 +155,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + 8
+            currentOption = indexPath.row + 9
         default:
             print("")
         }
@@ -214,9 +214,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 3
+            currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + 8
+            currentOption = indexPath.row + 9
         default:
             print("")
         }
