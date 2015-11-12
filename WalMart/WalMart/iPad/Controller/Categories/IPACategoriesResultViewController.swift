@@ -189,6 +189,8 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
 
         searchProduct.collection?.scrollRectToVisible(CGRectMake(0, 0, self.frameEnd.width, self.frameEnd.height), animated: false)
         searchProduct.showLoadingIfNeeded(false)
+        searchProduct.brandText = ""
+       
         searchProduct.getServiceProduct(resetTable: true)
 
         searchProduct.dismissCategory()
