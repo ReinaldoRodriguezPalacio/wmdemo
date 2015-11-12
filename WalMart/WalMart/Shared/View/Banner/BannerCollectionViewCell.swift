@@ -96,6 +96,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             }
         }else {
             self.currentItem = dataSource!.count - 1
+            addCurrent = true
         }
         backAction = true
         return getCurrentController()
@@ -111,6 +112,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 self.currentItem = 0
             }
             addCurrent = false
+            backAction = false
            return getCurrentController()
     }
     
@@ -209,6 +211,9 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         }
         if currentItem!  == dataSource?.count {
             currentItem = 0
+        }
+        if currentItem!  > dataSource?.count {
+            currentItem = currentItem! - dataSource!.count
         }
         
         self.visibleItem = currentItem!
