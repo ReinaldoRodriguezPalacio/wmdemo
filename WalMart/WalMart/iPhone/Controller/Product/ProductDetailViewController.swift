@@ -233,6 +233,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     func backButton (){
         self.navigationController!.popViewControllerAnimated(true)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
     }
     
     

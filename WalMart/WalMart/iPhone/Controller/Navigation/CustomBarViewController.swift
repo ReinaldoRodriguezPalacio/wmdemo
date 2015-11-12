@@ -382,6 +382,21 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             let index = self.buttonList.indexOf(sender)
             
+            switch index! {
+            case 0:
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_HOME.rawValue, label: "")
+            case 1:
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MG.rawValue, label: "")
+            case 2:
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_GR.rawValue, label: "")
+            case 3:
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_LIST.rawValue, label: "")
+            case 4:
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TAP_BAR.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_OPTION.rawValue, label: "")
+            default:
+                break
+            }
+            
             
             let controller = self.viewControllers[index!]
             if controller === self.currentController {
@@ -994,6 +1009,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             vcRoot.openShoppingCart()
         }
         self.view.endEditing(true)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CAR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CAR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRE_SHOPPING_CART.rawValue, label: "")
     }
     
     
@@ -1172,6 +1188,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func logoTap(){
         self.buttonSelected(self.buttonList[0])
         self.closeShoppingCart()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NAVIGATION_BAR.rawValue, action: WMGAIUtils.ACTION_GO_TO_HOME.rawValue, label: "")
     }
     
     func hidebadge() {
