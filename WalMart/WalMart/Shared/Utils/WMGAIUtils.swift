@@ -88,8 +88,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_SEARCH =  "C_Search"
     case CATEGORY_SPECIAL_BANNER = "C_SpecialBanner"
     case CATEGORY_CAROUSEL =  "C_Carousel"
-    case CATEGORY_SPECIAL_DETAILS =  "_CSpecialDetails"
-    case CATEGORY_TAP_BAR =  "C_TapBar"
+    case CATEGORY_SPECIAL_DETAILS =  "C_SpecialDetails"
+    case CATEGORY_TAP_BAR =  "C_TabBar"
     case CATEGORY_PRODUCT_DETAIL_AUTH =  "C_ProductDetailAuth"
     case CATEGORY_PRODUCT_DETAIL_NO_AUTH =  "C_ProductDetailNoAuth"
     case CATEGORY_SEARCH_PRODUCT =  "C_SearchProduct"
@@ -171,6 +171,13 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_TERMS_AND_CONDITIONS_AUTH =  "C_CategoryTermsAndConditionsAuth"
     case CATEGORY_TERMS_AND_CONDITIONS_NOAUTH =  "C_CategoryTermsAndConditionsNoauth"
     case CATEGORY_MGPREVIOUS_ORDERS_DETAIL =  "C_CategoryMgpreviousOrdersDetail"
+    
+    //Ultimerrimas
+    case CATEGORY_MG_BANNER_AUTH = "C_MGBannerAuth"
+    case CATEGORY_GR_BANNER_AUTH = "C_GRBannerAuth"
+    
+    case CATEGORY_MG_BANNER_NO_AUTH = "C_MGBannerNoAuth"
+    case CATEGORY_GR_BANNER_NO_AUTH = "C_GRBannerNoAuth"
     
     
     
@@ -319,6 +326,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_CLOSE_END_TUTORIAL =  "A_CloseEndTutorial"
     case ACTION_VIEW_BANNER_PRODUCT =  "A_ViewBannerProduct"
     case ACTION_VIEW_BANNER_CATEGORY =  "A_ViewBannerCategory"
+    case ACTION_VIEW_BANNER_LINE =  "A_ViewBannerLine"
     case ACTION_VIEW_BANNER_SEARCH_TEXT =  "A_ViewBannerSearchText"
     case ACTION_VIEW_BANNER_TERMS =  "A_ViewBannerTerms"
     case ACTION_OPEN_PRE_SHOPPING_CART =  "A_OpenPreShoppingCart"
@@ -383,7 +391,9 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_TIEMPO_DE_ENTREGA =  "A_TiempodeEntrega"
     case ACTION_TERMS_CONDITION_AUTH = "A_Términosycondiciones"
     case ACTION_AVISO_DE_PRIVACIDAD  = " A_AvisodePrivacidad"
+    case ACTION_APP_SESSION_END = "A_CerrarSesión"
     
+
     case ACTION_RELATED_PRODUCT  = " A_RelatedProduct"
     case ACTION_CHANGE_PASSWORD =  "A_ChangePassword"
     
