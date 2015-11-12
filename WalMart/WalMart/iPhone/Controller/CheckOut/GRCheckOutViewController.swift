@@ -99,9 +99,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var promotionIds: String! = ""
     var promotionsDesc: [[String:String]]! = []
     var hasPromotionsButtons: Bool! = false
-    var idReferido : Int! = 0
-    var idFreeShepping : Int! = 0
-    var discountIds: NSArray? =  []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -528,7 +525,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     //MARK: - Field Utils
     var afterButton :UIButton?
     func promCheckSelected(sender: UIButton){
-        //self.promotionIds! = ""
+        self.promotionIds! = ""
         if(sender.selected){
             sender.selected = false
             self.promotionsDesc[sender.tag]["selected"] = "false"
@@ -549,13 +546,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         for prom in self.promotionsDesc{
             if prom["selected"] == "true" {
                 let idPromotion = prom["idPromotion"]!
-                if !discountIds!.containsObject(idPromotion){
-                    discountIds!.setValue("\(idPromotion)", forKey:"\(idPromotion)")
-                }
                self.promotionIds! += (self.promotionIds == "") ? "\(idPromotion)" : ",\(idPromotion)"
             }
         }
-        print("promosiones:::: \(self.promotionIds) :::")
     }
     
     func paymentOption(atIndex index:Int) -> String {
@@ -753,24 +746,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
                         for promotionln in listPromotions {
-                            let promotion = promotionln["idPromotion"] as! Int
-                            self.promotionIds! += (self.promotionIds == "") ? "\(promotion)" : ",\(promotion)"
-                        }
-                    }
-                    
-                    if let listFreeshippins = resultCall["listFreeshippins"] as? [AnyObject]{
-                        for freeshippin in listFreeshippins {
-                             self.idFreeShepping = freeshippin["idPromotion"] as! Int
-                           print(freeshippin["idPromotion"] as! Int)
-                        }
-                    }
-                    
-                    if self.idFreeShepping == 0 {
-                        if let listReferidos = resultCall["listReferidos"] as? [AnyObject]{
-                            for promotionln in listReferidos {
-                                self.idReferido = promotionln["idPromotion"] as! Int
-                                self.promotionIds! += (self.promotionIds == "") ? "\(self.idReferido)" : ",\(self.idReferido)"
-                            }
+                            let idPromotion = promotionln["idPromotion"] as! Int
+                            self.promotionIds! += (self.promotionIds == "") ? "\(idPromotion)" : ",\(idPromotion)"
                         }
                     }
                     //self.discountAssociate!.setSelectedCheck(true)
