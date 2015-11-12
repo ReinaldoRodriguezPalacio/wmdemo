@@ -714,8 +714,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     {
         /*if pickerValues.count == discountAssociateItems.count
         {*/
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-            self.alertView!.setMessage("Validando Promociones")
+            //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+            //self.alertView!.setMessage("Validando Promociones")
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
@@ -752,8 +752,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     //self.discountAssociate!.setSelectedCheck(true)
                     self.invokeDeliveryTypesService({ () -> Void in
-                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                        self.alertView!.showDoneIcon()
+                        //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                        //self.alertView!.showDoneIcon()
                     })
                     self.buildSubViews()
                     endCallPromotions()
@@ -761,8 +761,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }, errorBlock: {(error: NSError) -> Void in
                     endCallPromotions()
                     //self.removeViewLoad()
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
+                    //self.alertView!.setMessage(error.localizedDescription)
+                    //self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
         /*}else{
@@ -781,8 +781,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if pickerValues.count == discountAssociateItems.count
         {
             
-            //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-            //self.alertView!.setMessage("Validando descuentos")
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+            self.alertView!.setMessage("Validando descuentos")
             
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
@@ -817,12 +817,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.asociateDiscount = true
                     self.isAssociateSend =  true
                     self.invokeDeliveryTypesService({ () -> Void in
-                        //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                        //self.alertView!.showDoneIcon()
+                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                        self.alertView!.showDoneIcon()
                     })
                     
                     self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
                         print("end service from asociate")
+                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                        self.alertView!.showDoneIcon()
                     })
                     
                     self.discountAssociate!.onBecomeFirstResponder = { () in
@@ -831,8 +833,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 }, errorBlock: {(error: NSError) -> Void in
                 //self.removeViewLoad()
-                    //self.alertView!.setMessage(error.localizedDescription)
-                    //self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
         }

@@ -55,28 +55,15 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
         imagePresale.hidden = !preorderable
         if  saving != "" && saving != "null"  {
-            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.savingTextColor, interLine: false)
+            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.savingTextColor, interLine: false)
             productPriceLabel!.label2?.hidden = true
-            productPriceLabel?.label1?.font = WMFont.fontMyriadProBlackOfSize(11)
-            
+            productPriceLabel?.label1?.lineBreakMode = .ByTruncatingTail
         }
         if listPrice {
             productPriceLabel!.label1?.textColor = WMColor.savingTextColor
             productPriceLabel!.label2?.textColor = WMColor.savingTextColor
-            productPriceLabel!.label2?.hidden = true
         }
 
-        
     }
-    
-    
-    
-    
-    
-    
-    
-        
-    
-    
     
 }
