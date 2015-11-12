@@ -259,9 +259,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             )
             return
         }
+        
+        //Event
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
 
-        //event
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label:"")
+
         
 
         if self.listSelectorController == nil {

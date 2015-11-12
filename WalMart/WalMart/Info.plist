@@ -475,7 +475,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>https://dl.dropboxusercontent.com/u/10098759/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -895,7 +895,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>https://dl.dropboxusercontent.com/u/10098759/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
