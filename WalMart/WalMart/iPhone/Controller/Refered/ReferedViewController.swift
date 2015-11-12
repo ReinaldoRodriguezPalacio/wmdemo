@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ReferedViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate{
+class ReferedViewController: NavigationViewController,UITableViewDataSource,UITableViewDelegate, ReferedFormDelegate{
     
     let headerHeight: CGFloat = 46
     
@@ -19,6 +19,11 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     var addReferedButton: UIButton?
     var layerLine: CALayer!
     var modalView: AlertModalView?
+    var viewLoad: WMLoadingView?
+    var alertView: IPOWMAlertViewController? = nil
+    
+    var confirmRefered: [AnyObject]! = []
+    var pendingRefered: [AnyObject]! = []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REFERED.rawValue
@@ -59,11 +64,16 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         addReferedButton = UIButton()
         addReferedButton?.setTitle("Referir a un amigo", forState:.Normal)
         addReferedButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        addReferedButton?.backgroundColor = WMColor.listAddressHeaderSectionColor
+        addReferedButton?.backgroundColor = WMColor.light_gray
         addReferedButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         addReferedButton?.layer.cornerRadius = 16
         addReferedButton?.addTarget(self, action: "addRefered", forControlEvents: UIControlEvents.TouchUpInside)
+        addReferedButton?.enabled = false
         self.view.addSubview(addReferedButton!)
+        
+        self.addViewLoad()
+        self.invokeReferedCustomerService()
+        self.invokeValidateActiveReferedService()
 
     }
     
@@ -96,81 +106,58 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell! = nil
-        if indexPath.row == 0 &&  indexPath.section == 0{
+        var referedArray = []
+        var titleSection = ""
+        
+        if indexPath.section == 0{
+            referedArray = self.pendingRefered
+            titleSection = "Pendientes"
+        }
+        else{
+            referedArray = self.confirmRefered
+            titleSection = "Confirmados"
+        }
+        
+        if indexPath.row == 0{
             let referedCell = referedTable.dequeueReusableCellWithIdentifier("referedCell", forIndexPath: indexPath) as! ReferedTableViewCell
-            referedCell.setTitleAndCount("Pendientes", count:  "3")
+            referedCell.setTitleAndCount(titleSection, count:  "\(referedArray.count)")
             cell = referedCell
-        } else if indexPath.row == 0 &&  indexPath.section == 1 {
-            let referedCell = referedTable.dequeueReusableCellWithIdentifier("referedCell", forIndexPath: indexPath) as! ReferedTableViewCell
-            referedCell.setTitleAndCount("Confirmados", count:  "2")
-            cell = referedCell
-        }else {
-            let cellDetail = referedTable.dequeueReusableCellWithIdentifier("referedDetail", forIndexPath: indexPath) as! ReferedDetailTableViewCell
-            //let selectedRow = families[indexPath.section]
-            //let linesArr = selectedSection["line"] as! NSArray
-            //let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
-            //let selectedItem = itemLine["id"] as! String
-            cellDetail.setValues("Luis Alonso Salcido Martinez", email: "alonso.salcido@mail.com")
+        }else{
+           let cellDetail = referedTable.dequeueReusableCellWithIdentifier("referedDetail", forIndexPath: indexPath) as! ReferedDetailTableViewCell
+            let refered = referedArray[indexPath.row - 1]
+            let name = refered["nameRef"] as! String
+            let email = refered["emailRef"] as! String
+            cellDetail.setValues(name, email: email)
             cell = cellDetail
         }
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-       /* if indexPath.row == 0  {
-            let changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedRow.section != indexPath.section) )
-            if selectedRow != nil {
-                deSelectSection(selectedRow)
-            }
-            if changeSelection {
-                selectSection(indexPath)
-                self.familyTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
-            }
-            let label = families[indexPath.section]["name"] as! String
-            let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-            BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
-        }
-        else {
-            let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
-            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
-            
-            let controller = SearchProductViewController()
-            controller.searchContextType = .WithCategoryForMG
-            if self.categoriesType != nil {
-                switch self.categoriesType! {
-                case .CategoryForGR : controller.searchContextType = .WithCategoryForGR
-                case .CategoryForMG : controller.searchContextType = .WithCategoryForMG
-                    //default : print("No se ha indicado tipo de categorias.")
-                }
-                
-            }
-            controller.titleHeader = itemLine["name"] as? String
-            controller.idDepartment = departmentId
-            controller.idFamily = selectedSection["id"] as? String
-            controller.idLine = itemLine["id"] as? String
-            
-            self.navigationController!.pushViewController(controller, animated: true)
-            let label = itemLine["name"] as! String
-            let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-            BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
-        }*/
         if indexPath.row == 0  {
-            if selectedRow != nil {
+            if selectedRow != nil{
                 deSelectSection(selectedRow)
             }
             selectSection(indexPath)
+        }else if indexPath.section == 1 {
+            let refered = self.confirmRefered[indexPath.row - 1]
+            let name = refered["nameRef"] as! String
+            let email = refered["emailRef"] as! String
+            let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
+            addreferedForm.showReferedUser(name, mail: email)
+            self.modalView = AlertModalView.initModalWithView("Invitar a un Amigo",innerView: addreferedForm)
+            self.modalView!.showPicker()
         }
     }
     
     func numberOfRowsInSection(section:Int) -> Int {
-        /*if section < families.count {
-            let selectedSection = families[section]
-            let nameLine = selectedSection["line"] as! NSArray
-            return nameLine.count
+        if section == 0 {
+            return self.pendingRefered.count
         }
-        return 1*/
-        return 3
+        else if section == 1{
+            return self.confirmRefered.count
+        }
+        return 0
     }
     
     func selectSection(indexPath: NSIndexPath!) {
@@ -199,8 +186,100 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     func addRefered(){
         let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
-        let modalView = AlertModalView.initModalWithView("Invitar a un Amigo",innerView: addreferedForm)
-        modalView.showPicker()
+        addreferedForm.delegate = self
+        self.modalView = AlertModalView.initModalWithView("Invitar a un Amigo",innerView: addreferedForm)
+        self.modalView!.showPicker()
+    }
+    
+    //MARK: Services
+    
+    func invokeReferedCustomerService(){
+        let referedCustomerService = ReferedCustomer()
+        referedCustomerService.callService({ (result:NSDictionary) -> Void in
+            if (result["codeMessage"] as! Int) == 0{
+                let responceArray = result["responseArray"] as! [AnyObject]
+                for refered in responceArray {
+                    let status = refered["statusRef"] as! String
+                    if status == "No"{
+                      self.pendingRefered.append(refered)
+                    }else{
+                        self.confirmRefered.append(refered)
+                    }
+                }
+                self.referedTable.reloadData()
+            }
+             self.removeViewLoad()
+            }, errorBlock: {(error:NSError) -> Void in
+                print("Error in ReferedCustomerService")
+             self.removeViewLoad()
+        })
+    }
+    
+    func invokeValidateActiveReferedService(){
+        let validateActiveReferedService = ValidateActiveRefered()
+        validateActiveReferedService.callService({ (result:NSDictionary) -> Void in
+            if let isActive = result["responseObject"] as? Bool{
+                if isActive{
+                    self.addReferedButton?.enabled = true
+                    self.addReferedButton?.backgroundColor = WMColor.listAddressHeaderSectionColor
+                }
+                else{
+                    self.addReferedButton?.enabled = false
+                    self.addReferedButton?.backgroundColor = WMColor.light_gray
+                }
+            }
+            }, errorBlock: {(error:NSError) -> Void in
+                print("Error in validateActiveReferedService")
+                self.addReferedButton?.enabled = false
+                self.addReferedButton?.backgroundColor = WMColor.light_gray
+        })
+    }
+    
+    func addViewLoad(){
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad!.backgroundColor = UIColor.whiteColor()
+            viewLoad!.startAnnimating(true)
+            self.view.addSubview(viewLoad!)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+    
+    //MARK: ReferedFormDelegate
+    
+    func selectSaveButton(name:String,mail:String) {
+        modalView?.closePicker()
+        let addReferedService = AddReferedCustumer()
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+        self.alertView!.view.alpha = 0.96
+        addReferedService.callService(requestParams: addReferedService.buildParamsRefered(mail, nameRef: name, isReferedAutorized: true),
+            successBlock: {(result:NSDictionary) -> Void in
+                //codeMessage 0 == OK; codeMessage -1 == NOOK
+                let codeMessage = result["codeMessage"] as! Int
+                if codeMessage == 0
+                {
+                    self.alertView!.setMessage("¡Listo!\nLa invitación se ha enviado con éxito.")
+                    self.alertView!.showicon(UIImage(named: "alerta_listo"))
+                    self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+
+                }else if codeMessage == -1 {
+                    self.alertView!.setMessage("Tu amigo ya tiene una cuenta\nIntenta con otro correo.")
+                    self.alertView!.showicon(UIImage(named: "alerta_repetir"))
+                    self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                }
+            },
+            errorBlock: {(error:NSError) -> Void in
+                print("Error AddRefered")
+                self.alertView!.setMessage("Por el momento no se puedo enviar tu invitación. \nVuelve a intentarlo más tarde.")
+                self.alertView!.showicon(UIImage(named: "alerta_fail"))
+                self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+            })
     }
 
 }
