@@ -723,6 +723,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     func updateEditButton (){
         
+        
+        self.deleteall.alpha = self.items.count != 0 && self.isEdditing  ? 1 : 0
+        
         edit.hidden = self.items.count == 0
         edit.selected = false
         edit.backgroundColor = WMColor.wishlistEditButtonBgColor

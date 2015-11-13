@@ -1700,8 +1700,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func getAppId() -> String{
-        IS_IPAD
-        let validateIpad = IS_IPAD ? "Ipad" : "Iphone"
-        return "iOS \(UIDevice.currentDevice().systemVersion) \(validateIpad)"
+        return "\(UserCurrentSession.systemVersion()) \(UserCurrentSession.currentDevice())"
     }
 }

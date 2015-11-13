@@ -87,18 +87,11 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         self.currentItem =  viewController.view.tag
         if self.currentItem > 0 {
-            if addCurrent{
-             self.currentItem = self.currentItem! - 1
-             //addCurrent = false
-            }else{
-                self.currentItem = self.currentItem! - 1
-                addCurrent = true
-            }
+            self.currentItem = self.currentItem! - 1
         }else {
             self.currentItem = dataSource!.count - 1
-            addCurrent = true
+            
         }
-        backAction = true
         return getCurrentController()
     }
     
@@ -111,9 +104,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             }else {
                 self.currentItem = 0
             }
-            addCurrent = false
-            backAction = false
-           return getCurrentController()
+            return getCurrentController()
     }
     
     func getCurrentController() -> HomeBannerImageViewController {
@@ -202,24 +193,16 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     func changebanner() {
-        if addCurrent{
-            currentItem = currentItem! + 1
-        }
-        if backAction {
-            currentItem = currentItem! + 1
-            backAction = false
-        }
+        self.currentItem = self.visibleItem
+        currentItem = currentItem! + 1
+        
         if currentItem!  == dataSource?.count {
             currentItem = 0
-        }
-        if currentItem!  > dataSource?.count {
-            currentItem = currentItem! - dataSource!.count
         }
         
         self.visibleItem = currentItem!
         self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        addCurrent = true
-       
+        
         self.reloadTermsAndPages()
     }
 

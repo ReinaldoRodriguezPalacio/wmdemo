@@ -31,7 +31,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate,BarCodeViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Refered.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -135,7 +135,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 4
+                return 3
             case 1:
                 return 5
             case 2:
@@ -155,9 +155,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 9
+            currentOption = indexPath.row + 8
         default:
             print("")
         }
@@ -214,9 +214,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 9
+            currentOption = indexPath.row + 8
         default:
             print("")
         }
@@ -256,8 +256,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
         case .Invoice:
-            let invoiceController = InvoiceViewController()
-            self.navigationController!.pushViewController(invoiceController, animated: true)
+            let webCtrl = IPOWebViewController()
+            webCtrl.openURLFactura()
+            self.presentViewController(webCtrl,animated:true,completion:nil)
         case .TicketList:
             scanTicket()
         case .Refered:

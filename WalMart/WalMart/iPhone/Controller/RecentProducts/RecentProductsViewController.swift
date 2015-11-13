@@ -56,6 +56,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             viewLoad.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(viewLoad)
             viewLoad.startAnnimating(self.isVisibleTab)
+            recentProducts.reloadData()
         }
         
         let service = GRRecentProductsService()
@@ -95,7 +96,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         }
         
         
-        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: false,pesable:pesable)
+        cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
     }

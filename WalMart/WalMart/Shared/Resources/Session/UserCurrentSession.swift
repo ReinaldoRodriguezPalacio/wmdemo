@@ -52,6 +52,14 @@ class UserCurrentSession : NSObject {
         return !(UserCurrentSession.sharedInstance().userSigned == nil)
     }
 
+    class func currentDevice() -> String{
+        let validateIpad = IS_IPAD ? "Ipad" : "Iphone"
+        return validateIpad
+    }
+    
+    class func systemVersion() -> String{
+        return "iOS \(UIDevice.currentDevice().systemVersion)"
+    }
     
     func searchForCurrentUser(){
         
