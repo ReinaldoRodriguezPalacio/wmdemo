@@ -47,7 +47,9 @@ class ShoppingCartUpdateController : UIViewController {
         if multipleItems != nil {
             if multipleItems?.count > 0 {
                 let allItems = multipleItems!["allitems"] as! NSArray
-                params = allItems[currentIndex] as? [String:AnyObject]
+                if allItems.count > 0 {
+                    params = allItems[currentIndex] as? [String:AnyObject]
+                }
             }
         }
         

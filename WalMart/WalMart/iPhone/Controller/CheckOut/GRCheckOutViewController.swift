@@ -101,7 +101,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var hasPromotionsButtons: Bool! = false
     var idReferido : Int! = 0
     var idFreeShepping : Int! = 0
-    var discountIds: NSArray? =  []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -527,8 +526,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     //MARK: - Field Utils
     var afterButton :UIButton?
+    var promotionSelect: String! = ""
     func promCheckSelected(sender: UIButton){
         //self.promotionIds! = ""
+        if promotionSelect != ""{
+            self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(promotionSelect)", withString: "")
+        }
         if(sender.selected){
             sender.selected = false
             self.promotionsDesc[sender.tag]["selected"] = "false"
@@ -548,13 +551,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         for prom in self.promotionsDesc{
             if prom["selected"] == "true" {
+                
                 let idPromotion = prom["idPromotion"]!
-                if !discountIds!.containsObject(idPromotion){
-                    discountIds!.setValue("\(idPromotion)", forKey:"\(idPromotion)")
-                }
+                //promotionSelect =  idPromotion
+                promotionSelect = idPromotion
                self.promotionIds! += (self.promotionIds == "") ? "\(idPromotion)" : ",\(idPromotion)"
             }
         }
+        
         print("promosiones:::: \(self.promotionIds) :::")
     }
     
@@ -735,6 +739,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
             self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
         
+            //self.promotionIds! = ""
         
             promotionsService.setParams(paramsDic)
             promotionsService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
@@ -745,7 +750,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         for promotionln in listSamples {
                             let isAsociate = promotionln["isAssociated"] as! Bool
                             self.isAssociateSend = isAsociate
-                            
                             let idPromotion = promotionln["idPromotion"] as! Int
                             let promotion = (promotionln["promotion"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                             self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
@@ -754,14 +758,22 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     if let listPromotions = resultCall["listPromotions"] as? [AnyObject]{
                         for promotionln in listPromotions {
                             let promotion = promotionln["idPromotion"] as! Int
+                            self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(promotion)", withString: "")
+                            self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(promotion),", withString: "")
+                            
                             self.promotionIds! += (self.promotionIds == "") ? "\(promotion)" : ",\(promotion)"
+                            print("listPromotions: \(promotion)")
                         }
                     }
                     
                     if let listFreeshippins = resultCall["listFreeshippins"] as? [AnyObject]{
                         for freeshippin in listFreeshippins {
                              self.idFreeShepping = freeshippin["idPromotion"] as! Int
-                           print(freeshippin["idPromotion"] as! Int)
+                            self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(self.idFreeShepping)", withString: "")
+                            self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idFreeShepping),", withString: "")
+                            
+                            self.promotionIds! += (self.promotionIds == "") ? "\(self.idFreeShepping)" : ",\(self.idFreeShepping)"
+                           print("listFreeshippins: \(freeshippin["idPromotion"] as! Int)")
                         }
                     }
                     
@@ -769,7 +781,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         if let listReferidos = resultCall["listReferidos"] as? [AnyObject]{
                             for promotionln in listReferidos {
                                 self.idReferido = promotionln["idPromotion"] as! Int
+                                self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(self.idReferido)", withString: "")
+                                self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idReferido),", withString: "")
                                 self.promotionIds! += (self.promotionIds == "") ? "\(self.idReferido)" : ",\(self.idReferido)"
+                                print("listReferidos: \(self.idReferido)")
                             }
                         }
                     }
