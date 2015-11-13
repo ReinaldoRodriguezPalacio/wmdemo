@@ -555,6 +555,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             )
                         }
                         else{
+                            
                             self.invokeSearchProductsInGroceries(actionSuccess: sucessBlock, actionError: errorBlock)
                         }
                     default :
@@ -696,6 +697,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         let service = GRProductBySearchService()//TODO Agregar rating al idSort
+        self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
