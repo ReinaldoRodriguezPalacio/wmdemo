@@ -139,7 +139,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     //MARK: - Actions
     
     func applyFilters() {
-
+        
         var lastSelected:Int? = nil
         if self.selectedElements != nil && self.selectedElements!.count > 0 {
             for var idx = self.selectedElements!.count - 1; idx >= 0; idx-- {
@@ -262,6 +262,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             self.navigationController!.popViewControllerAnimated(true)
         }
        self.delegate?.removeSelectedFilters()
+        
     }
     
 
@@ -594,14 +595,19 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             if let family = item["families"] as? [String:AnyObject] {
                 self.insertItems(family, atIndexPath: updatedIndex!)
+                 BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_DEPARMENT.rawValue, label: "")
             }
                 
             else if let line = item["lines"] as? [String:AnyObject] {
                 self.insertItems(line, atIndexPath: updatedIndex!)
+                BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_FAMILY.rawValue, label: "")
             }
         }
         else {
             self.selectedElements![indexPath.row] = true
+        
+             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY_LINE.rawValue, label: "")
+            
         }
 
         for var idx = 0; idx < self.selectedElements!.count; idx++ {
@@ -890,6 +896,12 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if !self.brandFacets.contains(brand){
             self.brandFacets.append(brand)
         }
+    }
+    
+    override func back() {
+        super.back()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
+
     }
     
 }

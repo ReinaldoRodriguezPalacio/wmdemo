@@ -243,8 +243,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                 self.inputBirthdateView!.date = date
                 if user.profile.sex == "Female" {
                     self.femaleButton!.selected = true
+                    self.maleButton!.selected = false
                 } else {
                     self.maleButton!.selected = true
+                    self.femaleButton!.selected = false
                 }
             }
         }

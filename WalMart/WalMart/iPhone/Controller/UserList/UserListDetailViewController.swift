@@ -858,10 +858,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.updateTotalLabel()
                 if self.products == nil || self.products!.count == 0 {
                     self.editBtn!.hidden = true
+                    self.deleteAllBtn!.hidden = true
                     self.showEmptyView()
                 }
                 else {
                     self.editBtn!.hidden = false
+                    self.deleteAllBtn!.hidden = false
                     self.removeEmpyView()
                 }
                 
@@ -900,6 +902,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             
                             if self.products == nil || self.products!.count == 0 {
                                 self.editBtn!.hidden = true
+                                self.deleteAllBtn!.hidden = true
                                 self.showEmptyView()
                             }
                             
@@ -937,6 +940,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.showEditionMode()
                 self.products = nil
                 self.editBtn!.hidden = true
+                self.deleteAllBtn!.hidden = true
                 self.tableView!.reloadData()
                 self.reloadTableListUser()
                 self.showEmptyView()
@@ -1035,6 +1039,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
          self.products =  nil
          self.titleLabel?.text = ""
             self.editBtn!.hidden = true
+            self.deleteAllBtn!.hidden = true
             self.tableView!.reloadData()
             self.reloadTableListUser()
         }
@@ -1042,9 +1047,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         if self.products == nil || self.products!.count == 0 {
             self.editBtn!.hidden = true
+            self.deleteAllBtn!.hidden = true
             self.showEmptyView()
         } else {
             self.editBtn!.hidden = false
+            self.deleteAllBtn!.hidden = false
             self.removeEmpyView()
         }
         

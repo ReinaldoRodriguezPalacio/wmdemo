@@ -23,6 +23,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var selectedIndexCategory :  Int = 0
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
+    var bannerCell: BannerCollectionViewCell?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -31,11 +32,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_HOME.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
         
         collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
@@ -66,10 +62,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-        
+        self.bannerCell?.startTimmer()
     }
     
-      
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.bannerCell?.stopTimmer()
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
        
@@ -106,11 +106,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         var cell : UICollectionViewCell
         switch (indexPath.section,indexPath.row) {
             case (0,0):
-                let bannerCell = collectionView.dequeueReusableCellWithReuseIdentifier(bannerCellIdentifier() , forIndexPath: indexPath) as! BannerCollectionViewCell
-                bannerCell.delegate = self
-                bannerCell.dataSource = self.bannerItems
-                bannerCell.setup()
-                cell = bannerCell
+                bannerCell = collectionView.dequeueReusableCellWithReuseIdentifier(bannerCellIdentifier() , forIndexPath: indexPath) as? BannerCollectionViewCell
+                bannerCell!.delegate = self
+                bannerCell!.dataSource = self.bannerItems
+                bannerCell!.setup()
+                cell = bannerCell!
                 break;
             case (0,1):
                 let categoryCell = collectionView.dequeueReusableCellWithReuseIdentifier("categoryHome", forIndexPath: indexPath) as! CategoryCollectionViewCell

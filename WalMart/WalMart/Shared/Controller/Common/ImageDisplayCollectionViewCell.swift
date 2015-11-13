@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageDisplayCollectionViewCell: UICollectionViewCell {
+class ImageDisplayCollectionViewCell: UICollectionViewCell,UIScrollViewDelegate {
  
     var scrollView: ImageScrollView?
     
@@ -37,4 +37,6 @@ class ImageDisplayCollectionViewCell: UICollectionViewCell {
         self.scrollView!.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height)
         self.scrollView!.contentSize = bounds.size
     }
+    
+    
 }

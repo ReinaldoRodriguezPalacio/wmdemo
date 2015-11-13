@@ -564,7 +564,20 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }else{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             }
-
+            
+            if addressShippingCont >= 12{
+                self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
+                self.alertView!.showDoneIcon()
+                self.back()
+               return
+            }
+            
+            if addressFiscalCount >= 12{
+                self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
+                self.alertView!.showDoneIcon()
+                self.back()
+                return
+            }
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {
