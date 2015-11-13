@@ -9,9 +9,7 @@
 import Foundation
 
 class IPABannerCollectionViewCell : BannerCollectionViewCell {
-    
-    
-
+    var nextAction: Bool = false
     override func getCurrentController() -> HomeBannerImageViewController {
         
         
