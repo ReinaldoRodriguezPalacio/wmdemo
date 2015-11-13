@@ -80,7 +80,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case GR_CATEGORY_BANNER_COLLECTION_VIEW =  "C_GrbannerCollectionView"
     case MG_CATEGORY_BANNER_COLLECTION_VIEW =  "C_MgbannerCollectionView"
     case CATEGORY_TUTORIAL_AUTH = "C_Tutorial"
-    case CATEGORY_TUTORIAL_NO_AUTH = "T_utorialNoAuth"
+    case CATEGORY_TUTORIAL_NO_AUTH = "C_TutorialNoAuth"
     case CATEGORY_BANNER_TERMS =  "C_BannerTerms"
     case CATEGORY_SHOPPING_CAR_AUTH =  "C_ShoppingCarAuth"
     case CATEGORY_SHOPPING_CAR_NO_AUTH =  "C_ShoppingCarNoAuth"
@@ -179,6 +179,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_MG_BANNER_NO_AUTH = "C_MGBannerNoAuth"
     case CATEGORY_GR_BANNER_NO_AUTH = "C_GRBannerNoAuth"
     
+    case CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH =  "C_ZoomProductDetailNoAuth"
+    case CATEGORY_ZOOMPRODUCTDETAIL_AUTH =  "C_ZoomProductDetailAuth"
     
     
     //MARK - ACTION
@@ -191,8 +193,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_APPLY_FILTER =  "A_ApplyFilter"
     case ACTION_SORT_BY_A_Z =  "A_SortByAZ"
     case ACTION_SORT_BY_Z_A =  "A_SortByZA"
-    case ACTION_SORT_BY_$_$$$ =  "A_SortBy$$$$"
-    case ACTION_SORT_BY_$$$_$ =  "A_SortBy$$$$$"
+    case ACTION_SORT_BY_$_$$$ =  "A_SortBy$_$$$"
+    case ACTION_SORT_BY_$$$_$ =  "A_SortBy$$$_$"
     case ACTION_BY_POPULARITY =  "A_ByPopularity"
     case ACTION_OPEN_CATEGORY_DEPARMENT =  "A_OpenCategoryDeparment"
     case ACTION_OPEN_CATEGORY =  "A_OpenCategory"
@@ -396,6 +398,9 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
 
     case ACTION_RELATED_PRODUCT  = " A_RelatedProduct"
     case ACTION_CHANGE_PASSWORD =  "A_ChangePassword"
+    
+    case ACTION_BACK_PRODUCTDETAIL =  "A_BackProductDetail"
+    case ACTION_ZOMMIMAGE_PRODUCTDETAIL =  "A_ZoomImageProductDetail"
     
     
     //MARK EVENTOS ANTERIORES
