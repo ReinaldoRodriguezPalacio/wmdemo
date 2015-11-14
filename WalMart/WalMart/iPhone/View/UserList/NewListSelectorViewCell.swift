@@ -47,6 +47,12 @@ class NewListSelectorViewCell: NewListTableViewCell {
 
     //MARK: - UITextFieldDelegate
     
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "")
+        return true
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         self.delegate?.cancelNewList()

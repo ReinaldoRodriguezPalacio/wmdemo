@@ -238,6 +238,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if !self.isEdditing {
             
+            
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
+            
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.tableConstraint?.constant = 110
                 self.containerEditName!.alpha = 1
@@ -310,6 +313,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             return
         }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
+        
         if let image = self.buildImageToShare() {
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
@@ -337,7 +343,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
 
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
         //ValidateActives
         var hasActive = false
         for product in self.products! {
@@ -499,7 +505,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         button.backgroundColor = WMColor.UIColorFromRGB(0x2870c9)
         button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        button.addTarget(self, action: "back", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: "backEmpty", forControlEvents: .TouchUpInside)
         button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button.layer.cornerRadius = 20.0
         self.emptyView!.addSubview(button)
@@ -635,6 +641,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
 
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        listCell.defaultList = false
         listCell.detailDelegate = self
         listCell.delegate = self
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
@@ -673,7 +680,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
             }
-            print(productsToShow)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+        
         if indexPath.row < productsToShow.count {
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
@@ -686,6 +695,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
         case 0:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
             if let indexPath = self.tableView!.indexPathForCell(cell) {
                 if let item = self.products![indexPath.row] as? NSDictionary {
                     if let upc = item["upc"] as? String {
@@ -1166,6 +1176,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     
     func duplicate() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue , label: "")
         if let _ = UserCurrentSession.sharedInstance().userSigned {
             self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
                 self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
@@ -1215,5 +1226,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     
+    func backEmpty() {
+        super.back()
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+    }
 
+    override func back() {
+        super.back()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+    }
 }

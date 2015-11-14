@@ -136,6 +136,9 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
     
     func choseQuantity() {
         self.delegateQuantity.userShouldChangeQuantity(self)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_QUANTITY_KEYBOARD.rawValue, label: "")
+        
     }
   
     override func showLeftUtilityButtonsAnimated(animated: Bool) {
