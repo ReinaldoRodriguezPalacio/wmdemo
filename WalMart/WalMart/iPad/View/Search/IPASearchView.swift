@@ -320,8 +320,10 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         if value != nil || value == "" {
             self.closeSearch()
             self.closePopOver()
-            let params = ["upcs": upcs!, "keyWord":value!]
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            if upcs != nil {
+                let params = ["upcs": upcs!, "keyWord":value!]
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
+            }
             done()
         }
         
