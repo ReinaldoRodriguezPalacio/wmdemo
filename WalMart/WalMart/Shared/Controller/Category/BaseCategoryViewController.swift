@@ -67,11 +67,11 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
         if indexPath.row == 0 {
             self.delegate?.didSelectDeparmentAtIndex(indexPath)
             return
         }
+        
         
         self.currentIndexSelected = indexPath
         self.categories.scrollEnabled = false

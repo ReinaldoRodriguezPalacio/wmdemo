@@ -376,15 +376,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         svcList.callService(svcList.buildParams(value),
             successBlock: { (result:NSDictionary) -> Void in
                 
-                //Event
-//                //TODOGAI
-//                if let tracker = GAI.sharedInstance().defaultTracker {
-//                    let eventTracker: NSObject = GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                        action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
-//                        label: value,
-//                        value: nil).build()
-//                    tracker.send(eventTracker as! [NSObject: AnyObject])
-//                }
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 
                 self.loadLocalList()
                 self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))

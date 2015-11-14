@@ -270,6 +270,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         controller.itemsToShow = itemsToSend
         controller.ixSelected = indexPath.row
         
+        
+        let itemWishlistSel = items[indexPath.row] as! [String:AnyObject]
+        let upc = itemWishlistSel["upc"] as! String
+        let desc = itemWishlistSel["description"] as! String
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_OPEN_DETAIL_WISHLIST.rawValue, label: "\(desc) - \(upc)")
                
         self.navigationController!.pushViewController(controller, animated: true)
         
@@ -422,6 +428,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
        
         if (!isEdditing) {
             isEdditing = !isEdditing
+            
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_EDIT_WISHLIST.rawValue, label: "")
+            
             let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
             for cell in currentCells {
                 cell.setEditing(true, animated: false)
@@ -570,6 +580,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        
+        
     }
     
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
@@ -646,9 +660,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }
         
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
+        
     }
     
     @IBAction func deletealltap(sender: AnyObject) {
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_WISHLIST.rawValue, label: "")
+        
         let serviceWishDelete = DeleteItemWishlistService()
         var upcsWL : [String]  = []
         for itemWishlist in self.items {
@@ -732,4 +752,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         edit.tintColor = WMColor.wishlistEditButtonBgColor
 
     }
+    
+    override func back() {
+        super.back()
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_BACK_WISHLIST.rawValue, label: "")
+    }
+    
 }

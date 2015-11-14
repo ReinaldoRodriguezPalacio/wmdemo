@@ -186,6 +186,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func closeShoppingCart() {
         self.navigationController!.popToRootViewControllerAnimated(true)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_BACK_PRE_SHOPPING_CART.rawValue, label: "")
+        
     }
     
     func reloadGRShoppingCart(){
@@ -327,6 +330,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if itemsInCart.count > indexPath.row   {
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "")
+            
             let controller = ProductDetailPageViewController()
             controller.itemsToShow = getUPCItems()
             controller.ixSelected = indexPath.row
@@ -352,6 +358,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             cont!.successCallBack = {() in
                 UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                     self.loadGRShoppingCart()
+                    
+                    
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
+                    
                     self.performSegueWithIdentifier("checkoutVC", sender: self)
                     
                     cont.closeAlert(true, messageSucesss: true)
@@ -484,6 +494,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         isEdditing = !isEdditing
         if (isEdditing) {
+            
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_EDIT_CART.rawValue, label: "")
+            
             let currentCells = self.tableShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
@@ -504,6 +518,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             })
             
         }else{
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CANCEL.rawValue, label: "")
+            
             let currentCells = self.tableShoppingCart.visibleCells
             for cell in currentCells {
                 if cell.isKindOfClass(SWTableViewCell) {
@@ -530,7 +547,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
         case 0:
-            
+           
             let indexPath = self.tableShoppingCart.indexPathForCell(cell)
             if self.isEdditing {
                 if indexPath != nil {
@@ -561,7 +578,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             
         case 1:
-            
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "")
             let indexPath = self.tableShoppingCart.indexPathForCell(cell)
             if indexPath != nil {
                 deleteRowAtIndexPath(indexPath!)
@@ -748,11 +765,19 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,screen])
         let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        
     }
     
     //MARK: - Actions List Selector
     
     func addCartToList() {
+        
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_ADD_MY_LIST.rawValue, label: "")
+        
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
             let frame = self.view.frame
@@ -1004,5 +1029,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
         )
     }
+    
+
 
 }

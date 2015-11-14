@@ -465,6 +465,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
+        
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CANCEL_ADD_TO_LIST.rawValue, label: "")
+        
     }
 
     func listSelectorDidAddProduct(inList listId:String) {

@@ -82,8 +82,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_TUTORIAL_AUTH = "C_Tutorial"
     case CATEGORY_TUTORIAL_NO_AUTH = "C_TutorialNoAuth"
     case CATEGORY_BANNER_TERMS =  "C_BannerTerms"
-    case CATEGORY_SHOPPING_CAR_AUTH =  "C_ShoppingCarAuth"
-    case CATEGORY_SHOPPING_CAR_NO_AUTH =  "C_ShoppingCarNoAuth"
+    case CATEGORY_SHOPPING_CAR_AUTH =  "C_ShoppingCartAuth"
+    case CATEGORY_SHOPPING_CAR_NO_AUTH =  "C_ShoppingCartNoAuth"
     case CATEGORY_NAVIGATION_BAR =  "C_NavigationBar"
     case CATEGORY_SEARCH =  "C_Search"
     case CATEGORY_SPECIAL_BANNER = "C_SpecialBanner"
@@ -118,8 +118,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_PRACTILISTA_AUTH =  "C_PractilistaAuth"
     case CATEGORY_PRACTILISTA_NO_AUTH =  "C_PractilistaNoAuth"
     case CATEGORY_PRE_SHOPPING_CART =  "C_PreShoppingCart"
-    case MG_CATEGORY_EMPTY_SHOPPING_CART =  "C_MgemptyShoppingCart"
-    case GR_CATEGORY_EMPTY_SHOPPING_CART =  "C_GremptyShoppingCart"
+    case MG_CATEGORY_EMPTY_SHOPPING_CART =  "C_MGEmptyShoppingCart"
+    case GR_CATEGORY_EMPTY_SHOPPING_CART =  "C_GREmptyShoppingCart"
     case CATEGORY_SHOPPING_CART_SUPER =  "C_ShoppingCartSuper"
     case CATEGORY_SHOPPING_CART =  "C_ShoppingCart"
     case MG_CATEGORY_BEFORE_TO_GO =  "C_MgbeforeToGo"
@@ -182,6 +182,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH =  "C_ZoomProductDetailNoAuth"
     case CATEGORY_ZOOMPRODUCTDETAIL_AUTH =  "C_ZoomProductDetailAuth"
     
+    case CATEGORY_ADD_TO_LIST = "C_AddToList"
+    case CATEGORY_MY_LISTS_DETAIL_EMPTY = "C_MyListDetailEmpty"
     
     //MARK - ACTION
     case ACTION_OPEN_BARCODE_SCANNED_UPC =  "A_OpenBarcodeScannedUpc"
