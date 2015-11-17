@@ -122,7 +122,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                     self.performSegueWithIdentifier("shoppingCartGR", sender: self)
                 } else {
                     //Event
-                    BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY.rawValue, label: "")
+                    BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
                 }
             }
@@ -137,7 +137,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                     self.performSegueWithIdentifier("shoppingCartMG", sender: self)
                 } else {
                     //Event
-                    BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_CATEGORY.rawValue, label: "")
+                    BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_MG.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
                 }
             }

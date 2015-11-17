@@ -1239,6 +1239,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     
+    
     //GRA: Help Validation
     func reviewHelp(force:Bool) {
         var requiredHelp = true

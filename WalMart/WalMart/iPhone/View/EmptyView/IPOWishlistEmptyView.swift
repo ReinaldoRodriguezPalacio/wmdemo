@@ -48,4 +48,9 @@ class IPOWishlistEmptyView : IPOEmptyView {
         self.imageEmptyViewIconBtn.frame = CGRectMake(98.0, self.descLabel!.frame.maxY + 12.0, 16.0, 16.0)
     }
     
+    override func returnActionSel() {
+        super.returnActionSel()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST_EMPTY.rawValue, action: WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+    }
+    
 }

@@ -149,9 +149,18 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let tapGesture = UITapGestureRecognizer(target: self, action: "closeDepartment")
         self.imageBackground.userInteractionEnabled = true
         self.imageBackground.addGestureRecognizer(tapGesture)
+        
+       
+        
     }
     
     func closeDepartment() {
+        
+        
+        let label = self.titleLabel.text!
+        let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
+        BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_CANCEL.rawValue, label: label)
+        
         if customCloseDep {
             if self.onclose != nil {
                 self.onclose!()

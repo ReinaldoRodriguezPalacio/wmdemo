@@ -347,6 +347,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         if !self.isEditingUserList {
             
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_EDIT_LIST.rawValue, label: "")
+            
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.newListBtn?.alpha = 0
             })
@@ -440,16 +442,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.newListBtn!.enabled = false
             self.editBtn!.enabled = false
             if !self.newListEnabled {
+
                 
-                //Event
-//                //TODOGAI
-//                if let tracker = GAI.sharedInstance().defaultTracker {
-//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                        action:WMGAIUtils.GR_EVENT_LISTS_NEWLIST.rawValue,
-//                        label: nil,
-//                        value: nil).build() as [NSObject:AnyObject])
-//                }
-                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
                 
                 self.isShowingWishList = false
                 self.isShowingSuperlists = false
@@ -493,6 +488,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
             }
             else {
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
+                
                 self.showSearchField({
                     self.editBtn!.alpha = 1
                     
@@ -543,6 +541,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
             successBlock: { (result:NSDictionary) -> Void in
+                
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+                
                 self.checkEditBtn()
                 self.newListEnabled = false
                 self.isShowingWishList  = true
@@ -554,13 +556,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     success: { () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                         self.alertView!.showDoneIcon()
-                        //TODOGAI
-//                        if let tracker = GAI.sharedInstance().defaultTracker {
-//                            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_MYLIST.rawValue,
-//                                action:WMGAIUtils.GR_EVENT_LISTS_NEWLISTCOMPLETE.rawValue,
-//                                label: value,
-//                                value: nil).build() as [NSObject:AnyObject])
-//                        }
                     },
                     failure: { (error) -> Void in
                         self.alertView!.setMessage(error.localizedDescription)
@@ -898,11 +893,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let vc = storyboard!.instantiateViewControllerWithIdentifier("wishlitsItemVC")
         self.navigationController!.pushViewController(vc, animated: true)
         
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_WISHLIST.rawValue, label: "")
+        
     }
     
     func showDefaultLists() {
         let vc = storyboard!.instantiateViewControllerWithIdentifier("defaultListVC")
         self.navigationController!.pushViewController(vc, animated: true)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_SUPERLIST.rawValue, label: "")
+        
     }
     
     
@@ -1111,21 +1111,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             return
         }
         
-        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
         
         if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
                 
-                //Event
-//                //TODOGAI
-//                if let tracker = GAI.sharedInstance().defaultTracker {
-//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
-//                        label: self.selectedListName,
-//                        value: nil).build() as [NSObject:AnyObject])
-//                }
+
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
         }
@@ -1134,14 +1127,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.selectedListId = listEntity.idList
             self.selectedListName = listEntity.name
             
-            //Event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
-//                    label: self.selectedListName,
-//                    value: nil).build() as [NSObject:AnyObject])
-//            }
             
             self.performSegueWithIdentifier("showListDetail", sender: self)
         }
