@@ -112,11 +112,37 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString))
         
-        controllerAnimateView.imgCategory = UIImage(named: "\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString)")
+        let svcUrl = serviceUrl("WalmartMG.GRCategoryIconIpad")
+        let imageIconURL = "i_\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())).jpg"
+        let imgURLName = "\(svcUrl)\(imageIconURL)"
+        //self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
+        controllerAnimateView.imageIcon = UIImageView()
+        let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
+        controllerAnimateView.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.controllerAnimateView.imageIcon.image = image
+            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
+            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                
+        }
+        
+        let svcUrlCar = serviceUrl("WalmartMG.GRHeaderCategoryIpad")
+        let imageBackgroundURL = "\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString).jpg"
+        let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
+
+        let imageView = UIImageView()
+        let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
+        imageView.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.controllerAnimateView.imgCategory = image
+            self.controllerAnimateView.searchProduct?.imageBgCategory = image
+            imageView.image = image
+            self.controllerAnimateView.searchProduct?.collection?.reloadData()
+            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                
+        }
         
         controllerAnimateView.frameStart = pontInView
         controllerAnimateView.frameEnd = self.view.bounds
-        controllerAnimateView.imgIcon = UIImage(named: "i_\(idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()))")
         controllerAnimateView.titleStr = cellSelected.buttonDepartment.titleLabel!.text
         controllerAnimateView.families = itemsFam
         controllerAnimateView.name = nameLineDefault
@@ -156,6 +182,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controllerAnimateView.view.alpha = 0
         self.view.addSubview(animateView)
         self.animateView.addSubview(controllerAnimateView.view)
+        self.controllerAnimateView.searchProduct.imageBgCategory = imageView.image
+        self.controllerAnimateView.searchProduct.imageIconCategory = self.controllerAnimateView.imgIcon
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
              self.animateView.alpha = 1
@@ -271,6 +299,87 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.titleLabel?.addGestureRecognizer(tapGesture)
         }
 
+    }
+    //MARK: Image Functions
+    
+    func serviceUrl(serviceName:String) -> String {
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+        return serviceURL
+    }
+    
+    func loadImageFromDisk(fileName:String,defaultStr:String) -> UIImage! {
+        let getImagePath = self.getImagePath(fileName)
+        let fileManager = NSFileManager.defaultManager()
+        if (fileManager.fileExistsAtPath(getImagePath))
+        {
+            print("image \(fileName)")
+            
+            
+            //UIImage(data: NSData(contentsOfFile: getImagePath), scale: 2)
+            let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)! //UIImage(contentsOfFile: getImagePath)!
+            
+            return imageis
+        }
+        else
+        {
+            let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
+            if imageDefault != nil {
+                print("default image \((fileName as NSString).stringByDeletingPathExtension)")
+                return imageDefault
+            }
+            print("default walmart image \(fileName)")
+            return UIImage(named:defaultStr )
+        }
+    }
+    
+    func saveImageToDisk(fileName:String,image:UIImage,defaultImage:UIImage) {
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+            let imageData : NSData = UIImagePNGRepresentation(image)!
+            let imageDataLast : NSData = UIImagePNGRepresentation(defaultImage)!
+            
+            if imageData.MD5() != imageDataLast.MD5() {
+                let getImagePath = self.getImagePath(fileName)
+                _ = NSFileManager.defaultManager()
+                imageData.writeToFile(getImagePath, atomically: true)
+                
+                let todeletecloud =  NSURL(fileURLWithPath: getImagePath)
+                do {
+                    try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+                } catch let error1 as NSError {
+                    print(error1.description)
+                } catch {
+                    fatalError()
+                }
+                
+            }
+        })
+    }
+    
+    func getImagePath(fileName:String) -> String {
+        let fileManager = NSFileManager.defaultManager()
+        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+        paths = (paths as NSString).stringByAppendingPathComponent("catimg")
+        var isDir : ObjCBool = true
+        if fileManager.fileExistsAtPath(paths, isDirectory: &isDir) == false {
+            let err: NSErrorPointer = nil
+            do {
+                try fileManager.createDirectoryAtPath(paths, withIntermediateDirectories: true, attributes: nil)
+            } catch let error as NSError {
+                err.memory = error
+            }
+        }
+        
+        let todeletecloud =  NSURL(fileURLWithPath: paths)
+        do {
+            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+        } catch let error1 as NSError {
+            print(error1.description)
+        }
+        let getImagePath = (paths as NSString).stringByAppendingPathComponent(fileName)
+        return getImagePath
     }
     
     func okAction() {

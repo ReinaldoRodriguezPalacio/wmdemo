@@ -55,8 +55,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         paramsSetup = []
         
-        splashDefault = UIImageView(frame: self.view.bounds)
-        splashDefault.image = UIImage(named: "spash_iphone")
+        //splashDefault = UIImageView(frame: self.view.bounds)
+        //splashDefault.image = UIImage(named: "spash_iphone")
+        splashDefault = UIImageView(image: UIImage(named: "spash_iphone"))
+        
         
         webViewSplash = UIWebView(frame:self.view.bounds)
         webViewSplash.delegate = self

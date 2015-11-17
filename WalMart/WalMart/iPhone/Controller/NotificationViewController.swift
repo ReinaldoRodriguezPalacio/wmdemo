@@ -105,7 +105,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             let type = notiicationInfo["type"] as! String
             let name = ""
             let value = notiicationInfo["value"] as! String
-            let business = notiicationInfo["business"] as! String
+            let business = (notiicationInfo["business"] as! String).lowercaseString
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_DETAIL_NOTIFICATION.rawValue , label:"\(type) \(value) \(business)")
             let window = UIApplication.sharedApplication().keyWindow

@@ -212,7 +212,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     
                     let newView = IPODepartmentCollectionViewCell(frame:CGRectMake(0, 0, self.view.frame.width, self.CELL_HEIGHT))
                     newView.isOpen = true
-                    newView.setValues(descDepartment!, imageBackgroundURL: "\(caHeader).png", keyBgUrl: "WalmartMG.HeaderCategory", imageIconURL: icon, keyIconUrl: "WalmartMG.CategoryIcon", hideImage: false)
+                    newView.setValues(descDepartment!, imageBackgroundURL: "\(caHeader).png", keyBgUrl: "WalmartMG.GRHeaderCategory", imageIconURL: icon, keyIconUrl: "WalmartMG.GRCategoryIcon", hideImage: false)
                    newView.customCloseDep = true
                     
                     let cell = tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell?

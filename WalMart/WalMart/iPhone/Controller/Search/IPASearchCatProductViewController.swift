@@ -18,7 +18,6 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
    
     var delegateImgHeader : IPACatHeaderSearchReusableDelegate!
     //var showHeader: Bool = false
-
     
     
     override func viewDidLoad() {
@@ -158,7 +157,5 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     func dismissCategory() {
         self.viewHeader?.dismissPopover()
     }
-  
-
 
 }

@@ -80,7 +80,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
 
         
         let imageHeader = self.loadImageFromDisk(strinname,defaultStr:"header_default")
-        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead.stringByReplacingOccurrencesOfString("walmartmg", withString: "walmartgr")), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
             self.saveImageToDisk(imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg"), image: image,defaultImage:imageHeader)
             }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
