@@ -2,12 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
+      "filename" : "update_4s-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "update_4s.png"
+      "filename" : "update_5s-1.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -17,17 +18,18 @@
     },
     {
       "idiom" : "iphone",
+      "filename" : "update_6plus.png",
       "scale" : "3x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "update.png"
+      "filename" : "update.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "update@2x.png"
+      "filename" : "update@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

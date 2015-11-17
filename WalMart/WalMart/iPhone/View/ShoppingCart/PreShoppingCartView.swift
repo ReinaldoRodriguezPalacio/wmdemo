@@ -83,16 +83,16 @@ class PreShoppingCartView : UIView {
         super.layoutSubviews()
         
         imgBackground.frame = CGRectMake(0, 0, self.frame.width, self.frame.height - 88)
-        imgIcon.frame = CGRectMake((self.frame.width / 2) - 28, 28, 56, 48)
-        title.frame = CGRectMake(0, imgIcon.frame.maxY + 16, self.frame.width, 16)
+        title.frame = CGRectMake(0, (self.frame.height / 2) - 32, self.frame.width, 16)
+        imgIcon.frame = CGRectMake((self.frame.width / 2) - 28, self.title.frame.minY - 61, 56, 48)
         //articles.frame  = CGRectMake(0, title.frame.maxY + 8, self.frame.width, 16)
         //shopButton.frame = CGRectMake((self.frame.width / 2) - 68.5, imgBackground.frame.maxY + (44 - 17) , 137, 34)
         //customlabel.frame = self.shopButton.bounds
         
         if self.emptySC! {
-            shopButton.frame = CGRectMake((self.frame.width / 2) - 150, imgBackground.frame.maxY + (36 - 26) , 300, 60)
+            shopButton.frame = CGRectMake((self.frame.width / 2) - 150, imgBackground.frame.maxY + 10 , 300, 60)
         } else {
-            shopButton.frame = CGRectMake((self.frame.width / 2) - 68.5, imgBackground.frame.maxY + (44 - 17) , 137, 34)
+            shopButton.frame = CGRectMake((self.frame.width / 2) - 68.5, imgBackground.frame.maxY + 27, 137, 34)
         }
         
     }
