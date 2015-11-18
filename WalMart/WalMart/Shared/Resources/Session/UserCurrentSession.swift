@@ -31,6 +31,7 @@ class UserCurrentSession : NSObject {
     var storeId: String? = nil
     
     var isAssociated : Int! = 0
+    var porcentageAssociate : Double! =  0.0
     
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
@@ -742,9 +743,11 @@ class UserCurrentSession : NSObject {
                         let promotions = response["responseArray"] as! NSArray
                         let promo = promotions[0] as! NSDictionary
                         let isActive = promo["isActive"] as! Int
+                        let porcentangeDiscount = promo["percentageDiscount"] as! Double
                         
                         print(isActive)
                         UserCurrentSession.sharedInstance().isAssociated = isActive
+                        UserCurrentSession.sharedInstance().porcentageAssociate = porcentangeDiscount
                         
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info

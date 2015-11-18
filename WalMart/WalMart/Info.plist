@@ -791,6 +791,12 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/getPushNotifications</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/getPromotionsMG</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -879,7 +885,7 @@
 			<key>WalmartMG.PromotionsMgService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.ValidateAssociateService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
