@@ -149,8 +149,9 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
         var currentItem = indexPath.row
         if indexPath.item == 0 && landingItem != nil  {
-            
-            let itemBannerPhone = landingItem!["bannerUrlPhone"]
+            let scale = UIScreen.mainScreen().scale
+            var itemBannerPhone = landingItem!["bannerUrlPhone"]
+            itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
             categoryCell.setValuesLanding("http://\(itemBannerPhone!)")
             return categoryCell
             

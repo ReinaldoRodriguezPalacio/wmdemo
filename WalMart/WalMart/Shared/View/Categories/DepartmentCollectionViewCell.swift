@@ -77,6 +77,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let strinname = imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg")
         let scale = UIScreen.mainScreen().scale
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
+        imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
 
         
         let imageHeader = self.loadImageFromDisk(strinname,defaultStr:"header_default")

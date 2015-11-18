@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate,UIPopoverControllerDelegate {
+class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UIPopoverControllerDelegate {
     
     var closeanimation : (() -> Void)!
     var field : FormFieldSearch!
@@ -291,19 +291,9 @@ class IPASearchView : UIView,UITextFieldDelegate,BarCodeViewControllerDelegate,C
         if self.field!.isFirstResponder() {
             self.field!.resignFirstResponder()
         }
+        self.closeSearch()
         closePopOver()
-        self.delegate.searchControllerScanButtonClicked(self)
-    }
-    
-    // MARK: - BarCodeViewControllerDelegate
-    func barcodeCaptured(value:String?) {
-        IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
-        if value != nil {
-            self.delegate.selectKeyWord("", upc: value, truncate:false,upcs:nil)
-        }
-        else if !self.field!.isFirstResponder() {
-            self.field!.becomeFirstResponder()
-        }
+        self.delegate.searchControllerScanButtonClicked()
     }
     
     func showCamera(sender:UIButton) {

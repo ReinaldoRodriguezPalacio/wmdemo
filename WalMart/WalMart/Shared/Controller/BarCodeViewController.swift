@@ -9,6 +9,7 @@
 import Foundation
 import AVFoundation
 import QuartzCore
+import CoreData
 
 protocol BarCodeViewControllerDelegate{
     func barcodeCaptured(value:String?)
@@ -29,7 +30,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var bgImage : UIImageView!
     var close : UIButton!
     var helpText: String?
-    var applyPadding = true
+    var searchProduct = false
+    var createListDelegate = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SCANBARCODE.rawValue
@@ -181,18 +183,44 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     func captureOutput(captureOutput: AVCaptureOutput!, didOutputMetadataObjects metadataObjects: [AnyObject]!, fromConnection connection: AVCaptureConnection!) {
         for obj in metadataObjects {
             if let metaObj = obj as? AVMetadataMachineReadableCodeObject {
-                self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                    if self.applyPadding {
-                        let code = metaObj.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        let character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
-                        self.delegate!.barcodeCaptured(character)
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
+                self.dismissViewControllerAnimated(true, completion:{ (Void) -> Void in
+                if self.searchProduct {
+                    if metaObj.type! == "org.gs1.EAN-13"
+                    {
+                        self.searchProduct(metaObj)
+                    }else{
+                        let message = NSMutableAttributedString()
+                        message.appendAttributedString(NSAttributedString(string: "Este código de barras pertenece a un Ticket, deseas generar una lista?", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+                        let alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
+                        alertView?.messageLabel.textAlignment = .Center
+                        alertView?.setMessageLabelToCenter(225.0)
+                        alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
+                            alertView?.close()
+                            }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
+                                alertView?.close()
+                                self.createList(metaObj)
+                        })
                     }
-                    else {
-                        self.delegate!.barcodeCaptured(metaObj.stringValue!)
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: metaObj.stringValue!)
+                }
+                else {
+                    if metaObj.type! == "org.iso.Code39"
+                    {
+                        self.createList(metaObj)
+                    }else{
+                        let message = NSMutableAttributedString()
+                        message.appendAttributedString(NSAttributedString(string: "Este código de barras no pertenece a una lista, deseas ver detalle de este producto?", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()]))
+                        let alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
+                        alertView?.messageLabel.textAlignment = .Center
+                        alertView?.setMessageLabelToCenter(225.0)
+                        alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
+                            alertView?.close()
+                            }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
+                                alertView?.close()
+                                self.searchProduct(metaObj)
+                        })
                     }
-                })
+                }
+              })
             }
         }
     }
@@ -200,7 +228,9 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     func closeAlert(){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
-            self.delegate!.barcodeCaptured(nil)
+            if self.createListDelegate {
+              self.delegate!.barcodeCaptured(nil)
+            }
         })
     }
     
@@ -219,6 +249,99 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     
     override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         
+    }
+    
+    //MARK: - Search and Creeate Functions
+    func searchProduct(barcode: AVMetadataMachineReadableCodeObject){
+        let code = barcode.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ScanBarCode.rawValue, object: character, userInfo: nil)
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
+    }
+    
+    func createList(barcode: AVMetadataMachineReadableCodeObject){
+        let barcodeValue = barcode.stringValue!
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
+        if createListDelegate{
+            self.delegate?.barcodeCaptured(barcodeValue)
+        }
+        else{
+            print("Code \(barcodeValue)")
+            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
+            let service = GRProductByTicket()
+            service.callService(service.buildParams(barcodeValue),
+                successBlock: { (result: NSDictionary) -> Void in
+                    if let items = result["items"] as? [AnyObject] {
+                    
+                        if items.count == 0 {
+                            alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
+                            alertView!.showErrorIcon("Ok")
+                            return
+                        }
+                    
+                        let saveService = GRSaveUserListService()
+                    
+                        alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
+                    
+                        var products:[AnyObject] = []
+                        for var idx = 0; idx < items.count; idx++ {
+                            var item = items[idx] as! [String:AnyObject]
+                            let upc = item["upc"] as! String
+                            let quantity = item["quantity"] as! NSNumber
+                            let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                            products.append(param)
+                        }
+                    
+                        let fmt = NSDateFormatter()
+                        fmt.dateFormat = "MMM d"
+                        var name = fmt.stringFromDate(NSDate())
+                        
+                        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+                        let fetchRequest = NSFetchRequest()
+                        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+                        fetchRequest.predicate = NSPredicate(format:"idList != nil")
+                        
+                        var number = 0;
+                        do{
+                            let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+                            if resultList != nil && resultList!.count > 0 {
+                                for listName: List in resultList!{
+                                    if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
+                                        number = number+1
+                                    }
+                                }
+                            }
+                        }
+                        catch{
+                            print("retrieveListNotSync error")
+                        }
+                        
+                        if number > 0 {
+                            name = "\(name) \(number)"
+                        }
+
+                        //var number = 0;
+                        saveService.callService(saveService.buildParams(name, items: products),
+                            successBlock: { (result:NSDictionary) -> Void in
+                                //TODO
+                                alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
+                                alertView!.showDoneIcon()
+                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
+                            },
+                            errorBlock: { (error:NSError) -> Void in
+                                alertView!.setMessage(error.localizedDescription)
+                                alertView!.showErrorIcon("Ok")
+                            }
+                        )
+                    }
+                },  errorBlock: { (error:NSError) -> Void in
+                    alertView!.setMessage(error.localizedDescription)
+                    alertView!.showErrorIcon("Ok")
+                }
+            )
+        }
     }
     
     //MARK: Alert delegate

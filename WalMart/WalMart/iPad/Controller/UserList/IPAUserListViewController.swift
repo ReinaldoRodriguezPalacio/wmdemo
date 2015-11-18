@@ -336,7 +336,8 @@ class IPAUserListViewController: UserListViewController {
         let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.delegate = self
-        barCodeController.applyPadding = false
+        barCodeController.searchProduct = false
+        barCodeController.createListDelegate = true
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     

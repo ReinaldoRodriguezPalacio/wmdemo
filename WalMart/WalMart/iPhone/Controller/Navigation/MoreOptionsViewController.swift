@@ -29,7 +29,7 @@ enum OptionsController : String {
 
 }
 
-class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate,BarCodeViewControllerDelegate {
+class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
     var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Refered.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
@@ -413,70 +413,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func scanTicket() {
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
-        barCodeController.delegate = self
-        barCodeController.applyPadding = false
+        barCodeController.searchProduct = false
         self.presentViewController(barCodeController, animated: true, completion: nil)
-    }
-    
-    //MARK: - BarCodeViewControllerDelegate
-    func barcodeCaptured(value:String?) {
-        if value == nil {
-            return
-        }
-        print("Code \(value)")
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-        let service = GRProductByTicket()
-        service.callService(service.buildParams(value!),
-            successBlock: { (result: NSDictionary) -> Void in
-                if let items = result["items"] as? [AnyObject] {
-                    
-                    if items.count == 0 {
-                        self.alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
-                        self.alertView!.showErrorIcon("Ok")
-                        return
-                    }
-                    
-                    let saveService = GRSaveUserListService()
-                    
-                    self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
-                    
-                    var products:[AnyObject] = []
-                    for var idx = 0; idx < items.count; idx++ {
-                        var item = items[idx] as! [String:AnyObject]
-                        let upc = item["upc"] as! String
-                        let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
-                        products.append(param)
-                    }
-                    
-                    let fmt = NSDateFormatter()
-                    fmt.dateFormat = "MMM d"
-                    let name = fmt.stringFromDate(NSDate())
-                    //var number = 0;
-                    
-                    
-                    
-                    
-                    
-                    saveService.callService(saveService.buildParams(name, items: products),
-                        successBlock: { (result:NSDictionary) -> Void in
-                            //TODO
-                            self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
-                            self.alertView!.showDoneIcon()
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
-                        },
-                        errorBlock: { (error:NSError) -> Void in
-                            self.alertView!.setMessage(error.localizedDescription)
-                            self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-            }
-        )
     }
     
     func openRefered (){

@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerDelegate, IPAMoreOptionsViewControllerDelegate, CameraViewControllerDelegate,BarCodeViewControllerDelegate { // HelpViewControllerDelegate{
+class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerDelegate, IPAMoreOptionsViewControllerDelegate, CameraViewControllerDelegate { // HelpViewControllerDelegate{
 
     var selected : Int? = nil
     var navigation : UINavigationController!
@@ -168,90 +168,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     func scanTicket() {
         let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
-        barCodeController.delegate = self
-        barCodeController.applyPadding = false
+        barCodeController.searchProduct = false
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
-    
-    //MARK: - BarCodeViewControllerDelegate
-    func barcodeCaptured(value:String?) {
-        if value == nil {
-            return
-        }
-        print("Code \(value)")
-        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-        let service = GRProductByTicket()
-        service.callService(service.buildParams(value!),
-            successBlock: { (result: NSDictionary) -> Void in
-                if let items = result["items"] as? [AnyObject] {
-                    
-                    if items.count == 0 {
-                        alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
-                        alertView!.showErrorIcon("Ok")
-                        return
-                    }
-                    
-                    let saveService = GRSaveUserListService()
-                    
-                    alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
-                    
-                    var products:[AnyObject] = []
-                    for var idx = 0; idx < items.count; idx++ {
-                        var item = items[idx] as! [String:AnyObject]
-                        let upc = item["upc"] as! String
-                        let quantity = item["quantity"] as! NSNumber
-                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
-                        products.append(param)
-                    }
-                    
-                    let fmt = NSDateFormatter()
-                    fmt.dateFormat = "MMM d"
-                    var name = fmt.stringFromDate(NSDate())
-                    
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    let fetchRequest = NSFetchRequest()
-                    fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
-                    fetchRequest.predicate = NSPredicate(format:"idList != nil")
-
-                    var number = 0;
-                    do{
-                        let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
-                        if resultList != nil && resultList!.count > 0 {
-                            for listName: List in resultList!{
-                                if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
-                                    number = number+1
-                                }
-                            }
-                        }
-                    }
-                    catch{
-                        print("retrieveListNotSync error")
-                    }
-                    
-                    if number > 0 {
-                        name = "\(name) \(number)"
-                    }
-                    
-                    saveService.callService(saveService.buildParams(name, items: products),
-                        successBlock: { (result:NSDictionary) -> Void in
-                            //TODO
-                            alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
-                            alertView!.showDoneIcon()
-                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
-                        },
-                        errorBlock: { (error:NSError) -> Void in
-                            alertView!.setMessage(error.localizedDescription)
-                            alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                alertView!.setMessage(error.localizedDescription)
-                alertView!.showErrorIcon("Ok")
-            }
-        )
-    }
-    
 }

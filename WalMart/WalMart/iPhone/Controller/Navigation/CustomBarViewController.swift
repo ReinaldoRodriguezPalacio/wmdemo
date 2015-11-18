@@ -31,6 +31,7 @@ enum CustomBarNotification : String {
     case ClearShoppingCartMG = "kClearShoppingCartMG"
     case EditSearch = "kEditSearch"
     case CamFindSearch = "kCamFindSearch"
+    case ScanBarCode = "kScanBarcode"
     
     case ShowGRLists = "kShowGRLists"
     
@@ -129,6 +130,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showListsGR", name: CustomBarNotification.ShowGRLists.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "camFindSearch:", name: CustomBarNotification.CamFindSearch.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "scanBarcode:", name: CustomBarNotification.ScanBarCode.rawValue, object: nil)
         
         
         
@@ -591,6 +593,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         addShopping.startAddingToShoppingCart()
     }
     
+//MARK: Search functions
     func search(btn: UIButton){
         openSearch = false
         if (!btn.selected){
@@ -812,6 +815,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
+                let controllersInNavigation = controllernav?.viewControllers.count
+                if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
+                    controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
+                    self.isEditingSearch = false
+                }
                 controllernav?.pushViewController(controller, animated: true)
                 
                 }, errorBlock: { (error:NSError) -> Void in
@@ -823,6 +831,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     
                     controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController
+                    let controllersInNavigation = controllernav?.viewControllers.count
+                    if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                        controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+                        self.isEditingSearch = false
+                    }
                     controllernav?.pushViewController(controller, animated: true)
             })
         }
@@ -904,9 +917,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool) {
     }
     
-    func searchControllerScanButtonClicked(controller: BarCodeViewControllerDelegate!) {
+    func searchControllerScanButtonClicked() {
         let barCodeController = BarCodeViewController()
-        barCodeController.delegate = controller
+        barCodeController.searchProduct = true
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
@@ -1238,7 +1251,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return true
     }
     
-    
+    //MARK: Barcode Function
+    func scanBarcode(notification:NSNotification){
+        let barcodeValue = notification.object as! String
+        IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
+        self.selectKeyWord("", upc: barcodeValue, truncate:true,upcs:nil)
+    }
     
     //GRA: Help Validation
     func reviewHelp(force:Bool) {

@@ -574,7 +574,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.delegate = self
-        barCodeController.applyPadding = false
+        barCodeController.searchProduct = false
+        barCodeController.createListDelegate = true
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     

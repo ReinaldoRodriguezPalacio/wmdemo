@@ -10,13 +10,13 @@ import UIKit
 
 protocol SearchViewControllerDelegate {
     func selectKeyWord(keyWord:String,upc:String?, truncate:Bool,upcs:[String]?)
-    func searchControllerScanButtonClicked(controller: BarCodeViewControllerDelegate!)
+    func searchControllerScanButtonClicked()
     func searchControllerCamButtonClicked(controller: CameraViewControllerDelegate!)
     func closeSearch(addShoping:Bool, sender:UIButton?)
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType)
 }
 
-class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, BarCodeViewControllerDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
+class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, CameraViewControllerDelegate, UIScrollViewDelegate {
     var table: UITableView!
     var elements: [AnyObject]?
     var upcItems: [String]?
@@ -589,7 +589,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         if self.field!.isFirstResponder() {
             self.field!.resignFirstResponder()
         }
-        self.delegate?.searchControllerScanButtonClicked(self)
+        self.delegate?.searchControllerScanButtonClicked()
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT.rawValue, action: WMGAIUtils.ACTION_OPEN_BARCODE_SCANNED_UPC.rawValue, label: "")
     }
     
@@ -614,17 +614,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             let params = ["upcs": upcs!, "keyWord":value!]
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
             done()
-        }
-    }
-    
-    // MARK: - BarCodeViewControllerDelegate
-    func barcodeCaptured(value:String?) {
-        IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
-        if value != nil {
-            self.delegate.selectKeyWord("", upc: value, truncate:true,upcs:nil)
-        }
-        else if !self.field!.isFirstResponder() {
-            self.field!.becomeFirstResponder()
         }
     }
     
