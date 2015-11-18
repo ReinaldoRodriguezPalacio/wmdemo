@@ -14,6 +14,8 @@ class UserCurrentSession : NSObject {
     
     var userSigned : User? = nil
     
+    var userSignedOnService  = false
+    
     var phoneNumber : String! = ""
     var workNumber : String! = ""
     var cellPhone : String! = ""
@@ -220,8 +222,8 @@ class UserCurrentSession : NSObject {
         updatePhoneProfile()
         self.validateUserAssociate()
         
-        self.invokeGroceriesUserListService()
         self.loadShoppingCarts { () -> Void in
+            self.invokeGroceriesUserListService()
         }
     }
     

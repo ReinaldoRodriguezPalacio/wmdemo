@@ -8,7 +8,7 @@
 
 import Foundation
 
-class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate {
+class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate {
     
     var close: UIButton?
     var content: TPKeyboardAvoidingScrollView!
@@ -50,6 +50,11 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
     
     var closeModal : (() -> Void)? = nil
     
+    
+    override func getScreenGAIName() -> String {
+        return WMGAIUtils.SCREEN_SIGNUP.rawValue
+    }
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -378,6 +383,10 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
     
     func registryUser() {
         if validateTerms() {
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
+            
+            
             let service = SignUpService()
             
             let dateFmtBD = NSDateFormatter()

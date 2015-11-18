@@ -15,6 +15,8 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
     var type: NSString!
     var imgFile : NSString? = nil
     var showTitle : Bool? = true
+    var actionLabel : String! = ""
+    var categoryLabel : String! = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FREQUENTQUESTIONS.rawValue
@@ -93,6 +95,14 @@ class PreviewHelpViewController: NavigationViewController,UIScrollViewDelegate {
         else {
             self.webShowDetail!.frame =  CGRectMake(0, 0, bounds.width, bounds.height )
         }
+    }
+    
+    
+    override func back() {
+        if !actionLabel.isEmpty {
+            BaseController.sendAnalytics(categoryLabel, action:actionLabel , label:"Tutorial")
+        }
+        super.back()
     }
     
 }
