@@ -298,6 +298,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -309,6 +311,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 	</dict>
 	<key>WMPayPalEnvironment</key>
@@ -735,6 +739,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -746,6 +752,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 	</dict>
 	<key>clusterWMURLServices</key>
