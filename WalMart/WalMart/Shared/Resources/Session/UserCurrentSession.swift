@@ -1,4 +1,4 @@
-//
+    //
 //  UserCurrentSession.swift
 //  WalMart
 //
@@ -29,6 +29,7 @@ class UserCurrentSession : NSObject {
     var storeId: String? = nil
     
     var isAssociated : Int! = 0
+    var porcentageAssociate : Double! =  0.0
     
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
@@ -96,7 +97,7 @@ class UserCurrentSession : NSObject {
                 }
                 
                 self.userSigned = userSigned
-                self.validateUserAssociate()
+                self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
                 
                 let loginService = LoginWithEmailService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
@@ -218,7 +219,7 @@ class UserCurrentSession : NSObject {
         self.userSigned = usr
         
         updatePhoneProfile()
-        self.validateUserAssociate()
+        self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
         
         self.invokeGroceriesUserListService()
         self.loadShoppingCarts { () -> Void in
@@ -729,10 +730,11 @@ class UserCurrentSession : NSObject {
         
     }
     
-    func validateUserAssociate(){
+    func validateUserAssociate(validate:Bool){
         
         if  UserCurrentSession.hasLoggedUser() {
-            if UserCurrentSession.sharedInstance().isAssociated == 0 {
+           // if UserCurrentSession.sharedInstance().isAssociated == 0 {
+            if validate {
                 let servicePromotion = PromotionsMgService()
                 let paramsRec = Dictionary<String, String>()
                 servicePromotion.callService(paramsRec,
@@ -740,13 +742,16 @@ class UserCurrentSession : NSObject {
                         let promotions = response["responseArray"] as! NSArray
                         let promo = promotions[0] as! NSDictionary
                         let isActive = promo["isActive"] as! Int
+                        let porcentangeDiscount = promo["percentageDiscount"] as! Double
                         
                         print(isActive)
                         UserCurrentSession.sharedInstance().isAssociated = isActive
+                        UserCurrentSession.sharedInstance().porcentageAssociate = porcentangeDiscount
                         
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
                           UserCurrentSession.sharedInstance().isAssociated = 0
+                         UserCurrentSession.sharedInstance().porcentageAssociate = 0.0
                         print(error)
                 }
             }

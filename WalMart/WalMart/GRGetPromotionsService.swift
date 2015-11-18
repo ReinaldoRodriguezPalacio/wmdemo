@@ -31,8 +31,8 @@ class GRGetPromotionsService: GRBaseService{
     
     func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
         
-        self.callPOSTService(buildParams(self.isAssociated!,associateNumber: self.idAssociated ==  nil ? "5432" :self.idAssociated!,
-            startDate: self.dateAdmission == nil ? "07/07/2014": self.dateAdmission!, determinant: self.determinant == nil ? "6543" : self.determinant!,total: self.total!), successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callPOSTService(buildParams(self.isAssociated!,associateNumber: self.idAssociated ==  nil ? "" :self.idAssociated!,
+            startDate: self.dateAdmission == nil ? "": self.dateAdmission!, determinant: self.determinant == nil ? "" : self.determinant!,total: self.total!), successBlock: { (resultCall:NSDictionary) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)
