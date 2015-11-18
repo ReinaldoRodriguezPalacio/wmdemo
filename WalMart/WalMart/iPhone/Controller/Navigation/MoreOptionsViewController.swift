@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 enum OptionsController : String {
     case Profile = "Profile"
@@ -452,12 +453,32 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
                     
                     let fmt = NSDateFormatter()
                     fmt.dateFormat = "MMM d"
-                    let name = fmt.stringFromDate(NSDate())
-                    //var number = 0;
+                    var name = fmt.stringFromDate(NSDate())
                     
+                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+                    let fetchRequest = NSFetchRequest()
+                    fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+                    fetchRequest.predicate = NSPredicate(format:"idList != nil")
                     
+                    var number = 0;
+                    do{
+                        let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+                        if resultList != nil && resultList!.count > 0 {
+                            for listName: List in resultList!{
+                                if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
+                                    number = number+1
+                                }
+                            }
+                        }
+                    }
+                    catch{
+                        print("retrieveListNotSync error")
+                    }
                     
-                    
+                    if number > 0 {
+                        name = "\(name) \(number)"
+                    }
                     
                     saveService.callService(saveService.buildParams(name, items: products),
                         successBlock: { (result:NSDictionary) -> Void in
