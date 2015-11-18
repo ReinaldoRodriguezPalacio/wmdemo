@@ -70,7 +70,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        viewContent.center = self.center
+        viewContent.center = CGPoint(x: self.center.x, y: self.center.y - 30)
     }
     
     func closePicker() {
@@ -79,8 +79,8 @@ class AlertModalView : UIView, UITextFieldDelegate {
     }
     
     func setContentView(view:UIView){
-        let width = view.frame.size.width + 4
-        let height = view.frame.size.height + 4
+        let width = view.frame.size.width + 6
+        let height = view.frame.size.height + 6
         self.viewContent.frame.size = CGSize(width: width, height: height)  //controllerShow.view.frame.size
         self.viewContent.addSubview(view)
         view.center =  self.viewContent.center
@@ -126,6 +126,12 @@ class AlertModalView : UIView, UITextFieldDelegate {
         let modalView = AlertModalView.initModalWithDefault()
         modalView.setContentView(innerView)
         modalView.addHeaderAndTitle(alertTitle)
+        return modalView
+    }
+    
+    class func initModalWithView(innerView:UIView) -> AlertModalView {
+        let modalView = AlertModalView.initModalWithDefault()
+        modalView.setContentView(innerView)
         return modalView
     }
     

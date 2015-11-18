@@ -187,7 +187,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     func addRefered(){
         let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
         addreferedForm.delegate = self
-        self.modalView = AlertModalView.initModalWithView("Invitar a un Amigo",innerView: addreferedForm)
+        self.modalView = AlertModalView.initModalWithView(addreferedForm)
         self.modalView!.showPicker()
     }
     
@@ -280,6 +280,10 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 self.alertView!.showicon(UIImage(named: "alerta_fail"))
                 self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
             })
+    }
+    
+    func selectCloseButton() {
+        modalView?.closePicker()
     }
 
 }
