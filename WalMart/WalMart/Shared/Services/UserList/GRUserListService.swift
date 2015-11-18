@@ -11,6 +11,8 @@ import CoreData
 
 class GRUserListService : GRBaseService {
 
+    var isLoadingLists = false
+    
     lazy var managedContext: NSManagedObjectContext? = {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -18,25 +20,30 @@ class GRUserListService : GRBaseService {
     }()
 
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callGETService(params,
-            successBlock: { (resultCall:NSDictionary) -> Void in
-                //self.jsonFromObject(resultCall)
-                if let list = resultCall["responseArray"] as? [AnyObject] {
-                    self.manageListData(list)
+        if !isLoadingLists {
+            isLoadingLists = false
+            self.callGETService(params,
+                successBlock: { (resultCall:NSDictionary) -> Void in
+                    //self.jsonFromObject(resultCall)
+                    if let list = resultCall["responseArray"] as? [AnyObject] {
+                        self.manageListData(list)
+                    }
+                    
+                    self.mergeList(resultCall, successBlock: successBlock, errorBlock: errorBlock)
+                    self.isLoadingLists = false
+                },
+                errorBlock: { (error:NSError) -> Void in
+                    if error.code == 1 { //"Listas no Encontradas"
+                        self.mergeList([:], successBlock: successBlock, errorBlock: errorBlock)
+                    }
+                    else {
+                        errorBlock?(error)
+                    }
+                     self.isLoadingLists = false
+                    return
                 }
-
-                self.mergeList(resultCall, successBlock: successBlock, errorBlock: errorBlock)
-            },
-            errorBlock: { (error:NSError) -> Void in
-                if error.code == 1 { //"Listas no Encontradas"
-                    self.mergeList([:], successBlock: successBlock, errorBlock: errorBlock)
-                }
-                else {
-                    errorBlock?(error)
-                }
-                return
-            }
-        )
+            )
+        }
     }
     
     //MARK: -

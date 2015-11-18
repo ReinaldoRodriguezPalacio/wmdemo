@@ -389,6 +389,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantityGR?.closeAction()
+                    
+                    if cell.typeProd == 0 {
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "")
+                    } else {
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue, label: "")
+                    }
+                    
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
@@ -429,6 +436,8 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                     addShopping.removeSpinner()
                     addShopping.addActionButtons()
                     addShopping.addNoteToProduct(nil)
+                
+
             
             }
             selectQuantityGR?.userSelectValue(String(cell.quantity))
@@ -464,6 +473,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             addShopping.removeSpinner()
             addShopping.addActionButtons()
             addShopping.addNoteToProduct(nil)
+
         }
     }
     
@@ -714,6 +724,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func deleteAll() {
+        
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
+        
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
         for itemWishlist in self.itemsInCart {

@@ -46,6 +46,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case SCREEN_QUANTITYKEYBOARD = "QuantityKeyBoard"
     case SCREEN_MOREOPTIONS = "MoreOptions"
     case SCREEN_LOGIN = "Login"
+    case SCREEN_SIGNUP = "SignUp"
     case SCREEN_EDITPROFILE = "EditProfile"
     case SCREEN_LEGALINFORMATION = "LegalInformation"
     case SCREEN_CHANGEPASSWORD = "ChangePassword"
@@ -184,6 +185,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     
     case CATEGORY_ADD_TO_LIST = "C_AddToList"
     case CATEGORY_MY_LISTS_DETAIL_EMPTY = "C_MyListDetailEmpty"
+    case CATEGORY_FREQUENT_QUESTIONS = "C_FrequentQuestions"
+    case CATEGORY_SIGNUP = "C_SignUp"
     
     //MARK - ACTION
     case ACTION_OPEN_BARCODE_SCANNED_UPC =  "A_OpenBarcodeScannedUpc"
@@ -277,6 +280,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_OPEN_NOTE =  "A_OpenNote"
     case ACTION_CLOSE_NOTE =  "A_CloseNote"
     case ACTION_BACK_TO_MORE_OPTION =  "A_BackToMoreOption"
+    case ACTION_BACK_TO_EDIT_PROFILE =  "A_BackToEditProfile"
     case ACTION_OPEN_DETAIL_NOTIFICATION =  "A_OpenDetailNotification"
     case ACTION_CLOSE_GERATE_BILLIG =  "A_CloseGerateBillig"
     case ACTION_BACK_TO_MAP =  "A_BackToMap"
@@ -403,7 +407,9 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     
     case ACTION_BACK_PRODUCTDETAIL =  "A_BackProductDetail"
     case ACTION_ZOMMIMAGE_PRODUCTDETAIL =  "A_ZoomImageProductDetail"
-    
+    case ACTION_BARCODE_SCANNED_TICKET =  "A_BarcodeScannedTicket"
+    case ACTION_OPEN_REFERED = "A_OpenRefered"
+    case ACTION_SAVE_SIGNUP = "A_SaveSignUp"
     
     //MARK EVENTOS ANTERIORES
 //    case EVENT_PUSHNOTIFICATION = "EVENT_PUSHNOTIFICATION"

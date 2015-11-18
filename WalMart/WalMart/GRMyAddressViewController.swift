@@ -148,6 +148,8 @@ class GRMyAddressViewController: MyAddressViewController {
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                 
                 
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_DELETE_ADDRESS.rawValue, label:"")
+                
                 if let message = result["message"] as? String {
                     if self.alertView != nil {
                         self.alertView!.setMessage("\(message)")
@@ -182,6 +184,7 @@ class GRMyAddressViewController: MyAddressViewController {
     }
     
     func okAction() {
+        
        self.onClosePicker?()
        delegate?.okAction()
     }
