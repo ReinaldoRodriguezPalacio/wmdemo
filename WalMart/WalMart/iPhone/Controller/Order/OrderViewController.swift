@@ -26,16 +26,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPreviousOrders", name: ProfileNotification.updateProfile.rawValue, object: nil)
-        
-        //Event recent purch
-//        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-//                action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES.rawValue,
-//                label: nil,
-//                value: nil).build() as [NSObject : AnyObject])
-//        }
+
         
         
         viewLoad = WMLoadingView(frame:CGRectZero)
@@ -133,33 +124,22 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             let statusStr = item["status"] as! String
             
             
-            //Event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-//                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-//                    label: trackingStr,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
-            
+
             detailController.trackingNumber = trackingStr
             detailController.status = statusStr
             detailController.date = dateStr
             self.navigationController!.pushViewController(detailController, animated: true)
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
+            
+            
         } else {
             detailController.type = ResultObjectType.Groceries
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String
             let statusStr = item["status"] as! String
             
-            //Event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_RECENTPURCHASES.rawValue,
-//                    action:WMGAIUtils.EVENT_PROFILE_RECENTPURCHASES_DETAIL.rawValue,
-//                    label: trackingStr,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
+
             
             let statusDesc = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             
@@ -169,6 +149,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             detailController.detailsOrderGroceries = item
             self.navigationController!.pushViewController(detailController, animated: true)
             
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHOW_ORDER_DETAIL.rawValue, label: "")
         }
     }
     
@@ -275,6 +256,13 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
         })
+    }
+    
+    
+    
+    override func back() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue, label: "")
+        super.back()
     }
     
 }

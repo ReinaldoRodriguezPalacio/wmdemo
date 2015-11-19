@@ -936,18 +936,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.invokeDeliveryTypesService({ () -> Void in
             self.shipmentType!.onBecomeFirstResponder = {() in
                 var itemsShipment : [String] = []
-                for option in self.shipmentItems! {
-                    if let text = option["name"] as? String {
-                        itemsShipment.append(text)
+                if self.shipmentItems?.count > 1{
+                    for option in self.shipmentItems! {
+                        if let text = option["name"] as? String {
+                            itemsShipment.append(text)
+                        }
                     }
+                    self.picker!.selected = self.selectedShipmentTypeIx
+                    self.picker!.sender = self.shipmentType!
+                    self.picker!.delegate = self
+                    self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
+                    self.picker!.hiddenRigthActionButton(true)
+                    self.picker!.cellType = TypeField.Check
+                    self.picker!.showPicker()
                 }
-                self.picker!.selected = self.selectedShipmentTypeIx
-                self.picker!.sender = self.shipmentType!
-                self.picker!.delegate = self
-                self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
-                self.picker!.hiddenRigthActionButton(true)
-                self.picker!.cellType = TypeField.Check
-                self.picker!.showPicker()
             }
             
             self.buildSlotsPicker(self.selectedDate)

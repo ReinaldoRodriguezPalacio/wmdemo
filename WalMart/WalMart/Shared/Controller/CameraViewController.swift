@@ -157,7 +157,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.IPAPreviewBarView!.addSubview(self.messageLabel!)
             self.topBarView!.addSubview(self.loadImageButton!)
             self.topBarView!.addSubview(self.camButton!)
-
+            
         }
         else{
             self.topBarView!.addSubview(self.messageLabel!)
@@ -198,7 +198,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.camButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 32, (self.topBarView!.bounds.height / 2) - 32, 64, 64)
             self.cancelButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 32, self.view.bounds.height - 64, 64.0, 32.0)
             self.loadImageButton!.frame = CGRectMake((self.topBarView!.bounds.width / 2) - 20, 620, 40.0, 40.0)
-
+            
             self.IPAPreviewBarView!.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 64)
             self.messageLabel!.frame = CGRectMake((self.IPAPreviewBarView!.bounds.width / 2) - 150, 18, 300, 28)
             self.repeatButton!.frame = CGRectMake((self.view!.bounds.width / 2) - 141, self.view.bounds.height - 68, 150, 36)
@@ -250,7 +250,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
                 }
             }
         }
-    
+        
         // videoDevice = AVCaptureDevice.defaultDeviceWithMediaType(AVMediaTypeVideo)
         if videoDevice == nil {
             //AlertController.presentViewController("No se encontro camara", icon: nil)
@@ -330,7 +330,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     func reloadCamera() {
         self.stopRunning()
-//        previewLayer?.removeFromSuperlayer()
+        //        previewLayer?.removeFromSuperlayer()
         captureSession = nil
         videoDevice = nil
         videoInput = nil
@@ -390,15 +390,15 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.bottomBarView!.alpha = 0
             }, completion: {(completed : Bool) in
                 //if completed {
-                    self.messageLabel!.text = NSLocalizedString("camfind.message.preview",comment:"")
-                    UIView.animateWithDuration(0.3, animations: { () -> Void in
-                        if IS_IPAD {
-                            self.IPAPreviewBarView!.alpha = 0.8
-                            self.messageLabel!.alpha = 1
-                        }
-                        self.repeatButton!.alpha = 1
-                        self.okButton!.alpha = 1
-                    })
+                self.messageLabel!.text = NSLocalizedString("camfind.message.preview",comment:"")
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    if IS_IPAD {
+                        self.IPAPreviewBarView!.alpha = 0.8
+                        self.messageLabel!.alpha = 1
+                    }
+                    self.repeatButton!.alpha = 1
+                    self.okButton!.alpha = 1
+                })
                 //}
         })
     }
@@ -452,9 +452,9 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     
     var arrayImages = [NSLocalizedString("camfind.search.messageone",comment:""),
-                        NSLocalizedString("camfind.search.messagetwo",comment:""),
-                        NSLocalizedString("camfind.search.messagetree",comment:""),
-                        NSLocalizedString("camfind.search.messagefour",comment:"")]
+        NSLocalizedString("camfind.search.messagetwo",comment:""),
+        NSLocalizedString("camfind.search.messagetree",comment:""),
+        NSLocalizedString("camfind.search.messagefour",comment:"")]
     var currentItem = 0
     var scheduleTimmer : NSTimer!
     
@@ -485,66 +485,67 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     }
     
     func checkPhotoStatus(token: String){
-       if(self.continueSearch){
-        let service = CamFindService()
-        service.checkImg(token,
-            successBlock: { (response: NSDictionary) -> Void in
-                let resp = response.objectForKey("status") as! String
-                switch resp {
-                case ("completed"):
-                    let name = response.objectForKey("name") as! String
-                    var items : [String] = []
-                    let allItems = response.objectForKey("items") as! [[String:AnyObject]]
-                    for item in allItems {
-                        let data = item["data"] as! [String:String]
-                        let valueData = data["product_id"]
-                        items.append(valueData!)
+        if(self.continueSearch){
+            let service = CamFindService()
+            service.checkImg(token,
+                successBlock: { (response: NSDictionary) -> Void in
+                    let resp = response.objectForKey("status") as! String
+                    switch resp {
+                    case ("completed"):
+                        let name = response.objectForKey("name") as! String
+                        var items : [String] = []
+                        if let allItems = response.objectForKey("items") as? [[String:AnyObject]] {
+                            for item in allItems {
+                                let data = item["data"] as! [String:String]
+                                let valueData = data["product_id"]
+                                items.append(valueData!)
+                            }
+                        }
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        
+                        // self.delegate!.photoCaptured(name)
+                        self.delegate!.photoCaptured(name,upcs:items, done: { () -> Void in
+                            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
+                        })
+                        
+                        break;
+                    case ("not completed"):
+                        self.checkPhotoStatus(token)
+                        break;
+                    case ("not found"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                            })
+                            //self.delegate!.photoCaptured("")
+                        })
+                        break;
+                    case ("skipped"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                            })
+                        })
+                        break;
+                    case ("timeout"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                            })
+                        })
+                        break;
+                    case ("error"):
+                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                            })
+                        })
+                        break;
+                    default:
+                        break;
                     }
-                    self.dismissViewControllerAnimated(true, completion: nil)
+                }, errorBlock: { (error:NSError) -> Void in
                     
-                    // self.delegate!.photoCaptured(name)
-                    self.delegate!.photoCaptured(name,upcs:items, done: { () -> Void in
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
-                    })
-
-                    break;
-                case ("not completed"):
-                    self.checkPhotoStatus(token)
-                    break;
-                case ("not found"):
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                        })
-                        //self.delegate!.photoCaptured("")
-                    })
-                    break;
-                case ("skipped"):
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                        })
-                    })
-                    break;
-                case ("timeout"):
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                        })
-                    })
-                    break;
-                case ("error"):
-                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                        })
-                    })
-                    break;
-                default:
-                    break;
-                }
-            }, errorBlock: { (error:NSError) -> Void in
-                
-        })
-       }
+            })
+        }
     }
-
+    
     func imageResize(imageObj: UIImage) -> UIImage{
         
         let hasAlpha = false
@@ -691,7 +692,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         assets.getLastImageFromPhotos({(image:UIImage!, error:NSError!) -> Void in
             self.allowsLibrary = (image != nil)
             if self.allowsLibrary {
-             self.loadImageButton!.setImage(image, forState: .Normal)
+                self.loadImageButton!.setImage(image, forState: .Normal)
             }
             
         })
@@ -745,7 +746,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.popover!.dismissPopoverAnimated(true)
         }
         else{
-             dismissViewControllerAnimated(true, completion: nil)
+            dismissViewControllerAnimated(true, completion: nil)
         }
     }
     

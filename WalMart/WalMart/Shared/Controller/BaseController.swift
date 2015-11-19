@@ -14,7 +14,17 @@ class BaseController : UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let tracker = GAI.sharedInstance().defaultTracker {
+            let valueScreenName = self.getScreenGAIName()
+            if !valueScreenName.isEmpty {
+                tracker.set(kGAIScreenName, value: self.getScreenGAIName())
+                let eventTracker: NSObject = GAIDictionaryBuilder.createScreenView().build()
+                tracker.send(eventTracker as! [NSObject : AnyObject])
+            }
+            
+        }
     }
+
     
     func loadStoryboardDefinition() -> UIStoryboard? {
         let storyboardName = UIDevice.currentDevice().userInterfaceIdiom == .Phone ? "Storyboard_iphone" : "Storyboard_ipad"
