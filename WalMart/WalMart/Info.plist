@@ -704,7 +704,7 @@
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemsBySearching</string>
 			<key>WalmartMG.GRProductByTicket</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemByUpc</string>
 			<key>WalmartMG.GRProductsByUPCService</key>

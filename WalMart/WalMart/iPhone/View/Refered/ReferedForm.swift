@@ -53,7 +53,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         
         self.titleSection = UILabel()
         self.titleSection!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.titleSection!.text =  "Datos de mi referido"
+        self.titleSection!.text =  NSLocalizedString("refered.form.title", comment: "")
         self.titleSection!.textColor = WMColor.listAddressHeaderSectionColor
         self.titleSection!.textAlignment = .Left
         self.scrollForm.addSubview(self.titleSection!)
@@ -66,7 +66,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         
         self.name = FormFieldView()
         self.name!.isRequired = true
-        self.name!.setCustomPlaceholder("Nombre")
+        self.name!.setCustomPlaceholder(NSLocalizedString("refered.input.name", comment: ""))
         self.name!.typeField = TypeField.Name
         self.name!.nameField = "Name"
         self.name!.minLength = 3
@@ -86,7 +86,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.scrollForm.addSubview(self.email!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Enviar", forState:.Normal)
+        self.saveButton!.setTitle(NSLocalizedString("refered.button.send",comment:""), forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
@@ -96,14 +96,14 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         
         self.confirmLabel = UILabel()
         self.confirmLabel!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.confirmLabel!.text =  "Confirmado"
+        self.confirmLabel!.text =  NSLocalizedString("refered.label.confirm",comment:"")
         self.confirmLabel!.textColor = WMColor.UIColorFromRGB(0x5f5f5f)
         self.confirmLabel!.textAlignment = .Center
         self.confirmLabel!.hidden = true
         self.scrollForm.addSubview(self.confirmLabel!)
         
         self.layer.insertSublayer(layerLine, atIndex: 0)
-        self.addHeaderAndTitle("Invitar a un Amigo")
+        self.addHeaderAndTitle(NSLocalizedString("refered.title.showrefered",comment:""))
     }
     
     override func layoutSubviews() {

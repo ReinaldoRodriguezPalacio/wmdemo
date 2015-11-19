@@ -32,7 +32,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.whiteColor()
-        self.titleLabel?.text = "Mis Referidos"
+        self.titleLabel?.text = NSLocalizedString("refered.title", comment: "")
         
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
@@ -49,7 +49,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         referedCountLabel = UILabel()
         referedCountLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         referedCountLabel?.textColor = WMColor.listAddressHeaderSectionColor
-        referedCountLabel?.text = "¡Tienes 5 envíos gratis disponibles!"
+        referedCountLabel?.text = ""
         referedCountLabel?.textAlignment = .Center
         self.view.addSubview(referedCountLabel!)
         
@@ -57,12 +57,12 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         referedDescLabel?.font = WMFont.fontMyriadProLightOfSize(14)
         referedDescLabel?.textColor = WMColor.listAddressHeaderSectionColor
         referedDescLabel?.numberOfLines = 3
-        referedDescLabel?.text = "Acumula envíos gratis cuando tus referidos \nse registren en Walmart (ellos tambíen recibirán un \nenvío gratis al confirmar)"
+        referedDescLabel?.text =  NSLocalizedString("refered.description.message", comment: "")
         referedDescLabel?.textAlignment = .Center
         self.view.addSubview(referedDescLabel!)
         
         addReferedButton = UIButton()
-        addReferedButton?.setTitle("Referir a un amigo", forState:.Normal)
+        addReferedButton?.setTitle(NSLocalizedString("refered.button.add", comment: ""), forState:.Normal)
         addReferedButton?.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         addReferedButton?.backgroundColor = WMColor.light_gray
         addReferedButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -111,11 +111,11 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         
         if indexPath.section == 0{
             referedArray = self.pendingRefered
-            titleSection = "Pendientes"
+            titleSection = NSLocalizedString("refered.title.pendig", comment: "")
         }
         else{
             referedArray = self.confirmRefered
-            titleSection = "Confirmados"
+            titleSection = NSLocalizedString("refered.title.confirm", comment: "")
         }
         
         if indexPath.row == 0{
@@ -145,7 +145,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             let email = refered["emailRef"] as! String
             let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
             addreferedForm.showReferedUser(name, mail: email)
-            self.modalView = AlertModalView.initModalWithView("Invitar a un Amigo",innerView: addreferedForm)
+            self.modalView = AlertModalView.initModalWithView(NSLocalizedString("refered.title.showrefered", comment: ""),innerView: addreferedForm)
             self.modalView!.showPicker()
         }
     }
@@ -191,6 +191,17 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         self.modalView!.showPicker()
     }
     
+    func setCountLabel(countRefered:Int){
+       var message = ""
+        if countRefered == 0{
+            message = "No tienes envíos gratis disponibles"
+        }else if countRefered == 1 {
+            message = "¡Tienes 1 envío gratis disponible!"
+        }else {
+            message = "¡Tienes \(countRefered) envíos gratis disponibles!"
+        }
+        self.referedCountLabel!.text = message
+    }
     //MARK: Services
     
     func invokeReferedCustomerService(){
@@ -206,6 +217,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                         self.confirmRefered.append(refered)
                     }
                 }
+                self.setCountLabel(self.pendingRefered.count + self.confirmRefered.count)
                 self.referedTable.reloadData()
             }
              self.removeViewLoad()
@@ -264,19 +276,19 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 let codeMessage = result["codeMessage"] as! Int
                 if codeMessage == 0
                 {
-                    self.alertView!.setMessage("¡Listo!\nLa invitación se ha enviado con éxito.")
+                    self.alertView!.setMessage(NSLocalizedString("refered.add.success", comment: ""))
                     self.alertView!.showicon(UIImage(named: "alerta_listo"))
                     self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
 
                 }else if codeMessage == -1 {
-                    self.alertView!.setMessage("Tu amigo ya tiene una cuenta\nIntenta con otro correo.")
+                    self.alertView!.setMessage(NSLocalizedString("refered.add.repeat", comment: ""))
                     self.alertView!.showicon(UIImage(named: "alerta_repetir"))
                     self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
                 }
             },
             errorBlock: {(error:NSError) -> Void in
                 print("Error AddRefered")
-                self.alertView!.setMessage("Por el momento no se puedo enviar tu invitación. \nVuelve a intentarlo más tarde.")
+                self.alertView!.setMessage(NSLocalizedString("refered.add.error", comment: ""))
                 self.alertView!.showicon(UIImage(named: "alerta_fail"))
                 self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
             })

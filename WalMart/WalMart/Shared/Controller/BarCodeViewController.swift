@@ -189,29 +189,46 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     {
                         self.searchProduct(metaObj)
                     }else{
-                        let message = NSMutableAttributedString()
-                        message.appendAttributedString(NSAttributedString(string: "Este código de barras pertenece a un Ticket, deseas generar una lista?", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-                        let alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
-                        alertView?.messageLabel.textAlignment = .Center
-                        alertView?.setMessageLabelToCenter(225.0)
-                        alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
-                            alertView?.close()
-                            }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
+                        if UserCurrentSession.hasLoggedUser(){
+                            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
+                            alertView?.showicon(UIImage(named: "searchScan"))
+                            alertView?.setMessage("Este código de barras pertenece a un Ticket, ¿Deseas crear una lista con estos artículos.")
+                            alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
                                 alertView?.close()
-                                self.createList(metaObj)
-                        })
+                                }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
+                                    alertView?.close()
+                                    self.createList(metaObj)
+                            })
+                        }else{
+                            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
+                            alertView?.showicon(UIImage(named: "searchScan"))
+                            alertView?.setMessage("Este código de barras pertenece a un Ticket, Inicia sesión para  crear una lista con estos artículos.")
+                            alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
+                                alertView?.close()
+                                }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
+                                    alertView?.close()
+                                    //Show LogIn
+                                    let cont = LoginController.showLogin()
+                                    cont!.closeAlertOnSuccess = true
+                                    cont!.okCancelCallBack = {() in
+                                        cont!.closeAlert(true, messageSucesss:false)
+                                    }
+                                    cont!.successCallBack = {() in
+                                        cont!.closeAlert(true, messageSucesss:false)
+                                        self.createList(metaObj)
+                                    }
+                            })
+                        }
                     }
                 }
                 else {
                     if metaObj.type! == "org.iso.Code39"
                     {
-                        self.createList(metaObj)
+                       self.createList(metaObj)
                     }else{
-                        let message = NSMutableAttributedString()
-                        message.appendAttributedString(NSAttributedString(string: "Este código de barras no pertenece a una lista, deseas ver detalle de este producto?", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()]))
-                        let alertView = IPOWMAlertInfoViewController.showAttributedAlert("", message:message)
-                        alertView?.messageLabel.textAlignment = .Center
-                        alertView?.setMessageLabelToCenter(225.0)
+                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
+                        alertView?.showicon(UIImage(named: "searchScan"))
+                        alertView?.setMessage("Este código de barras no pertenece a una lista, ¿Deseas ver detalle de este producto?")
                         alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
                             alertView?.close()
                             }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
@@ -261,89 +278,92 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     
     func createList(barcode: AVMetadataMachineReadableCodeObject){
         let barcodeValue = barcode.stringValue!
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
         if createListDelegate{
             self.delegate?.barcodeCaptured(barcodeValue)
         }
         else{
-            print("Code \(barcodeValue)")
-            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-            alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
-            let service = GRProductByTicket()
-            service.callService(service.buildParams(barcodeValue),
-                successBlock: { (result: NSDictionary) -> Void in
-                    if let items = result["items"] as? [AnyObject] {
-                    
-                        if items.count == 0 {
-                            alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
-                            alertView!.showErrorIcon("Ok")
-                            return
-                        }
-                    
-                        let saveService = GRSaveUserListService()
-                    
-                        alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
-                    
-                        var products:[AnyObject] = []
-                        for var idx = 0; idx < items.count; idx++ {
-                            var item = items[idx] as! [String:AnyObject]
-                            let upc = item["upc"] as! String
-                            let quantity = item["quantity"] as! NSNumber
-                            let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
-                            products.append(param)
-                        }
-                    
-                        let fmt = NSDateFormatter()
-                        fmt.dateFormat = "MMM d"
-                        var name = fmt.stringFromDate(NSDate())
-                        
-                        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                        let fetchRequest = NSFetchRequest()
-                        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
-                        fetchRequest.predicate = NSPredicate(format:"idList != nil")
-                        
-                        var number = 0;
-                        do{
-                            let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
-                            if resultList != nil && resultList!.count > 0 {
-                                for listName: List in resultList!{
-                                    if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
-                                        number = number+1
-                                    }
-                                }
-                            }
-                        }
-                        catch{
-                            print("retrieveListNotSync error")
-                        }
-                        
-                        if number > 0 {
-                            name = "\(name) \(number)"
-                        }
-
-                        //var number = 0;
-                        saveService.callService(saveService.buildParams(name, items: products),
-                            successBlock: { (result:NSDictionary) -> Void in
-                                //TODO
-                                alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
-                                alertView!.showDoneIcon()
-                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
-                            },
-                            errorBlock: { (error:NSError) -> Void in
-                                alertView!.setMessage(error.localizedDescription)
-                                alertView!.showErrorIcon("Ok")
-                            }
-                        )
-                    }
-                },  errorBlock: { (error:NSError) -> Void in
-                    alertView!.setMessage(error.localizedDescription)
-                    alertView!.showErrorIcon("Ok")
-                }
-            )
+            self.createListWithServices(barcodeValue)
         }
     }
     
+    func createListWithServices(barcodeValue: String){
+        print("Code \(barcodeValue)")
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("list.message.retrieveProductsFromTicket", comment:""))
+        let service = GRProductByTicket()
+        service.callService(service.buildParams(barcodeValue),
+            successBlock: { (result: NSDictionary) -> Void in
+                if let items = result["items"] as? [AnyObject] {
+                    
+                    if items.count == 0 {
+                        alertView!.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
+                        alertView!.showErrorIcon("Ok")
+                        return
+                    }
+                    
+                    let saveService = GRSaveUserListService()
+                    
+                    alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
+                    
+                    var products:[AnyObject] = []
+                    for var idx = 0; idx < items.count; idx++ {
+                        var item = items[idx] as! [String:AnyObject]
+                        let upc = item["upc"] as! String
+                        let quantity = item["quantity"] as! NSNumber
+                        let param = saveService.buildBaseProductObject(upc: upc, quantity: quantity.integerValue)
+                        products.append(param)
+                    }
+                    
+                    let fmt = NSDateFormatter()
+                    fmt.dateFormat = "MMM d"
+                    var name = fmt.stringFromDate(NSDate())
+                    
+                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                    let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+                    let fetchRequest = NSFetchRequest()
+                    fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+                    fetchRequest.predicate = NSPredicate(format:"idList != nil")
+                    
+                    var number = 0;
+                    do{
+                        let resultList: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
+                        if resultList != nil && resultList!.count > 0 {
+                            for listName: List in resultList!{
+                                if listName.name.uppercaseString.hasPrefix(name.uppercaseString) {
+                                    number = number+1
+                                }
+                            }
+                        }
+                    }
+                    catch{
+                        print("retrieveListNotSync error")
+                    }
+                    
+                    if number > 0 {
+                        name = "\(name) \(number)"
+                    }
+                    
+                    //var number = 0;
+                    saveService.callService(saveService.buildParams(name, items: products),
+                        successBlock: { (result:NSDictionary) -> Void in
+                            //TODO
+                            alertView!.setMessage(NSLocalizedString("list.message.listDone", comment: ""))
+                            alertView!.showDoneIcon()
+                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowGRLists.rawValue, object: nil)
+                        },
+                        errorBlock: { (error:NSError) -> Void in
+                            alertView!.setMessage(error.localizedDescription)
+                            alertView!.showErrorIcon("Ok")
+                        }
+                    )
+                }
+            },  errorBlock: { (error:NSError) -> Void in
+                alertView!.setMessage(error.localizedDescription)
+                alertView!.showErrorIcon("Ok")
+        })
+    }
+
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
