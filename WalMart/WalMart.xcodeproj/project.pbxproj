@@ -3580,6 +3580,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
+					"$(PROJECT_DIR)/WalMart/Shared/Library/Dynatrace",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3616,6 +3617,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
+					"$(PROJECT_DIR)/WalMart/Shared/Library/Dynatrace",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

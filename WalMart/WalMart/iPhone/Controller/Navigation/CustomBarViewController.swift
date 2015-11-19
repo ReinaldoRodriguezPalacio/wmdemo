@@ -816,8 +816,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
                 let controllersInNavigation = controllernav?.viewControllers.count
-                if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 1] as? ProductDetailPageViewController != nil){
-                    controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
+                if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                    controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                     self.isEditingSearch = false
                 }
                 controllernav?.pushViewController(controller, animated: true)
@@ -832,7 +832,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController
                     let controllersInNavigation = controllernav?.viewControllers.count
-                    if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                    if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
                         controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                         self.isEditingSearch = false
                     }
