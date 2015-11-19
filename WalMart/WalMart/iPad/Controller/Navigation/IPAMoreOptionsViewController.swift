@@ -157,7 +157,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     }
 
     override func editProfile(sender:UIButton) {
-       self.delegate.selectedDetail(10)
+       self.delegate.selectedDetail(11)
     }
 
     

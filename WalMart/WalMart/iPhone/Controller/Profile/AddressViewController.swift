@@ -567,14 +567,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             
             if addressShippingCont >= 12 && typeAddress == .Shiping{
                 self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
-                self.alertView!.showDoneIcon()
+                self.alertView!.showErrorIcon("OK")
                 self.back()
                return
             }
             
             if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral){
                 self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
-                self.alertView!.showDoneIcon()
+                self.alertView!.showErrorIcon("OK")
                 self.back()
                 return
             }
