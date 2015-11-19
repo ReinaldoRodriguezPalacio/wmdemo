@@ -300,7 +300,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     
     func saveItemsAndSuccess(params:[[String:String]],resultCall:NSDictionary, successBlock:((NSDictionary) -> Void)?) {
-        let itemsInShoppingCart =  resultCall["items"] as! NSArray
+        let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? NSArray : []
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -329,9 +329,8 @@ class GRShoppingCartProductsService : GRBaseService {
         var resultServiceCall : [String:AnyObject] = [:]
         var resultItems : [NSDictionary] = []
         
-        for shoppingCartProduct in itemsInShoppingCart {
+        for shoppingCartProduct in itemsInShoppingCart! {
             
-
             var carProduct : Cart!
             var carProductItem : Product!
             let upc = shoppingCartProduct["upc"] as! String
@@ -359,9 +358,7 @@ class GRShoppingCartProductsService : GRBaseService {
                 carProduct = cartResult[0]
             }
             
-            
             carProductItem = NSEntityDescription.insertNewObjectForEntityForName("Product" as String, inManagedObjectContext: context) as! Product
-            
             
             let filtredByUpc = params.filter {$0["upc"] == upc}
             if filtredByUpc.count > 0 {
@@ -374,7 +371,6 @@ class GRShoppingCartProductsService : GRBaseService {
                 resultItems.append(newItemQ )
             }
 
-            
             carProductItem.upc = upc
             carProductItem.desc = desc
             carProductItem.price = price
@@ -383,7 +379,6 @@ class GRShoppingCartProductsService : GRBaseService {
             if let pesable = shoppingCartProduct["type"] as?  NSString {
                 carProductItem.type = NSNumber(integer:pesable.integerValue)
             }
-            
             
             if let active = shoppingCartProduct["isActive"] as? String {
                 carProductItem.isActive = active
@@ -398,9 +393,7 @@ class GRShoppingCartProductsService : GRBaseService {
 //            if let comment  = shoppingCartProduct["comments"] as? NSString {
 //                carProduct.note = comment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
 //            }
-            
-            
-            
+
             //carProduct.quantity = NSNumber(integer: quantity)
             carProduct.product = carProductItem
             carProduct.type = ResultObjectType.Groceries.rawValue

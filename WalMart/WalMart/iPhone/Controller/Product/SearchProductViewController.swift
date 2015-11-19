@@ -314,10 +314,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if kind == UICollectionElementKindSectionHeader {
             let view = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "header", forIndexPath: indexPath) as! SectionHeaderSearchHeader
             
+            print("pintando header")
             view.title = setTitleWithEdit()
             view.title?.textAlignment = .Center
             view.addSubview(view.title!)
             view.addSubview(self.filterButton!)
+            let titleFrame = view.title?.frame
+            view.title?.frame =  CGRectMake(0, titleFrame!.origin.y,195,titleFrame!.height)
             
             view.backgroundColor = WMColor.light_gray
             

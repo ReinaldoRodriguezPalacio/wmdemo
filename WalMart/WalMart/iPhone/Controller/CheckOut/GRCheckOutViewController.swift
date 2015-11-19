@@ -942,18 +942,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.shipmentType!.onBecomeFirstResponder = {() in
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 var itemsShipment : [String] = []
-                for option in self.shipmentItems! {
-                    if let text = option["name"] as? String {
-                        itemsShipment.append(text)
+                if self.shipmentItems?.count > 1{
+                    for option in self.shipmentItems! {
+                        if let text = option["name"] as? String {
+                            itemsShipment.append(text)
+                        }
                     }
+                    self.picker!.selected = self.selectedShipmentTypeIx
+                    self.picker!.sender = self.shipmentType!
+                    self.picker!.delegate = self
+                    self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
+                    self.picker!.hiddenRigthActionButton(true)
+                    self.picker!.cellType = TypeField.Check
+                    self.picker!.showPicker()
                 }
-                self.picker!.selected = self.selectedShipmentTypeIx
-                self.picker!.sender = self.shipmentType!
-                self.picker!.delegate = self
-                self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
-                self.picker!.hiddenRigthActionButton(true)
-                self.picker!.cellType = TypeField.Check
-                self.picker!.showPicker()
             }
             
             self.buildSlotsPicker(self.selectedDate)
