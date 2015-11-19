@@ -54,9 +54,6 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             self.yPointOpen = self.viewMG.imgBackground.convertRect(self.viewMG.imgBackground.frame, toView: self.view).maxY
             self.performSegueWithIdentifier("shoppingCartMG", sender: self)
         }
-        
-        
-        
        
     }
     
@@ -72,8 +69,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
         }
        // self.navigationController?.view.addSubview(viewLoad)
         
-        
- 
+       
     }
     
     
@@ -81,6 +77,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
+    
         UserCurrentSession.sharedInstance().loadShoppingCarts({() -> Void in
 //            if UserCurrentSession.sharedInstance().isEmptyMG() && !UserCurrentSession.sharedInstance().isEmptyGR() {
 //                let vcResult = self.storyboard?.instantiateViewControllerWithIdentifier("shoppingCartGRVC") as GRShoppingCartViewController
@@ -160,6 +157,8 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
 
     //Open from home
     func openShoppingCart(){
+        
+        UserCurrentSession.sharedInstance().validateUserAssociate(true)
         
         self.view.userInteractionEnabled = false
         

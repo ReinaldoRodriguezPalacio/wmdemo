@@ -278,7 +278,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.updateShopButton(total)
         
-        
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
@@ -434,6 +433,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 updateShopButton(total)
                 
                 cellTotals.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
+                 var newTotal  = total
+                if self.isEmployeeDiscount {
+                    newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+                     cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:totalSaving)
+                }
+                
                 cell = cellTotals
             }
             if itemsInShoppingCart.count < indexPath.row  {
@@ -1049,8 +1054,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             buttonShop.addSubview(customlabel)
             buttonShop.sendSubviewToBack(customlabel)
         }
+        var newTotal  = total
+        if self.isEmployeeDiscount {
+            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+            self.totalest = (newTotal as NSString).doubleValue
+        }
+        
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let fmtTotal = CurrencyCustomLabel.formatString(newTotal)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
         
@@ -1198,12 +1209,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
                     succesBlock: { (response:NSDictionary) -> Void in
                         print(response)
-                        if response["codeMessage"] as? Int ==  0{
+                        if response["codeMessage"] as? String ==  "0"{
                             //Mostrar alerta y continua
                             self.alertView?.setMessage("Datos correctos")
                             self.buttonAsociate.highlighted =  true
                             self.alertView?.close()
                             self.isEmployeeDiscount =  true
+                            self.loadShoppingCartService()
                             //self.showloginshop()
                         }else{
                             self.isEmployeeDiscount =  false

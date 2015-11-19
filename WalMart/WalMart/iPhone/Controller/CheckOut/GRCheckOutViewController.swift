@@ -101,6 +101,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var hasPromotionsButtons: Bool! = false
     var idReferido : Int! = 0
     var idFreeShepping : Int! = 0
+    var totalDiscountsOrder : Int! = 0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -746,6 +747,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
+                    let newTotal =  resultCall["newTotal"] as? Int
+                    let totalDiscounts =  resultCall["totalDiscounts"] as? Int
+                    self.totalDiscountsOrder = totalDiscounts
+                    
                     if let listSamples = resultCall["listSamples"] as? [AnyObject]{
                         for promotionln in listSamples {
                             let isAsociate = promotionln["isAssociated"] as! Bool
@@ -788,6 +793,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             }
                         }
                     }
+                    
                     //self.discountAssociate!.setSelectedCheck(true)
                     self.invokeDeliveryTypesService({ () -> Void in
                         //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
@@ -1387,7 +1393,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId())
+//            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId())
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 print(resultCall)
