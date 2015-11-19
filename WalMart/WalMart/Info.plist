@@ -974,5 +974,38 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>search_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Buscar artículos</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.opensearch</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>cart_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Abrir mi carrito</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openshoppingcart</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>list_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Ir a mis listas</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openlists</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+	</array>
 </dict>
 </plist>

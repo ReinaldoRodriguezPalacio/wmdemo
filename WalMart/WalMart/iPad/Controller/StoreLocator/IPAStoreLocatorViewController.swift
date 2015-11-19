@@ -130,15 +130,6 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         
         let store = self.items![indexPath.row]
         
-        //Event
-//        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_STORELACATION.rawValue,
-//                action:WMGAIUtils.EVENT_STORELOCATOR_LIST_SHOWSTOREINMAP.rawValue,
-//                label: store.name!,
-//                value: nil).build() as [NSObject : AnyObject])
-//        }
-        
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
         
         self.detailView?.removeFromSuperview()
@@ -274,4 +265,6 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         }
         self.currentSelected = nil
     }
+    
+   
 }

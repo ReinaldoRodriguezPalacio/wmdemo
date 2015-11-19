@@ -16,6 +16,10 @@ class  IPOWebViewController : UIViewController {
     var webViewMain : UIWebView!
     var btnClose : UIButton!
     
+    var category : String!
+    var categoryNo : String!
+    var action : String!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -44,6 +48,11 @@ class  IPOWebViewController : UIViewController {
         
         let request = NSURLRequest(URL: NSURL(string: "https://facturacion.walmartmexico.com.mx/m/")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
         webViewMain.loadRequest(request)
+        
+        
+        category = WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue
+        categoryNo = WMGAIUtils.CATEGORY_GENERATE_BILLING_NO_AUTH.rawValue
+        
     }
     
     func openURL(togoURL:String) {
@@ -63,6 +72,7 @@ class  IPOWebViewController : UIViewController {
     
     
     func close() {
+        
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_BILLING_AUTH.rawValue, action: WMGAIUtils.ACTION_CLOSE_GERATE_BILLIG.rawValue, label: "")
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             
