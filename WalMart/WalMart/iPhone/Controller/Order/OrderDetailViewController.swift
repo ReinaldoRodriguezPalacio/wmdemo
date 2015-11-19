@@ -478,7 +478,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
             let frame = self.view.frame
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_TO_LIST.rawValue , label: "")
+            
+            if type == ResultObjectType.Mg {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "")
+            }else {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "")
+            }
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
@@ -519,7 +524,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     func addListToCart (){
         
         if self.itemDetailProducts != nil && self.itemDetailProducts!.count > 0 {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
+            if type == ResultObjectType.Mg {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
+            }else {
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: "")
+            }
             var upcs: [AnyObject] = []
             if !showFedexGuide {
                 for item in self.itemDetailProducts! {
@@ -585,7 +594,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
 
     
     func shareList() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PREVIOUS_ORDERS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label:"")
+        if type == ResultObjectType.Mg {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        }else {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "")
+        }
         if let image = self.buildImageToShare() {
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -789,9 +802,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         )
     }
     
-    
-    
-    
-
+    override func back() {
+        if type == ResultObjectType.Mg {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_PREVIOUS_ORDER.rawValue, label: "")
+        }else {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_PREVIOUS_ORDER_DETAILS.rawValue, action: WMGAIUtils.ACTION_BACK_TO_PREVIOUS_ORDER.rawValue, label: "")
+        }
+        super.back()
+    }
 
 }

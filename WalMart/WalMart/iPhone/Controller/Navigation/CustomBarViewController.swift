@@ -88,6 +88,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var updateAviable : UpdateViewController!
     var isEditingSearch: Bool = false
     
+    var waitToSplash = false
+    
     
     
     
@@ -155,6 +157,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         splashVC = IPOSplashViewController()
         splashVC.didHideSplash = { () in
+            
+            if self.waitToSplash {
+                self.openSearchProduct()
+            }
+            
             self.splashVC = nil
             self.checkPrivaceNotice()
         }
@@ -663,13 +670,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 current.view.addSubview(self.imageBlurView!)
                 current.view.addSubview(self.searchController!.view)
                 
-                ///
-                //            self.searchController!.viewBackground!.alpha = 0
-                //            self.searchController!.camButton!.alpha = 0
-                //            self.searchController!.camLabel!.alpha = 0
-                //            self.searchController!.scanButton!.alpha = 0
-                //            self.searchController!.scanLabel!.alpha = 0
-                
                 UIView.animateWithDuration(0.6, animations: {() in
                     self.searchController!.view.frame = CGRectMake(0,0, current.view.frame.width, current.view.frame.height)
                     self.btnSearch?.setImage(UIImage(named: "close"), forState:  UIControlState.Normal)
@@ -683,16 +683,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                             
                             self.view.sendSubviewToBack(self.headerView!)
                             self.container!.clipsToBounds = false
-                            
-                            //
-                            //                        UIView.animateWithDuration(0.6, animations: {() in
-                            //                            self.searchController!.viewBackground!.alpha = 1
-                            //                            self.searchController!.camButton!.alpha = 1
-                            //                            self.searchController!.camLabel!.alpha = 1
-                            //                            self.searchController!.scanButton!.alpha = 1
-                            //                            self.searchController!.scanLabel!.alpha = 1
-                            //                        })
-                        }
+                                                    }
                 })
                 
             }
@@ -1209,6 +1200,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
         
+        
         let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         if type != "CF" {
@@ -1228,11 +1220,23 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
-        case "WF": self.buttonSelected(self.buttonList[2])
+        case "WF": self.buttonSelected(self.buttonList[3])
+        case "SH":
+            if self.splashVC == nil {
+                self.openSearchProduct()
+            } else {
+                self.waitToSplash = true
+            }
         default:
             print("No value type for notification")
             return false
         }
+        
+        if splashVC != nil {
+            self.view.bringSubviewToFront(splashVC.view)
+        }
+        
+        
         
         return true
     }

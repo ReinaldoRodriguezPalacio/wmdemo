@@ -187,6 +187,10 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_MY_LISTS_DETAIL_EMPTY = "C_MyListDetailEmpty"
     case CATEGORY_FREQUENT_QUESTIONS = "C_FrequentQuestions"
     case CATEGORY_SIGNUP = "C_SignUp"
+    case CATEGORY_MG_PREVIOUS_ORDER_DETAILS = "C_MgPrevoiusOrderDetail"
+    case CATEGORY_GR_PREVIOUS_ORDER_DETAILS = "C_GrPrevoiusOrderDetail"
+    case CATEGORY_ADD_NEW_ADDRESS_AUTH = "C_AddNewAddressAuth"
+    
     
     //MARK - ACTION
     case ACTION_OPEN_BARCODE_SCANNED_UPC =  "A_OpenBarcodeScannedUpc"
@@ -254,6 +258,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_CART_CLOSED =  "A_CartClosed"
     case ACTION_EDIT_CART =  "A_EditCart"
     case ACTION_BACK_TO_PRE_SHOPPING_CART =  "A_BackToPreShoppingCart"
+    case ACTION_BACK_TO_SHOPPING_CART =  "A_BackToShoppingCart"
     case ACTION_QUANTITY_KEYBOARD =  "A_QuantityKeyboard"
     case ACTION_CHANGE_NUMER_OF_PIECES =  "A_ChangeNumerOfPieces"
     case ACTION_ADD_TO_SHOPPING_CART =  "A_AddToShoppingCart"
@@ -310,6 +315,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_OPEN_CONFIRMATION =  "A_OpenConfirmation"
     case ACTION_DISCOUT_ASOCIATE =  "A_DiscoutAsociate"
     case ACTION_BUY_GR =  "A_BuyGr"
+    case ACTION_BUY_MG =  "A_BuyMg"
     case ACTION_CLOSE_SESSION =  "A_CloseSession"
     case ACTION_OPEN_ACCOUNT_ADDRES =  "A_OpenAccountAddres"
     case ACTION_OPEN_MORE_ITEMES_PURCHASED =  "A_OpenMoreItemesPurchased"
@@ -410,6 +416,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_BARCODE_SCANNED_TICKET =  "A_BarcodeScannedTicket"
     case ACTION_OPEN_REFERED = "A_OpenRefered"
     case ACTION_SAVE_SIGNUP = "A_SaveSignUp"
+    case ACTION_CHANGE_DATE = "A_ChangeDate"
+    case ACTION_SAVE_NEW_ADDRESS  =  "A_SaveNewAddress"
     
     //MARK EVENTOS ANTERIORES
 //    case EVENT_PUSHNOTIFICATION = "EVENT_PUSHNOTIFICATION"
