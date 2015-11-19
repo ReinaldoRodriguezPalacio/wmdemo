@@ -37,7 +37,7 @@ class CamFindService : BaseService {
         manager.requestSerializer = AFHTTPRequestSerializer() as AFHTTPRequestSerializer
         manager.requestSerializer!.setValue("CloudSight \(self.getCamFindAPIKey())", forHTTPHeaderField: "Authorization")
         
-        let urlStr = "https://api.cloudsightapi.com/image_responses/\(tokenStr)?match_mode=all" as String
+        let urlStr = "https://api.cloudsightapi.com/image_responses/\(tokenStr)" as String
         self.callGETService(manager, serviceURL: urlStr, params: [:],
             successBlock: { (resultF: NSDictionary) -> Void in
                 //
