@@ -300,7 +300,7 @@ class GRShoppingCartProductsService : GRBaseService {
     
     
     func saveItemsAndSuccess(params:[[String:String]],resultCall:NSDictionary, successBlock:((NSDictionary) -> Void)?) {
-        let itemsInShoppingCart =  resultCall["items"] as! NSArray
+                let itemsInShoppingCart = resultCall["items"] != nil ? resultCall["items"] as? NSArray : []
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -329,7 +329,7 @@ class GRShoppingCartProductsService : GRBaseService {
         var resultServiceCall : [String:AnyObject] = [:]
         var resultItems : [NSDictionary] = []
         
-        for shoppingCartProduct in itemsInShoppingCart {
+        for shoppingCartProduct in itemsInShoppingCart! {
             
 
             var carProduct : Cart!
