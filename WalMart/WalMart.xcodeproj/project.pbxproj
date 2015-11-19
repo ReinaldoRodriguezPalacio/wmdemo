@@ -499,6 +499,7 @@
 		ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */; };
 		ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */; };
 		ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */; };
+		ACC820521BFE7EE0001A0B73 /* libCompuwareUEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC820511BFE7EE0001A0B73 /* libCompuwareUEM.a */; };
 		ACCBF5CC1A9404C2008D3239 /* SearchCategoriesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */; };
 		ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
@@ -1056,6 +1057,10 @@
 		ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMyAddressViewController.swift; path = iPad/Controller/Profile/IPAMyAddressViewController.swift; sourceTree = "<group>"; };
 		ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAEditProfileViewController.swift; path = iPad/Controller/Profile/IPAEditProfileViewController.swift; sourceTree = "<group>"; };
 		ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		ACC8204F1BFE7EE0001A0B73 /* CompuwareUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompuwareUEM.h; sourceTree = "<group>"; };
+		ACC820501BFE7EE0001A0B73 /* CPWRLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPWRLog.h; sourceTree = "<group>"; };
+		ACC820511BFE7EE0001A0B73 /* libCompuwareUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCompuwareUEM.a; sourceTree = "<group>"; };
+		ACC820531BFE7F4A001A0B73 /* libCompuwareUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCompuwareUEM.a; path = ../../Desktop/DynatraceADK/libCompuwareUEM.a; sourceTree = "<group>"; };
 		ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCategoriesViewCell.swift; path = Shared/View/Search/SearchCategoriesViewCell.swift; sourceTree = "<group>"; };
 		ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = iPhone/Controller/Profile/EditProfileViewController.swift; sourceTree = "<group>"; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -1066,9 +1071,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ACC820521BFE7EE0001A0B73 /* libCompuwareUEM.a in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
-				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
+				ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
+				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
@@ -1079,7 +1086,6 @@
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				AC59119A19DE0F0100EB095C /* libz.dylib in Frameworks */,
-				ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
 				AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */,
 				AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */,
@@ -2730,6 +2736,7 @@
 		AC5F646F19BF52810098BE43 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				ACC8204E1BFE7EE0001A0B73 /* DynatraceADK */,
 				AC59116119DE08BE00EB095C /* GAnalitics */,
 				AC88FA6C19CA388C003BD859 /* ScrollViewForm */,
 				AC5F647019BF52E10098BE43 /* fmdb */,
@@ -2882,6 +2889,7 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACC820531BFE7F4A001A0B73 /* libCompuwareUEM.a */,
 				6CEB11851B8B7D880013FE44 /* AdSupport.framework */,
 				6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */,
 				6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */,
@@ -2899,6 +2907,16 @@
 				ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ACC8204E1BFE7EE0001A0B73 /* DynatraceADK */ = {
+			isa = PBXGroup;
+			children = (
+				ACC8204F1BFE7EE0001A0B73 /* CompuwareUEM.h */,
+				ACC820501BFE7EE0001A0B73 /* CPWRLog.h */,
+				ACC820511BFE7EE0001A0B73 /* libCompuwareUEM.a */,
+			);
+			path = DynatraceADK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -3580,6 +3598,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
+					"$(PROJECT_DIR)/WalMart/DynatraceADK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -3616,6 +3635,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
+					"$(PROJECT_DIR)/WalMart/DynatraceADK",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
