@@ -143,4 +143,9 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.selectable = true
     }
     
+    override func back() {
+        super.back()
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue , label:"")
+    }
+    
 }

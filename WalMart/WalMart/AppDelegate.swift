@@ -154,6 +154,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
         if imgView != nil {
             imgView!.removeFromSuperview()
             IPOSplashViewController.updateUserData()
@@ -363,6 +364,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func writeNotificationFile() {
+        
+    }
+    
+    
+    @available(iOS 9.0, *)
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+        
+        var strType = ""
+        if shortcutItem.type == "com.bcg.opensearch" {
+           strType = "SH"
+        }
+        
+        if shortcutItem.type == "com.bcg.openshoppingcart" {
+            strType = "CF"
+        }
+        
+        if shortcutItem.type == "com.bcg.openlists" {
+            strType = "WF"
+        }
+        
+        if let customBar = self.window?.rootViewController as? CustomBarViewController {
+            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+            {
+                customBar.handleNotification(strType,name:"",value:"",bussines:"")
+            }
+        }
         
     }
     

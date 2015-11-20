@@ -193,7 +193,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
             self.acceptSharePersonal?.selected = true
             self.declineSharePersonal?.selected = false
         } else if sender == self.declineSharePersonal  {
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_ACEPT.rawValue, label: "")
+             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_NO_ACEPT.rawValue, label: "")
             self.acceptSharePersonal?.selected = false
             self.declineSharePersonal?.selected = true
         }

@@ -145,7 +145,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func updateOrAddNote() {
         
         if (addUpdateNote != nil) {
-            BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.GR_CATEGORY_SHOPPING_CART_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_NOTE.rawValue, label: self.upcProduct)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTE_IN_KEY_BOARD.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_NOTE_IN_KEY_BOARD.rawValue, action:WMGAIUtils.ACTION_OPEN_NOTE.rawValue, label: self.upcProduct)
             addUpdateNote()
         }
     }

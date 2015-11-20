@@ -20,6 +20,7 @@
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 + (UIImage *)imageFromView:(UIView *)view;
 + (UIImage *)imageFromView:(UIView *)view  size:(CGSize)size;
++ (UIImage *)scaleImage:(UIImage *)image maxWidth:(int) maxWidth maxHeight:(int) maxHeight;
 
 @end
 
@@ -28,5 +29,6 @@
 + (UIImage *)verticalImageFromArray:(NSArray *)imagesArray;
 + (UIImage *)verticalImageFromArray:(NSArray *)imagesArray andWidth:(CGFloat)width;
 + (UIImage *)verticalImageFromArrayProdDetail:(NSArray *)imagesArray;
+
 
 @end

@@ -445,10 +445,10 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         if keyword.length() > 51{
             return false
         }
-        self.field!.text = keyword;
+       // self.field!.text = keyword;
         self.searchProductKeywords(keyword)
         self.showClearButtonIfNeeded(forTextValue: keyword)
-        return false
+        return true
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

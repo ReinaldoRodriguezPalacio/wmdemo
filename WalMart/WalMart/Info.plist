@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>cpwrUEM_logging.level</key>
+	<string>ALL</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -17,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.36</string>
+	<string>3.35</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -298,6 +300,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -309,6 +313,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 	</dict>
 	<key>WMPayPalEnvironment</key>
@@ -751,6 +757,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
@@ -762,6 +770,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getLinesForSearch</string>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByUpc</string>
 		</dict>
 	</dict>
 	<key>clusterWMURLServices</key>
@@ -799,6 +809,12 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/getPushNotifications</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/getPromotionsMG</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -990,5 +1006,38 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 	</dict>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>search_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Buscar artículos</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.opensearch</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>cart_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Abrir mi carrito</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openshoppingcart</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>list_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Ir a mis listas</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openlists</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+	</array>
 </dict>
 </plist>

@@ -227,9 +227,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 
         switch (OptionsController(rawValue: optionTxt)!) {
         case .Help : self.performSegueWithIdentifier("showHelp", sender: self)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HOW_USE_APP.rawValue, label: "")
         case .Profile :
-            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
             let controller = EditProfileViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         case .Terms: self.performSegueWithIdentifier("termsHelp", sender: self)
@@ -241,13 +241,15 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Notification: self.performSegueWithIdentifier("notificationController", sender: self)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
         case .Recents:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_MORE_ITEMES_PURCHASED.rawValue, label: "")
                 let controller = RecentProductsViewController()
                 self.navigationController!.pushViewController(controller, animated: true)
         case .Address:
-            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ACCOUNT_ADDRES.rawValue, label: "")
             let controller = MyAddressViewController()
             self.navigationController!.pushViewController(controller, animated: true)
         case .Orders :
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PREVIOUS_ORDERS.rawValue, label: "")
             let controller = OrderViewController()
             //controller.reloadPreviousOrders()
             self.navigationController!.pushViewController(controller, animated: true)
@@ -255,13 +257,17 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
         case .Invoice:
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
         case .TicketList:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
         case .Refered:
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_REFERED.rawValue, label: "")
             openRefered()
             default :
                 print("option don't exist")
@@ -305,7 +311,11 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     //MARK: Other
     
     func openLoginOrProfile() {
+        
+        
+        
         if UserCurrentSession.sharedInstance().userSigned == nil{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
             let cont = LoginController.showLogin()
             cont!.successCallBack = {() in
                 self.tableView?.reloadData()
@@ -320,6 +330,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
         }
         else {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
             self.signOut(nil)
         }
     }
@@ -403,7 +414,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     }
     
     func editProfile(sender:UIButton) {
-                
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }

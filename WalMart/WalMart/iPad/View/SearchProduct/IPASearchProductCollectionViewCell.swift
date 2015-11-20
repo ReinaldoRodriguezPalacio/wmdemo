@@ -14,8 +14,8 @@ class IPASearchProductCollectionViewCell : SearchProductCollectionViewCell {
     
     override func setup() {
         super.setup()
-        
-        productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
         self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)

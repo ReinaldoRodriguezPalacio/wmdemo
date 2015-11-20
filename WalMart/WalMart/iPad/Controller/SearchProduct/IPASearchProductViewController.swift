@@ -126,6 +126,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 return
             }
         }
+        self.filterController!.facet =  self.facet != nil ? self.facet : nil
         self.filterController!.facetGr = self.facetGr
         self.filterController!.isGroceriesSearch = self.btnSuper.selected
         self.filterController!.searchContext = self.searchContextType

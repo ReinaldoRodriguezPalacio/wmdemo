@@ -200,6 +200,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let addressService = GRAddressByUserService()
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
+            
             self.arrayAddressShippingGR = []
             
             if  let resultAddress = resultCall["responseArray"] as? NSArray {
@@ -645,5 +648,10 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                       
             table.reloadData()
         }//else if sender == btnTech &&  !sender.selected {
+    }
+    
+    override func back() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue, label:"")
+        super.back()
     }
 }

@@ -343,6 +343,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         
         self.confirmation!.onBecomeFirstResponder = {() in
+
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_PAYMENTOPTIONS.rawValue , label: "")
+            
             self.comments?.resignFirstResponder()
             if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
                 var itemsOrderOptions : [String] = []
@@ -620,6 +623,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
         self.selectedDate = date
         buildSlotsPicker(date)
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_DATE.rawValue , label: "")
         
     }
     
@@ -939,27 +944,28 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func buildAndConfigureDeliveryType() {
         if self.selectedAddress != nil {
-            self.invokeDeliveryTypesService({ () -> Void in
-                self.shipmentType!.onBecomeFirstResponder = {() in
-                    var itemsShipment : [String] = []
-                    if self.shipmentItems?.count > 1{
-                        for option in self.shipmentItems! {
-                            if let text = option["name"] as? String {
-                                itemsShipment.append(text)
-                            }
+        self.invokeDeliveryTypesService({ () -> Void in
+            self.shipmentType!.onBecomeFirstResponder = {() in
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                var itemsShipment : [String] = []
+                if self.shipmentItems?.count > 1{
+                    for option in self.shipmentItems! {
+                        if let text = option["name"] as? String {
+                            itemsShipment.append(text)
                         }
-                        self.picker!.selected = self.selectedShipmentTypeIx
-                        self.picker!.sender = self.shipmentType!
-                        self.picker!.delegate = self
-                        self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
-                        self.picker!.hiddenRigthActionButton(true)
-                        self.picker!.cellType = TypeField.Check
-                        self.picker!.showPicker()
                     }
+                    self.picker!.selected = self.selectedShipmentTypeIx
+                    self.picker!.sender = self.shipmentType!
+                    self.picker!.delegate = self
+                    self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
+                    self.picker!.hiddenRigthActionButton(true)
+                    self.picker!.cellType = TypeField.Check
+                    self.picker!.showPicker()
                 }
-                
-                self.buildSlotsPicker(self.selectedDate)
-            })
+            }
+            
+            self.buildSlotsPicker(self.selectedDate)
+        })
         }
     }
     
@@ -1157,7 +1163,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
             }
             if formFieldObj ==  self.shipmentType! {
-                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_DELIVERY_TYPE.rawValue , label: "")
+                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
                 self.shipmentType!.text = selectedStr
                 self.selectedShipmentTypeIx = indexPath
                 let shipment: AnyObject = self.shipmentItems![indexPath.row]
@@ -1399,7 +1405,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
-                print(resultCall)
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+                
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
                 let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
                 
@@ -1725,5 +1733,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func getAppId() -> String{
         return "\(UserCurrentSession.systemVersion()) \(UserCurrentSession.currentDevice())"
+    }
+    
+    
+    override func back() {
+        super.back()
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
     }
 }

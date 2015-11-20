@@ -163,6 +163,8 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
                 controller.titleText = NSLocalizedString(name, comment: "")
                 controller.resource = item["resource"] as! String
                 controller.type = item["type"] as! String
+                controller.actionLabel = WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue
+                controller.categoryLabel = WMGAIUtils.CATEGORY_FREQUENT_QUESTIONS.rawValue
         
                 if  let imgFile = item["imgFile"] as? String{
                     controller.imgFile = imgFile
@@ -178,6 +180,11 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         
         self.table.reloadData()
         
+    }
+    
+    override func back() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_HOW_TO_USE_APP.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue , label:"")
+        super.back()
     }
     
 }

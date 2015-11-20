@@ -142,6 +142,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         let rangeEnd = string.rangeOfString("/app_Confirmacion-Pedido.aspx")
         if rangeEnd.location != NSNotFound && !didLoginWithEmail {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
             didLoginWithEmail = true
             let loginService = LoginWithEmailService()
             loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
@@ -172,6 +173,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
     override func back() {
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
+        
         ShoppingCartService.shouldupdate = true
         
 
@@ -225,6 +229,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let employe = self.isEmployeeDiscount ? "true" : "false"
         webView.stringByEvaluatingJavaScriptFromString("document.getElementById('_isEmployeeDiscount').value='\(employe)';")
     }
+    
+    
+
     
    
     
