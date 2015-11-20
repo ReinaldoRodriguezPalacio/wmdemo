@@ -34,12 +34,8 @@ class IPAEditProfileViewController: EditProfileViewController {
         self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 8, 76 , fieldHeight)
         self.changePasswordButton?.frame = CGRectMake((self.view.frame.width / 2) - 134, self.femaleButton!.frame.maxY+8 , 288,40 )
         self.legalInformation!.frame = CGRectMake((self.view.frame.width / 2) - 134, self.changePasswordButton!.frame.maxY+90 , 288,40 )
-        
-        
-
 
         
-  
     }
     
 }
