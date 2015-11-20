@@ -249,7 +249,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad = WMLoadingView(frame:CGRectMake(0, 0, (self.parentViewController?.view.bounds.width)!, (self.parentViewController?.view.bounds.height)!))
             viewLoad!.backgroundColor = UIColor.whiteColor()
             viewLoad!.startAnnimating(true)
             self.view.addSubview(viewLoad!)
