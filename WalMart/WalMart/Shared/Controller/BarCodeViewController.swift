@@ -207,7 +207,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                 alertView?.close()
                                 }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
                                     alertView?.close()
-                                    //Show LogIn
+                                    //Show LogIn with regist
                                     let cont = LoginController.showLogin()
                                     cont!.closeAlertOnSuccess = true
                                     cont!.okCancelCallBack = {() in
