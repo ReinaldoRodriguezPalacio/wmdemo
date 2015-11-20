@@ -413,13 +413,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                    
                     let login = LoginService()
                     login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
-                        
-                        
-                         print("")
+
                           self.alertAddress?.registryAddress(dictSend)
                         
                         }, errorBlock: { (error:NSError) -> Void in
-                             print("")
+                            self.alertView!.close()
                           self.alertAddress?.registryAddress(dictSend)
                     })
                     
