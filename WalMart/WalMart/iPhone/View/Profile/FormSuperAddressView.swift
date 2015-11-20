@@ -184,6 +184,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelPhone!.textColor = WMColor.listAddressHeaderSectionColor
         
         self.phoneHomeNumber = FormFieldView()
+        self.phoneHomeNumber!.isRequired = true
         self.phoneHomeNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
         self.phoneHomeNumber!.typeField = TypeField.Phone
         self.phoneHomeNumber!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")

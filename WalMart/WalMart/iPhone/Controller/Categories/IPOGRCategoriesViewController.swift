@@ -26,6 +26,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        if UserCurrentSession.hasLoggedUser() {
+            self.setStoreName()
+        }
     }
     
     override func viewDidLoad() {
@@ -72,8 +75,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         let svcExclusive = GRExclusiveItemsService()
         itemsExclusive = svcExclusive.getGrExclusiveContent()
         canfigData = svcConfig.getConfoigContent()
-        
-        
     }
     
     override func setup() {
@@ -85,9 +86,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
         familyController.view.frame = viewFamily.bounds
-        if UserCurrentSession.hasLoggedUser() {
-            self.setStoreName()
-        }
     }
     
     func loadDepartments() -> [AnyObject]? {
@@ -390,7 +388,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil {
+        if UserCurrentSession.sharedInstance().storeName != nil && UserCurrentSession.sharedInstance().storeName != "" {
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
@@ -406,6 +404,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
             self.titleLabel?.addGestureRecognizer(tapGesture)
             self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
+        }else{
+            self.titleLabel?.text = "Súper"
         }
         
     }
