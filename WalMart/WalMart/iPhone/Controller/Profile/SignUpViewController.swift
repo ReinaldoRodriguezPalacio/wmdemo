@@ -420,6 +420,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                         
                         }, errorBlock: { (error:NSError) -> Void in
                              print("")
+                           self.alertView!.close()
                           self.alertAddress?.registryAddress(dictSend)
                     })
                     
