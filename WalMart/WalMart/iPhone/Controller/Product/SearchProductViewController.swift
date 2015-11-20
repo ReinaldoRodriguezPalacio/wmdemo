@@ -1214,6 +1214,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         selectQuantityGR?.userSelectValue(prodQuantity)
         selectQuantityGR?.first = true
+        selectQuantityGR?.generateBlurImage(self.view, frame: self.selectQuantityGR.frame)
     }
     
     func selectGRQuantityForItem(cell: SearchProductCollectionViewCell) {
@@ -1230,7 +1231,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(cell.desc) - \(cell.upc)")
-        
+        selectQuantity?.generateBlurImage(self.view, frame: self.selectQuantity!.frame)
         selectQuantity!.addToCartAction =
             { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!

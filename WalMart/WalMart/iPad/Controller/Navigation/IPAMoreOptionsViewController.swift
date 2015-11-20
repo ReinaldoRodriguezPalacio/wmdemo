@@ -139,7 +139,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 1:
             currentOption = indexPath.row + 4
         case 2:
-            currentOption = indexPath.row + 7
+            currentOption = indexPath.row + 8
         default:
             print("")
         }
