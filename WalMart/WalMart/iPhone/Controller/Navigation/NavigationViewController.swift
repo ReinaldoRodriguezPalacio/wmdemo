@@ -42,10 +42,10 @@ class NavigationViewController: IPOBaseController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        //if self.titleLabel != nil && self.titleLabel!.frame.width == 0 {
+        if self.titleLabel != nil && self.titleLabel!.frame.width == 0 {
             self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
             self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
-        //}
+        }
         if backButton != nil{
             self.backButton!.frame = CGRectMake(0, 0  ,46,46)
         }

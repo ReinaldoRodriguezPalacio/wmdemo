@@ -75,10 +75,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         let svcExclusive = GRExclusiveItemsService()
         itemsExclusive = svcExclusive.getGrExclusiveContent()
         canfigData = svcConfig.getConfoigContent()
-        
-        if UserCurrentSession.hasLoggedUser() {
-            self.setStoreName()
-        }
     }
     
     override func setup() {
