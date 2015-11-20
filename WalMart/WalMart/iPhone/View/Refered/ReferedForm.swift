@@ -58,7 +58,8 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.titleSection!.textAlignment = .Left
         self.scrollForm.addSubview(self.titleSection!)
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.frame.width , 30), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, vc!.view.frame.width , 30), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 field?.resignFirstResponder()
             }
