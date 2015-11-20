@@ -504,7 +504,6 @@
 		ACCBF5CC1A9404C2008D3239 /* SearchCategoriesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */; };
 		ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */; };
 		ACEB8D2A1BFE807B00063E3B /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D291BFE807B00063E3B /* libc++.dylib */; };
-		ACEB8D2B1BFE80B500063E3B /* libCompuwareUEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC820531BFE7F4A001A0B73 /* libCompuwareUEM.a */; };
 		ACEB8D2D1BFE80E500063E3B /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D2C1BFE80E500063E3B /* libsqlite3.0.dylib */; };
 		ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D331BFE824900063E3B /* Security.framework */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
@@ -1087,7 +1086,6 @@
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				ACEB8D2A1BFE807B00063E3B /* libc++.dylib in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
-				ACEB8D2B1BFE80B500063E3B /* libCompuwareUEM.a in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
 				AC59119A19DE0F0100EB095C /* libz.dylib in Frameworks */,
