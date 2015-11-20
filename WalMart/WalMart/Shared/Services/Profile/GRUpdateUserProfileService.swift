@@ -16,7 +16,7 @@ class GRUpdateUserProfileService : GRBaseService {
     
     
     func buildParams(name:String,lastName:String,sex:String,birthDate:String,maritalStatus:String,profession:String,phoneWorkNumber:String,workNumberExtension:String,phoneHomeNumber:String,homeNumberExtension:String,cellPhone:String,allowMarketingEmail:String,user:String,password:String,newPassword:String,maximumAmount:Int) -> NSDictionary {
-        return ["name":name, "lastName":lastName, "sex":sex, "birthDate":"01/01/0001", "maritalStatus":maritalStatus, "profession":profession,"phoneWorkNumber":phoneWorkNumber,"workNumberExtension":workNumberExtension,"phoneHomeNumber":phoneHomeNumber,"homeNumberExtension":homeNumberExtension,"cellPhone":cellPhone,"allowMarketingEmail":allowMarketingEmail, "isReply": "1","user":["password":password,"newPassword":newPassword,"maximumAmount":maximumAmount]]
+        return ["name":name, "lastName":lastName, "sex":sex, "birthDate":"01/01/0001", "maritalStatus":maritalStatus, "profession":profession,"phoneWorkNumber":phoneWorkNumber,"workNumberExtension":workNumberExtension,"phoneHomeNumber":phoneHomeNumber,"homeNumberExtension":homeNumberExtension,"cellPhone":cellPhone,"allowMarketingEmail":allowMarketingEmail, "isReply": "1","device": "11","user":["password":password,"newPassword":newPassword,"maximumAmount":maximumAmount]]
     }
     
     

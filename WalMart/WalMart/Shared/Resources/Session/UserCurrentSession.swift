@@ -847,7 +847,9 @@ class UserCurrentSession : NSObject {
                         break
                     }
                 }
-                }, errorBlock: { (error:NSError) -> Void in })
+                }, errorBlock: { (error:NSError) -> Void in
+                   self.storeName = ""
+                  })
         }
 
     }
