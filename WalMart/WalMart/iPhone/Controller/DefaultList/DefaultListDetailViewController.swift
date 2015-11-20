@@ -304,7 +304,20 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 }
             }
         }
+        if hasActive {
+            for product in self.detailItems! {
+                if let item = product as? Product {
+                    if item.isActive == "true" {
+                        hasActive = true
+                        break
+                    }
+                }
+            }
+            hasActive =  false
+        }
         
+ 
+    
         if !hasActive {
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
