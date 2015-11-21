@@ -213,6 +213,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         vc!.view.addSubview(newAlert.view)
         newAlert.didMoveToParentViewController(vc)
         vc!.addChildViewController(newAlert)
+        newAlert.view.tag = 5000
         return newAlert
     }
     

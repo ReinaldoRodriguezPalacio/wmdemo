@@ -31,6 +31,8 @@ class AlertModalView : UIView, UITextFieldDelegate {
         
         self.backgroundColor = UIColor.clearColor()
         
+        self.tag = 5000
+        
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
