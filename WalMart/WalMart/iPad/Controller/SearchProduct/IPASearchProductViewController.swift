@@ -151,7 +151,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     //MARK: - UIPopoverControllerDelegate
     func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
         self.sharePopover = nil
-//        self.filterController = nil
+        //self.filterController = nil
     }
     
 
