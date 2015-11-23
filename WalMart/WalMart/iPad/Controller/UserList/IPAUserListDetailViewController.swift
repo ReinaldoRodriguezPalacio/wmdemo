@@ -263,27 +263,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                     if let product = self.products![idx] as? [String:AnyObject] {
                         let upc = product["upc"] as! String
                         let description = product["description"] as! String
-                        //Event
-                        //                    //TODOGAI
-                        //                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        //                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                        //                            action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                        //                            label: upc,
-                        //                            value: nil).build() as [NSObject : AnyObject])
-                        //                    }
                         
                         productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                     }
                     else if let product = self.products![idx] as? Product {
-                        
-                        //Event
-                        //                    //TODOGAI
-                        //                    if let tracker = GAI.sharedInstance().defaultTracker {
-                        //                        tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-                        //                            action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_PRODUCTDETAIL.rawValue,
-                        //                            label: product.upc,
-                        //                            value: nil).build() as [NSObject : AnyObject])
-                        //                    }
                         
                         productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                     }

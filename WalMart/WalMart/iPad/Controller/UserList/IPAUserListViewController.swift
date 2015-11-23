@@ -195,15 +195,7 @@ class IPAUserListViewController: UserListViewController {
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
-                
-                //Event
-//                //TODOGAI
-//                if let tracker = GAI.sharedInstance().defaultTracker {
-//                    tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                        action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
-//                        label: self.selectedListName ,
-//                        value: nil).build() as [NSObject : AnyObject])
-//                }
+
                 self.delegate?.showListDetailAnimated(forId: self.selectedListId, orEntity: nil, andName: self.selectedListName)
                 
                 
@@ -213,14 +205,6 @@ class IPAUserListViewController: UserListViewController {
             self.selectedEntityList = listEntity
             self.selectedListName = listEntity.name
             self.selectedListId = listEntity.idList
-            //event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL.rawValue,
-//                    label: self.selectedListName ,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
             self.delegate?.showListDetailAnimated(forId: listEntity.idList, orEntity: listEntity, andName: listEntity.name)
         }
         
