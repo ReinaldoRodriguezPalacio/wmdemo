@@ -787,7 +787,7 @@ class UserCurrentSession : NSObject {
                 user: "",
                 password: "",
                 newPassword: "",
-                maximumAmount: 0)
+                maximumAmount: 0,device:IS_IPAD ? "25" : "24")
             
             svcProfile.callService(requestParams: profileParams, successBlock: { (result:NSDictionary) -> Void in
                 print("Se actualizo el perfil")
@@ -796,8 +796,8 @@ class UserCurrentSession : NSObject {
             })
         }
     }
-
     
+
     class func urlWithRootPath(urlCall:String) -> String? {
         let strUrlUsr = "superamaapp"
         let strApiKey = "R_a58bb67ba6a171692b80d85e05b89f17"
