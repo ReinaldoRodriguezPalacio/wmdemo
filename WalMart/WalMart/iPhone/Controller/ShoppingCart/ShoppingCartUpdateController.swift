@@ -174,6 +174,7 @@ class ShoppingCartUpdateController : UIViewController {
             let allItems = multipleItems!["allitems"] as! NSArray
             let serviceAddProduct = GRShoppingCartAddProductsService()
             var paramsitems : [AnyObject] = []
+            var wishlistDelete : [String] = []
             
             var type : NSString = ""
             
@@ -203,6 +204,10 @@ class ShoppingCartUpdateController : UIViewController {
                 if let pesableP = itemToShop["pesable"] as? NSString{
                     pesable = pesableP
                 }
+                if wishlistObj {
+                    wishlistDelete.append(itemToShop["upc"] as! String)
+                }
+                
                 
                 let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable)
                 
@@ -236,8 +241,19 @@ class ShoppingCartUpdateController : UIViewController {
                     
                     if self.timmer == nil {
                         self.showDoneIcon()
-                        WishlistService.shouldupdate = true
-                        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
+                        
+                    }
+                    
+                    
+                    if wishlistDelete.count > 0 {
+                        let deleteService = DeleteItemWishlistService()
+                        let toSend = deleteService.buildParamsMultipe(wishlistDelete)
+                        deleteService.callServiceWithParams(toSend, successBlock: { (response:NSDictionary) -> Void in
+                            WishlistService.shouldupdate = true
+                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
+                            }, errorBlock: { (error:NSError) -> Void in
+                                
+                        })
                     }
                     
                     }, errorBlock: { (error:NSError) -> Void in
