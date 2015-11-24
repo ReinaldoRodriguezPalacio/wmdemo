@@ -750,7 +750,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     self.allProducts?.addObjectsFromArray(filtredProducts)
                 } else {
-                    self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                    if self.mgResults!.products != nil{
+                        self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                    }
                 }
                 firstOpen = false
             } else {
