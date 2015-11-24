@@ -71,6 +71,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     func setup() {
         
+        
+        self.tag = 5000
+        
         self.backgroundColor = UIColor.clearColor()
         
         bgView = UIView(frame: self.bounds)

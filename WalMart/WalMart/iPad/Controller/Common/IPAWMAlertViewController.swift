@@ -26,6 +26,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         //var frame = vc!.view.bounds
         if vc != nil {
+            vc?.view.endEditing(true)
             return showAlert(vc!,imageWaiting:imageWaiting,imageDone:imageDone,imageError:imageError)
         }
         return nil
