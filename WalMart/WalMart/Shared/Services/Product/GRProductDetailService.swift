@@ -10,6 +10,11 @@ import Foundation
 
 class GRProductDetailService : GRBaseService {
     
+    override init() {
+        super.init()
+        self.urlForSession = true
+    }
+    
     
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
     
