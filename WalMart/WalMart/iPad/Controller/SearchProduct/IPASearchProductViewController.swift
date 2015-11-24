@@ -266,15 +266,15 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
         
-        if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG && !(self.upcsToShow?.count > 0) {
+        if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG  {
             return CGSizeZero
         }
         
-        if self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.isTextSearch  && !(self.upcsToShow?.count > 0){
+        if self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.isTextSearch {
             return CGSizeZero
         }
         
-        if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind && self.upcsToShow?.count > 0 {
+        if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind {
             return CGSizeZero
         }
         

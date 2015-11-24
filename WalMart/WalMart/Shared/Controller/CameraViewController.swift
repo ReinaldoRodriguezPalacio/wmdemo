@@ -494,11 +494,12 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
                 case ("completed"):
                     let name = response.objectForKey("name") as! String
                     var items : [String] = []
-                    let allItems = response.objectForKey("items") as! [[String:AnyObject]]
-                    for item in allItems {
-                        let data = item["data"] as! [String:String]
-                        let valueData = data["product_id"]
-                        items.append(valueData!)
+                    if let allItems = response.objectForKey("items") as? [[String:AnyObject]] {
+                        for item in allItems {
+                            let data = item["data"] as! [String:String]
+                            let valueData = data["product_id"]
+                            items.append(valueData!)
+                        }
                     }
                     self.dismissViewControllerAnimated(true, completion: nil)
                     
