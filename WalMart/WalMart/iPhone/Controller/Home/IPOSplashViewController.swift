@@ -19,6 +19,8 @@ struct ConfigServices {
     static var ConfigIdMG : String = "WMURLServices"
     static var ConfigIdGRSign : String = "WMGroceriesURLServicesSession"
     static var ConfigIdGR : String = "WMGroceriesURLServices"
+    
+    static var camfindparams : String = ""
 }
 
 
@@ -176,6 +178,12 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
             }
         }
+        
+        if let camfindparams = itemsconfig["camfindparams"] as? String {
+                ConfigServices.camfindparams = camfindparams
+        }
+        
+        
         
         if let currentVersionVal = itemsconfig["currentVersion"] as? Double {
             currentVersion = currentVersionVal

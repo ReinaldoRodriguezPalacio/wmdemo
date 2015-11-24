@@ -46,7 +46,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var emptyMGGR: IPOSearchResultEmptyView!
     lazy var mgResults: SearchResult? = SearchResult()
     lazy var grResults: SearchResult? = SearchResult()
-    var allProducts: NSArray? = []
+    var allProducts: NSMutableArray? = []
     var upcsToShow : [String]? = []
     
     var titleHeader: String?
@@ -217,23 +217,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(collection!)
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
         let isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
+        
         if self.isTextSearch || isOriginalTextSearch
         {
-            self.titleLabel = self.setTitleWithEdit()
-            self.header?.addSubview(self.titleLabel!)
-            
-            if self.searchContextType == SearchServiceContextType.WithTextForCamFind && self.upcsToShow?.count != 0 {
-                self.filterButton!.removeFromSuperview()
-                self.titleLabel?.text = "Resultados"
+            if self.titleLabel != nil {
+                self.titleLabel?.removeFromSuperview()
             }
+                self.titleLabel = self.setTitleWithEdit()
+                self.header?.addSubview(self.titleLabel!)
             
-            self.originalSearchContextType = self.searchContextType
+             self.originalSearchContextType = self.searchContextType
             //self.searchContextType = SearchServiceContextType.WithCategoryForGR
         }
         else
         {
             self.titleLabel?.text = titleHeader
         }
+        
         
         if loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
@@ -287,13 +287,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: - UICollectionViewDataSource
     
-    
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
-        if upcsToShow?.count > 0 {
-            return 2
-        }
-        return 1
-    }
+//    Camfind Results
+//    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+//        if upcsToShow?.count > 0 {
+//            return 2
+//        }
+//        return 1
+//    }
     
     
     func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
@@ -328,13 +328,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if upcsToShow?.count > 0 && section == 0 {
-            if self.btnSuper.selected {
-                return self.itemsUPCGR!.count
-            } else {
-                return self.itemsUPCMG!.count
-            }
-        }
+        //Camfind results
+//        if upcsToShow?.count > 0 && section == 0 {
+//            if self.btnSuper.selected {
+//                return self.itemsUPCGR!.count
+//            } else {
+//                return self.itemsUPCMG!.count
+//            }
+//        }
         
         var size = 0
         if let count = self.allProducts?.count {
@@ -375,17 +376,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             return cell
         }
         var item : NSDictionary = [:]
-        if indexPath.section == 0 && self.upcsToShow?.count > 0 {
-            if self.btnSuper.selected {
-                item = self.itemsUPCGR![indexPath.item] as! NSDictionary
-            } else {
-                item = self.itemsUPCMG![indexPath.item] as! NSDictionary
-            }
-        } else {
-            item = self.allProducts?[indexPath.item] as! NSDictionary
-        }
+        //Camfind Results
+//        if indexPath.section == 0 && self.upcsToShow?.count > 0 {
+//            if self.btnSuper.selected {
+//                item = self.itemsUPCGR![indexPath.item] as! NSDictionary
+//            } else {
+//                item = self.itemsUPCMG![indexPath.item] as! NSDictionary
+//            }
+//        } else {
         
-        
+//        }
+//        
+        item = self.allProducts?[indexPath.item] as! NSDictionary
         let upc = item["upc"] as! String
         let description = item["description"] as? String
         
@@ -734,17 +736,64 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if firstOpen && (self.grResults!.products == nil || self.grResults!.products!.count == 0 ) {
                 btnTech.selected = true
                 btnSuper.selected = false
-                self.allProducts = self.mgResults!.products
+                self.allProducts = []
+                if self.itemsUPCMG?.count > 0 {
+                    self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                    var filtredProducts : [AnyObject] = []
+                    for product in self.mgResults!.products! {
+                        let productDict = product as! [String:AnyObject]
+                        if let productUPC =  productDict["upc"] as? String {
+                            if !self.itemsUPCMG!.containsObject(productUPC) {
+                                filtredProducts.append(productDict)
+                            }
+                        }
+                    }
+                    self.allProducts?.addObjectsFromArray(filtredProducts)
+                } else {
+                    self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                }
                 firstOpen = false
             } else {
                 btnTech.selected = false
                 btnSuper.selected = true
-                self.allProducts = self.grResults!.products
+                self.allProducts = []
+                if self.itemsUPCMG?.count > 0 {
+                    self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
+                    var filtredProducts : [AnyObject] = []
+                    if self.grResults!.products != nil{
+                    for product in self.grResults!.products! {
+                        let productDict = product as! [String:AnyObject]
+                        if let productUPC =  productDict["upc"] as? String {
+                            if !self.itemsUPCGR!.containsObject(productUPC) {
+                                filtredProducts.append(productDict)
+                            }
+                        }
+                    }
+                    }
+                    self.allProducts?.addObjectsFromArray(filtredProducts)
+                } else {
+                    self.allProducts?.addObjectsFromArray(self.grResults!.products as! [AnyObject])
+                }
             }
         } else {
             btnTech.selected = true
             btnSuper.selected = false
-            self.allProducts = self.mgResults!.products
+            self.allProducts = []
+            if self.itemsUPCMG?.count > 0 {
+                self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                var filtredProducts : [AnyObject] = []
+                for product in self.mgResults!.products! {
+                    let productDict = product as! [String:AnyObject]
+                    if let productUPC =  productDict["upc"] as? String {
+                        if !self.itemsUPCMG!.containsObject(productUPC) {
+                            filtredProducts.append(productDict)
+                        }
+                    }
+                }
+                self.allProducts?.addObjectsFromArray(filtredProducts)
+            } else {
+                self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+            }
         }
         
         self.showLoadingIfNeeded(true)
@@ -793,13 +842,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 switch (FilterType(rawValue: self.idSort!)!) {
                 case .descriptionAsc :
                     //println("descriptionAsc")
-                    self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+                    self.allProducts?.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+                    //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
                 case .descriptionDesc :
                     //println("descriptionDesc")
-                    self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+                    self.allProducts?.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+                    //self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
                 case .priceAsc :
                     //println("priceAsc")
-                    self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    self.allProducts?.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
                         let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                         let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                         
@@ -814,10 +865,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         
                     })
+                   
                 case .none : print("Not sorted")
                 default :
                     //println("priceDesc")
-                    self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                    self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
                         let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                         let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                         
@@ -981,19 +1033,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.showLoadingIfNeeded(true)
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
-            self.allProducts = result.arrayObject
+            self.allProducts?.addObjectsFromArray(result.arrayObject!)
             self.mgResults?.totalResults = self.allProducts!.count
             
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
-                self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
+                self.allProducts!.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: true)])
             case .descriptionDesc :
                 //println("descriptionDesc")
-                self.allProducts = self.allProducts!.sortedArrayUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
+                self.allProducts!.sortUsingDescriptors([NSSortDescriptor(key: "description", ascending: false)])
             case .priceAsc :
                 //println("priceAsc")
-                self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
                     let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                     let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
@@ -1011,7 +1063,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             case .none : print("Not sorted")
             case .priceDesc :
                 //println("priceDesc")
-                self.allProducts = self.allProducts!.sortedArrayUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
+                self.allProducts!.sortUsingComparator({ (dictionary1:AnyObject!, dictionary2:AnyObject!) -> NSComparisonResult in
                     let priceOne:Double = self.priceValueFrom(dictionary1 as! NSDictionary)
                     let priceTwo:Double = self.priceValueFrom(dictionary2 as! NSDictionary)
                     
