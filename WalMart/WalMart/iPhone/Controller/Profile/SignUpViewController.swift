@@ -411,6 +411,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                         
                         }, errorBlock: { (error:NSError) -> Void in
                              print("")
+                          self.alertView!.close()
                           self.alertAddress?.registryAddress(dictSend)
                     })
                     

@@ -43,7 +43,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         self.productPriceThroughLabel = UILabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
-        self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
         self.productPriceThroughLabel!.textColor = WMColor.savingTextColor
         
         self.productShortDescriptionLabel!.textColor = WMColor.searchProductDescriptionTextColors

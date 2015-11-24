@@ -361,7 +361,15 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 }
                 upcs.append(params)
             }
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+            if upcs.count > 0 {
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+            }else{
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                let msgInventory = "No existen productos disponibles para agregar al carrito"
+                alert!.setMessage(msgInventory)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                return
+            }
         }
     }
 
