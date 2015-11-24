@@ -36,6 +36,15 @@ enum SearchServiceContextType {
     case WithTextForCamFind
     case WithRemomendedLine
 }
+ 
+ enum SearchServiceFromContext {
+    case FromRecomended
+    case FromLineSearch
+    case FromSearchText
+    case FromSearchCamFind
+    
+
+ }
 
 class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate, SearchProductCollectionViewCellDelegate {
 
@@ -55,6 +64,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var originalSort: String?
     var originalSearchContextType: SearchServiceContextType?
     var searchContextType: SearchServiceContextType?
+    var searchFromContextType: SearchServiceFromContext?
     var textToSearch:String?
     var idDepartment:String?
     var idFamily :String?
