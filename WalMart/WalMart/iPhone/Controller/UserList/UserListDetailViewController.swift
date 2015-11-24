@@ -705,7 +705,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.listEntity!.countItem = NSNumber(integer: count)
                     self.saveContext()
                     self.retrieveProductsLocally(true)
-                    self.editBtn!.hidden = true
+                    //self.editBtn!.hidden = true
                 }
             }
         default :
