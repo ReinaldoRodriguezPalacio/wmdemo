@@ -24,6 +24,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     var isOpenWishlist : Bool = false
     
     var searchView : IPASearchView!
+    var searchBackView: UIView!
     
     
     
@@ -54,6 +55,9 @@ class IPACustomBarViewController :  CustomBarViewController {
             self.view.bringSubviewToFront(updateAviable)
         }
         self.view.bringSubviewToFront(self.splashVC.view)
+        self.searchBackView = UIView()
+        self.searchBackView.backgroundColor = UIColor.blackColor()
+        self.searchBackView.alpha = 0.35
         
     }
     
@@ -166,6 +170,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.headerView.addSubview(searchView)
         
         searchView.closeanimation =  {() -> Void in
+            self.searchBackView.removeFromSuperview()
             self.btnSearch!.alpha = 1.0
             self.btnSearch!.frame = CGRectMake(0,self.btnSearch!.frame.minY,self.btnSearch!.frame.width,self.btnSearch!.frame.height)
             self.searchView = nil
@@ -189,6 +194,8 @@ class IPACustomBarViewController :  CustomBarViewController {
                         })
                         
                 }
+                self.searchBackView.frame = CGRectMake(0, 65, self.view!.frame.width, self.view!.frame.height - 65)
+                self.view.addSubview(self.searchBackView)
         }
     }
 

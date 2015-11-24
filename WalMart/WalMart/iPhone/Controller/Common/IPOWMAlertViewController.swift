@@ -113,6 +113,7 @@ class IPOWMAlertViewController : UIViewController {
     class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         if vc != nil {
+            vc?.view.endEditing(true)
             return showAlert(vc!,imageWaiting:imageWaiting,imageDone:imageDone,imageError:imageError)
         }
         return nil

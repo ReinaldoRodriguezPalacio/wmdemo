@@ -310,12 +310,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             {
                 customBar.handleNotification(type,name:name,value:value,bussines:bussines)
             }else{
+                
+                
                 let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                 alertNot?.showDoneIconWithoutClose()
                 alertNot?.setMessage(message)
                 alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
+                    
+                    
+                    
+
                      alertNot?.close()
                     }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
+                        
+                        //Obtiene vista de login
+                        if let viewLogin =  customBar.view.viewWithTag(5000) {
+                            viewLogin.removeFromSuperview()
+                        }
+                        
                         customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                 })

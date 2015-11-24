@@ -950,6 +950,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         self.canceledAction = true
                         //let response = self.navigationController?.popToRootViewControllerAnimated(true)
                         
+                        
                         if loginController.alertView != nil {
                             loginController.closeAlert(true, messageSucesss: false)
                         }else {
@@ -958,6 +959,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         
                         if address != nil {
                             address!.closeAlert()
+                        }
+                        
+                        if self.navigationController != nil {
+                            self.navigationController!.popViewControllerAnimated(false)
                         }
                         
                     }
