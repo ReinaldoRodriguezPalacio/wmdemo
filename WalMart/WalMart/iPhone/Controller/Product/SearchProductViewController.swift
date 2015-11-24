@@ -217,17 +217,23 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(collection!)
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
         let isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
+        
         if self.isTextSearch || isOriginalTextSearch
         {
-            self.titleLabel = self.setTitleWithEdit()
-            self.header?.addSubview(self.titleLabel!)
-            self.originalSearchContextType = self.searchContextType
+            if self.titleLabel != nil {
+                self.titleLabel?.removeFromSuperview()
+            }
+                self.titleLabel = self.setTitleWithEdit()
+                self.header?.addSubview(self.titleLabel!)
+            
+             self.originalSearchContextType = self.searchContextType
             //self.searchContextType = SearchServiceContextType.WithCategoryForGR
         }
         else
         {
             self.titleLabel?.text = titleHeader
         }
+        
         
         if loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
@@ -754,6 +760,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if self.itemsUPCMG?.count > 0 {
                     self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
+                    if self.grResults!.products != nil{
                     for product in self.grResults!.products! {
                         let productDict = product as! [String:AnyObject]
                         if let productUPC =  productDict["upc"] as? String {
@@ -761,6 +768,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                                 filtredProducts.append(productDict)
                             }
                         }
+                    }
                     }
                     self.allProducts?.addObjectsFromArray(filtredProducts)
                 } else {
