@@ -744,7 +744,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 btnTech.selected = true
                 btnSuper.selected = false
                 self.allProducts = []
-                if self.mgResults != nil {
+                if self.mgResults?.products != nil {
                     if self.itemsUPCMG?.count > 0 {
                         self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
                         var filtredProducts : [AnyObject] = []

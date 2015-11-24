@@ -117,7 +117,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.textToSearch = keyWord
         controller.upcsToShow = upcs
         let controllernav = self.currentController as? UINavigationController
-        if (controllernav?.topViewController as? SearchProductViewController != nil && isEditingSearch){
+        if (controllernav?.topViewController as? SearchProductViewController != nil){
             controllernav?.popViewControllerAnimated(false)
             
             isEditingSearch = false
@@ -219,7 +219,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             controller.titleHeader = keyWord
             controller.textToSearch = keyWord
             let controllernav = self.currentController as? UINavigationController
-            if (controllernav?.topViewController as? SearchProductViewController != nil && isEditingSearch){
+            if (controllernav?.topViewController as? SearchProductViewController != nil){
                 controllernav?.popViewControllerAnimated(false)
                 
                 isEditingSearch = false

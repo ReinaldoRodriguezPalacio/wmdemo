@@ -620,8 +620,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let keyWord = searchDic["keyWord"] as! String
         let controllernav = self.currentController as? UINavigationController
         let controllersInNavigation = controllernav?.viewControllers.count
-        if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){
-            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
+        if (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
             isEditingSearch = false
         }
         let controller = SearchProductViewController()
@@ -829,8 +829,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
             let controllernav = self.currentController as? UINavigationController
             let controllersInNavigation = controllernav?.viewControllers.count
-            if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){
-                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
+            if (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+                controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                 isEditingSearch = false
             }
             let controller = SearchProductViewController()

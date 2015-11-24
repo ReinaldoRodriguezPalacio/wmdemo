@@ -80,7 +80,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         
         headerView.addSubview(titleLabel)
         
-        viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, 380))
+        viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height))
         
         self.buttonRight = WMRoundButton() // UIButton(frame:CGRectZero)
         self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
