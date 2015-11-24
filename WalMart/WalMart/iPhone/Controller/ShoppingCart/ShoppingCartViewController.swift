@@ -900,6 +900,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             address!.closeAlert()
                         }
                         
+                        if self.navigationController != nil {
+                            self.navigationController!.popViewControllerAnimated(false)
+                        }
+
+                        
                     }
                     
                     self.navigationController?.pushViewController(self.checkVC, animated: true)

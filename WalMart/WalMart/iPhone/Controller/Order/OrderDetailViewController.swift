@@ -272,15 +272,16 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 
             }
         }
-        
-        let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section)
-        controller.ixSelected = indexPath.row
-        if !showFedexGuide {
-            controller.ixSelected = indexPath.row - 2
+        if indexPath.section > 0 {
+            let controller = ProductDetailPageViewController()
+            controller.itemsToShow = getUPCItems(indexPath.section)
+            controller.ixSelected = indexPath.row
+            if !showFedexGuide {
+                controller.ixSelected = indexPath.row - 2
+            }
+            self.navigationController!.delegate = nil
+            self.navigationController!.pushViewController(controller, animated: true)
         }
-        self.navigationController!.delegate = nil
-        self.navigationController!.pushViewController(controller, animated: true)
     }
     
     
