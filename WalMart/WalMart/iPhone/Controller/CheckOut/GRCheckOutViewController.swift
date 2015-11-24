@@ -753,6 +753,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if resultCall["codeMessage"] as! Int == 0
                 {
                     let newTotal =  resultCall["newTotal"] as? Int
+                  
                     let totalDiscounts =  resultCall["totalDiscounts"] as? Int
                     self.totalDiscountsOrder = totalDiscounts
                     
@@ -799,11 +800,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                     
+                    
                     //self.discountAssociate!.setSelectedCheck(true)
                     self.invokeDeliveryTypesService({ () -> Void in
                         //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         //self.alertView!.showDoneIcon()
                     })
+                    if newTotal != nil {
+                        self.updateShopButton("\(newTotal)")
+                    }
                     self.buildSubViews()
                     endCallPromotions()
                 }
