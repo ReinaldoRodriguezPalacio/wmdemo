@@ -668,8 +668,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 actionSuccess?()
                 
             }, errorBlock: {(error: NSError) in
-                self.mgResults!.resultsInResponse = 0
-                self.mgResults!.totalResults = 0
+                print("MG Search ERROR!!!")
+                self.mgResults!.totalResults = self.allProducts!.count
+                self.mgResults!.resultsInResponse = self.mgResults!.totalResults
+                actionSuccess?()
+                //self.mgResults!.resultsInResponse = 0
+                //self.mgResults!.totalResults = 0
                 print(error)
                 actionError?()
             }
