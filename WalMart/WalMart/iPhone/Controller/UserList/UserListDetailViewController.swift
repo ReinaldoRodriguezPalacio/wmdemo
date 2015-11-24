@@ -709,7 +709,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.listEntity!.countItem = NSNumber(integer: count)
                     self.saveContext()
                     self.retrieveProductsLocally(true)
-                    self.editBtn!.hidden = true
+                    self.editBtn!.hidden = count == 0
+                    self.deleteAllBtn!.hidden = true
                 }
             }
         default :
@@ -867,6 +868,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 else {
                     self.editBtn!.hidden = false
+                    self.deleteAllBtn!.hidden = false
                     self.removeEmpyView()
                 }
                 
@@ -906,6 +908,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             if self.products == nil || self.products!.count == 0 {
                                 self.editBtn!.hidden = true
                                 self.showEmptyView()
+                            } else {
+                                self.editBtn!.hidden = false
                             }
                             
                             
