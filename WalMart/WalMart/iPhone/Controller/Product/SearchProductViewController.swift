@@ -895,6 +895,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.empty.removeFromSuperview()
             }
             dispatch_async(dispatch_get_main_queue()) {
+                self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
                 self.collection?.alpha = 1
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
@@ -1032,7 +1033,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        self.showLoadingIfNeeded(true)
+        self.showLoadingIfNeeded(false)
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
             self.allProducts?.addObjectsFromArray(result.arrayObject!)
