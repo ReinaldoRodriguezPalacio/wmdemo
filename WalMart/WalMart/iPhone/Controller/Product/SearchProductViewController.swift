@@ -743,6 +743,55 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 btnTech.selected = true
                 btnSuper.selected = false
                 self.allProducts = []
+                if self.mgResults != nil {
+                    if self.itemsUPCMG?.count > 0 {
+                        self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
+                        var filtredProducts : [AnyObject] = []
+                        for product in self.mgResults!.products! {
+                            let productDict = product as! [String:AnyObject]
+                            if let productUPC =  productDict["upc"] as? String {
+                                if !self.itemsUPCMG!.containsObject(productUPC) {
+                                    filtredProducts.append(productDict)
+                                }
+                            }
+                        }
+                        self.allProducts?.addObjectsFromArray(filtredProducts)
+                    } else {
+                        if self.mgResults!.products != nil{
+                            self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                        }
+                    }
+                }
+                firstOpen = false
+            } else {
+                btnTech.selected = false
+                btnSuper.selected = true
+                self.allProducts = []
+                if self.grResults != nil {
+                    if self.itemsUPCGR?.count > 0 {
+                        self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
+                        var filtredProducts : [AnyObject] = []
+                        if self.grResults!.products != nil{
+                            for product in self.grResults!.products! {
+                                let productDict = product as! [String:AnyObject]
+                                if let productUPC =  productDict["upc"] as? String {
+                                    if !self.itemsUPCGR!.containsObject(productUPC) {
+                                        filtredProducts.append(productDict)
+                                    }
+                                }
+                            }
+                        }
+                        self.allProducts?.addObjectsFromArray(filtredProducts)
+                    } else {
+                        self.allProducts?.addObjectsFromArray(self.grResults!.products as! [AnyObject])
+                    }
+                }
+            }
+        } else {
+            btnTech.selected = true
+            btnSuper.selected = false
+            self.allProducts = []
+            if self.mgResults != nil {
                 if self.itemsUPCMG?.count > 0 {
                     self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
@@ -756,51 +805,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     self.allProducts?.addObjectsFromArray(filtredProducts)
                 } else {
-                    if self.mgResults!.products != nil{
-                        self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
-                    }
+                    self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
                 }
-                firstOpen = false
-            } else {
-                btnTech.selected = false
-                btnSuper.selected = true
-                self.allProducts = []
-                if self.itemsUPCGR?.count > 0 {
-                    self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
-                    var filtredProducts : [AnyObject] = []
-                    if self.grResults!.products != nil{
-                    for product in self.grResults!.products! {
-                        let productDict = product as! [String:AnyObject]
-                        if let productUPC =  productDict["upc"] as? String {
-                            if !self.itemsUPCGR!.containsObject(productUPC) {
-                                filtredProducts.append(productDict)
-                            }
-                        }
-                    }
-                    }
-                    self.allProducts?.addObjectsFromArray(filtredProducts)
-                } else {
-                    self.allProducts?.addObjectsFromArray(self.grResults!.products as! [AnyObject])
-                }
-            }
-        } else {
-            btnTech.selected = true
-            btnSuper.selected = false
-            self.allProducts = []
-            if self.itemsUPCMG?.count > 0 {
-                self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
-                var filtredProducts : [AnyObject] = []
-                for product in self.mgResults!.products! {
-                    let productDict = product as! [String:AnyObject]
-                    if let productUPC =  productDict["upc"] as? String {
-                        if !self.itemsUPCMG!.containsObject(productUPC) {
-                            filtredProducts.append(productDict)
-                        }
-                    }
-                }
-                self.allProducts?.addObjectsFromArray(filtredProducts)
-            } else {
-                self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
             }
         }
         
