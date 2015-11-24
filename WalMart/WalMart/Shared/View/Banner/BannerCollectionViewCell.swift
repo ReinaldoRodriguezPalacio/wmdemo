@@ -22,7 +22,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var visibleItem: Int? = nil
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
-    var addCurrent: Bool = true
     
     var viewTerms : BannerTermsView!
     
@@ -86,12 +85,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         self.currentItem =  viewController.view.tag
         if self.currentItem > 0 {
-            if addCurrent{
-             self.currentItem = self.currentItem! - 1
-             addCurrent = false
-            }else{
-                addCurrent = true
-            }
+            self.currentItem = self.currentItem! - 1
         }else {
             self.currentItem = dataSource!.count - 1
         }
@@ -107,7 +101,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             }else {
                 self.currentItem = 0
             }
-            addCurrent = false
            return getCurrentController()
     }
     
@@ -197,16 +190,14 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     func changebanner() {
-        if addCurrent{
-            currentItem = currentItem! + 1
-        }
+        self.currentItem = self.visibleItem
+        currentItem = currentItem! + 1
+        
         if currentItem!  == dataSource?.count {
             currentItem = 0
         }
         self.visibleItem = currentItem!
         self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        addCurrent = true
-       
         self.reloadTermsAndPages()
     }
 

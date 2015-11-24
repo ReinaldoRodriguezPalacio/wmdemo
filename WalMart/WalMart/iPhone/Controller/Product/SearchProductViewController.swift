@@ -840,10 +840,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if self.empty != nil {
                 self.empty.removeFromSuperview()
             }
-            self.collection?.reloadData()
-            self.collection?.alpha = 1
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-            self.filterButton?.alpha = 1
+            dispatch_async(dispatch_get_main_queue()) {
+                self.collection?.reloadData()
+                self.collection?.alpha = 1
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+                self.filterButton?.alpha = 1
+            }
         }
     }
     
@@ -1093,6 +1095,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: Filter Super Tecnologia
     func changeSuperTech(sender:UIButton) {
+        self.collection?.contentOffset = CGPointZero
         if sender == btnSuper &&  !sender.selected {
             sender.selected = true
             btnTech.selected = false
