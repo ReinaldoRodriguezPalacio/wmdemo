@@ -81,6 +81,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.hidden = true
         self.header!.addSubview(self.editBtn!)
+        
 
         self.deleteAllBtn = UIButton(type: .Custom)
         self.deleteAllBtn!.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: .Normal)
@@ -283,6 +284,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             self.deleteAllBtn!.hidden = true
                         }
                     }
+       
                 )
                 var cells = self.tableView!.visibleCells
                 for var idx = 0; idx < cells.count; idx++ {
@@ -656,8 +658,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if cell!.isKindOfClass(DetailListViewCell) {
+
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
             for var idx = 0; idx < self.products!.count; idx++ {
@@ -680,6 +683,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             controller.ixSelected = indexPath.row
             self.navigationController!.pushViewController(controller, animated: true)
         }
+      }
     }
     
     //MARK: - SWTableViewCellDelegate
