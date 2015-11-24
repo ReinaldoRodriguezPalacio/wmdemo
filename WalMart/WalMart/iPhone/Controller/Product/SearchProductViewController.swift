@@ -48,6 +48,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     lazy var grResults: SearchResult? = SearchResult()
     var allProducts: NSMutableArray? = []
     var upcsToShow : [String]? = []
+    var upcsToShowApply : [String]? = []
     
     var titleHeader: String?
     var originalSort: String?
@@ -73,6 +74,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var itemsUPCMG: NSArray? = []
     var itemsUPCGR: NSArray? = []
+    var itemsUPCMGBk: NSArray? = []
+    var itemsUPCGRBk: NSArray? = []
+    
+   
+    
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var selectQuantity : ShoppingCartQuantitySelectorView!
     var isTextSearch: Bool = false
@@ -757,7 +763,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 btnTech.selected = false
                 btnSuper.selected = true
                 self.allProducts = []
-                if self.itemsUPCMG?.count > 0 {
+                if self.itemsUPCGR?.count > 0 {
                     self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
                     if self.grResults!.products != nil{
@@ -972,6 +978,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
+        //Clean upcs
+       
         
         self.filterButton!.alpha = 1
         if self.originalSort == nil {
@@ -987,6 +995,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.idFamily = filters![JSON_KEY_IDFAMILY] as? String
             self.idLine = filters![JSON_KEY_IDLINE] as? String
             self.searchContextType = flag ? .WithCategoryForGR : .WithCategoryForMG
+            
+            self.upcsToShowApply = self.upcsToShow
+            
+            self.itemsUPCMGBk = self.itemsUPCMG
+            self.itemsUPCGRBk = self.itemsUPCGR
+            self.itemsUPCMG = []
+            self.itemsUPCGR = []
+            self.upcsToShow = []
+            
+        } else {
+            
+            self.itemsUPCMG = self.itemsUPCMGBk
+            self.itemsUPCGR = self.itemsUPCGRBk
+            self.upcsToShow = self.upcsToShowApply
         }
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
@@ -1095,17 +1117,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func removeSelectedFilters(){
         //Quitamos los filtros despues de la busqueda.
         //self.idSort = self.originalSort
+        
         self.searchContextType = self.originalSearchContextType
         if self.originalSearchContextType != nil && self.isTextSearch {
             self.idDepartment = nil
             self.idFamily = nil
             self.idLine = nil
         }
-        
         self.allProducts = []
         self.mgResults!.resetResult()
         self.grResults!.resetResult()
         self.controllerFilter = nil
+        
+        
+        
     }
     
     func removeFilters() {
@@ -1125,6 +1150,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.getServiceProduct(resetTable: true)
         
         self.controllerFilter = nil
+        
+        
         
     }
     
