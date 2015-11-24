@@ -34,6 +34,7 @@ enum SearchServiceContextType {
     case WithCategoryForMG
     case WithCategoryForGR
     case WithTextForCamFind
+    case WithRemomendedLine
 }
 
 class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate, SearchProductCollectionViewCellDelegate {
@@ -767,11 +768,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 btnTech.selected = false
                 btnSuper.selected = true
                 self.allProducts = []
-                if self.grResults != nil {
+                if self.grResults?.products != nil {
                     if self.itemsUPCGR?.count > 0 {
                         self.allProducts?.addObjectsFromArray(self.itemsUPCGR as! [AnyObject])
                         var filtredProducts : [AnyObject] = []
-                        if self.grResults!.products != nil{
                             for product in self.grResults!.products! {
                                 let productDict = product as! [String:AnyObject]
                                 if let productUPC =  productDict["upc"] as? String {
@@ -780,7 +780,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                                     }
                                 }
                             }
-                        }
+                        
                         self.allProducts?.addObjectsFromArray(filtredProducts)
                     } else {
                         self.allProducts?.addObjectsFromArray(self.grResults!.products as! [AnyObject])
@@ -791,7 +791,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             btnTech.selected = true
             btnSuper.selected = false
             self.allProducts = []
-            if self.mgResults != nil {
+            if self.mgResults?.products != nil {
                 if self.itemsUPCMG?.count > 0 {
                     self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
                     var filtredProducts : [AnyObject] = []
