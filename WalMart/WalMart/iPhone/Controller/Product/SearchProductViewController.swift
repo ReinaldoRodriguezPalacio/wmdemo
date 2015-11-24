@@ -1199,7 +1199,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     //MARK: Filter Super Tecnologia
     func changeSuperTech(sender:UIButton) {
-        self.collection?.contentOffset = CGPointZero
+        //self.collection?.contentOffset = CGPointZero
         if sender == btnSuper &&  !sender.selected {
             sender.selected = true
             btnTech.selected = false
