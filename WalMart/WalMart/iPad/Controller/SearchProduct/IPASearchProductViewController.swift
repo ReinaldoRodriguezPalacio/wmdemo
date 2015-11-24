@@ -126,6 +126,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 return
             }
         }
+        self.filterController!.facet =  self.facet != nil ? self.facet : nil
         self.filterController!.facetGr = self.facetGr
         self.filterController!.isGroceriesSearch = self.btnSuper.selected
         self.filterController!.searchContext = self.searchContextType
@@ -265,16 +266,25 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && !self.isTextSearch {
+             return CGSizeMake(self.view.frame.width, 54)
+        }
         
         if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG  {
             return CGSizeZero
         }
+
+        
         
         if self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.isTextSearch {
             return CGSizeZero
         }
         
         if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind {
+            return CGSizeZero
+        }
+        
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.titleHeader ==  "Recomendados"  {
             return CGSizeZero
         }
         

@@ -756,7 +756,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     self.allProducts?.addObjectsFromArray(filtredProducts)
                 } else {
-                    self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                    if self.mgResults!.products != nil{
+                        self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                    }
                 }
                 firstOpen = false
             } else {
@@ -899,6 +901,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.empty.removeFromSuperview()
             }
             dispatch_async(dispatch_get_main_queue()) {
+                self.showLoadingIfNeeded(true)
                 self.collection?.reloadData()
                 self.collection?.alpha = 1
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
@@ -996,19 +999,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.idLine = filters![JSON_KEY_IDLINE] as? String
             self.searchContextType = flag ? .WithCategoryForGR : .WithCategoryForMG
             
-            self.upcsToShowApply = self.upcsToShow
-            
-            self.itemsUPCMGBk = self.itemsUPCMG
-            self.itemsUPCGRBk = self.itemsUPCGR
-            self.itemsUPCMG = []
-            self.itemsUPCGR = []
-            self.upcsToShow = []
+            if self.upcsToShowApply?.count == 0 {
+                self.upcsToShowApply = self.upcsToShow
+                self.itemsUPCMGBk = self.itemsUPCMG
+                self.itemsUPCGRBk = self.itemsUPCGR
+                self.itemsUPCMG = []
+                self.itemsUPCGR = []
+                self.upcsToShow = []
+            }
             
         } else {
             
             self.itemsUPCMG = self.itemsUPCMGBk
             self.itemsUPCGR = self.itemsUPCGRBk
             self.upcsToShow = self.upcsToShowApply
+            self.upcsToShowApply = []
         }
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APPLY_FILTER.rawValue, label: "\(self.idDepartment)-\(self.idFamily)-\(self.idLine)-\(order)-")
@@ -1052,7 +1057,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        self.showLoadingIfNeeded(true)
+        self.showLoadingIfNeeded(false)
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
             self.allProducts?.addObjectsFromArray(result.arrayObject!)

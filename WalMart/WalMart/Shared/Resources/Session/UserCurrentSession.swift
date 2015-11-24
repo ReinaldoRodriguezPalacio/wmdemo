@@ -207,8 +207,8 @@ class UserCurrentSession : NSObject {
         
         updatePhoneProfile()
         
-        self.invokeGroceriesUserListService()
         self.loadShoppingCarts { () -> Void in
+            self.invokeGroceriesUserListService()
         }
     }
     
