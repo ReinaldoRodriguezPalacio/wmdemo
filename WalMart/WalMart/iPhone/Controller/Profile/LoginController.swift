@@ -304,7 +304,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
    
     func closeModal() {
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
+        /*UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.view.alpha = 0.0
             }) { (complete:Bool) -> Void in
                 self.imageblur!.image = nil
@@ -312,7 +312,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.successCallBack = nil
                 self.okCancelCallBack  = nil
                 self.view.removeFromSuperview()
-        }
+        }*/
+        self.imageblur!.image = nil
+        self.removeFromParentViewController()
+        self.successCallBack = nil
+        self.okCancelCallBack  = nil
+        self.view.removeFromSuperview()
     }
     
     func signIn(sender:UIButton) {

@@ -266,22 +266,41 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         
-        
-        if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG && !(self.upcsToShow?.count > 0) {
+       
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && self.titleHeader ==  "Recomendados"  {
             return CGSizeZero
         }
         
-        if !self.isTextSearch  && !(self.upcsToShow?.count > 0){
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && self.searchFromContextType == SearchServiceFromContext.FromLineSearch  {
             return CGSizeZero
         }
         
-        if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind && self.upcsToShow?.count > 0 {
+        
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && !self.isTextSearch && self.searchFromContextType == SearchServiceFromContext.FromSearchTextSelect {
+             return CGSizeZero
+        }
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && !self.isTextSearch {
+             return CGSizeMake(self.view.frame.width, 54)
+        }
+        
+        if section == 0 && self.searchContextType != SearchServiceContextType.WithCategoryForMG  {
+            return CGSizeZero
+        }
+
+        
+        
+        if self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.isTextSearch {
             return CGSizeZero
         }
         
-        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForMG && !(self.upcsToShow?.count > 0) && self.isTextSearch {
-           return CGSizeZero
+        if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind {
+            return CGSizeZero
         }
+        
+        if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.titleHeader ==  "Recomendados"  {
+            return CGSizeZero
+        }
+        
         
         return CGSizeMake(self.view.frame.width, 54)
     }

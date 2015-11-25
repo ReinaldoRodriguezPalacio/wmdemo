@@ -10,13 +10,13 @@ import Foundation
 
 class GRProductDetailService : GRBaseService {
     
-    
-    let JSON_PRODUCTDETAIL_RESULT = "responseObject"
-    
     override init() {
         super.init()
         self.urlForSession = true
     }
+    
+    
+    let JSON_PRODUCTDETAIL_RESULT = "responseObject"
     
     func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)

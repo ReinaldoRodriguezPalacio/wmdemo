@@ -380,10 +380,14 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     //MARK CameraViewControllerDelegate
     func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void))
     {
-        if value != nil && value != "" {
+       if value != nil && value?.trim() != "" {
               BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: "")
-            
-            let params = ["upcs": upcs!, "keyWord":value!]
+            var upcArray = upcs
+            if upcArray == nil{
+                upcArray = []
+            }
+
+            let params = ["upcs": upcArray!, "keyWord":value!]
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
             done()
         }

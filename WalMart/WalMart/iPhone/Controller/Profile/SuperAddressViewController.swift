@@ -169,7 +169,6 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             }
             let address = ["storeID":dictSend!["StoreID"]!,"storeName":dictSend!["storeName"]!,"zipCode":dictSend!["ZipCode"]!] as NSDictionary
-
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 print("Se realizao la direccion")
