@@ -81,6 +81,37 @@ class IPOCheckOutTotalView : UIView {
         
     }
     
+    func setTotalValues(numProds: String,subtotal: String,saving:String){
+    
+        let articles = NSLocalizedString("shoppingcart.articles",comment: "")
+        numProducts.text = "\(numProds) \(articles)"
+        savingValueLabel.hidden = false
+        savingTitleLable.hidden = false
+        
+        subtotalValueLabel.hidden = false
+        subtotalTitleLabel.hidden = false
+        
+        
+        
+        totalTitleLable.frame = CGRectMake(156, savingTitleLable.frame.maxY + 6, 91, 12)
+        totalValueLabel.frame = CGRectMake(totalTitleLable.frame.maxX + 3, totalTitleLable.frame.minY, 50, 12)
+        numProducts.frame = CGRectMake(16, 16, 75, 14)
+        
+        let dSaving = NSNumberFormatter().numberFromString(saving)
+        let dSubtotal = NSNumberFormatter().numberFromString(subtotal)
+        let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
+        
+       // let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
+        subtotalValueLabel.updateMount("\(subNewTotal)", font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.shoppingCartShopTotalsTextColor, interLine: false)
+        
+       //s let formatedSaving = CurrencyCustomLabel.formatString(saving)
+        savingValueLabel.updateMount(saving, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.savingTextColor, interLine: false)
+        
+        //let formatedTotal = CurrencyCustomLabel.formatString("\(total)")
+        totalValueLabel.updateMount(subtotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.orange, interLine: false)
+        
+        
+    }
     
     func setValues(numProds: String,subtotal: String,saving:String){
         

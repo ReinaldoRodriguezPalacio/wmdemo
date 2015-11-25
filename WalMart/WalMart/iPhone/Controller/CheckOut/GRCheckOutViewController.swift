@@ -761,6 +761,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     let totalDiscounts =  resultCall["totalDiscounts"] as? Int
                     self.totalDiscountsOrder = totalDiscounts
                     
+                    
                     if let listSamples = resultCall["listSamples"] as? [AnyObject]{
                         for promotionln in listSamples {
                             let isAsociate = promotionln["isAssociated"] as! Bool
@@ -1034,6 +1035,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                 
                 if self.newTotal != nil {
+                    self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+                        subtotal: "\(self.newTotal)",
+                        saving: "\(self.totalDiscountsOrder)")
+                    
                     self.updateShopButton("\(self.newTotal)")
                 }
                 
