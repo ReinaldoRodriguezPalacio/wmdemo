@@ -42,7 +42,7 @@ enum SearchServiceContextType {
     case FromLineSearch
     case FromSearchText
     case FromSearchCamFind
-    
+    case FromSearchTextSelect
 
  }
 
