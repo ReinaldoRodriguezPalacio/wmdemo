@@ -557,8 +557,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton?.alpha = 0
         self.contentCollectionOffset = self.collection?.contentOffset
         
-        let sucessBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
-        let errorBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
+        let sucessBlock = { () -> Void in
+            self.updateViewAfterInvokeService(resetTable:resetTable)
+        }
+        let errorBlock = { () -> Void in
+            self.updateViewAfterInvokeService(resetTable:resetTable)
+        }
         
         if self.searchContextType != nil {
             
@@ -976,6 +980,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
+       showLoadingIfNeeded(true)
+        
         
         self.filterButton!.alpha = 1
         if self.originalSort == nil {
@@ -999,7 +1005,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.mgResults!.resetResult()
         self.grResults!.resetResult()
         
-        self.showLoadingIfNeeded(false)
+
         self.getServiceProduct(resetTable: true)
     }
     
@@ -1034,7 +1040,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        self.showLoadingIfNeeded(true)
+        self.showLoadingIfNeeded(false)
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
             self.allProducts = result.arrayObject
