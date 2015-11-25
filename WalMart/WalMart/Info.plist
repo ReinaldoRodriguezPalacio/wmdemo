@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>cpwrUEM.startup.agentPhath</key>
+	<string>https://www.walmartmobile.com.mx/walmartmg/</string>
 	<key>cpwrUEM_logging.level</key>
 	<string>ALL</string>
 	<key>CFBundleDevelopmentRegion</key>
