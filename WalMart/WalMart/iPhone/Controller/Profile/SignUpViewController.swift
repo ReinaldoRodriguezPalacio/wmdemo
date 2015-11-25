@@ -428,7 +428,7 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
                 
             alertAddress?.alertSaveSuccess = {() in
                 self.successCallBack?()
-                
+                self.closeModal?()
                 self.alertAddress?.removeFromSuperview()
                  self.alertView!.showDoneIcon()
             }
