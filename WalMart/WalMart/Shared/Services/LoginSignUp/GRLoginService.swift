@@ -22,6 +22,8 @@ class GRLoginService : GRBaseService {
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            self.jsonFromObject(resultCall)
+
             let newResultCall = NSMutableDictionary(dictionary: resultCall)
             successBlock!(newResultCall)
            // successBlock!(resultCall)

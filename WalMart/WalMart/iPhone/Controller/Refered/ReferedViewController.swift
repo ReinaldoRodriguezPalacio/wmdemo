@@ -217,7 +217,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                         self.confirmRefered.append(refered)
                     }
                 }
-                self.setCountLabel(self.pendingRefered.count + self.confirmRefered.count)
+                self.setCountLabel(self.confirmRefered.count)
                 self.referedTable.reloadData()
             }
              self.removeViewLoad()
@@ -274,17 +274,21 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             successBlock: {(result:NSDictionary) -> Void in
                 //codeMessage 0 == OK; codeMessage -1 == NOOK
                 let codeMessage = result["codeMessage"] as! Int
+                let messageResult = result["message"] as! String
                 if codeMessage == 0
                 {
-                    self.alertView!.setMessage(NSLocalizedString("refered.add.success", comment: ""))
+                    self.alertView!.setMessage(messageResult)
                     self.alertView!.showicon(UIImage(named: "alerta_listo"))
                     self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
 
                 }else if codeMessage == -1 {
-                    self.alertView!.setMessage(NSLocalizedString("refered.add.repeat", comment: ""))
+                    self.alertView!.setMessage(messageResult)
                     self.alertView!.showicon(UIImage(named: "alerta_repetir"))
                     self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
                 }
+                self.addViewLoad()
+                self.invokeReferedCustomerService()
+                self.invokeValidateActiveReferedService()
             },
             errorBlock: {(error:NSError) -> Void in
                 print("Error AddRefered")
