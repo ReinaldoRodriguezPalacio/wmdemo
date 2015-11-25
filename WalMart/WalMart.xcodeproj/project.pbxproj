@@ -392,7 +392,6 @@
 		6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
-		6CDC76C71BFEAC96000FDEB0 /* libCompuwareUEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ACC820511BFE7EE0001A0B73 /* libCompuwareUEM.a */; };
 		6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */; };
 		6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CEB11851B8B7D880013FE44 /* AdSupport.framework */; };
 		6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6CAE71BF2C9900026689F /* ReferedForm.swift */; };
@@ -461,7 +460,6 @@
 		AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AC59118819DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m */; };
 		AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119519DE0D6100EB095C /* libAdIdAccess.a */; };
 		AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */; };
-		AC59119A19DE0F0100EB095C /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AC59119919DE0F0100EB095C /* libz.dylib */; };
 		AC5911A419DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AC59119B19DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg */; };
 		AC5911A519DE26E600EB095C /* cancelPolicies.html in Resources */ = {isa = PBXBuildFile; fileRef = AC59119C19DE26E600EB095C /* cancelPolicies.html */; };
 		AC5911A619DE26E600EB095C /* enviocostotiempo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = AC59119D19DE26E600EB095C /* enviocostotiempo.jpg */; };
@@ -483,6 +481,7 @@
 		AC6B421319F8607E005DF8F0 /* IPAMasterHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6B421219F8607E005DF8F0 /* IPAMasterHelpViewController.swift */; };
 		AC6BC2C619EEC3B100835D03 /* IPAWMAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6BC2C519EEC3B100835D03 /* IPAWMAlertViewController.swift */; };
 		AC6BC2C819EEC89C00835D03 /* IPAAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6BC2C719EEC89C00835D03 /* IPAAddressViewController.swift */; };
+		AC6EB3981C062C8200C9B4AA /* libDynatraceUEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6EB3971C062C8200C9B4AA /* libDynatraceUEM.a */; };
 		AC6EF06719B1361D00DB28AF /* SearchProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EF06619B1361D00DB28AF /* SearchProductViewController.swift */; };
 		AC6EF06A19B13E2E00DB28AF /* SearchProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EF06919B13E2E00DB28AF /* SearchProductCollectionViewCell.swift */; };
 		AC74D4F719CB767A00CD55B3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC74D4F619CB767A00CD55B3 /* Profile.swift */; };
@@ -499,13 +498,14 @@
 		AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9AF41C1BE2B1B700C7638B /* Images.xcassets */; };
 		ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */; };
 		ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */; };
-		ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */; };
 		ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D2E1BFE813D00063E3B /* CoreTelephony.framework */; };
 		ACCBF5CC1A9404C2008D3239 /* SearchCategoriesViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */; };
 		ACD9F76F19D0A30B006CC9F3 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */; };
-		ACEB8D2A1BFE807B00063E3B /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D291BFE807B00063E3B /* libc++.dylib */; };
-		ACEB8D2D1BFE80E500063E3B /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D2C1BFE80E500063E3B /* libsqlite3.0.dylib */; };
 		ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ACEB8D331BFE824900063E3B /* Security.framework */; };
+		ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA71C063A51009709B5 /* libsqlite3.0.tbd */; };
+		ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CA91C063A64009709B5 /* libc++.tbd */; };
+		ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAB1C063A74009709B5 /* libz.tbd */; };
+		ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */; };
 		F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -1021,7 +1021,6 @@
 		AC59119419DE0D6100EB095C /* GAITracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GAITracker.h; path = Shared/Library/GAnalitics/GAITracker.h; sourceTree = "<group>"; };
 		AC59119519DE0D6100EB095C /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libAdIdAccess.a; path = Shared/Library/GAnalitics/libAdIdAccess.a; sourceTree = "<group>"; };
 		AC59119619DE0D6100EB095C /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGoogleAnalyticsServices.a; path = Shared/Library/GAnalitics/libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
-		AC59119919DE0F0100EB095C /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		AC59119B19DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = bbvabancomer_pagodeservicios.jpg; path = "Supporting Files/Help/bbvabancomer_pagodeservicios.jpg"; sourceTree = "<group>"; };
 		AC59119C19DE26E600EB095C /* cancelPolicies.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = cancelPolicies.html; path = "Supporting Files/Help/cancelPolicies.html"; sourceTree = "<group>"; };
 		AC59119D19DE26E600EB095C /* enviocostotiempo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = enviocostotiempo.jpg; path = "Supporting Files/Help/enviocostotiempo.jpg"; sourceTree = "<group>"; };
@@ -1044,6 +1043,8 @@
 		AC6B421219F8607E005DF8F0 /* IPAMasterHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMasterHelpViewController.swift; path = iPad/Controller/Help/IPAMasterHelpViewController.swift; sourceTree = "<group>"; };
 		AC6BC2C519EEC3B100835D03 /* IPAWMAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAWMAlertViewController.swift; path = iPad/Controller/Common/IPAWMAlertViewController.swift; sourceTree = "<group>"; };
 		AC6BC2C719EEC89C00835D03 /* IPAAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAAddressViewController.swift; path = iPad/Controller/Profile/IPAAddressViewController.swift; sourceTree = "<group>"; };
+		AC6EB3961C062C8200C9B4AA /* DynatraceUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynatraceUEM.h; sourceTree = "<group>"; };
+		AC6EB3971C062C8200C9B4AA /* libDynatraceUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDynatraceUEM.a; sourceTree = "<group>"; };
 		AC6EF06619B1361D00DB28AF /* SearchProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchProductViewController.swift; path = iPhone/Controller/Product/SearchProductViewController.swift; sourceTree = "<group>"; };
 		AC6EF06919B13E2E00DB28AF /* SearchProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchProductCollectionViewCell.swift; path = iPhone/View/SearhResult/SearchProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC74D4F619CB767A00CD55B3 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profile.swift; path = Shared/Model/Entity/Profile.swift; sourceTree = "<group>"; };
@@ -1060,17 +1061,15 @@
 		AC9AF41C1BE2B1B700C7638B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMyAddressViewController.swift; path = iPad/Controller/Profile/IPAMyAddressViewController.swift; sourceTree = "<group>"; };
 		ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAEditProfileViewController.swift; path = iPad/Controller/Profile/IPAEditProfileViewController.swift; sourceTree = "<group>"; };
-		ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		ACC8204F1BFE7EE0001A0B73 /* CompuwareUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompuwareUEM.h; sourceTree = "<group>"; };
-		ACC820501BFE7EE0001A0B73 /* CPWRLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CPWRLog.h; sourceTree = "<group>"; };
-		ACC820511BFE7EE0001A0B73 /* libCompuwareUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libCompuwareUEM.a; sourceTree = "<group>"; };
-		ACC820531BFE7F4A001A0B73 /* libCompuwareUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libCompuwareUEM.a; path = ../../Desktop/DynatraceADK/libCompuwareUEM.a; sourceTree = "<group>"; };
 		ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCategoriesViewCell.swift; path = Shared/View/Search/SearchCategoriesViewCell.swift; sourceTree = "<group>"; };
 		ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = iPhone/Controller/Profile/EditProfileViewController.swift; sourceTree = "<group>"; };
-		ACEB8D291BFE807B00063E3B /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		ACEB8D2C1BFE80E500063E3B /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		ACEB8D2E1BFE813D00063E3B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		ACEB8D331BFE824900063E3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		ACF20CA71C063A51009709B5 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
+		ACF20CA91C063A64009709B5 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		ACF20CAB1C063A74009709B5 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		F7D5F9491B668C0900A8C8AE /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -1079,17 +1078,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6CDC76C71BFEAC96000FDEB0 /* libCompuwareUEM.a in Frameworks */,
+				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
+				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
+				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
+				ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */,
+				AC6EB3981C062C8200C9B4AA /* libDynatraceUEM.a in Frameworks */,
 				ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
-				ACEB8D2D1BFE80E500063E3B /* libsqlite3.0.dylib in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
-				ACEB8D2A1BFE807B00063E3B /* libc++.dylib in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
-				AC59119A19DE0F0100EB095C /* libz.dylib in Frameworks */,
-				ACBA55C719BF5A4C00393E02 /* libsqlite3.dylib in Frameworks */,
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
 				ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */,
@@ -2901,11 +2900,12 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
+				ACF20CAB1C063A74009709B5 /* libz.tbd */,
+				ACF20CA91C063A64009709B5 /* libc++.tbd */,
+				ACF20CA71C063A51009709B5 /* libsqlite3.0.tbd */,
 				ACEB8D331BFE824900063E3B /* Security.framework */,
 				ACEB8D2E1BFE813D00063E3B /* CoreTelephony.framework */,
-				ACEB8D2C1BFE80E500063E3B /* libsqlite3.0.dylib */,
-				ACEB8D291BFE807B00063E3B /* libc++.dylib */,
-				ACC820531BFE7F4A001A0B73 /* libCompuwareUEM.a */,
 				6CEB11851B8B7D880013FE44 /* AdSupport.framework */,
 				6CEB11811B8B6AF00013FE44 /* libPayPalMobile.a */,
 				6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */,
@@ -2919,8 +2919,6 @@
 				569BB3151B0635E000E8A657 /* MobileCoreServices.framework */,
 				569BB3131B0635CE00E8A657 /* AssetsLibrary.framework */,
 				04D2A3971A2FD4FF008DAE37 /* MapKit.framework */,
-				AC59119919DE0F0100EB095C /* libz.dylib */,
-				ACBA55C619BF5A4C00393E02 /* libsqlite3.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2928,9 +2926,9 @@
 		ACC8204E1BFE7EE0001A0B73 /* DynatraceADK */ = {
 			isa = PBXGroup;
 			children = (
+				AC6EB3961C062C8200C9B4AA /* DynatraceUEM.h */,
+				AC6EB3971C062C8200C9B4AA /* libDynatraceUEM.a */,
 				ACC8204F1BFE7EE0001A0B73 /* CompuwareUEM.h */,
-				ACC820501BFE7EE0001A0B73 /* CPWRLog.h */,
-				ACC820511BFE7EE0001A0B73 /* libCompuwareUEM.a */,
 			);
 			path = DynatraceADK;
 			sourceTree = "<group>";
@@ -3525,9 +3523,9 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				COPY_PHASE_STRIP = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
+				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -3571,7 +3569,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Luis Cabrera (E896UUML7L)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = YES;
