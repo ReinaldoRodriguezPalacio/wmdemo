@@ -286,6 +286,10 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                     self.alertView!.showicon(UIImage(named: "alerta_repetir"))
                     self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
                 }
+                
+                self.pendingRefered =  []
+                self.confirmRefered = []
+                
                 self.addViewLoad()
                 self.invokeReferedCustomerService()
                 self.invokeValidateActiveReferedService()
