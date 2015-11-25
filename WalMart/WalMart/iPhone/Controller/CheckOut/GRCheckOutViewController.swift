@@ -102,6 +102,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var idReferido : Int! = 0
     var idFreeShepping : Int! = 0
     var totalDiscountsOrder : Int! = 0
+    var newTotal : Int!
+    
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -316,11 +318,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     
                     self.removeViewLoad()
                 }
-                self.reloadUserAddresses()
+                
                 
                 self.invokeGetPromotionsService(self.picker.textboxValues!, discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
                     print("end service")
                 })
+                self.reloadUserAddresses()
                 
             }
             //PayPal
@@ -681,12 +684,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
         let discountActive  = GRDiscountActiveService()
         discountActive.callService({ (result:NSDictionary) -> Void in
-            if let res = result["discountsFreeShippingAssociated"] as? Bool {
-                self.discountsFreeShippingAssociated = res
-            }
-            if let res = result["discountsFreeShippingNotAssociated"] as? Bool {
-                self.discountsFreeShippingNotAssociated = res
-            }
+//            if let res = result["discountsFreeShippingAssociated"] as? Bool {
+//                self.discountsFreeShippingAssociated = res
+//            }
+//            if let res = result["discountsFreeShippingNotAssociated"] as? Bool {
+//                self.discountsFreeShippingNotAssociated = res
+//            }
             if let res = result["discountsAssociated"] as? Bool {
                 self.showDiscountAsociate = res//TODO validar flujo
             }
@@ -741,9 +744,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let promotionsService = GRGetPromotionsService()
             
             
-            self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
-            self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
-            self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+        self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
+        self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+        self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
         
             //self.promotionIds! = ""
         
@@ -752,7 +755,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
-                    let newTotal =  resultCall["newTotal"] as? Int
+                    self.newTotal = resultCall["newTotal"] as? Int
+                    
                   
                     let totalDiscounts =  resultCall["totalDiscounts"] as? Int
                     self.totalDiscountsOrder = totalDiscounts
@@ -796,9 +800,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                 self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idReferido),", withString: "")
                                 self.promotionIds! += (self.promotionIds == "") ? "\(self.idReferido)" : ",\(self.idReferido)"
                                 print("listReferidos: \(self.idReferido)")
+                                self.discountsFreeShippingAssociated =  true
                             }
                         }
                     }
+                    
                     
                     
                     //self.discountAssociate!.setSelectedCheck(true)
@@ -806,8 +812,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         //self.alertView!.showDoneIcon()
                     })
-                    if newTotal != nil {
-                        self.updateShopButton("\(newTotal)")
+                    if self.newTotal != nil {
+                        self.updateShopButton("\(self.newTotal)")
                     }
                     self.buildSubViews()
                     endCallPromotions()
@@ -990,6 +996,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
                 }
+                
+               
                 if let pickUpInStore = result["pickUpInStore"] as? String {
                     var pickUpInStoreCostVal = 0.0
                     if let pickUpInStoreCost = result["pickUpInStoreCost"] as? NSString {
@@ -1011,6 +1019,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                     self.shipmentItems!.append(["name":expressDelivery, "key":"2","cost":expressDeliveryCostVal])
                 }
+                
+                if self.discountsFreeShippingAssociated {
+                    self.shipmentItems!.removeAll()
+                    let expressDeliveryCostVal = 0.0
+                     self.shipmentItems!.append(["name":"Envio sin costo", "key":"5","cost":expressDeliveryCostVal])
+                }
             
                 if self.shipmentItems!.count > 0 {
                     let shipName = self.shipmentItems![0] as! NSDictionary
@@ -1018,6 +1032,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.shipmentType!.text = shipName["name"] as? String
                 }
                 self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
+                
+                if self.newTotal != nil {
+                    self.updateShopButton("\(self.newTotal)")
+                }
+                
                 self.removeViewLoad()
                 
                 endCallTypeService()
