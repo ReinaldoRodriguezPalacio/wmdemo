@@ -427,10 +427,12 @@ class SignUpViewController : UIViewController, UICollectionViewDelegate , TPKeyb
             }
                 
             alertAddress?.alertSaveSuccess = {() in
-                self.successCallBack?()
-                self.closeModal?()
                 self.alertAddress?.removeFromSuperview()
-                 self.alertView!.showDoneIcon()
+                self.alertView!.showDoneIcon()
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                self.successCallBack?()
+
+                
             }
             
             alertAddress?.cancelPress = {() in
