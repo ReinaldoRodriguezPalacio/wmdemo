@@ -53,7 +53,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var upcPrices: NSArray?
     var upcByPrice: NSArray?
     var brandFacets: [String] = []
-    
+    var isTextSearch: Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FILTER.rawValue
@@ -110,8 +110,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //Solo en el caso de que la busqueda sea con texto
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText {
+        //Solo en el caso de que la busqueda sea con texto o camfind
+        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
+        
+        if self.originalSearchContext != nil && self.isTextSearch {
             self.loadLinesForSearch()
         }
         else {
@@ -280,7 +282,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText {
+        if self.originalSearchContext != nil && self.isTextSearch {
             return 2
         }
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
@@ -291,7 +293,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return 2
         }
         return 1
-       // return self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText ? 2 : 1
+       // return self.originalSearchContext != nil && self.isTextSearch ? 2 : 1
         
         
     }
@@ -300,7 +302,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if section == 0 {
             return 1
         }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText {
+        if self.originalSearchContext != nil && self.isTextSearch {
             return self.tableElements != nil ? self.tableElements!.count : 0
         }
         if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
@@ -636,7 +638,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             title.text = NSLocalizedString("filter.section.order", comment:"")
         }
         else {
-            if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText {
+            if self.originalSearchContext != nil && self.isTextSearch {
                 title.text = NSLocalizedString("filter.section.categories", comment:"")
             }
             if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
