@@ -66,13 +66,6 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         //self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
         
         let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
-        self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-            self.imageIcon.image = image
-            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                
-        }
-        
         let svcUrlCar = serviceUrl("WalmartMG.HeaderCategoryIpad")
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         //self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage: UIImage(named: imageBackgroundURL))
@@ -84,8 +77,17 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
                 
         }
         
+        self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageIcon.image = image
+            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
+            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                
+        }
+        
         self.titleLabel.text = title
         
+        self.titleLabel.hidden = false
+        self.imageIcon.hidden = false
         imageBackground.frame = self.bounds
         imageBackground.frame = CGRectMake(-120, 0, 1024, self.bounds.height)
         imageIcon.frame = CGRectMake((self.frame.width / 2) - 24, 48, 48, 48)

@@ -78,10 +78,6 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         categoryCell.setValues(descDepartment, imageBackgroundURL: bgDepartment + ".png", imageIconURL: "i_" + bgDepartment + ".png")
         
         //categoryCell.setValues(descDepartment, imageBackgroundURL: "\(bgDepartment).png", imageIconURL: "i_\(bgDepartment).png" ,selected:false,departmentId: departmentId,itemsFam:itemsFam,showWhite:selectedLine)
-        
-        
-        
-        
         return categoryCell
     }
 
