@@ -35,9 +35,11 @@ class DefaultListTableViewCell : UITableViewCell {
         self.nameView!.frame = CGRectMake(self.iconView.frame.maxX + 16, 16, self.frame.width - (self.iconView.frame.maxX + 32), 32)
         self.articlesView!.frame = CGRectMake(self.iconView.frame.maxX + 16,self.nameView!.frame.maxY +  2, 81, 14)
         self.priceView!.frame = CGRectMake(self.iconView.frame.maxX + 16, self.articlesView!.frame.maxY + 8, 81, 18)
-        self.separator!.frame = CGRectMake(nameView!.frame.minX, 108,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth())
-       
+        self.separator!.frame = CGRectMake(nameView!.frame.minX, self.frame.height - 1,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth())
         
+    
+    
+    
     }
     
     func setup(){
@@ -66,9 +68,11 @@ class DefaultListTableViewCell : UITableViewCell {
         self.separator = UIView(frame:CGRectMake(nameView!.frame.minX, 108,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth()))
         self.separator!.backgroundColor = WMColor.lineSaparatorColor
         self.addSubview(self.separator!)
+
+
         
     }
-    
+
     
     
     func setValues(nameList:String,numberItems:String,total:String) {
