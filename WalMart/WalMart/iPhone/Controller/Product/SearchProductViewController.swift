@@ -34,7 +34,7 @@ enum SearchServiceContextType {
     case WithCategoryForMG
     case WithCategoryForGR
     case WithTextForCamFind
-    case WithRemomendedLine
+    case WithRecomendedLine
 }
  
  enum SearchServiceFromContext {
@@ -1124,6 +1124,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.showLoadingIfNeeded(false)
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
+            if self.originalSearchContextType != .WithTextForCamFind {
+                self.allProducts? = []
+            }
             self.allProducts?.addObjectsFromArray(result.arrayObject!)
             self.mgResults?.totalResults = self.allProducts!.count
             
