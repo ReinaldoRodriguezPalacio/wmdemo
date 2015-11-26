@@ -405,7 +405,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.footer!.frame = CGRectMake(0.0, self.view.frame.height - footerHeight, bounds.width, footerHeight)
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         
-        self.buildSubViews()
+        //self.buildSubViews()
         
     }
     
@@ -442,15 +442,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
             self.sectionTitleDiscount.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,widthField,fheight)
+            
             let posY = self.buildPromotionButtons()
             self.sectionTitleShipment.frame =  CGRectMake(margin, posY, widthField, lheight)
             self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             
         } else {
             self.discountAssociate!.alpha = 0
-            self.sectionTitleDiscount!.alpha = 0
+            self.sectionTitleDiscount!.alpha = 1
             self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
-            self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
+            let posY = self.buildPromotionButtons()
+            print("posY ::: posY \(posY)")
+            self.sectionTitleShipment.frame = CGRectMake(margin, self.sectionTitleShipment.frame.origin.y + 10, widthField, lheight)
             self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
         }
         
@@ -497,7 +500,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let margin: CGFloat = 15.0
         let widthField = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
-        var posY = discountAssociate!.frame.maxY
+        
+        var posY = self.showDiscountAsociate ? discountAssociate!.frame.maxY : sectionTitleDiscount.frame.maxY + 10.0
         var count =  0
         if promotionsDesc.count > 0 && !self.hasPromotionsButtons {
             posY -= 10
@@ -919,6 +923,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                             self.address?.text =  nameDict
                                         }
                                         if let idDir = dictDir["id"] as? String {
+                                            print("invokeAddressUserService idAdress \(idDir)")
                                             self.selectedAddress = idDir
                                             
                                         }
@@ -985,73 +990,76 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.addViewLoad()
         let service = GRDeliveryTypeService()
         let shouldFreeShepping = (discountsFreeShippingAssociated && asociateDiscount) || (discountsFreeShippingNotAssociated && !asociateDiscount)
-        service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
-        service.callService(requestParams: [:],
-            successBlock: { (result:NSDictionary) -> Void in
-                self.shipmentItems = []
-                if let fixedDelivery = result["fixedDelivery"] as? String {
-                    //self.shipmentType!.text = fixedDelivery
-                    var fixedDeliveryCostVal = 0.0
-                    if let fixedDeliveryCost = result["fixedDeliveryCost"] as? NSString {
-                        fixedDeliveryCostVal = fixedDeliveryCost.doubleValue
+        //Validar self.selectedAddress != nil
+        if self.selectedAddress != nil {
+            service.setParams("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())", addressId: self.selectedAddress!,isFreeShiping:"\(shouldFreeShepping)")
+            service.callService(requestParams: [:],
+                successBlock: { (result:NSDictionary) -> Void in
+                    self.shipmentItems = []
+                    if let fixedDelivery = result["fixedDelivery"] as? String {
+                        //self.shipmentType!.text = fixedDelivery
+                        var fixedDeliveryCostVal = 0.0
+                        if let fixedDeliveryCost = result["fixedDeliveryCost"] as? NSString {
+                            fixedDeliveryCostVal = fixedDeliveryCost.doubleValue
+                        }
+                        self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
                     }
-                    self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
-                }
-                
-               
-                if let pickUpInStore = result["pickUpInStore"] as? String {
-                    var pickUpInStoreCostVal = 0.0
-                    if let pickUpInStoreCost = result["pickUpInStoreCost"] as? NSString {
-                        pickUpInStoreCostVal = pickUpInStoreCost.doubleValue
-                    }
-                    self.shipmentItems!.append(["name":pickUpInStore, "key":"4","cost":pickUpInStoreCostVal])
-                }
-                if let normalDelivery = result["normalDelivery"] as? String {
-                    var normalDeliveryCostVal = 0.0
-                    if let normalDeliveryCost = result["normalDeliveryCost"] as? NSString {
-                        normalDeliveryCostVal = normalDeliveryCost.doubleValue
-                    }
-                    self.shipmentItems!.append(["name":normalDelivery, "key":"1","cost":normalDeliveryCostVal])
-                }
-                if let expressDelivery = result["expressDelivery"] as? String {
-                    var expressDeliveryCostVal = 0.0
-                    if let expressDeliveryCost = result["expressDeliveryCost"] as? NSString {
-                        expressDeliveryCostVal = expressDeliveryCost.doubleValue
-                    }
-                    self.shipmentItems!.append(["name":expressDelivery, "key":"2","cost":expressDeliveryCostVal])
-                }
-                
-                if self.discountsFreeShippingAssociated {
-                    self.shipmentItems!.removeAll()
-                    let expressDeliveryCostVal = 0.0
-                     self.shipmentItems!.append(["name":"Envio sin costo", "key":"5","cost":expressDeliveryCostVal])
-                }
-            
-                if self.shipmentItems!.count > 0 {
-                    let shipName = self.shipmentItems![0] as! NSDictionary
-                    self.selectedShipmentTypeIx = NSIndexPath(forRow: 0, inSection: 0)
-                    self.shipmentType!.text = shipName["name"] as? String
-                }
-                self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
-                
-                if self.newTotal != nil {
-                    self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                        subtotal: "\(self.newTotal)",
-                        saving: "\(self.totalDiscountsOrder)")
                     
-                    self.updateShopButton("\(self.newTotal)")
+                    
+                    if let pickUpInStore = result["pickUpInStore"] as? String {
+                        var pickUpInStoreCostVal = 0.0
+                        if let pickUpInStoreCost = result["pickUpInStoreCost"] as? NSString {
+                            pickUpInStoreCostVal = pickUpInStoreCost.doubleValue
+                        }
+                        self.shipmentItems!.append(["name":pickUpInStore, "key":"4","cost":pickUpInStoreCostVal])
+                    }
+                    if let normalDelivery = result["normalDelivery"] as? String {
+                        var normalDeliveryCostVal = 0.0
+                        if let normalDeliveryCost = result["normalDeliveryCost"] as? NSString {
+                            normalDeliveryCostVal = normalDeliveryCost.doubleValue
+                        }
+                        self.shipmentItems!.append(["name":normalDelivery, "key":"1","cost":normalDeliveryCostVal])
+                    }
+                    if let expressDelivery = result["expressDelivery"] as? String {
+                        var expressDeliveryCostVal = 0.0
+                        if let expressDeliveryCost = result["expressDeliveryCost"] as? NSString {
+                            expressDeliveryCostVal = expressDeliveryCost.doubleValue
+                        }
+                        self.shipmentItems!.append(["name":expressDelivery, "key":"2","cost":expressDeliveryCostVal])
+                    }
+                    
+                    if self.discountsFreeShippingAssociated {
+                        self.shipmentItems!.removeAll()
+                        let expressDeliveryCostVal = 0.0
+                        self.shipmentItems!.append(["name":"Envio sin costo", "key":"5","cost":expressDeliveryCostVal])
+                    }
+                    
+                    if self.shipmentItems!.count > 0 {
+                        let shipName = self.shipmentItems![0] as! NSDictionary
+                        self.selectedShipmentTypeIx = NSIndexPath(forRow: 0, inSection: 0)
+                        self.shipmentType!.text = shipName["name"] as? String
+                    }
+                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
+                    
+                    if self.newTotal != nil {
+                        self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+                            subtotal: "\(self.newTotal)",
+                            saving: "\(self.totalDiscountsOrder)")
+                        
+                        self.updateShopButton("\(self.newTotal)")
+                    }
+                    
+                    self.removeViewLoad()
+                    
+                    endCallTypeService()
+                },
+                errorBlock: { (error:NSError) -> Void in
+                    self.removeViewLoad()
+                    print("Error at invoke delivery type service")
+                    endCallTypeService()
                 }
-                
-                self.removeViewLoad()
-                
-                endCallTypeService()
-            },
-            errorBlock: { (error:NSError) -> Void in
-                self.removeViewLoad()
-                print("Error at invoke delivery type service")
-                endCallTypeService()
-            }
-        )
+            )
+        }
     }
     
     func validateAssociate(pickerValues: [String:String], completion: (result:String) -> Void) {
@@ -1165,6 +1173,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
+                    print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
                     if  let selectedAddressHasStoreVal = option["isAddressOk"] as? String {
                         if selectedAddressHasStoreVal == "False" {
@@ -1306,7 +1315,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 print("Se realizao la direccion")
                 self.picker!.closeNew()
                 self.picker!.closePicker()
+                
                 self.selectedAddress = resultCall["addressID"] as! String!
+                print("saveReplaceViewSelected Address ID \(self.selectedAddress)---")
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
                 }
