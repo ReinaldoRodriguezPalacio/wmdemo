@@ -980,7 +980,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
         
-       showLoadingIfNeeded(true)
+       showLoadingIfNeeded(false)
         
         
         self.filterButton!.alpha = 1
