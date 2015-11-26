@@ -778,7 +778,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idFreeShepping),", withString: "")
                             
                             self.promotionIds! += (self.promotionIds == "") ? "\(self.idFreeShepping)" : ",\(self.idFreeShepping)"
-                           print("listFreeshippins: \(freeshippin["idPromotion"] as! Int)")
+                          
                         }
                     }
                     
