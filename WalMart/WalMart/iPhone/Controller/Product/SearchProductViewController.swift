@@ -897,7 +897,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.filterButton?.alpha = 0
             //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
             
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 0))
             
             self.empty.returnAction = { () in
                 self.returnBack()
@@ -1104,7 +1104,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.collection?.alpha = 0
             if self.empty == nil {
                 self.viewBgSelectorBtn.alpha = 0
-                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
                 self.empty.returnAction = { () in
                     self.viewBgSelectorBtn.alpha = 1
                     self.returnBack()
