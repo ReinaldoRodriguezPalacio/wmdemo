@@ -237,7 +237,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     func stopRunning() {
-        self.applyMapViewMemoryHotFix()
+        self.memoryHotFix()
         self.coreLocationManager.stopUpdatingLocation()
     }
 
@@ -438,7 +438,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clubMap!.hidden = true
             self.clubCollection!.hidden = false
             self.isShowingMap = false
-            self.applyMapViewMemoryHotFix()
+            //self.applyMapViewMemoryHotFix()
         }
         else {
             //Event

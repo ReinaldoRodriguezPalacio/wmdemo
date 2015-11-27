@@ -85,7 +85,8 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         
         self.titleLabel.text = title
-        
+        self.titleLabel.hidden = false
+        self.imageIcon.hidden = false
         imageBackground.frame = self.bounds
         imageBackground.frame = CGRectMake(-120, 0, 1024, self.bounds.height)
         imageIcon.frame = CGRectMake((self.frame.width / 2) - 24, 48, 48, 48)

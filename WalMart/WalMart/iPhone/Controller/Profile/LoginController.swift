@@ -67,6 +67,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
         self.email!.autocapitalizationType = UITextAutocapitalizationType.None
         self.email!.delegate = self
+        self.email!.returnKeyType = .Next
         
         self.password = UIEdgeTextFieldImage()
         self.password?.imageNotSelected = UIImage(named: "fieldPasswordOn")
@@ -76,6 +77,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.password!.typeField = TypeField.Password
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.delegate = self
+        self.password!.returnKeyType = .Done
         //self.password!.minLength = 5
         //self.password!.maxLength = 15
         
@@ -530,7 +532,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
 
-
-    
-    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        if textField == email { // Switch focus to other text field
+            password!.becomeFirstResponder()
+        }
+        if textField == password {
+            self.signIn(signInButton!)
+        }
+        return true
+    }
 }
