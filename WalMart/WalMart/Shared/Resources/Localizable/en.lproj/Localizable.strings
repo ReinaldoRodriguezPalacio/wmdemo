@@ -570,7 +570,7 @@
 
 //Refered
 "refered.title" = "Mis Referidos";
-"refered.description.message" = "Acumula envíos gratis cuando tus referidos \nse registren en Walmart (ellos tambíen recibirán un \nenvío sin costo al confirmar)";
+"refered.description.message" = "Acumula envíos sin costo cuando tus referidos \nse registren en Walmart (ellos tambíen recibirán un \nenvío sin costo al confirmar)";
 "refered.button.add" = "Referir a un amigo";
 "refered.title.confirm" = "Confirmados";
 "refered.title.pendig" = "Pendientes";
