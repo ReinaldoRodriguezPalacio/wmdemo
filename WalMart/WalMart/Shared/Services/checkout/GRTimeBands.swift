@@ -16,7 +16,9 @@ class GRTimeBands: GRBaseService {
     }
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+          self.jsonFromObject(params)
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+           
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)

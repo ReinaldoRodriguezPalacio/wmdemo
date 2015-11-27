@@ -102,7 +102,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var idReferido : Int! = 0
     var idFreeShepping : Int! = 0
     var totalDiscountsOrder : Int! = 0
-    var newTotal : Int!
+    var newTotal : Double!
     
     
     override func getScreenGAIName() -> String {
@@ -759,7 +759,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
-                    self.newTotal = resultCall["newTotal"] as? Int
+                    self.newTotal = resultCall["newTotal"] as? Double
                     
                   
                     let totalDiscounts =  resultCall["totalDiscounts"] as? Int
@@ -780,7 +780,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             let promotion = promotionln["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(promotion)", withString: "")
                             self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(promotion),", withString: "")
-                            
                             self.promotionIds! += (self.promotionIds == "") ? "\(promotion)" : ",\(promotion)"
                             print("listPromotions: \(promotion)")
                         }
@@ -791,22 +790,28 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                              self.idFreeShepping = freeshippin["idPromotion"] as! Int
                             self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(self.idFreeShepping)", withString: "")
                             self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idFreeShepping),", withString: "")
-                            
+                            self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idFreeShepping)", withString: "")
                             self.promotionIds! += (self.promotionIds == "") ? "\(self.idFreeShepping)" : ",\(self.idFreeShepping)"
-                           print("listFreeshippins: \(freeshippin["idPromotion"] as! Int)")
+                        print("listFreeshippins: \(self.idFreeShepping )")
                         }
                     }
                     
                     if self.idFreeShepping == 0 {
-                        if let listReferidos = resultCall["listReferidos"] as? [AnyObject]{
-                            for promotionln in listReferidos {
-                                self.idReferido = promotionln["idPromotion"] as! Int
+                        if let listReferidos = resultCall["listReferidos"] as? NSDictionary{
+                            
+                            //for promotionln in listReferidos {
+                            
+                                self.idReferido = listReferidos["idReferido"] as! Int//promotionln["idReferido"] as? Int
+                            let  addIdRefered =  listReferidos["numEnviosReferidos"] as! Int
+                            if addIdRefered > 0 {
                                 self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(self.idReferido)", withString: "")
                                 self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idReferido),", withString: "")
+                                self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString("\(self.idReferido)", withString: "")
                                 self.promotionIds! += (self.promotionIds == "") ? "\(self.idReferido)" : ",\(self.idReferido)"
                                 print("listReferidos: \(self.idReferido)")
                                 self.discountsFreeShippingAssociated =  true
                             }
+                            //}
                         }
                     }
                     
@@ -1031,7 +1036,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     if self.discountsFreeShippingAssociated {
                         self.shipmentItems!.removeAll()
                         let expressDeliveryCostVal = 0.0
-                        self.shipmentItems!.append(["name":"Envio sin costo", "key":"5","cost":expressDeliveryCostVal])
+                        self.shipmentItems!.append(["name":"Envio sin costo", "key":"4","cost":expressDeliveryCostVal])
                     }
                     
                     if self.shipmentItems!.count > 0 {
@@ -1120,7 +1125,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let params = service.buildParams(date, addressId: self.selectedAddress!)
         service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
                // var date = self.deliveryDatePicker!.date
-            
                 if let day = result["day"] as? String {
                     if let month = result["month"] as? String {
                         if let year = result["year"] as? String {
@@ -1442,7 +1446,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
 //            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId())
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder)
+            let totalNew = self.newTotal -  UserCurrentSession.sharedInstance().estimateSavingGR()
+
+            let paramsOrder = serviceCheck.buildParams(totalNew, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
