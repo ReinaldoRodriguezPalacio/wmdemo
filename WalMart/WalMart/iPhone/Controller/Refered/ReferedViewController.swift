@@ -24,6 +24,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     var confirmRefered: [AnyObject]! = []
     var pendingRefered: [AnyObject]! = []
+    var numFreeShipping: Int = 0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REFERED.rawValue
@@ -135,10 +136,11 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 0  {
-            if selectedRow != nil{
+            if selectedRow != nil && indexPath == selectedRow{
                 deSelectSection(selectedRow)
+            }else{
+                selectSection(indexPath)
             }
-            selectSection(indexPath)
         }else if indexPath.section == 1 {
             let refered = self.confirmRefered[indexPath.row - 1]
             let name = refered["nameRef"] as! String
@@ -208,7 +210,8 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         let referedCustomerService = ReferedCustomerService()
         referedCustomerService.callService({ (result:NSDictionary) -> Void in
             if (result["codeMessage"] as! Int) == 0{
-                let responceArray = result["responseArray"] as! [AnyObject]
+                self.numFreeShipping = result["numFreeShippingRef"] as! Int
+                let responceArray = result["listEmailsRef"] as! [AnyObject]
                 for refered in responceArray {
                     let status = refered["statusRef"] as! String
                     if status == "No"{
@@ -217,7 +220,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                         self.confirmRefered.append(refered)
                     }
                 }
-                self.setCountLabel(self.confirmRefered.count)
+                self.setCountLabel(self.numFreeShipping)
                 self.referedTable.reloadData()
             }
              self.removeViewLoad()

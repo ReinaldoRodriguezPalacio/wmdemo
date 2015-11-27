@@ -98,7 +98,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -198,11 +198,11 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.ValidateActiveRefered</key>
+			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
-			<key>WalmartMG.AddReferedCustumer</key>
+			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/addReferedCustomer.txt</string>
-			<key>WalmartMG.ReferedCustomer</key>
+			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
@@ -655,11 +655,11 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.ValidateActiveRefered</key>
+			<key>WalmartMG.ValidateActiveReferedService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
-			<key>WalmartMG.AddReferedCustumer</key>
+			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/addReferedCustomer.txt</string>
-			<key>WalmartMG.ReferedCustomer</key>
+			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
