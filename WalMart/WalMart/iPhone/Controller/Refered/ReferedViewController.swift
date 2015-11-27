@@ -205,7 +205,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     //MARK: Services
     
     func invokeReferedCustomerService(){
-        let referedCustomerService = ReferedCustomer()
+        let referedCustomerService = ReferedCustomerService()
         referedCustomerService.callService({ (result:NSDictionary) -> Void in
             if (result["codeMessage"] as! Int) == 0{
                 let responceArray = result["responseArray"] as! [AnyObject]
@@ -228,7 +228,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     
     func invokeValidateActiveReferedService(){
-        let validateActiveReferedService = ValidateActiveRefered()
+        let validateActiveReferedService = ValidateActiveReferedService()
         validateActiveReferedService.callService({ (result:NSDictionary) -> Void in
             if let isActive = result["responseObject"] as? Bool{
                 if isActive{
@@ -267,7 +267,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     func selectSaveButton(name:String,mail:String) {
         modalView?.closePicker()
-        let addReferedService = AddReferedCustumer()
+        let addReferedService = AddReferedCustumerService()
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView!.view.alpha = 0.96
         addReferedService.callService(requestParams: addReferedService.buildParamsRefered(mail, nameRef: name, isReferedAutorized: true),

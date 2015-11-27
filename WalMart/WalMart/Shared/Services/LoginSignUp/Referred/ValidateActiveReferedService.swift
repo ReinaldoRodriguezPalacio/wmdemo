@@ -1,5 +1,5 @@
 //
-//  ValidateActiveRefered.swift
+//  ValidateActiveReferedService.swift
 //  WalMart
 //
 //  Created by Joel Juarez on 06/11/15.
@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ValidateActiveRefered : GRBaseService {
+class ValidateActiveReferedService : GRBaseService {
        
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in

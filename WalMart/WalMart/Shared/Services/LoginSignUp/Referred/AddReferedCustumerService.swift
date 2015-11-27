@@ -1,5 +1,5 @@
 //
-//  AddReferedCustumer.swift
+//  AddReferedCustumerService.swift
 //  WalMart
 //
 //  Created by Joel Juarez on 06/11/15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-class AddReferedCustumer : GRBaseService {
+class AddReferedCustumerService : GRBaseService {
     
     
     func buildParamsRefered(emailRef:String,nameRef:String,isReferedAutorized:Bool) -> NSDictionary {
