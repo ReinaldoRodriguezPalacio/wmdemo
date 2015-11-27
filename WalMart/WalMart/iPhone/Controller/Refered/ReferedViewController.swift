@@ -139,6 +139,9 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             if selectedRow != nil && indexPath == selectedRow{
                 deSelectSection(selectedRow)
             }else{
+                if selectedRow != nil{
+                    deSelectSection(selectedRow)
+                }
                 selectSection(indexPath)
             }
         }else if indexPath.section == 1 {
@@ -196,11 +199,11 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     func setCountLabel(countRefered:Int){
        var message = ""
         if countRefered == 0{
-            message = "No tienes envíos gratis disponibles"
+            message = "No tienes envíos sin costo disponibles"
         }else if countRefered == 1 {
-            message = "¡Tienes 1 envío gratis disponible!"
+            message = "¡Tienes 1 envío sin costo disponible!"
         }else {
-            message = "¡Tienes \(countRefered) envíos gratis disponibles!"
+            message = "¡Tienes \(countRefered) envíos sin costo disponibles!"
         }
         self.referedCountLabel!.text = message
     }

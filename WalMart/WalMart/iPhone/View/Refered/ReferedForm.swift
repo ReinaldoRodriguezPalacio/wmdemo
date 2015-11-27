@@ -69,7 +69,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("refered.input.name", comment: ""))
         self.name!.typeField = TypeField.Name
-        self.name!.nameField = "Name"
+        self.name!.nameField = NSLocalizedString("refered.input.name", comment: "")
         self.name!.minLength = 3
         self.name!.maxLength = 25
         self.name!.inputAccessoryView = viewAccess
