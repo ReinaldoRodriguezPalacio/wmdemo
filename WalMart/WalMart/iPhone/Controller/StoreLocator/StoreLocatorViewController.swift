@@ -438,7 +438,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clubMap!.hidden = true
             self.clubCollection!.hidden = false
             self.isShowingMap = false
-            self.applyMapViewMemoryHotFix()
+            //self.applyMapViewMemoryHotFix()
             
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_LIST_STORE_LOCATOR.rawValue, label: "")
