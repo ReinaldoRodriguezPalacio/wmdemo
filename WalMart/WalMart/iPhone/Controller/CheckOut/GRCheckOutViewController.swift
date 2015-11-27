@@ -98,6 +98,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var completeOrderDictionary: [String:AnyObject]! = [:]
     var promotionIds: String! = ""
     var promotionsDesc: [[String:String]]! = []
+    var promotionButtons: [UIView]! = []
     var hasPromotionsButtons: Bool! = false
     var idReferido : Int! = 0
     var idFreeShepping : Int! = 0
@@ -384,6 +385,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     
+    override func viewDidAppear(animated: Bool) {
+        self.buildSubViews()
+    }
     
     
     //Keyboart
@@ -416,6 +420,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let footerHeight:CGFloat = 60.0
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
         self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
+        for view in self.promotionButtons{
+            view.removeFromSuperview()
+        }
         
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
@@ -503,7 +510,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         var posY = self.showDiscountAsociate ? discountAssociate!.frame.maxY : sectionTitleDiscount.frame.maxY + 10.0
         var count =  0
-        if promotionsDesc.count > 0 && !self.hasPromotionsButtons {
+        if promotionsDesc.count > 0 {
             posY -= 10
             for promotion in self.promotionsDesc{
                 posY += CGFloat(40 * count)
@@ -524,10 +531,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 promSelect.tag = count
                 promSelect.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,widthField - 20)
                 self.content.addSubview(promSelect)
+                self.promotionButtons.append(promSelect)
                 count++
             }
             posY += 50
-            self.hasPromotionsButtons = true
+           // self.hasPromotionsButtons = true
         }
         else{
             posY += CGFloat(40 * self.promotionsDesc.count)
@@ -551,7 +559,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             if afterButton != nil{
                 afterButton!.selected = false
-                self.promotionsDesc[afterButton!.tag]["selected"] = "false"
+                if afterButton!.tag < self.promotionsDesc.count {
+                    self.promotionsDesc[afterButton!.tag]["selected"] = "false"
+                }
             }
 
             
@@ -764,7 +774,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                   
                     let totalDiscounts =  resultCall["totalDiscounts"] as? Int
                     self.totalDiscountsOrder = totalDiscounts
-                    
+                    self.promotionsDesc = []
                     
                     if let listSamples = resultCall["listSamples"] as? [AnyObject]{
                         for promotionln in listSamples {
