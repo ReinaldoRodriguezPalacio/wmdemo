@@ -93,6 +93,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var selectQuantity : ShoppingCartQuantitySelectorView!
     var isTextSearch: Bool = false
+    var isOriginalTextSearch: Bool = false
 
     
     override func getScreenGAIName() -> String {
@@ -233,7 +234,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.header?.addSubview(self.filterButton!)
         self.view.addSubview(collection!)
         self.isTextSearch = (self.searchContextType == SearchServiceContextType.WithText || self.searchContextType == SearchServiceContextType.WithTextForCamFind)
-        let isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
+        self.isOriginalTextSearch = self.originalSearchContextType == SearchServiceContextType.WithText || self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind
         
         if self.isTextSearch || isOriginalTextSearch
         {
@@ -243,7 +244,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.titleLabel = self.setTitleWithEdit()
                 self.header?.addSubview(self.titleLabel!)
             
+            if self.originalSearchContextType == nil{
              self.originalSearchContextType = self.searchContextType
+            }
             //self.searchContextType = SearchServiceContextType.WithCategoryForGR
         }
         else
@@ -260,9 +263,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self)
-        
-        
-        
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if !self.firstOpen && (self.allProducts == nil || self.allProducts!.count == 0) {
+            self.showEmptyView()
+        }
+        firstOpen = false
     }
     
     func reloadUISearch() {
@@ -278,7 +286,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         
         var startPoint = self.header!.frame.maxY
-        if self.isTextSearch {
+        if self.isTextSearch || self.isOriginalTextSearch {
             viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28)
             startPoint = viewBgSelectorBtn.frame.maxY + 16
         }else {
@@ -777,7 +785,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                     }
                 }
-                firstOpen = false
+                //firstOpen = false
             } else {
                 btnTech.selected = false
                 btnSuper.selected = true
@@ -849,18 +857,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.addSubview(self.emptyMGGR)
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
-            //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-            self.filterButton?.alpha = 0
-            //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-            
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-            
-            self.empty.returnAction = { () in
-                self.returnBack()
-            }
-            
-            self.view.addSubview(self.empty)
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+           self.showEmptyView()
         }
         else {
             
@@ -941,6 +938,21 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         return price
+    }
+    
+    func showEmptyView(){
+        //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
+        self.filterButton?.alpha = 0
+        //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
+        
+        self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        
+        self.empty.returnAction = { () in
+            self.returnBack()
+        }
+        
+        self.view.addSubview(self.empty)
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     
     //MARK: - Actions
