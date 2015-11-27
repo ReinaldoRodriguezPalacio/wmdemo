@@ -24,6 +24,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     var confirmRefered: [AnyObject]! = []
     var pendingRefered: [AnyObject]! = []
+    var numFreeShipping: Int = 0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REFERED.rawValue
@@ -197,7 +198,8 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         let referedCustomerService = ReferedCustomer()
         referedCustomerService.callService({ (result:NSDictionary) -> Void in
             if (result["codeMessage"] as! Int) == 0{
-                let responceArray = result["responseArray"] as! [AnyObject]
+                self.numFreeShipping = result["numFreeShippingRef"] as! Int
+                let responceArray = result["listEmailsRef"] as! [AnyObject]
                 for refered in responceArray {
                     let status = refered["statusRef"] as! String
                     if status == "No"{
