@@ -1048,10 +1048,20 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.emptyGroceriesTap  = false
     }
     
-    
+    // va
     func showListsGR() {
         buttonSelected(self.buttonList[3])
-    }
+        if let navController = self.currentController as? UINavigationController {
+            navController.popToRootViewControllerAnimated(true)
+
+
+            
+            
+        }
+        
+        }
+        
+        
     
     
     func showBadge() {
