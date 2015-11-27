@@ -1,5 +1,5 @@
 //
-//  ReferedCustomer.swift
+//  ReferedCustomerService.swift
 //  WalMart
 //
 //  Created by Joel Juarez on 06/11/15.
@@ -8,13 +8,14 @@
 
 import Foundation
 
-class ReferedCustomer : GRBaseService {
+class ReferedCustomerService : GRBaseService {
     
     
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:],
             successBlock: { (resultCall:NSDictionary) -> Void in
                 self.jsonFromObject(resultCall)
+                
                 successBlock?(resultCall)
                 return
             },
