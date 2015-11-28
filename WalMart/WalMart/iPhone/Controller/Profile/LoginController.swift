@@ -543,6 +543,4 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
         return true
     }
-    
-    
 }

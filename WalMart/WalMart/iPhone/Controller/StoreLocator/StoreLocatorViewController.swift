@@ -237,7 +237,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     func stopRunning() {
-        self.applyMapViewMemoryHotFix()
+        self.memoryHotFix()
         self.coreLocationManager.stopUpdatingLocation()
     }
 

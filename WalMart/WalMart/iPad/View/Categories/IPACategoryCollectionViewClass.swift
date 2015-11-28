@@ -99,7 +99,6 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         }
         
         self.titleLabel.text = title
-        
         self.titleLabel.hidden = false
         self.imageIcon.hidden = false
         imageBackground.frame = self.bounds
