@@ -267,7 +267,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        firstOpen = false
     }
     
     func reloadUISearch() {
@@ -782,7 +781,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                     }
                 }
-                //firstOpen = false
+                firstOpen = false
             } else {
                 btnTech.selected = false
                 btnSuper.selected = true
