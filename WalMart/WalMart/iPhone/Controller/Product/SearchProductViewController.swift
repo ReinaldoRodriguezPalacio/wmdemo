@@ -267,9 +267,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        if !self.firstOpen && (self.allProducts == nil || self.allProducts!.count == 0) {
-            self.showEmptyView()
-        }
         firstOpen = false
     }
     
