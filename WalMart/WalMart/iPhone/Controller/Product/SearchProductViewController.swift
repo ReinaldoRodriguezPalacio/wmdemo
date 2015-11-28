@@ -269,8 +269,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 		self.collection!.reloadData()
-        if self.hasEmptyView && self.isOriginalTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
-            self.showEmptyView()
+        if self.hasEmptyView && self.isTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
+            self.showEmptyMGGRView()
         }
         self.hasEmptyView = true
     }
@@ -875,28 +875,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         self.showLoadingIfNeeded(true)
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
-            
-            //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
-            self.filterButton?.alpha = 0
-            //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-            let maxY =  self.viewBgSelectorBtn.frame.maxY + 16.0
-            if self.emptyMGGR == nil {
-                self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
-                self.emptyMGGR.returnAction = { () in
-                    self.returnBack()
-                }
-                
-                
-                
-            }
-            if btnSuper.selected {
-                self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
-            } else {
-                self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
-            }
-            
-            self.view.addSubview(self.emptyMGGR)
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+           self.showEmptyMGGRView()
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
            self.showEmptyView()
         }
@@ -993,6 +972,30 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.view.addSubview(self.empty)
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+    }
+    
+    func showEmptyMGGRView(){
+        //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
+        self.filterButton?.alpha = 0
+        //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
+        let maxY =  self.viewBgSelectorBtn.frame.maxY + 16.0
+        if self.emptyMGGR == nil {
+            self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
+            self.emptyMGGR.returnAction = { () in
+                self.returnBack()
+            }
+            
+            
+            
+        }
+        if btnSuper.selected {
+            self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
+        } else {
+            self.emptyMGGR.descLabel.text = "No existe ese artículo en Tecnología, Hogar y más"
+        }
+        
+        self.view.addSubview(self.emptyMGGR)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     
