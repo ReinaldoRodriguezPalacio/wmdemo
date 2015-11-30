@@ -979,7 +979,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-        let maxY =  self.viewBgSelectorBtn.frame.maxY + 16.0
+        let maxY =  self.viewBgSelectorBtn.frame.maxY + 30.0
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
             self.emptyMGGR.returnAction = { () in

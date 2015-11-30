@@ -318,7 +318,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
-        if let image = self.buildImageToShare() {
+        if let image = self.tableView!.screenshot() {
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
