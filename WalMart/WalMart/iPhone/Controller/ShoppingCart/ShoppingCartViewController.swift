@@ -432,13 +432,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 updateShopButton(total)
                 
-                cellTotals.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
                  var newTotal  = total
+                 var newTotalSavings = totalSaving
                 if self.isEmployeeDiscount {
                     newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-                     cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:totalSaving)
+                    newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
                 }
                 
+                cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
                 cell = cellTotals
             }
             if itemsInShoppingCart.count < indexPath.row  {
@@ -1198,7 +1199,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     //MARK: AlertPickerViewDelegate
     func didSelectOption(picker: AlertPickerView, indexPath: NSIndexPath, selectedStr: String) {
-        
         
         let paramsDic = picker.textboxValues!
         let associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
