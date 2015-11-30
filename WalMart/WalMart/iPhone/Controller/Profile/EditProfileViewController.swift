@@ -456,7 +456,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     
     override func back() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue, label: "")
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         super.back()
     }
     

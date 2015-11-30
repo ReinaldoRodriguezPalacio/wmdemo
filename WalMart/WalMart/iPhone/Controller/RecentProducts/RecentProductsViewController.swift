@@ -129,7 +129,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     }
     
     override func back() {
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue , label: "")
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label: "")
         super.back()
     }
     
