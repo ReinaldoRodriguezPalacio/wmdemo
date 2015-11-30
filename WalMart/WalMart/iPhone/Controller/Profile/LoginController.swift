@@ -365,6 +365,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     self.navigationController!.pushViewController(vc, animated: true)
                 }
             }else {
+                self.alertView = alertViewService
                 if self.closeAlertOnSuccess {
                     if alertViewService != nil {
                         alertViewService!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))

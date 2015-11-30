@@ -266,8 +266,6 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        
-        
         if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForGR && self.titleHeader ==  "Recomendados"  {
             return CGSizeZero
         }
@@ -300,7 +298,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         if section == 0 && self.originalSearchContextType == SearchServiceContextType.WithTextForCamFind {
             return CGSizeZero
         }
-    
+        
         if section == 0 && self.searchContextType == SearchServiceContextType.WithCategoryForMG && self.titleHeader ==  "Recomendados"  {
             return CGSizeZero
         }

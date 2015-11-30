@@ -269,7 +269,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 		self.collection!.reloadData()
-        if self.hasEmptyView && self.isTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
+        if self.hasEmptyView && self.isOriginalTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
             self.showEmptyMGGRView()
         }
         self.hasEmptyView = true

@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>cpwrUEM_logging.level</key>
-	<string>ALL</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -19,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.35</string>
+	<string>3.36</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -34,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>9</string>
+	<string>10</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -66,6 +64,39 @@
 		<string>MyriadPro-SemiboldSemiExt.otf</string>
 		<string>MyriadPro-SemiExt.otf</string>
 		<string>MyriadPro-SemiExtIt.otf</string>
+	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>search_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Buscar artículos</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.opensearch</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>cart_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Abrir mi carrito</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openshoppingcart</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>list_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Ir a mis listas</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openlists</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
@@ -103,16 +134,8 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.ValidateActiveRefered</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/isReferedActive</string>
 			<key>WalmartMG.AddReferedCustumer</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.ReferedCustomer</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getReferedCustomer</string>
-			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -139,6 +162,10 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
+			<key>WalmartMG.GRFacets</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -193,19 +220,15 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.ValidateActiveRefered</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
 			<key>WalmartMG.AddReferedCustumer</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/addReferedCustomer.txt</string>
-			<key>WalmartMG.ReferedCustomer</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
-			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
-			<key>WalmartMG.GRFacets</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -232,6 +255,10 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getSaving</string>
 			<key>WalmartMG.GRExclusiveItemsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
+			<key>WalmartMG.GRFacets</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -286,6 +313,10 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
 		</dict>
 	</dict>
 	<key>WMGroceriesURLServicesSession</key>
@@ -361,10 +392,6 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.ValidateAssociateService</key>
-			<string>http://192.168.43.192:8085/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.PromotionsMgService</key>
-			<string>http://192.168.43.192:8085/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -417,6 +444,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -447,17 +476,13 @@
 			<string>http://192.168.43.192:8085/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/getWishlistByUser</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.PromotionsMgService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/promotionsmg.txt</string>
-			<key>WalmartMG.ValidateAssociateService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
-			<key>WalmartMG.PushNotificationService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -510,6 +535,10 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/promotionsmg.txt</string>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -538,6 +567,8 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getWishlistByUser</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getInfoByZipCode</string>
 		</dict>
@@ -548,14 +579,8 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.ValidateActiveRefered</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/isReferedActive</string>
 			<key>WalmartMG.AddReferedCustumer</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addReferedCustomer</string>
-			<key>WalmartMG.ReferedCustomer</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getReferedCustomer</string>
-			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -584,6 +609,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getFacets</string>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -634,17 +661,15 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getReferedCustomer</string>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/isReferedActive</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.ValidateActiveRefered</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
 			<key>WalmartMG.AddReferedCustumer</key>
 			<string>https://dl.dropboxusercontent.com/u/29004009/addReferedCustomer.txt</string>
-			<key>WalmartMG.ReferedCustomer</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
-			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -673,6 +698,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getExclusiveItems/200</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
+			<key>WalmartMG.GRGetPromotionsService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -727,6 +754,10 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
+			<key>WalmartMG.ReferedCustomer</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/referedCustomer.txt</string>
+			<key>WalmartMG.ValidateActiveRefered</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/isReferedActive.txt</string>
 		</dict>
 	</dict>
 	<key>clusterWMGroceriesURLServicesSession</key>
@@ -793,12 +824,6 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.PushNotificationService</key>
-			<string>http://192.168.43.192:8085/walmartmg/login/getPushNotifications</string>
-			<key>WalmartMG.PromotionsMgService</key>
-			<string>http://192.168.43.192:8085/walmartmg/list/getPromotionsMG</string>
-			<key>WalmartMG.ValidateAssociateService</key>
-			<string>http://192.168.43.192:8085/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -851,6 +876,10 @@
 			<string>http://192.168.43.192:8085/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/getPromotionsMG</string>
+			<key>WalmartMG.PushNotificationService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getRecommendedItems/200</string>
 			<key>WalmartMG.ReviewShoppingCartService</key>
@@ -879,15 +908,13 @@
 			<string>http://192.168.43.192:8085/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/getWishlistByUser</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>http://192.168.43.192:8085/walmartmg/list/isAssociated</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.PromotionsMgService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
-			<key>WalmartMG.ValidateAssociateService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -940,6 +967,8 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemByUpc</string>
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
+			<key>WalmartMG.PromotionsMgService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -970,42 +999,13 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.UserWishlistService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getWishlistByUser</string>
+			<key>WalmartMG.ValidateAssociateService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/validateAssociate.txt</string>
 			<key>WalmartMG.ZipCodeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 	</dict>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>search_touch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Buscar artículos</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.bcg.opensearch</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict/>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>cart_touch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Abrir mi carrito</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.bcg.openshoppingcart</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict/>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>list_touch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Ir a mis listas</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.bcg.openlists</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict/>
-		</dict>
-	</array>
+	<key>cpwrUEM_logging.level</key>
+	<string>ALL</string>
 </dict>
 </plist>
