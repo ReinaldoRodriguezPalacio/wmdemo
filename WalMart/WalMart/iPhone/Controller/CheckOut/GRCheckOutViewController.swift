@@ -102,7 +102,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var hasPromotionsButtons: Bool! = false
     var idReferido : Int! = 0
     var idFreeShepping : Int! = 0
-    var totalDiscountsOrder : Int! = 0
+    var totalDiscountsOrder : Double! = 0
     var newTotal : Double!
     
     
@@ -442,6 +442,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
+        
         if showDiscountAsociate
         {
             self.discountAssociate!.alpha = 1
@@ -455,13 +456,21 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             
         } else {
-            self.discountAssociate!.alpha = 0
-            self.sectionTitleDiscount!.alpha = 1
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
-            let posY = self.buildPromotionButtons()
-            print("posY ::: posY \(posY)")
-            self.sectionTitleShipment.frame = CGRectMake(margin, self.sectionTitleShipment.frame.origin.y + 10, widthField, lheight)
-            self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+            if self.promotionsDesc.count > 0 {
+                self.discountAssociate!.alpha = 0
+                self.sectionTitleDiscount!.alpha = 1
+                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
+                let posY = self.buildPromotionButtons()
+                print("posY ::: posY \(posY)")
+                self.sectionTitleShipment.frame = CGRectMake(margin, self.sectionTitleShipment.frame.origin.y + 10, widthField, lheight)
+                self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+            }else{
+                self.discountAssociate!.alpha = 0
+                self.sectionTitleDiscount!.alpha = 0
+                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
+                self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
+                self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+            }
         }
         
         self.shipmentType!.frame = CGRectMake(margin, self.address!.frame.maxY + 5.0, widthField, fheight)
@@ -773,7 +782,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     
                   
                     let totalDiscounts =  resultCall["totalDiscounts"] as? Int
-                    self.totalDiscountsOrder = totalDiscounts
+                    self.totalDiscountsOrder = Double(totalDiscounts!)
                     self.promotionsDesc = []
                     
                     if let listSamples = resultCall["listSamples"] as? [AnyObject]{
@@ -834,6 +843,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     })
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
+                        self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+                            subtotal: "\(self.newTotal)",
+                            saving: "\(self.totalDiscountsOrder + UserCurrentSession.sharedInstance().estimateSavingGR())")
+                      
                     }
                     self.buildSubViews()
                     endCallPromotions()
@@ -1059,7 +1072,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     if self.newTotal != nil {
                         self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
                             subtotal: "\(self.newTotal)",
-                            saving: "\(self.totalDiscountsOrder)")
+                            saving: "\(self.totalDiscountsOrder +  UserCurrentSession.sharedInstance().estimateSavingGR())")
                         
                         self.updateShopButton("\(self.newTotal)")
                     }
@@ -1456,9 +1469,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
 //            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId())
-            let totalNew = self.newTotal -  UserCurrentSession.sharedInstance().estimateSavingGR()
+            let totalNew = self.newTotal //-  UserCurrentSession.sharedInstance().estimateSavingGR()
 
-            let paramsOrder = serviceCheck.buildParams(totalNew, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder)
+            let paramsOrder = serviceCheck.buildParams(totalNew, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder +  UserCurrentSession.sharedInstance().estimateSavingGR())
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
