@@ -121,6 +121,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     
                     self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
+                    
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
                 } else {
                     self.navigationController!.popViewControllerAnimated(true)
