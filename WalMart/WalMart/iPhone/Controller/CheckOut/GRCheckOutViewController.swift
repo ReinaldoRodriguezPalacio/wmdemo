@@ -462,7 +462,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
                 let posY = self.buildPromotionButtons()
                 print("posY ::: posY \(posY)")
-                self.sectionTitleShipment.frame = CGRectMake(margin, self.sectionTitleShipment.frame.origin.y + 10, widthField, lheight)
+                self.sectionTitleShipment.frame = CGRectMake(margin, posY, widthField, lheight)
                 self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             }else{
                 self.discountAssociate!.alpha = 0
