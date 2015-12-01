@@ -802,7 +802,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
+                
                 let controllernav = self.currentController as? UINavigationController
+                let controllersInNavigation = controllernav?.viewControllers.count
+                if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                    controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+                    self.isEditingSearch = false
+                }
                 controllernav?.pushViewController(controller, animated: true)
                 
                 }, errorBlock: { (error:NSError) -> Void in
@@ -814,6 +820,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     
                     controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController
+                    let controllersInNavigation = controllernav?.viewControllers.count
+                    if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
+                        controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+                        self.isEditingSearch = false
+                    }
+
                     controllernav?.pushViewController(controller, animated: true)
             })
         }

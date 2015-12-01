@@ -264,7 +264,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     
     func shareList() {
 
-        if let image = self.buildImageToShare() {
+        if let image = self.tableView!.screenshot() {
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
             
