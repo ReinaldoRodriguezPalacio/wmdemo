@@ -1214,7 +1214,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 service.callService(requestParams: service.buildParams(associateNumber!, dateAdmission:dateAdmission!, determinant: determinant!),
                     succesBlock: { (response:NSDictionary) -> Void in
                         print(response)
-                        if response["codeMessage"] as? Int ==  0{
+                        if response["codeMessage"] as? String == "0" {
                             //Mostrar alerta y continua
                             self.alertView?.setMessage("Datos correctos")
                             self.buttonAsociate.highlighted =  true
@@ -1222,6 +1222,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             self.isEmployeeDiscount =  true
                             self.loadShoppingCartService()
                             self.viewShoppingCart.reloadData()
+                            self.updateTotalItemsRow()
                             //self.showloginshop()
                         }else{
                             self.isEmployeeDiscount =  false

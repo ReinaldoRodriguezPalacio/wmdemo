@@ -110,7 +110,15 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let total = totalsItems["total"] as String!
         let totalSaving = totalsItems["totalSaving"] as String!
         self.updateShopButton(total)
-        totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
+        
+        var newTotal = total
+        var newTotalSavings = totalSaving
+        if self.isEmployeeDiscount {
+            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+            newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
+        }
+        
+        totalsView.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
