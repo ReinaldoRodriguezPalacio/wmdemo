@@ -282,6 +282,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             //self.wishlist.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
             //self.wishlist.reloadData()
             self.emptyView.hidden = self.items.count > 0
+            self.deleteAllWishlist.hidden = self.items.count == 0 && self.isEditingWishList
             self.updateShopButton()
             if self.items.count == 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
