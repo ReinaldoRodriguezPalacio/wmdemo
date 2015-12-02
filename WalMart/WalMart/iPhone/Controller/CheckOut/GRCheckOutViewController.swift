@@ -763,8 +763,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
             paramsDic["isAssociated"] = self.isAssociateSend ? "1":"0"//self.showDiscountAsociate ? "1":"0"
-            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR())"
             let promotionsService = GRGetPromotionsService()
+        
+        print("TOTAL::::\(UserCurrentSession.sharedInstance().estimateTotalGR())")
             
             
         self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
@@ -844,9 +846,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     })
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
-                        self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                            subtotal: "\(self.newTotal)",
-                            saving: "\(self.totalDiscountsOrder + UserCurrentSession.sharedInstance().estimateSavingGR())")
+                        //NSDecimalNumber(string: String(format: "%.2f", itemPrice)
+                        let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
+                        let subTotal = "\(self.newTotal)"
+                        let saving = "\(self.totalDiscountsOrder + UserCurrentSession.sharedInstance().estimateSavingGR())"
+                        
+                        self.totalView.setTotalValues(CurrencyCustomLabel.formatStringLabel(total),
+                            subtotal: CurrencyCustomLabel.formatStringLabel(subTotal),
+                            saving: CurrencyCustomLabel.formatStringLabel(saving) )
                       
                     }
                     self.buildSubViews()
@@ -907,6 +914,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
+                    
                     self.discountAssociate!.setSelectedCheck(true)
                     self.asociateDiscount = true
                     self.isAssociateSend =  true
@@ -1071,9 +1079,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                     
                     if self.newTotal != nil {
-                        self.totalView.setTotalValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-                            subtotal: "\(self.newTotal)",
-                            saving: "\(self.totalDiscountsOrder +  UserCurrentSession.sharedInstance().estimateSavingGR())")
+                        
+                        let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
+                        let subTotal = "\(self.newTotal)"
+                        let saving = "\(self.totalDiscountsOrder + UserCurrentSession.sharedInstance().estimateSavingGR())"
+                        
+                        self.totalView.setTotalValues(CurrencyCustomLabel.formatStringLabel(total),
+                            subtotal: CurrencyCustomLabel.formatStringLabel(subTotal),
+                            saving: CurrencyCustomLabel.formatStringLabel(saving) )
                         
                         self.updateShopButton("\(self.newTotal)")
                     }
