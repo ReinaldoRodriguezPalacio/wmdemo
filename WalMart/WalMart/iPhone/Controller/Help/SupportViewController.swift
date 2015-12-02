@@ -307,7 +307,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     }
     
     override func back() {
-         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue, label:"")
+         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPPORT_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_SUPPORT_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label:"")
         super.back()
     }
   

@@ -38,6 +38,10 @@ class IPOWishlistEmptyView : IPOEmptyView {
         self.textLabel!.font = WMFont.fontMyriadProRegularOfSize(14.0)
         self.textLabel!.text = NSLocalizedString("empty.wishlist.text", comment:"")
         self.addSubview(self.textLabel!)
+        
+        if IS_IPHONE_4_OR_LESS {
+            self.addSubview(returnButton)
+        }
 
     }
     
@@ -46,6 +50,7 @@ class IPOWishlistEmptyView : IPOEmptyView {
         self.textLabel!.frame = CGRectMake(0.0, self.descLabel.frame.maxY + 12.0, self.frame.width, 16.0)
         //var size = self.imageEmptyViewIconBtn.image!.size
         self.imageEmptyViewIconBtn.frame = CGRectMake(98.0, self.descLabel!.frame.maxY + 12.0, 16.0, 16.0)
+        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.height - 100, 160 , 40)
     }
     
     override func returnActionSel() {

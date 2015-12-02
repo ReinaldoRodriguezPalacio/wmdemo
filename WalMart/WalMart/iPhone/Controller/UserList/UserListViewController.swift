@@ -178,9 +178,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.reloadList(success: nil, failure: nil)
         print("Lista actualizada correctamente")
     }
-    
+    // va
     func checkEditBtn(){
         if self.itemsUserList == nil || self.itemsUserList!.count == 0{
+            if self.isEditingUserList {
+                self.showEditionMode()
+            }
             UIView.animateWithDuration(0.4, animations: {
                 self.editBtn!.hidden = true
                 self.editBtn?.enabled = false

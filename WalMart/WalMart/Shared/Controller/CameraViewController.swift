@@ -485,65 +485,65 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     }
     
     func checkPhotoStatus(token: String){
-        if(self.continueSearch){
-            let service = CamFindService()
-            service.checkImg(token,
-                successBlock: { (response: NSDictionary) -> Void in
-                    let resp = response.objectForKey("status") as! String
-                    switch resp {
-                    case ("completed"):
-                        let name = response.objectForKey("name") as! String
-                        var items : [String] = []
-                        if let allItems = response.objectForKey("items") as? [[String:AnyObject]] {
-                            for item in allItems {
-                                let data = item["data"] as! [String:String]
-                                let valueData = data["product_id"]
-                                items.append(valueData!)
-                            }
+       if(self.continueSearch){
+        let service = CamFindService()
+        service.checkImg(token,
+            successBlock: { (response: NSDictionary) -> Void in
+                let resp = response.objectForKey("status") as! String
+                switch resp {
+                case ("completed"):
+                    let name = response.objectForKey("name") as! String
+                    var items : [String] = []
+                    if let allItems = response.objectForKey("items") as? [[String:AnyObject]] {
+                        for item in allItems {
+                            let data = item["data"] as! [String:String]
+                            let valueData = data["product_id"]
+                            items.append(valueData!)
                         }
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                        
-                        // self.delegate!.photoCaptured(name)
-                        self.delegate!.photoCaptured(name,upcs:items, done: { () -> Void in
-                            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
-                        })
-                        
-                        break;
-                    case ("not completed"):
-                        self.checkPhotoStatus(token)
-                        break;
-                    case ("not found"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                            })
-                            //self.delegate!.photoCaptured("")
-                        })
-                        break;
-                    case ("skipped"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                            })
-                        })
-                        break;
-                    case ("timeout"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                            })
-                        })
-                        break;
-                    case ("error"):
-                        self.dismissViewControllerAnimated(true, completion: { () -> Void in
-                            self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
-                            })
-                        })
-                        break;
-                    default:
-                        break;
                     }
-                }, errorBlock: { (error:NSError) -> Void in
+                    self.dismissViewControllerAnimated(true, completion: nil)
                     
-            })
-        }
+                    // self.delegate!.photoCaptured(name)
+                    self.delegate!.photoCaptured(name,upcs:items, done: { () -> Void in
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_CAM_FIND_SEARCH_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SEARCH_BY_TAKING_A_PHOTO.rawValue, label: name)
+                    })
+
+                    break;
+                case ("not completed"):
+                    self.checkPhotoStatus(token)
+                    break;
+                case ("not found"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                        })
+                        //self.delegate!.photoCaptured("")
+                    })
+                    break;
+                case ("skipped"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                        })
+                    })
+                    break;
+                case ("timeout"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                        })
+                    })
+                    break;
+                case ("error"):
+                    self.dismissViewControllerAnimated(true, completion: { () -> Void in
+                        self.delegate!.photoCaptured("",upcs:nil, done: { () -> Void in
+                        })
+                    })
+                    break;
+                default:
+                    break;
+                }
+            }, errorBlock: { (error:NSError) -> Void in
+                
+        })
+       }
     }
     
     func imageResize(imageObj: UIImage) -> UIImage{

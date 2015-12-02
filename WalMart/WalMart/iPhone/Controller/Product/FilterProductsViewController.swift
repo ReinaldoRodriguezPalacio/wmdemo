@@ -110,9 +110,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //Solo en el caso de que la busqueda sea con texto o camFind
-        
-        self.isTextSearch = self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
+        //Solo en el caso de que la busqueda sea con texto o camfind
+        self.isTextSearch =  self.originalSearchContext! == SearchServiceContextType.WithText || self.originalSearchContext! == SearchServiceContextType.WithTextForCamFind
         
         if self.originalSearchContext != nil && self.isTextSearch {
             self.loadLinesForSearch()
@@ -294,7 +293,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return 2
         }
         return 1
-       // return self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithText ? 2 : 1
+       // return self.originalSearchContext != nil && self.isTextSearch ? 2 : 1
         
         
     }

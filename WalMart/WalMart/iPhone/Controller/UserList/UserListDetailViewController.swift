@@ -81,6 +81,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.hidden = true
         self.header!.addSubview(self.editBtn!)
+        
 
         self.deleteAllBtn = UIButton(type: .Custom)
         self.deleteAllBtn!.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: .Normal)
@@ -286,6 +287,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             self.deleteAllBtn!.hidden = true
                         }
                     }
+       
                 )
                 var cells = self.tableView!.visibleCells
                 for var idx = 0; idx < cells.count; idx++ {
@@ -316,7 +318,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
-        if let image = self.buildImageToShare() {
+        if let image = self.tableView!.screenshot() {
             
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -342,6 +344,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             return
         }
+        
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
         //ValidateActives
@@ -423,15 +426,24 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 upcs.append(params)
             }
-            if upcs.count > 0{
+            if upcs.count > 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
-            }else{
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                let msgInventory = "No existen productos disponibles para agregar al carrito"
-                alert!.setMessage(msgInventory)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
+            else{
+                self.noProductsAvailableAlert()
+                return
+            }
+        }else{
+            self.noProductsAvailableAlert()
+            return
         }
+    }
+    
+    func noProductsAvailableAlert(){
+        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+        let msgInventory = "No existen productos disponibles para agregar al carrito"
+        alert!.setMessage(msgInventory)
+        alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
     }
     
     func deleteAll() {
@@ -662,8 +674,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if cell!.isKindOfClass(DetailListViewCell) {
+
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
             for var idx = 0; idx < self.products!.count; idx++ {
@@ -688,6 +701,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             controller.ixSelected = indexPath.row
             self.navigationController!.pushViewController(controller, animated: true)
         }
+      }
     }
     
     //MARK: - SWTableViewCellDelegate
@@ -714,7 +728,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.listEntity!.countItem = NSNumber(integer: count)
                     self.saveContext()
                     self.retrieveProductsLocally(true)
-                    self.editBtn!.hidden = true
+                    self.editBtn!.hidden = count == 0
+                    self.deleteAllBtn!.hidden = true
+                    //self.editBtn!.hidden = true
                 }
             }
         default :
@@ -914,6 +930,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                 self.editBtn!.hidden = true
                                 self.deleteAllBtn!.hidden = true
                                 self.showEmptyView()
+                            } else {
+                                self.editBtn!.hidden = false
                             }
                             
                             
@@ -1193,7 +1211,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func updateLustName() {
         if self.nameField?.text != self.titleLabel?.text {
             
-            
+            self.nameField?.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             

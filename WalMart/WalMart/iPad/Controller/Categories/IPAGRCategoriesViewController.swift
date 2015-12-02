@@ -266,6 +266,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         controller.idDepartment = department
         controller.idLine = line
         controller.titleHeader = name
+        controller.searchFromContextType = SearchServiceFromContext.FromLineSearch
         self.navigationController?.pushViewController(controller, animated: true)
     }
     

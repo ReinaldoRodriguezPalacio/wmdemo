@@ -4,8 +4,6 @@
 <dict>
 	<key>cpwrUEM.startup.agentPhath</key>
 	<string>https://www.walmartmobile.com.mx/walmartmg/</string>
-	<key>cpwrUEM_logging.level</key>
-	<string>ALL</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -36,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>10</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -68,6 +66,39 @@
 		<string>MyriadPro-SemiboldSemiExt.otf</string>
 		<string>MyriadPro-SemiExt.otf</string>
 		<string>MyriadPro-SemiExtIt.otf</string>
+	</array>
+	<key>UIApplicationShortcutItems</key>
+	<array>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>search_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Buscar artículos</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.opensearch</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>cart_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Abrir mi carrito</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openshoppingcart</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
+		<dict>
+			<key>UIApplicationShortcutItemIconFile</key>
+			<string>list_touch</string>
+			<key>UIApplicationShortcutItemTitle</key>
+			<string>Ir a mis listas</string>
+			<key>UIApplicationShortcutItemType</key>
+			<string>com.bcg.openlists</string>
+			<key>UIApplicationShortcutItemUserInfo</key>
+			<dict/>
+		</dict>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
@@ -1008,38 +1039,7 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 	</dict>
-	<key>UIApplicationShortcutItems</key>
-	<array>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>search_touch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Buscar artículos</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.bcg.opensearch</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict/>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>cart_touch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Abrir mi carrito</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.bcg.openshoppingcart</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict/>
-		</dict>
-		<dict>
-			<key>UIApplicationShortcutItemIconFile</key>
-			<string>list_touch</string>
-			<key>UIApplicationShortcutItemTitle</key>
-			<string>Ir a mis listas</string>
-			<key>UIApplicationShortcutItemType</key>
-			<string>com.bcg.openlists</string>
-			<key>UIApplicationShortcutItemUserInfo</key>
-			<dict/>
-		</dict>
-	</array>
+	<key>cpwrUEM_logging.level</key>
+	<string>ALL</string>
 </dict>
 </plist>
