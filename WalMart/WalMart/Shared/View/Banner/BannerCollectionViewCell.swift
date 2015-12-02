@@ -22,8 +22,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var visibleItem: Int? = nil
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
-    var addCurrent: Bool = true
-    var backAction: Bool = false
     
     var viewTerms : BannerTermsView!
     
@@ -104,7 +102,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             }else {
                 self.currentItem = 0
             }
-            return getCurrentController()
+           return getCurrentController()
     }
     
     func getCurrentController() -> HomeBannerImageViewController {
@@ -202,7 +200,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
         self.visibleItem = currentItem!
         self.pageViewController.setViewControllers([self.getCurrentController()], direction: UIPageViewControllerNavigationDirection.Forward, animated: true, completion: nil)
-        
         self.reloadTermsAndPages()
     }
 

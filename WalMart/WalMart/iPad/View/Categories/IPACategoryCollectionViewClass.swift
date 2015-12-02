@@ -64,45 +64,58 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
         let svcUrl = serviceUrl("WalmartMG.CategoryIconIpad")
         let imgURLName = "\(svcUrl)\(imageIconURL)"
         //self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
-        
-        let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
-        self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-            self.imageIcon.image = image
-            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
-            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                
+        var loadImageIcon =  true
+        let imageIconDsk = self.loadImageFromDisk(imageIconURL, defaultStr: "categories_default") { (loadImage:Bool) -> Void in
+            loadImageIcon = loadImage
         }
-        
         let svcUrlCar = serviceUrl("WalmartMG.HeaderCategoryIpad")
         let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
-        //self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage: UIImage(named: imageBackgroundURL))
-        let imageHeader = self.loadImageFromDisk(imageBackgroundURL,defaultStr:"header_default")
-        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-            self.imageBackground.image = image
-            self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
-            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                
+        
+        var loadHeader =  true
+        let imageHeader = self.loadImageFromDisk(imageBackgroundURL, defaultStr: "header_default") { (loadHead:Bool) -> Void in
+            loadHeader = loadHead
+        }
+        
+        if loadHeader {
+            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageBackground.image = image
+                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    
+            }
+        }else{
+            self.imageBackground.image = imageHeader
+        }
+        
+        if loadImageIcon {
+            self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageIcon.image = image
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    
+            }
+        }else{
+            self.imageIcon.image = imageIconDsk
         }
         
         self.titleLabel.text = title
-        
+        self.titleLabel.hidden = false
+        self.imageIcon.hidden = false
         imageBackground.frame = self.bounds
         imageBackground.frame = CGRectMake(-120, 0, 1024, self.bounds.height)
         imageIcon.frame = CGRectMake((self.frame.width / 2) - 24, 48, 48, 48)
              
     }
-    
-    func loadImageFromDisk(fileName:String,defaultStr:String) -> UIImage! {
+
+    func loadImageFromDisk(fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {
         let getImagePath = self.getImagePath(fileName)
         let fileManager = NSFileManager.defaultManager()
         if (fileManager.fileExistsAtPath(getImagePath))
         {
             print("image \(fileName)")
-            
-            
             //UIImage(data: NSData(contentsOfFile: getImagePath), scale: 2)
             let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)! //UIImage(contentsOfFile: getImagePath)!
-            
+            succesBlock(false)
             return imageis
         }
         else
@@ -110,9 +123,11 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
             let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
             if imageDefault != nil {
                 print("default image \((fileName as NSString).stringByDeletingPathExtension)")
+                succesBlock(true)
                 return imageDefault
             }
             print("default walmart image \(fileName)")
+            succesBlock(true)
             return UIImage(named:defaultStr )
         }
     }

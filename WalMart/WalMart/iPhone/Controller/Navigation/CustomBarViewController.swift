@@ -631,8 +631,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let keyWord = searchDic["keyWord"] as! String
         let controllernav = self.currentController as? UINavigationController
         let controllersInNavigation = controllernav?.viewControllers.count
-        if (controllernav?.viewControllers[controllersInNavigation! - 1] as? SearchProductViewController != nil && isEditingSearch){
-            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 1)
+        if (controllersInNavigation > 2 && controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
             isEditingSearch = false
         }
         let controller = SearchProductViewController()
@@ -805,6 +805,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
+                
                 let controllernav = self.currentController as? UINavigationController
                 let controllersInNavigation = controllernav?.viewControllers.count
                 if controllersInNavigation > 1 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? ProductDetailPageViewController != nil){
@@ -827,6 +828,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
                         self.isEditingSearch = false
                     }
+
                     controllernav?.pushViewController(controller, animated: true)
             })
         }
@@ -1061,10 +1063,20 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.emptyGroceriesTap  = false
     }
     
-    
+    // va
     func showListsGR() {
         buttonSelected(self.buttonList[3])
-    }
+        if let navController = self.currentController as? UINavigationController {
+            navController.popToRootViewControllerAnimated(true)
+
+
+            
+            
+        }
+        
+        }
+        
+        
     
     
     func showBadge() {

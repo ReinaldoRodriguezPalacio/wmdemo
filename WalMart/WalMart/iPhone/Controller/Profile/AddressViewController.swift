@@ -565,14 +565,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             }
             
-            if addressShippingCont >= 12 && typeAddress == .Shiping{
+            if addressShippingCont >= 12 && typeAddress == .Shiping {
                 self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
                 self.alertView!.showErrorIcon("OK")
                 self.back()
                return
             }
             
-            if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral){
+            if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral) {
                 self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
                 self.alertView!.showErrorIcon("OK")
                 self.back()

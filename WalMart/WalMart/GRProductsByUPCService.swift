@@ -28,10 +28,15 @@ class GRProductsByUPCService : GRBaseService {
     
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        if params.count > 0 {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 errorBlock!(error)
+            }
+        }else{
+            let error:NSError? =  NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:"Sin upcs a  buscar"])
+             errorBlock!(error!)
         }
     }
     

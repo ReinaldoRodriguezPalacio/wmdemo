@@ -237,7 +237,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     func stopRunning() {
-        self.applyMapViewMemoryHotFix()
+        self.memoryHotFix()
         self.coreLocationManager.stopUpdatingLocation()
     }
 
@@ -438,7 +438,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clubMap!.hidden = true
             self.clubCollection!.hidden = false
             self.isShowingMap = false
-            self.applyMapViewMemoryHotFix()
+            //self.applyMapViewMemoryHotFix()
             
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_LIST_STORE_LOCATOR.rawValue, label: "")
@@ -693,7 +693,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.clubMap!.hidden {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
         } else {
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTION.rawValue, label: "")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATORMAP_AUTH.rawValue,categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATORMAP_NOAUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         }
         
         

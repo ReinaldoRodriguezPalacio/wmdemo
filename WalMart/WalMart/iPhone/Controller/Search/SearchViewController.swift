@@ -609,12 +609,17 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     // MARK: - CameraViewControllerDelegate
     func photoCaptured(value: String?,upcs:[String]?,done: (() -> Void)) {
         self.field!.becomeFirstResponder()
-        if value != nil {
-            delegate.closeSearch(false, sender:nil)
-            let params = ["upcs": upcs!, "keyWord":value!]
+        if value != nil && value?.trim() != "" {
+            var upcArray = upcs
+            if upcArray == nil{
+                upcArray = []
+            }
+
+            let params = ["upcs": upcArray!, "keyWord":value!]
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.CamFindSearch.rawValue, object: params, userInfo: nil)
             done()
         }
+        delegate.closeSearch(false, sender:nil)
     }
     
     func handleTap(recognizer:UITapGestureRecognizer){

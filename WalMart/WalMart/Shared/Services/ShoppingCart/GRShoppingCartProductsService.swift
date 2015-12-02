@@ -330,7 +330,7 @@ class GRShoppingCartProductsService : GRBaseService {
         var resultItems : [NSDictionary] = []
         
         for shoppingCartProduct in itemsInShoppingCart! {
-            
+
             var carProduct : Cart!
             var carProductItem : Product!
             let upc = shoppingCartProduct["upc"] as! String

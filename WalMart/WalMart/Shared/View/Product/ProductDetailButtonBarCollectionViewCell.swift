@@ -36,6 +36,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var widthButtons : CGFloat = 57.0
     var detailProductCart: Cart?
     var hasDetailOptions: Bool = false
+    var isAddingOrRemovingWishlist: Bool = false
+    
+    
     
     var isAviableToShoppingCart : Bool = true {
         didSet {
@@ -164,6 +167,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     
    
     func addProductToWishlist() {
+        
+        
+    if !isAddingOrRemovingWishlist {
+        isAddingOrRemovingWishlist = true
         let animation = UIImageView(frame: CGRectMake(0, 0,36, 36));
         animation.center = self.listButton.center
         animation.image = UIImage(named:"detail_addToList")
@@ -181,10 +188,13 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             }
             animation.layer.removeAllAnimations()
             animation.removeFromSuperview()
+            self.isAddingOrRemovingWishlist = false
+
         })
 
+     }
+        
     }
-    
     func addProductToShoppingCart() {
         if hasDetailOptions{
             delegate.showProductDetailOptions()

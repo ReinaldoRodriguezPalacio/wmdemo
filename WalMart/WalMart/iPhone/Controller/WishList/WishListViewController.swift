@@ -72,6 +72,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
         self.deleteall.addTarget(self, action: "deletealltap:", forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.deleteall)
+
         
         wishlist.registerClass(WishlistProductTableViewCell.self, forCellReuseIdentifier: "product")
         
@@ -742,10 +743,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         )
     }
     func updateEditButton (){
-        
-        
-        self.deleteall.alpha = self.items.count != 0 && self.isEdditing  ? 1 : 0
-        
+        deleteall.hidden = self.items.count == 0 && self.isEdditing
         edit.hidden = self.items.count == 0
         edit.selected = false
         edit.backgroundColor = WMColor.wishlistEditButtonBgColor

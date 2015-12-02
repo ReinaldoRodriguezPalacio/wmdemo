@@ -63,13 +63,20 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         let svcUrl = serviceUrl(keyIconUrl)
         let imgURLName = "\(svcUrl)\(imageIconURL)"
+        var loadImagefromUrl =  true
         
-        let imageIcon = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
-        self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIcon, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-            self.imageIcon.image = image
-            self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon)
-            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                
+        let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr:"categories_default") { (loadImage:Bool) -> Void in
+            loadImagefromUrl = loadImage
+        }//self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
+        if loadImagefromUrl {
+            self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIcon, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageIcon.image = image
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIcon)
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    
+            }
+        }else{
+            self.imageIcon.image = imageIcon
         }
         
         let svcUrlCar = serviceUrl(keyBgUrl)
@@ -79,13 +86,21 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
 
+        loadImagefromUrl =  true
         
-        let imageHeader = self.loadImageFromDisk(strinname,defaultStr:"header_default")
-        self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-            self.imageBackground.image = image
-            self.saveImageToDisk(imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg"), image: image,defaultImage:imageHeader)
-            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
-                
+        let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage:Bool) -> Void in
+            loadImagefromUrl = loadImage
+        }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
+      
+        if loadImagefromUrl {
+            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead.stringByReplacingOccurrencesOfString("walmartmg", withString: "walmartgr")), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageBackground.image = image
+                self.saveImageToDisk(imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg"), image: image,defaultImage:imageHeader)
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    
+            }
+        }else{
+            self.imageBackground.image = imageHeader
         }
         
         self.titleLabel.text = title
@@ -188,12 +203,13 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }
     }
     
-    func loadImageFromDisk(fileName:String,defaultStr:String) -> UIImage! {
+    func loadImageFromDisk(fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {
         let getImagePath = self.getImagePath(fileName)
         let fileManager = NSFileManager.defaultManager()
         if (fileManager.fileExistsAtPath(getImagePath))
         {
             let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)!
+            succesBlock(false)
             return imageis
         }
         else
@@ -201,9 +217,11 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
             let imageDefault = UIImage(named: (fileName.stringByReplacingOccurrencesOfString(".jpg", withString:"") as NSString).stringByDeletingPathExtension)
             if imageDefault != nil {
                 print("default image \((fileName as NSString).stringByDeletingPathExtension)")
+                succesBlock(true)
                 return imageDefault
             }
             print("default walmart image \(fileName)")
+             succesBlock(true)
             return UIImage(named:defaultStr )
         }
     }

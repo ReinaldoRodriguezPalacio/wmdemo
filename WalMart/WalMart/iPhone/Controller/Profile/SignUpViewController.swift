@@ -433,10 +433,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             }
                 
             alertAddress?.alertSaveSuccess = {() in
-                self.successCallBack?()
-                
                 self.alertAddress?.removeFromSuperview()
-                 self.alertView!.showDoneIcon()
+                self.alertView!.showDoneIcon()
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+                self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+                self.successCallBack?()
             }
             
             alertAddress?.cancelPress = {() in
