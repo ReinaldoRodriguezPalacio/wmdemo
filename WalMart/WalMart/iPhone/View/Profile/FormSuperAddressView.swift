@@ -498,7 +498,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             if self.viewError(self.zipcode)  {
                 return nil
             }
-            
             if (self.outdoornumber!.text == "0"){
                 if self.errorView == nil{
                     self.errorView = FormFieldErrorView()
@@ -530,6 +529,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             if  self.viewError(self.betweenSecond)  {
                 return nil
             }
+        }
+        
+        if self.zipcode!.text != "" && self.zipcode!.text !=  "00000" && self.store.text == "" && self.suburb.text == "" {
+           self.store.becomeFirstResponder()
+            return nil
         }
         
         if self.phoneWorkNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""

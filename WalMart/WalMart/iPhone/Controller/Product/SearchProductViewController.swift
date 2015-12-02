@@ -1141,7 +1141,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             self.allProducts?.addObjectsFromArray(result.arrayObject!)
             self.mgResults?.totalResults = self.allProducts!.count
-            
+            self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
