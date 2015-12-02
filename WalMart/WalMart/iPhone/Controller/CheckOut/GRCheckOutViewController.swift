@@ -322,7 +322,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 
                 self.invokeGetPromotionsService(self.picker.textboxValues!, discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
-                    print("end service")
+                    print("end service viewDidLoad ::: invokeGetPromotionsService")
                 })
                 self.reloadUserAddresses()
                 
@@ -778,11 +778,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0
                 {
+                    
                     self.newTotal = resultCall["newTotal"] as? Double
                     
                   
-                    let totalDiscounts =  resultCall["totalDiscounts"] as? Int
-                    self.totalDiscountsOrder = Double(totalDiscounts!)
+                    let totalDiscounts =  resultCall["totalDiscounts"] as? Double
+                    self.totalDiscountsOrder = totalDiscounts!
                     self.promotionsDesc = []
                     
                     if let listSamples = resultCall["listSamples"] as? [AnyObject]{
@@ -1410,14 +1411,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func sendOrder() {
 
-        
-       
-        
         buttonShop?.enabled = false
         
         if validate() {
             
-        
             if selectedTimeSlotTypeIx == nil {
                 self.deliverySchedule?.validate()
                 buttonShop?.enabled = true
@@ -1428,18 +1425,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.shipmentType?.validate()
                 buttonShop?.enabled = true
                 return
-                
             }
             
             if selectedConfirmation == nil {
                 self.confirmation?.validate()
                 buttonShop?.enabled = true
                 return
-                
             }
             
             let serviceCheck = GRSendOrderService()
-            
             let total = UserCurrentSession.sharedInstance().estimateTotalGR() //- self.savings
             
             let components : NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.NSYearCalendarUnit, NSCalendarUnit.NSMonthCalendarUnit, NSCalendarUnit.NSDayCalendarUnit], fromDate: self.selectedDate)
@@ -1468,10 +1462,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
             
-//            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId())
-            let totalNew = self.newTotal //-  UserCurrentSession.sharedInstance().estimateSavingGR()
-
-            let paramsOrder = serviceCheck.buildParams(totalNew, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder +  UserCurrentSession.sharedInstance().estimateSavingGR())
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder +  UserCurrentSession.sharedInstance().estimateSavingGR())
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
