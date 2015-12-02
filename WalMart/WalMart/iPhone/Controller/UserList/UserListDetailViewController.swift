@@ -729,7 +729,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.saveContext()
                     self.retrieveProductsLocally(true)
                     self.editBtn!.hidden = count == 0
-                    self.deleteAllBtn!.hidden = true
+                    self.deleteAllBtn!.hidden = count == 0
                     //self.editBtn!.hidden = true
                 }
             }
