@@ -876,15 +876,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     //self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
-        /*}else{
-            self.validateAssociate(pickerValues, completion: { (result:String) -> Void in
-                if result != "" {
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                    self.alertView?.setMessage("Error en los datos del asociado\(result)")
-                    self.alertView!.showErrorIcon("Ok")
-                }
-            })
-        }*/
     }
     
     func invokeDiscountAssociateService(pickerValues: [String:String], discountAssociateItems: [String])
@@ -949,6 +940,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
+        }else{
+        self.validateAssociate(pickerValues, completion: { (result:String) -> Void in
+        if result != "" {
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        self.alertView?.setMessage("Error en los datos del asociado\(result)")
+        self.alertView!.showErrorIcon("Ok")
+        }
+        })
         }
     }
     
