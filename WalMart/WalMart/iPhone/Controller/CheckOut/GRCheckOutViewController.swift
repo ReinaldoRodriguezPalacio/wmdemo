@@ -761,12 +761,19 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             //self.alertView!.setMessage("Validando Promociones")
             
             //self.addViewLoad()
+        var savinAply : Double = 0.0
+        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+        if let savingGR = items["saving"] as? NSNumber {
+          savinAply =  savingGR.doubleValue
+        
+        }
+        
             var paramsDic: [String:String] = pickerValues
             paramsDic["isAssociated"] = self.isAssociateSend ? "1":"0"//self.showDiscountAsociate ? "1":"0"
-            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR())"
+            paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
             let promotionsService = GRGetPromotionsService()
         
-        print("TOTAL::::\(UserCurrentSession.sharedInstance().estimateTotalGR())")
+        print("TOTAL::::\(paramsDic)")
             
             
         self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
@@ -846,10 +853,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     })
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
+                        var savinAply : Double = 0.0
+                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                        if let savingGR = items["saving"] as? NSNumber {
+                            savinAply =  savingGR.doubleValue
+                        }
                         //NSDecimalNumber(string: String(format: "%.2f", itemPrice)
                         let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
                         let subTotal = "\(self.newTotal)"
-                        let saving = "\(self.totalDiscountsOrder + UserCurrentSession.sharedInstance().estimateSavingGR())"
+                        let saving = "\(self.totalDiscountsOrder + savinAply)"
                         
                         self.totalView.setTotalValues(CurrencyCustomLabel.formatStringLabel(total),
                             subtotal: CurrencyCustomLabel.formatStringLabel(subTotal),
@@ -901,13 +913,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if resultCall["codeMessage"] as! Int == 0
                 {
                     var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
-                    if let savingGR = items["saving"] as? NSNumber {
-                        items["saving"] = savingGR.doubleValue + (resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
-                    }
-                    else{
-                        items["saving"] = (resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
-                    }
-                    self.amountDiscountAssociate = (resultCall["totalDiscounts"] as! NSString).doubleValue
+                    //if let savingGR = items["saving"] as? Double {
+                        items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    //}
+                    //else{
+                       // items["saving"] = (resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    //}
+                   // self.amountDiscountAssociate = (resultCall["totalDiscounts"] as! NSString).doubleValue
                     UserCurrentSession.sharedInstance().itemsGR = items as NSDictionary
                     
                     self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
@@ -1079,10 +1091,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                     
                     if self.newTotal != nil {
+                        var savinAply : Double = 0.0
+                        var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                        if let savingGR = items["saving"] as? NSNumber {
+                            savinAply =  savingGR.doubleValue
+                        }
                         
                         let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
                         let subTotal = "\(self.newTotal)"
-                        let saving = "\(self.totalDiscountsOrder + UserCurrentSession.sharedInstance().estimateSavingGR())"
+                        let saving = "\(self.totalDiscountsOrder + savinAply)"
                         
                         self.totalView.setTotalValues(CurrencyCustomLabel.formatStringLabel(total),
                             subtotal: CurrencyCustomLabel.formatStringLabel(subTotal),
@@ -1474,8 +1491,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             serviceDetail!.showDetail()
             
             let freeShipping = discountsFreeShippingAssociated || discountsFreeShippingNotAssociated
+            let discount : Double = self.totalDiscountsOrder
+            let formatter = NSNumberFormatter()
+            formatter.maximumFractionDigits = 2
+           var totalDis = formatter.stringFromNumber(NSNumber(double:discount))!
+
             
-            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: self.totalDiscountsOrder +  UserCurrentSession.sharedInstance().estimateSavingGR())
+            let paramsOrder = serviceCheck.buildParams(self.newTotal, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 

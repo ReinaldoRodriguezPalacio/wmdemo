@@ -129,7 +129,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
