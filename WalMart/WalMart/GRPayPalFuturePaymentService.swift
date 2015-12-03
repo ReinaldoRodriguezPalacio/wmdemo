@@ -15,7 +15,7 @@ class GRPayPalFuturePaymentService: GRBaseService{
     }
     
     func callService(contractId: String, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
-        
+            self.jsonFromObject(buildParams(contractId))
         self.callPOSTService(buildParams(contractId), successBlock: { (resultCall:NSDictionary) -> Void in
             succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in

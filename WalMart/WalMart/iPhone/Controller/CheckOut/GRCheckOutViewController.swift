@@ -1774,7 +1774,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func payPalFuturePaymentViewController(futurePaymentViewController: PayPalFuturePaymentViewController!, didAuthorizeFuturePayment futurePaymentAuthorization: [NSObject : AnyObject]!) {
-        print("PayPal Future Payment Authorization Success!")
+        
         // send authorization to your server to get refresh token.
         print(futurePaymentAuthorization!.description)
         let futurePaymentService = GRPayPalFuturePaymentService()

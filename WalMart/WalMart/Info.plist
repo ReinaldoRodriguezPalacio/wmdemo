@@ -129,7 +129,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -357,7 +357,7 @@
 		<key>ProductionClientID</key>
 		<string>------</string>
 		<key>SandboxClientID</key>
-		<string>AXmxZsB6tGFiR4TIbIFFp7Pzxm0Ucy1QWXdfl1RMYUiMuw95OtlLhGL4JW2VBJuW-IgXN3lhf_i8onu4</string>
+		<string>AdmYFtYndxjfDp-AJjtBOVzsgsDpq_OPgIUfInHnuQCojrDlmb66tz3SQ7oOEqSyEn9-mODpSwAN3aX7</string>
 	</dict>
 	<key>WMURLServices</key>
 	<dict>
