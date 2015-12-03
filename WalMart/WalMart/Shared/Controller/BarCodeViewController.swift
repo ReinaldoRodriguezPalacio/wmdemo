@@ -188,7 +188,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     if metaObj.type! == "org.gs1.EAN-13"
                     {
                         self.searchProduct(metaObj)
-                    }else{
+                    }else if metaObj.type! == "org.iso.Code39"{
                         if UserCurrentSession.hasLoggedUser(){
                             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                             alertView?.showicon(UIImage(named: "searchScan"))
@@ -219,13 +219,17 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                     }
                             })
                         }
+                    }else{
+                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
+                        alertView!.setMessage("El número de ticket es incorrecto o no pertenece a Walmart")
+                        alertView!.showErrorIcon("Ok")
                     }
                 }
                 else {
                     if metaObj.type! == "org.iso.Code39"
                     {
                        self.createList(metaObj)
-                    }else{
+                    }else if metaObj.type! == "org.gs1.EAN-13" {
                         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                         alertView?.showicon(UIImage(named: "searchScan"))
                         alertView?.setMessage("Este código de barras no pertenece a una lista, ¿Deseas ver detalle de este producto?")
@@ -235,7 +239,12 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                 alertView?.close()
                                 self.searchProduct(metaObj)
                         })
+                    } else {
+                          let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
+                        alertView!.setMessage("El número de ticket es incorrecto o no pertenece a Walmart")
+                        alertView!.showErrorIcon("Ok")
                     }
+                    
                 }
               })
             }
