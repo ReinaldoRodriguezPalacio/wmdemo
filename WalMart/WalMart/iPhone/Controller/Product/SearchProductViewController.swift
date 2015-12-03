@@ -1141,7 +1141,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             self.allProducts?.addObjectsFromArray(result.arrayObject!)
             self.mgResults?.totalResults = self.allProducts!.count
-            
+            self.idSort = order
             switch (FilterType(rawValue: self.idSort!)!) {
             case .descriptionAsc :
                 //println("descriptionAsc")
@@ -1357,8 +1357,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.collection!.reloadData()
+                            }
                         }
                     )
                 }
