@@ -404,8 +404,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let bounds = self.view.frame.size
         //var resumeHeight:CGFloat = 75.0
         let footerHeight:CGFloat = 60.0
-        
-        self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
         self.footer!.frame = CGRectMake(0.0, self.view.frame.height - footerHeight, bounds.width, footerHeight)
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         
@@ -419,7 +417,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let bounds = self.view.frame.size
         let footerHeight:CGFloat = 60.0
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
-        self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
         for view in self.promotionButtons{
             view.removeFromSuperview()
         }
@@ -479,7 +476,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.comments!.frame = CGRectMake(margin, self.deliverySchedule!.frame.maxY + 5.0, widthField, fheight)
         self.sectionTitleConfirm!.frame = CGRectMake(margin, self.comments!.frame.maxY + 20.0, widthField, lheight)
         self.confirmation!.frame = CGRectMake(margin, sectionTitleConfirm.frame.maxY + 10.0, widthField, fheight)
-        
+        self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.frame.width, 60)
+        self.content.contentSize = CGSizeMake(self.view.frame.width, totalView.frame.maxY + 20.0)
 
     }
     
