@@ -513,7 +513,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if indexPath.section == 0 && self.upcsToShow?.count > 0 {
             if self.btnSuper.selected {
                 if indexPath.row < self.allProducts!.count {
-                    for strUPC in self.itemsUPCGR! {
+                    for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
                         let type = strUPC["type"] as! String
@@ -527,7 +527,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             } else {
                 if indexPath.row < self.allProducts!.count {
-                    for strUPC in self.itemsUPCMG! {
+                    //for strUPC in self.itemsUPCMG! {
+                    for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
                         let type = strUPC["type"] as! String

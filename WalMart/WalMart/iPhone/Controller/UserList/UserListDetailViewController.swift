@@ -315,7 +315,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             return
         }
-        
+        self.tableView!.setContentOffset(CGPoint.zero, animated: false)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
         if let image = self.tableView!.screenshot() {
