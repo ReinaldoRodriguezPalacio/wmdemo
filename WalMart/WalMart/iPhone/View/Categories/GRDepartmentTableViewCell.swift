@@ -11,11 +11,9 @@ import Foundation
 
 class GRDepartmentTableViewCell : UITableViewCell {
     
-    
-    var buttonDepartment : UIButton!
-    var titleDepartment : String!
-    
-    var moreLabel : UILabel!
+    var imageBackground : UIImageView!
+    var imageIcon : UIImageView!
+    var titleLabel : UILabel!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -28,82 +26,156 @@ class GRDepartmentTableViewCell : UITableViewCell {
         setup()
     }
     
-    
     func setup() {
-        buttonDepartment = UIButton()
-        buttonDepartment.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
-        buttonDepartment.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        buttonDepartment.layer.cornerRadius = 14
-        buttonDepartment.setImage(UIImage(named:""), forState: UIControlState.Normal)
-        buttonDepartment.backgroundColor = WMColor.light_blue
-        buttonDepartment.enabled = false
-        buttonDepartment.titleEdgeInsets = UIEdgeInsetsMake(2.0, 1.0, 0.0, 0.0)
+        
+        self.clipsToBounds = true
+        
+        imageBackground = UIImageView()
+        imageBackground.contentMode = UIViewContentMode.ScaleAspectFill
+        imageBackground.clipsToBounds = true
+        
+        imageIcon = UIImageView()
+        
+        titleLabel = UILabel()
+        titleLabel.font  = WMFont.fontMyriadProLightOfSize(16)
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textAlignment = .Center
         
         
-        self.addSubview(buttonDepartment)
+        self.addSubview(imageBackground)
+        self.addSubview(imageIcon)
+        self.addSubview(titleLabel)
         
-        
-        moreLabel = UILabel(frame: CGRectMake(self.frame.width - 116, 28, 100, 12))
-        moreLabel.text = NSLocalizedString("gr.category.all", comment: "")
-        moreLabel.textColor = WMColor.light_blue
-        moreLabel.textAlignment = NSTextAlignment.Right
-        moreLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-        moreLabel.hidden = true
-        self.addSubview(moreLabel)
-      
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        print("layoutSubviews ::: GRDepartmentTableViewCell")
-        
+        titleLabel.frame = CGRectMake(0, 64,self.frame.width, 16)
+        imageBackground.frame = CGRectMake(0, 0, self.bounds.width, self.bounds.height - 4)
+        imageIcon.frame = CGRectMake((self.frame.width / 2) - 12, 23, 24, 24)
     }
     
     
-    func setValues(titleDepartment:String,collapsed:Bool) {
+    func setValues(title:String,imageBackgroundURL:String,imageIconURL:String) {
         
-        self.titleDepartment = titleDepartment
-        let attrStringLab = NSAttributedString(string:titleDepartment, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
-        let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-        var startx : CGFloat = 0.0
-        let  sizeDep = size.width + 40
-        if collapsed {
-            //startx = 16.0
-            startx = 160 - (sizeDep / 2)
-        } else {
-            startx = 160 - (sizeDep / 2)
+        let svcUrl = serviceUrl("WalmartMG.GRCategoryIcon")
+        let imgURLName = "\(svcUrl)\(imageIconURL)"
+        //self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
+        var loadImageIcon =  true
+        let imageIconDsk = self.loadImageFromDisk(imageIconURL, defaultStr: "categories_default") { (loadImage:Bool) -> Void in
+            loadImageIcon = loadImage
+        }
+        let svcUrlCar = serviceUrl("WalmartMG.GRHeaderCategory")
+        let imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
+        
+        var loadHeader =  true
+        let imageHeader = self.loadImageFromDisk(imageBackgroundURL, defaultStr: "header_default") { (loadHead:Bool) -> Void in
+            loadHeader = loadHead
         }
         
-        buttonDepartment.setTitle(titleDepartment, forState: UIControlState.Normal)
-        self.buttonDepartment.frame = CGRectMake(startx, 20, sizeDep, 28)
+        if loadHeader {
+            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageBackground.image = image
+                self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    
+            }
+        }else{
+            self.imageBackground.image = imageHeader
+        }
         
-        moreLabel.hidden = collapsed
+        if loadImageIcon {
+            self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageIcon.image = image
+                self.saveImageToDisk(imageIconURL, image: image,defaultImage:imageIconDsk)
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    
+            }
+        }else{
+            self.imageIcon.image = imageIconDsk
+        }
         
+        self.titleLabel.text = title
+        imageBackground.frame = self.bounds
     }
     
-    func centerButton() {
-        let attrStringLab = NSAttributedString(string:titleDepartment, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
-        let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-        let  sizeDep = size.width + 40
-        self.buttonDepartment.frame = CGRectMake(160 - (sizeDep / 2), 20, sizeDep, 28)
-    }
-    
-    func letfButton() {
-        let attrStringLab = NSAttributedString(string:titleDepartment, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
-        let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-        let  sizeDep = size.width + 40
-        self.buttonDepartment.frame = CGRectMake(16.0, 20, sizeDep, 28)
-    }
-    
-    func showLabel(collapsed:Bool){
-         moreLabel.hidden = !collapsed
-        if !collapsed {
-            NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
+    func loadImageFromDisk(fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {
+        let getImagePath = self.getImagePath(fileName)
+        let fileManager = NSFileManager.defaultManager()
+        if (fileManager.fileExistsAtPath(getImagePath))
+        {
+            print("image \(fileName)")
+            //UIImage(data: NSData(contentsOfFile: getImagePath), scale: 2)
+            let imageis: UIImage = UIImage(data: NSData(contentsOfFile: getImagePath)!, scale: 2)! //UIImage(contentsOfFile: getImagePath)!
+            succesBlock(false)
+            return imageis
+        }
+        else
+        {
+            let imageDefault = UIImage(named: (fileName as NSString).stringByDeletingPathExtension)
+            if imageDefault != nil {
+                print("default image \((fileName as NSString).stringByDeletingPathExtension)")
+                succesBlock(true)
+                return imageDefault
+            }
+            print("default walmart image \(fileName)")
+            succesBlock(true)
+            return UIImage(named:defaultStr )
         }
     }
     
-    func removeViewLoading(){
-        moreLabel.hidden = false
+    func serviceUrl(serviceName:String) -> String {
+        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let environmentServices = services.objectForKey(environment) as! NSDictionary
+        let serviceURL =  environmentServices.objectForKey(serviceName) as! String
+        return serviceURL
     }
     
+    func saveImageToDisk(fileName:String,image:UIImage,defaultImage:UIImage) {
+        dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+            let imageData : NSData = UIImagePNGRepresentation(image)!
+            let imageDataLast : NSData = UIImagePNGRepresentation(defaultImage)!
+            
+            if imageData.MD5() != imageDataLast.MD5() {
+                let getImagePath = self.getImagePath(fileName)
+                _ = NSFileManager.defaultManager()
+                imageData.writeToFile(getImagePath, atomically: true)
+                
+                let todeletecloud =  NSURL(fileURLWithPath: getImagePath)
+                do {
+                    try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+                } catch let error1 as NSError {
+                    print(error1.description)
+                } catch {
+                    fatalError()
+                }
+                
+            }
+        })
+    }
+    
+    func getImagePath(fileName:String) -> String {
+        let fileManager = NSFileManager.defaultManager()
+        var paths = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true)[0]
+        paths = (paths as NSString).stringByAppendingPathComponent("catimg")
+        var isDir : ObjCBool = true
+        if fileManager.fileExistsAtPath(paths, isDirectory: &isDir) == false {
+            let err: NSErrorPointer = nil
+            do {
+                try fileManager.createDirectoryAtPath(paths, withIntermediateDirectories: true, attributes: nil)
+            } catch let error as NSError {
+                err.memory = error
+            }
+        }
+        
+        let todeletecloud =  NSURL(fileURLWithPath: paths)
+        do {
+            try todeletecloud.setResourceValue(NSNumber(bool: true), forKey: NSURLIsExcludedFromBackupKey)
+        } catch let error1 as NSError {
+            print(error1.description)
+        }
+        let getImagePath = (paths as NSString).stringByAppendingPathComponent(fileName)
+        return getImagePath
+    }
 }

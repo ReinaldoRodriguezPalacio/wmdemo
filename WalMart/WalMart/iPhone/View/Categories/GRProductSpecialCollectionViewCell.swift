@@ -19,14 +19,17 @@ class GRProductSpecialCollectionViewCell : ProductCollectionViewCell {
         
         productShortDescriptionLabel!.numberOfLines = 3
         
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (75 / 2), 15, 75, 75)
+        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (64 / 2), 8, 64, 64)
         
         self.productPriceLabel!.frame = CGRectMake(4, self.productImage!.frame.maxY  , self.frame.width - 8 , 14)
         self.productPriceLabel!.alpha = 0
         
-        self.productShortDescriptionLabel!.frame = CGRectMake(16, self.productPriceLabel!.frame.maxY  , self.frame.width - 32, 33)
+        self.productShortDescriptionLabel!.frame = CGRectMake(16, self.productPriceLabel!.frame.maxY - 14 , self.frame.width - 32, 33)
         self.productShortDescriptionLabel!.textAlignment = .Center
         self.productShortDescriptionLabel!.numberOfLines = 3
+        productShortDescriptionLabel!.minimumScaleFactor = 9 / 12
+        productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+        
         //let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     }
     
