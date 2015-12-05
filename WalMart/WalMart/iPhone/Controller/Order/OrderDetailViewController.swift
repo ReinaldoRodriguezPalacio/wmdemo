@@ -150,6 +150,19 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
     }
     
+    func showProducDetail(indexPath: NSIndexPath){
+        let controller = ProductDetailPageViewController()
+        controller.itemsToShow = getUPCItems(indexPath.section)
+        controller.ixSelected = indexPath.row
+        if !showFedexGuide {
+            controller.ixSelected = indexPath.row - 2
+        }
+        self.navigationController!.delegate = nil
+        self.navigationController!.pushViewController(controller, animated: true)
+    
+    }
+    
+    //MARK:TableViewDelegate
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if showFedexGuide {
             if section == 0 {
@@ -269,18 +282,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 return
             default:
                 print("Detail product")
-                
+                self.showProducDetail(indexPath)
             }
         }
         if indexPath.section > 0 {
-            let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems(indexPath.section)
-            controller.ixSelected = indexPath.row
-            if !showFedexGuide {
-                controller.ixSelected = indexPath.row - 2
-            }
-            self.navigationController!.delegate = nil
-            self.navigationController!.pushViewController(controller, animated: true)
+            self.showProducDetail(indexPath)
         }
     }
     

@@ -513,7 +513,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if indexPath.section == 0 && self.upcsToShow?.count > 0 {
             if self.btnSuper.selected {
                 if indexPath.row < self.allProducts!.count {
-                    for strUPC in self.itemsUPCGR! {
+                    for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
                         let type = strUPC["type"] as! String
@@ -527,7 +527,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
             } else {
                 if indexPath.row < self.allProducts!.count {
-                    for strUPC in self.itemsUPCMG! {
+                    //for strUPC in self.itemsUPCMG! {
+                    for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
                         let type = strUPC["type"] as! String
@@ -1357,8 +1358,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         completion: { (animated:Bool) -> Void in
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
-                            cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                self.collection!.reloadData()
+                            }
                         }
                     )
                 }
