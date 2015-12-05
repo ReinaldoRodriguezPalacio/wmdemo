@@ -1660,7 +1660,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
         let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
         
-        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Sale)
+        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Authorize)
         
         payment.items = payPalItems
         payment.paymentDetails = paymentDetails
@@ -1681,13 +1681,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func initPayPalConfig() -> PayPalConfiguration{
         // Set up payPalConfig
         let payPalConfig = PayPalConfiguration()// default
-        payPalConfig.acceptCreditCards = false;
+        payPalConfig.acceptCreditCards = false
         payPalConfig.merchantName = "Walmart"
         payPalConfig.merchantPrivacyPolicyURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
         payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
         payPalConfig.rememberUser = true
         payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0] 
-        payPalConfig.payPalShippingAddressOption = .Provided;
+        payPalConfig.payPalShippingAddressOption = .Provided
         return payPalConfig
     }
     
