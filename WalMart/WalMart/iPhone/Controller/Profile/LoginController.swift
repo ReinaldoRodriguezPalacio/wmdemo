@@ -31,11 +31,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var alertView : IPOWMAlertViewController? = nil
     var successCallBack : (() -> Void)? = nil
     var signUp : SignUpViewController!
+    var signUpMG : SignUpMGViewController!
     var imageblur : UIImageView? = nil
     var viewAnimated : Bool = false
     var bgView : UIView!
-     var addressViewController : AddressViewController!
-    
+    var addressViewController : AddressViewController!
+    var isMGLogin =  false
     var okCancelCallBack : (() -> Void)? = nil
     
     override func getScreenGAIName() -> String {
@@ -252,11 +253,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func registryUser() {
+        
         if self.signUp == nil{
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
 
-            self.signUp = SignUpViewController()
+            self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
+            
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
             
             self.signUp.viewClose = {(hidden : Bool) in

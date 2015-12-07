@@ -104,6 +104,7 @@
 		5633AA631B5F33A7008006B0 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5633AA621B5F33A7008006B0 /* CameraViewController.swift */; };
 		5633AA661B5F3457008006B0 /* CamFindService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5633AA651B5F3456008006B0 /* CamFindService.swift */; };
 		563666391A9688CA00BE2711 /* CommentBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563666381A9688CA00BE2711 /* CommentBubbleView.swift */; };
+		5636DCE71C12581000E14473 /* SignUpMGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5636DCE61C12581000E14473 /* SignUpMGViewController.swift */; };
 		5637DE781A01BE76000E5CD7 /* IPOGroceriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */; };
 		5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */; };
 		5639DF3B19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */; };
@@ -612,6 +613,7 @@
 		5633AA621B5F33A7008006B0 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraViewController.swift; path = Shared/Controller/CameraViewController.swift; sourceTree = "<group>"; };
 		5633AA651B5F3456008006B0 /* CamFindService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CamFindService.swift; path = Shared/Services/CamFind/CamFindService.swift; sourceTree = "<group>"; };
 		563666381A9688CA00BE2711 /* CommentBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentBubbleView.swift; path = Shared/View/Common/CommentBubbleView.swift; sourceTree = "<group>"; };
+		5636DCE61C12581000E14473 /* SignUpMGViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpMGViewController.swift; path = iPhone/Controller/Profile/SignUpMGViewController.swift; sourceTree = "<group>"; };
 		5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOGroceriesView.swift; path = iPhone/View/Home/IPOGroceriesView.swift; sourceTree = "<group>"; };
 		5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailPriceView.swift; path = iPad/View/ProductDetail/IPAProductDetailPriceView.swift; sourceTree = "<group>"; };
 		5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductHomeCollectionViewCell.swift; path = iPad/View/Home/IPAProductHomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -2332,6 +2334,7 @@
 				5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */,
 				5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */,
 				6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */,
+				5636DCE61C12581000E14473 /* SignUpMGViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -3184,6 +3187,7 @@
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
 				564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */,
 				56253D9119D2242B002E128A /* OrderProductTableViewCell.swift in Sources */,
+				5636DCE71C12581000E14473 /* SignUpMGViewController.swift in Sources */,
 				567AB65B1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift in Sources */,
 				04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */,
 				56C5B22019AE871800BB81DE /* WMFont.swift in Sources */,

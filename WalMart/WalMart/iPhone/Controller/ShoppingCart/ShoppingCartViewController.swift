@@ -858,6 +858,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cont!.email!.enabled = false
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
+        cont.isMGLogin =  true
         cont!.closeAlertOnSuccess = false
         cont!.okCancelCallBack = {() in
             self.canceledAction = true
