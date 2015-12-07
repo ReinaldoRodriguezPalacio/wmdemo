@@ -11,15 +11,62 @@ import Foundation
 protocol IPOGRDepartmentSpecialTableViewCellDelegate {
     func didTapProduct(upcProduct:String,descProduct:String)
     func didTapLine(name:String,department:String,family:String,line:String)
+    func didTapMore(index: NSIndexPath)
 }
 
 class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     
     var delegate: IPOGRDepartmentSpecialTableViewCellDelegate!
     var viewLoading : UIView?
+    var descLabel: UILabel?
+    var moreButton: UIButton?
+    var moreLabel: UILabel?
+    var index: NSIndexPath!
     
-    func setLines(lines:[[String:AnyObject]],width:CGFloat) {
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setup()
+    }
+    
+    func setup() {
         
+        self.clipsToBounds = true
+        
+        self.descLabel = UILabel()
+        self.descLabel?.text = "Lo más destacado"
+        self.descLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.descLabel?.textColor = WMColor.navigationFilterBGColor
+        
+        self.moreLabel = UILabel()
+        self.moreLabel?.text = "Ver todo"
+        self.moreLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.moreLabel?.textColor = WMColor.navigationFilterBGColor
+        self.moreLabel?.textAlignment = .Center
+        self.moreLabel!.hidden =  true
+        
+        self.moreButton = UIButton()
+        self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), forState: UIControlState.Normal)
+        self.moreButton!.hidden =  true
+        self.moreButton!.addTarget(self, action: "moreTap", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.addSubview(self.descLabel!)
+        self.addSubview(self.moreLabel!)
+        self.addSubview(self.moreButton!)
+    }
+    
+    override func layoutSubviews() {
+        self.descLabel!.frame = CGRect(x: 8,y: 4,width: 90,height: 11)
+    }
+
+    
+    func setLines(lines:[[String:AnyObject]],width:CGFloat, index: NSIndexPath) {
+        self.index = index
         let jsonLines = JSON(lines)
         
         for sView in   self.contentView.subviews {
@@ -29,7 +76,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 0, width, 150))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 12, width, 111))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
             
@@ -43,8 +90,16 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
             product.addGestureRecognizer(tapOnProdut)
             
             currentX = currentX + width
-            
         }
+        
+        self.moreButton?.frame = CGRect(x: currentX + 24, y: 43, width: 16, height: 16)
+        self.moreButton!.hidden =  true
+        self.moreLabel?.frame = CGRect(x: currentX, y: self.moreButton!.frame.maxY + 36, width: 64, height: 11)
+        self.moreLabel!.hidden =  true
+        self.descLabel!.hidden =  true
+        
+        let tapOnMore =  UITapGestureRecognizer(target: self, action: "moreTap")
+        descLabel!.addGestureRecognizer(tapOnMore)
         
         let separator = UIView()
         separator.backgroundColor = WMColor.lineSaparatorColor
@@ -61,6 +116,9 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     
     func removeViewLoading(){
         viewLoading!.hidden =  true
+        moreButton!.hidden =  false
+        moreLabel!.hidden =  false
+        descLabel!.hidden =  false
     }
     
     func viewLoadingProduct(){
@@ -98,6 +156,10 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
 
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
+    }
+    
+    func moreTap(){
+        delegate?.didTapMore(self.index)
     }
     
     

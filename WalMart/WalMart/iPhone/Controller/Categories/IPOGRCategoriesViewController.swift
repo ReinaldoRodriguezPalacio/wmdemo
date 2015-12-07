@@ -113,24 +113,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             
             let item = items![rowforsearch] as! [String:AnyObject]
             let descDepartment = item["description"] as! String
-            //let bgDepartment = item["idDepto"] as! String
-            //let departmentId = item["idDepto"] as! String
+            let bgDepartment = (item["idDepto"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
             
-            cellDept.setValues(descDepartment,collapsed:collapsed)
-            if !collapsed {
-                cellDept.showLabel(collapsed)
-            }
-            
-            if collapsed {
-//                let separator = UIView()
-//                separator.backgroundColor = WMColor.lineSaparatorColor
-//                let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-//                separator.frame = CGRectMake(0, cellDept.frame.height - widthAndHeightSeparator, cellDept.frame.width, widthAndHeightSeparator)
-//                
-//                cellDept.addSubview(separator)
-            }
+            cellDept.setValues(descDepartment,imageBackgroundURL:bgDepartment + ".png",imageIconURL:"i_" + bgDepartment + ".png")
             cell = cellDept
-            
 
         } else {
             let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: indexPath) as! IPOGRDepartmentSpecialTableViewCell
@@ -144,7 +130,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             
             
             if let resultProducts = fillConfigData(bgDepartment,families:families) {
-                cellSpecials.setLines(resultProducts,width:self.view.frame.width / 3)
+                cellSpecials.setLines(resultProducts,width:79,index:indexPath)
             }else {
                 cellSpecials.withOutProducts()
             }
@@ -159,9 +145,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row % 2 == 0 || collapsed {
-            return 56
+            return 102
         }else {
-            return 150
+            return 125
         }
     }
     
@@ -180,17 +166,21 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.categoriesTable.contentInset = UIEdgeInsetsMake(0, 0, self.categoriesTable.frame.height, 0)
+        var rowforsearch = indexPath.row
+        
+        if !(indexPath.row % 2 == 0) {
+            rowforsearch = indexPath.row - 1
+        }
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             //self.categoriesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: false)
-            let rectRow = self.categoriesTable.rectForRowAtIndexPath(indexPath)
-            self.categoriesTable.scrollRectToVisible(CGRectMake(rectRow.minX, rectRow.minY - 49, rectRow.width, rectRow.height) , animated: false)
+            self.categoriesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: false)
             }) { (complete:Bool) -> Void in
             //Open Family
                // self.familyController.view.hidden = false
-                if indexPath.row % 2 == 0 || self.collapsed {
+                if rowforsearch % 2 == 0 || self.collapsed {
                     
-                    var rowforsearch = indexPath.row
+                    
                     if !self.collapsed {
                         rowforsearch = Int(indexPath.row / 2)
                     }
@@ -212,9 +202,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     newView.isOpen = true
                     newView.setValues(descDepartment!, imageBackgroundURL: "\(caHeader).png", keyBgUrl: "WalmartMG.GRHeaderCategory", imageIconURL: icon, keyIconUrl: "WalmartMG.GRCategoryIcon", hideImage: false)
                    newView.customCloseDep = true
-                    
-                    let cell = tableView.cellForRowAtIndexPath(indexPath) as UITableViewCell?
-                    
                     
                     newView.imageBackground.alpha = 0
                     newView.buttonClose.alpha = 0
@@ -282,23 +269,14 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     
                     
                     if self.collapsed {
-                        UIView.animateWithDuration(0.3, animations: { () -> Void in
-                            
-                            if let cellDep = cell as? GRDepartmentTableViewCell {
-                                cellDep.centerButton()
-                            }
-                            
-                            
-                            }, completion: { (complete:Bool) -> Void in
-                                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                                    newView.titleLabel.textColor = UIColor.whiteColor()
-                                    self.viewFamily.alpha = 1
-                                    newView.imageBackground.alpha = 1
-                                    newView.imageIcon.alpha = 1
-                                    newView.buttonClose.alpha = 1
-                                    newView.alpha = 1
+                        UIView.animateWithDuration(0.5, animations: { () -> Void in
+                            newView.titleLabel.textColor = UIColor.whiteColor()
+                            self.viewFamily.alpha = 1
+                            newView.imageBackground.alpha = 1
+                            newView.imageIcon.alpha = 1
+                            newView.buttonClose.alpha = 1
+                            newView.alpha = 1
                                     
-                                })
                         })
                     } else {
                     
@@ -325,7 +303,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     
-    //MArk: Delegate 
+    //MARK: Delegate
     
     func didTapLine(name:String,department:String,family:String,line:String) {
         
@@ -345,6 +323,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     func didTapProduct(upcProduct:String,descProduct:String){
         
+    }
+    
+    func didTapMore(index: NSIndexPath) {
+        self.tableView(self.categoriesTable, didSelectRowAtIndexPath: index)
     }
     
     func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {
@@ -392,13 +374,11 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Tu tienda: ")
-            let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(13)]
-            let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ", attributes:attrs)
-            myString.appendAttributedString(boldString)
-            myString.appendAttributedString(attachmentString)
+            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
+            let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
+            boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
-            self.titleLabel?.attributedText = myString;
+            self.titleLabel?.attributedText = boldString;
             self.titleLabel?.textAlignment = .Left
             self.titleLabel?.userInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
