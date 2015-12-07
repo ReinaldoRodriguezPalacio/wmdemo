@@ -476,4 +476,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         return UIEdgeInsetsZero
     }
     
+    
+    func termsSelect(url: String) {
+        let ctrlWeb = IPOWebViewController()
+        ctrlWeb.openURL(url)
+        self.presentViewController(ctrlWeb, animated: true, completion: nil)
+    }
+    
 }

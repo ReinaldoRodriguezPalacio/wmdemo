@@ -130,7 +130,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         
         initEmptyView()
-        loadGRShoppingCart()
+        //loadGRShoppingCart()
 
         
     }

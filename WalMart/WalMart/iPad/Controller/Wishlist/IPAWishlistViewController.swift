@@ -284,6 +284,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             self.emptyView.hidden = self.items.count > 0
             self.deleteAllWishlist.hidden = self.items.count == 0 && self.isEditingWishList
             self.updateShopButton()
+            self.editWishlist.hidden = self.items.count == 0
+            self.editWishlist(self.editWishlist)
+            self.deleteAllWishlist.hidden = self.items.count == 0
             if self.items.count == 0 {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
             }
