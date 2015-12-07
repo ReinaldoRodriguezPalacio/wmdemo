@@ -167,14 +167,16 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
         self.categoriesTable.contentInset = UIEdgeInsetsMake(0, 0, self.categoriesTable.frame.height, 0)
         var rowforsearch = indexPath.row
+        var newIndex = indexPath
         
         if !(indexPath.row % 2 == 0) {
             rowforsearch = indexPath.row - 1
+            newIndex = NSIndexPath(forRow:  indexPath.row - 1, inSection: indexPath.section)
         }
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             //self.categoriesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: false)
-            self.categoriesTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+            self.categoriesTable.scrollToRowAtIndexPath(newIndex, atScrollPosition: UITableViewScrollPosition.Top, animated: false)
             }) { (complete:Bool) -> Void in
             //Open Family
                // self.familyController.view.hidden = false
