@@ -494,7 +494,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.shoppingCartShopBgColor
         self.buttonShop!.layer.cornerRadius = 17
-        self.buttonShop!.addTarget(self, action: "sendOrder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShop!.addTarget(self, action: "shopButtonTaped", forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         self.footer!.addSubview(self.buttonShop!)
 
@@ -1408,6 +1408,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
     }
     
+    func shopButtonTaped(){
+        if self.payPalFuturePayment{
+            self.showPayPalFuturePaymentController()
+        }else{
+            sendOrder()
+        }
+    }
+    
     
     func sendOrder() {
 
@@ -1498,12 +1506,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal]
                 //PayPal
                 if paymentSelectedId == "-1"{
-                    if self.payPalFuturePayment{
-                        self.showPayPalFuturePaymentController()
-                    }else{
-                        self.showPayPalPaymentController()
-                    }
-                    return
+                    self.showPayPalPaymentController()
+                 return
                 }
 //                
 //                if paymentSelectedId == "-3"{
@@ -1768,8 +1772,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
         print("PayPal Future Payment Authorization Canceled")
         buttonShop?.enabled = true
-        let message = "Hubo un error al momento de generar la orden, intenta más tarde"
-        self.invokePayPalCancelService(message)
+        //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
+        //self.invokePayPalCancelService(message)
+        self.sendOrder()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -1781,11 +1786,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let responce = futurePaymentAuthorization["response"] as! [NSObject : AnyObject]
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
             //self.invokePaypalUpdateOrderService("",paymentType:"-3")
-             self.showPayPalPaymentController()
+             //self.showPayPalPaymentController()
+                self.sendOrder()
             }, errorBlock: { (error:NSError) -> Void in
                 //Mandar alerta
-                let message = "Hubo un error al momento de generar la orden, intenta más tarde"
-                self.invokePayPalCancelService(message)
+                //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
+                //self.invokePayPalCancelService(message)
+                self.sendOrder()
         })
         buttonShop?.enabled = true
         self.dismissViewControllerAnimated(true, completion: nil)
