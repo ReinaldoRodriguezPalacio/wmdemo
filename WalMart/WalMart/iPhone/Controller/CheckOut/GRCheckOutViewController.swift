@@ -705,12 +705,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
         let discountActive  = GRDiscountActiveService()
         discountActive.callService({ (result:NSDictionary) -> Void in
-//            if let res = result["discountsFreeShippingAssociated"] as? Bool {
-//                self.discountsFreeShippingAssociated = res
-//            }
-//            if let res = result["discountsFreeShippingNotAssociated"] as? Bool {
-//                self.discountsFreeShippingNotAssociated = res
-//            }
+
             if let res = result["discountsAssociated"] as? Bool {
                 self.showDiscountAsociate = res//TODO validar flujo
             }
@@ -870,10 +865,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     endCallPromotions()
                 }
                 }, errorBlock: {(error: NSError) -> Void in
-                    endCallPromotions()
+                    //endCallPromotions()
                     //self.removeViewLoad()
-                    //self.alertView!.setMessage(error.localizedDescription)
-                    //self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
     }
@@ -896,13 +891,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
             self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
             
-            discountAssociateService.setParams(paramsDic)
+            discountAssociateService.setParams([:])
             discountAssociateService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
                // self.removeViewLoad()
                 if resultCall["codeMessage"] as! Int == 0{
                     var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
                     //if let savingGR = items["saving"] as? Double {
-                        items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    
+                    items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    
+                    print("\(resultCall["saving"] as? Double)")
            
                     UserCurrentSession.sharedInstance().itemsGR = items as NSDictionary
                     
@@ -911,16 +909,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                     
-                    self.discountAssociate!.setSelectedCheck(true)
-                    self.asociateDiscount = true
-                    self.isAssociateSend =  true
-                    self.invokeDeliveryTypesService({ () -> Void in
-                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                        self.alertView!.showDoneIcon()
-                    })
+               
                     
                     self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
                         print("end service from asociate")
+                        self.discountAssociate!.setSelectedCheck(true)
+                        self.asociateDiscount = true
+                        self.isAssociateSend =  true
+                        
+                        self.invokeDeliveryTypesService({ () -> Void in
+                            //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                            //self.alertView!.showDoneIcon()
+                        })
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
                     })

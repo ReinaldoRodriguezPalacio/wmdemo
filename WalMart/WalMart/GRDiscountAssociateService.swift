@@ -16,7 +16,7 @@ class GRDiscountAssociateService: GRBaseService{
     var total:String?
     
     func buildParams(associateNumber:String, startDate:String, determinant: String, total: String) -> NSDictionary{
-         return ["idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total]
+        return ["isAssociated":true,"idAssociated":associateNumber,"dateAdmission":startDate, "determinant":determinant, "total":total]
     }
     
     func setParams(params:[String:String])
@@ -28,8 +28,9 @@ class GRDiscountAssociateService: GRBaseService{
     }
     
     func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
-        
-        self.callGETService(buildParams(self.associateNumber!, startDate: self.dateAdmission!, determinant: self.determinant!,total: self.total!), successBlock: { (resultCall:NSDictionary) -> Void in
+         //self.jsonFromObject(buildParams(self.associateNumber!, startDate: self.dateAdmission!, determinant: self.determinant!,total: self.total!))
+        self.callGETService([:], successBlock: { (resultCall:NSDictionary) -> Void in
+           
              succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)
