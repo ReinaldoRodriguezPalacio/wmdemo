@@ -559,31 +559,76 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
     
     func facebookLogin(){
-        let loginManager = FBSDKLoginManager()
-        loginManager.logInWithReadPermissions(["public_profile","email"], fromViewController: self,  handler: { (result, error) -> Void in
-            if error != nil {
-                print(FBSDKAccessToken.currentAccessToken())
-            } else if result.isCancelled {
-                print("Cancelled")
-            } else {
-                print("LoggedIn")
-                if(result.grantedPermissions.contains("email"))
-                {
-                    self.getFBUserData()
-                    loginManager.logOut()
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        if !self.closeAlertOnSuccess {
+            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.loginSignOutButonBgColor)
+        }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
+        
+        self.alertView?.okCancelCallBack = self.okCancelCallBack
+        self.alertView!.afterRemove = {() -> Void in
+            self.alertView = nil
+        }
+        self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
+        if (FBSDKAccessToken.currentAccessToken()) == nil {
+            self.view.endEditing(true)
+            let loginManager = FBSDKLoginManager()
+            loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], fromViewController: self,  handler: { (result, error) -> Void in
+                if error != nil {
+                    print(FBSDKAccessToken.currentAccessToken())
+                } else if result.isCancelled {
+                    print("Cancelled")
+                } else {
+                    print("LoggedIn")
+                    if(result.grantedPermissions.contains("email"))
+                    {
+                        self.getFBUserData()
+                        //loginManager.logOut()
+                    }
                 }
-            }
-        })
+            })
+        }else {
+            self.getFBUserData()
+        }
     }
     
     func getFBUserData(){
         if((FBSDKAccessToken.currentAccessToken()) != nil){
-            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 if (error == nil){
                     print(result)
+                    self.loginWithEmail(result["email"] as! String)
+                }else{
+                     self.alertView!.close()
                 }
             })
         }
+    }
+    
+    func loginWithEmail(email:String){
+        let service = LoginWithEmailService()
+        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+            self.signInButton!.enabled = true
+            if self.successCallBack == nil {
+                if self.controllerTo != nil  {
+                    let storyboard = self.loadStoryboardDefinition()
+                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+                    self.navigationController!.pushViewController(vc, animated: true)
+                }
+            }else {
+                if self.closeAlertOnSuccess {
+                    if self.alertView != nil {
+                        self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
+                        self.alertView!.showDoneIcon()
+                    }
+                }
+                self.successCallBack!()
+            }
+            
+            }, errorBlock: {(error: NSError) in
+                print("error")
+            })
     }
     
 }
