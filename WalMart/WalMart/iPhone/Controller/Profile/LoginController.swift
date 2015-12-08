@@ -558,6 +558,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
     
+    //MARK: Facebook
     func facebookLogin(){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         if !self.closeAlertOnSuccess {
@@ -576,15 +577,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             let loginManager = FBSDKLoginManager()
             loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], fromViewController: self,  handler: { (result, error) -> Void in
                 if error != nil {
-                    print(FBSDKAccessToken.currentAccessToken())
+                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                    self.alertView!.showErrorIcon("Aceptar")
                 } else if result.isCancelled {
-                    print("Cancelled")
+                    self.alertView!.close()
                 } else {
-                    print("LoggedIn")
                     if(result.grantedPermissions.contains("email"))
                     {
                         self.getFBUserData()
-                        //loginManager.logOut()
                     }
                 }
             })
@@ -600,7 +600,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     print(result)
                     self.loginWithEmail(result["email"] as! String)
                 }else{
-                     self.alertView!.close()
+                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                    self.alertView!.showErrorIcon("Aceptar")
                 }
             })
         }
