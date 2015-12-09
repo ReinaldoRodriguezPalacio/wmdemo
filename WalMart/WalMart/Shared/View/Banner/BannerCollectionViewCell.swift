@@ -210,7 +210,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         stopTimmer()
         self.visibleItem = pendingViewControllers[0].view!.tag
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.buttonTerms.alpha =  1
+            self.buttonTerms.alpha =  0
         })
         
     }
@@ -235,7 +235,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 }
             }
             UIView.animateWithDuration(0.1, animations: { () -> Void in
-                self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 1 : 1
+                self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
                 }) { (complete:Bool) -> Void in
             }
         }
