@@ -42,19 +42,13 @@ class OrderConfirmDetailView : UIView {
     var lblValuePaymentType : UILabel!
     var lblValueSubtotal : UILabel!
     var lblValueTotal : UILabel!
-    var lblValueDeliveryAmount : UILabel!
-    var lblValueDiscountsAssociated : UILabel!
     
     var timmerAnimation : NSTimer!
     let animating : Bool = true
     
     var imgBgView : UIImageView!
     
-    var deliveryAmount : Double!
-    
-    var discountsAssociated : Double!
-    
-    
+
     
     
     override init(frame: CGRect) {
@@ -89,7 +83,7 @@ class OrderConfirmDetailView : UIView {
         imgConfirm.image = UIImage(named: "confirm_bg")
         viewContent.addSubview(imgConfirm)
         
-        buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, 418, 98, 34))
+        buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, 410, 98, 34))
         buttonOk.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -102,47 +96,40 @@ class OrderConfirmDetailView : UIView {
         titleLabel.textAlignment = .Center
         titleLabel.textColor = WMColor.headerViewBgCollor
         
-        imageBarCode = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - 102, iconLoadingDone.frame.maxY + 16, 206, 56))
+        imageBarCode = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - 102, 188, 204, 70))
         
         
         
-        lblTitleTrackingNumber = UILabel(frame: CGRectMake(0, 244, viewContent.frame.width, 14))
+        lblTitleTrackingNumber = UILabel(frame: CGRectMake(0, 260, viewContent.frame.width, 14))
         lblTitleTrackingNumber.font = WMFont.fontMyriadProRegularOfSize(14)
         lblTitleTrackingNumber.text = NSLocalizedString("gr.confirma.trakingnum",comment: "")
         lblTitleTrackingNumber.textAlignment = .Center
         lblTitleTrackingNumber.textColor = WMColor.lineTextColor
         
         
-        let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
+        let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 304, 80, 12))
         lblTitleDeliveryDate.text = NSLocalizedString("gr.confirma.deliverydate", comment: "")
         
         let lblTitleDeliveryHour = labelTitle(CGRectMake(160, lblTitleDeliveryDate.frame.minY, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
         lblTitleDeliveryHour.text = NSLocalizedString("gr.confirma.deliveryhour", comment: "")
         
-        let lblTitlePaymentType = labelTitle(CGRectMake(48, 306, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitlePaymentType = labelTitle(CGRectMake(48, 336, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
         lblTitlePaymentType.text = NSLocalizedString("gr.confirma.paymenttype", comment: "")
         
-        let lblTitleSubtotal = labelTitle(CGRectMake(48, 370, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitleSubtotal = labelTitle(CGRectMake(48, 368, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
         lblTitleSubtotal.text = NSLocalizedString("gr.confirma.subtotal", comment: "")
 
-        let lbldiscountsAssociated = labelTitle(CGRectMake(160, 338, lblTitleDeliveryHour.frame.maxX, lblTitleDeliveryHour.frame.height))
-        lbldiscountsAssociated.text = NSLocalizedString("gr.confirma.descuentodeasociado", comment: "")
-        
-        let lblTitleTotal = labelTitle(CGRectMake(160, 370, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
-        lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
-        
-        let lblTitledeliveryAmount = labelTitle(CGRectMake(48, 338, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
-        lblTitledeliveryAmount.text = NSLocalizedString("gr.confirma.costodeenvio", comment: "")
 
         
+        let lblTitleTotal = labelTitle(CGRectMake(160, 368, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
         
+
         
         lblValueDeliveryDate = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
         lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValuePaymentType = labelValue(CGRectMake(48, lblTitlePaymentType.frame.maxY, 200, lblValueDeliveryDate.frame.height))
-        lblValueDeliveryAmount = labelValue(CGRectMake(48, lblTitledeliveryAmount.frame.maxY, 80, lblValueDeliveryDate.frame.height))
+        lblValuePaymentType = labelValue(CGRectMake(48, lblTitlePaymentType.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValueSubtotal = labelValue(CGRectMake(48, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueDiscountsAssociated = labelValue(CGRectMake(160, lbldiscountsAssociated.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         
       
@@ -165,19 +152,15 @@ class OrderConfirmDetailView : UIView {
         viewContent.addSubview(imageBarCode)
         viewContent.addSubview(lblTitleTrackingNumber)
         viewContent.addSubview(lblTitleDeliveryDate)
-        viewContent.addSubview(lblTitledeliveryAmount)
-        viewContent.addSubview(lbldiscountsAssociated)
+
         
 
         viewContent.addSubview(lblTitleDeliveryHour)
         viewContent.addSubview(lblTitlePaymentType)
         viewContent.addSubview(lblTitleSubtotal)
         viewContent.addSubview(lblTitleTotal)
-        
         viewContent.addSubview(lblValueDeliveryDate)
-        viewContent.addSubview(lblValueDeliveryAmount)
-        viewContent.addSubview(lblValueDiscountsAssociated)
-
+        
 
         viewContent.addSubview(lblValueDeliveryHour)
         viewContent.addSubview(lblValuePaymentType)
@@ -253,8 +236,9 @@ class OrderConfirmDetailView : UIView {
 
         
     }
-    func completeOrder(trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String,deliveryAmount:String,discountsAssociated:String) {
-        let imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
+    
+    func completeOrder(trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String) {
+    let imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
         imageBarCode.image = imageCode
         
         let stgrEnd = lblTitleTrackingNumber.text!
@@ -264,8 +248,7 @@ class OrderConfirmDetailView : UIView {
         lblValuePaymentType.text = paymentType
         lblValueSubtotal.text = subtotal
         lblValueTotal.text = total
-        lblValueDeliveryAmount.text = deliveryAmount
-        lblValueDiscountsAssociated.text = discountsAssociated
+
         
         lblTitleTrackingNumber.text = endTracking
         
@@ -275,7 +258,7 @@ class OrderConfirmDetailView : UIView {
         viewLoadingDoneAnimateAux.alpha = 0.0
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 288, 494)
+            self.viewContent.frame = CGRectMake(0, 0, 288, 464)
             self.viewContent.center = self.center
         }) { (complete) -> Void in
             
