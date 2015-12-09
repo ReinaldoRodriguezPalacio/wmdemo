@@ -32,41 +32,53 @@ class SignUpMGViewController: SignUpViewController {
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
             
-            let params = service.buildParamsWithMembership(email!.text!, password:  password!.text!, name: name!.text!, lastName: lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
+            let address = AddressViewController()
+            address.typeAddress = TypeAddress.Shiping
+            address.item =  NSDictionary()
+            address.addFRomMg =  true
+            address.successCallBackRegistry = {() in
             
-//            if alertAddress == nil {
-//              alertAddress = GRFormAddressAlertView.initAddressAlert()!
-//          }
-           // alertAddress?.showAddressAlert()
-          //  alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+            let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
+            
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-                
+            
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                     
-                    let login = LoginService()
-                    login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                   
+                        address.closeAlert()
                         
-                       //self.alertAddress?.registryAddress(dictSend)
-                        
-                        }, errorBlock: { (error:NSError) -> Void in
-                            self.alertView!.close()
+                        let login = LoginService()
+                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                            
                             //self.alertAddress?.registryAddress(dictSend)
-                    })
+                            
+                            }, errorBlock: { (error:NSError) -> Void in
+                                self.alertView!.close()
+                                address.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
+                                    //Cerrar el registro de la direccion y mandar al checkout
+                                    
+                                })
+                        })
+                        
                     
-                    }
-                    , errorBlock: {(error: NSError) in
+                    
+                     self.alertView!.close()
+                    
+
+                    
+                    
+                    }, errorBlock: {(error: NSError) in
                         
                         self.backRegistry(self.backButton!)
-                        //self.alertAddress?.removeFromSuperview()
-                        
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
-                })
-            //}
-            
+                })// Close callService
+                
+                }//Close successCallBack
+            self.view.addSubview(address.view)
             
         }
     }

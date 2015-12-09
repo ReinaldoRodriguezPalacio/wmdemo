@@ -36,14 +36,17 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var defaultPrefered = false
     var viewLoad : WMLoadingView!
     var successCallBack : (() -> Void)? = nil
+    var successCallBackRegistry : (() -> Void)? = nil
+    
     var bounds: CGRect!
     var alertView : IPOWMAlertViewController? = nil
     var isLogin : Bool = false
     var isIpad : Bool = false
     var addressShippingCont: Int! = 0
     var addressFiscalCount: Int! = 0
-    
     var validateZip =  false
+    
+    var addFRomMg : Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGNEWADDRESSDELIVERY.rawValue
@@ -522,85 +525,142 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let val = CGSizeMake(self.view.frame.width, content.contentSize.height)
         return val
     }
- 
+    
+    func saveGrAddres(params:NSDictionary,successBlock:((Bool) -> Void)?) {
+        
+        
+        
+        
+    }
+    
+    func registryAddress(userName:String,password:String,successBlock:((Bool) -> Void)?){
+        
+        let service = GRAddressAddService()
+        var params = self.viewAddress!.getParams()
+        
+        let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:"" , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" , operationType:"A" , preferred: true)
+        
+            service.callService(requestParams: paramsSend, successBlock: { (resultCall:NSDictionary) -> Void  in
+            print("Se realizao la direccion")
+            
+            if let message = resultCall["message"] as? String {
+                print("\(message)")
+            }
+
+            // agregar login antes de agregar la direccion 
+                
+                let service = LoginService()
+                let params  = service.buildParams(userName, password: password)
+                service.callService(params, successBlock: { (result:NSDictionary) -> Void in
+                    self.saveBock(self.saveButton,successBlock:successBlock)
+                    }, errorBlock: { (error:NSError) -> Void in
+                        
+                })
+
+                
+            
+
+            
+            }) { (error:NSError) -> Void in
+                print("Error \(error) ")
+            }
+
+    
+    }
+    
+    
     func save(sender:UIButton) {
+        if successCallBackRegistry != nil {
+            successCallBackRegistry?()
+            return
+        }
+        self.saveBock(sender, successBlock: nil)
+    }
+ 
+    func saveBock(sender:UIButton?,successBlock:((Bool) -> Void)?) {
         var params : NSDictionary? = nil
         var service :  BaseService!
-        switch (typeAddress ) {
-        case .Shiping:
-            if self.viewAddress!.validateAddress(){
-                params = self.viewAddress!.getParams()
-                if self.idAddress == nil{
-                    service = AddShippingAddressService()
-                }else{
-                    service = UpdateShippingAddressService()
-                }
-            }
-        case .FiscalPerson:
-            if self.viewAddressFisical!.validateAddress(){
-                params = self.viewAddressFisical?.getParams()
-                 if self.idAddress == nil{
-                    service = AddFiscalAddressService()
-                 }else{
-                    service = UpdateFiscalAddressService()
-                }
-            }
-        case .FiscalMoral:
-            if self.viewAddressMoral!.validateAddress(){
-                params = self.viewAddressMoral?.getParams()
-                if self.idAddress == nil{
-                    service = AddFiscalAddressService()
-                }else{
-                    service = UpdateFiscalAddressService()
-                }
-            }
-        //default:
-        //    break
-        }
-        if params != nil{
-            self.view.endEditing(true)
-            if sender.tag == 100 {
-                self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            }else{
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-            }
-            
-            if addressShippingCont >= 12 && typeAddress == .Shiping {
-                self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
-                self.alertView!.showErrorIcon("OK")
-                self.back()
-               return
-            }
-            
-            if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral) {
-                self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
-                self.alertView!.showErrorIcon("OK")
-                self.back()
-                return
-            }
-            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
-                if let message = resultCall!["message"] as? String {
-                    self.alertView!.setMessage("\(message)")
-                    self.alertView!.showDoneIcon()
-                }
-                
-                if self.successCallBack == nil {
-                    self.closeAlert()
-                    self.navigationController!.popViewControllerAnimated(true)
-                }else {
+        
+            switch (typeAddress) {
+            case .Shiping:
+                if self.viewAddress!.validateAddress(){
+                    params = self.viewAddress!.getParams()
                     
-                    self.successCallBack!()
+                    if self.idAddress == nil{
+                        service = AddShippingAddressService()
+                    }else{
+                        service = UpdateShippingAddressService()
+                    }
+                    
+                }
+            case .FiscalPerson:
+                if self.viewAddressFisical!.validateAddress(){
+                    params = self.viewAddressFisical?.getParams()
+                    if self.idAddress == nil{
+                        service = AddFiscalAddressService()
+                    }else{
+                        service = UpdateFiscalAddressService()
+                    }
+                }
+            case .FiscalMoral:
+                if self.viewAddressMoral!.validateAddress(){
+                    params = self.viewAddressMoral?.getParams()
+                    if self.idAddress == nil{
+                        service = AddFiscalAddressService()
+                    }else{
+                        service = UpdateFiscalAddressService()
+                    }
+                }
+                //default:
+                //    break
+            }
+            if params != nil{
+                self.view.endEditing(true)
+                if sender!.tag == 100 {
+                    self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                }else{
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 }
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue, label:"")
-                
+                if addressShippingCont >= 12 && typeAddress == .Shiping {
+                    self.alertView!.setMessage(NSLocalizedString("profile.address.shipping.error.max",comment:""))
+                    self.alertView!.showErrorIcon("OK")
+                    self.back()
+                    return
                 }
-                , errorBlock: {(error: NSError) in
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
-            })
-        }
+                
+                if addressFiscalCount >= 12 && (typeAddress == .FiscalPerson || typeAddress == .FiscalMoral) {
+                    self.alertView!.setMessage(NSLocalizedString("profile.address.fiscal.error.max",comment:""))
+                    self.alertView!.showErrorIcon("OK")
+                    self.back()
+                    return
+                }
+                self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+
+                service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
+                    if let message = resultCall!["message"] as? String {
+                        self.alertView!.setMessage("\(message)")
+                        self.alertView!.showDoneIcon()
+                    }
+                    
+                    if self.successCallBack == nil {
+                        successBlock?(true)
+                        self.closeAlert()
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }else {
+                        
+                        self.successCallBack!()
+                    }
+                    
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_MG_UPDATE_ADDRESS.rawValue, label:"")
+                    
+                    }
+                    , errorBlock: {(error: NSError) in
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon("Ok")
+                })
+            }
+        
     }
 
     func closeAlert(){

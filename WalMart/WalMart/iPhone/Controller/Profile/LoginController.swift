@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate {
     var close: UIButton?
     var viewCenter : UIView!
@@ -36,7 +35,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-    var isMGLogin =  false
+    var loginFacebookButton: UIButton!
+	var isMGLogin =  false
+    
     var okCancelCallBack : (() -> Void)? = nil
     
     override func getScreenGAIName() -> String {
@@ -154,6 +155,18 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.close!.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)
+        
+        self.loginFacebookButton = UIButton(type: .Custom)
+        self.loginFacebookButton.layer.cornerRadius =  20.0
+        self.loginFacebookButton!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
+        self.loginFacebookButton!.addTarget(self, action: "facebookLogin", forControlEvents: .TouchUpInside)
+        self.loginFacebookButton!.setTitle("Ingresar con Facebook", forState: UIControlState.Normal)
+        self.loginFacebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.loginFacebookButton!.setImage(UIImage(named: "facebook_login"), forState: .Normal)
+        self.loginFacebookButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 2, 16)
+        self.loginFacebookButton!.imageView?.sizeThatFits(CGSizeMake(20.0, 20.0))
+        self.loginFacebookButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.view.addSubview(self.loginFacebookButton)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -191,11 +204,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
             
             self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-            self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY+20, self.password!.frame.width, 20)
-            self.registryButton?.frame = CGRectMake(leftRightPadding,  signInButton!.frame.maxY+56, self.password!.frame.width, 40)
+            self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 70 , self.password!.frame.width, 40)
+            self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY - 30, self.password!.frame.width, 20)
             self.bgView!.frame = self.view.bounds
+            self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 20 , self.password!.frame.width, 40)
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
-            self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 10 , self.password!.frame.width, 40)
+            
         }
     }
     
@@ -547,4 +561,79 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
         return true
     }
+    
+    //MARK: Facebook
+    func facebookLogin(){
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        if !self.closeAlertOnSuccess {
+            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.loginSignOutButonBgColor)
+        }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
+        
+        self.alertView?.okCancelCallBack = self.okCancelCallBack
+        self.alertView!.afterRemove = {() -> Void in
+            self.alertView = nil
+        }
+        self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
+        if (FBSDKAccessToken.currentAccessToken()) == nil {
+            self.view.endEditing(true)
+            let loginManager = FBSDKLoginManager()
+            loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], fromViewController: self,  handler: { (result, error) -> Void in
+                if error != nil {
+                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                    self.alertView!.showErrorIcon("Aceptar")
+                } else if result.isCancelled {
+                    self.alertView!.close()
+                } else {
+                    if(result.grantedPermissions.contains("email"))
+                    {
+                        self.getFBUserData()
+                    }
+                }
+            })
+        }else {
+            self.getFBUserData()
+        }
+    }
+    
+    func getFBUserData(){
+        if((FBSDKAccessToken.currentAccessToken()) != nil){
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
+                if (error == nil){
+                    print(result)
+                    self.loginWithEmail(result["email"] as! String)
+                }else{
+                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                    self.alertView!.showErrorIcon("Aceptar")
+                }
+            })
+        }
+    }
+    
+    func loginWithEmail(email:String){
+        let service = LoginWithEmailService()
+        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+            self.signInButton!.enabled = true
+            if self.successCallBack == nil {
+                if self.controllerTo != nil  {
+                    let storyboard = self.loadStoryboardDefinition()
+                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+                    self.navigationController!.pushViewController(vc, animated: true)
+                }
+            }else {
+                if self.closeAlertOnSuccess {
+                    if self.alertView != nil {
+                        self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
+                        self.alertView!.showDoneIcon()
+                    }
+                }
+                self.successCallBack!()
+            }
+            
+            }, errorBlock: {(error: NSError) in
+                print("error")
+            })
+    }
+    
 }

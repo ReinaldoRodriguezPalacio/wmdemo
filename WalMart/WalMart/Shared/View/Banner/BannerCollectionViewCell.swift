@@ -10,6 +10,7 @@ import Foundation
 
 protocol BannerCollectionViewCellDelegate {
     func bannerDidSelect(queryBanner:String,type:String)
+    func termsSelect(url:String)
 }
 
 class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataSource,UIPageViewControllerDelegate {
@@ -22,7 +23,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var visibleItem: Int? = nil
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
-    
     var viewTerms : BannerTermsView!
     
     var pageViewController : UIPageViewController!
@@ -31,6 +31,8 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     
     
     var dataSource : [[String:String]]?
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -208,7 +210,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         stopTimmer()
         self.visibleItem = pendingViewControllers[0].view!.tag
         UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.buttonTerms.alpha =  0
+            self.buttonTerms.alpha =  1
         })
         
     }
@@ -233,7 +235,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 }
             }
             UIView.animateWithDuration(0.1, animations: { () -> Void in
-                self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 0 : 1
+                self.buttonTerms.alpha =  self.getCurrentTerms() == "" ? 1 : 1
                 }) { (complete:Bool) -> Void in
             }
         }
@@ -252,6 +254,14 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     }
     
     
+    func isUrl(temrs:String)-> Bool{
+        var isUrl =  false
+        if let url = NSURL(string: getCurrentTerms()) {
+          isUrl =  UIApplication.sharedApplication().canOpenURL(url)
+        }
+        return isUrl
+    }
+    
     func termsclick() {
         if buttonTerms.selected {
             //Close details
@@ -260,8 +270,13 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         } else {
             //Open detail
             stopTimmer()
+            //getCurrentTerms()
+
+           
             
-            
+            if self.isUrl(getCurrentTerms()) {
+                delegate.termsSelect(getCurrentTerms())
+            }else{
             viewTerms = BannerTermsView(frame:self.bounds)
             viewTerms.setup(getCurrentTerms())
             viewTerms.generateBlurImage(self, frame: self.bounds)
@@ -279,7 +294,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue , label: "")
                 }
             }
-            
+         }
             
             
         }
@@ -290,7 +305,6 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         currentItem = sender.tag == dataSource?.count ? dataSource?.count : (sender.tag - 1)
         changebanner()
     }
-    
-    
-    
 }
+
+

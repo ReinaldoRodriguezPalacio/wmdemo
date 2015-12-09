@@ -61,7 +61,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         
        
-               self.dateFmt = NSDateFormatter()
+        self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
         self.content = TPKeyboardAvoidingScrollView()

@@ -82,15 +82,11 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         
         viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height))
         
-        self.buttonRight = WMRoundButton() // UIButton(frame:CGRectZero)
-        self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-//        self.buttonRight!.setBackgroundImage(UIImage(named:"button_bg"), forState: .Normal)
-//        self.buttonRight!.setBackgroundImage(UIImage(named:"button_bg_active"), forState: .Selected)
+        self.buttonRight = WMRoundButton()
+        self.buttonRight!.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
         self.buttonRight.titleLabel?.textColor = UIColor.whiteColor()
-        //self.buttonRight.backgroundColor =   WMColor.badgeTextColor
         self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        //self.buttonRight!.setTitleColor(WMColor.badgeTextColor, forState: .Normal)
         self.buttonRight!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.buttonRight.addTarget(self, action: "newItemForm", forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonRight.frame = CGRectMake(self.headerView.frame.width - 80, 12, 64, 22)

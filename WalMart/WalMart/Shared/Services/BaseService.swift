@@ -431,6 +431,7 @@ class BaseService : NSObject {
     }
     
     
+    
     func printTimestamp(message: String) {
         let timestamp = NSDateFormatter.localizedStringFromDate(NSDate(), dateStyle: .MediumStyle, timeStyle: .ShortStyle)
         print("\(message)"  + timestamp)

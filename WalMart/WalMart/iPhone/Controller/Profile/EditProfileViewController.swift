@@ -240,6 +240,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.lastName!.text = user.profile.lastName as String
             if let date = self.parseFmt!.dateFromString(user.profile.birthDate as String) {
                 self.birthDate!.text = self.dateFmt!.stringFromDate(date)
+                self.dateSelected = date
                 self.inputBirthdateView!.date = date
                 if user.profile.sex == "Female" {
                     self.femaleButton!.selected = true

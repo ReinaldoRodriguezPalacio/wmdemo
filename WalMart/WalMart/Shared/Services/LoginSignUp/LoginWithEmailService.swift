@@ -60,7 +60,33 @@ class LoginWithEmailService : BaseService {
         }
         
     }
+
     
+    func callServiceForFacebook(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+            if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+                if codeMessage.integerValue == 0 {
+                    let resultCallMG = resultCall
+                    let serviceGr = GRLoginService()
+                    serviceGr.callService(["email":"","password":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:NSDictionary?) in
+                        UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                        successBlock!(resultCall!)
+                        UserCurrentSession.sharedInstance().userSignedOnService = false
+                        }
+                        , errorBlock: {(error: NSError) in
+                            errorBlock!(error)
+                            UserCurrentSession.sharedInstance().userSignedOnService = false
+                    })                }
+                else{
+                    let error = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
+                    errorBlock!(error)
+                }
+            }
+            }) { (error:NSError) -> Void in
+                errorBlock!(error)
+        }
+    }
+
     override func shouldIncludeHeaders() -> Bool {
         return false
     }

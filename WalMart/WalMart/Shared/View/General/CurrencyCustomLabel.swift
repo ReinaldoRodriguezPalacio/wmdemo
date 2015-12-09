@@ -168,6 +168,18 @@ class CurrencyCustomLabel : UIView  {
        
     }
     
+    class func formatStringLabel(value:NSString) -> String {
+        
+        let setNumeric = NSCharacterSet(charactersInString: "0123456789.")
+        if value.rangeOfCharacterFromSet(setNumeric.invertedSet).location == NSNotFound {
+            let formatter = NSNumberFormatter()
+            formatter.maximumFractionDigits = 2
+            return formatter.stringFromNumber(NSNumber(double:value.doubleValue))!
+        }
+        return value as String
+        
+    }
+    
      deinit {
         label1 = nil
         label2 = nil

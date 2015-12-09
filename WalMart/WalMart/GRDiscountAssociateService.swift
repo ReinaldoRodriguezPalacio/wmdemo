@@ -29,7 +29,7 @@ class GRDiscountAssociateService: GRBaseService{
     
     func callService(requestParams params:AnyObject, succesBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?){
         
-        self.callPOSTService(buildParams(self.associateNumber!, startDate: self.dateAdmission!, determinant: self.determinant!,total: self.total!), successBlock: { (resultCall:NSDictionary) -> Void in
+        self.callGETService(buildParams(self.associateNumber!, startDate: self.dateAdmission!, determinant: self.determinant!,total: self.total!), successBlock: { (resultCall:NSDictionary) -> Void in
              succesBlock!(resultCall)
             }, errorBlock: { (error:NSError) -> Void in
                 errorBlock!(error)

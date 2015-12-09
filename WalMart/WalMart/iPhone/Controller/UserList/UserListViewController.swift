@@ -203,8 +203,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func duplicateList(){
         let indexpath = self.tableuserlist!.indexPathForSelectedRow // NSIndexPath(forRow: 1, inSection: 1)
-        let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
-        self.duplicateList(cell!)
+        if indexpath != nil {
+            let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
+            self.duplicateList(cell!)
+        }
     }
     
     func changeVisibilityBtn(button: UIButton, visibility: CGFloat) {

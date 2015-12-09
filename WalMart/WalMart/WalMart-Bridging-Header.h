@@ -63,3 +63,7 @@
 //PayPal
 #import "PayPalMobile.h"
 
+//Facebook
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
+
