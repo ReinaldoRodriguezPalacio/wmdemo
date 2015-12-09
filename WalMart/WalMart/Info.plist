@@ -149,7 +149,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -1067,12 +1067,12 @@
 	<string>147641648930626</string>
 	<key>FacebookDisplayName</key>
 	<string>Walmart BCG</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 </dict>
 </plist>
