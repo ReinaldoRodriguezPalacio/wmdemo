@@ -445,7 +445,8 @@
 "gr.confirma.subtotal" = "Subtotal";
 "gr.confirma.total" = "Total";
 "gr.confirma.generatingorden" = "Generando pedido";
-
+"gr.confirma.costodeenvio" = "Costo de envio";
+"gr.confirma.descuentodeasociado" = "Descuento de asociado";
 "gr.addtolist.super" = "Añadir todo a una lista de súper";
 
 //Estatus pedidos groceries

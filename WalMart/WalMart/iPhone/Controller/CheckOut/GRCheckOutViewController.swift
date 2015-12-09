@@ -105,6 +105,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var totalDiscountsOrder : Double! = 0
     var newTotal : Double!
     
+    var deliveryAmount : Double!
+    var discountsAssociated : Double!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -1499,6 +1501,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+                // deliveryAmount
+                
                 
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
                 let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
@@ -1511,6 +1515,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let total = purchaseOrder["total"] as! NSNumber
                 var authorizationId = ""
                 var correlationId = ""
+                
+                let deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+                let discountsAssociated = self.totalDiscountsOrder
+                
+                
                 if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
                     authorizationId = authorizationIdVal
                 }
@@ -1527,7 +1536,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
                 self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber]
-                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal]
+                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(deliveryAmount)","discountsAssociated" : "\(discountsAssociated)"]
+                
+                
+                
+                
+                
                 //PayPal
                 if paymentSelectedId == "-1"{
                     if self.payPalFuturePayment{
@@ -1542,7 +1556,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 //                    self.invokePaypalUpdateOrderService()
 //                }
                 
-                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal)
+                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : "\(deliveryAmount)",discountsAssociated : "\(discountsAssociated)")
                 
                 self.buttonShop?.enabled = false
          
@@ -1744,7 +1758,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.confirmOrderDictionary["paymentType"] = paymentType
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
-            self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String)
+            self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryHour"] as! String, discountsAssociated: self.completeOrderDictionary["deliveryHour"] as! String)
+               
             
             }, errorBlock: { (error:NSError) -> Void in
                 if error.code == -400 {

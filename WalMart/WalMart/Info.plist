@@ -127,7 +127,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -747,7 +747,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlot</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/sendOrder.txt</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
