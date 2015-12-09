@@ -40,6 +40,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Facebook
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        FBSDKAppEvents.activateApp()
 
         
         UserCurrentSession.sharedInstance().searchForCurrentUser()

@@ -166,7 +166,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginFacebookButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 2, 16)
         self.loginFacebookButton!.imageView?.sizeThatFits(CGSizeMake(20.0, 20.0))
         self.loginFacebookButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.view.addSubview(self.loginFacebookButton)
+        self.content!.addSubview(self.loginFacebookButton)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -204,8 +204,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
             
             self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-            self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 70 , self.password!.frame.width, 40)
-            self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY - 30, self.password!.frame.width, 20)
+            self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
+            self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
             self.bgView!.frame = self.view.bounds
             self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 20 , self.password!.frame.width, 40)
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
@@ -602,7 +602,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 if (error == nil){
                     print(result)
-                    self.loginWithEmail(result["email"] as! String)
+                    self.loginWithEmail(result["email"] as! String, firstName: result["first_name"] as! String, lastName: result["last_name"] as! String, gender: result["gender"] as! String, birthDay: result["birthday"] as! String)
                 }else{
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
@@ -611,7 +611,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    func loginWithEmail(email:String){
+    func loginWithEmail(email:String, firstName: String, lastName: String, gender: String, birthDay: String){
         let service = LoginWithEmailService()
         service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
             self.signInButton!.enabled = true
@@ -632,7 +632,26 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }
             
             }, errorBlock: {(error: NSError) in
-                print("error")
+                self.alertView!.close()
+                self.registryUser()
+                self.signUp.email?.text = email
+                self.signUp.name?.text = firstName
+                self.signUp.lastName?.text = lastName
+                
+                let dateFormatter = NSDateFormatter()
+                dateFormatter.dateFormat = "MM/dd/yyyy"
+                let date = dateFormatter.dateFromString(birthDay)
+                self.signUp.inputBirthdateView?.date = date!
+                //self.signUp.birthDate?.text = birthDay
+                dateFormatter.dateFormat = "d MMMM yyyy"
+                self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
+                self.signUp.dateVal = date
+                
+                if(gender == "male"){
+                   self.signUp.maleButton?.selected = true
+                }else{
+                    self.signUp.femaleButton?.selected = true
+                }
             })
     }
     
