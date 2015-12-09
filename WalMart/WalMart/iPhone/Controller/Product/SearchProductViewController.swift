@@ -1349,7 +1349,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //let quantity : Int = quantity.toInt()!
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    
                     BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
+                    FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart)
                     
                     UIView.animateWithDuration(0.2,
                         animations: { () -> Void in
@@ -1360,6 +1362,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             //CAMBIA IMAGEN CARRO SELECCIONADO
                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
                             dispatch_async(dispatch_get_main_queue()) {
+                                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                                 self.collection!.reloadData()
                             }
                         }
