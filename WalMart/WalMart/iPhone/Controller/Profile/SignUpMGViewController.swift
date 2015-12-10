@@ -36,6 +36,8 @@ class SignUpMGViewController: SignUpViewController {
             address.typeAddress = TypeAddress.Shiping
             address.item =  NSDictionary()
             address.addFRomMg =  true
+            address.titleLabel?.text = "Es necesario capturar una dirección"
+            address.backButton?.hidden =  true
             address.successCallBackRegistry = {() in
             
             let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)

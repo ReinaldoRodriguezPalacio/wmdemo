@@ -138,6 +138,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
           //      break
             }
         }
+        if addFRomMg {
+            self.titleLabel!.text = NSLocalizedString("Es necesario capturar una dirección", comment: "")
+        }
+        
     }
     
     func setupTypeAddress (){
@@ -342,6 +346,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         self.setContentSize()
         
+        if self.addFRomMg{
+            self.backButton?.hidden =  true
+        }
         
     }
     
