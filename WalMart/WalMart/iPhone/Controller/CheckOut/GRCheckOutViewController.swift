@@ -105,6 +105,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var totalDiscountsOrder : Double! = 0
     var newTotal : Double!
     
+    var deliveryAmount : Double!
+    var discountsAssociated : Double!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -705,12 +707,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
         let discountActive  = GRDiscountActiveService()
         discountActive.callService({ (result:NSDictionary) -> Void in
-//            if let res = result["discountsFreeShippingAssociated"] as? Bool {
-//                self.discountsFreeShippingAssociated = res
-//            }
-//            if let res = result["discountsFreeShippingNotAssociated"] as? Bool {
-//                self.discountsFreeShippingNotAssociated = res
-//            }
+
             if let res = result["discountsAssociated"] as? Bool {
                 self.showDiscountAsociate = res//TODO validar flujo
             }
@@ -858,22 +855,22 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                         //NSDecimalNumber(string: String(format: "%.2f", itemPrice)
                         let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
-                        let subTotal = "\(self.newTotal)"
-                        let saving = "\(self.totalDiscountsOrder + savinAply)"
+                        let subTotal = String(format: "%.2f", self.newTotal)//"\(self.newTotal)"
+                        let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)//"\(self.totalDiscountsOrder + savinAply)"
                         
-                        self.totalView.setTotalValues(CurrencyCustomLabel.formatStringLabel(total),
-                            subtotal: CurrencyCustomLabel.formatStringLabel(subTotal),
-                            saving: CurrencyCustomLabel.formatStringLabel(saving) )
+                        self.totalView.setTotalValues(total,
+                            subtotal: subTotal,
+                            saving: saving)
                       
                     }
                     self.buildSubViews()
                     endCallPromotions()
                 }
                 }, errorBlock: {(error: NSError) -> Void in
-                    endCallPromotions()
+                    //endCallPromotions()
                     //self.removeViewLoad()
-                    //self.alertView!.setMessage(error.localizedDescription)
-                    //self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
     }
@@ -896,19 +893,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
             self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
             
-            discountAssociateService.setParams(paramsDic)
+            discountAssociateService.setParams([:])
             discountAssociateService.callService(requestParams: paramsDic, succesBlock: { (resultCall:NSDictionary) -> Void in
                // self.removeViewLoad()
-                if resultCall["codeMessage"] as! Int == 0
-                {
+                if resultCall["codeMessage"] as! Int == 0{
                     var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
                     //if let savingGR = items["saving"] as? Double {
-                        items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
-                    //}
-                    //else{
-                       // items["saving"] = (resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
-                    //}
-                   // self.amountDiscountAssociate = (resultCall["totalDiscounts"] as! NSString).doubleValue
+                    
+                    items["saving"] = resultCall["saving"] as? Double //(resultCall["totalDiscounts"] as! NSString).doubleValue - self.amountDiscountAssociate
+                    
+                    print("\(resultCall["saving"] as? Double)")
+           
                     UserCurrentSession.sharedInstance().itemsGR = items as NSDictionary
                     
                     self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
@@ -916,16 +911,18 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
                     
-                    self.discountAssociate!.setSelectedCheck(true)
-                    self.asociateDiscount = true
-                    self.isAssociateSend =  true
-                    self.invokeDeliveryTypesService({ () -> Void in
-                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                        self.alertView!.showDoneIcon()
-                    })
+               
                     
                     self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
                         print("end service from asociate")
+                        self.discountAssociate!.setSelectedCheck(true)
+                        self.asociateDiscount = true
+                        self.isAssociateSend =  true
+                        
+                        self.invokeDeliveryTypesService({ () -> Void in
+                            //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                            //self.alertView!.showDoneIcon()
+                        })
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
                     })
@@ -933,6 +930,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.discountAssociate!.onBecomeFirstResponder = { () in
                     }
                     
+                }else{
+                    self.alertView!.setMessage(resultCall["message"] as! String)
+                    self.alertView!.showErrorIcon("Ok")
+                    print("Error at invoke address user service")
                 }
                 }, errorBlock: {(error: NSError) -> Void in
                 //self.removeViewLoad()
@@ -1095,12 +1096,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                         
                         let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
-                        let subTotal = "\(self.newTotal)"
-                        let saving = "\(self.totalDiscountsOrder + savinAply)"
+                        let subTotal = String(format: "%.2f", self.newTotal)//"\(self.newTotal)"
+                        let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)//"\(self.totalDiscountsOrder + savinAply)"
                         
-                        self.totalView.setTotalValues(CurrencyCustomLabel.formatStringLabel(total),
-                            subtotal: CurrencyCustomLabel.formatStringLabel(subTotal),
-                            saving: CurrencyCustomLabel.formatStringLabel(saving) )
+                        self.totalView.setTotalValues(total,
+                            subtotal: subTotal,
+                            saving: saving)
                         
                         self.updateShopButton("\(self.newTotal)")
                     }
@@ -1502,11 +1503,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
            var totalDis = formatter.stringFromNumber(NSNumber(double:discount))!
 
             
-            let paramsOrder = serviceCheck.buildParams(self.newTotal, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
+            let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
             
               serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+                // deliveryAmount
+                
                 
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
                 let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
@@ -1519,6 +1522,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let total = purchaseOrder["total"] as! NSNumber
                 var authorizationId = ""
                 var correlationId = ""
+                
+//                let deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+//                let discountsAssociated = self.totalDiscountsOrder
+                
+                
                 if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
                     authorizationId = authorizationIdVal
                 }
@@ -1535,7 +1543,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
                 self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": paymentSelectedId,"deliveryType": shipmentType,"trackingNumber": trakingNumber]
-                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal]
+                self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal,]
+                
+                
+                
+                
+                
                 //PayPal
                 if paymentSelectedId == "-1"{
                     self.showPayPalPaymentController()
@@ -1749,6 +1762,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
             self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String)
+               
             
             }, errorBlock: { (error:NSError) -> Void in
                 if error.code == -400 {

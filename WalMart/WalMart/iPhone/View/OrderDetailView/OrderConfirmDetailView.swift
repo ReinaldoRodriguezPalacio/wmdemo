@@ -48,6 +48,9 @@ class OrderConfirmDetailView : UIView {
     
     var imgBgView : UIImageView!
     
+
+    
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -64,12 +67,17 @@ class OrderConfirmDetailView : UIView {
         
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
+        
    
         viewContent = UIView(frame: CGRectMake(0, 0, 288, 264))
         viewContent.layer.cornerRadius = 8.0
         viewContent.clipsToBounds = true
         viewContent.backgroundColor = UIColor.clearColor()
         viewContent.clipsToBounds = true
+        
+        let imgIcon =  UIImage(named:"order_icon")
+        iconLoadingDone = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - (imgIcon!.size.width / 2), 77, imgIcon!.size.width, imgIcon!.size.height))
+        iconLoadingDone.image = imgIcon
         
         let imgConfirm = UIImageView(frame: CGRectMake(0, 0, 288, 464))
         imgConfirm.image = UIImage(named: "confirm_bg")
@@ -92,7 +100,7 @@ class OrderConfirmDetailView : UIView {
         
         
         
-        lblTitleTrackingNumber = UILabel(frame: CGRectMake(0, 271, viewContent.frame.width, 14))
+        lblTitleTrackingNumber = UILabel(frame: CGRectMake(0, 260, viewContent.frame.width, 14))
         lblTitleTrackingNumber.font = WMFont.fontMyriadProRegularOfSize(14)
         lblTitleTrackingNumber.text = NSLocalizedString("gr.confirma.trakingnum",comment: "")
         lblTitleTrackingNumber.textAlignment = .Center
@@ -110,9 +118,13 @@ class OrderConfirmDetailView : UIView {
         
         let lblTitleSubtotal = labelTitle(CGRectMake(48, 368, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
         lblTitleSubtotal.text = NSLocalizedString("gr.confirma.subtotal", comment: "")
+
+
         
         let lblTitleTotal = labelTitle(CGRectMake(160, 368, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
         lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
+        
+
         
         lblValueDeliveryDate = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
         lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
@@ -120,9 +132,7 @@ class OrderConfirmDetailView : UIView {
         lblValueSubtotal = labelValue(CGRectMake(48, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         
-        let imgIcon =  UIImage(named:"order_icon")
-        iconLoadingDone = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - (imgIcon!.size.width / 2), 77, imgIcon!.size.width, imgIcon!.size.height))
-        iconLoadingDone.image = imgIcon
+      
         
         viewLoadingDoneAnimate = UIView()
         viewLoadingDoneAnimate.backgroundColor = WMColor.UIColorFromRGB(0x2970ca , alpha: 0.5)
@@ -142,12 +152,16 @@ class OrderConfirmDetailView : UIView {
         viewContent.addSubview(imageBarCode)
         viewContent.addSubview(lblTitleTrackingNumber)
         viewContent.addSubview(lblTitleDeliveryDate)
+
+        
+
         viewContent.addSubview(lblTitleDeliveryHour)
         viewContent.addSubview(lblTitlePaymentType)
         viewContent.addSubview(lblTitleSubtotal)
         viewContent.addSubview(lblTitleTotal)
-        
         viewContent.addSubview(lblValueDeliveryDate)
+        
+
         viewContent.addSubview(lblValueDeliveryHour)
         viewContent.addSubview(lblValuePaymentType)
         viewContent.addSubview(lblValueSubtotal)
@@ -224,7 +238,7 @@ class OrderConfirmDetailView : UIView {
     }
     
     func completeOrder(trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String) {
-        let imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
+    let imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
         imageBarCode.image = imageCode
         
         let stgrEnd = lblTitleTrackingNumber.text!
@@ -234,6 +248,7 @@ class OrderConfirmDetailView : UIView {
         lblValuePaymentType.text = paymentType
         lblValueSubtotal.text = subtotal
         lblValueTotal.text = total
+
         
         lblTitleTrackingNumber.text = endTracking
         

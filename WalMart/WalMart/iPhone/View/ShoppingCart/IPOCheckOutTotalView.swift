@@ -102,7 +102,7 @@ class IPOCheckOutTotalView : UIView {
         let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
         
        // let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        subtotalValueLabel.updateMount("\(subNewTotal)", font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.shoppingCartShopTotalsTextColor, interLine: false)
+        subtotalValueLabel.updateMount( String(format: "%.2f", subNewTotal), font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.shoppingCartShopTotalsTextColor, interLine: false)
         
        //s let formatedSaving = CurrencyCustomLabel.formatString(saving)
         savingValueLabel.updateMount(saving, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.savingTextColor, interLine: false)
