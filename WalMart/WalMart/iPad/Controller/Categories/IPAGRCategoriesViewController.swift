@@ -55,7 +55,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         colCategories.dataSource = self
         return self.items
     }
-
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.items!.count
@@ -83,6 +82,11 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         
         return cell
+    }
+    
+    func collectionView(collectionView : UICollectionView,layout collectionViewLayout:UICollectionViewLayout,sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
+    {
+        return  CGSizeMake(488,313)
     }
     
     
@@ -288,13 +292,11 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let myString = NSMutableAttributedString(string: "Tu tienda: ")
-            let attrs = [NSFontAttributeName : UIFont.boldSystemFontOfSize(16)]
+            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16)]
             let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ", attributes:attrs)
-            myString.appendAttributedString(boldString)
-            myString.appendAttributedString(attachmentString)
+            boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
-            self.titleLabel?.attributedText = myString;
+            self.titleLabel?.attributedText = boldString;
             self.titleLabel?.userInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
             self.titleLabel?.addGestureRecognizer(tapGesture)

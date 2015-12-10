@@ -18,9 +18,13 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
 
     var delegate: IPAGRCategoryCollectionViewCellDelegate!
     var iconCategory : UIImageView!
+    var imageBackground : UIImageView!
+    var titleLabel:UILabel!
     var buttonDepartment : UIButton!
     var openLable : UILabel!
-    var buttonCategory : UIButton!
+    var descLabel: UILabel?
+    var moreButton: UIButton?
+    var moreLabel: UILabel?
 
     
     override init(frame: CGRect) {
@@ -36,7 +40,16 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     func setup() {
         
-        iconCategory = UIImageView(frame: CGRectZero)
+        imageBackground = UIImageView()
+        imageBackground.contentMode = UIViewContentMode.Left
+        imageBackground.clipsToBounds = true
+        
+        iconCategory = UIImageView()
+        
+        titleLabel = UILabel()
+        titleLabel.font  = WMFont.fontMyriadProRegularOfSize(24)
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textAlignment = .Left
         
         buttonDepartment = UIButton()
         buttonDepartment.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
@@ -47,39 +60,48 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         buttonDepartment.enabled = false
         buttonDepartment.titleEdgeInsets = UIEdgeInsetsMake(2.0, 1.0, 0.0, 0.0)
         
-//        titleCategory = UILabel(frame: CGRectZero)
-//        titleCategory.font = WMFont.fontMyriadProLightOfSize(16)
-//        titleCategory.textColor = WMColor.familyTextColor
+        //self.addSubview(buttonDepartment)
         
+        self.descLabel = UILabel()
+        self.descLabel?.text = "Lo más destacado"
+        self.descLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
+        self.descLabel?.textColor = WMColor.navigationFilterBGColor
         
+        self.moreLabel = UILabel()
+        self.moreLabel?.text = "Ver todo"
+        self.moreLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.moreLabel?.textColor = WMColor.navigationFilterBGColor
+        self.moreLabel?.textAlignment = .Center
         
-//        buttonCategory = UIButton(frame: CGRectZero)
-//        buttonCategory.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-//
-//        openLable = UILabel(frame: CGRectZero)
-//        openLable.font = WMFont.fontMyriadProRegularOfSize(11)
-//        openLable.textColor = WMColor.familyTextColor
-//        openLable.textAlignment = .Right
+        self.moreButton = UIButton()
+        self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), forState: UIControlState.Normal)
+        self.moreButton!.addTarget(self, action: "moreTap", forControlEvents: UIControlEvents.TouchUpInside)
         
-        //self.addSubview(iconCategory)
-        self.addSubview(buttonDepartment)
-        //self.addSubview(buttonCategory)
+        self.addSubview(self.imageBackground!)
+        self.addSubview(self.iconCategory!)
+        self.addSubview(self.titleLabel!)
+        self.addSubview(self.descLabel!)
+        self.addSubview(self.moreLabel!)
+        self.addSubview(self.moreButton!)
+
         
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        //iconCategory.frame = CGRectMake(0, 0, 40, 40)
-        //buttonDepartment.frame = CGRectMake(iconCategory.frame.maxX, 14, self.frame.width - 140, 16)
-        //openLable.frame = CGRectMake(self.frame.width - 100, 16, 84, 11)
+        self.descLabel!.frame = CGRect(x: 8,y: 119,width: 130,height: 16)
+        self.iconCategory.frame = CGRectMake(16, 25, 48, 48)
+        self.titleLabel.frame = CGRectMake(self.iconCategory.frame.maxX + 16, 40, 335, 24)
+        self.imageBackground.frame = CGRectMake(0, 0, self.frame.width, 103)
     }
     
     func setValues(categoryId:String,categoryTitle:String,products:[[String:AnyObject]]) {
-        //iconCategory.image = UIImage(named: "b_i_\(categoryId)")
+        iconCategory.image = UIImage(named: "i_\(categoryId)")
+        imageBackground.image = UIImage(named: "\(categoryId)")
         //buttonDepartment.setTitle(categoryTitle, forState: UIControlState.Normal)
         //openLable.text = NSLocalizedString("gr.category.open", comment: "")
-        
+        self.titleLabel.text = categoryTitle
         let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
         let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         var startx : CGFloat = 0.0
@@ -89,14 +111,14 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         buttonDepartment.setTitle(categoryTitle, forState: UIControlState.Normal)
         self.buttonDepartment.frame = CGRectMake(startx, 10, sizeDep, 28)
         
-        setProducts(products, width: 162)
+        setProducts(products, width: 125)
     }
     
     func setValues(categoryId:String,categoryTitle:String) {
 //        iconCategory.image = UIImage(named: "b_i_\(categoryId)")
 //        titleCategory.text = categoryTitle
 //        openLable.text = NSLocalizedString("gr.category.open", comment: "")
-        
+        self.titleLabel.text = categoryTitle
         let attrStringLab = NSAttributedString(string:categoryTitle, attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16),NSForegroundColorAttributeName:UIColor.whiteColor()])
         let size = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max,CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         var startx : CGFloat = 0.0
@@ -121,14 +143,16 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         let jsonLines = JSON(products)
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
-            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 150))
+            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 151, width, 123))
             let imageProd =  lineToShow["imageUrl"].stringValue
             let descProd =  lineToShow["name"].stringValue
-            
             product.jsonItemSelected = lineToShow
             product.setValues(imageProd,
                 productShortDescription: descProd,
                 productPrice: "")
+            product.productImage!.frame = CGRectMake(16, 0, 106, 110)
+            product.productShortDescriptionLabel!.frame = CGRectMake(16,  product.productImage!.frame.maxY + 14 , product.frame.width - 32, 33)
+            product.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.addSubview(product)
             
             let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
@@ -137,7 +161,11 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             currentX = currentX + width
             
         }
+        self.moreButton?.frame = CGRect(x: currentX + 51, y: 195, width: 22, height: 22)
+        self.moreLabel?.frame = CGRect(x: currentX + 25, y: self.moreButton!.frame.maxY + 66, width: 64, height: 14)
         
+        let tapOnMore =  UITapGestureRecognizer(target: self, action: "moreTap")
+        descLabel!.addGestureRecognizer(tapOnMore)
 //        var currentX : CGFloat = 0.0
 //        for  prod in products {
 //            let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 40, width, 176))
