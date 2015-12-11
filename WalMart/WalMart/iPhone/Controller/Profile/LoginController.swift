@@ -203,9 +203,15 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
             
-            self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-            self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-            self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            if UserCurrentSession.hasLoggedUser(){
+                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            }else{
+                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
+                self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            }
+            
             self.bgView!.frame = self.view.bounds
             self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 20 , self.password!.frame.width, 40)
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
