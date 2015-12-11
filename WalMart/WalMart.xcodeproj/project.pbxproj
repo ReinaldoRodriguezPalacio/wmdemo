@@ -361,6 +361,7 @@
 		56F86FD11A8BD8F1002181D2 /* SelectItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */; };
 		56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */; };
 		56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */; };
+		56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */; };
 		56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */; };
 		56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */; };
 		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
@@ -909,6 +910,7 @@
 		56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectItemTableViewCell.swift; path = iPhone/View/AlertPickerView/SelectItemTableViewCell.swift; sourceTree = "<group>"; };
 		56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOCheckOutTotalView.swift; path = iPhone/View/ShoppingCart/IPOCheckOutTotalView.swift; sourceTree = "<group>"; };
 		56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBannerImageViewController.swift; sourceTree = "<group>"; };
+		56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASignMGUpViewController.swift; path = iPad/Controller/Profile/IPASignMGUpViewController.swift; sourceTree = "<group>"; };
 		56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALineTableViewCell.swift; path = iPad/View/Categories/IPALineTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishListViewController.swift; path = iPhone/Controller/WishList/WishListViewController.swift; sourceTree = "<group>"; };
 		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
@@ -2618,6 +2620,7 @@
 				ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */,
 				AC6BC2C719EEC89C00835D03 /* IPAAddressViewController.swift */,
 				AC87F45719F6CA2C00E66D47 /* IPASignUpViewController.swift */,
+				56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -3194,6 +3197,7 @@
 				56C616BF1B3B0DA800E0472B /* IPOSearchResultEmptyView.swift in Sources */,
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
+				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
 				56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
 				56E1DFA81B5561A6001F42DF /* NMRangeSlider.m in Sources */,

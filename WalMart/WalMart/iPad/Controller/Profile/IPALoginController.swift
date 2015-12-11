@@ -39,7 +39,9 @@ class IPALoginController: LoginController {
     
     override func registryUser() {
         if self.signUp == nil{
-            self.signUp = IPASignUpViewController()
+            
+            self.signUp = isMGLogin ? IPASignMGUpViewController() : IPASignUpViewController()
+            
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height)
             
             self.signUp.viewClose = {(hidden : Bool) in

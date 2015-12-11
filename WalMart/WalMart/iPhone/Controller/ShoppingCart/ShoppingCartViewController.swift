@@ -135,14 +135,15 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewFooter.backgroundColor = WMColor.shoppingCartFooter
         
         var x:CGFloat = 16
-        if UserCurrentSession.sharedInstance().isAssociated == 1{
-            
-            buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
-            buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
-            buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
-            buttonAsociate.addTarget(self, action: "validateAsociate", forControlEvents: UIControlEvents.TouchUpInside)
-            viewFooter.addSubview(buttonAsociate)
-            x =  buttonAsociate.frame.maxX + 16
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.sharedInstance().isAssociated == 1{
+                buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
+                buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
+                buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
+                buttonAsociate.addTarget(self, action: "validateAsociate", forControlEvents: UIControlEvents.TouchUpInside)
+                viewFooter.addSubview(buttonAsociate)
+                x =  buttonAsociate.frame.maxX + 16
+            }
         }
         
         buttonWishlist = UIButton(frame: CGRectMake(x, 16, 40, 40))

@@ -189,6 +189,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             cont!.email!.enabled = false
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
+        cont!.isMGLogin =  true
         cont!.successCallBack = {() in
             
             if UserCurrentSession.hasLoggedUser() {

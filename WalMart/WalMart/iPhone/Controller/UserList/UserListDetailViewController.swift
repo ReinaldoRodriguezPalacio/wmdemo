@@ -1216,7 +1216,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
             let detailService = GRUserListDetailService()
-            detailService.buildParams(listId!)
+            detailService.buildParams(self.listId == nil ? "" : self.listId!)
             detailService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
                     let service = GRUpdateListService()
