@@ -312,8 +312,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func openLoginOrProfile() {
         
-        
-        
         if UserCurrentSession.sharedInstance().userSigned == nil{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
             let cont = LoginController.showLogin()
