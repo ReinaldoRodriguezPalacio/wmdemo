@@ -859,6 +859,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
         cont.isMGLogin =  true
+        cont.loginFacebookButton.hidden = true
         cont!.closeAlertOnSuccess = false
         cont!.okCancelCallBack = {() in
             self.canceledAction = true

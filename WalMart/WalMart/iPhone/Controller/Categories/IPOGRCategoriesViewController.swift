@@ -114,8 +114,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let item = items![rowforsearch] as! [String:AnyObject]
             let descDepartment = item["description"] as! String
             let bgDepartment = (item["idDepto"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+            let scale = UIScreen.mainScreen().scale
             
-            cellDept.setValues(descDepartment,imageBackgroundURL:bgDepartment + ".png",imageIconURL:"i_" + bgDepartment + ".png")
+            cellDept.setValues(descDepartment,imageBackgroundURL:bgDepartment + "@\(Int(scale))x.jpg",imageIconURL:"i_" + bgDepartment + ".png")
             cell = cellDept
 
         } else {
