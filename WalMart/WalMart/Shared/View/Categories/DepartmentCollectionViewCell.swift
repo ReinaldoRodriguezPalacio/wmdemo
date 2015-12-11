@@ -83,9 +83,8 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         var imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let strinname = imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg")
         let scale = UIScreen.mainScreen().scale
+        imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
-        imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString("@\(Int(scale))x.jpg", withString: "@\(Int(scale))x.jpg" )
-
         loadImagefromUrl =  true
         
         let imageHeader = self.loadImageFromDisk(strinname, defaultStr: "header_default") { (loadImage:Bool) -> Void in
@@ -93,7 +92,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         }//self.loadImageFromDisk(strinname,defaultStr:"header_default")
       
         if loadImagefromUrl {
-            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead.stringByReplacingOccurrencesOfString("walmartmg", withString: "walmartgr")), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWithURL(NSURL(string: imgURLNamehead), placeholderImage:imageHeader, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageBackground.image = image
                 self.saveImageToDisk(imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg"), image: image,defaultImage:imageHeader)
                 }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in

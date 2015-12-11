@@ -151,6 +151,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         if indexPath.item == 0 && landingItem != nil  {
             let scale = UIScreen.mainScreen().scale
             var itemBannerPhone = landingItem!["bannerUrlPhone"]
+            itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString("@2x.jpg", withString: ".jpg" )
             itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
             categoryCell.setValuesLanding("http://\(itemBannerPhone!)")
             return categoryCell

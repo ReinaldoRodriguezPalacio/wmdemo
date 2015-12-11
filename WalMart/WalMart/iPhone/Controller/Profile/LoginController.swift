@@ -600,6 +600,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     self.alertView!.showErrorIcon("Aceptar")
                 } else if result.isCancelled {
                     self.alertView!.close()
+                    self.fbLoginMannager.logOut()
                 } else {
                     if(result.grantedPermissions.contains("email"))
                     {
@@ -610,6 +611,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             })
         }else {
             self.getFBUserData()
+            self.fbLoginMannager = FBSDKLoginManager()
+            self.fbLoginMannager.logOut()
         }
     }
     
