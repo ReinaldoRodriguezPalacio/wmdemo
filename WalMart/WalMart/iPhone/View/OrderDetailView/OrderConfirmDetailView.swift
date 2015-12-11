@@ -251,8 +251,12 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-        func completeOrder(trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String,deliveryAmount:String,discountsAssociated:String) {
-        let imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
+    func completeOrder(trakingNumber:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String,deliveryAmount:String,discountsAssociated:String) {
+        
+        var imageCode = RSUnifiedCodeGenerator.shared.generateCode(trakingNumber, machineReadableCodeObjectType: AVMetadataObjectTypeCode39Code)
+        if imageCode == nil {
+            imageCode = UIImage(named: "barcode")
+        }
         
         imageBarCode.image = imageCode
         
@@ -264,7 +268,7 @@ class OrderConfirmDetailView : UIView {
         lblValueSubtotal.text = subtotal
         lblValueTotal.text = total
         lblValueDeliveryAmount.text = deliveryAmount
-        lblValueDiscountsAssociated.text = "$\(discountsAssociated)"
+        lblValueDiscountsAssociated.text = "\(discountsAssociated)"
             if discountsAssociated == "0.0"{
                 lblValueDiscountsAssociated.hidden = true
                 lbldiscountsAssociated.hidden = true
