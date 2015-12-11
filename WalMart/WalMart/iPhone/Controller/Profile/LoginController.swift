@@ -37,6 +37,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var addressViewController : AddressViewController!
     var loginFacebookButton: UIButton!
 	var isMGLogin =  false
+    var fbLoginMannager: FBSDKLoginManager!
     
     var okCancelCallBack : (() -> Void)? = nil
     
@@ -46,7 +47,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.bgView = UIView()
         self.bgView.backgroundColor = WMColor.productAddToCartBg
         self.view.addSubview(bgView)
@@ -593,8 +593,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
         if (FBSDKAccessToken.currentAccessToken()) == nil {
             self.view.endEditing(true)
-            let loginManager = FBSDKLoginManager()
-            loginManager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], fromViewController: self,  handler: { (result, error) -> Void in
+            fbLoginMannager = FBSDKLoginManager()
+            fbLoginMannager.logInWithReadPermissions(["public_profile", "email", "user_friends", "user_birthday"], fromViewController: self,  handler: { (result, error) -> Void in
                 if error != nil {
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
@@ -604,6 +604,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     if(result.grantedPermissions.contains("email"))
                     {
                         self.getFBUserData()
+                        self.fbLoginMannager.logOut()
                     }
                 }
             })
@@ -647,6 +648,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }
             
             }, errorBlock: {(error: NSError) in
+                self.fbLoginMannager = FBSDKLoginManager()
+                self.fbLoginMannager.logOut()
                 self.alertView!.close()
                 self.registryUser()
                 self.signUp.email?.text = email

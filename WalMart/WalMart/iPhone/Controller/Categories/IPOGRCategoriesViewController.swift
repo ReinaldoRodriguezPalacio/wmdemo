@@ -169,7 +169,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         var rowforsearch = indexPath.row
         var newIndex = indexPath
         
-        if !(indexPath.row % 2 == 0) {
+        if !(indexPath.row % 2 == 0) && !self.collapsed {
             rowforsearch = indexPath.row - 1
             newIndex = NSIndexPath(forRow:  indexPath.row - 1, inSection: indexPath.section)
         }
