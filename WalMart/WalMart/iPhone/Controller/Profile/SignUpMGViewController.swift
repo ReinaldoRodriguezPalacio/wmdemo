@@ -10,6 +10,9 @@ import Foundation
 
 
 class SignUpMGViewController: SignUpViewController {
+
+    var checkVC : CheckOutViewController!
+    var canceledAction : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,41 +39,51 @@ class SignUpMGViewController: SignUpViewController {
             address.typeAddress = TypeAddress.Shiping
             address.item =  NSDictionary()
             address.addFRomMg =  true
-            address.titleLabel?.text = "Es necesario capturar una dirección"
             address.backButton?.hidden =  true
             address.successCallBackRegistry = {() in
-            
-            let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
-            
+                
+                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
+                
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
-            
+                
                 service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                     
-                   
-                        address.closeAlert()
+                    address.closeAlert()
+                    
+                    let login = LoginService()
+                    login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                         
-                        let login = LoginService()
-                        login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                        self.alertView!.setMessage("Registro exitoso")
+                        self.alertView!.showErrorIcon("Ok")
+                        
+                        }, errorBlock: { (error:NSError) -> Void in
                             
-                            //self.alertAddress?.registryAddress(dictSend)
-                            
-                            }, errorBlock: { (error:NSError) -> Void in
-                                self.alertView!.close()
-                                address.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
-                                    //Cerrar el registro de la direccion y mandar al checkout
+                            //self.alertView!.close()
+                            address.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
+                                //Cerrar el registro de la direccion y mandar al checkout
+                                if finish{
+                                   //mandar notificacion para cerrar logincontroller
+                                    let params = ["userName":self.email!.text!,"password":self.password!.text!]
+                                    NSNotificationCenter.defaultCenter().postNotificationName("CLOSELOGINFROMMG", object: params)
+                                        print("Termina registro de direccion")
                                     
-                                })
-                        })
-                        
+                                }else{
+                                    //Error
+                                    
+                                    self.backRegistry(self.backButton!)
+                                    self.alertView!.setMessage("Error")
+                                    self.alertView!.showErrorIcon("Ok")
+                                
+                                }
+                             
+                                
+                            })
+                    })
                     
-                    
-                     self.alertView!.close()
-                    
-
-                    
+                    self.alertView!.close()
                     
                     }, errorBlock: {(error: NSError) in
                         
@@ -79,11 +92,14 @@ class SignUpMGViewController: SignUpViewController {
                         self.alertView!.showErrorIcon("Ok")
                 })// Close callService
                 
-                }//Close successCallBack
+            }//Close successCallBack
+            
             self.view.addSubview(address.view)
             
         }
     }
+    
+
 
 
 

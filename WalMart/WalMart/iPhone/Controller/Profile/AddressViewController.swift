@@ -139,7 +139,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
         }
         if addFRomMg {
-            self.titleLabel!.text = NSLocalizedString("Es necesario capturar una dirección", comment: "")
+            self.titleLabel!.text = NSLocalizedString("Es necesario capturar \n una dirección", comment: "")
         }
         
     }
@@ -560,15 +560,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 let params  = service.buildParams(userName, password: password)
                 service.callService(params, successBlock: { (result:NSDictionary) -> Void in
                     self.saveBock(self.saveButton,successBlock:successBlock)
+                     successBlock!(true)
                     }, errorBlock: { (error:NSError) -> Void in
-                        
+                        print("Error \(error)")
+                         successBlock!(false)
                 })
 
-                
-            
-
-            
             }) { (error:NSError) -> Void in
+                successBlock!(false)
                 print("Error \(error) ")
             }
 
