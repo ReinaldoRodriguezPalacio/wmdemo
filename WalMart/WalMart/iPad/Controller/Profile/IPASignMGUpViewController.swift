@@ -1,18 +1,17 @@
 //
-//  SignUpMGViewController.swift
+//  IPASignMGUpViewController.swift
 //  WalMart
 //
-//  Created by Joel Juarez on 04/12/15.
+//  Created by Gerardo Ramirez on 10/12/15.
 //  Copyright © 2015 BCG Inc. All rights reserved.
 //
 
 import Foundation
-
-
-class SignUpMGViewController: SignUpViewController {
-
-    var checkVC : CheckOutViewController!
-    var canceledAction : Bool = false
+class IPASignMGUpViewController: SignUpMGViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
     
     
     override func registryUser() {
@@ -28,15 +27,14 @@ class SignUpMGViewController: SignUpViewController {
             let gender = femaleButton!.selected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
-            
-            let address = AddressViewController()
+            let address = IPAAddressViewController()
             address.typeAddress = TypeAddress.Shiping
             address.item =  NSDictionary()
             address.addFRomMg =  true
             address.backButton?.hidden =  true
             address.successCallBackRegistry = {() in
                 
-            let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
+                let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
                 
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -72,7 +70,7 @@ class SignUpMGViewController: SignUpViewController {
                                 })
                         })// close loginCallService
                         
-                       
+                        
                         
                         }, errorBlock: {(error: NSError) in
                             
@@ -90,9 +88,4 @@ class SignUpMGViewController: SignUpViewController {
             
         }
     }
-    
-
-
-
-
 }

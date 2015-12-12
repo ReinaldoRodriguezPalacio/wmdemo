@@ -203,9 +203,15 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
             
-            self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-            self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-            self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            if UserCurrentSession.hasLoggedUser(){
+                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            }else{
+                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
+                self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            }
+            
             self.bgView!.frame = self.view.bounds
             self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 20 , self.password!.frame.width, 40)
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
@@ -266,6 +272,17 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
+    func closeLoginFromMg (notification:NSNotification){
+        self.closeModal()
+        self.signUp.successCallBack =  {() in
+            let service = LoginService()
+            let params  = service.buildParams(self.signUp.email!.text!, password: self.signUp.password!.text!)
+            self.callService(params, alertViewService:self.signUp.alertView!)
+        }
+    }
+    
+    
+    
     func registryUser() {
         
         if self.signUp == nil{
@@ -273,6 +290,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
 
             self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
+            
+            if isMGLogin {
+                NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeLoginFromMg:", name:"CLOSELOGINFROMMG", object: nil)
+            }
             
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
             
@@ -585,6 +606,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     self.alertView!.showErrorIcon("Aceptar")
                 } else if result.isCancelled {
                     self.alertView!.close()
+                    self.fbLoginMannager.logOut()
                 } else {
                     if(result.grantedPermissions.contains("email"))
                     {
@@ -595,6 +617,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             })
         }else {
             self.getFBUserData()
+            self.fbLoginMannager = FBSDKLoginManager()
+            self.fbLoginMannager.logOut()
         }
     }
     
