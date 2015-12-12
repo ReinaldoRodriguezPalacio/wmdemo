@@ -12,7 +12,7 @@ struct SearchResult {
     var products: NSArray? = nil
     var totalResults = -1
     var resultsInResponse = 0
-    
+   
     mutating func addResults(otherProducts:NSArray) {
         if self.products != nil {
             self.products = self.products!.arrayByAddingObjectsFromArray(otherProducts as [AnyObject])
@@ -133,22 +133,24 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         
-        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.regular_blue, size: CGSizeMake(55, 22), radius: 11)
         
-        self.filterButton = UIButton()
-        self.filterButton!.setImage(iconImage, forState: .Normal)
-        self.filterButton!.setImage(iconSelected, forState: .Highlighted)
+        self.filterButton = UIButton(type: .Custom)
+        //self.filterButton!.setImage(iconImage, forState: .Normal)
+        //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
         self.filterButton!.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
         self.filterButton!.tintColor = WMColor.navigationFilterTextColor
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
+        self.filterButton!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
+        self.filterButton!.backgroundColor = WMColor.wishlistEditButtonBgColor
+        self.filterButton!.layer.cornerRadius = 11.0
+
         self.filterButton!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         
-        self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, -iconImage!.size.width, 0, 0.0);
-        self.filterButton!.imageEdgeInsets = UIEdgeInsetsMake(0, (80 - iconImage!.size.width) / 2 , 0.0, 0.0)
+
         self.header?.addSubview(self.filterButton!)
-        
+    
         
         viewBgSelectorBtn = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28))
         viewBgSelectorBtn.layer.borderWidth = 1
@@ -301,7 +303,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         contentCollectionOffset = CGPointZero
         self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
         self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2), self.header!.frame.maxY)
-        self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 87, 0 , 87, 46)
+        self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 85, (self.header!.frame.size.height - 22)/2 , 55, 22)
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         //println("View bounds: \(self.view.bounds)")
