@@ -23,6 +23,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     var viewLoad: WMLoadingView?
     var searchField: FormFieldView?
+
     var editBtn: UIButton?
     var newListBtn: UIButton?
     var showWishlistBtn: UIButton?
@@ -76,9 +77,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
-        let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(110, 44), radius: 22)
-        
+
         self.titleLabel?.text = NSLocalizedString("list.title",comment:"")
         self.titleLabel?.textAlignment = .Left
         self.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -92,21 +91,21 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
         self.newListBtn!.layer.cornerRadius = 11.0
-        self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
+        self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         self.header!.addSubview(self.newListBtn!)
         
+
+
         self.editBtn = UIButton(type: .Custom)
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
-        self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
-        self.editBtn!.setBackgroundImage(iconSelected, forState: .Highlighted)
-        self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        //self.editBtn!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
+        self.editBtn!.backgroundColor = WMColor.wishlistEditButtonBgColor
         self.editBtn!.layer.cornerRadius = 11.0
-        self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
+        self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         self.header!.addSubview(self.editBtn!)
+
         
         self.searchContainer!.backgroundColor = UIColor.whiteColor()
         
