@@ -709,7 +709,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         discountActive.callService({ (result:NSDictionary) -> Void in
 
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = res//TODO validar flujo
+                self.showDiscountAsociate = true//res//TODO validar flujo
             }
             endCallDiscountActive()
             }, errorBlock: { (error:NSError) -> Void in
@@ -909,7 +909,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
                         subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
                         saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
-                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR()+self.shipmentAmount)")
+                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
                     
                
                     
@@ -1522,7 +1522,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let total = purchaseOrder["total"] as! NSNumber
                 var authorizationId = ""
                 var correlationId = ""
-                
                 let deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
                 let discountsAssociated = self.totalDiscountsOrder
                 
@@ -1536,12 +1535,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
                 let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-                
                 let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
-
-                
                 let formattedDate = deliveryDate.substringToIndex(10)
-                
                 let slot = purchaseOrder["slot"] as! NSDictionary
                 
                 self.confirmOrderDictionary = ["paymentType": paymentSelectedId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
@@ -1762,7 +1757,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.confirmOrderDictionary["paymentType"] = paymentType
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
-        self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryHour"] as! String, discountsAssociated: self.completeOrderDictionary["deliveryHour"] as! String)
+        self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
 
                
             

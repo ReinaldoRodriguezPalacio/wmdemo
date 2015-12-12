@@ -10,6 +10,7 @@ import Foundation
 
 protocol BannerCollectionViewCellDelegate {
     func bannerDidSelect(queryBanner:String,type:String)
+    func termsSelect(url:String)
 }
 
 class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataSource,UIPageViewControllerDelegate {
@@ -252,6 +253,15 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         delegate.bannerDidSelect(queryBanner!, type: type!)
     }
     
+    
+    func isUrl(temrs:String)-> Bool{
+        var isUrl =  false
+        if let url = NSURL(string: getCurrentTerms()) {
+          isUrl =  UIApplication.sharedApplication().canOpenURL(url)
+        }
+        return isUrl
+    }
+    
     func termsclick() {
         if buttonTerms.selected {
             //Close details
@@ -261,21 +271,21 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             //Open detail
             stopTimmer()
             //getCurrentTerms()
-
-           
             
-
-
-            viewTerms = BannerTermsView(frame:self.bounds)
-            viewTerms.setup(getCurrentTerms())
-            viewTerms.generateBlurImage(self, frame: self.bounds)
-            self.addSubview(viewTerms)
-            viewTerms.startAnimating()
-            viewTerms.onClose = {() in
-                self.termsclick()
-
+            
+            if self.isUrl(getCurrentTerms()) {
+                delegate.termsSelect(getCurrentTerms())
+            }else{
+                viewTerms = BannerTermsView(frame:self.bounds)
+                viewTerms.setup(getCurrentTerms())
+                viewTerms.generateBlurImage(self, frame: self.bounds)
+                self.addSubview(viewTerms)
+                viewTerms.startAnimating()
+                viewTerms.onClose = {() in
+                    self.termsclick()
+                }
                 
-                let dictTerms = self.dataSource![self.visibleItem!]
+                let dictTerms = dataSource![self.visibleItem!]
                 if let type = dictTerms["type"] {
                     if type == ResultObjectType.Mg.rawValue  {
                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MG_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MG_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue , label: "")
