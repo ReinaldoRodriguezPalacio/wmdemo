@@ -520,6 +520,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         if  isLogin {           
              self.saveButton!.frame = CGRectMake((bounds.width - 290) / 2 , self.viewAddress!.frame.maxY + 20, 290, 40)
+             self.saveButton!.titleLabel?.textAlignment = .Center
              self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
         }
     }

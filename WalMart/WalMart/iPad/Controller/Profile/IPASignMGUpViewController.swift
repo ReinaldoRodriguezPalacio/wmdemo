@@ -28,10 +28,12 @@ class IPASignMGUpViewController: SignUpMGViewController {
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
             let address = IPAAddressViewController()
+            address.view?.frame.size = CGSizeMake(self.view.frame.width, self.view.frame.height - 50)
             address.typeAddress = TypeAddress.Shiping
             address.item =  NSDictionary()
             address.addFRomMg =  true
             address.backButton?.hidden =  true
+            address.saveButton?.titleLabel?.textAlignment = .Center
             address.successCallBackRegistry = {() in
                 
                 let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
