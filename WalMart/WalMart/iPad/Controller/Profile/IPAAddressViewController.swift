@@ -36,6 +36,9 @@ class IPAAddressViewController: AddressViewController {
             left = left + 30
         }
         self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
+        if addFRomMg{
+         self.saveButton!.frame = CGRectMake(self.titleLabel!.frame.maxX - 81 , 0 , 71, self.header!.frame.height)
+        }
     }
     
     
@@ -47,9 +50,8 @@ class IPAAddressViewController: AddressViewController {
             
         }
         if addFRomMg{
-            self.titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
-             self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - 87 , 0 , 71, self.header!.frame.height)
-            //self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
+            self.titleLabel!.frame = CGRectMake(0, 0, 465, 35)
+            self.content.superview?.frame = CGRectMake(0 , 0, 718, 718)
         }
         
     }
