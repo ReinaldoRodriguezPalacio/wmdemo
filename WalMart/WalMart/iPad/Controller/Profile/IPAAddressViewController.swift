@@ -42,16 +42,16 @@ class IPAAddressViewController: AddressViewController {
     
     override func setContentSize(){
         super.setContentSize()
+        if addFRomMg{
+            self.titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
+            self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - 87 , 0 , 71, self.header!.frame.height)
+            //self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
+            return
+        }
         if self.validateZip  && self.idAddress == nil {
             self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(self.saveButton!.titleEdgeInsets.top , self.saveButton!.titleEdgeInsets.left - 35.5 , self.saveButton!.titleEdgeInsets.bottom, self.saveButton!.titleEdgeInsets.right)
             
         }
-        if addFRomMg{
-            self.titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
-             self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - 87 , 0 , 71, self.header!.frame.height)
-            //self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
-        }
-        
     }
 
 }

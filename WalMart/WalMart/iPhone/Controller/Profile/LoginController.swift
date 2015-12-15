@@ -274,11 +274,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     func closeLoginFromMg (notification:NSNotification){
         self.closeModal()
-        self.signUp.successCallBack =  {() in
-            let service = LoginService()
-            let params  = service.buildParams(self.signUp.email!.text!, password: self.signUp.password!.text!)
-            self.callService(params, alertViewService:self.signUp.alertView!)
-        }
     }
     
     
