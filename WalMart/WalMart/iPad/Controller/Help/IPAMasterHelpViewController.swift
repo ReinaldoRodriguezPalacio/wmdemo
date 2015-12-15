@@ -121,6 +121,12 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             self.navigation.pushViewController(edit, animated: true)
         default :
             print("other pressed")
+            
+        }
+
+        
+        if row != 4 {
+            selected = row
         }
         
 //        selected = row
@@ -141,7 +147,6 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
 //            println("other pressed")
 //        }
         
-        selected = row
         self.viewControllers = [self.navController, navigation];
     }
     
