@@ -37,7 +37,10 @@ class IPAAddressViewController: AddressViewController {
         }
         self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
         if addFRomMg{
+            self.titleLabel!.frame = CGRectMake(10, 3, self.view.bounds.width - 20, 35 )
             self.titleLabel!.text = NSLocalizedString("Es necesario capturar \n una dirección", comment: "")
+            self.viewTypeAdress!.hidden = true
+            self.viewAddress!.frame.origin = CGPointMake(self.viewAddress!.frame.origin.x, self.viewAddress!.frame.origin.y - 40)
         }
     }
     
@@ -46,7 +49,7 @@ class IPAAddressViewController: AddressViewController {
     override func setContentSize(){
         super.setContentSize()
         if addFRomMg{
-            self.titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
+            self.titleLabel!.frame = CGRectMake(10, 3, self.view.bounds.width - 20, 35 )
             self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - 87 , 0 , 71, self.header!.frame.height)
             //self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 100 )
             return

@@ -30,7 +30,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
             self.addressMGView = IPAAddressViewController()
-            self.addressMGView.view?.frame.size = CGSizeMake(self.view.frame.width, self.view.frame.height - 50)
+            self.addressMGView.view?.frame.size = CGSizeMake(self.view.frame.width, self.view.frame.height - 60)
             self.addressMGView.typeAddress = TypeAddress.Shiping
             self.addressMGView.item =  NSDictionary()
             self.addressMGView.addFRomMg =  true
@@ -48,11 +48,12 @@ class IPASignMGUpViewController: IPASignUpViewController {
                     service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                         self.addressMGView.closeAlert()
                         let login = LoginService()
+                        var firstEnter = true
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
                             self.alertView!.setMessage("Registro exitoso")
                             self.alertView!.showDoneIcon()
-                            
+                            self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
                                 self.addressMGView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
@@ -60,7 +61,10 @@ class IPASignMGUpViewController: IPASignUpViewController {
                                         self.addressMGView.view.removeFromSuperview()
                                         self.alertView!.setMessage("Registro exitoso")
                                         self.alertView!.showDoneIcon()
-                                        self.successCallBack?()
+                                        if firstEnter{
+                                            self.successCallBack?()
+                                            firstEnter = false
+                                        }
                                         print("Termina registro de direccion")
                                     }else{
                                         //Error

@@ -860,7 +860,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
         cont.isMGLogin =  true
-        cont!.closeAlertOnSuccess = true
+        cont!.closeAlertOnSuccess = false
         cont!.okCancelCallBack = {() in
             self.canceledAction = true
             //let response = self.navigationController?.popToRootViewControllerAnimated(true)
