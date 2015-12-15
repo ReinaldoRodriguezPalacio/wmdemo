@@ -111,6 +111,7 @@ class OrderConfirmDetailView : UIView {
         lblTitleTrackingNumber.text = NSLocalizedString("gr.confirma.trakingnum",comment: "")
         lblTitleTrackingNumber.textAlignment = .Center
         lblTitleTrackingNumber.textColor = WMColor.lineTextColor
+        lblTitleTrackingNumber.hidden = true
         
         
         let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
@@ -269,9 +270,12 @@ class OrderConfirmDetailView : UIView {
         lblValueTotal.text = total
         lblValueDeliveryAmount.text = deliveryAmount
         lblValueDiscountsAssociated.text = "\(discountsAssociated)"
+        lblTitleTrackingNumber.hidden = false
+
             if discountsAssociated == "0.0"{
                 lblValueDiscountsAssociated.hidden = true
                 lbldiscountsAssociated.hidden = true
+                
             }
             
             
@@ -281,7 +285,7 @@ class OrderConfirmDetailView : UIView {
         
         viewLoadingDoneAnimate.layer.removeAllAnimations()
         viewLoadingDoneAnimateAux.layer.removeAllAnimations()
-        
+
         viewLoadingDoneAnimateAux.alpha = 0.0
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
