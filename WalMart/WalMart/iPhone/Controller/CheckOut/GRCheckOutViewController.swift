@@ -1750,11 +1750,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         return PayPalEnvironmentNoNetwork
     }
     
-    func invokePaypalUpdateOrderService(authorizationId:String,paymentType:String){
+    func invokePaypalUpdateOrderService(authorizationId:String,paymentType:String,idAuthorization:String){
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["authorizationId"] = authorizationId
         self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
         self.confirmOrderDictionary["paymentType"] = paymentType
+        self.confirmOrderDictionary["authorization"] = idAuthorization
+        print("idAuthorization::::\(idAuthorization)::::")
 
         updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
         self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
@@ -1801,7 +1803,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
        
         if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
             if let idPayPal = completeDict["id"] as? String {
-                self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1")
+                if let idAuthorization = completeDict["authorization_id"] as? String {
+                    self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1",idAuthorization:idAuthorization)
+                }
             }
         }
 
