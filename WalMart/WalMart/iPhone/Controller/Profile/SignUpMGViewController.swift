@@ -50,8 +50,7 @@ class SignUpMGViewController: SignUpViewController {
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
                             self.alertView!.setMessage("Registro exitoso")
-                            self.alertView!.showErrorIcon("Ok")
-                            self.successCallBack?()
+                            self.alertView!.showDoneIcon()
                             
                             }, errorBlock: { (error:NSError) -> Void in
                                 
@@ -59,11 +58,10 @@ class SignUpMGViewController: SignUpViewController {
                                 self.addressMgView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
-                                        //mandar notificacion para cerrar logincontroller
-                                        self.alertView!.close()
+                                        self.addressMgView.view.removeFromSuperview()
+                                        self.alertView!.setMessage("Registro exitoso")
+                                        self.alertView!.showDoneIcon()
                                         self.successCallBack?()
-                                        let params = ["userName":self.email!.text!,"password":self.password!.text!]
-                                    NSNotificationCenter.defaultCenter().postNotificationName("CLOSELOGINFROMMG", object: params)
                                         print("Termina registro de direccion")
                                     }else{
                                         //Error
@@ -72,7 +70,7 @@ class SignUpMGViewController: SignUpViewController {
                                         self.alertView!.showErrorIcon("Ok")
                                     }
                                 })
-                        })// close loginCallService
+                        })
                         
                        
                         

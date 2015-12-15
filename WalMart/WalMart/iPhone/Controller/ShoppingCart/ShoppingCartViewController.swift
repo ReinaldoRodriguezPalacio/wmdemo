@@ -860,7 +860,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             user = UserCurrentSession.sharedInstance().userSigned!.email as String
         }
         cont.isMGLogin =  true
-        cont!.closeAlertOnSuccess = false
+        cont!.closeAlertOnSuccess = true
         cont!.okCancelCallBack = {() in
             self.canceledAction = true
             //let response = self.navigationController?.popToRootViewControllerAnimated(true)
@@ -881,6 +881,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 {
                     if shippingAddress.count > 0 {
                         presentAddres = false
+                        if(cont!.email?.text == nil || cont!.email?.text == "" ){
+                            cont!.email?.text = cont!.signUp.email?.text
+                            cont!.password?.text = cont!.signUp.password?.text
+                        }
                         self.presentedCheckOut(cont!, address: nil)
                     }
                 }
@@ -897,6 +901,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         self.presentedCheckOut(cont!, address: address)
                     }
                     self.navigationController!.pushViewController(address, animated: true)
+                    cont!.closeAlert(true, messageSucesss: true)
+                }else{
                     cont!.closeAlert(true, messageSucesss: true)
                 }
                 }, errorBlock: { (error:NSError) -> Void in

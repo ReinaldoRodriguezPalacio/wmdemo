@@ -272,12 +272,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    func closeLoginFromMg (notification:NSNotification){
-        self.closeModal()
-    }
-    
-    
-    
     func registryUser() {
         
         if self.signUp == nil{
@@ -285,10 +279,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
 
             self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
-            
-            if isMGLogin {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeLoginFromMg:", name:"CLOSELOGINFROMMG", object: nil)
-            }
             
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
             

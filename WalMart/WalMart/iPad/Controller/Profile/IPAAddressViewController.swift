@@ -36,6 +36,9 @@ class IPAAddressViewController: AddressViewController {
             left = left + 30
         }
         self.saveButton!.frame = CGRectMake(self.view.bounds.maxX - left , 0 , 71, self.header!.frame.height)
+        if addFRomMg{
+            self.titleLabel!.text = NSLocalizedString("Es necesario capturar \n una dirección", comment: "")
+        }
     }
     
     
