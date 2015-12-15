@@ -203,7 +203,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
             
-            if UserCurrentSession.hasLoggedUser(){
+            if UserCurrentSession.hasLoggedUser() || isMGLogin{
                 self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
                 self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }else{
@@ -624,6 +624,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func loginWithEmail(email:String, firstName: String, lastName: String, gender: String, birthDay: String){
         let service = LoginWithEmailService()
         service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+
             self.signInButton!.enabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
@@ -638,7 +639,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                         self.alertView!.showDoneIcon()
                     }
                 }
-                self.successCallBack!()
+                self.successCallBack?()
             }
             
             }, errorBlock: {(error: NSError) in

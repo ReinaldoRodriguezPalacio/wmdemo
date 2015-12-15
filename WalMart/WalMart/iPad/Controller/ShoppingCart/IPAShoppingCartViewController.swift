@@ -206,6 +206,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 {
                     if shippingAddress.count > 0 {
                         self.presentedCheckOut(cont!, address: nil)
+                        cont!.closeAlert(false, messageSucesss: true)
                     }else {
                         cont!.showAddres()
                         cont!.addressViewController.successCallBack = {() in
@@ -220,8 +221,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                         self.presentedCheckOut(cont!, address: cont!.addressViewController)
                     }
                     cont!.closeAlert(false, messageSucesss: true)
-
-
                 }
                 }, errorBlock: { (error:NSError) -> Void in
                     self.buttonShop.enabled = true

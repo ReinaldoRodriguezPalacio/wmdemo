@@ -51,7 +51,7 @@ class SignUpMGViewController: SignUpViewController {
                             
                             self.alertView!.setMessage("Registro exitoso")
                             self.alertView!.showDoneIcon()
-                            
+                            self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
                                 
                                 //self.alertView!.close()
