@@ -141,7 +141,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton!.tintColor = WMColor.navigationFilterTextColor
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
-        //self.filterButton!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.filterButton!.backgroundColor = WMColor.wishlistEditButtonBgColor
         self.filterButton!.layer.cornerRadius = 11.0
 
