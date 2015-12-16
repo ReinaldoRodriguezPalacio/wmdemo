@@ -323,7 +323,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }
                 
                 
-                self.invokeGetPromotionsService(self.picker.textboxValues!, discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
+                self.invokeGetPromotionsService(self.picker.textboxValues!, discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
                     print("end service viewDidLoad ::: invokeGetPromotionsService")
                 })
                 self.reloadUserAddresses()
@@ -748,7 +748,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         )
     }
     
-    func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:(() -> Void))
+    func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:((Bool) -> Void))
     {
         /*if pickerValues.count == discountAssociateItems.count
         {*/
@@ -864,10 +864,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                       
                     }
                     self.buildSubViews()
-                    endCallPromotions()
+                    endCallPromotions(true)
                 }
                 }, errorBlock: {(error: NSError) -> Void in
                     //endCallPromotions()
+                    endCallPromotions(false)
                     //self.removeViewLoad()
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
@@ -880,7 +881,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if pickerValues.count == discountAssociateItems.count
         {
             
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             self.alertView!.setMessage("Validando descuentos")
             
             //self.addViewLoad()
@@ -913,22 +914,29 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     
                
                     
-                    self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { () -> Void in
-                        print("end service from asociate")
-                        self.discountAssociate!.setSelectedCheck(true)
-                        self.asociateDiscount = true
-                        self.isAssociateSend =  true
+                    self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
+                        if finish {
+                            print("end service from asociate")
+                            self.discountAssociate!.setSelectedCheck(true)
+                            self.asociateDiscount = true
+                            self.isAssociateSend =  true
+                            self.discountAssociate!.onBecomeFirstResponder = { () in
+                            }
+                        }else{
+                             self.discountAssociate!.setSelectedCheck(false)
+                            self.asociateDiscount = false
+                            self.isAssociateSend =  false
+                        }
                         
-                        self.invokeDeliveryTypesService({ () -> Void in
-                            //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                            //self.alertView!.showDoneIcon()
-                        })
-                        self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-                        self.alertView!.showDoneIcon()
+                            self.invokeDeliveryTypesService({ () -> Void in
+                                //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                                //self.alertView!.showDoneIcon()
+                            })
+                            self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                            self.alertView!.showDoneIcon()
+                      
                     })
-                    
-                    self.discountAssociate!.onBecomeFirstResponder = { () in
-                    }
+           
                     
                 }else{
                     self.alertView!.setMessage(resultCall["message"] as! String)
@@ -944,7 +952,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }else{
         self.validateAssociate(pickerValues, completion: { (result:String) -> Void in
         if result != "" {
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         self.alertView?.setMessage("Error en los datos del asociado\(result)")
         self.alertView!.showErrorIcon("Ok")
         }
@@ -982,7 +990,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                                 let delay = 0.7 * Double(NSEC_PER_SEC)
                                                 let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                                                 dispatch_after(time, dispatch_get_main_queue()) {
-                                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
                                                     self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
                                                     self.alertView!.showDoneIconWithoutClose()
                                                     self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
@@ -1239,7 +1247,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             let delay = 0.5 * Double(NSEC_PER_SEC)
                             let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                             dispatch_after(time, dispatch_get_main_queue()) {
-                                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
                                 self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
                                 self.alertView!.showDoneIconWithoutClose()
                                 self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
