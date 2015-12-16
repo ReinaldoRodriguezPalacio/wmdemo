@@ -298,12 +298,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         
-        
+        // aqui esta el boton de filtrar
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPointZero
         self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
         self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2), self.header!.frame.maxY)
-        self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 85, (self.header!.frame.size.height - 22)/2 , 55, 22)
+        self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         //println("View bounds: \(self.view.bounds)")

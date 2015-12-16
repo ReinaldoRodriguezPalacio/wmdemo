@@ -311,7 +311,6 @@ class OrderConfirmDetailView : UIView {
 
             
         }
-       
         
     }
     

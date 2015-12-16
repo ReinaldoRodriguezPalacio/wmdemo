@@ -90,7 +90,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var isEditingSearch: Bool = false
     
     var waitToSplash = false
-    
+    var contextSearch : SearchServiceContextType!
     
     
     
@@ -609,7 +609,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             else{
                 self.clearSearch()
+                self.contextSearch = .WithText
                 self.openSearchProduct()
+                
             }
         }
         else{

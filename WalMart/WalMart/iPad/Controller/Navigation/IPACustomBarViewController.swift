@@ -25,7 +25,9 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     var searchView : IPASearchView!
     var searchBackView: UIView!
-    
+   
+    var camFind : Bool = false
+
     
     
     override func viewDidLoad() {
@@ -111,11 +113,14 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.isEditingSearch = true
     }
     
+   
+    
     override func camFindSearch(notification:NSNotification){
         let searchDic = notification.object as! [String:AnyObject]
         let upcs = searchDic["upcs"] as! [String]
         let keyWord = searchDic["keyWord"] as! String
         let controller = IPASearchProductViewController()
+        contextSearch = .WithTextForCamFind
         controller.searchContextType = .WithTextForCamFind
         controller.titleHeader = keyWord
         controller.textToSearch = keyWord
@@ -165,6 +170,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         searchView = IPASearchView(frame: CGRectMake(self.btnSearch!.frame.minX,20,350,self.headerView.frame.height - 20))
         searchView.clipsToBounds = true
         searchView.delegate = self
+        searchView.camfine =  contextSearch == SearchServiceContextType.WithTextForCamFind ? true : false
         searchView.viewContent.clipsToBounds = true
         searchView.viewContent.frame = CGRectMake(40,searchView.viewContent.frame.minY,searchView.frame.width - 40,self.btnSearch!.frame.height)
         self.headerView.addSubview(searchView)
@@ -500,8 +506,11 @@ class IPACustomBarViewController :  CustomBarViewController {
             shoppingCartVC.view.removeFromSuperview()
             self.btnShopping?.userInteractionEnabled = true
             if (openSearch){
+                if !camFind{
                 self.openSearchProduct()
+                
                 openSearch = false
+            }
             }
         }
         //Tap on Groceries Cart Empty

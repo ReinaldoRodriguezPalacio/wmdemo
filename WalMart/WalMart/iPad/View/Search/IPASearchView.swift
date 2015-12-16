@@ -24,6 +24,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     var camLabel: UILabel?
     var scanButton: UIButton?
     var scanLabel: UILabel?
+    var camfine: Bool = false 
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -224,8 +225,10 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if !camfine{
         if keyword.length() > 51{
             return false
+            }
         }
         self.field!.text = keyword;
         searchctrl.searchProductKeywords(keyword)
