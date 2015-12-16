@@ -170,6 +170,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             let cell = tableView.dequeueReusableCellWithIdentifier("textboxItem") as! TextboxTableViewCell!
             cell.textbox!.setCustomPlaceholder(itemsToShow[indexPath.row])
             cell.textbox!.maxLength = 0
+            cell.textbox!.disablePaste =  true
             
             if indexPath.row == 0 {
                 cell.textbox!.maxLength = 8
