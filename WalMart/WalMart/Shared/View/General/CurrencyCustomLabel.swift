@@ -90,6 +90,10 @@ class CurrencyCustomLabel : UIView  {
             self.label2!.text = "00"
         }
         
+        if value.contains("X"){
+            self.label1!.text = value
+        }
+        
         let sizeOfFirstText = label1!.text!.sizeWithAttributes([NSFontAttributeName: label1!.font])
         let sizeOfSecondText = label2!.text!.sizeWithAttributes([NSFontAttributeName: label2!.font])
         
