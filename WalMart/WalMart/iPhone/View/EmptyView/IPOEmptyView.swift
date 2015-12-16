@@ -63,9 +63,9 @@ class IPOEmptyView : UIView {
         self.addSubview(iconImageView)
         self.addSubview(descLabel)
         
-        if IS_IPHONE_4_OR_LESS == false {
+        //if IS_IPHONE_4_OR_LESS == false {
             self.addSubview(returnButton)
-        }
+        //}
         
         self.insertSubview(iconImageView, atIndex: 0)
     }

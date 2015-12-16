@@ -465,7 +465,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
          self.titleLabel.textAlignment = .Center
          self.titleLabel.frame =  CGRectMake(0, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
         
-        self.closeButton.hidden = false
         self.buttonRight.selected = false
         self.titleLabel.text = self.titleHeader
         self.buttonRight.setTitle(lastTitle, forState: UIControlState.Normal)
@@ -474,6 +473,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
              self.viewContent.center = self.center
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
+            self.viewButtonClose.hidden = true
+            self.closeButton.hidden = false
             }) { (complete:Bool) -> Void in
                 self.viewReplace?.removeFromSuperview()
                 self.viewButtonClose.removeFromSuperview()
