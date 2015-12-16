@@ -48,6 +48,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var buttonRight : WMRoundButton!
     var buttonOk : UIButton!
     
+    var closeButton : UIButton!
     var viewButtonClose : UIButton!
     var viewReplace : UIView!
     
@@ -84,11 +85,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             margin = 40
         }
         
-        let viewButton = UIButton(frame: CGRectMake(margin, margin, 40, 40))
-        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
-        viewButton.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
-        self.addSubview(viewButton)
-        
         viewContent = UIView(frame: CGRectMake(0, 0, 286, 316))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
@@ -97,6 +93,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
         headerView.backgroundColor = WMColor.navigationHeaderBgColor
         viewContent.addSubview(headerView)
+        
+        closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
+        closeButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        headerView.addSubview(closeButton)
 
         titleLabel = UILabel(frame: headerView.bounds)
         titleLabel.textColor =  WMColor.navigationTilteTextColor
@@ -429,9 +430,11 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             
             viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
             viewButtonClose.addTarget(self, action: "closeNew", forControlEvents: UIControlEvents.TouchUpInside)
-            viewButtonClose.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+            viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
             viewButtonClose.alpha = 0
             self.headerView.addSubview(viewButtonClose)
+            self.closeButton.hidden = true
+
             
             self.buttonRight.selected = true
             let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
@@ -471,6 +474,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
              self.viewContent.center = self.center
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
+            self.viewButtonClose.hidden = true
+            self.closeButton.hidden = false
             }) { (complete:Bool) -> Void in
                 self.viewReplace?.removeFromSuperview()
                 self.viewButtonClose.removeFromSuperview()
