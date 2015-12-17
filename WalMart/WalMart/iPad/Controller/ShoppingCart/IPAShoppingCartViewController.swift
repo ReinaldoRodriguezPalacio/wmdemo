@@ -205,6 +205,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 if let shippingAddress = resultCall["shippingAddresses"] as? NSArray
                 {
                     if shippingAddress.count > 0 {
+                        if(cont!.password?.text == nil || cont!.password?.text == "" ){
+                            self.showloginshop()
+                            cont!.closeAlert(true, messageSucesss: true)
+                            return
+                        }
                         self.presentedCheckOut(cont!, address: nil)
                         cont!.closeAlert(false, messageSucesss: true)
                     }else {

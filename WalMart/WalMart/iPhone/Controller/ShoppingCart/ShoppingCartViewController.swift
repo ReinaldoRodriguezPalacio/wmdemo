@@ -885,6 +885,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             cont!.email?.text = cont!.signUp.email?.text
                             cont!.password?.text = cont!.signUp.password?.text
                         }
+                        if(cont!.password?.text == nil || cont!.password?.text == "" ){
+                            self.showloginshop()
+                            cont!.closeAlert(true, messageSucesss: true)
+                            return
+                        }
                         self.presentedCheckOut(cont!, address: nil)
                     }
                 }
