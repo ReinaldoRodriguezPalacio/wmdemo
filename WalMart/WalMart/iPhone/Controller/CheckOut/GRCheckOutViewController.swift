@@ -1016,28 +1016,28 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func buildAndConfigureDeliveryType() {
         if self.selectedAddress != nil {
-        self.invokeDeliveryTypesService({ () -> Void in
-            self.shipmentType!.onBecomeFirstResponder = {() in
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
-                var itemsShipment : [String] = []
-                if self.shipmentItems?.count > 1{
-                    for option in self.shipmentItems! {
-                        if let text = option["name"] as? String {
-                            itemsShipment.append(text)
+            self.invokeDeliveryTypesService({ () -> Void in
+                self.shipmentType!.onBecomeFirstResponder = {() in
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
+                    var itemsShipment : [String] = []
+                    if self.shipmentItems?.count > 1{
+                        for option in self.shipmentItems! {
+                            if let text = option["name"] as? String {
+                                itemsShipment.append(text)
+                            }
                         }
+                        self.picker!.selected = self.selectedShipmentTypeIx
+                        self.picker!.sender = self.shipmentType!
+                        self.picker!.delegate = self
+                        self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
+                        self.picker!.hiddenRigthActionButton(true)
+                        self.picker!.cellType = TypeField.Check
+                        self.picker!.showPicker()
                     }
-                    self.picker!.selected = self.selectedShipmentTypeIx
-                    self.picker!.sender = self.shipmentType!
-                    self.picker!.delegate = self
-                    self.picker!.setValues(self.shipmentType!.nameField, values: itemsShipment)
-                    self.picker!.hiddenRigthActionButton(true)
-                    self.picker!.cellType = TypeField.Check
-                    self.picker!.showPicker()
                 }
-            }
-            
-            self.buildSlotsPicker(self.selectedDate)
-        })
+
+                self.buildSlotsPicker(self.selectedDate)
+            })
         }
     }
     
@@ -1156,7 +1156,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let date = NSDate()
             self.selectedDate = date
             self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
-            self.buildAndConfigureDeliveryType()
+            //self.buildAndConfigureDeliveryType()
+            self.validateMercuryDelivery()
+
         })
     }
     
@@ -1181,10 +1183,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokeTimeBandsService(date:String,endCallTypeService:(() -> Void)) {
-        let service = GRTimeBands()
-        let params = service.buildParams(date, addressId: self.selectedAddress!)
-        service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
-               // var date = self.deliveryDatePicker!.date
+        if !self.mercury {
+
+            let service = GRTimeBands()
+            let params = service.buildParams(date, addressId: self.selectedAddress!)
+            service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
+                // var date = self.deliveryDatePicker!.date
                 if let day = result["day"] as? String {
                     if let month = result["month"] as? String {
                         if let year = result["year"] as? String {
@@ -1199,11 +1203,27 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.slotsItems = result["slots"] as! NSArray as [AnyObject]
                 self.addViewLoad()
                 endCallTypeService()
-            }) { (error:NSError) -> Void in
-                self.removeViewLoad()
-                self.slotsItems = []
+                }) { (error:NSError) -> Void in
+                    self.removeViewLoad()
+                    self.slotsItems = []
+                    endCallTypeService()
+            }
+        }else {
+            let deliveryService = PostDelivery()
+            deliveryService.validateMercurySlots(self.selectedDate, idShopper: "1", idStore: storeID, onSuccess: { (resultSuccess:AnyObject) -> Void in
+                let allSlots = resultSuccess["custom"] as! [AnyObject]
+                var allSlotsCustom : [AnyObject] = []
+                for slot in allSlots  {
+                    let beginDateRange = slot["beginDateRange"]
+                    let endDateRange = slot["endDateRange"]
+                    allSlotsCustom.append(["displayText":"\(beginDateRange) - \(endDateRange)","id":slot["id"],"isVisible":true])
+                }
+                self.slotsItems = allSlotsCustom
+                self.addViewLoad()
                 endCallTypeService()
+            })
         }
+
         
     }
     
@@ -1231,6 +1251,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.showPayPalFuturePayment = false
                     self.buildSubViews()
                 }
+                self.validateMercuryDelivery()
             }
             if formFieldObj ==  self.address! {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
@@ -1254,10 +1275,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                             }
                             return
                         }else{
-                            buildAndConfigureDeliveryType()
+                            self.validateMercuryDelivery()
                       }
                     }else{
-                        buildAndConfigureDeliveryType()
+                        self.validateMercuryDelivery()
                     }
                 }
                 
@@ -1452,11 +1473,20 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
     }
     
-    
     func sendOrder() {
+        if !self.mercury {
+            sendOrderWalmart()
+        }else {
+            sendOrderMercury()
+        }
+    }
+
+
+    func sendOrderWalmart() {
+
 
         buttonShop?.enabled = false
-        
+    
         if validate() {
             
             if selectedTimeSlotTypeIx == nil {
@@ -1862,4 +1892,228 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         super.back()
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
     }
+    
+    
+    
+    
+    
+    //MARK: Mercury
+    
+    var mercury = false
+    var storeID = ""
+    
+    
+    func validateMercuryDelivery() {
+        self.sendMercuryDeliveryValidation({ () -> Void in
+            self.buildAndConfigureDeliveryType()
+            }, onError: { () -> Void in
+                self.buildAndConfigureDeliveryType()
+        })
+    }
+    
+    func sendMercuryDeliveryValidation(onSuccess:(() -> Void),onError:(() -> Void)){
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = self.selectedAddress!
+        
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            let store = result["storeID"] as! String!
+            self.storeID = store
+            
+            let postDeliveryMercury = PostDelivery()
+            postDeliveryMercury.validateMercuryDelivery(UserCurrentSession.sharedInstance().deviceToken, onSuccess: { (customRules) -> Void in
+                self.mercury = true
+                
+                //Validate delivery
+                let rules = customRules["custom"] as! [String:AnyObject]
+                if let currentStores = rules["stores"] as? [String] {
+                    if currentStores.filter({$0 == self.storeID}).count == 0 {
+                        self.mercury = false
+                        onSuccess()
+                        return
+                    }
+                }
+                
+                if let maxNumberItems = rules["maxNumberItems"] as? Int {
+                    if UserCurrentSession.sharedInstance().numberOfArticlesGR() > maxNumberItems {
+                        self.mercury = false
+                        onSuccess()
+                        return
+                    }
+                }
+                
+                if let maxAmount = rules["maxAmount"] as? Double {
+                    if (UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR()) > maxAmount {
+                        self.mercury = false
+                        onSuccess()
+                        return
+                    }
+                }
+                
+                if let paymentMethod = rules["paymentMethod"] as? [String] {
+                    let paymentSel = self.paymentOptionsItems![self.selectedPaymentType.row] as! NSDictionary
+                    let paymentSelectedId = paymentSel["id"] as! String
+                    if paymentMethod.filter({$0 == paymentSelectedId}).count == 0 {
+                        self.mercury = false
+                        onSuccess()
+                        return
+                    }
+                }
+                
+                
+                onSuccess()
+                }, onError: { (error) -> Void in
+                    self.mercury = false
+                    onError()
+            })
+            
+            }, errorBlock: { (error:NSError) -> Void in
+                self.mercury = false
+                onError()
+        })
+    }
+    
+    //MARK: Order Mercury
+    func sendOrderMercury() {
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = self.selectedAddress!
+        
+        
+        serviceDetail = OrderConfirmDetailView.initDetail()
+        serviceDetail?.delegate = self
+        serviceDetail!.showDetail()
+        
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            
+            let postalCode = result["zipCode"] as! String!
+            
+            let serviceZipCode = GRZipCodeService()
+            serviceZipCode.buildParams(postalCode)
+            serviceZipCode.callService([:], successBlock: { (resultZip:NSDictionary) -> Void in
+                
+                let street = result["street"] as! String!
+                let state = result["state"] as! String!
+                let innerNumber = result["innerNumber"] as! String!
+                let outerNumber = result["outerNumber"] as! String!
+                let reference1 = result["reference1"] as! String!
+                let reference2 = result["reference2"] as! String!
+                let store = result["storeID"] as! String!
+                let neighborhoodId = result["neighborhoodID"] as! String!
+                var neighborhood = ""
+                
+                
+                
+                let neighborhoodsDic = resultZip["neighborhoods"] as! [NSDictionary]
+                for dic in  neighborhoodsDic {
+                    if let idNei =  dic["id"] as! String!
+                    {
+                        if idNei == neighborhoodId {
+                            neighborhood = dic["name"] as! String!
+                        }
+                    }
+                }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                
+                
+                let total = UserCurrentSession.sharedInstance().estimateTotalGR() - self.savings
+                let date = NSDate()
+                let postDeliveryMercury = PostDelivery()
+                let delivery = Delivery()
+                delivery.setOrder(date:date, deliveryInstructions: self.comments?.text,  orderTotalCost: total, orderShipmentCost: 70.0)
+                delivery.setDeliveryAddress(street, city: "", state: state, postalCode: postalCode, country: "", longitude: nil, latitude: nil,internalNumber:innerNumber,externalNumber:outerNumber,betweenStreet1:reference1,betweenStreet2:reference2,addressReference:"",neighborhood:neighborhood)
+                let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+                for item in items {
+                    
+                    let upcItem = item["upc"] as! String
+                    let shortDesc = item["description"] as! String
+                    let longDesc = item["characteristics"] as! String
+                    let price = item["price"] as! NSNumber
+                    let quantity = item["quantity"  ] as! NSNumber
+                    let total = price.doubleValue * quantity.doubleValue
+                    let comments = item["comments"] as! String
+                    let typeUnit = item["type"] as! String
+                    let imageUrl = item["imageUrl"] as! String
+                    
+                    let unitTypeSend = typeUnit == "0" ? OrderItemUnit.Pice :  OrderItemUnit.Gram
+                    
+                    delivery.addItemToOrder(upcItem, name: shortDesc, unitSalePrice: price.doubleValue, totalPrice: total, upc: upcItem, shortDescription: shortDesc, longDescription: longDesc, thumbnailImage: imageUrl, quantity: quantity.longValue , unitType: unitTypeSend, comments: comments, additionType: nil, orderItemStatus: nil, marketplace: nil, modelNumber: nil, stock: nil, status: nil, aisle: "Sin clasificación", consecutive: nil)
+                }
+                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+                let userlastName = UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String
+                delivery.setConsumer(userEmail, name: userName, lastName: userlastName)
+                delivery.setApplicationInfo(1,appName:"Walmart app")
+                
+                let paymentSel = self.paymentOptionsItems![self.selectedPaymentType.row] as! NSDictionary
+                let paymentSelectedText = paymentSel["paymentType"] as! String
+                
+                let confirmTypeSel = self.orderOptionsItems![self.selectedConfirmation.row] as! NSDictionary
+                let confirmation = confirmTypeSel["desc"] as! String
+                delivery.contactPreferences = confirmation
+                
+                
+                
+                let cellNumber = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
+                if !cellNumber.isEmpty {
+                    delivery.addContactInfo(ContactMean.Mobile,
+                        value: UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String,
+                        ext:"")
+                }
+                
+                let phoneNumber = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
+                if !phoneNumber.isEmpty {
+                    delivery.addContactInfo(ContactMean.Home,
+                        value: UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String,
+                        ext:UserCurrentSession.sharedInstance().userSigned!.profile.homeNumberExtension as String)
+                }
+                
+                let workNumber = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
+                if !workNumber.isEmpty {
+                    delivery.addContactInfo(ContactMean.Work,
+                        value: UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String,
+                        ext:UserCurrentSession.sharedInstance().userSigned!.profile.workNumberExtension as String)
+                }
+                
+                let slotSel = self.slotsItems![self.selectedTimeSlotTypeIx.row]  as! NSDictionary
+                let slotSelectedId = slotSel["id"] as! Int
+                
+                delivery.setPaymentMethod(1,name:paymentSelectedText)
+                delivery.setDetailService(ServiceType.Normal, deliveryDate: self.selectedDate, idShopper: "", idStore: store,idTimeSlot:slotSelectedId)
+                delivery.storeID = store
+                
+                let dateFormat = "dd/MM/yyyy"
+                let formatter = NSDateFormatter()
+                formatter.dateFormat = dateFormat
+                
+                let formattedDate = formatter.stringFromDate(self.selectedDate)
+                let _total = UserCurrentSession.sharedInstance().estimateTotalGR() //- self.savings
+                let _formattedSubtotal = CurrencyCustomLabel.formatString(NSNumber(double:_total).stringValue)
+                
+                ///TODO: Tempopral
+                let dateFormatOrder = "ddMMyyyyhhmmss"
+                let formatterOrder = NSDateFormatter()
+                formatterOrder.dateFormat = dateFormatOrder
+                let dateToday = NSDate()
+                delivery.customkey = formatterOrder.stringFromDate(dateToday)
+                
+                let discountsAssociated = self.totalDiscountsOrder
+                
+                postDeliveryMercury.callMercuryDelivery(delivery, onPostDelivery: { (idDelivery) -> Void in
+                    self.serviceDetail?.completeOrder(idDelivery, deliveryDate: formattedDate, deliveryHour: self.deliverySchedule!.text! , paymentType: paymentSelectedText, subtotal: _formattedSubtotal, total: _formattedSubtotal,deliveryAmount : "",discountsAssociated : "\(discountsAssociated)")
+                    self.buttonShop?.enabled = false
+                    }, onError: { (error) -> Void in
+                        self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                })
+                
+                
+                }, errorBlock: { (error:NSError) -> Void in
+                    self.mercury = false
+            })
+            }, errorBlock: { (error:NSError) -> Void in
+                self.mercury = false
+        })
+    }
+    
+    
+    
+    
+
 }
