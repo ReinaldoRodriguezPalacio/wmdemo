@@ -864,6 +864,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.idLine = line == nil ? "_" :  line
         controller.titleHeader = title
         let controllernav = self.currentController as? UINavigationController
+        let controllersInNavigation = controllernav?.viewControllers.count
+        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+        }
         controllernav?.pushViewController(controller, animated: true)
 //        self.btnSearch!.selected = false
 //        self.btnSearch!.setImage(UIImage(named: "navBar_search"), forState:  UIControlState.Normal)
