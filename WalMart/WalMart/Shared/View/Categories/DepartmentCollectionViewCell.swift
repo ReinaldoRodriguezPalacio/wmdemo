@@ -63,7 +63,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let scale = UIScreen.mainScreen().scale
         let svcUrl = serviceUrl(keyIconUrl)
         var imgURLName = "\(svcUrl)\(imageIconURL)"
-        imgURLName = imgURLName.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
+        imgURLName = imgURLName.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.png" )
         var loadImagefromUrl =  true
         
         let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr:"categories_default") { (loadImage:Bool) -> Void in
