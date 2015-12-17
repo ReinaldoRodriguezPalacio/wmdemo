@@ -164,7 +164,7 @@ class IPACategoriesResultViewController : UIViewController,IPAFamilyViewControll
             popover = UIPopoverController(contentViewController: familyController)
         }
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, frameStart.height + 40, 0, 0), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, frameStart.height + 40, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         searchProduct.setSelectedHeaderCat()
         
         if familyController.familyTable != nil {
