@@ -297,7 +297,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         
-        // aqui esta el boton de filtrar
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPointZero
         self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
@@ -332,7 +331,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             view.title?.textAlignment = .Center
             view.addSubview(view.title!)
             view.addSubview(self.filterButton!)
-            
+
             view.backgroundColor = WMColor.light_gray
             
             if indexPath.section == 0 {
