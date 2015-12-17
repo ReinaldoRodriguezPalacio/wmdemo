@@ -50,7 +50,8 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         
         self.titleLabel!.text = NSLocalizedString("moreoptions.title.Contact", comment: "")
-        self.imgConfirm = UIImageView()
+
+        self.imgConfirm  = UIImageView(image: UIImage(named:"support-empty"))
         self.labelQuestion1 = UILabel()
         self.labelQuestion2 = UILabel()
         self.callme = UILabel()
@@ -62,7 +63,6 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.buttomCall = UIButton()
         self.buttomMail = UIButton()
         
-        imgConfirm.image = UIImage(named: "support-bg")
         
         let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
             attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),

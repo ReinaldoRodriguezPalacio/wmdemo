@@ -1261,6 +1261,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
     
+    func closeAlertPk() {
+        self.buttonAsociate.highlighted =  isEmployeeDiscount
+    }
+    
     func validateAssociate(associateNumber:String?,dateAdmission:String?,determinant:String?, completion: (result:String) -> Void) {
         var message = ""
         
