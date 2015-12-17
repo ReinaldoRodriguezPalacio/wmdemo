@@ -480,6 +480,9 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.titleHeader = title
         controller.searchFromContextType = SearchServiceFromContext.FromSearchTextSelect
         let controllernav = self.currentController as? UINavigationController
+        if (controllernav?.topViewController as? IPASearchProductViewController != nil){
+            controllernav?.popViewControllerAnimated(false)
+        }
         controllernav?.pushViewController(controller, animated: true)
         self.btnSearch!.selected = false
     }
