@@ -118,6 +118,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         buyWishlist.frame = CGRectMake((self.view.frame.width / 2) - (buyWishlist.frame.width / 2), buyWishlist.frame.minY, buyWishlist.frame.width, buyWishlist.frame.height)
         titleLabel.frame = CGRectMake((header.frame.width/2) - 75, 0, 150, header.frame.height)
         self.emptyView!.frame = CGRectMake(0, 46, wishlist.frame.width, wishlist.frame.height + 64)
+        self.view.frame = CGRectMake(0, 0, self.view.frame.width, 334)
         
     }
     

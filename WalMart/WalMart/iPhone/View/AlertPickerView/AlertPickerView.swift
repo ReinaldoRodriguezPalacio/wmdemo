@@ -9,13 +9,13 @@
 import Foundation
 
 
-protocol AlertPickerViewDelegate {
+@objc protocol AlertPickerViewDelegate {
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String)
     func didDeSelectOption(picker:AlertPickerView)
     
     func viewReplaceContent(frame:CGRect) -> UIView!
     func saveReplaceViewSelected()
-    
+    optional func closeAlertPk()
     func buttomViewSelected(sender:UIButton)
 }
 
@@ -245,6 +245,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     func closePicker() {
+        self.delegate?.closeAlertPk!()
         onClosePicker?()
         self.removeFromSuperview()
     }

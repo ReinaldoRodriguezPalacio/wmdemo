@@ -52,6 +52,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     var alertView : IPOWMAlertViewController? = nil
     var continueSearch:Bool = false
     var allowsLibrary:Bool = false
+    var searchId: String! = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TAKEPHOTO.rawValue
@@ -459,6 +460,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     var scheduleTimmer : NSTimer!
     
     func sendPhoto(){
+         let searchId = "\((arc4random() % 1000000) )"
+        self.searchId = searchId
         if alertView == nil {
             self.alertView = IPAWMAlertViewController.showAlertWithCancelButton(self, delegate: self,imageWaiting:self.maskRoundedImage(capturedImage.image!), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(arrayImages[currentItem])
@@ -468,7 +471,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         let service = CamFindService()
         service.callService(service.buildParams(self.capturedImage.image!),
             successBlock: { (response: NSDictionary) -> Void in
-                self.checkPhotoStatus(response.objectForKey("token") as! String)
+                self.checkPhotoStatus(response.objectForKey("token") as! String, idSearch: searchId)
             }, errorBlock: { (error:NSError) -> Void in
                 //ERROR
         })
@@ -484,8 +487,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.alertView!.setMessage(arrayImages[++currentItem])
     }
     
-    func checkPhotoStatus(token: String){
-       if(self.continueSearch){
+    func checkPhotoStatus(token: String, idSearch: String){
+       if(self.continueSearch && self.searchId == idSearch){
         let service = CamFindService()
         service.checkImg(token,
             successBlock: { (response: NSDictionary) -> Void in
@@ -510,7 +513,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
 
                     break;
                 case ("not completed"):
-                    self.checkPhotoStatus(token)
+                    self.checkPhotoStatus(token, idSearch: idSearch)
                     break;
                 case ("not found"):
                     self.dismissViewControllerAnimated(true, completion: { () -> Void in

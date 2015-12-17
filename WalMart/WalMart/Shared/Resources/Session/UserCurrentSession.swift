@@ -846,7 +846,7 @@ class UserCurrentSession : NSObject {
     func getStoreByAddress(address: NSDictionary){
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
-        if self.storeName == nil || self.storeName!.isEmpty {
+        if self.storeId != nil && (self.storeName == nil || self.storeName!.isEmpty) {
             let serviceZip = GRZipCodeService()
             serviceZip.buildParams(address["zipCode"] as! String)
             serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
