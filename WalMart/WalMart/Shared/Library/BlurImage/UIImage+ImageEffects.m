@@ -113,6 +113,13 @@
     return [self applyBlurWithRadius:5 tintColor:tintColor saturationDeltaFactor:1.0 maskImage:nil];
 }
 
+- (UIImage *)applyLightEffectDelivery
+{
+    UIColor *tintColor = [UIColor clearColor];
+    return [self applyBlurWithRadius:3 tintColor:tintColor saturationDeltaFactor:0.8 maskImage:nil];
+}
+
+
 
 - (UIImage *)applyExtraLightEffect
 {

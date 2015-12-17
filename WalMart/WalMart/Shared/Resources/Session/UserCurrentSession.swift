@@ -33,6 +33,9 @@ class UserCurrentSession : NSObject {
     var isAssociated : Int! = 0
     var porcentageAssociate : Double! =  0.0
     
+    var deviceToken = ""
+
+    
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
         struct Static {
@@ -103,6 +106,10 @@ class UserCurrentSession : NSObject {
                 
                 let loginService = LoginWithEmailService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                
+                //MercuryUser
+                MercuryService.sharedInstance().setActiveUserName(emailUser as String)
+
                 
                 loginService.callService(["email":emailUser], successBlock: { (result:NSDictionary) -> Void in
                     print("User signed")
@@ -223,6 +230,9 @@ class UserCurrentSession : NSObject {
         updatePhoneProfile()
         self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
         
+        //MercuryUser
+        MercuryService.sharedInstance().setActiveUserName(usr.email as String)
+
         self.loadShoppingCarts { () -> Void in
             self.invokeGroceriesUserListService()
         }
