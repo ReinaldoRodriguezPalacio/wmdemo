@@ -100,6 +100,7 @@
 
 - (UIImage *)applySubtleEffect;
 - (UIImage *)applyLightEffect;
+- (UIImage *)applyLightEffectDelivery;
 - (UIImage *)applyExtraLightEffect;
 - (UIImage *)applyDarkEffect;
 - (UIImage *)applyTintEffectWithColor:(UIColor *)tintColor;

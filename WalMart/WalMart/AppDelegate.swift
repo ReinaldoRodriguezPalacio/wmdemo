@@ -132,6 +132,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Clean all notifications
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
+        //MERCURY
+        MercuryService.sharedInstance().startMercuryService()
+
+        
         return true
     }
 
@@ -161,6 +165,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //Facebook
         FBSDKAppEvents.activateApp()
+        
+        //MERCURY
+        MercuryService.sharedInstance().updateMercuryService()
+
         
         if imgView != nil {
             imgView!.removeFromSuperview()
@@ -263,6 +271,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         NSLog("Device token: \(deviceTokenString)")
         print("Device token: \(deviceTokenString)")
+        
+        UserCurrentSession.sharedInstance().deviceToken = deviceTokenString
+
    
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
@@ -295,49 +306,56 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
        handleNotification(application,userInfo: userInfo)
+        
+        //MERCURY
+        MercuryService.sharedInstance().startMercuryService()
+
     }
 
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
-        
-        let notiicationInfo = userInfo["notification"] as! NSDictionary
-        let notiicationAPS = userInfo["aps"] as! NSDictionary
-        
-        let type = notiicationInfo["type"] as! String
-        let name = notiicationInfo["name"] as! String
-        let value = notiicationInfo["value"] as! String
-        let message = notiicationAPS["alert"] as! String
-        let bussines = notiicationInfo["business"] as! String
-        
-        let serviceSave = NotificationFileService()
-        serviceSave.saveNotification(userInfo)
-        
-        if let customBar = self.window?.rootViewController as? CustomBarViewController {
-                        
-            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
-            {
-                customBar.handleNotification(type,name:name,value:value,bussines:bussines)
-            }else{
-                
-                
-                let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
-                alertNot?.showDoneIconWithoutClose()
-                alertNot?.setMessage(message)
-                alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
-                    
-                    
-                    
+        if let notiicationInfo = userInfo["notification"] as? NSDictionary {
 
-                     alertNot?.close()
-                    }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
+            
+            let notiicationInfo = userInfo["notification"] as! NSDictionary
+            let notiicationAPS = userInfo["aps"] as! NSDictionary
+            
+            let type = notiicationInfo["type"] as! String
+            let name = notiicationInfo["name"] as! String
+            let value = notiicationInfo["value"] as! String
+            let message = notiicationAPS["alert"] as! String
+            let bussines = notiicationInfo["business"] as! String
+            
+            let serviceSave = NotificationFileService()
+            serviceSave.saveNotification(userInfo)
+            
+            if let customBar = self.window?.rootViewController as? CustomBarViewController {
+                
+                if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+                {
+                    customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                }else{
+                    
+                    
+                    let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
+                    alertNot?.showDoneIconWithoutClose()
+                    alertNot?.setMessage(message)
+                    alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
                         
-                        //Obtiene vista de login
-                        if let viewLogin =  customBar.view.viewWithTag(5000) {
-                            viewLogin.removeFromSuperview()
-                        }
                         
-                        customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                        
+                        
                         alertNot?.close()
-                })
+                        }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
+                            
+                            //Obtiene vista de login
+                            if let viewLogin =  customBar.view.viewWithTag(5000) {
+                                viewLogin.removeFromSuperview()
+                            }
+                            
+                            customBar.handleNotification(type,name:name,value:value,bussines:bussines)
+                            alertNot?.close()
+                    })
+                }
             }
         }
         
