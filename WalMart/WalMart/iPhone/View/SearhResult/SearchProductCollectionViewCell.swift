@@ -16,7 +16,7 @@ protocol SearchProductCollectionViewCellDelegate{
 class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     var addProductToShopingCart : UIButton? = nil
-    var productPriceThroughLabel : UILabel? = nil
+    var productPriceThroughLabel : CurrencyCustomLabel? = nil
     var upc : String!
     var desc : String!
     var price : String!
@@ -41,10 +41,10 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
 
     
         
-        self.productPriceThroughLabel = UILabel(frame:CGRectZero)
+        self.productPriceThroughLabel = CurrencyCustomLabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
-        self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
-        self.productPriceThroughLabel!.textColor = WMColor.savingTextColor
+        //self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
+        //self.productPriceThroughLabel!.textColor = WMColor.savingTextColor
         
         self.productShortDescriptionLabel!.textColor = WMColor.searchProductDescriptionTextColors
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
@@ -96,7 +96,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
-        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.priceProductTextColor, interLine: false)
 
         
         var savingPrice = ""
@@ -112,8 +112,14 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             }
         }
         
-        
-        self.productPriceThroughLabel!.text = savingPrice
+        if savingPrice != ""{
+            self.productPriceThroughLabel!.hidden = false
+            self.productPriceThroughLabel!.updateMount(savingPrice, font: IS_IPAD ? WMFont.fontMyriadProSemiboldOfSize(14) :WMFont.fontMyriadProSemiboldOfSize(9), color: WMColor.savingTextColor, interLine: false)
+        }else{
+            
+            self.productPriceThroughLabel!.hidden = true
+        }
+        //self.productPriceThroughLabel!.text = savingPrice
         if savingPrice == "" {
             self.productPriceLabel!.frame = CGRectMake(0,  self.bounds.maxY - 30 , self.bounds.width , 18)
         } else {
