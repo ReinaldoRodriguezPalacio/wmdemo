@@ -33,6 +33,9 @@ class UserCurrentSession : NSObject {
     var isAssociated : Int! = 0
     var porcentageAssociate : Double! =  0.0
     
+    var deviceToken = ""
+
+    
     //Singleton init
     class func sharedInstance()-> UserCurrentSession! {
         struct Static {
@@ -103,6 +106,10 @@ class UserCurrentSession : NSObject {
                 
                 let loginService = LoginWithEmailService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                
+                //MercuryUser
+                MercuryService.sharedInstance().setActiveUserName(emailUser as String)
+
                 
                 loginService.callService(["email":emailUser], successBlock: { (result:NSDictionary) -> Void in
                     print("User signed")
@@ -223,6 +230,9 @@ class UserCurrentSession : NSObject {
         updatePhoneProfile()
         self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
         
+        //MercuryUser
+        MercuryService.sharedInstance().setActiveUserName(usr.email as String)
+
         self.loadShoppingCarts { () -> Void in
             self.invokeGroceriesUserListService()
         }
@@ -629,9 +639,14 @@ class UserCurrentSession : NSObject {
     
     func numberOfArticlesGR() -> Int {
         var countItems = 0
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
-        if arrayCart != nil {
+        if self.itemsGR != nil {
+            let arrayCart = self.itemsGR!["items"] as? [AnyObject]
             countItems = arrayCart!.count
+        }else{
+           let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
+            if arrayCart != nil {
+                countItems = arrayCart!.count
+            }
         }
         self.updateTotalItemsInCarts(itemsInGR:countItems)
         return countItems
@@ -836,7 +851,7 @@ class UserCurrentSession : NSObject {
     func getStoreByAddress(address: NSDictionary){
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
-        if self.storeName == nil || self.storeName!.isEmpty {
+        if self.storeId != nil && (self.storeName == nil || self.storeName!.isEmpty) {
             let serviceZip = GRZipCodeService()
             serviceZip.buildParams(address["zipCode"] as! String)
             serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in

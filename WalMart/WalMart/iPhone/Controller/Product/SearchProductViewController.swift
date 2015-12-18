@@ -331,7 +331,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             view.title?.textAlignment = .Center
             view.addSubview(view.title!)
             view.addSubview(self.filterButton!)
-            
+
             view.backgroundColor = WMColor.light_gray
             
             if indexPath.section == 0 {
