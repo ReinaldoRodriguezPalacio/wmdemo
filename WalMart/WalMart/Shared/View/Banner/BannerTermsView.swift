@@ -56,9 +56,9 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
             
             var stringurl = test.substringWithRange(endTxt)
             stringurl = stringurl.stringByReplacingOccurrencesOfString("<", withString: "").stringByReplacingOccurrencesOfString(">", withString: "")
-            
-            let myRange:NSRange  = test.rangeOfString(stringurl)
-            //test.stringByReplacingOccurrencesOfString("<\(stringurl)>", withString:stringurl)
+            let termsTest  =  terms as NSString
+            let myRange:NSRange  = termsTest.rangeOfString(stringurl)
+            test.stringByReplacingOccurrencesOfString("<\(stringurl)>", withString:stringurl)
             
             let myCustomAttribute = [ "URLTERMS": stringurl]
             myString.addAttributes(myCustomAttribute, range: myRange)
