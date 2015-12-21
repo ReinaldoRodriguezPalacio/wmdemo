@@ -64,6 +64,7 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
             myString.addAttributes(myCustomAttribute, range: myRange)
             myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range:NSMakeRange(0,myString.length))
         }
+        myString.addAttribute(NSForegroundColorAttributeName, value: UIColor.whiteColor(), range:NSMakeRange(0,myString.length))
 
         viewText.attributedText = myString
        
