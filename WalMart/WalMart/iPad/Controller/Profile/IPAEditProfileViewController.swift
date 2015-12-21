@@ -30,7 +30,8 @@ class IPAEditProfileViewController: EditProfileViewController {
         super.viewWillLayoutSubviews()
         let fieldHeight: CGFloat = 40.0
        // self.content.frame = CGRectMake(0, self.header!.frame.maxY + 15 , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
-        self.femaleButton!.frame = CGRectMake((self.view.frame.width / 2) - 56,  birthDate!.frame.maxY + 8,  76 , fieldHeight)
+        let intWidth = (self.view.frame.width / 2) % 2 == 0 ? (self.view.frame.width / 2)  - 56 : ((self.view.frame.width - 1) / 2)  - 56
+        self.femaleButton!.frame = CGRectMake(intWidth,  birthDate!.frame.maxY + 8,  76 , fieldHeight)
         self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 8, 76 , fieldHeight)
         self.changePasswordButton?.frame = CGRectMake((self.view.frame.width / 2) - 134, self.femaleButton!.frame.maxY+8 , 288,40 )
         self.legalInformation!.frame = CGRectMake((self.view.frame.width / 2) - 134, self.changePasswordButton!.frame.maxY+90 , 288,40 )
