@@ -75,7 +75,7 @@ class IPOEmptyView : UIView {
          iconImageView.frame = CGRectMake(0.0, 0.0,  self.bounds.width,  iconImageView.image!.size.height)//  self.bounds.height)
         }
         self.descLabel.frame = CGRectMake(0.0, 28.0, self.bounds.width, 16.0)
-        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.height - 140, 160 , 40)
+        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.height - 100, 160 , 40)
     }
 
     func returnActionSel() {

@@ -264,6 +264,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.loading!.startAnnimating(self.isVisibleTab)
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -1396,5 +1400,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         else {
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable]
         }
+    }
+    
+    //reload after update
+    func afterAddToSC() {
+        self.collection?.reloadData()
     }
 }
