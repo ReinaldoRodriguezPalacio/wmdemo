@@ -507,27 +507,43 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        let controller = ProductDetailPageViewController()
-        var productsToShow : [[String:String]] = []
-        if indexPath.section == 0 && self.upcsToShow?.count > 0 {
-            if self.btnSuper.selected {
-                if indexPath.row < self.allProducts!.count {
-                    for strUPC in self.allProducts! {
-                        let upc = strUPC["upc"] as! String
-                        let description = strUPC["description"] as! String
-                        let type = strUPC["type"] as! String
-                        var through = ""
-                        if let priceThr = strUPC["saving"] as? String {
-                            through = priceThr as String
+        let cell = self.collection?.cellForItemAtIndexPath(indexPath)
+        if cell!.isKindOfClass(SearchProductCollectionViewCell){
+            let controller = ProductDetailPageViewController()
+            var productsToShow : [[String:String]] = []
+            if indexPath.section == 0 && self.upcsToShow?.count > 0 {
+                if self.btnSuper.selected {
+                    if indexPath.row < self.allProducts!.count {
+                        for strUPC in self.allProducts! {
+                            let upc = strUPC["upc"] as! String
+                            let description = strUPC["description"] as! String
+                            let type = strUPC["type"] as! String
+                            var through = ""
+                            if let priceThr = strUPC["saving"] as? String {
+                                through = priceThr as String
+                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                         }
-                        productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
-                    }
                    
+                    }
+                } else {
+                    if indexPath.row < self.allProducts!.count {
+                        //for strUPC in self.itemsUPCMG! {
+                        for strUPC in self.allProducts! {
+                            let upc = strUPC["upc"] as! String
+                            let description = strUPC["description"] as! String
+                            let type = strUPC["type"] as! String
+                            var through = ""
+                            if let priceThr = strUPC["saving"] as? String {
+                                through = priceThr as String
+                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
+                        }
+                    }
                 }
             } else {
                 if indexPath.row < self.allProducts!.count {
-                    //for strUPC in self.itemsUPCMG! {
+                
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
@@ -538,29 +554,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                     }
-                }
-            }
-        } else {
-            if indexPath.row < self.allProducts!.count {
-                
-                for strUPC in self.allProducts! {
-                    let upc = strUPC["upc"] as! String
-                    let description = strUPC["description"] as! String
-                    let type = strUPC["type"] as! String
-                    var through = ""
-                    if let priceThr = strUPC["saving"] as? String {
-                        through = priceThr as String
-                    }
-                    productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
-                }
 
+                }
             }
+        
+            controller.itemsToShow = productsToShow
+            controller.ixSelected = indexPath.row
+            self.navigationController!.pushViewController(controller, animated: true)
         }
-        
-        controller.itemsToShow = productsToShow
-        controller.ixSelected = indexPath.row
-        self.navigationController!.pushViewController(controller, animated: true)
-        
        
     }
     

@@ -70,35 +70,38 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
    // }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row < self.allProducts!.count {
+        let cell = self.collection?.cellForItemAtIndexPath(indexPath)
+        if cell!.isKindOfClass(SearchProductCollectionViewCell){
+            if indexPath.row < self.allProducts!.count {
 
-            let paginatedProductDetail = IPAProductDetailPageViewController()
-            paginatedProductDetail.ixSelected = indexPath.row
-            paginatedProductDetail.itemsToShow = []
-            for product in self.allProducts! {
-                let upc = product["upc"] as! NSString
-                let desc = product["description"] as! NSString
-                let type = product["type"] as! NSString
-                paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":type ])
+                let paginatedProductDetail = IPAProductDetailPageViewController()
+                paginatedProductDetail.ixSelected = indexPath.row
+                paginatedProductDetail.itemsToShow = []
+                for product in self.allProducts! {
+                    let upc = product["upc"] as! NSString
+                    let desc = product["description"] as! NSString
+                    let type = product["type"] as! NSString
+                    paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc, "type":type ])
+                }
+            
+                //var contDetail = IPAProductDetailViewController()
+                //contDetail.upc = upc
+                //contDetail.name = desc
+            
+                let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! IPASearchProductCollectionViewCell!
+                currentCellSelected = indexPath
+                let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
+                //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
+                paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
+                paginatedProductDetail.animationController.originPoint =  pontInView
+                paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
+                currentCell.hideImageView()
+            
+                self.navigationController?.delegate = paginatedProductDetail
+                self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
+            
+            
             }
-            
-            //var contDetail = IPAProductDetailViewController()
-            //contDetail.upc = upc
-            //contDetail.name = desc
-            
-            let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! IPASearchProductCollectionViewCell!
-            currentCellSelected = indexPath
-            let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
-            //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
-            paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
-            paginatedProductDetail.animationController.originPoint =  pontInView
-            paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
-            currentCell.hideImageView()
-            
-            self.navigationController?.delegate = paginatedProductDetail
-            self.navigationController?.pushViewController(paginatedProductDetail, animated: true)
-            
-            
         }
     }
     
