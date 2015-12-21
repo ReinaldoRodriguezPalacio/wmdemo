@@ -709,7 +709,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         discountActive.callService({ (result:NSDictionary) -> Void in
 
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = true//res//TODO validar flujo
+                self.showDiscountAsociate = res//TODO validar flujo
             }
             endCallDiscountActive()
             }, errorBlock: { (error:NSError) -> Void in
@@ -1561,6 +1561,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 var authorizationId = ""
                 var correlationId = ""
                 let deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+                
                 let discountsAssociated = self.totalDiscountsOrder
                 
                 
@@ -1593,8 +1594,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 //                if paymentSelectedId == "-3"{
 //                    self.invokePaypalUpdateOrderService()
 //                }
-                
-        self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "\(discountsAssociated)" )
+            
+                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
                                 self.buttonShop?.enabled = false
          
                 
@@ -1647,6 +1648,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         
         self.picker!.showPicker()
+    }
+    func closeAlertPk() {
+       print("closeAlertPk")
     }
     
     func getDeviceNum() -> String {
