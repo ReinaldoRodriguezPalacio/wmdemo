@@ -245,7 +245,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     func closePicker() {
-        self.delegate?.closeAlertPk!()
+        self.delegate?.closeAlertPk?()
         onClosePicker?()
         self.removeFromSuperview()
     }

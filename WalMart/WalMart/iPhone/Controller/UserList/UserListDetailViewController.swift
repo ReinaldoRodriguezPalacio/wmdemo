@@ -484,7 +484,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func showEmptyView() {
-        let bounds = self.view.frame
+        let bounds = self.view.bounds
         let height = bounds.height - self.header!.frame.height
         self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height))
         self.emptyView!.backgroundColor = UIColor.whiteColor()
@@ -513,7 +513,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .Custom)
-        button.frame = CGRectMake((bounds.width - 160.0)/2, height - 140.0, 160.0, 40.0)
+        button.frame = CGRectMake((bounds.width - 160.0)/2,height - 100, 160 , 40)
         button.backgroundColor = WMColor.UIColorFromRGB(0x2870c9)
         button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)

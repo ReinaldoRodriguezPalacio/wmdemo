@@ -987,6 +987,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                                             if !self.selectedAddressHasStore{
                                                 self.showAddressPicker()
                                                 self.picker!.newItemForm()
+                                                self.picker!.viewButtonClose.hidden = true
                                                 let delay = 0.7 * Double(NSEC_PER_SEC)
                                                 let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                                                 dispatch_after(time, dispatch_get_main_queue()) {
