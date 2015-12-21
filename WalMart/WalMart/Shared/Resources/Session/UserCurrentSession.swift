@@ -639,9 +639,14 @@ class UserCurrentSession : NSObject {
     
     func numberOfArticlesGR() -> Int {
         var countItems = 0
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
-        if arrayCart != nil {
+        if self.itemsGR != nil {
+            let arrayCart = self.itemsGR!["items"] as? [AnyObject]
             countItems = arrayCart!.count
+        }else{
+           let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
+            if arrayCart != nil {
+                countItems = arrayCart!.count
+            }
         }
         self.updateTotalItemsInCarts(itemsInGR:countItems)
         return countItems

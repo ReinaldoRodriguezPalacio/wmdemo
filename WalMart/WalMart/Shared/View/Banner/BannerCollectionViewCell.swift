@@ -256,7 +256,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     
     func isUrl(temrs:String)-> Bool{
         var isUrl =  false
-        if let url = NSURL(string: getCurrentTerms()) {
+        if let url = NSURL(string: temrs) {
           isUrl =  UIApplication.sharedApplication().canOpenURL(url)
         }
         return isUrl
@@ -273,14 +273,20 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             //getCurrentTerms()
             
             
-            if self.isUrl(getCurrentTerms()) {
-                delegate.termsSelect(getCurrentTerms())
-            }else{
+            //if self.isUrl(getCurrentTerms()) {
+            //  delegate.termsSelect(getCurrentTerms())
+            //}else{
                 viewTerms = BannerTermsView(frame:self.bounds)
                 viewTerms.setup(getCurrentTerms())
                 viewTerms.generateBlurImage(self, frame: self.bounds)
                 self.addSubview(viewTerms)
                 viewTerms.startAnimating()
+                viewTerms.openURL = {(urlStr) in
+                    if self.isUrl(urlStr){
+                        self.delegate.termsSelect(urlStr)
+                    }
+                }
+                
                 viewTerms.onClose = {() in
                     self.termsclick()
                 }
@@ -293,12 +299,15 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue , label: "")
                     }
                 }
-            }
+            //}
             
             
         }
         buttonTerms.selected  = !buttonTerms.selected
     }
+    
+    
+
     
     func pointSelected(sender:UIButton) {
         currentItem = sender.tag == dataSource?.count ? dataSource?.count : (sender.tag - 1)

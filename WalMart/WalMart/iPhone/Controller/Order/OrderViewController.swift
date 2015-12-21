@@ -201,6 +201,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             
             
             self.emptyView.hidden = self.items.count > 0
+            self.facturasToolBar.hidden = !(self.items.count > 0)
             if self.items.count > 0 {
                 self.facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)
             }
@@ -210,6 +211,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 self.viewLoad.stopAnnimating()
                 self.tableOrders.reloadData()
                 self.emptyView.hidden = self.items.count > 0
+                self.facturasToolBar.hidden = !(self.items.count > 0)
                 if self.items.count > 0 {
                     self.facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)
                 }
