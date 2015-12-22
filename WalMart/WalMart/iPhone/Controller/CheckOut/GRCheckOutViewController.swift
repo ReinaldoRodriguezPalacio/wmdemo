@@ -703,14 +703,22 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
 
     //MARK: - Services
-    
+    var discountAssociateAply:Double = 0.0
     func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
         let discountActive  = GRDiscountActiveService()
         discountActive.callService({ (result:NSDictionary) -> Void in
 
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = true//res//TODO validar flujo
+                self.showDiscountAsociate = res//TODO validar flujo
             }
+            if let listPromotions = result["listPromotions"] as? [AnyObject]{
+                for promotionln in listPromotions {
+                    let promotionDiscount = promotionln["promotionDiscount"] as! Int
+                    self.discountAssociateAply = Double(promotionDiscount) / 100.0
+                    print("promotionDiscount: \(self.discountAssociateAply)")
+                }
+            }
+            
             endCallDiscountActive()
             }, errorBlock: { (error:NSError) -> Void in
                 endCallDiscountActive()
@@ -1558,11 +1566,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
                 let hour = purchaseOrder["hour"] as! String
                 let subTotal = purchaseOrder["subTotal"] as! NSNumber
-                let total = purchaseOrder["total"] as! NSNumber
+                let total = purchaseOrder["total"] as! NSNumber 
                 var authorizationId = ""
                 var correlationId = ""
-                let deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
-                let discountsAssociated = self.totalDiscountsOrder
+                var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+                
+                let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
                 
                 
                 if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
@@ -1572,6 +1581,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     correlationId = correlationIdVal
                 }
                 
+                if self.idFreeShepping != 0 || self.idReferido != 0{
+                    deliveryAmount =  0.0
+                }
                 let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
                 let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
                 let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
@@ -1595,7 +1607,14 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 //                    self.invokePaypalUpdateOrderService()
 //                }
                 
-        self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "\(discountsAssociated)" )
+                if !self.asociateDiscount {
+                    self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "0.0")
+                }else{
+                    self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
+                
+                }
+            
+
                                 self.buttonShop?.enabled = false
          
                 
@@ -1648,6 +1667,9 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }
         
         self.picker!.showPicker()
+    }
+    func closeAlertPk() {
+       print("closeAlertPk")
     }
     
     func getDeviceNum() -> String {

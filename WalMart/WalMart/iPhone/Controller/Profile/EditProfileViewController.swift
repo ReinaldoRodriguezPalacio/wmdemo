@@ -129,7 +129,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.dateChanged()
         
         
-        //boton hombre
         self.maleButton = UIButton()
         self.maleButton?.setTitle(NSLocalizedString("signup.male", comment: ""), forState: UIControlState.Normal)
         self.maleButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
