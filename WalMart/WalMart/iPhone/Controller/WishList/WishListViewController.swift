@@ -39,11 +39,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_WISHLIST.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
         self.titleLabel!.textColor = WMColor.wishlistTitleTextColor
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.text = NSLocalizedString("wishlist.title",comment:"")
@@ -99,16 +94,16 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.idexesPath = []
         reloadWishlist()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         if isShowingTabBar {
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+            //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         }
         
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        //NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -696,7 +691,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
                 self.emptyView.hidden = self.items.count > 0
                 if self.items.count == 0 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                    //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
                 }
                 self.edit.hidden = self.items.count == 0
             
@@ -730,7 +725,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 self.updateEditButton()
                 self.wishlist.reloadData()
                 if self.items.count == 0 {
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                    //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
                 }
             
                 self.viewLoad.stopAnnimating()
