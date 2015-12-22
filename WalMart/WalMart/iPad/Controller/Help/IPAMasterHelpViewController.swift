@@ -125,7 +125,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         }
 
         
-        if row != 4 || row != 6 {
+        if row != 4 && row != 6 {
             selected  = row
         }
         
