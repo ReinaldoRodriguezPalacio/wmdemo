@@ -220,7 +220,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.email?.frame = CGRectMake(horSpace, self.lastName!.frame.maxY + topSpace, fieldWidth, fieldHeight)
         
         self.birthDate?.frame = CGRectMake(horSpace,  self.email!.frame.maxY + 8, self.view.bounds.width - (horSpace*2), fieldHeight)
-        self.femaleButton!.frame = CGRectMake(84,  birthDate!.frame.maxY + 8,  76 , fieldHeight)
+        self.femaleButton!.frame = CGRectMake(90,  birthDate!.frame.maxY + 8,  76 , fieldHeight)
         self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 8, 76 , fieldHeight)
         
         //self.birthDate?.frame = CGRectMake(horSpace, self.email!.frame.maxY + topSpace, fieldWidth, fieldHeight)
