@@ -1116,6 +1116,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
+        // aqui va la notificacion
+        
+        
+        
     }
     
     func removeAllCookies() {

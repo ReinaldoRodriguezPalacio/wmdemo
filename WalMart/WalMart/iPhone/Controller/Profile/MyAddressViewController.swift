@@ -313,6 +313,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
          if let isAddressOK = item["isAddressOk"] as? String {
             cell!.showErrorFieldImage(isAddressOK == "False")
+         }else{
+            cell!.showErrorFieldImage(false)
         }
         
         

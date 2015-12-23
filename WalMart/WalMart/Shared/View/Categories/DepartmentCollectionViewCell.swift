@@ -60,9 +60,10 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     
     
     func setValues(title:String,imageBackgroundURL:String,keyBgUrl:String,imageIconURL:String,keyIconUrl:String,hideImage:Bool) {
-        
+        let scale = UIScreen.mainScreen().scale
         let svcUrl = serviceUrl(keyIconUrl)
-        let imgURLName = "\(svcUrl)\(imageIconURL)"
+        var imgURLName = "\(svcUrl)\(imageIconURL)"
+        imgURLName = imgURLName.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.png" )
         var loadImagefromUrl =  true
         
         let imageIcon = self.loadImageFromDisk(imageIconURL, defaultStr:"categories_default") { (loadImage:Bool) -> Void in
@@ -82,7 +83,6 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         let svcUrlCar = serviceUrl(keyBgUrl)
         var imgURLNamehead = "\(svcUrlCar)\(imageBackgroundURL)"
         let strinname = imageBackgroundURL.stringByReplacingOccurrencesOfString(".png", withString: ".jpg")
-        let scale = UIScreen.mainScreen().scale
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
         imgURLNamehead = imgURLNamehead.stringByReplacingOccurrencesOfString(".png", withString: "@\(Int(scale))x.jpg" )
         loadImagefromUrl =  true

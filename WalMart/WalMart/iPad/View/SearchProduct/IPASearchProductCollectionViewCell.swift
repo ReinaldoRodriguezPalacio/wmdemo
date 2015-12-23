@@ -14,7 +14,7 @@ class IPASearchProductCollectionViewCell : SearchProductCollectionViewCell {
     
     override func setup() {
         super.setup()
-        self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+      
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         

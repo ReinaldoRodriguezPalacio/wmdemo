@@ -269,7 +269,7 @@ class OrderConfirmDetailView : UIView {
         lblValueSubtotal.text = subtotal
         lblValueTotal.text = total
         lblValueDeliveryAmount.text = deliveryAmount
-        lblValueDiscountsAssociated.text = "\(discountsAssociated)"
+        lblValueDiscountsAssociated.text = "$\(discountsAssociated)"
         lblTitleTrackingNumber.hidden = false
 
             if discountsAssociated == "0.0"{

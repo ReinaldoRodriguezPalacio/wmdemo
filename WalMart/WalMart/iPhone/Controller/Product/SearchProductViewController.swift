@@ -264,6 +264,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.loading!.startAnnimating(self.isVisibleTab)
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -331,7 +335,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             view.title?.textAlignment = .Center
             view.addSubview(view.title!)
             view.addSubview(self.filterButton!)
-            
+
             view.backgroundColor = WMColor.light_gray
             
             if indexPath.section == 0 {
@@ -507,27 +511,43 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     //MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        let controller = ProductDetailPageViewController()
-        var productsToShow : [[String:String]] = []
-        if indexPath.section == 0 && self.upcsToShow?.count > 0 {
-            if self.btnSuper.selected {
-                if indexPath.row < self.allProducts!.count {
-                    for strUPC in self.allProducts! {
-                        let upc = strUPC["upc"] as! String
-                        let description = strUPC["description"] as! String
-                        let type = strUPC["type"] as! String
-                        var through = ""
-                        if let priceThr = strUPC["saving"] as? String {
-                            through = priceThr as String
+        let cell = self.collection?.cellForItemAtIndexPath(indexPath)
+        if cell!.isKindOfClass(SearchProductCollectionViewCell){
+            let controller = ProductDetailPageViewController()
+            var productsToShow : [[String:String]] = []
+            if indexPath.section == 0 && self.upcsToShow?.count > 0 {
+                if self.btnSuper.selected {
+                    if indexPath.row < self.allProducts!.count {
+                        for strUPC in self.allProducts! {
+                            let upc = strUPC["upc"] as! String
+                            let description = strUPC["description"] as! String
+                            let type = strUPC["type"] as! String
+                            var through = ""
+                            if let priceThr = strUPC["saving"] as? String {
+                                through = priceThr as String
+                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                         }
-                        productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
-                    }
                    
+                    }
+                } else {
+                    if indexPath.row < self.allProducts!.count {
+                        //for strUPC in self.itemsUPCMG! {
+                        for strUPC in self.allProducts! {
+                            let upc = strUPC["upc"] as! String
+                            let description = strUPC["description"] as! String
+                            let type = strUPC["type"] as! String
+                            var through = ""
+                            if let priceThr = strUPC["saving"] as? String {
+                                through = priceThr as String
+                            }
+                            productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
+                        }
+                    }
                 }
             } else {
                 if indexPath.row < self.allProducts!.count {
-                    //for strUPC in self.itemsUPCMG! {
+                
                     for strUPC in self.allProducts! {
                         let upc = strUPC["upc"] as! String
                         let description = strUPC["description"] as! String
@@ -538,29 +558,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         }
                         productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
                     }
-                }
-            }
-        } else {
-            if indexPath.row < self.allProducts!.count {
-                
-                for strUPC in self.allProducts! {
-                    let upc = strUPC["upc"] as! String
-                    let description = strUPC["description"] as! String
-                    let type = strUPC["type"] as! String
-                    var through = ""
-                    if let priceThr = strUPC["saving"] as? String {
-                        through = priceThr as String
-                    }
-                    productsToShow.append(["upc":upc, "description":description, "type":type,"saving":through])
-                }
 
+                }
             }
+        
+            controller.itemsToShow = productsToShow
+            controller.ixSelected = indexPath.row
+            self.navigationController!.pushViewController(controller, animated: true)
         }
-        
-        controller.itemsToShow = productsToShow
-        controller.ixSelected = indexPath.row
-        self.navigationController!.pushViewController(controller, animated: true)
-        
        
     }
     
@@ -754,7 +759,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         let service = GRProductBySearchService()//TODO Agregar rating al idSort
-        self.brandText = self.idSort != "" ? "" : self.brandText
+       // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
             successBlock: { (arrayProduct:NSArray?) -> Void in
@@ -1395,5 +1400,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         else {
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable]
         }
+    }
+    
+    //reload after update
+    func afterAddToSC() {
+        self.collection?.reloadData()
     }
 }

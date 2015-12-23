@@ -117,7 +117,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         NSLog("%@", (idDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()).lowercaseString))
         
-        controllerAnimateView.frameStart = pontInView
+        controllerAnimateView.frameStart = CGRectMake(cellSelected.frame.minX, 0, 330, 216)
         controllerAnimateView.frameEnd = self.view.bounds
         controllerAnimateView.titleStr = cellSelected.buttonDepartment.titleLabel!.text
         controllerAnimateView.families = itemsFam
