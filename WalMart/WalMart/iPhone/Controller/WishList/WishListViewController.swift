@@ -94,7 +94,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.idexesPath = []
         reloadWishlist()
         
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         if isShowingTabBar {
             //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         }
@@ -691,7 +691,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
                 self.emptyView.hidden = self.items.count > 0
                 if self.items.count == 0 {
-                    //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
                 }
                 self.edit.hidden = self.items.count == 0
             
