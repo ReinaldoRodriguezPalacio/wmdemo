@@ -1220,12 +1220,23 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }else {
             let deliveryService = PostDelivery()
             deliveryService.validateMercurySlots(self.selectedDate, idShopper: "1", idStore: storeID, onSuccess: { (resultSuccess:AnyObject) -> Void in
-                let allSlots = resultSuccess["custom"] as! [AnyObject]
+                let allSlotsCustomObj = resultSuccess["custom"] as! [String:AnyObject]
+                let allSlots = allSlotsCustomObj["slots"] as! [AnyObject]
                 var allSlotsCustom : [AnyObject] = []
                 for slot in allSlots  {
-                    let beginDateRange = slot["beginDateRange"]
-                    let endDateRange = slot["endDateRange"]
-                    allSlotsCustom.append(["displayText":"\(beginDateRange) - \(endDateRange)","id":slot["id"],"isVisible":true])
+                    if let strtDate = slot["beginDateRange"] as? String {
+                        if let endDate = slot["endDateRange"] as? String  {
+                            if let idSlot = slot["id"] as? Int  {
+                                allSlotsCustom.append(["displayText":"\(strtDate) - \(endDate)","id":"\(idSlot)","isVisible":true])
+                            }else {
+                                allSlotsCustom.append(["displayText":"No time","id":"","isVisible":true])
+                            }
+                        } else {
+                            allSlotsCustom.append(["displayText":"No time","id":"","isVisible":true])
+                        }
+                    }else {
+                        allSlotsCustom.append(["displayText":"No time","id":"","isVisible":true])
+                    }
                 }
                 self.slotsItems = allSlotsCustom
                 self.addViewLoad()
