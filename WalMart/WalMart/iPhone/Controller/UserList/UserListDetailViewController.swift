@@ -514,9 +514,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         let button = UIButton(type: .Custom)
         button.frame = CGRectMake((bounds.width - 160.0)/2,height - 100, 160 , 40)
-        if IS_IPHONE_4_OR_LESS{
+        /*if IS_IPHONE_4_OR_LESS{
          button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
-        }
+        }*/
         button.backgroundColor = WMColor.UIColorFromRGB(0x2870c9)
         button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
