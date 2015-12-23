@@ -225,7 +225,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         //self.birthDate?.frame = CGRectMake(horSpace, self.email!.frame.maxY + topSpace, fieldWidth, fieldHeight)
         self.changePasswordButton?.frame = CGRectMake(horSpace,  self.femaleButton!.frame.maxY + topSpace,  fieldWidth, fieldHeight)
-        self.legalInformation!.frame = CGRectMake(horSpace,  self.changePasswordButton!.frame.maxY + 8,  fieldWidth, 20)
+        self.legalInformation!.frame = CGRectMake(horSpace,  self.changePasswordButton!.frame.maxY + 8,  fieldWidth, 30)
         
         self.content.contentSize = CGSize(width: bounds.width, height:  self.changePasswordButton!.frame.maxY + 40)
     }
