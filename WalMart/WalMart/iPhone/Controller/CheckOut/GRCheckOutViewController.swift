@@ -1220,15 +1220,17 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         }else {
             let deliveryService = PostDelivery()
             deliveryService.validateMercurySlots(self.selectedDate, idShopper: "1", idStore: storeID, onSuccess: { (resultSuccess:AnyObject) -> Void in
-                let allSlots = resultSuccess["custom"] as! [AnyObject]
+                let allSlots = resultSuccess["custom"] as? [AnyObject]
                 var allSlotsCustom : [AnyObject] = []
-                for slot in allSlots  {
-                    let beginDateRange = slot["beginDateRange"]
-                    let endDateRange = slot["endDateRange"]
-                    allSlotsCustom.append(["displayText":"\(beginDateRange) - \(endDateRange)","id":slot["id"],"isVisible":true])
+                if allSlots != nil{
+                    for slot in allSlots!  {
+                        let beginDateRange = slot["beginDateRange"]
+                        let endDateRange = slot["endDateRange"]
+                        allSlotsCustom.append(["displayText":"\(beginDateRange) - \(endDateRange)","id":slot["id"],"isVisible":true])
+                    }
+                    self.slotsItems = allSlotsCustom
+                    self.addViewLoad()
                 }
-                self.slotsItems = allSlotsCustom
-                self.addViewLoad()
                 endCallTypeService()
             })
         }
