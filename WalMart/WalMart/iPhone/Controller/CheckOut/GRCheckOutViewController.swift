@@ -221,7 +221,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
          let SECS_IN_DAY:NSTimeInterval = 60 * 60 * 24
          var maxDate =  NSDate()
-         maxDate = maxDate.dateByAddingTimeInterval(SECS_IN_DAY * 6.0)
+         maxDate = maxDate.dateByAddingTimeInterval(SECS_IN_DAY * 5.0)
         
         self.deliveryDatePicker!.minimumDate = NSDate()
         self.deliveryDatePicker!.maximumDate = maxDate
