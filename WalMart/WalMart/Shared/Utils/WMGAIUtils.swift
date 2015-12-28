@@ -173,17 +173,12 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_TERMS_AND_CONDITIONS_AUTH =  "C_CategoryTermsAndConditionsAuth"
     case CATEGORY_TERMS_AND_CONDITIONS_NOAUTH =  "C_CategoryTermsAndConditionsNoauth"
     case CATEGORY_MGPREVIOUS_ORDERS_DETAIL =  "C_CategoryMgpreviousOrdersDetail"
-    
-    //Ultimerrimas
     case CATEGORY_MG_BANNER_AUTH = "C_MGBannerAuth"
     case CATEGORY_GR_BANNER_AUTH = "C_GRBannerAuth"
-    
     case CATEGORY_MG_BANNER_NO_AUTH = "C_MGBannerNoAuth"
     case CATEGORY_GR_BANNER_NO_AUTH = "C_GRBannerNoAuth"
-    
     case CATEGORY_ZOOMPRODUCTDETAIL_NO_AUTH =  "C_ZoomProductDetailNoAuth"
     case CATEGORY_ZOOMPRODUCTDETAIL_AUTH =  "C_ZoomProductDetailAuth"
-    
     case CATEGORY_ADD_TO_LIST = "C_AddToList"
     case CATEGORY_MY_LISTS_DETAIL_EMPTY = "C_MyListDetailEmpty"
     case CATEGORY_FREQUENT_QUESTIONS = "C_FrequentQuestions"
@@ -407,11 +402,8 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_TERMS_CONDITION_AUTH = "A_Términosycondiciones"
     case ACTION_AVISO_DE_PRIVACIDAD  = " A_AvisodePrivacidad"
     case ACTION_APP_SESSION_END = "A_CerrarSesión"
-    
-
     case ACTION_RELATED_PRODUCT  = " A_RelatedProduct"
     case ACTION_CHANGE_PASSWORD =  "A_ChangePassword"
-    
     case ACTION_BACK_PRODUCTDETAIL =  "A_BackProductDetail"
     case ACTION_ZOMMIMAGE_PRODUCTDETAIL =  "A_ZoomImageProductDetail"
     case ACTION_BARCODE_SCANNED_TICKET =  "A_BarcodeScannedTicket"
