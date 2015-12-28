@@ -92,7 +92,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
    
     
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
-    var selectQuantity : ShoppingCartQuantitySelectorView!
+    var selectQuantity : MGShoppingCartQuantitySelectorView!
     var isTextSearch: Bool = false
     var isOriginalTextSearch: Bool = false
 
@@ -1340,7 +1340,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     }
     
     func buildMGSelectQuantityView(cell: SearchProductCollectionViewCell, viewFrame: CGRect){
-        selectQuantity = ShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
+        selectQuantity = MGShoppingCartQuantitySelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),upcProduct:cell.upc)
         selectQuantity!.closeAction = { () in
             self.selectQuantity.removeFromSuperview()
         }

@@ -51,10 +51,7 @@ class NumericKeyboardView : UIView {
         self.generateButtons(normal, selected: selected)
     }
     
-    
-    
-    func generateButtons(normal:UIColor,selected:UIColor) {
-        
+    func generateButtons(normal:UIColor,selected:UIColor,numberOfButtons: Int) {
         self.normal = normal
         self.selected = selected
         
@@ -65,15 +62,14 @@ class NumericKeyboardView : UIView {
             widthBetweenButtons = (self.frame.width - (widthButton * 3)) / 2
         }
         
+        if widthButton > 40 {
+            widthBetweenButtons = 24
+        }
+        
         let imageNotSelected = generateCircleImage(normal, size: CGSizeMake(widthButton, widthButton))
         let imageSelected = generateCircleImage(selected, size:CGSizeMake(widthButton, widthButton))
         
-        var nomberOfButtons = 10
-        if typeKeyboard == NumericKeyboardViewType.Decimal {
-            nomberOfButtons = 11
-        }
-        
-        for index in 1...nomberOfButtons {
+        for index in 1...numberOfButtons {
             
             var txtButton = "\(index)"
             if typeKeyboard == NumericKeyboardViewType.Integer {
@@ -108,8 +104,8 @@ class NumericKeyboardView : UIView {
             let insetImage2 : CGFloat = titleSize.width * -1
             
             btnNumber.imageEdgeInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, insetImage2);
-            
-            btnNumber.titleLabel!.font = WMFont.fontMyriadProSemiboldSize(18)
+            let buttonFontSize: CGFloat = self.widthButton <= 40 ? 18.0 : 30.0
+            btnNumber.titleLabel!.font = WMFont.fontMyriadProSemiboldSize(buttonFontSize)
             btnNumber.titleLabel!.textAlignment = NSTextAlignment.Center
             btnNumber.addTarget(self, action: "chngequantity:", forControlEvents: UIControlEvents.TouchUpInside)
             
@@ -125,13 +121,23 @@ class NumericKeyboardView : UIView {
             
         }
         
-        let btnDelete = UIButton(frame: CGRectMake(currentX, currentY, 40, 40))
+        let btnDelete = UIButton(frame: CGRectMake(currentX, currentY, self.widthButton, self.widthButton))
         btnDelete.setTitle("Borrar", forState: UIControlState.Normal)
-        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
+        let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
+        btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
         btnDelete.addTarget(self, action: "deletequantity:", forControlEvents: UIControlEvents.TouchUpInside)
         btnDelete.tag = 999
         self.addSubview(btnDelete)
-        
+    
+    }
+    
+    
+    func generateButtons(normal:UIColor,selected:UIColor) {
+        var nomberOfButtons = 10
+        if typeKeyboard == NumericKeyboardViewType.Decimal {
+            nomberOfButtons = 11
+        }
+        self.generateButtons(normal, selected: selected, numberOfButtons: nomberOfButtons)
     }
     
     func generateCircleImage (colorImage:UIColor,size:CGSize) -> UIImage {

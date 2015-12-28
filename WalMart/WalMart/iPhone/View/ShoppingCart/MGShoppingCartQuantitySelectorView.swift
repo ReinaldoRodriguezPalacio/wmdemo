@@ -1,0 +1,53 @@
+//
+//  MGShoppingCartQuantitySelectorView.swift
+//  WalMart
+//
+//  Created by Luis Alonso Salcido Martinez on 28/12/15.
+//  Copyright © 2015 BCG Inc. All rights reserved.
+//
+
+import Foundation
+
+class MGShoppingCartQuantitySelectorView : ShoppingCartQuantitySelectorView {
+
+    var btnLess : UIButton!
+    var btnMore : UIButton!
+    
+   override func setup() {
+     super.setup()
+     self.keyboardView.removeFromSuperview()
+     self.keyboardView = nil
+     self.keyboardView = NumericKeyboardView(frame:CGRectMake(16, lblQuantity.frame.maxY + 10, 315, 212))
+     self.keyboardView.widthButton = 80
+     self.keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0),numberOfButtons: 5)
+     self.keyboardView.delegate = self
+    
+    self.btnLess = UIButton(frame: CGRectMake((self.frame.width - 120) / 2, lblQuantity.frame.minY , 32, 32))
+    self.btnLess.addTarget(self, action: "btnLessAction", forControlEvents: UIControlEvents.TouchUpInside)
+    self.btnLess.setImage(UIImage(named: "addProduct_Less"), forState: UIControlState.Normal)
+    
+    self.btnMore = UIButton(frame: CGRectMake((self.frame.width + 80) / 2, lblQuantity.frame.minY , 32, 32))
+    self.btnMore.addTarget(self, action: "btnMoreAction", forControlEvents: UIControlEvents.TouchUpInside)
+    self.btnMore.setImage(UIImage(named: "addProduct_Add"), forState: UIControlState.Normal)
+    
+    self.addSubview(btnLess)
+    self.addSubview(btnMore)
+    self.addSubview(keyboardView)
+    }
+    
+    func btnMoreAction() {
+        let val = Int(lblQuantity.text!)
+        if (val! + 1) <= 5 {
+            lblQuantity.text = "0\(val! + 1)"
+        }
+    }
+    
+    func btnLessAction() {
+        let val = Int(lblQuantity.text!)
+        if (val! - 1)  >= 1 {
+            lblQuantity.text = "0\(val! - 1)"
+        }
+    }
+
+
+}
