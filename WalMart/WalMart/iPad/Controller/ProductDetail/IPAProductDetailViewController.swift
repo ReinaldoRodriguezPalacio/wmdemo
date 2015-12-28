@@ -54,7 +54,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     let heigthHeader : CGFloat = 46.0
     var viewDetail : ProductDetailTextDetailView? = nil
-    var selectQuantity : MGShoppingCartQuantitySelectorView? = nil
+    var selectQuantity : ShoppingCartQuantitySelectorView? = nil
     var popup : UIPopoverController?
     var pagerController : IPAProductDetailPageViewController? = nil
     var isPesable = false
@@ -696,10 +696,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
         
         if self.isPesable {
-            selectQuantity = MGShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
         }
          else {
-            selectQuantity = MGShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:self.price.doubleValue),upcProduct:self.upc as String)
         }
         selectQuantity?.closeAction = { () in
             self.closeContainer({ () -> Void in

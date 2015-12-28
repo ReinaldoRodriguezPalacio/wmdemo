@@ -16,7 +16,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     var colorsView: ProductDetailColorSizeView? = nil
     var sizesView: ProductDetailColorSizeView? = nil
     var otherOptionsView: ProductDetailColorSizeView? = nil
-    var selectQuantity : MGShoppingCartQuantitySelectorView? = nil
+    var selectQuantity : ShoppingCartQuantitySelectorView? = nil
     var priceBefore : CurrencyCustomLabel!
     var price : CurrencyCustomLabel!
     var saving : CurrencyCustomLabel!
@@ -199,7 +199,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     
     func addProductToShoppingCart(){
         let finalFrameOfQuantity = self.view.frame
-        selectQuantity = MGShoppingCartQuantitySelectorView(frame:self.view.frame,priceProduct:NSNumber(double:self.priceStr.doubleValue),upcProduct:upc)
+        selectQuantity = ShoppingCartQuantitySelectorView(frame:self.view.frame,priceProduct:NSNumber(double:self.priceStr.doubleValue),upcProduct:upc)
         selectQuantity!.priceProduct = NSNumber(double:self.priceStr.doubleValue)
         selectQuantity!.frame = self.view.frame
         selectQuantity!.closeAction =
