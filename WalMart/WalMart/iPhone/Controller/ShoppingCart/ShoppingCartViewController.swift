@@ -75,13 +75,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewShoppingCart.clipsToBounds = false
         viewShoppingCart.backgroundColor =  WMColor.shoppingCartTotalBgColor
         self.navigationController?.view.clipsToBounds = true
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_SHOPPINGCART.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
-        
         self.view.backgroundColor = UIColor.clearColor()
         self.view.clipsToBounds = true
         
