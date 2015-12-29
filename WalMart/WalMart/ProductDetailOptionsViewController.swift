@@ -210,7 +210,8 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
-                    if self.onHandInventory.integerValue >= Int(quantity) {
+                    let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+                    if maxProducts >= Int(quantity) {
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         
                         //Event
@@ -233,7 +234,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
                         
                         let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                         let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                        let msgInventory = "\(firstMessage)\(self.onHandInventory) \(secondMessage)"
+                        let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                         alert!.setMessage(msgInventory)
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                     }

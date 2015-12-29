@@ -22,7 +22,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     var isUpcInShoppingCart : Bool = false
     
     
-    
     init(frame: CGRect, priceProduct : NSNumber!,upcProduct:String) {
         super.init(frame: frame)
         self.priceProduct = priceProduct
@@ -145,10 +144,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             })
             
         }
-        
-
-        
-        
     }
     
     func deletequantity(sender:AnyObject) {
@@ -158,6 +153,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     }
     
     func addtoshoppingcart(sender:AnyObject) {
+        
         addToCartAction(lblQuantity.text!)
     }
     

@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 struct ShoppingCartParams {
-    static var maxProducts : Int = 5
+    static var maxProducts : Int = 10
 }
 
 

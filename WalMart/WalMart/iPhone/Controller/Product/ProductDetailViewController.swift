@@ -494,7 +494,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
-                    if self.onHandInventory.integerValue >= Int(quantity) {
+                    let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+                    if maxProducts >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         self.gestureCloseDetail.enabled = false
@@ -529,7 +530,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     
                         let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                         let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                        let msgInventory = "\(firstMessage)\(self.onHandInventory) \(secondMessage)"
+                        let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                         alert!.setMessage(msgInventory)
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                     }

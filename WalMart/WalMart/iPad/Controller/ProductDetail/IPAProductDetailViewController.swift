@@ -710,7 +710,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
-            if self.onHandInventory.integerValue >= Int(quantity) {
+            let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+            if maxProducts >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
@@ -730,7 +731,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 
                 let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                 let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-                let msgInventory = "\(firstMessage)\(self.onHandInventory) \(secondMessage)"
+                let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                 alert!.setMessage(msgInventory)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }

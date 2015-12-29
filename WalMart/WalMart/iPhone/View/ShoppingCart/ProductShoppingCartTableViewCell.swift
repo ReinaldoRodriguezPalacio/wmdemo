@@ -121,8 +121,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }
     
     func addProductQuantity(quantity:Int) {
-        
-        if self.onHandInventory.integerValue < quantity {
+        let maxProduct = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+        if maxProduct < quantity {
         
             priceSelector.setValues(forQuantity: self.quantity, withPrice:  self.price.doubleValue)
             
@@ -130,7 +130,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             
             let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
             let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
-            let msgInventory = "\(firstMessage)\(self.onHandInventory) \(secondMessage)"
+            let msgInventory = "\(firstMessage)\(maxProduct) \(secondMessage)"
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             

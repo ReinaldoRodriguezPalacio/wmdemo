@@ -341,6 +341,43 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             
         }
         
+        selectQuantity!.addToCartAction =
+            { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                let maxProducts = cell.onHandInventory.integerValue <= 5 ? cell.onHandInventory.integerValue : 5
+                if maxProducts >= Int(quantity) {
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    
+                    BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
+                    //FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart)
+                    
+                    UIView.animateWithDuration(0.2,
+                        animations: { () -> Void in
+                            self.selectQuantity!.closeAction()
+                        },
+                        completion: { (animated:Bool) -> Void in
+                            self.selectQuantity = nil
+                            //CAMBIA IMAGEN CARRO SELECCIONADO
+                            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                            dispatch_async(dispatch_get_main_queue()) {
+                                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                                self.collection!.reloadData()
+                            }
+                        }
+                    )
+                }
+                else {
+                    self.selectQuantity!.closeAction()
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+        }
+        
         let viewController = UIViewController()
         viewController.view = selectQuantity
         viewController.view.frame = frameDetail
