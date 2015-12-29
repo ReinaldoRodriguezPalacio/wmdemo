@@ -94,16 +94,16 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.idexesPath = []
         reloadWishlist()
         
-        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         if isShowingTabBar {
-            //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         }
         
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        //NSNotificationCenter.defaultCenter().removeObserver(self)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -514,12 +514,14 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             self.wishlist.reloadData()
             self.emptyView.hidden = self.items.count > 0
             
-           
+            if !(self.items.count > 0){
+               self.updateEditButton()
+            }
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_WISHLIST.rawValue, label: upc)
             
             
-            self.updateEditButton()
+            //self.updateEditButton()
             
             
             }, errorBlock: { (error:NSError) -> Void in
@@ -655,8 +657,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"]
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }
-        
-        
+        if !(self.items.count > 0){
+            self.updateEditButton()
+        }
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
         
     }
@@ -691,7 +694,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
                 self.emptyView.hidden = self.items.count > 0
                 if self.items.count == 0 {
-                    //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
                 }
                 self.edit.hidden = self.items.count == 0
             
@@ -724,10 +727,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 self.updateShopButton()
                 self.updateEditButton()
                 self.wishlist.reloadData()
-                if self.items.count == 0 {
-                    //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
-                }
-            
                 self.viewLoad.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 if error.code != -100 {

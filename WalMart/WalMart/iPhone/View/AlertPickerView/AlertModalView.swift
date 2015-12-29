@@ -17,6 +17,8 @@ class AlertModalView : UIView, UITextFieldDelegate {
     var viewButtonClose : UIButton!
     var stopRemoveView: Bool? = false
     
+    var paddingTop: CGFloat = 30
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -72,7 +74,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        viewContent.center = CGPoint(x: self.center.x, y: self.center.y - 30)
+        viewContent.center = CGPoint(x: self.center.x, y: self.center.y - paddingTop )
     }
     
     func closePicker() {
@@ -137,13 +139,20 @@ class AlertModalView : UIView, UITextFieldDelegate {
         return modalView
     }
     
+    
     class func initModalWithNavController(controllerShow:UINavigationController) -> AlertModalView {
+        return initModalWithNavController(controllerShow,paddingTop:30.0)
+    }
+    
+    class func initModalWithNavController(controllerShow:UINavigationController, paddingTop:CGFloat) -> AlertModalView {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = AlertModalView(frame:vc!.view.bounds)
+        newAlert.paddingTop = paddingTop
         vc?.addChildViewController(controllerShow)
         newAlert.viewContent.frame.size = CGSize(width: controllerShow.view.frame.size.width + 4, height: controllerShow.view.frame.size.height + 4)  //controllerShow.view.frame.size
         newAlert.viewContent.addSubview(controllerShow.view)
         controllerShow.view.center = newAlert.viewContent.center
+        
         return newAlert
     }
     

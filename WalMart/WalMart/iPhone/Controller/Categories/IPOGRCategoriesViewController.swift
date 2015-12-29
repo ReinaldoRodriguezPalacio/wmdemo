@@ -368,7 +368,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         let navController = UINavigationController(rootViewController: myAddress)
         navController.navigationBarHidden = true
         navController.view.frame = CGRectMake(0, 0, self.view.frame.width - 26, self.view.frame.height - 26)
-        newModalView = AlertModalView.initModalWithNavController(navController)
+        newModalView = AlertModalView.initModalWithNavController(navController,paddingTop: -5)
         newModalView!.showPicker()
     }
     
