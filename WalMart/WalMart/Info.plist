@@ -2,6 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>WMMobileAppTracking</key>
+	<dict>
+		<key>Conversion_key</key>
+		<string>8f68bfc02fc2b84772fa74730c1a51d0</string>
+		<key>Advertiser_id</key>
+		<string>21200</string>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -535,7 +542,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
@@ -983,7 +990,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
