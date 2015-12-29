@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Tune
 
 class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate {
     var close: UIButton?
@@ -361,6 +362,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
             
+            
             self.alertView?.okCancelCallBack = self.okCancelCallBack
             self.alertView!.afterRemove = {() -> Void in
                 self.alertView = nil
@@ -376,10 +378,23 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
+    //MARK: Tune
+    func sendTuneAction(email:String,userName:String,idUser:String,gender:String){
+        //Tune
+        Tune.setUserEmail(email)
+        Tune.setUserName(userName)
+        Tune.setGender(gender == "Male" ?TuneGender.Male:TuneGender.Female)
+        Tune.setUserId(idUser)
+        
+        Tune.measureEventName(TUNE_EVENT_LOGIN)
+    }
+    
     
     func callService(params:NSDictionary, alertViewService : IPOWMAlertViewController?) {
         let service = LoginService()
         service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
+            
+            
             self.signInButton!.enabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {

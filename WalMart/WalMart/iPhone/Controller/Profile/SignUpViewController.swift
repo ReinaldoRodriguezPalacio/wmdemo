@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Tune
 
 class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate {
     
@@ -470,6 +471,17 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //            
 //           
         }
+    }
+    
+    //MARK: Tune
+    func sendTuneAnalityc(email:String,userName:String,gender:String,idUser:String){
+        
+        Tune.setUserEmail(email)
+        Tune.setUserName(userName)
+        Tune.setGender(gender == "Male" ? TuneGender.Male :TuneGender.Female)
+        Tune.setUserId(idUser)
+        Tune.measureEventName(TUNE_EVENT_REGISTRATION)
+        
     }
     
     func createAddress() {

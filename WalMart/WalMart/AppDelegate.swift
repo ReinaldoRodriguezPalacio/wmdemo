@@ -8,6 +8,8 @@
 
 import UIKit
 import CoreData
+import Tune
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -134,7 +136,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         //MERCURY
         MercuryService.sharedInstance().startMercuryService()
-
+        
+        //Tune.framework
+        let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
+        let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
+        let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
+        Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
+    
         
         return true
     }
@@ -174,6 +182,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             imgView!.removeFromSuperview()
             IPOSplashViewController.updateUserData()
         }
+        
+        //Tune.framework
+        Tune.measureSession()
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -315,7 +326,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
         if let notiicationInfo = userInfo["notification"] as? NSDictionary {
 
-            
             let notiicationInfo = userInfo["notification"] as! NSDictionary
             let notiicationAPS = userInfo["aps"] as! NSDictionary
             
@@ -371,14 +381,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+       
+        Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         handleURL(url)
-        
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         //return true
     }
     
-
-
     
     func handleURL(url: NSURL){
         let stringCompare = url.absoluteString as NSString
