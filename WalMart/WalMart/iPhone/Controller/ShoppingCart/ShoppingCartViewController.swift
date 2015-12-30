@@ -860,7 +860,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cont!.closeAlert(true, messageSucesss:false)
         }
         cont!.successCallBack = {() in
-            
             if UserCurrentSession.hasLoggedUser() {
                 if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
                     NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)

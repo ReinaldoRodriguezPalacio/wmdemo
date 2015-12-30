@@ -193,7 +193,6 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
         cont!.isMGLogin =  true
         cont!.successCallBack = {() in
-            
             if UserCurrentSession.hasLoggedUser() {
                 if user !=  UserCurrentSession.sharedInstance().userSigned!.email {
                      NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)

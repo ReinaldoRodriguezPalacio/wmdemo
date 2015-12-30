@@ -41,7 +41,6 @@ class SignUpMGViewController: SignUpViewController {
                 
                 self.view.endEditing(true)
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                
                 self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 if self.addressMgView.viewAddress!.validateAddress(){
                     service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
@@ -49,8 +48,8 @@ class SignUpMGViewController: SignUpViewController {
                         let login = LoginService()
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
-                            self.alertView!.setMessage("Registro exitoso")
-                            self.alertView!.showDoneIcon()
+                            //self.alertView!.setMessage("Registro exitoso")
+                            //self.alertView!.showDoneIcon()
                             self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
                                 
@@ -59,8 +58,8 @@ class SignUpMGViewController: SignUpViewController {
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
                                         self.addressMgView.view.removeFromSuperview()
-                                        self.alertView!.setMessage("Registro exitoso")
-                                        self.alertView!.showDoneIcon()
+                                        //self.alertView!.setMessage("Registro exitoso")
+                                        //self.alertView!.showDoneIcon()
                                         self.successCallBack?()
                                         print("Termina registro de direccion")
                                     }else{
