@@ -268,7 +268,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         case 1:
             return 60
         default:
-            return 109
+            return 60
         }
     }
    
@@ -419,10 +419,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     let guide = itemProduct["fedexGuide"] as! String
                     let urlGuide = itemProduct["urlfedexGuide"] as! String
                     
-                    let itemFedexFound = itemsFedex.filter({ (itemFedexFilter) -> Bool in
+                    var itemFedexFound = itemsFedex.filter({ (itemFedexFilter) -> Bool in
                         let itemTwo =  itemFedexFilter["fedexGuide"] as! String
                         return guide == itemTwo
                     })
+
+                   
                     
                     if itemFedexFound.count == 0 {
                         var itmNewProduct : [String:AnyObject] = [:]
@@ -431,9 +433,20 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                         itmNewProduct["items"] = [itemProduct]
                         itemsFedex.append(itmNewProduct)
                     } else {
+                        let index = itemsFedex.indexOf({ (itemFedexFilter) -> Bool in
+                            let itemTwo =  itemFedexFilter["fedexGuide"] as! String
+                            return guide == itemTwo
+                        })
                         var itemFound = itemFedexFound[0] as  [String:AnyObject]
                         var itemsFound = itemFound["items"] as!  [AnyObject]
                         itemsFound.append(itemProduct)
+                        itemsFedex.removeAtIndex(index!)
+                        var itmNewProduct : [String:AnyObject] = [:]
+                        itmNewProduct["fedexGuide"] = guide
+                        itmNewProduct["urlfedexGuide"] = urlGuide
+                        itmNewProduct["items"] = itemsFound
+                        itemsFedex.append(itmNewProduct)
+     
                     }
                 }
                 self.showFedexGuide = true
