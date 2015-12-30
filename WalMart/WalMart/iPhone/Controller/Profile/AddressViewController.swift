@@ -42,6 +42,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     var alertView : IPOWMAlertViewController? = nil
     var isLogin : Bool = false
     var isIpad : Bool = false
+    var showSaveAlert: Bool = true
     var addressShippingCont: Int! = 0
     var addressFiscalCount: Int! = 0
     var validateZip =  false
@@ -623,10 +624,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
             if params != nil{
                 self.view.endEditing(true)
-                if sender!.tag == 100 {
+                if self.showSaveAlert {
                     self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-                }else{
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
                 }
                 
                 if addressShippingCont >= 12 && typeAddress == .Shiping {
@@ -642,12 +641,17 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                     self.back()
                     return
                 }
-                self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+                
+                if self.showSaveAlert {
+                    self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+                }
 
                 service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                     if let message = resultCall!["message"] as? String {
-                        self.alertView!.setMessage("\(message)")
-                        self.alertView!.showDoneIcon()
+                         if self.showSaveAlert {
+                            self.alertView!.setMessage("\(message)")
+                            self.alertView!.showDoneIcon()
+                        }
                     }
                     
                     if self.successCallBack == nil {

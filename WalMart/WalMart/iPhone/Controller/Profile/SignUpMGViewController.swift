@@ -35,6 +35,7 @@ class SignUpMGViewController: SignUpViewController {
             self.addressMgView.item =  NSDictionary()
             self.addressMgView.addFRomMg =  true
             self.addressMgView.backButton?.hidden =  true
+            self.addressMgView.showSaveAlert = false
             self.addressMgView.successCallBackRegistry = {() in
                 
             let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)
@@ -49,8 +50,8 @@ class SignUpMGViewController: SignUpViewController {
                         let login = LoginService()
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
-                            self.alertView!.setMessage("Registro exitoso")
-                            self.alertView!.showDoneIcon()
+                            //self.alertView!.setMessage("Registro exitoso")
+                            //self.alertView!.showDoneIcon()
                             self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
                                 
@@ -59,8 +60,8 @@ class SignUpMGViewController: SignUpViewController {
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
                                         self.addressMgView.view.removeFromSuperview()
-                                        self.alertView!.setMessage("Registro exitoso")
-                                        self.alertView!.showDoneIcon()
+                                        //self.alertView!.setMessage("Registro exitoso")
+                                        //self.alertView!.showDoneIcon()
                                         self.successCallBack?()
                                         print("Termina registro de direccion")
                                     }else{
