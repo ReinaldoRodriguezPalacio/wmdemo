@@ -78,9 +78,9 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     func showPractilistViewController() {
         
-        if self.detailController is UINavigationController {
-            return
-        }
+       // if self.detailController is UINavigationController {
+            //return
+       // }
         
         let defaultListController = IPADefaultListViewController()
         defaultListController.delegate = self
