@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Tune
 
 
 class SignUpMGViewController: SignUpViewController {
@@ -58,6 +59,7 @@ class SignUpMGViewController: SignUpViewController {
                                 self.addressMgView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
+                                        BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName:self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
                                         self.addressMgView.view.removeFromSuperview()
                                         self.alertView!.setMessage("Registro exitoso")
                                         self.alertView!.showDoneIcon()

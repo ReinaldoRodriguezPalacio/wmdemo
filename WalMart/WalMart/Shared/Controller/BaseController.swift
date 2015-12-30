@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Tune
 
 
 class BaseController : UIViewController {
@@ -62,10 +63,66 @@ class BaseController : UIViewController {
         BaseController.sendAnalytics(category, action: action, label: label)
     }
 
+    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
+        
+        switch(event){
+        case TUNE_EVENT_PURCHASE:
+            let payPalItems:NSMutableArray = []
+            for item in itesShop! {
+                var itemPrice = item["price"] as! Double
+                var quantity = item["quantity"] as! UInt
+                if item["type"] as! String == "1"
+                {
+                    itemPrice = (Double(quantity) / 1000.0) * itemPrice
+                    quantity = 1
+                }
+                let tuneItem : TuneEventItem = TuneEventItem(name: item["description"] as! String, unitPrice: CGFloat(itemPrice), quantity: quantity)
+        
+                payPalItems.addObject(tuneItem)
+            }
+            
+            Tune.setUserId(idUser)
+            
+            let event :TuneEvent = TuneEvent(name: event)
+            event.eventItems = payPalItems as [AnyObject]
+            event.refId = refId
+            event.revenue = CGFloat(total)
+            event.currencyCode = "MXN"
+            
+            Tune.measureEvent(event)
+            
+            break
+        case TUNE_EVENT_LOGIN:
+            Tune.setUserEmail(email)
+            Tune.setUserName(userName)
+            Tune.setGender(gender.lowercaseString == "male" ?TuneGender.Male:TuneGender.Female)
+            Tune.setUserId(idUser)
+            
+            Tune.measureEventName(event)
+            break
+        case TUNE_EVENT_REGISTRATION:
+            Tune.setUserEmail(email)
+            Tune.setUserName(userName)
+            Tune.setGender(gender.lowercaseString == "male" ? TuneGender.Male :TuneGender.Female)
+            Tune.setUserId(idUser)
+            Tune.measureEventName(TUNE_EVENT_REGISTRATION)
+            
+            break
+            
+        default:
+            break
+            
+            
+        
+        }
+        
+    
+    }
+
     
    
     func getScreenGAIName() -> String {
-        fatalError("SCreeen name not implemented");
+        fatalError("SCreeen name not implemented")
     }
     
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Tune
 
 class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate {
     
@@ -1567,6 +1568,11 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
                 // deliveryAmount
+                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+                let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
+                let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+               
                 
                 
                 let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
@@ -1581,6 +1587,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 var authorizationId = ""
                 var correlationId = ""
                 var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+                
+                BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
                 
                 let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
                 

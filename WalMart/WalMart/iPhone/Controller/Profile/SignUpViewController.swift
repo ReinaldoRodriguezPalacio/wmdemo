@@ -414,6 +414,8 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                    
                     let login = LoginService()
                     login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
+                        
+                        BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName: self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
 
                           self.alertAddress?.registryAddress(dictSend)
                         
@@ -473,16 +475,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         }
     }
     
-    //MARK: Tune
-    func sendTuneAnalityc(email:String,userName:String,gender:String,idUser:String){
-        
-        Tune.setUserEmail(email)
-        Tune.setUserName(userName)
-        Tune.setGender(gender == "Male" ? TuneGender.Male :TuneGender.Female)
-        Tune.setUserId(idUser)
-        Tune.measureEventName(TUNE_EVENT_REGISTRATION)
-        
-    }
     
     func createAddress() {
         

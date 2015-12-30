@@ -335,9 +335,12 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         
         let webCtrl = IPOWebViewController()
-        webCtrl.openURL(guideurl)
-        self.presentViewController(webCtrl,animated:true,completion:nil)
-        
+        if let url = NSURL(string: guideurl) {
+            if UIApplication.sharedApplication().canOpenURL(url){
+                webCtrl.openURL(guideurl)
+                self.presentViewController(webCtrl,animated:true,completion:nil)
+            }
+        }
     }
     
     func getUPCItems() -> [[String:String]] {

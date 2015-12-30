@@ -146,6 +146,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
             didLoginWithEmail = true
             
+            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: "", userName: "", gender: "", idUser: "", itesShop: nil,total:0,refId:"")
+            
             let loginService = LoginWithEmailService()
             loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
@@ -168,24 +170,6 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         print("URL:::-- \(webView.request)")
         
-    }
-    
-    //MARK: Tune
-    func sendTuneTag(idUser:String,itesShop:NSArray){
-        //ITEMS test
-        let item1 : TuneEventItem = TuneEventItem(name: "", unitPrice: 3.99, quantity: 1)
-        let item2 : TuneEventItem = TuneEventItem(name: "", unitPrice: 3.99, quantity: 1)
-        let eventItems = [item1, item2]
-        
-        Tune.setUserId(idUser)
-    
-        let event :TuneEvent = TuneEvent(name: TUNE_EVENT_PURCHASE)
-        event.eventItems = eventItems
-        event.refId = "ref13571"
-        event.revenue = 13.97
-        event.currencyCode = "MM"
-        
-        Tune.measureEvent(event)
     }
     
     func removeViewLoading(){
