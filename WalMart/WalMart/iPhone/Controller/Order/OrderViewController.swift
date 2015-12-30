@@ -99,17 +99,18 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        let item = self.items[indexPath.row] as! NSDictionary
-        let dateStr = item["placedDate"] as! String
-        let trackingStr = item["trackingNumber"] as! String
-        var statusStr = item["status"] as! String
-        if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
-            statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+        if !(indexPath.row > self.items.count) {
+            let item = self.items[indexPath.row] as! NSDictionary
+            let dateStr = item["placedDate"] as! String
+            let trackingStr = item["trackingNumber"] as! String
+            var statusStr = item["status"] as! String
+            if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
+                statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+            }
+            
+            cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr)
         }
         
-        cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr)
-
         return cell
     }
     
