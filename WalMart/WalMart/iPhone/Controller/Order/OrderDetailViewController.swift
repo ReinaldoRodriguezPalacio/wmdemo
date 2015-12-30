@@ -321,7 +321,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
                 btnGoToGuide.addTarget(self, action: "didSelectItem:", forControlEvents: UIControlEvents.TouchUpInside)
                 btnGoToGuide.tag = section
-                viewFedex.addSubview(btnGoToGuide)
+                if guide != "No disponible" {
+                    viewFedex.addSubview(btnGoToGuide)
+                }
             }
             viewFedex.addSubview(lblGuide)
             return viewFedex
@@ -335,8 +337,13 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         
         let webCtrl = IPOWebViewController()
-        webCtrl.openURL(guideurl)
-        self.presentViewController(webCtrl,animated:true,completion:nil)
+        if let url = NSURL(string: guideurl) {
+            if UIApplication.sharedApplication().canOpenURL(url){
+                webCtrl.openURL(guideurl)
+                self.presentViewController(webCtrl,animated:true,completion:nil)
+            }
+        }
+
         
     }
     
