@@ -153,7 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
         let presented = controller!.presentedViewController
         presented?.dismissViewControllerAnimated(false, completion: nil)
-        //UIPopoverController.
         if imgView == nil {
             imgView = UIImageView(frame: controller!.view.bounds)
             imgView!.image = UIImage(named:"spash_iphone")

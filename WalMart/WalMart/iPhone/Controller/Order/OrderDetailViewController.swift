@@ -321,7 +321,9 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
                 btnGoToGuide.addTarget(self, action: "didSelectItem:", forControlEvents: UIControlEvents.TouchUpInside)
                 btnGoToGuide.tag = section
-                viewFedex.addSubview(btnGoToGuide)
+                if guide != "No disponible" {
+                    viewFedex.addSubview(btnGoToGuide)
+                }
             }
             viewFedex.addSubview(lblGuide)
             return viewFedex
@@ -341,6 +343,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.presentViewController(webCtrl,animated:true,completion:nil)
             }
         }
+
+        
     }
     
     func getUPCItems() -> [[String:String]] {

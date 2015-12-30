@@ -36,6 +36,7 @@ class SignUpMGViewController: SignUpViewController {
             self.addressMgView.item =  NSDictionary()
             self.addressMgView.addFRomMg =  true
             self.addressMgView.backButton?.hidden =  true
+            self.addressMgView.showSaveAlert = false
             self.addressMgView.successCallBackRegistry = {() in
                 
             let params = service.buildParamsWithMembership(self.email!.text!, password:  self.password!.text!, name: self.name!.text!, lastName: self.lastName!.text!,allowMarketingEmail:allowPub,birthdate:dateOfBirth,gender:gender,allowTransfer:allowTransfer)

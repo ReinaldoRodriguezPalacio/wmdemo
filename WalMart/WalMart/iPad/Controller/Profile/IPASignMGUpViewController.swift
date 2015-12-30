@@ -34,6 +34,7 @@ class IPASignMGUpViewController: IPASignUpViewController {
             self.addressMGView.typeAddress = TypeAddress.Shiping
             self.addressMGView.item =  NSDictionary()
             self.addressMGView.addFRomMg =  true
+            self.addressMGView.showSaveAlert = false
             self.addressMGView.backButton?.hidden =  true
             self.addressMGView.saveButton?.titleLabel?.textAlignment = .Center
             self.addressMGView.successCallBackRegistry = {() in
@@ -51,9 +52,9 @@ class IPASignMGUpViewController: IPASignUpViewController {
                         var firstEnter = true
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
-                            self.alertView!.setMessage("Registro exitoso")
+                            //self.alertView!.setMessage("Registro exitoso")
                             //self.alertView!.showDoneIcon()
-                            //self.successCallBack?()
+                            self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
                                 self.addressMGView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout

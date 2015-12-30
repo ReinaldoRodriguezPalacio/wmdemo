@@ -77,7 +77,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         if isShowingTabBar {
             self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
         }else{
-            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
+            //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
         }
         
         if isShowingButtonFactura {
@@ -99,17 +99,18 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        
-        let item = self.items[indexPath.row] as! NSDictionary
-        let dateStr = item["placedDate"] as! String
-        let trackingStr = item["trackingNumber"] as! String
-        var statusStr = item["status"] as! String
-        if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
-            statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+        if !(indexPath.row > self.items.count) {
+            let item = self.items[indexPath.row] as! NSDictionary
+            let dateStr = item["placedDate"] as! String
+            let trackingStr = item["trackingNumber"] as! String
+            var statusStr = item["status"] as! String
+            if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
+                statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
+            }
+            
+            cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr)
         }
         
-        cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr)
-
         return cell
     }
     
@@ -158,7 +159,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.items = []
         self.emptyView.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         self.viewLoad.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height + 64)
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
         }
@@ -219,7 +220,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     }
     
     
-    func tabFooterView() {
+       func tabFooterView() {
         facturasToolBar = UIView(frame: CGRectMake(0, self.view.frame.height - 64 , self.view.bounds.width, 64))
         //facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)
         facturasToolBar.backgroundColor = UIColor.clearColor()
@@ -232,7 +233,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.buttonFactura.setTitle("Facturación electrónica",forState:UIControlState.Normal)
         
         facturasToolBar.addSubview(self.buttonFactura)
-        self.view.addSubview(facturasToolBar)
+        //self.view.addSubview(facturasToolBar)
         isShowingButtonFactura = true
     }
     
