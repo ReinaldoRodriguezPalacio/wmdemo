@@ -57,6 +57,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      var picker : AlertPickerView!
      var selectedConfirmation : NSIndexPath!
      var alertView: IPOWMAlertViewController?
+    var containerView : UIImage!
+    var visibleLabel = false
     let headerHeight: CGFloat = 46
     
     
@@ -242,7 +244,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
         self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
         
-        
+        associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
         
     }
     
@@ -1299,6 +1301,55 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
 
-
-    
+    func associateDiscount (message: String ){
+        if !visibleLabel  {
+            
+            visibleLabel = true
+            
+        var  imageView : UIView? =  UIView(frame:CGRectMake((self.view.frame.width/2) - 150 ,  viewFooter.frame.minY - 100, 190, 38))
+        var  viewContent : UIView? = UIView(frame: imageView!.bounds)
+        viewContent!.layer.cornerRadius = 5.0
+        viewContent!.backgroundColor = WMColor.light_blue
+        imageView!.addSubview(viewContent!)
+        self.viewContent.addSubview(imageView!)
+            
+        var lblError : UILabel? =   UILabel(frame:CGRectMake (15, 0 , viewContent!.frame.width - 30, 38))
+        lblError!.font = WMFont.fontMyriadProRegularOfSize(12)
+            
+        lblError!.textColor = UIColor.whiteColor()
+        lblError!.backgroundColor = UIColor.clearColor()
+        lblError!.text = message
+        lblError!.textAlignment = NSTextAlignment.Left
+        lblError!.numberOfLines = 2
+        viewContent!.addSubview(lblError!)
+            
+            
+        var imageIco : UIImageView? = UIImageView()
+        imageIco!.image = UIImage(named:"tooltip_cart")
+        imageIco!.frame = CGRectMake( 30 , imageView!.frame.maxY - 1, 8, 6)
+        self.viewContent.addSubview(imageIco!)
+            
+        UIView.animateWithDuration(3.5,
+            animations: { () -> Void in
+                viewContent!.alpha = 0.0
+                imageView!.alpha = 0.0
+                lblError!.alpha = 0.0
+                imageIco!.alpha = 0.0
+                    
+            }, completion: { (finished:Bool) -> Void in
+                if finished {
+                    viewContent!.removeFromSuperview()
+                    imageView!.removeFromSuperview()
+                    lblError!.removeFromSuperview()
+                    imageIco!.removeFromSuperview()
+                    viewContent = nil
+                    imageView = nil
+                    lblError = nil
+                    imageIco = nil
+                    self.visibleLabel = false
+            }
+                    
+            })
+        }
+    }
 }

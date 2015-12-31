@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "active_discount.png",
+      "filename" : "discount_full_icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "active_discount@2x.png",
+      "filename" : "discount_full_icon@2x.png",
       "scale" : "2x"
     },
     {
