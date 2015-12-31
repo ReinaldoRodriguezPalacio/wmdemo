@@ -100,7 +100,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     func setValues(categoryId:String,categoryTitle:String,products:[[String:AnyObject]]) {
         let svcUrl = serviceUrl("WalmartMG.GRCategoryIconIpad")
-        let imageIconURL = "i_\(categoryId.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())).jpg"
+        let imageIconURL = "i_\(categoryId.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())).png"
         let imgURLName = "\(svcUrl)\(imageIconURL)"
         let imageIconDsk = self.loadImageFromDisk(imageIconURL,defaultStr:"categories_default")
         iconCategory.setImageWithURL(NSURL(string: imgURLName), placeholderImage:imageIconDsk, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in

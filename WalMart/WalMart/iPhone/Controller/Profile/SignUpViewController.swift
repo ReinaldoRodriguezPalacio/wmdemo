@@ -600,6 +600,12 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     }
     
     class func isValidEmail(email: String ) -> Bool{
+
+        let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").invertedSet
+        if let contains = email.rangeOfCharacterFromSet(alphanumericset) {
+            return false
+        }
+        
         let regExEmailPattern : String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
         var regExVal: NSRegularExpression?
         do {
