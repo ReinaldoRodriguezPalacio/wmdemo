@@ -1333,8 +1333,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             
         imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
-        imageIco!.frame = CGRectMake( 30 , viewContents!.frame.maxY - 1, 8, 6)
-        self.viewContent.addSubview(imageIco!)
+        imageIco!.frame = CGRectMake( 24 , viewContents!.frame.maxY - 1, 8, 6)
+        self.viewContents!.addSubview(imageIco!)
        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "animationclose", userInfo: nil, repeats: false)
          
             

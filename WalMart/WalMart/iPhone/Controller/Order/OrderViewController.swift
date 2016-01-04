@@ -29,7 +29,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
 
         
         
-        viewLoad = WMLoadingView(frame:CGRectZero)//mmcarra@wal-mart.com
+        viewLoad = WMLoadingView(frame:CGRectZero)
         
         self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel!.text = NSLocalizedString("profile.myOrders", comment: "")
