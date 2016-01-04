@@ -879,8 +879,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     //endCallPromotions()
                     endCallPromotions(false)
                     //self.removeViewLoad()
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
+                    //self.alertView!.setMessage(error.localizedDescription)
+                    //self.alertView!.showErrorIcon("Ok")
                     print("Error at invoke address user service")
             })
     }

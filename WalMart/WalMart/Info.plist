@@ -298,7 +298,7 @@
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -330,7 +330,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/sendOrder.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
@@ -755,7 +755,7 @@
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -787,7 +787,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/sendOrder.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlot</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
