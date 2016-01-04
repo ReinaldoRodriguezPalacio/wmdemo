@@ -29,7 +29,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
 
         
         
-        viewLoad = WMLoadingView(frame:CGRectZero)
+        viewLoad = WMLoadingView(frame:CGRectZero)//mmcarra@wal-mart.com
         
         self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel!.text = NSLocalizedString("profile.myOrders", comment: "")
@@ -99,7 +99,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableOrders.dequeueReusableCellWithIdentifier("prevousOrder") as! PreviousOrdersTableViewCell
         cell.selectionStyle = UITableViewCellSelectionStyle.None
-        if !(indexPath.row > self.items.count) {
+        if !(indexPath.row > self.items.count) && self.items.count > 0 {
             let item = self.items[indexPath.row] as! NSDictionary
             let dateStr = item["placedDate"] as! String
             let trackingStr = item["trackingNumber"] as! String

@@ -331,7 +331,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         }
     }
     
-    
+    //metodo
     func showError (message: String ){
         if !visibleLabel  {
 
