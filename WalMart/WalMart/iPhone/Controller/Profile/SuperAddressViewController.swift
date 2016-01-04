@@ -107,7 +107,11 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     }
     
     func textFieldDidEndEditing(sender: UITextField!) {
-        
+        if let zipCode = sender as? FormFieldView{
+            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
+                self.sAddredssForm.store.becomeFirstResponder()
+            }
+        }
     }
     
     func textModify(sender: UITextField!) {
@@ -124,6 +128,9 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.sAddredssForm.selectedNeighborhood = nil
                 self.sAddredssForm.store!.text = ""
                 self.sAddredssForm.selectedStore = nil
+            }
+            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
+                self.sAddredssForm.store.becomeFirstResponder()
             }
         }
     }
