@@ -243,8 +243,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
         self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
-        
-        associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.sharedInstance().isAssociated == 1{
+                    self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
+            }
+        }
+            
         
     }
     
@@ -1301,19 +1305,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
 
+    var  imageView : UIView?
+    var  viewContents : UIView?
+    var lblError : UILabel?
+    var imageIco : UIImageView?
+    
     func associateDiscount (message: String ){
         if !visibleLabel  {
             
             visibleLabel = true
             
-        var  imageView : UIView? =  UIView(frame:CGRectMake((self.view.frame.width/2) - 150 ,  viewFooter.frame.minY - 100, 190, 38))
-        var  viewContent : UIView? = UIView(frame: imageView!.bounds)
-        viewContent!.layer.cornerRadius = 5.0
-        viewContent!.backgroundColor = WMColor.light_blue
-        imageView!.addSubview(viewContent!)
+        imageView =  UIView(frame:CGRectMake((self.view.frame.width/2) - 150 ,  viewFooter.frame.minY - 100, 190, 38))
+        viewContents = UIView(frame: imageView!.bounds)
+        viewContents!.layer.cornerRadius = 5.0
+        viewContents!.backgroundColor = WMColor.light_blue
+        imageView!.addSubview(viewContents!)
         self.viewContent.addSubview(imageView!)
             
-        var lblError : UILabel? =   UILabel(frame:CGRectMake (15, 0 , viewContent!.frame.width - 30, 38))
+        lblError = UILabel(frame:CGRectMake (15, 0 , viewContents!.frame.width - 30, 38))
         lblError!.font = WMFont.fontMyriadProRegularOfSize(12)
             
         lblError!.textColor = UIColor.whiteColor()
@@ -1321,35 +1330,42 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         lblError!.text = message
         lblError!.textAlignment = NSTextAlignment.Left
         lblError!.numberOfLines = 2
-        viewContent!.addSubview(lblError!)
+        viewContents!.addSubview(lblError!)
             
             
-        var imageIco : UIImageView? = UIImageView()
-        imageIco!.image = UIImage(named:"tooltip_cart")
-        imageIco!.frame = CGRectMake( 30 , imageView!.frame.maxY - 1, 8, 6)
+        imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
+        imageIco!.frame = CGRectMake( 30 , viewContents!.frame.maxY - 1, 8, 6)
         self.viewContent.addSubview(imageIco!)
+       NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "animationclose", userInfo: nil, repeats: false)
+         
             
+
+        }
+
+    }
+    func animationclose () {
+        
         UIView.animateWithDuration(3.5,
             animations: { () -> Void in
-                viewContent!.alpha = 0.0
-                imageView!.alpha = 0.0
-                lblError!.alpha = 0.0
-                imageIco!.alpha = 0.0
-                    
+                self.viewContents!.alpha = 0.0
+                self.imageView!.alpha = 0.0
+                self.lblError!.alpha = 0.0
+                self.imageIco!.alpha = 0.0
+                
             }, completion: { (finished:Bool) -> Void in
                 if finished {
-                    viewContent!.removeFromSuperview()
-                    imageView!.removeFromSuperview()
-                    lblError!.removeFromSuperview()
-                    imageIco!.removeFromSuperview()
-                    viewContent = nil
-                    imageView = nil
-                    lblError = nil
-                    imageIco = nil
+                    self.viewContents!.removeFromSuperview()
+                    self.imageView!.removeFromSuperview()
+                    self.lblError!.removeFromSuperview()
+                    self.imageIco!.removeFromSuperview()
+                    self.viewContents = nil
+                    self.imageView = nil
+                    self.lblError = nil
+                    self.imageIco = nil
                     self.visibleLabel = false
-            }
-                    
-            })
-        }
+                }
+                
+        })
+        
     }
 }
