@@ -275,18 +275,6 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         )
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
-    }
-    
-    
-    override func viewWillDisappear(animated: Bool) {
-        super.viewWillDisappear(animated)
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-
-    
     override func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String ) {
         self.comments = comments
         if visibleDetailList {
@@ -816,11 +804,6 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         }
         
     }
-    
-    func endUpdatingShoppingCart(sender:AnyObject) {
-        self.productDetailButton.reloadShoppinhgButton()
-    }
-    
     
     override func cellForPoint(point:(Int,Int),indexPath: NSIndexPath) -> UITableViewCell? {
         var cell : UITableViewCell? = nil
