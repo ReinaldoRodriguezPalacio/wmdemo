@@ -315,12 +315,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
         self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
 
-        if self.searchContextType == SearchServiceContextType.WithTextForCamFind{
-            self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width - 10, 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 10, self.header!.frame.maxY)
-        }else{
-            self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2), self.header!.frame.maxY)
-        }
+        //if self.searchContextType == SearchServiceContextType.WithTextForCamFind {
+        self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width - 5, 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 10, self.header!.frame.maxY)
         
+        if self.searchContextType != SearchServiceContextType.WithTextForCamFind {
+            self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 12, self.header!.frame.maxY)
+        }
+    
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         //println("View bounds: \(self.view.bounds)")
