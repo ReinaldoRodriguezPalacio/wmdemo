@@ -69,15 +69,36 @@ class BaseController : UIViewController {
         case TUNE_EVENT_PURCHASE:
             let payPalItems:NSMutableArray = []
             for item in itesShop! {
-                var itemPrice = item["price"] as! Double
-                var quantity = item["quantity"] as! UInt
-                if item["type"] as! String == "1"
-                {
-                    itemPrice = (Double(quantity) / 1000.0) * itemPrice
-                    quantity = 1
+                
+                var itemPrice = 0.0
+                var quantity : UInt = 1
+                
+                if let priceItem = item["price"] as? Double {
+                     itemPrice = priceItem
                 }
+                if let priceItem = item["price"] as? String {
+                    itemPrice = Double(priceItem)!
+                }
+                
+                if let itemQuantity = item["quantity"] as? UInt{
+                    quantity = itemQuantity
+                }
+                
+                if let itemQuantity = item["quantity"] as? String {
+                    quantity = UInt(itemQuantity)!
+                }
+                
+                
+                if let types = item["type"] as? String
+                {
+                    if types == "1"{
+                        itemPrice = (Double(quantity) / 1000.0) * itemPrice
+                        quantity = 1
+                    }
+                }
+                
+                
                 let tuneItem : TuneEventItem = TuneEventItem(name: item["description"] as! String, unitPrice: CGFloat(itemPrice), quantity: quantity)
-        
                 payPalItems.addObject(tuneItem)
             }
             
