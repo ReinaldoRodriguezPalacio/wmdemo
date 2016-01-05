@@ -938,11 +938,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let serviceReview = ReviewShoppingCartService()
             serviceReview.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 if !self.canceledAction  {
+                    print(UserCurrentSession.sharedInstance().itemsMG)
+                    let itemsMG = UserCurrentSession.sharedInstance().itemsMG
+                    let totalsItems = self.totalItems()
+                    let total = totalsItems["total"] as String!
+                    
                     self.checkVC = self.checkOutController()
                     self.checkVC.afterclose = {() -> Void in self.checkVC = nil }
                     self.checkVC.username = loginController.email?.text
                     self.checkVC.password = loginController.password?.text
                     self.checkVC.isEmployeeDiscount = self.isEmployeeDiscount
+                    self.checkVC.itemsMG = itemsMG!["items"] as! NSArray
+                    self.checkVC.total = total
                     self.checkVC.finishLoadCheckOut = {() in
                        
                         if address != nil {

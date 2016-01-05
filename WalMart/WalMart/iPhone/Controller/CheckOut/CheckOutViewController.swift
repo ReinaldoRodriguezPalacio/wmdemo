@@ -28,6 +28,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     var checkResponsive = "app_Checkout.aspx"
     var paramAppDevice = "device"
+    var itemsMG : NSArray!
+    var total : String?
+    var stopTune =  true
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
@@ -146,7 +149,11 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
             didLoginWithEmail = true
             
-            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: "", userName: "", gender: "", idUser: "", itesShop: nil,total:0,refId:"")
+            //sendTuneAnalytics
+            let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
+            let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
+            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
+            
             
             let loginService = LoginWithEmailService()
             loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
@@ -171,10 +178,19 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         print("URL:::-- \(webView.request)")
         
     }
-    
+   
     func removeViewLoading(){
         print("removeViewLoading")
         self.viewLoad?.stopAnnimating()
+        //sendTuneAnalytics
+        if stopTune {
+            print("before finishLoadCheckOut stopTune:::")
+            let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
+            let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
+            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
+            stopTune =  false
+        }
+        
     }
     
     override func back() {
