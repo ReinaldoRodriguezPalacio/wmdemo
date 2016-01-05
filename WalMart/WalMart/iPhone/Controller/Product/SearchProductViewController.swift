@@ -199,7 +199,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func setTitleWithEdit() -> UILabel {
         
-        let titleLabel = UILabel()
+        let titleLabelEdit = UILabel()
         var titleText = titleHeader!
         if titleText.length() > 47
         {
@@ -211,18 +211,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let attachmentString = NSAttributedString(attachment: attachment)
         let myString = NSMutableAttributedString(string: "\(titleText) ")
         myString.appendAttributedString(attachmentString)
-        titleLabel.numberOfLines = 2;
-        titleLabel.attributedText = myString;
-        titleLabel.userInteractionEnabled = true;
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleLabel.numberOfLines = 2
-        titleLabel.textAlignment = .Center
-        
+        titleLabelEdit.numberOfLines = 2
+        titleLabelEdit.attributedText = myString
+        titleLabelEdit.userInteractionEnabled = true
+        titleLabelEdit.textColor =  WMColor.navigationTilteTextColor
+        titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabelEdit.numberOfLines = 2
+        titleLabelEdit.textAlignment = .Center
+    
+
         let tapGesture = UITapGestureRecognizer(target: self, action: "editSearch")
-        titleLabel.addGestureRecognizer(tapGesture)
+        titleLabelEdit.addGestureRecognizer(tapGesture)
         
-        return titleLabel
+        return titleLabelEdit
         
     }
     
@@ -244,6 +245,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.titleLabel?.removeFromSuperview()
             }
                 self.titleLabel = self.setTitleWithEdit()
+            //self.titleLabel?.frame =  CGRectMake(self.titleLabel!.frame.origin.x,self.titleLabel!.frame.origin.y,102 ,self.titleLabel!.frame.size.height)
+            self.titleLabel?.numberOfLines = 2
                 self.header?.addSubview(self.titleLabel!)
             
             if self.originalSearchContextType == nil{
@@ -304,8 +307,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPointZero
         self.collection!.frame = CGRectMake(0, startPoint, self.view.bounds.width, self.view.bounds.height - startPoint)
-        self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2), self.header!.frame.maxY)
         self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 70 , (self.header!.frame.size.height - 22)/2 , 55, 22)
+
+        if self.searchContextType == SearchServiceContextType.WithTextForCamFind{
+            self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width - 10, 0, self.view.bounds.width - (self.filterButton!.frame.width * 2) - 10, self.header!.frame.maxY)
+        }else{
+            self.titleLabel!.frame = CGRectMake(self.filterButton!.frame.width , 0, self.view.bounds.width - (self.filterButton!.frame.width * 2), self.header!.frame.maxY)
+        }
+        
         self.loading!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
         //println("View bounds: \(self.view.bounds)")
