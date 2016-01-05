@@ -197,6 +197,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
     }
     
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
     func setTitleWithEdit() -> UILabel {
         
         let titleLabel = UILabel()
@@ -1309,7 +1315,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                 
                 //CAMBIA IMAGEN CARRO SELECCIONADO
-                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                 
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
             } else {
@@ -1367,10 +1373,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             self.selectQuantity = nil
                             //CAMBIA IMAGEN CARRO SELECCIONADO
                             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
-                            dispatch_async(dispatch_get_main_queue()) {
-                                cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
-                                self.collection!.reloadData()
-                            }
                         }
                     )
                 }
