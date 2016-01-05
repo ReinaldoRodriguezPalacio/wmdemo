@@ -261,15 +261,14 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.row {
-        case 0:
+       
+        if indexPath.section == 0 && indexPath.row == 0{
             let size = PreviousDetailTableViewCell.sizeForCell(self.view.frame.width, values: self.detailsOrder)
             return size
-        case 1:
-            return 60
-        default:
-            return 60
+        }else{
+            return 109
         }
+  
     }
    
     

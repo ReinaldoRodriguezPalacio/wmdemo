@@ -132,6 +132,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         loadDataFromService()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+    }
+    
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+
+    
   
     func didPinch(sender:UIPinchGestureRecognizer){
         if  sender.scale < 1 {
@@ -740,6 +752,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.productDetailButton.setOpenQuantitySelector()
             self.selectQuantity?.imageBlurView.frame = frameDetail
             self.productDetailButton.addToShoppingCartButton.selected = true
+            self.productDetailButton.reloadShoppinhgButton()
             },additionalAnimationClose:{ () -> Void in
                 self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton.addToShoppingCartButton.selected = true
@@ -747,6 +760,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.productDetailButton.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
             })
         
+        
+        self.productDetailButton.reloadButton()
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
@@ -758,6 +773,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
           
         }
         
+    }
+    
+    func endUpdatingShoppingCart(sender:AnyObject) {
+        self.productDetailButton.reloadShoppinhgButton()
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void),additionalAnimationFinish:(() -> Void)) {
