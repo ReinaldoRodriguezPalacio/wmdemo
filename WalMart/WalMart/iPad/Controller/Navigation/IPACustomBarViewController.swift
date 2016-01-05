@@ -545,6 +545,14 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.emptyGroceriesTap  = false
     }
     
+    override func userLogOut(not:NSNotification) {
+        self.removeAllCookies()
+        self.viewControllers.removeRange(1..<self.viewControllers.count)
+        self.createInstanceOfControllers()
+        self.buttonSelected(self.buttonList[0])
+        // aqui va la notificacion
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.finishUserLogOut.rawValue, object: nil, userInfo: nil)
+    }
     
     override func showListsGR() {
         buttonSelected(self.buttonList[4])

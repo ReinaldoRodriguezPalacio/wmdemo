@@ -99,7 +99,7 @@
         <!--Home View Controller-->
         <scene sceneID="P7z-Ze-fcj">
             <objects>
-                <viewController id="Mvg-mU-2Nu" customClass="IPAHomeViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="Mvg-mU-2Nu" customClass="IPAHomeViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GXU-RP-W51">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="658"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

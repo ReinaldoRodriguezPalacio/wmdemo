@@ -20,6 +20,7 @@ enum CustomBarNotification : String {
     case ReloadWishList = "kReloadWishList"
     case UpdateBadge = "kUpdateBadge"
     case UserLogOut = "kUserLogOut"
+    case finishUserLogOut = "kFinishUserLogOut"
     case UpdateShoppingCartBegin = "kUpdateShoppingCartBegin"
     case UpdateShoppingCartEnd = "kUpdateShoppingCartEnd"
     case ClearSearch = "kClearSearch"
@@ -1116,10 +1117,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
+        self.buttonSelected(self.buttonList[0])
         // aqui va la notificacion
-        
-        
-        
     }
     
     func removeAllCookies() {
