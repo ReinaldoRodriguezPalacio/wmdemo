@@ -17,6 +17,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     var viewSeparator : UIView!
     
     var onClose : ((isClose:Bool) -> Void)? = nil
+    
+
    
     
     override func viewDidLoad() {
@@ -100,7 +102,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if self.deleteall != nil {
             self.deleteall.frame = CGRectMake(editButton.frame.minX - 82, 12, 75, 22)
         }
-        
+        if UserCurrentSession.sharedInstance().userSigned != nil {
+            if UserCurrentSession.sharedInstance().isAssociated == 1{
+                self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
+
+            }
+        }
     
     }
 
@@ -364,5 +371,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     override func checkOutController() -> CheckOutViewController {
         return IPACheckOutViewController()
     }
-    
+   
+   //alerta
+    override func associateDiscount (message: String ){
+        super.associateDiscount(message)
+        self.imageView?.frame = CGRectMake((self.view.frame.width/2) + 178, viewFooter.frame.minY - 28, self.viewFooter.frame.minY - 100, 38)  }
 }
