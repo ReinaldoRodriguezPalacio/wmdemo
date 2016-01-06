@@ -586,5 +586,4 @@
 "refered.label.confirm" = "Confirmado";
 
 //conection
-"conection.error" = "Error de conexion, intente nuevamente";
-
+"conection.error" = "¡Ups!\n Hubo un error, vuelve a intentarlo.";
