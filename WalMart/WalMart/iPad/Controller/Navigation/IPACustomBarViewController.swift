@@ -547,9 +547,26 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func userLogOut(not:NSNotification) {
         self.removeAllCookies()
+        
+        /*if let navController = self.viewControllers[0] as? UINavigationController {
+            let vc = storyboard!.instantiateViewControllerWithIdentifier("homeVC")
+            navController.popToRootViewControllerAnimated(false)
+            navController.viewControllers[0] = vc
+            self.viewControllers[0] = navController
+        }*/
         self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
+       /* if let navController = self.currentController as? UINavigationController{
+            dispatch_async(dispatch_get_main_queue()) {
+                navController.popToRootViewControllerAnimated(true)
+                self.displayContentController(navController)
+                if self.currentController != nil  {
+                    self.hideContentController(self.currentController!)
+                }
+                self.currentController = navController
+            }
+        }*/
         // aqui va la notificacion
     }
     
