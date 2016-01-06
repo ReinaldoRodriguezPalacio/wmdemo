@@ -59,18 +59,23 @@ class UIEdgeTextFieldImage : UITextField {
     override func becomeFirstResponder() -> Bool {
         if self.secureTextEntry {
             self.font = UIFont.systemFontOfSize(14)
+              self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
         }
         imageIcon?.image = imageSelected
         return super.becomeFirstResponder()
     }
     
     override func resignFirstResponder() -> Bool {
-        if self.secureTextEntry {
-           self.font = UIFont.systemFontOfSize(14)
-        }
         if  self.text!.characters.count == 0 {
             self.font = WMFont.fontMyriadProRegularOfSize(14)
+            
         }
+        if self.secureTextEntry {
+            self.font = UIFont.systemFontOfSize(14)
+            self.attributedPlaceholder = NSAttributedString(string: placeholder!, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
+            
+        }
+
         imageIcon?.image = imageNotSelected
         let resign =  super.resignFirstResponder()
         if valueDelegate != nil {
