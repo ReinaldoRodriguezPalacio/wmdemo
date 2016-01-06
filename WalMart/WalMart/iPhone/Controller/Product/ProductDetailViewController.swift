@@ -67,12 +67,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
         viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
         self.view.addSubview(viewLoad)
         

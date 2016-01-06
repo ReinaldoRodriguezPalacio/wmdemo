@@ -99,7 +99,7 @@
         <!--Home View Controller-->
         <scene sceneID="P7z-Ze-fcj">
             <objects>
-                <viewController id="Mvg-mU-2Nu" customClass="IPAHomeViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="Mvg-mU-2Nu" customClass="IPAHomeViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GXU-RP-W51">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="658"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -784,7 +784,7 @@
             <objects>
                 <viewController id="2wj-Jj-a7v" customClass="MyAddressViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cpV-Rd-hFg">
-                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="659"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="659"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

@@ -410,7 +410,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let controller = self.viewControllers[index!]
             if controller === self.currentController {
                 if let navController = self.currentController as? UINavigationController {
+                 dispatch_async(dispatch_get_main_queue()) {
                     navController.popToRootViewControllerAnimated(true)
+                  }
                 }
                 return
             }
@@ -1116,10 +1118,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
+        self.buttonSelected(self.buttonList[0])
         // aqui va la notificacion
-        
-        
-        
     }
     
     func removeAllCookies() {
