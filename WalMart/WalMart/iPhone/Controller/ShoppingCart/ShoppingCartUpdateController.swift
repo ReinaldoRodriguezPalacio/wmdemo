@@ -230,7 +230,7 @@ class ShoppingCartUpdateController : UIViewController {
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
                    
-                    self.titleLabel.text = error.localizedDescription
+                    self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                     self.titleLabel.sizeToFit()
                     self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
                })
@@ -260,7 +260,7 @@ class ShoppingCartUpdateController : UIViewController {
                         self.spinImage.layer.removeAllAnimations()
                         self.spinImage.hidden = true
                         
-                        self.titleLabel.text = error.localizedDescription
+                        self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                         self.titleLabel.sizeToFit()
                         self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
                 })
@@ -313,7 +313,7 @@ class ShoppingCartUpdateController : UIViewController {
                         }) { (error:NSError) -> Void in
                             self.spinImage.layer.removeAllAnimations()
                             self.spinImage.hidden = true
-                            self.titleLabel.text = error.localizedDescription
+                            self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                             self.titleLabel.sizeToFit()
                             self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
 
@@ -345,7 +345,7 @@ class ShoppingCartUpdateController : UIViewController {
                 }) { (error:NSError) -> Void in
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
-                    self.titleLabel.text = error.localizedDescription
+                    self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                     self.titleLabel.sizeToFit()
                     self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
             }
@@ -577,7 +577,7 @@ class ShoppingCartUpdateController : UIViewController {
                                 }) { (error:NSError) -> Void in
                                     self.spinImage.layer.removeAllAnimations()
                                     self.spinImage.hidden = true
-                                    self.titleLabel.text = error.localizedDescription
+                                    self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                             }
                             
                         }

@@ -372,7 +372,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             self.isWishListProcess = false
                             if error.code != -100 {
                                 added(false)
-                                addedAlertWL.textView.text = error.localizedDescription
+                                addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
                                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                                     addedAlertWL.frame = CGRectMake(0, 312, 320, 48)
@@ -404,7 +404,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                              self.isWishListProcess = false
                             added(false)
                             if error.code != -100 {
-                                addedAlertWL.textView.text = error.localizedDescription
+                                addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
                                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                                     addedAlertWL.frame = CGRectMake(0, 312, 320, 48)

@@ -43,6 +43,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //picker = AlertPickerView.initPickerWithDefault()
         pikerBtn = AlertButtomView.initPickerWithDefault()
         
