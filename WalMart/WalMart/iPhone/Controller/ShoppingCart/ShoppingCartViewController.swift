@@ -1362,7 +1362,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.imageView = nil
                     self.lblError = nil
                     self.imageIco = nil
-                    self.visibleLabel = false
                 }
                 
         })
