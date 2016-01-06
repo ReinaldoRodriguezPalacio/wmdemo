@@ -375,7 +375,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                     let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                    //self.selectQuantity?.lblQuantity?.text = "0\(maxProducts)"
+                    self.selectQuantity?.lblQuantity?.text = "0\(maxProducts)"
                 }
         }
         

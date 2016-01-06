@@ -20,7 +20,6 @@ enum CustomBarNotification : String {
     case ReloadWishList = "kReloadWishList"
     case UpdateBadge = "kUpdateBadge"
     case UserLogOut = "kUserLogOut"
-    case finishUserLogOut = "kFinishUserLogOut"
     case UpdateShoppingCartBegin = "kUpdateShoppingCartBegin"
     case UpdateShoppingCartEnd = "kUpdateShoppingCartEnd"
     case ClearSearch = "kClearSearch"
