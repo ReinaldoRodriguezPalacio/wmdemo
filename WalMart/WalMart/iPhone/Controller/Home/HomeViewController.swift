@@ -50,16 +50,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
         
         self.categories = getCategories()
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatecontent:", name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
-      
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
         
     }
-    
-  
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
