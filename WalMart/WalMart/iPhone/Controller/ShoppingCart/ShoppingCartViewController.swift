@@ -1342,16 +1342,16 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
         imageIco!.frame = CGRectMake( 24 , viewContents!.frame.maxY - 1, 8, 6)
         self.viewContents!.addSubview(imageIco!)
-       NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "animationclose", userInfo: nil, repeats: false)
+       NSTimer.scheduledTimerWithTimeInterval(1.8, target: self, selector: "animationClose", userInfo: nil, repeats: false)
          
             
 
         }
 
     }
-    func animationclose () {
+    func animationClose () {
         
-        UIView.animateWithDuration(3.5,
+        UIView.animateWithDuration(0.9,
             animations: { () -> Void in
                 self.viewContents!.alpha = 0.0
                 self.imageView!.alpha = 0.0
