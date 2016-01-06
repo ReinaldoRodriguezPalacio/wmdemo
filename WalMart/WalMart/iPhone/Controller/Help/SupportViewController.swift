@@ -170,7 +170,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         super.viewDidLayoutSubviews()
         
         let bounds = self.view.bounds
-        self.imgConfirm.frame =  CGRectMake(0,  self.header!.frame.maxY , bounds.width, bounds.height - self.header!.frame.maxY )
+        self.imgConfirm.frame =  CGRectMake(0,  self.header!.frame.maxY , self.imgConfirm.image!.size.width, self.imgConfirm.image!.size.height)
         self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 28 , bounds.width, 15 )
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY  , bounds.width, 15 )
         

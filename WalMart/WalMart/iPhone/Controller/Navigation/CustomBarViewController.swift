@@ -411,7 +411,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let controller = self.viewControllers[index!]
             if controller === self.currentController {
                 if let navController = self.currentController as? UINavigationController {
+                 dispatch_async(dispatch_get_main_queue()) {
                     navController.popToRootViewControllerAnimated(true)
+                  }
                 }
                 return
             }
