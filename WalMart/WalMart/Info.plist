@@ -628,6 +628,10 @@
 		<dict/>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.GRPaypalUpdateOrderService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/updateOrderStatusPaypal</string>
+			<key>WalmartMG.GRPayPalFuturePaymentService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/authorizesPayPalFuturePayment</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
