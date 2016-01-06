@@ -9,6 +9,7 @@
 import UIKit
 import CoreData
 import Tune
+import AdSupport
 
 
 @UIApplicationMain
@@ -21,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-       
+       //self.identifierForAdvertising()
         
         //White status bar
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
@@ -416,6 +417,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func writeNotificationFile() {
         
+    }
+    
+    func identifierForAdvertising() {
+        if ASIdentifierManager.sharedManager().advertisingTrackingEnabled {
+            let idFA = ASIdentifierManager.sharedManager().advertisingIdentifier
+            print("idFA::: \(idFA.UUIDString)")
+        }
     }
     
     
