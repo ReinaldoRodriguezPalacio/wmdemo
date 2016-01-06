@@ -24,11 +24,6 @@ class AlertButtomView : AlertPickerView {
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
-        let viewButton = UIButton(frame: CGRectMake(40, 40, 40, 40))
-        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
-        viewButton.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
-        self.addSubview(viewButton)
-        
         viewContent = UIView(frame: CGRectMake(0, 0, 286, 194))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
@@ -37,6 +32,11 @@ class AlertButtomView : AlertPickerView {
         headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
         headerView.backgroundColor = WMColor.navigationHeaderBgColor
         viewContent.addSubview(headerView)
+        
+        let viewButton = UIButton(frame: CGRectMake(10, 3, 40, 40))
+        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        self.headerView.addSubview(viewButton)
         
         titleLabel = UILabel(frame: headerView.bounds)
         titleLabel.textColor =  WMColor.navigationTilteTextColor

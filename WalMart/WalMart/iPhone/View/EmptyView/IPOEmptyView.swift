@@ -12,6 +12,7 @@ import Foundation
 
 let IS_IPAD = (UIDevice.currentDevice().model.lowercaseString.uppercaseString.rangeOfString("IPAD") == nil ? false : true )
 let IS_IPHONE = (UIDevice.currentDevice().model.lowercaseString.uppercaseString.rangeOfString("IPHONE") == nil ? false : true )
+let IS_IPOD = (UIDevice.currentDevice().model.lowercaseString.uppercaseString.rangeOfString("IPOD") == nil ? false : true )
 let IS_RETINA = (UIScreen.mainScreen().scale >= 2.0)
 
 let SCREEN_WIDTH =  UIScreen.mainScreen().bounds.size.width

@@ -583,3 +583,6 @@
 "refered.input.name" = "Nombre";
 "refered.button.send" = "Enviar";
 "refered.label.confirm" = "Confirmado";
+
+//conection
+"conection.error" = "Error de conexion, intente nuevamente";

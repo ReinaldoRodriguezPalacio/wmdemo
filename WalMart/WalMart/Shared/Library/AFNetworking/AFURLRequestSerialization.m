@@ -1208,7 +1208,7 @@ typedef enum {
                                                                options:self.writingOptions
                                                                  error:error];
             NSString *result = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            NSLog(result);
+            //NSLog(result);
             
             [mutableRequest setHTTPBody:[NSJSONSerialization dataWithJSONObject:parameters options:self.writingOptions error:error]];
         }

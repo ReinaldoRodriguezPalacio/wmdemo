@@ -76,14 +76,18 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         btnRoute.addTarget(self, action: "showRoute", forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnRoute)
 
-        let btnPhone = UIButton(frame: CGRectMake(btnRoute.frame.maxX + 36, y, 34.0, 34.0))
-        btnPhone.setImage(UIImage(named: "call"), forState: .Normal)
-        btnPhone.setImage(UIImage(named: "call_selected"), forState: .Selected)
-        btnPhone.setImage(UIImage(named: "call_selected"), forState: .Highlighted)
-        btnPhone.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
-        self.buttonContainer.addSubview(btnPhone)
+        var nexButtonX = btnRoute.frame.maxX
+        if IS_IPHONE {
+            let btnPhone = UIButton(frame: CGRectMake(btnRoute.frame.maxX + 36, y, 34.0, 34.0))
+            btnPhone.setImage(UIImage(named: "call"), forState: .Normal)
+            btnPhone.setImage(UIImage(named: "call_selected"), forState: .Selected)
+            btnPhone.setImage(UIImage(named: "call_selected"), forState: .Highlighted)
+            btnPhone.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
+            self.buttonContainer.addSubview(btnPhone)
+            nexButtonX = btnPhone.frame.maxX
+        }
         
-        let btnShare = UIButton(frame: CGRectMake(btnPhone.frame.maxX + 36, y, 34.0, 34.0))
+        let btnShare = UIButton(frame: CGRectMake(nexButtonX + 36, y, 34.0, 34.0))
         btnShare.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         btnShare.setImage(UIImage(named: "detail_share"), forState: .Selected)
         btnShare.setImage(UIImage(named: "detail_share"), forState: .Highlighted)

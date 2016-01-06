@@ -548,13 +548,14 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func userLogOut(not:NSNotification) {
         self.removeAllCookies()
         
-        /*if let navController = self.viewControllers[0] as? UINavigationController {
+        if let navController = self.viewControllers[0] as? UINavigationController {
             let vc = storyboard!.instantiateViewControllerWithIdentifier("homeVC")
             navController.popToRootViewControllerAnimated(false)
             navController.viewControllers[0] = vc
             self.viewControllers[0] = navController
-        }*/
+        }
         self.buttonSelected(self.buttonList[0])
+        //self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
        /* if let navController = self.currentController as? UINavigationController{
@@ -568,6 +569,11 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
         }*/
         // aqui va la notificacion
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "sendHomeNotification", userInfo: nil, repeats: false)
+    }
+    
+    func sendHomeNotification(){
+        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil) 
     }
     
     override func showListsGR() {
