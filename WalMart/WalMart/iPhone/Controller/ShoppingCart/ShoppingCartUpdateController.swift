@@ -229,7 +229,8 @@ class ShoppingCartUpdateController : UIViewController {
                 }, errorBlock: { (error:NSError) -> Void in
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
-                   
+                    self.imageProduct.image = UIImage(named:"alert_ups")
+                    self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                     self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                     self.titleLabel.sizeToFit()
                     self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
@@ -259,7 +260,8 @@ class ShoppingCartUpdateController : UIViewController {
                     }, errorBlock: { (error:NSError) -> Void in
                         self.spinImage.layer.removeAllAnimations()
                         self.spinImage.hidden = true
-                        
+                        self.imageProduct.image = UIImage(named:"alert_ups")
+                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                         self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                         self.titleLabel.sizeToFit()
                         self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
@@ -313,6 +315,8 @@ class ShoppingCartUpdateController : UIViewController {
                         }) { (error:NSError) -> Void in
                             self.spinImage.layer.removeAllAnimations()
                             self.spinImage.hidden = true
+                            self.imageProduct.image = UIImage(named:"alert_ups")
+                            self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                             self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                             self.titleLabel.sizeToFit()
                             self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
@@ -345,6 +349,8 @@ class ShoppingCartUpdateController : UIViewController {
                 }) { (error:NSError) -> Void in
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
+                    self.imageProduct.image = UIImage(named:"alert_ups")
+                    self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                     self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                     self.titleLabel.sizeToFit()
                     self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
@@ -577,6 +583,8 @@ class ShoppingCartUpdateController : UIViewController {
                                 }) { (error:NSError) -> Void in
                                     self.spinImage.layer.removeAllAnimations()
                                     self.spinImage.hidden = true
+                                    self.imageProduct.image = UIImage(named:"alert_ups")
+                                    self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                                     self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
                             }
                             
