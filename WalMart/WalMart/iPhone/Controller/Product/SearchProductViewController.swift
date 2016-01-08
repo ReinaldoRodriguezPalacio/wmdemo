@@ -82,6 +82,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var controllerFilter : FilterProductsViewController!
     
     var firstOpen  = true
+    var isLoading  = false
     var hasEmptyView = false
     
     var itemsUPCMG: NSArray? = []
@@ -131,8 +132,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.searchContextType! == .WithCategoryForMG {
             self.idSort =  FilterType.rankingASC.rawValue
         }
-        
-        
         
         self.filterButton = UIButton(type: .Custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
@@ -201,6 +200,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
     }
 
     func setTitleWithEdit() -> UILabel {
@@ -235,10 +235,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func editSearch(){
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.EditSearch.rawValue, object: titleHeader!)
+  
     }
+    
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         
         self.header?.addSubview(self.filterButton!)
         self.view.addSubview(collection!)
@@ -264,11 +267,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         {
             self.titleLabel?.text = titleHeader
         }
-        
-        
+        //aqui la quite
         if loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
             self.loading!.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(self.isVisibleTab)
+        
+        }
+        
+        if self.isLoading {
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
@@ -283,10 +291,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
 		self.collection!.reloadData()
-        if self.hasEmptyView && self.isOriginalTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
-            self.showEmptyMGGRView()
-        }
-        self.hasEmptyView = true
+//        if self.hasEmptyView && self.isOriginalTextSearch && (self.allProducts == nil || self.allProducts!.count == 0) {
+//            self.showEmptyMGGRView()
+//        }
+//        self.hasEmptyView = true
     }
     
     func reloadUISearch() {
@@ -296,9 +304,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+    // aqui esta el otro
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        if loading == nil {
+            self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(self.isVisibleTab)
+        }
         
         
         var startPoint = self.header!.frame.maxY
@@ -1075,11 +1089,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
     }
     
-    //MARK: - FilterProductsViewControllerDelegate
+  
+
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
+
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.isLoading = true
+        } else {
+            showLoadingIfNeeded(false)
+        }
         
-       showLoadingIfNeeded(false)
+    
+    
         
         
         self.filterButton!.alpha = 1
@@ -1128,8 +1150,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.brandText = brandFilter
         
     }
-    
+
     func apply(order:String, upcs: [String]) {
+
+        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+            self.isLoading = true
+        } else {
+            showLoadingIfNeeded(false)
+        }
+        
         self.collection?.alpha = 100
         if upcs.count == 0 {
             self.allProducts = []
@@ -1144,6 +1173,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.returnBack()
                 }
             }
+
             self.view.addSubview(self.empty)
             self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
             
@@ -1155,7 +1185,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
         }
         
-        self.showLoadingIfNeeded(false)
+        
         let svcSearch = SearchItemsByUPCService()
         svcSearch.callService(upcs, successJSONBlock: { (result:JSON) -> Void in
             if self.originalSearchContextType != .WithTextForCamFind {

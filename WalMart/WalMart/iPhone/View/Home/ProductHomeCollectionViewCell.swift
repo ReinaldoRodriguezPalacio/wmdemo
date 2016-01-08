@@ -54,6 +54,7 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         super.setValues(productImageURL,productShortDescription:productShortDescription,productPrice:productPrice)
         iconDiscount.alpha = saving != "" && saving != "null" ? 1 : 0
         imagePresale.hidden = !preorderable
+        productPriceLabel!.label2?.hidden = false
         if  saving != "" && saving != "null"  {
             productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.savingTextColor, interLine: false)
             productPriceLabel!.label2?.hidden = true

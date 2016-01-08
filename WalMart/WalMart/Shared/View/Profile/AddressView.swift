@@ -94,7 +94,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.keyboardBar = viewAccess
         shortNameField = FormFieldView()
         self.shortNameField!.isRequired = true
-        shortNameField!.setCustomPlaceholder(NSLocalizedString("profile.address.shortName",comment:""))
+        shortNameField!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname.description",comment:""))
         self.shortNameField!.typeField = TypeField.Alphanumeric
         self.shortNameField!.minLength = 3
         self.shortNameField!.maxLength = 25

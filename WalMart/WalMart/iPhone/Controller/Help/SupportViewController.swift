@@ -173,13 +173,20 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 28 , bounds.width, 15 )
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY  , bounds.width, 15 )
         
-        callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)
+        if IS_IPHONE {
+            callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)
+            callme.frame =  CGRectMake(64 , callmeNumber.frame.midY - 20  , 64, 15)
+            sendmeMail.frame =   CGRectMake(callme.frame.maxX + 64 , callmeNumber.frame.midY - 20 , 64, 15)
+            buttomCall.frame =  CGRectMake(64 , callme.frame.midY - 78 , 64, 64)
+            buttomMail.frame =  CGRectMake(buttomCall.frame.maxX + 64 , callme.frame.midY - 78 , 64, 64)
+        }else{
+            callmeNumber.hidden = true
+            callme.hidden = true
+            buttomCall.hidden = true
+            sendmeMail.frame =  CGRectMake((bounds.width - 64) / 2 , bounds.maxY - 134 , 64, 15)
+            buttomMail.frame =  CGRectMake((bounds.width - 64) / 2 , sendmeMail.frame.midY - 78 , 64, 64)
+        }
         
-        callme.frame =  CGRectMake(64 , callmeNumber.frame.midY - 20  , 64, 15)
-        sendmeMail.frame =   CGRectMake(callme.frame.maxX + 64 , callmeNumber.frame.midY - 20 , 64, 15)
-                
-        buttomCall.frame =  CGRectMake(64 , callme.frame.midY - 78 , 64, 64)
-        buttomMail.frame =  CGRectMake(buttomCall.frame.maxX + 64 , callme.frame.midY - 78 , 64, 64)
     }
     
     override func viewWillAppear(animated: Bool) {

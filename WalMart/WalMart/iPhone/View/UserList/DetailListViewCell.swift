@@ -98,7 +98,7 @@ class DetailListViewCell: ProductTableViewCell {
     func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
         let imageUrl = product["imageUrl"] as! String
         self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: imageUrl),
+        self.productImage!.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
             success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.productImage!.contentMode = self.contentModeOrig
@@ -107,7 +107,6 @@ class DetailListViewCell: ProductTableViewCell {
                 self.imageNormal = image
                 
             }, failure: nil)
-        
         self.promoDescription!.text = product["promoDescription"] as? String
         self.productShortDescriptionLabel!.text = product["description"] as? String
         self.upcVal = product["upc"] as? String
@@ -195,7 +194,7 @@ class DetailListViewCell: ProductTableViewCell {
         let description = product.desc
         
         self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURL(NSURL(string: imageUrl),
+        self.productImage!.setImageWithURLRequest(NSURLRequest(URL:NSURL(string: imageUrl)!),
             placeholderImage: UIImage(named:"img_default_table"),
             success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.productImage!.contentMode = self.contentModeOrig

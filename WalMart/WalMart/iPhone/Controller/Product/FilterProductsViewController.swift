@@ -64,7 +64,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         super.viewDidLoad()
 
         self.titleLabel!.text = NSLocalizedString("filter.title", comment:"")
-        
+        self.titleLabel!.textAlignment =  .Center
         
         let iconImage = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
         let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55, 22), radius: 11)

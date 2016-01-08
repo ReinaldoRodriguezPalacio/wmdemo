@@ -90,8 +90,9 @@ class CurrencyCustomLabel : UIView  {
             self.label2!.text = "00"
         }
         
-        if value.contains("X"){
+        if value.rangeOfString("X") != nil{
             self.label1!.text = value
+            self.label2!.text = ""
         }
         
         let sizeOfFirstText = label1!.text!.sizeWithAttributes([NSFontAttributeName: label1!.font])
@@ -111,6 +112,7 @@ class CurrencyCustomLabel : UIView  {
         label1!.frame = CGRectMake(xLabel,(self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfFirstText.width, sizeOfFirstText.height)
         
         label2!.frame = CGRectMake(label1!.frame.maxX, (self.frame.height / 2) - (sizeOfFirstText.height / 2), sizeOfSecondText.width, sizeOfSecondText.height)
+        print("label1:\(label1!.text), hidden:\(label1!.hidden) label2:\(label2!.text), hidden:\(label2!.hidden)")
     }
     
     func setCurrencyUserInteractionEnabled(enabled:Bool) {

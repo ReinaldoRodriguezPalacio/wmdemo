@@ -246,7 +246,7 @@
 "previousorder.quantity" = "Artículos";
 
 //address
-"profile.address.shortName" = "Nombre corto: Ej: Casa, Oficina, Casa de la abuela";
+"profile.address.shortName" = "Nombre corto";
 "profile.address.street" = "Calle";
 "profile.address.outdoornumber" = "Número Ext";
 "profile.address.indoornumber" = "Número Int";
@@ -412,7 +412,8 @@
 "gr.address.title" = "Nueva Dirección";
 "gr.address.section.title" = "Dirección";
 "gr.address.section.errorLabelStore" = "Fuera del área de servicio";
-"gr.address.field.shortname" = "Nombre corto: Ej: Casa, Oficina, Casa de la abuela";
+"gr.address.field.shortname" = "Nombre corto";
+"gr.address.field.shortname.description" = "Nombre corto: Ej: Casa, Oficina, Casa de la abuela";
 "gr.address.field.street" = "Calle";
 "gr.address.field.outdoornumber" = "Número Ext";
 "gr.address.field.indoornumber" = "Número Int";
