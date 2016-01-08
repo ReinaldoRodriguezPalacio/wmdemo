@@ -99,6 +99,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.shortNameField!.minLength = 3
         self.shortNameField!.maxLength = 25
         self.shortNameField!.nameField = NSLocalizedString("profile.address.shortName",comment:"")
+        self.shortNameField!.nameFieldError = NSLocalizedString("profile.address.shortNameError",comment:"")
         
         street = FormFieldView()
         self.street!.isRequired = true
@@ -529,7 +530,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
-            SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
+            SignUpViewController.presentMessage(field, nameField:field.nameFieldError != nil ? field.nameFieldError : field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
             return true
         }
         return false

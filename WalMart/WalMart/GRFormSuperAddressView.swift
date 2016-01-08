@@ -70,6 +70,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.typeField = TypeField.Alphanumeric
         self.addressName!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.addressName!.nameFieldError = NSLocalizedString("gr.address.field.shortnameError",comment:"")
         self.addressName!.minLength = 3
         self.addressName!.maxLength = 25
         
