@@ -44,6 +44,7 @@ class FormFieldView : UIEdgeTextField {
     var onBecomeFirstResponder : (() -> Void)? = nil
     
     var delegateCustom : CustomFormFIeldDelegate!
+    var nameFieldError : String?
     
     
     override init(frame: CGRect) {

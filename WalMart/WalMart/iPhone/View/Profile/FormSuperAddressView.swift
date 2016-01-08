@@ -105,6 +105,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.addressName!.setCustomPlaceholder(NSLocalizedString("gr.address.field.shortname",comment:""))
         self.addressName!.typeField = TypeField.Alphanumeric
         self.addressName!.nameField = NSLocalizedString("gr.address.field.shortname",comment:"")
+        self.addressName!.nameFieldError = NSLocalizedString("gr.address.field.shortnameError",comment:"")
+        
         self.addressName!.minLength = 3
         self.addressName!.maxLength = 25
         
@@ -636,7 +638,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
-            SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
+            SignUpViewController.presentMessage(field, nameField:field.nameFieldError != nil ? field.nameFieldError : field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: true )
             return true
         } else {
             self.errorView?.removeFromSuperview()
