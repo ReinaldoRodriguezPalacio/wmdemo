@@ -246,7 +246,7 @@
 "previousorder.quantity" = "Artículos";
 
 //address
-"profile.address.shortName" = "Nombre corto: Ej: Casa, Oficina, Casa de la abuela";
+"profile.address.shortName" = "Nombre corto";
 "profile.address.street" = "Calle";
 "profile.address.outdoornumber" = "No. Exterior";
 "profile.address.indoornumber" = "No. Interior";
