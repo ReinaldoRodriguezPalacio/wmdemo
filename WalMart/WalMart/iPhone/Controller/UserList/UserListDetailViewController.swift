@@ -319,10 +319,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
         if let image = self.tableView!.screenshot() {
-            
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         }
+        
     }
 
     func buildImageToShare() -> UIImage? {
@@ -656,6 +656,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
 
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID, forIndexPath: indexPath) as! DetailListViewCell
+        listCell.productImage!.image = nil
+        listCell.productImage!.cancelImageRequestOperation()
         listCell.defaultList = false
         listCell.detailDelegate = self
         listCell.delegate = self
