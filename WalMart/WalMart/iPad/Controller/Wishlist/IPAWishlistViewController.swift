@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UICollectionViewDelegate,IPAWishListProductCollectionViewCellDelegate,UIActivityItemSource {
     
     var items : [AnyObject]! = []
@@ -65,6 +64,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         titleLabel = UILabel(frame: CGRectMake((header.frame.width/2) - 75, 0, 150, header.frame.height))
         titleLabel.text = NSLocalizedString("wishlist.title",comment:"")
         titleLabel.textAlignment = .Center
+        
         titleLabel.numberOfLines = 2
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.textColor = WMColor.navigationTilteTextColor
@@ -105,8 +105,15 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         WishlistService.shouldupdate = true
         reloadWishlist()
+        
+        
+        
+        
 
     }
+    
+    
+    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -122,14 +129,29 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
     }
     
+    
+    
+    func registerNotification() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
 
-
+        
+    }
+    func removeNotification(){
+         NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+    }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        
         reloadWishlist()
         self.view.frame = CGRectMake(self.view.frame.minX, self.view.frame.minY, self.view.frame.width, 334)
 
 
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        
     }
 
     

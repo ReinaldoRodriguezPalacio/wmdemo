@@ -337,7 +337,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     self.currentController?.addChildViewController(vcWishlist)
                     vcWishlist.view.frame = CGRectMake(0, -270, 1024,334)
                     self.currentController?.view.addSubview(vcWishlist.view)
-                    
+                    vcWishlist.registerNotification()
                     let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: "didTapHideWhishList")
                     gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
                     vcWishlist.view.addGestureRecognizer(gestureSwipeUp)
@@ -424,6 +424,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
             }, completion: { (complete:Bool) -> Void in
                 if  self.vcWishlist != nil {
+                    self.vcWishlist.removeNotification()
                     self.vcWishlist.view.removeFromSuperview()
                     self.vcWishlist.removeFromParentViewController()
                     self.viewBgWishlist.removeFromSuperview()
