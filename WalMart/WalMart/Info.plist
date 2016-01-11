@@ -32,16 +32,16 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb147641648930626</string>
+				<string>fb713976458739956</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2</string>
 	<key>FacebookAppID</key>
-	<string>147641648930626</string>
+	<string>713976458739956</string>
 	<key>FacebookDisplayName</key>
-	<string>Walmart BCG</string>
+	<string>Walmart México</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
