@@ -79,15 +79,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
         isShared = true
 
         if let image = self.buildImageToShare() {
-            //Event
-            //TODOGAI:
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
-//                    label: self.defaultListName,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
-            
+
             let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self

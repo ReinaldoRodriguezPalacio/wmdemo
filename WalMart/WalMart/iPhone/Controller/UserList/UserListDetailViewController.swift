@@ -21,7 +21,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     @IBOutlet var tableConstraint: NSLayoutConstraint?
 
     var editBtn: UIButton?
-    
+    var isSharing: Bool = false
+
     var deleteAllBtn: UIButton?
     var shareButton: UIButton?
     var duplicateButton: UIButton?
@@ -144,8 +145,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.footerConstraint?.constant = tabBarHeight
             self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
             self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
+            
         }
-        
+        self.isSharing = false
+
          buildEditNameSection()
     }
     
@@ -158,6 +161,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     override func viewWillLayoutSubviews() {
+        if !self.isSharing {
+            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+        }
         super.viewWillLayoutSubviews()
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {titleLabel
@@ -315,7 +321,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             return
         }
-        self.tableView!.setContentOffset(CGPoint.zero, animated: false)
+        
+      
+            self.tableView!.setContentOffset(CGPoint.zero , animated: false)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
         if let image = self.tableView!.screenshot() {
@@ -326,9 +334,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     func buildImageToShare() -> UIImage? {
+        
+    
+        self.isSharing = true
         let oldFrame : CGRect = self.tableView!.frame
         var frame : CGRect = self.tableView!.frame
-        frame.size.height = self.tableView!.contentSize.height
+        frame.size.height = self.tableView!.contentSize.height + 50.0
         self.tableView!.frame = frame
         
         UIGraphicsBeginImageContextWithOptions(self.tableView!.bounds.size, false, 2.0)
@@ -336,9 +347,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let saveImage : UIImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
+        self.isSharing = false
         self.tableView!.frame = oldFrame
         return saveImage
     }
+
 
     func addListToCart() {
         if self.isEdditing {

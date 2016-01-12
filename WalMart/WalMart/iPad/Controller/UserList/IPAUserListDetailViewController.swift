@@ -21,7 +21,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     var delegate: IPAUserListDetailDelegate?
     var widthView : CGFloat = 682
     var addGestureLeft = false
+    var isShared =  false
     
+
    
     override func viewDidLoad() {
         self.hiddenBack = true
@@ -65,6 +67,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func viewWillLayoutSubviews() {
         
+        
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {
 //            self.layoutTitleLabel()
@@ -83,6 +86,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
+        if !isShared {
+            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+        }
 
     }
 
@@ -196,6 +202,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if self.isEdditing {
             return
         }
+        isShared = true
+
         if let image = self.buildImageToShare() {
             
             

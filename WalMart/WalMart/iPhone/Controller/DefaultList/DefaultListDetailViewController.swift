@@ -274,6 +274,10 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     }
     
     func buildImageToShare() -> UIImage? {
+        
+        
+        self.tableView!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+        
         self.isSharing = true
         let oldFrame : CGRect = self.tableView!.frame
         var frame : CGRect = self.tableView!.frame
