@@ -521,6 +521,16 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             var currentVal = true
+            // seleccion de varias opciones
+//            if self.selectedElementsFacet!.count > 2 {
+//                for var items in self.selectedElementsFacet! {
+//                    if items.1 == true{
+//                        self.selectedElementsFacet!.updateValue(false, forKey: items.0)
+//                        break
+//                    }
+//                }
+//            }
+        
             if let savedVal = self.selectedElementsFacet![indexPath] {
                 currentVal = !savedVal
             }

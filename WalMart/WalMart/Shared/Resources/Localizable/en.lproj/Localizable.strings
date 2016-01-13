@@ -99,6 +99,10 @@
 "shoppingcart.saveNote" = "Guardando Nota...";
 "shoppingcart.deleteNote" = "Eliminando Nota...";
 "shoppingcart.noteTile" = "Nota de Envío";
+"shoppingcart.texNote" = "No has Agregado Nota para Envío";
+
+
+
 //WishList
 "wishlist.title" = "Wishlist";
 "wishlist.edit" = "editar";
