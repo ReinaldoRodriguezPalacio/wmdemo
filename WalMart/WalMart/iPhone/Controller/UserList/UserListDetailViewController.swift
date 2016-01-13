@@ -498,7 +498,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func showEmptyView() {
         let bounds = self.view.bounds
-        let height = bounds.height - self.header!.frame.height
+        let height = bounds.size.height - self.header!.frame.height
         self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height))
         self.emptyView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.emptyView!)
@@ -526,7 +526,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .Custom)
-        button.frame = CGRectMake((bounds.width - 160.0)/2,height - 100, 160 , 40)
+        if UserCurrentSession.hasLoggedUser() {
+            button.frame = CGRectMake((bounds.width - 160.0)/2,height - 100, 160 , 40)
+        }else{
+            button.frame = CGRectMake((bounds.width - 160.0)/2,self.emptyView!.frame.height - 160, 160 , 40)
+        }
         /*if IS_IPHONE_4_OR_LESS{
          button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
         }*/

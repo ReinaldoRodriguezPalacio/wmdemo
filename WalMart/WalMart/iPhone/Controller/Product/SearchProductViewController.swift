@@ -278,7 +278,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.isLoading {
             self.view.addSubview(self.loading!)
-            self.loading!.startAnnimating(self.isVisibleTab)
+            if self.allProducts!.count > 0 {
+                self.loading!.startAnnimating(self.isVisibleTab)
+            }
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
          NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
@@ -1167,7 +1169,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.collection?.alpha = 0
             if self.empty == nil {
                 self.viewBgSelectorBtn.alpha = 0
-                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
+                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height))
                 self.empty.returnAction = { () in
                     self.viewBgSelectorBtn.alpha = 1
                     self.returnBack()
@@ -1176,6 +1178,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
             self.view.addSubview(self.empty)
             self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
+           
             
             return
         } else {
