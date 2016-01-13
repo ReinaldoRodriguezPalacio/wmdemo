@@ -621,7 +621,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
                 if (error == nil){
                     print(result)
-                    self.loginWithEmail(result["email"] as! String, firstName: result["first_name"] as! String, lastName: result["last_name"] as! String, gender: result["gender"] as! String, birthDay: result["birthday"] as! String)
+                    self.loginWithEmail(result["email"] as! String, firstName: result["first_name"] as! String, lastName: result["last_name"] as! String, gender: result["gender"] as! String, birthDay:result["birthday"] as? String  == nil ? "" : result["birthday"] as! String)
                 }else{
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
