@@ -213,16 +213,22 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         let referedCustomerService = ReferedCustomerService()
         referedCustomerService.callService({ (result:NSDictionary) -> Void in
             if (result["codeMessage"] as! Int) == 0{
-                self.numFreeShipping = result["numFreeShippingRef"] as! Int
-                let responceArray = result["listEmailsRef"] as! [AnyObject]
-                for refered in responceArray {
-                    let status = refered["statusRef"] as! String
-                    if status == "No"{
-                      self.pendingRefered.append(refered)
-                    }else{
-                        self.confirmRefered.append(refered)
+                self.numFreeShipping = 0
+                if let numFreeShippingRef = result["numFreeShippingRef"] as? Int{
+                    self.numFreeShipping = numFreeShippingRef
+                }
+                
+                if let responceArray = result["listEmailsRef"] as? [AnyObject] {
+                    for refered in responceArray {
+                        let status = refered["statusRef"] as! String
+                        if status == "No"{
+                            self.pendingRefered.append(refered)
+                        }else{
+                            self.confirmRefered.append(refered)
+                        }
                     }
                 }
+                
                 self.setCountLabel(self.numFreeShipping)
                 self.referedTable.reloadData()
             }
