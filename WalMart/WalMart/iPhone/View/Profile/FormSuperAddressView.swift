@@ -531,10 +531,12 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return nil
             }
         }
-        
-        if self.zipcode!.text != "" && self.zipcode!.text !=  "00000" && self.store.text == "" && self.suburb.text == "" {
-           self.store.becomeFirstResponder()
+        //cambio para direcciones!
+        if self.zipcode!.text != "" && self.zipcode!.text !=  "00000" && self.store.text == "" && self.suburb.text == "" && self.stores.count > 0 {
+            self.store.becomeFirstResponder()
             return nil
+
+
         }
         
         if self.phoneWorkNumber.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""
