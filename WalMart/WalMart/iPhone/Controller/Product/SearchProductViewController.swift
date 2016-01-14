@@ -90,6 +90,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var itemsUPCMGBk: NSArray? = []
     var itemsUPCGRBk: NSArray? = []
     
+    var didSelectProduct =  false
+    var finsihService =  false
+    
    
     
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
@@ -278,9 +281,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         if self.isLoading {
             self.view.addSubview(self.loading!)
-            if self.allProducts!.count > 0 {
+            //if self.allProducts!.count > 0 {
                 self.loading!.startAnnimating(self.isVisibleTab)
-            }
+            //}
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
          NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
@@ -297,6 +300,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //            self.showEmptyMGGRView()
 //        }
 //        self.hasEmptyView = true
+        if finsihService || didSelectProduct {
+            self.loading?.stopAnnimating()
+        }
     }
     
     func reloadUISearch() {
@@ -315,7 +321,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
         }
-        
         
         var startPoint = self.header!.frame.maxY
         if self.isTextSearch || self.isOriginalTextSearch {
@@ -539,10 +544,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
     }
-    
     //MARK: - UICollectionViewDelegate
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        didSelectProduct = true
         let cell = self.collection?.cellForItemAtIndexPath(indexPath)
         if cell!.isKindOfClass(SearchProductCollectionViewCell){
             let controller = ProductDetailPageViewController()
@@ -1244,7 +1249,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             }
             
             
-            
+            self.finsihService =  true
             self.collection?.reloadData()
             self.showLoadingIfNeeded(true)
             }) { (error:NSError) -> Void in
