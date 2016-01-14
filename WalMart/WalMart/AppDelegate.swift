@@ -446,7 +446,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if let customBar = self.window?.rootViewController as? CustomBarViewController {
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
             {
-                customBar.handleNotification(strType,name:"",value:"",bussines:"")
+                if self.alertNoInternet == nil{
+                      customBar.handleNotification(strType,name:"",value:"",bussines:"")
+                }
             }
         }
         
