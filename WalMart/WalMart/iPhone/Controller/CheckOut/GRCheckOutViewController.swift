@@ -1224,28 +1224,34 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 let allSlotsCustomObj = resultSuccess["custom"] as! [String:AnyObject]
                 let allSlots = allSlotsCustomObj["slots"] as! [AnyObject]
                 var allSlotsCustom : [AnyObject] = []
-                for slot in allSlots  {
-                    if let strtDate = slot["beginDateRange"] as? String {
-                        if let endDate = slot["endDateRange"] as? String  {
-                            if let idSlot = slot["id"] as? Int  {
-                                allSlotsCustom.append(["displayText":"\(strtDate) - \(endDate)","id":"\(idSlot)","isVisible":true])
-                            }else {
-                                allSlotsCustom.append(["displayText":"No time","id":"","isVisible":true])
+                if allSlots.count > 0 {
+                    for slot in allSlots  {
+                        if let strtDate = slot["beginDateRange"] as? String {
+                            if let endDate = slot["endDateRange"] as? String  {
+                                if let idSlot = slot["slotId"] as? Int  {
+                                    allSlotsCustom.append(["displayText":"\(strtDate) - \(endDate)","id":idSlot,"isVisible":true])
+                                }else {
+                                    allSlotsCustom.append(["displayText":"No time","id":0,"isVisible":true])
+                                }
+                            } else {
+                                allSlotsCustom.append(["displayText":"No time","id":0,"isVisible":true])
                             }
-                        } else {
-                            allSlotsCustom.append(["displayText":"No time","id":"","isVisible":true])
+                        }else {
+                            allSlotsCustom.append(["displayText":"No time","id":0,"isVisible":true])
                         }
-                    }else {
-                        allSlotsCustom.append(["displayText":"No time","id":"","isVisible":true])
                     }
+                    self.slotsItems = allSlotsCustom
+                    self.addViewLoad()
+                    endCallTypeService()
+                } else {
+                    self.mercury = false
+                    self.buildAndConfigureDeliveryType()
                 }
-                self.slotsItems = allSlotsCustom
-                self.addViewLoad()
-                endCallTypeService()
+                },onError: {(error:NSError) -> Void in
+                    self.mercury = false
+                    self.buildAndConfigureDeliveryType()
             })
         }
-
-        
     }
     
     func parseDateString(dateStr:String, format:String="dd/MM/yyyy") -> NSDate {
@@ -1954,64 +1960,67 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func sendMercuryDeliveryValidation(onSuccess:(() -> Void),onError:(() -> Void)){
-        let serviceAddress = GRAddressesByIDService()
-        serviceAddress.addressId = self.selectedAddress!
-        
-        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
-            let store = result["storeID"] as! String!
-            self.storeID = store
-            
-            let postDeliveryMercury = PostDelivery()
-            postDeliveryMercury.validateMercuryDelivery(UserCurrentSession.sharedInstance().deviceToken, onSuccess: { (customRules) -> Void in
-                self.mercury = true
-                
-                //Validate delivery
-                let rules = customRules["custom"] as! [String:AnyObject]
-                if let currentStores = rules["stores"] as? [String] {
-                    if currentStores.filter({$0 == self.storeID}).count == 0 {
-                        self.mercury = false
-                        onSuccess()
-                        return
-                    }
-                }
-                
-                if let maxNumberItems = rules["maxNumberItems"] as? Int {
-                    if UserCurrentSession.sharedInstance().numberOfArticlesGR() > maxNumberItems {
-                        self.mercury = false
-                        onSuccess()
-                        return
-                    }
-                }
-                
-                if let maxAmount = rules["maxAmount"] as? Double {
-                    if (UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR()) > maxAmount {
-                        self.mercury = false
-                        onSuccess()
-                        return
-                    }
-                }
-                
-                if let paymentMethod = rules["paymentMethod"] as? [String] {
-                    let paymentSel = self.paymentOptionsItems![self.selectedPaymentType.row] as! NSDictionary
-                    let paymentSelectedId = paymentSel["id"] as! String
-                    if paymentMethod.filter({$0 == paymentSelectedId}).count == 0 {
-                        self.mercury = false
-                        onSuccess()
-                        return
-                    }
-                }
-                
-                
-                onSuccess()
-                }, onError: { (error) -> Void in
-                    self.mercury = false
-                    onError()
-            })
-            
-            }, errorBlock: { (error:NSError) -> Void in
-                self.mercury = false
-                onError()
-        })
+        //TODO: uncomment Mercury
+//        let serviceAddress = GRAddressesByIDService()
+//        serviceAddress.addressId = self.selectedAddress!
+//        
+//        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+//            let store = result["storeID"] as! String!
+//            self.storeID = store
+//            
+//            let postDeliveryMercury = PostDelivery()
+//            postDeliveryMercury.validateMercuryDelivery(UserCurrentSession.sharedInstance().deviceToken, onSuccess: { (customRules) -> Void in
+//                self.mercury = true
+//                
+//                //Validate delivery
+//                let rules = customRules["custom"] as! [String:AnyObject]
+//                if let currentStores = rules["stores"] as? [String] {
+//                    if currentStores.filter({$0 == self.storeID}).count == 0 {
+//                        self.mercury = false
+//                        onSuccess()
+//                        return
+//                    }
+//                }
+//                
+//                if let maxNumberItems = rules["maxNumberItems"] as? Int {
+//                    if UserCurrentSession.sharedInstance().numberOfArticlesGR() > maxNumberItems {
+//                        self.mercury = false
+//                        onSuccess()
+//                        return
+//                    }
+//                }
+//                
+//                if let maxAmount = rules["maxAmount"] as? Double {
+//                    if (UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR()) > maxAmount {
+//                        self.mercury = false
+//                        onSuccess()
+//                        return
+//                    }
+//                }
+//                
+//                if let paymentMethod = rules["paymentMethod"] as? [String] {
+//                    let paymentSel = self.paymentOptionsItems![self.selectedPaymentType.row] as! NSDictionary
+//                    let paymentSelectedId = paymentSel["id"] as! String
+//                    if paymentMethod.filter({$0 == paymentSelectedId}).count == 0 {
+//                        self.mercury = false
+//                        onSuccess()
+//                        return
+//                    }
+//                }
+//                
+//                
+//                onSuccess()
+//                }, onError: { (error) -> Void in
+//                    self.mercury = false
+//                    onError()
+//            })
+//            
+//            }, errorBlock: { (error:NSError) -> Void in
+//                self.mercury = false
+//                onError()
+//        })
+        self.mercury = false
+        onSuccess()
     }
     
     //MARK: Order Mercury

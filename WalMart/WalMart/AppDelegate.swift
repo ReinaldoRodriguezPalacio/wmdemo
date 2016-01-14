@@ -136,7 +136,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         //MERCURY
-        MercuryService.sharedInstance().startMercuryService()
+        //TODO: Uncomment
+        //MercuryService.sharedInstance().startMercuryService()
         
         //Tune.framework
         let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
@@ -179,7 +180,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKAppEvents.activateApp()
         
         //MERCURY
-        MercuryService.sharedInstance().updateMercuryService()
+        //TODO: Uncomment
+        //MercuryService.sharedInstance().updateMercuryService()
 
         
         if imgView != nil {
@@ -323,7 +325,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
        handleNotification(application,userInfo: userInfo)
         
         //MERCURY
-        MercuryService.sharedInstance().startMercuryService()
+        //TODO: Uncomment
+        //MercuryService.sharedInstance().startMercuryService()
 
     }
 
