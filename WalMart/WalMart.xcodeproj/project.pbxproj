@@ -467,6 +467,10 @@
 		85A40BA21C223AE40036C78A /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A40B651C223AE40036C78A /* DDDispatchQueueLogFormatter.m */; };
 		85A40BA31C223AE40036C78A /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 85A40B671C223AE40036C78A /* DDMultiFormatter.m */; };
 		85A40BA41C223AE40036C78A /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = 85A40B681C223AE40036C78A /* README.txt */; };
+		85E92EEA1C48564E00603663 /* SF-UI-Display-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 85E92EE71C48564E00603663 /* SF-UI-Display-Light.otf */; };
+		85E92EEB1C48564E00603663 /* SF-UI-Display-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 85E92EE81C48564E00603663 /* SF-UI-Display-Medium.otf */; };
+		85E92EEC1C48564E00603663 /* SF-UI-Display-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 85E92EE91C48564E00603663 /* SF-UI-Display-Regular.otf */; };
+		85E92EEE1C48568E00603663 /* MercuryFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E92EED1C48568E00603663 /* MercuryFont.swift */; };
 		8B19FD541AB0F207005A6D9E /* IPAHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */; };
 		8B19FD561AB0F367005A6D9E /* IPATermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */; };
 		8B19FD581AB0F3AC005A6D9E /* IPASupportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B19FD571AB0F3AC005A6D9E /* IPASupportViewController.swift */; };
@@ -1099,6 +1103,10 @@
 		85A40B661C223AE40036C78A /* DDMultiFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDMultiFormatter.h; sourceTree = "<group>"; };
 		85A40B671C223AE40036C78A /* DDMultiFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDMultiFormatter.m; sourceTree = "<group>"; };
 		85A40B681C223AE40036C78A /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		85E92EE71C48564E00603663 /* SF-UI-Display-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Light.otf"; sourceTree = "<group>"; };
+		85E92EE81C48564E00603663 /* SF-UI-Display-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Medium.otf"; sourceTree = "<group>"; };
+		85E92EE91C48564E00603663 /* SF-UI-Display-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-UI-Display-Regular.otf"; sourceTree = "<group>"; };
+		85E92EED1C48568E00603663 /* MercuryFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MercuryFont.swift; sourceTree = "<group>"; };
 		8B19FD531AB0F206005A6D9E /* IPAHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpViewController.swift; path = iPad/Controller/Help/IPAHelpViewController.swift; sourceTree = "<group>"; };
 		8B19FD551AB0F367005A6D9E /* IPATermViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPATermViewController.swift; path = iPad/Controller/Help/IPATermViewController.swift; sourceTree = "<group>"; };
 		8B19FD571AB0F3AC005A6D9E /* IPASupportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASupportViewController.swift; path = iPad/Controller/Help/IPASupportViewController.swift; sourceTree = "<group>"; };
@@ -2763,6 +2771,8 @@
 		85A40B161C223AE40036C78A /* MercurySDK */ = {
 			isa = PBXGroup;
 			children = (
+				85E92EED1C48568E00603663 /* MercuryFont.swift */,
+				85E92EE61C48564E00603663 /* Resources */,
 				85A40B171C223AE40036C78A /* Address.swift */,
 				85A40B181C223AE40036C78A /* Application.swift */,
 				85A40B191C223AE40036C78A /* CocoaAsyncSocket.h */,
@@ -2889,6 +2899,16 @@
 				85A40B681C223AE40036C78A /* README.txt */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		85E92EE61C48564E00603663 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				85E92EE71C48564E00603663 /* SF-UI-Display-Light.otf */,
+				85E92EE81C48564E00603663 /* SF-UI-Display-Medium.otf */,
+				85E92EE91C48564E00603663 /* SF-UI-Display-Regular.otf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		AC1CF41519EC7AA4006F1BC6 /* Profile */ = {
@@ -3363,8 +3383,11 @@
 				85A40B8C1C223AE40036C78A /* Info.plist in Resources */,
 				56054B891B210E0C003F8536 /* WeightPiceKeyboard.storyboard in Resources */,
 				8B44A1C11AA7EC09008E3CC0 /* termAndConditions.json in Resources */,
+				85E92EEB1C48564E00603663 /* SF-UI-Display-Medium.otf in Resources */,
 				56527DC719AFA8C2008032C6 /* MyriadPro-Black.otf in Resources */,
+				85E92EEA1C48564E00603663 /* SF-UI-Display-Light.otf in Resources */,
 				AC5911A819DE26E600EB095C /* paymentsType.html in Resources */,
+				85E92EEC1C48564E00603663 /* SF-UI-Display-Regular.otf in Resources */,
 				AC536D4019DB3C84007D2D42 /* help.json in Resources */,
 				56527DD219AFA8C2008032C6 /* MyriadPro-LightSemiExtIt.otf in Resources */,
 			);
@@ -3623,6 +3646,7 @@
 				569607A519B527D7005D20DC /* ProductDetailButtonBarCollectionViewCell.swift in Sources */,
 				AC536D3D19DB39CD007D2D42 /* HelpViewController.swift in Sources */,
 				5673D1421A9D500400DCD20B /* RSUnifiedCodeGenerator.swift in Sources */,
+				85E92EEE1C48568E00603663 /* MercuryFont.swift in Sources */,
 				AC1CF41B19EC7F94006F1BC6 /* IPAMasterProfilerViewController.swift in Sources */,
 				56AE80ED19D9F4B300D5DDA4 /* UIView+DHSmartScreenshot.m in Sources */,
 				5680B7D919C3A2DC00108F34 /* WMLoadingView.swift in Sources */,

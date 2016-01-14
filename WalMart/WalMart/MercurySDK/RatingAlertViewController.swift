@@ -23,9 +23,11 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
     var buttonNotRecived : UIButton? = nil
     var buttonEnd : UIButton? = nil
     var buttonDone : UIButton? = nil
+    var buttonCancel : UIButton? = nil
     var kpiDelivery : [AnyObject]? = nil
     var kpiDeliveryResponses : [[String:AnyObject]]? = []
     var objectDelivery :[String:AnyObject]? = nil
+    var alertViewNotDeliveried : UndeliveredView!
     
     var allCards: [DraggableView]! = []
     var loadedCards: [DraggableView]! = []
@@ -36,7 +38,8 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
     var onEndRating : (() -> Void)? = nil
     
     var titleView : UILabel!
-    var buttonCancel : UIButton!
+    var buttonCancelNotDev : UIButton!
+    var buttonOkNotDev : UIButton!
     var buttonUndelivered : UIButton!
     
     var isUndeliveriedOrder : Bool = false
@@ -62,46 +65,60 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         self.containerView?.addSubview(self.imageBgViewContainer!)
         
         self.buttonNo = UIButton()
-        self.buttonNo?.backgroundColor = UIColor(red: 232/255, green: 51/255, blue: 19/255, alpha: 1)
+        self.buttonNo?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonNo?.setTitle("No", forState: UIControlState.Normal)
         self.buttonNo?.layer.cornerRadius = 18
-        self.buttonNo?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(18)
+        self.buttonNo?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonNo?.addTarget(self, action: "actionNo", forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonNo?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         
         self.buttonYes = UIButton()
-        self.buttonYes?.backgroundColor = UIColor(red: 5/255, green: 206/255, blue: 124/255, alpha: 1)
+        self.buttonYes?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonYes?.setTitle("Si", forState: UIControlState.Normal)
         self.buttonYes?.layer.cornerRadius = 18
-        self.buttonYes?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(18)
+        self.buttonYes?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonYes?.addTarget(self, action: "actionYes", forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonYes?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         
         self.buttonNotRecived = UIButton()
-        self.buttonNotRecived?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(18)
+        self.buttonNotRecived?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonNotRecived?.setTitle("¿No recibiste tu orden?", forState: UIControlState.Normal)
         self.buttonNotRecived?.addTarget(self, action: "undeliveriedOrder", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.buttonEnd = UIButton()
-        self.buttonEnd?.backgroundColor = UIColor(red: 5/255, green: 206/255, blue: 124/255, alpha: 1)
+        self.buttonEnd?.backgroundColor = UIColor(red: 119/255, green: 188/255, blue: 31/255, alpha: 1)
         self.buttonEnd?.setTitle("Terminar", forState: UIControlState.Normal)
         self.buttonEnd?.layer.cornerRadius = 18
         self.buttonEnd?.addTarget(self, action: "actionEnd", forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonEnd?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(18)
+        self.buttonEnd?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonEnd?.alpha = 0
-        self.buttonEnd?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         
         self.buttonDone = UIButton()
         self.buttonDone?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonDone?.setTitle("Ok", forState: UIControlState.Normal)
         self.buttonDone?.layer.cornerRadius = 18
         self.buttonDone?.addTarget(self, action: "actionDone", forControlEvents: UIControlEvents.TouchUpInside)
-        self.buttonDone?.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(18)
+        self.buttonDone?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonDone?.alpha = 0
-        self.buttonDone?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         
         
-
+        self.buttonCancelNotDev = UIButton()
+        self.buttonCancelNotDev?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
+        self.buttonCancelNotDev?.setTitle("Cancelar", forState: UIControlState.Normal)
+        self.buttonCancelNotDev?.layer.cornerRadius = 18
+        self.buttonCancelNotDev?.addTarget(self, action: "actionCancelNotDeliveried", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonCancelNotDev?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
+        self.buttonCancelNotDev?.alpha = 0
+        
+        
+        self.buttonOkNotDev = UIButton()
+        self.buttonOkNotDev?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
+        self.buttonOkNotDev?.setTitle("Reportar", forState: UIControlState.Normal)
+        self.buttonOkNotDev?.layer.cornerRadius = 18
+        self.buttonOkNotDev?.addTarget(self, action: "actionReportNotDeliveried", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonOkNotDev?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
+        self.buttonOkNotDev?.alpha = 0
+        
+        
+        
         self.view.addSubview(self.imageBgBlur!)
         self.view.addSubview(self.bgView!)
         self.view.addSubview(self.containerView!)
@@ -110,13 +127,15 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         self.view.addSubview(self.buttonEnd!)
         self.view.addSubview(self.buttonNotRecived!)
         self.view.addSubview(self.buttonDone!)
+        self.view.addSubview(self.buttonCancelNotDev!)
+        self.view.addSubview(self.buttonOkNotDev!)
         
         loadCards()
         
         
     }
     
-
+    
     
     public override func viewWillLayoutSubviews() {
         self.imageBgBlur?.frame = self.view.bounds
@@ -130,7 +149,11 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
             self.buttonEnd?.frame = CGRectMake((self.view.frame.width / 2) - 144 + 64, self.view.frame.maxY - 120, 160, 36)
             self.buttonNotRecived?.frame = CGRectMake(0, self.view.frame.maxY - 40, self.view.frame.width, 22)
             self.buttonDone?.frame = CGRectMake((self.view.frame.width / 2) - 144 + 64, self.view.frame.maxY - 220, 160, 36)
-
+            
+            
+            self.buttonCancelNotDev?.frame = CGRectMake((self.view.frame.width / 2) - 144 , self.view.frame.maxY - 120, 138, 36)
+            self.buttonOkNotDev?.frame = CGRectMake(self.buttonCancelNotDev!.frame.maxX + 12, self.view.frame.maxY - 120, 138, 36)
+            
         }
         
         
@@ -143,7 +166,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         draggableView.cardInfo = ixCard
         if let iconViewUrl = ixCard["icon"] as? String {
             draggableView.imageBackground.setImageWithURL(NSURL(string: iconViewUrl)!, placeholderImage: nil, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-                 draggableView.imageBackground.image = image
+                draggableView.imageBackground.image = image
                 }, failure: { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                     print(error)
             })
@@ -157,7 +180,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
             formatter.dateFormat = "EEEE d 'de' MMMM"
             let strTitle = formatter.stringFromDate(dateOrder!)
             
-            draggableView.information.text = "Califica tu Entrega del\n \(strTitle)"
+            draggableView.information.text = "Califica tu Entrega\ndel \(strTitle)"
         }
         if let descKPI = ixCard["rateDescription"] as? String {
             draggableView.kpiQuestion.text = descKPI
@@ -197,10 +220,12 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
     }
     
     
-    //Draggable View Delegate 
+    //Draggable View Delegate
     
     func cardSwipedLeft(card: UIView) -> Void {
         loadedCards.removeAtIndex(0)
+        
+        self.buttonNotRecived?.alpha = 0
         
         if card is DraggableView {
             let draggCard = card as! DraggableView
@@ -218,6 +243,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         
         if loadedCards.count == 1 {
             commentView = CommentView(frame:CGRectMake(0, 0, 288, 384))
+            commentView?.sendMessageAction = {(message) -> Void in self.actionEnd(false)}
             self.containerView?.addSubview(commentView!)
             self.containerView!.insertSubview(self.commentView!, belowSubview: loadedCards[MAX_BUFFER_SIZE - 2])
         }
@@ -225,13 +251,15 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         if loadedCards.count == 0 {
             endAndReportDelivery()
         }
-       
+        
         
     }
     
     func cardSwipedRight(card: UIView) -> Void {
         loadedCards.removeAtIndex(0)
-
+        
+        self.buttonNotRecived?.alpha = 0
+        
         if card is DraggableView {
             let draggCard = card as! DraggableView
             let userInfo = draggCard.cardInfo!
@@ -248,6 +276,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         
         if loadedCards.count == 1 {
             commentView = CommentView(frame:CGRectMake(0, 0, 288, 384))
+            commentView?.sendMessageAction = {(message) -> Void in self.actionEnd(false)}
             self.containerView?.addSubview(commentView!)
             self.containerView!.insertSubview(self.commentView!, belowSubview: loadedCards[MAX_BUFFER_SIZE - 2])
         }
@@ -291,32 +320,26 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         }
     }
     
-   
+    func actionEnd(){
+        actionEnd(true)
+    }
     
-    func actionEnd() {
+    func actionEnd(closeView:Bool) {
         let idDelivery = objectDelivery!["idDelivery"] as! String
-       PostDelivery.postDeliveryRating(idDelivery,message:commentView!.strMessage, rating: self.kpiDeliveryResponses!) { (resultSuccess) -> Void in
-            
-
-            let doneViewImage = DoneView(frame:CGRectMake(0, 888, 288, 239))
-            self.containerView?.addSubview(doneViewImage)
-            
-            
-            UIView.animateWithDuration(0.2, animations: { () -> Void in
-                self.commentView?.alpha = 0
-                }, completion: { (completed) -> Void in
-                   UIView.animateWithDuration(0.4, animations: { () -> Void in
-                        doneViewImage.frame = CGRectMake(0, 40, 288, 239)
-                        self.buttonEnd?.alpha = 0
-                    
-                        self.buttonNotRecived?.alpha = 0
-                    }, completion: { (completed) -> Void in
-                       doneViewImage.animate()
-                        UIView.animateWithDuration(0.1, animations: { () -> Void in
-                             self.buttonDone?.alpha = 1
-                        })
-                   })
-            })
+        PostDelivery.postDeliveryRating(idDelivery,message:commentView!.strMessage, rating: self.kpiDeliveryResponses!) { (resultSuccess) -> Void in
+            if closeView {
+                UIView.animateWithDuration(0.3, animations: { () -> Void in
+                    self.view.alpha = 0
+                    }, completion: { (complete) -> Void in
+                        self.view.removeFromSuperview()
+                        self.removeFromParentViewController()
+                        self.onEndRating?()
+                        MercuryService.sharedInstance().startMercuryService()
+                })
+            } else {
+                self.commentView?.actionCancel()
+                self.commentView?.thanksUser()
+            }
         }
     }
     
@@ -336,59 +359,32 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         
         isUndeliveriedOrder = true
         
-        titleView = UILabel(frame: CGRectMake(0,160,241,46))
-        titleView.textAlignment = .Center
-        titleView.numberOfLines = 2
-        titleView.textColor = UIColor.whiteColor()
-        titleView.font = WMFont.fontMyriadProRegularOfSize(22)
-        titleView.text = "¿El shopper no te ha entregado tu orden?"
-        titleView.center = CGPointMake(self.view.frame.width / 2, titleView.center.y)
-        titleView.alpha = 0
-        
-        buttonCancel = UIButton(frame: CGRectMake(41,256,110,36))
-        buttonCancel.setTitle("Cancel", forState: UIControlState.Normal)
-        buttonCancel.backgroundColor = UIColor.blackColor()
-        buttonCancel.layer.cornerRadius = 18
-        buttonCancel.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(18)
-        buttonCancel.addTarget(self, action: "cancelrating", forControlEvents: UIControlEvents.TouchUpInside)
-        buttonCancel.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
-        buttonCancel.alpha = 0
-            
-        buttonUndelivered = UIButton(frame: CGRectMake(buttonCancel.frame.maxX + 20 ,256,110,36))
-        buttonUndelivered.setTitle("No", forState: UIControlState.Normal)
-        buttonUndelivered.backgroundColor = WMColor.UIColorFromRGB(0xE43313)
-        buttonUndelivered.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(18)
-        buttonUndelivered.layer.cornerRadius = 18
-        buttonUndelivered.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
-        buttonUndelivered.addTarget(self, action: "undeliveredOrder", forControlEvents: UIControlEvents.TouchUpInside)
-        buttonUndelivered.alpha = 0
-        
-        self.view.addSubview(titleView)
-        self.view.addSubview(buttonCancel)
-        self.view.addSubview(buttonUndelivered)
-        
+        alertViewNotDeliveried = UndeliveredView(frame: CGRectMake( (self.view.frame.width / 2) - 144, 32, 288, 400))
         UIView.animateWithDuration(0.3, animations: { () -> Void in
             self.containerView?.frame =  CGRectMake(self.containerView!.frame.minX, -600, self.containerView!.frame.width, self.containerView!.frame.height)
             self.buttonYes?.alpha = 0
             self.buttonNo?.alpha = 0
             self.buttonNotRecived?.alpha = 0
             }) { (complete) -> Void in
+                self.alertViewNotDeliveried.alpha = 0
+                self.alertViewNotDeliveried.setEmailForInformation(MercuryService.sharedInstance().username)
+                self.view.addSubview(self.alertViewNotDeliveried)
                 UIView.animateWithDuration(0.2, animations: { () -> Void in
-                    self.titleView.alpha = 1
-                    self.buttonCancel.alpha = 1
-                    self.buttonUndelivered.alpha = 1
+                    self.alertViewNotDeliveried.alpha = 1
+                    self.buttonCancelNotDev.alpha = 1
+                    self.buttonOkNotDev.alpha = 1
                 })
         }
     }
     
     
-    func cancelrating() {
+    func actionCancelNotDeliveried() {
         isUndeliveriedOrder = false
         
         UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.titleView.alpha = 0
-            self.buttonCancel.alpha = 0
-            self.buttonUndelivered.alpha = 0
+            self.buttonCancelNotDev?.alpha = 0
+            self.buttonOkNotDev.alpha = 0
+            self.alertViewNotDeliveried.alpha = 0
             }) { (complete) -> Void in
                 UIView.animateWithDuration(0.3, animations: { () -> Void in
                     self.containerView?.frame =  CGRectMake(self.containerView!.frame.minX, 32, self.containerView!.frame.width, self.containerView!.frame.height)
@@ -404,28 +400,18 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
     }
     
     
-    func undeliveredOrder() {
+    func actionReportNotDeliveried() {
         let idDelivery = objectDelivery!["idDelivery"] as! String
         PostDelivery.cancelRatingDelivery(idDelivery) { () -> Void in
-            let alertViewNotDeliveried = UndeliveredView(frame: CGRectMake( 320, 32, 288, 400))
-            alertViewNotDeliveried.setEmailForInformation(MercuryService.sharedInstance().username)
-            self.view.addSubview(alertViewNotDeliveried)
-            
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.titleView.frame = CGRectMake(-320, self.titleView.frame.minY, self.titleView.frame.width, self.titleView.frame.height)
-                self.buttonCancel.frame = CGRectMake(-320, self.buttonCancel.frame.minY, self.buttonCancel.frame.width, self.buttonCancel.frame.height)
-                self.buttonUndelivered.frame = CGRectMake(-320, self.buttonUndelivered.frame.minY, self.buttonUndelivered.frame.width, self.buttonUndelivered.frame.height)
-                alertViewNotDeliveried.frame = CGRectMake( (self.view.frame.width / 2) - 144, 32, 288, 400)
-                
-                }) { (completed) -> Void in
-                    self.buttonDone?.frame = CGRectMake(96, self.view.frame.maxY - 120, 128, 36)
-                    UIView.animateWithDuration(0.2, animations: { () -> Void in
-                        self.buttonDone?.alpha = 1
-                    })
-            }
+                self.view.alpha = 0
+                }, completion: { (complete) -> Void in
+                    self.removeFromParentViewController()
+                    self.view.removeFromSuperview()
+                    self.onEndRating?()
+                    MercuryService.sharedInstance().startMercuryService()
+            })
         }
-        
-       
     }
     
     func assignBluredImage(fromView:UIView) {
@@ -442,6 +428,6 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         let blurredImage = cloneImage.applyLightEffectDelivery()
         return blurredImage
     }
-
+    
     
 }

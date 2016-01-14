@@ -53,13 +53,13 @@ public class PostDelivery : HelpMercuryViewDelegate {
                 showHelpView(viewCtrl)
             }
             
-          
+            
             viewCtrl.addChildViewController(self.followMercuryView!)
             viewCtrl.view.addSubview(self.followMercuryView!.view)
             viewCtrl.view.bringSubviewToFront(viewCtrl.view)
             followMercuryView!.idDelivery = firstDelivery["idDelivery"] as! String
             followMercuryView!.deliveryObject = firstDelivery
-
+            
         } else {
             viewCtrl.view.bringSubviewToFront(viewCtrl.view)
         }
@@ -72,11 +72,11 @@ public class PostDelivery : HelpMercuryViewDelegate {
             rateView = RatingAlertViewController()
             rateView!.assignBluredImage(viewCtrl.view)
             
-//            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-//                rateView = IPAFollowViewController()
-//            } else {
-//                
-//            }
+            //            if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
+            //                rateView = IPAFollowViewController()
+            //            } else {
+            //
+            //            }
             
             rateView!.objectDelivery = firstDelivery
             rateView!.kpiDelivery = PostDelivery.sharedInstance().currentKPIRate!
@@ -88,7 +88,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
             rateView?.onEndRating = {() in
                 self.rateView = nil
             }
-          
+            
             
         } else {
             viewCtrl.view.bringSubviewToFront(viewCtrl.view)
@@ -120,13 +120,13 @@ public class PostDelivery : HelpMercuryViewDelegate {
             followMercuryView = nil
         }
     }
-
+    
     
     
     required  public init() {
         
     }
-
+    
     
     class func postDeliveries(userName:String) {
         getCurrentMercuryDeliveries(userName, onSuccess: { (resultSuccess) -> Void in
@@ -141,7 +141,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
         return true
     }
     
-
+    
     let baseUrl = "https://mercury.isol.ws/mercury-1.0/api/mercury/"
     let urlMercury = "v1/delivery"
     let urlMercuryValidate = "v1/availability/parameters"
@@ -151,7 +151,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
     let urlMercuryPostRate = "v1/rating/send"
     let urlMercuryPostRateCancel = "v1/rating/cancel"
     
-
+    
     
     
     public func callMercuryDelivery(delivery:Delivery,onPostDelivery:((idDelivery:String) -> Void),onError:((error:NSError) -> Void)) {
@@ -176,14 +176,14 @@ public class PostDelivery : HelpMercuryViewDelegate {
     
     public func validateMercuryDelivery(deviceToken:String,onSuccess:((rules:[String:AnyObject]) -> Void),onError:((error:NSError) -> Void)) {
         let bundleID = NSBundle.mainBundle().bundleIdentifier
-
+        
         let params : [String:AnyObject] = ["bundleid":bundleID!, "device" : ["systemName":UIDevice.currentDevice().systemName,
-                    "appdevicetoken":deviceToken,
-                    "model":UIDevice.currentDevice().model,
-                    "version":UIDevice.currentDevice().systemVersion,
-                    "localizedMode":UIDevice.currentDevice().localizedModel,
-                    "macAddress":"",
-                    "identifierForVendor":UIDevice.currentDevice().identifierForVendor!.UUIDString]]
+            "appdevicetoken":deviceToken,
+            "model":UIDevice.currentDevice().model,
+            "version":UIDevice.currentDevice().systemVersion,
+            "localizedMode":UIDevice.currentDevice().localizedModel,
+            "macAddress":"",
+            "identifierForVendor":UIDevice.currentDevice().identifierForVendor!.UUIDString]]
         
         request(Method.POST, "\(baseUrl)\(urlMercuryValidate)" , parameters: params , encoding: ParameterEncoding.JSON).debugLog().responseJSON(completionHandler: { (response:Response<AnyObject, NSError>) -> Void in
             if response.result.isSuccess{
@@ -199,11 +199,11 @@ public class PostDelivery : HelpMercuryViewDelegate {
                 onError(error: response.result.error!)
             }
         })
-       
+        
     }
     
     
-    public func validateMercurySlots(deliveryDate:NSDate,idShopper:String,idStore:String,onSuccess:((resultSuccess:AnyObject) -> Void)) {
+    public func validateMercurySlots(deliveryDate:NSDate,idShopper:String,idStore:String,onSuccess:((resultSuccess:AnyObject) -> Void),onError:((error:NSError) -> Void)) {
         
         
         let dateFormat = "yyyy-MM-dd 00:00:00"
@@ -216,18 +216,19 @@ public class PostDelivery : HelpMercuryViewDelegate {
             if response.result.isSuccess{
                 let resultStatus = response.result.value!["status"] as! Int
                 if resultStatus != 1 {
-//                    let errorDesc = response.result.value!["message"] as! String
-//                    let errorHandled = NSError(domain: "com.mercury.service", code: resultStatus, userInfo:[NSLocalizedDescriptionKey:errorDesc])
+                    //                    let errorDesc = response.result.value!["message"] as! String
+                    //                    let errorHandled = NSError(domain: "com.mercury.service", code: resultStatus, userInfo:[NSLocalizedDescriptionKey:errorDesc])
                     //onError(error: errorHandled)
                     return
                 }
                 onSuccess(resultSuccess:response.result.value!)
             } else {
-                //onError(error: response.result.error!)
+                print( response.result.error!)
+                onError(error: response.result.error!)
             }
         })
     }
-
+    
     
     public class func getCurrentMercuryDeliveries(user:String,onSuccess:((resultSuccess:AnyObject) -> Void)) {
         let toSendObject : [String:AnyObject] = ["customerUserName":user]
@@ -250,7 +251,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
                     }
                 }
                 
-           
+                
                 PostDelivery.sharedInstance().currentDeliveries = arrayToAsign
                 getRateDescriptions(user, onSuccess: onSuccess)
             } else {
@@ -266,7 +267,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
         let scale = scaleFactor()
         let params : [String:AnyObject] = ["typePerson":2,"emailConsumer":user,"bundleId":bundleID,"scale":scale]
         
-         request(Method.POST, "\(PostDelivery.sharedInstance().baseUrl)\(PostDelivery.sharedInstance().urlMercuryRate)", parameters: params , encoding: ParameterEncoding.JSON).debugLog().responseJSON(completionHandler: { (response:Response<AnyObject, NSError>) -> Void in
+        request(Method.POST, "\(PostDelivery.sharedInstance().baseUrl)\(PostDelivery.sharedInstance().urlMercuryRate)", parameters: params , encoding: ParameterEncoding.JSON).debugLog().responseJSON(completionHandler: { (response:Response<AnyObject, NSError>) -> Void in
             if response.result.isSuccess{
                 print( response.result.value)
                 let resultStatus = response.result.value!["status"] as! Int
@@ -301,14 +302,14 @@ public class PostDelivery : HelpMercuryViewDelegate {
         }
         return 1.0
     }
-
+    
     public class func postDeliveryRating(deliveryId:String,message:String,rating:[[String:AnyObject]],onSuccess:((resultSuccess:AnyObject) -> Void)) {
         
         
         let dateFormat = "yyyy-MM-dd 00:00:00"
         let formatter = NSDateFormatter()
         formatter.dateFormat = dateFormat
-
+        
         let toSendObject : [String:AnyObject] = ["idDelivery":deliveryId,"ratings":rating,"comments":message]
         
         request(Method.POST, "\(PostDelivery.sharedInstance().baseUrl)\(PostDelivery.sharedInstance().urlMercuryPostRate)", parameters: toSendObject , encoding: ParameterEncoding.JSON).debugLog().responseJSON(completionHandler: { (response:Response<AnyObject, NSError>) -> Void in
@@ -346,13 +347,13 @@ public class PostDelivery : HelpMercuryViewDelegate {
             }
         })
     }
-   
+    
     
 }
 
 extension Request {
     public func debugLog() -> Self {
-
+        
         //debugPrint(self)
         
         print(NSString(data: request!.HTTPBody!, encoding: NSUTF8StringEncoding))

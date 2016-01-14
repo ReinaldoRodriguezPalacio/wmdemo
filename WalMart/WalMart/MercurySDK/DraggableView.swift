@@ -35,55 +35,55 @@ class DraggableView: UIView {
     var xFromCenter: Float!
     var yFromCenter: Float!
     var cardInfo: AnyObject? = nil
-
+    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)!
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-
+        
         self.setupView()
-
+        
         self.backgroundColor = UIColor.whiteColor()
         
         imageBackground = UIImageView(frame: CGRectMake(0, 0, self.frame.size.width, self.frame.size.height))
         self.addSubview(imageBackground)
         
-        information = UILabel(frame: CGRectMake(16, 43, self.frame.size.width - 32, 36))
+        information = UILabel(frame: CGRectMake(16, 43, self.frame.size.width - 32, 44))
         information.textAlignment = NSTextAlignment.Center
         information.textColor = WMColor.UIColorFromRGB(0x0071CE)
-        information.font = WMFont.fontMyriadProLightOfSize(18)
+        information.font = MercuryFont.fontSFUILightOfSize(18)
         information.numberOfLines = 2
         
-        kpiQuestion = UILabel(frame: CGRectMake(16, 264, self.frame.size.width - 32, 75))
+        kpiQuestion = UILabel(frame: CGRectMake(16, 264, self.frame.size.width - 32, 87))
         kpiQuestion.textAlignment = NSTextAlignment.Center
         kpiQuestion.textColor = WMColor.UIColorFromRGB(0x0071CE)
-        kpiQuestion.font = WMFont.fontMyriadProLightOfSize(25)
+        kpiQuestion.font = MercuryFont.fontSFUIMediumOfSize(25)
         kpiQuestion.numberOfLines = 3
-
         
-
+        
+        
         panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "beingDragged:")
         self.addGestureRecognizer(panGestureRecognizer)
         self.addSubview(information)
         self.addSubview(kpiQuestion)
-
+        
         overlayView = OverlayView(frame: CGRectMake(self.frame.size.width/2 - 48, 110, 96, 96))
         overlayView.alpha = 0
         self.addSubview(overlayView)
-
+        
         xFromCenter = 0
         yFromCenter = 0
     }
-
+    
     func setupView() -> Void {
         self.layer.cornerRadius = 8;
         self.layer.shadowRadius = 3;
         self.layer.shadowOpacity = 0.2;
         self.layer.shadowOffset = CGSizeMake(1, 1);
     }
-
+    
     func beingDragged(gestureRecognizer: UIPanGestureRecognizer) -> Void {
         xFromCenter = Float(gestureRecognizer.translationInView(self).x)
         yFromCenter = Float(gestureRecognizer.translationInView(self).y)
@@ -98,9 +98,9 @@ class DraggableView: UIView {
             let rotationStrength: Float = min(xFromCenter/ROTATION_STRENGTH, ROTATION_MAX)
             let rotationAngle = ROTATION_ANGLE * rotationStrength
             let scale = max(1 - fabsf(rotationStrength) / SCALE_STRENGTH, SCALE_MAX)
-
+            
             self.center = CGPointMake(self.originPoint.x + CGFloat(xFromCenter), self.originPoint.y + CGFloat(yFromCenter))
-
+            
             let transform = CGAffineTransformMakeRotation(CGFloat(rotationAngle))
             let scaleTransform = CGAffineTransformScale(transform, CGFloat(scale), CGFloat(scale))
             self.transform = scaleTransform
@@ -132,7 +132,7 @@ class DraggableView: UIView {
         self.updateOverlay(CGFloat(xFromCenter))
     }
     
-
+    
     func updateOverlay(distance: CGFloat) -> Void {
         if distance > 0 {
             overlayView.setMode(GGOverlayViewMode.GGOverlayViewModeRight)
@@ -141,7 +141,7 @@ class DraggableView: UIView {
         }
         overlayView.alpha = CGFloat(min(fabsf(Float(distance))/100, 1))
     }
-
+    
     func afterSwipeAction() -> Void {
         let floatXFromCenter = Float(xFromCenter)
         if floatXFromCenter > ACTION_MARGIN {
@@ -168,7 +168,7 @@ class DraggableView: UIView {
         })
         delegate.cardSwipedRight(self)
     }
-
+    
     func leftAction() -> Void {
         let finishPoint: CGPoint = CGPointMake(-500, 2 * CGFloat(yFromCenter) + self.originPoint.y)
         UIView.animateWithDuration(0.3,
@@ -180,7 +180,7 @@ class DraggableView: UIView {
         })
         delegate.cardSwipedLeft(self)
     }
-
+    
     func rightClickAction() -> Void {
         let finishPoint = CGPointMake(600, self.center.y)
         UIView.animateWithDuration(0.3,
@@ -193,7 +193,7 @@ class DraggableView: UIView {
         })
         delegate.cardSwipedRight(self)
     }
-
+    
     func leftClickAction() -> Void {
         let finishPoint: CGPoint = CGPointMake(-600, self.center.y)
         UIView.animateWithDuration(0.3,

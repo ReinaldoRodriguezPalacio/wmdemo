@@ -13,6 +13,7 @@ class UndeliveredView : UIView {
     
     
     var information: UILabel!
+    var title: UILabel!
     var imageBackground: UIImageView!
     
     
@@ -21,19 +22,26 @@ class UndeliveredView : UIView {
         
         self.backgroundColor = UIColor.clearColor()
         
-        information = UILabel(frame: CGRectMake(8, 43, self.frame.size.width - 16, 76))
+        title = UILabel(frame: CGRectMake(8, 20, self.frame.size.width - 16, 76))
+        title.textAlignment = NSTextAlignment.Center
+        title.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        title.font = MercuryFont.fontSFUIRegularOfSize(25)
+        title.text = "Orden no recibida"
+        title.numberOfLines = 1
+        
+        
+        information = UILabel(frame: CGRectMake(8, 90, self.frame.size.width - 16, 76))
         information.textAlignment = NSTextAlignment.Center
         information.textColor = WMColor.UIColorFromRGB(0x0071CE)
-        information.font = WMFont.fontMyriadProLightOfSize(18)
+        information.font = MercuryFont.fontSFUILightOfSize(18)
         information.numberOfLines = 4
-        
-        
         
         imageBackground = UIImageView(frame: CGRectMake(0, 0, self.frame.size.width, self.frame.size.height))
         imageBackground.image = UIImage(named: "faildelivery")
         
-    
+        
         self.addSubview(imageBackground)
+        self.addSubview(title)
         self.addSubview(information)
         
     }
@@ -42,10 +50,10 @@ class UndeliveredView : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
- 
+    
     func setEmailForInformation(email:String) {
-        information.text = "¡Lo sentimos mucho!\nTomaremos acción inmediatamente\ny te mantendremos al tanto\nen \(email)"
+        information.text = "Investigaremos de inmediato\ny te mantendremos al tanto en\n\(email)"
     }
-
+    
     
 }

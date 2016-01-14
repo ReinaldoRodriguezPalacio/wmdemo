@@ -104,6 +104,9 @@
 		<string>MyriadPro-SemiboldSemiExt.otf</string>
 		<string>MyriadPro-SemiExt.otf</string>
 		<string>MyriadPro-SemiExtIt.otf</string>
+		<string>SF-UI-Display-Light.otf</string>
+		<string>SF-UI-Display-Medium.otf</string>
+		<string>SF-UI-Display-Regular.otf</string>
 	</array>
 	<key>UIApplicationShortcutItems</key>
 	<array>
