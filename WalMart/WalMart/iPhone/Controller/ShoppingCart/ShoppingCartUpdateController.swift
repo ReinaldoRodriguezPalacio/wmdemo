@@ -102,6 +102,7 @@ class ShoppingCartUpdateController : UIViewController {
         titleLabel = UILabel(frame: CGRectMake((self.view.frame.width / 2) - 116, viewBgImage.frame.maxY + 23, 232, 200))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.textColor = WMColor.productAddToCartTitle
+        titleLabel.numberOfLines =  2
         titleLabel.textAlignment = .Center
         titleLabel.numberOfLines = 0
 
@@ -231,7 +232,7 @@ class ShoppingCartUpdateController : UIViewController {
                     self.spinImage.hidden = true
                     self.titleLabel.sizeToFit()
                     self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
-                    if error.code == 1{
+                    if error.code == 1 || error.code == 999 {
                         self.titleLabel.text = error.localizedDescription
                     }else{
                         self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
@@ -266,7 +267,7 @@ class ShoppingCartUpdateController : UIViewController {
                         self.spinImage.hidden = true
                         self.titleLabel.sizeToFit()
                         self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
-                        if error.code == 1{
+                        if error.code == 1 || error.code == 999 {
                             self.titleLabel.text = error.localizedDescription
                         }else{
                             self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
@@ -325,7 +326,7 @@ class ShoppingCartUpdateController : UIViewController {
                             self.spinImage.hidden = true
                             self.titleLabel.sizeToFit()
                             self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
-                            if error.code == 1{
+                            if error.code == 1 || error.code == 999 {
                                 self.titleLabel.text = error.localizedDescription
                             }else{
                                 self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
@@ -363,7 +364,7 @@ class ShoppingCartUpdateController : UIViewController {
                     self.spinImage.hidden = true
                     self.titleLabel.sizeToFit()
                     self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height)
-                    if error.code == 1{
+                    if error.code == 1 || error.code == 999  {
                          self.titleLabel.text = error.localizedDescription
                     }else{
                         self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
@@ -599,7 +600,7 @@ class ShoppingCartUpdateController : UIViewController {
                                 }) { (error:NSError) -> Void in
                                     self.spinImage.layer.removeAllAnimations()
                                     self.spinImage.hidden = true
-                                    if error.code == 1{
+                                    if error.code == 1 || error.code == 999 {
                                         self.titleLabel.text = error.localizedDescription
                                     }else{
                                         self.titleLabel.text = NSLocalizedString("conection.error",comment:"")

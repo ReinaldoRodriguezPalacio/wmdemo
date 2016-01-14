@@ -54,11 +54,11 @@
 		04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */; };
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
+		4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233F1C2B683400361329 /* Tune.framework */; };
 		5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716A1A9549590029786B /* GRSendOrderService.swift */; };
 		5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */; };
 		560323391C2B4B3200361329 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560323381C2B4B3200361329 /* iAd.framework */; };
 		5603233B1C2B4B5500361329 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233A1C2B4B5500361329 /* StoreKit.framework */; };
-		560323401C2B683400361329 /* Tune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233F1C2B683400361329 /* Tune.framework */; };
 		56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56054B861B20A7BB003F8536 /* BannerTermsView.swift */; };
 		56054B891B210E0C003F8536 /* WeightPiceKeyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56054B881B210E0C003F8536 /* WeightPiceKeyboard.storyboard */; };
 		56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56054B8B1B211CCF003F8536 /* KeyboardWeightViewController.swift */; };
@@ -634,7 +634,6 @@
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		5601716A1A9549590029786B /* GRSendOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRSendOrderService.swift; path = Shared/Services/checkout/GRSendOrderService.swift; sourceTree = "<group>"; };
 		5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutConfirmViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutConfirmViewController.swift; sourceTree = "<group>"; };
-		560323361C2B4ACD00361329 /* Tune.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Tune.framework; path = "../../Downloads/MobileAppTracking-ios/Tune.framework"; sourceTree = "<group>"; };
 		560323381C2B4B3200361329 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		5603233A1C2B4B5500361329 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		5603233C1C2B591B00361329 /* Superama_Movil_Info.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = Superama_Movil_Info.txt; path = "../../Downloads/MobileAppTracking-ios/Superama_Movil_Info.txt"; sourceTree = "<group>"; };
@@ -1244,6 +1243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */,
 				5603233B1C2B4B5500361329 /* StoreKit.framework in Frameworks */,
 				560323391C2B4B3200361329 /* iAd.framework in Frameworks */,
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
@@ -1270,7 +1270,6 @@
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */,
 				F7D5F94A1B668C0900A8C8AE /* QuartzCore.framework in Frameworks */,
-				560323401C2B683400361329 /* Tune.framework in Frameworks */,
 				AC59119819DE0D6100EB095C /* libGoogleAnalyticsServices.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3235,7 +3234,6 @@
 				5603233C1C2B591B00361329 /* Superama_Movil_Info.txt */,
 				5603233A1C2B4B5500361329 /* StoreKit.framework */,
 				560323381C2B4B3200361329 /* iAd.framework */,
-				560323361C2B4ACD00361329 /* Tune.framework */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
 				ACF20CAB1C063A74009709B5 /* libz.tbd */,
 				ACF20CA91C063A64009709B5 /* libc++.tbd */,

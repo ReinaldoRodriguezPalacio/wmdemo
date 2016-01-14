@@ -27,7 +27,7 @@ class WishlistAddProductStatus : UIView {
         textView = UILabel(frame:CGRectMake(0, 0, 320, 48))
         textView.font = WMFont.fontMyriadProLightOfSize(18)
         textView.textColor = UIColor.whiteColor()
-        textView.numberOfLines = 0
+        textView.numberOfLines = 2
         textView.textAlignment = NSTextAlignment.Center
         self.addSubview(textView)
         

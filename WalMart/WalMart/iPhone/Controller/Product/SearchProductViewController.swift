@@ -1183,6 +1183,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
             self.view.addSubview(self.empty)
             self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
+            self.finsihService =  true
            
             
             return
