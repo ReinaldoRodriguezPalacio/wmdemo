@@ -1406,7 +1406,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func saveReplaceViewSelected() {
         self.picker!.onClosePicker = nil
-        self.addViewLoad()
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(sAddredssForm.idAddress, delete: false)
         if dictSend != nil {
@@ -1417,6 +1416,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             if self.addressItems?.count < 12 {
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
+                self.addViewLoad()
                 print("Se realizao la direccion")
                 self.picker!.closeNew()
                 self.picker!.closePicker()
@@ -1671,12 +1671,12 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.cellType = TypeField.Check
         if !self.selectedAddressHasStore {
             self.picker!.onClosePicker = {
+                self.removeViewLoad()
                 self.picker!.onClosePicker = nil
                 self.navigationController?.popViewControllerAnimated(true)
                 self.picker!.closePicker()
             }
-        }
-        
+        }        
         self.picker!.showPicker()
     }
     func closeAlertPk() {
