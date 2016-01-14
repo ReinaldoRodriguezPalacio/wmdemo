@@ -521,16 +521,19 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
             var currentVal = true
-            // seleccion de varias opciones
-//            if self.selectedElementsFacet!.count > 2 {
-//                for var items in self.selectedElementsFacet! {
-//                    if items.1 == true{
-//                        self.selectedElementsFacet!.updateValue(false, forKey: items.0)
-//                        break
-//                    }
-//                }
-//            }
-        
+            var countselected = 0
+            var ixSelected : NSIndexPath? = nil
+            for var items in self.selectedElementsFacet! {
+                if items.1 == true{
+                    countselected++
+                    ixSelected  = items.0
+                }
+            }
+            
+            if countselected == 1 && ixSelected == indexPath {
+                return
+            }
+            
             if let savedVal = self.selectedElementsFacet![indexPath] {
                 currentVal = !savedVal
             }
@@ -543,7 +546,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 }
             }
             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SEARCH_PRODUCT_FILTER.rawValue, action: WMGAIUtils.ACTION_BRAND_SELECTION.rawValue, label: self.brandFacets[indexPath.row - 1])
-            self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
+            
+            self.tableView?.reloadSections(NSIndexSet(index: indexPath.section), withRowAnimation: .Fade)
+            //self.tableView?.reloadRowsAtIndexPaths([indexPath,NSIndexPath(forRow: 0, inSection: indexPath.section)], withRowAnimation: UITableViewRowAnimation.Fade)
             //self.removeButton!.hidden = false
             
             return
