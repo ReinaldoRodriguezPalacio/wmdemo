@@ -7,42 +7,47 @@
 //
 
 import Foundation
+protocol CommentBubbleViewDelegate {
+    func showBottonAddNote(show : Bool)
+}
 
 
 class CommentBubbleView : UIView, UITextViewDelegate {
     
     var field: UITextView?
     var indicator: UIImageView?
-
-    
+    var showBottonAddNote: UIButton!
+    var delegate : CommentBubbleViewDelegate?
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         self.field = UITextView()
-        //self.field!.delegate = self
         self.field!.layer.cornerRadius = 5.0
         self.field!.returnKeyType = .Default
         self.field!.autocapitalizationType = .None
         self.field!.autocorrectionType = .No
         self.field!.enablesReturnKeyAutomatically = true
         self.field!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.field!.textColor = WMColor.searchProductFieldTextColor
+        self.field!.text = "Agrega tu nota aqui";
+        self.field!.textColor = UIColor.grayColor()
         self.field!.delegate = self
-        self.backgroundColor = UIColor.clearColor()
         
+        
+        self.backgroundColor = UIColor.clearColor()
         indicator = UIImageView()
         indicator!.image = UIImage(named: "note_indicator")
         self.addSubview(self.field!)
         self.addSubview(indicator!)
         
-        self.field!.becomeFirstResponder()
         
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+     func textRectForBounds(bounds: CGRect) -> CGRect {
+        return CGRectInset(bounds, 20, 11);
+    }
     
     
     
@@ -54,8 +59,34 @@ class CommentBubbleView : UIView, UITextViewDelegate {
 
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     {
+        if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
+            self.delegate?.showBottonAddNote(false)
+            textView.text = "Agrega tu nota aqui"
+            textView.resignFirstResponder()
+            textView.textColor = UIColor.grayColor()
+        }else{
+            self.delegate?.showBottonAddNote(true)
+
+        }
+        
         return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
     }
     
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        if textView.text == "Agrega tu nota aqui" {
+            textView.text = ""
+            textView.textColor = WMColor.searchProductFieldTextColor
+        }
+        return true
+    }
     
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text == "" {
+            textView.text = "Agrega tu nota aqui"
+            textView.textColor = UIColor.grayColor()
+        }
+    }
+    
+
 }

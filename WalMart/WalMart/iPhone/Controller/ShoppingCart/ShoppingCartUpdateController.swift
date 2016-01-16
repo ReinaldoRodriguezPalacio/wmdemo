@@ -9,7 +9,7 @@
 import Foundation
 import QuartzCore
 
-class ShoppingCartUpdateController : UIViewController {
+class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate {
     
     var minContentY : CGFloat = 0
     var params : [String:AnyObject]!
@@ -522,14 +522,15 @@ class ShoppingCartUpdateController : UIViewController {
             goToShoppingCart()
         }
     }
-    
     func saveNote(sender:UIButton){
         
-        if self.commentTextView?.field?.text.trim() ==  ""{
+        if self.commentTextView?.field?.text!.trim() ==  ""{
             return
         }
         
-        //Event
+        //if self.commentTextView?
+
+                //Event
         BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
         
         self.view.endEditing(true)
@@ -572,7 +573,7 @@ class ShoppingCartUpdateController : UIViewController {
                         self.titleLabel.text = NSLocalizedString("shoppingcart.deleteNote",comment:"")
                     }
                     else {
-                        self.comments = self.commentTextView!.field!.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                        self.comments = self.commentTextView!.field!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         self.titleLabel.text = NSLocalizedString("shoppingcart.saveNote",comment:"")
                     }
                     if let type = self.params["type"] as?  String {
@@ -657,6 +658,7 @@ class ShoppingCartUpdateController : UIViewController {
             self.btnAddNote.frame = CGRectMake(self.btnAddNote.frame.minX, 76, self.btnAddNote.frame.width,self.btnAddNote.frame.height)
             self.commentTextView = CommentBubbleView(frame: CGRectMake((self.view.frame.width - 300) / 2 , 110, 300, 155))
         }
+        self.commentTextView?.delegate = self
         
        
   
@@ -678,6 +680,7 @@ class ShoppingCartUpdateController : UIViewController {
             self.goToShoppingCartButton.removeTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
             self.goToShoppingCartButton.addTarget(self, action: "saveNote:", forControlEvents: UIControlEvents.TouchUpInside)
             self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), forState: UIControlState.Normal)
+            self.goToShoppingCartButton.alpha = 0.0
             
             self.btnAddNote.removeTarget(self, action: "addNoteToProduct:", forControlEvents: UIControlEvents.TouchUpInside)
             
@@ -717,7 +720,9 @@ class ShoppingCartUpdateController : UIViewController {
 
                                 
                                 self.titleLabel.hidden = true
+                                if  self.comments != "" {
                                 self.commentTextView!.field?.text = self.comments
+                                }
                                
                             }
                     }
@@ -733,7 +738,16 @@ class ShoppingCartUpdateController : UIViewController {
         
     }
     
-   
+   //MARK: CommentBubbleViewDelegate
+    
+    func showBottonAddNote(show: Bool) {
+        self.goToShoppingCartButton.alpha = show ? 1.0 : 0.0
+        
+        
+
+        
+    }
+    
     
     
     
