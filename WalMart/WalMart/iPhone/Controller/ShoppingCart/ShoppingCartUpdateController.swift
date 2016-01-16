@@ -102,7 +102,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         titleLabel = UILabel(frame: CGRectMake((self.view.frame.width / 2) - 116, viewBgImage.frame.maxY + 23, 232, 200))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.textColor = WMColor.productAddToCartTitle
-        titleLabel.numberOfLines =  2
+        titleLabel.numberOfLines =  3
         titleLabel.textAlignment = .Center
         titleLabel.numberOfLines = 0
 
@@ -231,7 +231,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
                     self.titleLabel.sizeToFit()
-                    self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
+                    self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232,60)
                     if error.code == 1 || error.code == 999 {
                         self.titleLabel.text = error.localizedDescription
                     }else{
@@ -266,7 +266,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.spinImage.layer.removeAllAnimations()
                         self.spinImage.hidden = true
                         self.titleLabel.sizeToFit()
-                        self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
+                        self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
                         if error.code == 1 || error.code == 999 {
                             self.titleLabel.text = error.localizedDescription
                         }else{
@@ -325,7 +325,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             self.spinImage.layer.removeAllAnimations()
                             self.spinImage.hidden = true
                             self.titleLabel.sizeToFit()
-                            self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height )
+                            self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
                             if error.code == 1 || error.code == 999 {
                                 self.titleLabel.text = error.localizedDescription
                             }else{
@@ -363,7 +363,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.spinImage.layer.removeAllAnimations()
                     self.spinImage.hidden = true
                     self.titleLabel.sizeToFit()
-                    self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, self.titleLabel.frame.height)
+                    self.titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, self.titleLabel.frame.minY,  232, 60)
                     if error.code == 1 || error.code == 999  {
                          self.titleLabel.text = error.localizedDescription
                     }else{
@@ -534,7 +534,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         BaseController.sendAnalytics(WMGAIUtils.ACTION_ADD_NOTE.rawValue, action:WMGAIUtils.ACTION_ADD_NOTE_FOR_SEND.rawValue, label:"")
         
         self.view.endEditing(true)
-        self.titleLabel.frame = CGRectMake(self.titleLabel.frame.minX,  viewBgImage.frame.maxY + 23, self.titleLabel.frame.width, 18)
+        self.titleLabel.frame = CGRectMake(self.titleLabel.frame.minX,  viewBgImage.frame.maxY + 23, self.titleLabel.frame.width, 60)
         spinImage.image = UIImage(named:"waiting_cart")
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
