@@ -100,7 +100,7 @@
 "shoppingcart.deleteNote" = "Eliminando Nota...";
 "shoppingcart.noteTile" = "Nota de Envío";
 "shoppingcart.texNote" = "No has Agregado Nota para Envío";
-
+"shoppingcart.saveNote" = "Guardar";
 
 
 //WishList

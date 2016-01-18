@@ -101,6 +101,8 @@
 "shoppingcart.selectpices" = "Ordenar por Pieza";
 "shoppingcart.selectgrkg" = "Ordenar por Peso";
 "shoppingcart.texNote" = "No has Agregado Nota para Envío";
+"shoppingcart.saveNote" = "Guardar";
+
 
 
 //WishList

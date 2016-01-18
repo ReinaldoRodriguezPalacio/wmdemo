@@ -676,7 +676,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 self.titleLabel.alpha = 0.0
             }
             
-            self.goToShoppingCartButton.setTitle(NSLocalizedString("note.save",comment:""), forState: UIControlState.Normal)
+            self.goToShoppingCartButton.setTitle(NSLocalizedString("shoppingcart.saveNote",comment:""), forState: UIControlState.Normal)
             self.goToShoppingCartButton.removeTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
             self.goToShoppingCartButton.addTarget(self, action: "saveNote:", forControlEvents: UIControlEvents.TouchUpInside)
             self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), forState: UIControlState.Normal)
