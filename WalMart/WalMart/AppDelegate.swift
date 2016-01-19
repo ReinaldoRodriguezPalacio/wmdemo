@@ -140,10 +140,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //MercuryService.sharedInstance().startMercuryService()
         
         //Tune.framework
-        let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
-        let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
-        let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
-        Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
+//        let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
+//        let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
+//        let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
+//        Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
     
         
         return true
@@ -190,7 +190,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         //Tune.framework
-        Tune.measureSession()
+        //Tune.measureSession()
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -389,7 +389,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
        
-        Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
+        //Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         handleURL(url)
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         //return true
