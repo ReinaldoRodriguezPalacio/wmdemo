@@ -59,14 +59,14 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         total.textColor = WMColor.shoppingCartShopTotalsTextColor
         total.font = WMFont.fontMyriadProSemiboldOfSize(12)
         total.textAlignment = .Right
-        total.frame = CGRectMake(156, iva.frame.maxY + 6, 91, 12)
+        total.frame = CGRectMake(156, iva.frame.maxY + 20, 91, 12)
         
         totalSavingTitle = UILabel()
         totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
         totalSavingTitle.textColor =  WMColor.savingTextColor
         totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(12)
         totalSavingTitle.textAlignment = .Right
-        totalSavingTitle.frame = CGRectMake(156, total.frame.maxY + 6, 91, 12)
+        totalSavingTitle.frame = CGRectMake(156, iva.frame.maxY + 3, 91, 12)
         
         valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 3, subtotalTitle.frame.minY, 50, 12))
         valueSubtotal.textAlignment = .Right
@@ -74,7 +74,7 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
         valueIva.textAlignment = .Right
         valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 3, total.frame.minY, 50, 12))
         valueTotal.textAlignment = .Right
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(totalSavingTitle.frame.maxX + 3, totalSavingTitle.frame.minY, 50, 12))
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 3, totalSavingTitle.frame.minY, 50, 12))
         valueTotalSaving.textAlignment = .Right
 
         

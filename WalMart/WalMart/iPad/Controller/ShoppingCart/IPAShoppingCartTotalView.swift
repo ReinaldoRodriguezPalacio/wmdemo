@@ -40,36 +40,35 @@ class IPAShoppingCartTotalView : UIView {
         subtotalTitle.font = WMFont.fontMyriadProSemiboldOfSize(18)
         subtotalTitle.textAlignment = .Right
         subtotalTitle.frame = CGRectMake(xPoint, 24, 120, 18)
-        
         iva = UILabel()
         iva.text = NSLocalizedString("shoppingcart.iva",comment:"")
         iva.textColor = WMColor.shoppingCartShopTotalsTextColor
         iva.font = WMFont.fontMyriadProSemiboldOfSize(18)
         iva.textAlignment = .Right
         iva.frame = CGRectMake(xPoint, subtotalTitle.frame.maxY + 16, 120, 18)
-        
         total = UILabel()
         total.text = NSLocalizedString("shoppingcart.total",comment:"")
         total.textColor = WMColor.shoppingCartShopTotalsTextColor
         total.font = WMFont.fontMyriadProSemiboldOfSize(18)
         total.textAlignment = .Right
-        total.frame = CGRectMake(xPoint, iva.frame.maxY + 16, 120, 18)
-        
+        total.frame = CGRectMake(xPoint, iva.frame.maxY + 40, 120, 18)
         totalSavingTitle = UILabel()
         totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
-        totalSavingTitle.textColor =  WMColor.priceProductTextColor
+        totalSavingTitle.textColor =  WMColor.savingTextColor
         totalSavingTitle.font = WMFont.fontMyriadProSemiboldOfSize(18)
         totalSavingTitle.textAlignment = .Right
-        totalSavingTitle.frame = CGRectMake(xPoint, total.frame.maxY + 16, 120, 18)
+        totalSavingTitle.frame = CGRectMake(xPoint, iva.frame.maxY + 13, 120, 18)
         
-        valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 16, subtotalTitle.frame.minY, 50, 18))
-        valueSubtotal.textAlignment = .Left
-        valueIva = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 16, iva.frame.minY, 50, 18))
-        valueIva.textAlignment = .Left
-        valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 16, total.frame.minY, 50, 18))
-        valueTotal.textAlignment = .Left
-        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(totalSavingTitle.frame.maxX + 16, totalSavingTitle.frame.minY, 50, 18))
-        valueTotalSaving.textAlignment = .Left
+        valueSubtotal = CurrencyCustomLabel(frame: CGRectMake(subtotalTitle.frame.maxX + 16, subtotalTitle.frame.minY, 90, 18))
+        valueSubtotal.textAlignment = .Right
+        valueIva = CurrencyCustomLabel(frame: CGRectMake(iva.frame.maxX + 16, iva.frame.minY, 90, 18))
+        valueIva.textAlignment = .Right
+        valueTotal = CurrencyCustomLabel(frame: CGRectMake(total.frame.maxX + 16, total.frame.minY, 90, 18))
+        valueTotal.textAlignment = .Right
+        valueTotalSaving = CurrencyCustomLabel(frame: CGRectMake(totalSavingTitle.frame.maxX + 16, totalSavingTitle.frame.minY, 90, 18))
+        valueTotalSaving.textAlignment = .Right
+        //valueTotalSaving.backgroundColor = UIColor.blueColor()
+
         
         
         self.addSubview(subtotalTitle)
@@ -117,7 +116,7 @@ class IPAShoppingCartTotalView : UIView {
             if dNumberSaving > 0.1 {
                 totalSavingTitle.hidden = false
                 valueTotalSaving.hidden = false
-                valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(18), color:  WMColor.priceProductTextColor, interLine: false)
+                valueTotalSaving.updateMount(formatedTotalSaving, font: WMFont.fontMyriadProRegularOfSize(18), color:  WMColor.savingTextColor, interLine: false)
                 
             }else {
                 totalSavingTitle.hidden = true
