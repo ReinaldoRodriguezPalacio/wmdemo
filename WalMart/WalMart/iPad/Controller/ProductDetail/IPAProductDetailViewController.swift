@@ -29,7 +29,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var bundleItems : [AnyObject] = []
     var freeShipping : Bool = false
     var isLoading : Bool = false
-    var productDetailButton: ProductDetailButtonBarCollectionViewCell!
+    var productDetailButton: ProductDetailButtonBarCollectionViewCell?
     var isShowProductDetail : Bool = false
     var isShowShoppingCart : Bool = false
     var isWishListProcess : Bool = false
@@ -531,24 +531,24 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }
             
             productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 64.0),spaceBetweenButtons:13,widthButtons:63)
-            productDetailButton.upc = self.upc as String
-            productDetailButton.desc = self.name as String
-            productDetailButton.price = self.price as String
-            productDetailButton.onHandInventory = self.onHandInventory as String
-            productDetailButton.isActive = self.strisActive as String
-            productDetailButton.isPreorderable = self.strisPreorderable as String
-            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton.hasDetailOptions = (self.facets?.count > 0)
-            productDetailButton.reloadButton()
-            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
-            productDetailButton.listButton.enabled = !self.isGift
+            productDetailButton!.upc = self.upc as String
+            productDetailButton!.desc = self.name as String
+            productDetailButton!.price = self.price as String
+            productDetailButton!.onHandInventory = self.onHandInventory as String
+            productDetailButton!.isActive = self.strisActive as String
+            productDetailButton!.isPreorderable = self.strisPreorderable as String
+            productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
+            productDetailButton!.hasDetailOptions = (self.facets?.count > 0)
+            productDetailButton!.reloadButton()
+            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.listButton.enabled = !self.isGift
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
             }
-            productDetailButton.image = imageUrl
-            productDetailButton.delegate = self
-            return productDetailButton
+            productDetailButton!.image = imageUrl
+            productDetailButton!.delegate = self
+            return productDetailButton!
         }
     }
     
@@ -637,7 +637,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.closeContainer({ () -> Void in
                 },completeClose:{() in
                     self.isShowProductDetail = false
-                    self.productDetailButton.deltailButton.selected = false
+                    self.productDetailButton!.deltailButton.selected = false
             }, closeRow:true)
         }
     }
@@ -650,7 +650,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.isShowShoppingCart = true
                 if self.listSelectorController != nil {
                     self.closeContainer({ () -> Void in
-                        self.productDetailButton.reloadShoppinhgButton()
+                        self.productDetailButton!.reloadShoppinhgButton()
                         }, completeClose: { () -> Void in
                          self.addToShoppingCart(upc,desc:desc,price:price,imageURL:imageURL, comments:comments)
                     }, closeRow:false)
@@ -664,14 +664,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 openShoppingCart()
             }else {
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         openShoppingCart()
                 }, closeRow:false)
             }
          }else{
             self.closeContainer({ () -> Void in
-                self.productDetailButton.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
             }, closeRow:true)
         }
@@ -691,16 +691,16 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.closeContainer({ () -> Void in
                 },completeClose:{() in
                     self.isShowProductDetail = false
-                    self.productDetailButton.deltailButton.selected = false
+                    self.productDetailButton!.deltailButton.selected = false
             }, closeRow:true)
         }
         opencloseContainer(true,viewShow:viewDetail!, additionalAnimationOpen: { () -> Void in
             self.viewDetail?.imageBlurView.frame = frameDetail
-            self.productDetailButton.deltailButton.selected = true
-            self.productDetailButton.reloadShoppinhgButton()
+            self.productDetailButton!.deltailButton.selected = true
+            self.productDetailButton?.reloadShoppinhgButton()
             },additionalAnimationClose:{ () -> Void in
                 self.viewDetail?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
-                self.productDetailButton.deltailButton.selected = true
+                self.productDetailButton!.deltailButton.selected = true
             })
     }
     
@@ -716,7 +716,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         selectQuantity?.closeAction = { () in
             self.closeContainer({ () -> Void in
-                self.productDetailButton.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
                 self.isShowShoppingCart = false
             }, closeRow:true)
@@ -726,7 +726,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
             if maxProducts >= Int(quantity) {
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
@@ -752,19 +752,19 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton.setOpenQuantitySelector()
+            self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantity?.imageBlurView.frame = frameDetail
-            self.productDetailButton.addToShoppingCartButton.selected = true
-            self.productDetailButton.reloadShoppinhgButton()
+            self.productDetailButton!.addToShoppingCartButton.selected = true
+            self.productDetailButton?.reloadShoppinhgButton()
             },additionalAnimationClose:{ () -> Void in
                 self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
-                self.productDetailButton.addToShoppingCartButton.selected = true
+                self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
             })
         
         
-        self.productDetailButton.reloadButton()
+        self.productDetailButton?.reloadButton()
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
@@ -779,7 +779,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func endUpdatingShoppingCart(sender:AnyObject) {
-        self.productDetailButton.reloadShoppinhgButton()
+        self.productDetailButton?.reloadShoppinhgButton()
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void),additionalAnimationFinish:(() -> Void)) {
@@ -833,7 +833,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 CATransaction.setCompletionBlock({ () -> Void in
                     self.isShowShoppingCart = false
                     self.isShowProductDetail = false
-                    self.productDetailButton.deltailButton.selected = false
+                    self.productDetailButton!.deltailButton.selected = false
                     self.tabledetail.scrollEnabled = true
                     self.productDetailButton!.listButton.selected = false
                     self.listSelectorController = nil
@@ -1204,7 +1204,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         controller.imagesToDisplay = imageUrl
         controller.currentItem = 0
         controller.onHandInventory = self.onHandInventory
-        controller.detailProductCart = self.productDetailButton.detailProductCart
+        controller.detailProductCart = self.productDetailButton!.detailProductCart
         controller.strIsPreorderable = self.isPreorderable ? "true" : "false"
         controller.facets = self.facets
         controller.facetsDetails = self.facetsDetails
