@@ -82,7 +82,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.lastName = FormFieldView()
         self.lastName!.isRequired = true
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
-        self.lastName!.typeField = TypeField.String
+        self.lastName!.typeField = TypeField.Name
         self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
@@ -603,6 +603,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         })
     }
     
+    
     class func isValidEmail(email: String ) -> Bool{
 
         let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").invertedSet
@@ -623,15 +624,62 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             return true
         }
         return false
-    }
+
     
+    
+}
+
+//    func isValidName (name: String) -> Bool{
+//    
+//        
+//        let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ").invertedSet
+//        if let contains = name.rangeOfCharacterFromSet(alphanumericset) {
+//        }
+//        
+//        let regExEmailPattern : String = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+//        var regExVal: NSRegularExpression?
+//        do {
+//            regExVal = try NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpressionOptions.CaseInsensitive)
+//        } catch {
+//            regExVal = nil
+//        }
+//        let matches = regExVal!.numberOfMatchesInString(name, options: [], range: NSMakeRange(0, name.characters.count))
+//        
+//        if matches > 0 {
+//            return true
+//        }
+//        return false
+//    }
+    
+//        let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ").invertedSet
+//        if let contains = name.rangeOfCharacterFromSet(alphanumericset) {
+//            return false
+//        }
+//        let regNamePattern : String = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
+//        var regExVal: NSRegularExpression?
+//        do {
+//            regExVal = try NSRegularExpression(pattern: regNamePattern, options: NSRegularExpressionOptions.CaseInsensitive)
+//        } catch {
+//            regExVal = nil
+//        }
+//        let matches = regExVal!.numberOfMatchesInString(name, options: [], range: NSMakeRange(0, name.characters.count))
+//        
+//        if matches > 0 {
+//            return true
+//        }
+//        return false
+//    }
+
+
+
+
     func dateChanged() {
         let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
         self.dateVal = date
     }
     
-    
+   
     
     //MARK: Info view
     func generateInfoView(frame:CGRect) -> UIView {
@@ -777,4 +825,5 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     }
     
 }
+
 

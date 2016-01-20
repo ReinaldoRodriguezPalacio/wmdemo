@@ -200,28 +200,32 @@ class FormFieldView : UIEdgeTextField {
         if self.isValid && typeField != .None{
             var validate: String? = nil
             switch (typeField) {
-                case .Number:
-                    validate = self.validateNumber()
-                case .NumAddress:
-                    validate = self.validateNumAddress()
-                case .Name:
-                    validate = self.validateName()
-                case .String:
-                    validate = self.validateString()
-                case .Alphanumeric:
-                    validate = self.validateAlphanumeric()
-                case .Password:
-                    validate = self.validatePass() as String
-                case .RFC:
-                    validate = self.validateRFC()
-                case .RFCM:
-                    validate = self.validateRFCM()
-                case .Phone:
-                    validate = self.validatePhone()
-                case .Email:
-                    self.isValid =  SignUpViewController.isValidEmail(self.text!)
-                default:
-                    break
+            case .Number:
+                validate = self.validateNumber()
+            case .NumAddress:
+                validate = self.validateNumAddress()
+            case .Name:
+                let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ").invertedSet
+                if let contains = self.text!.rangeOfCharacterFromSet(alphanumericset) {
+                    return   NSLocalizedString("field.validate.text.invalid",comment:"")
+                }
+                validate = self.validateName()
+            case .String:
+                validate = self.validateString()
+            case .Alphanumeric:
+                validate = self.validateAlphanumeric()
+            case .Password:
+                validate = self.validatePass() as String
+            case .RFC:
+                validate = self.validateRFC()
+            case .RFCM:
+                validate = self.validateRFCM()
+            case .Phone:
+                validate = self.validatePhone()
+            case .Email:
+                self.isValid =  SignUpViewController.isValidEmail(self.text!)
+            default:
+                break
             }
             
             if validate != nil {
