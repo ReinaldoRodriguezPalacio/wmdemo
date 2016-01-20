@@ -295,7 +295,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if self.isShowShoppingCart || self.isShowProductDetail  {
             self.closeContainer(
                 { () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton!.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
@@ -358,7 +358,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         selectQuantityGR?.closeAction = { () in
             self.closeContainer({ () -> Void in
-                self.productDetailButton.reloadShoppinhgButton()
+                self.productDetailButton!.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                 }, closeRow:true)
@@ -367,7 +367,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         selectQuantityGR?.addToCartAction = { (quantity:String) in
             if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton!.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
@@ -397,20 +397,20 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
         }
         selectQuantityGR.addUpdateNote = {() in
-            if self.productDetailButton.detailProductCart != nil {
+            if self.productDetailButton!.detailProductCart != nil {
                 let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
                 let frame = vc!.view.frame
                 
                 
                 let addShopping = ShoppingCartUpdateController()
-                let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton.detailProductCart!.quantity.stringValue) as! [String:AnyObject]
+                let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:AnyObject]
                 addShopping.params = paramsToSC
                 vc!.addChildViewController(addShopping)
                 addShopping.view.frame = frame
                 vc!.view.addSubview(addShopping.view)
                 addShopping.didMoveToParentViewController(vc!)
                 addShopping.typeProduct = ResultObjectType.Groceries
-                addShopping.comments = self.productDetailButton.detailProductCart!.note!
+                addShopping.comments = self.productDetailButton!.detailProductCart!.note!
                 addShopping.goToShoppingCart = {() in }
                 addShopping.removeSpinner()
                 addShopping.addActionButtons()
@@ -418,22 +418,22 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             
         }
-        if productDetailButton.detailProductCart?.quantity != nil {
-            selectQuantityGR?.userSelectValue(productDetailButton.detailProductCart?.quantity.stringValue)
+        if productDetailButton!.detailProductCart?.quantity != nil {
+            selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart?.quantity.stringValue)
             selectQuantityGR?.first = true
             selectQuantityGR?.showNoteButton()
         }
 
         
         opencloseContainer(true,viewShow:selectQuantityGR!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton.setOpenQuantitySelector()
+            self.productDetailButton!.setOpenQuantitySelector()
             self.selectQuantityGR?.imageBlurView.frame = frameDetail
-            self.productDetailButton.addToShoppingCartButton.selected = true
+            self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationClose:{ () -> Void in
                 self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
-                self.productDetailButton.addToShoppingCartButton.selected = true
+                self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
         })
         
     }
@@ -789,16 +789,16 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
                 self.closeContainer({ () -> Void in
                     },completeClose:{() in
                         self.isShowProductDetail = false
-                        self.productDetailButton.deltailButton.selected = false
+                        self.productDetailButton!.deltailButton.selected = false
                     }, closeRow:true)
             }
             opencloseContainer(true,viewShow:nutrimentalsView!, additionalAnimationOpen: { () -> Void in
                 self.nutrimentalsView?.imageBlurView.frame = frameDetail
-                self.productDetailButton.deltailButton.selected = true
-                self.productDetailButton.reloadShoppinhgButton()
+                self.productDetailButton!.deltailButton.selected = true
+                self.productDetailButton!.reloadShoppinhgButton()
                 },additionalAnimationClose:{ () -> Void in
                     self.nutrimentalsView?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
-                    self.productDetailButton.deltailButton.selected = true
+                    self.productDetailButton!.deltailButton.selected = true
             })
             
         }
