@@ -97,7 +97,13 @@ class FilterCategoryViewCell: UITableViewCell {
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "check_blue")
-        
+        if item!["itemName"] as? String == ""{
+            self.check!.hidden = true
+            
+        }
+        else{ self.check!.hidden = false
+            
+        }
         self.name!.text = item != nil ? item!["itemName"] as? String : nameBrand
         if item != nil {
             self.upcs = item!["upcs"] as? [String]

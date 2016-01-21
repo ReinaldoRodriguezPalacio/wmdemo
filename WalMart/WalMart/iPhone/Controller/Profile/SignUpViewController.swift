@@ -650,25 +650,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //        }
 //        return false
 //    }
-    
-//        let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ").invertedSet
-//        if let contains = name.rangeOfCharacterFromSet(alphanumericset) {
-//            return false
-//        }
-//        let regNamePattern : String = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ"
-//        var regExVal: NSRegularExpression?
-//        do {
-//            regExVal = try NSRegularExpression(pattern: regNamePattern, options: NSRegularExpressionOptions.CaseInsensitive)
-//        } catch {
-//            regExVal = nil
-//        }
-//        let matches = regExVal!.numberOfMatchesInString(name, options: [], range: NSMakeRange(0, name.characters.count))
-//        
-//        if matches > 0 {
-//            return true
-//        }
-//        return false
-//    }
 
 
 

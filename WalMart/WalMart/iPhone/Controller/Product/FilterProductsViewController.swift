@@ -474,7 +474,19 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                     return 73.0
                 }
             }
+            
         }
+        if indexPath.row > 0 {
+            let itemFacet = self.facet![indexPath.section - 1] as! [String:AnyObject]
+            
+            let facetitem = itemFacet["itemsFacet"] as! [[String:AnyObject]]
+            let item = facetitem[indexPath.row - 1]
+            if item["itemName"] as! String == ""{
+                return 0
+            }
+        }
+
+
         return 36.0
     }
     
