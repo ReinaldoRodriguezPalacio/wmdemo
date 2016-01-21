@@ -97,7 +97,8 @@ class FilterCategoryViewCell: UITableViewCell {
         self.name!.textColor = self.upperTextColor
         self.check!.image = UIImage(named: "filter_check_blue")
         self.check!.highlightedImage = UIImage(named: "check_blue")
-        if item!["itemName"] as? String == ""{
+        
+        if item?["itemName"] as? String == ""{
             self.check!.hidden = true
             
         }

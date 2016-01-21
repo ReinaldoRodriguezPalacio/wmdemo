@@ -476,13 +476,16 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
         }
-        if indexPath.row > 0 {
-            let itemFacet = self.facet![indexPath.section - 1] as! [String:AnyObject]
-            
-            let facetitem = itemFacet["itemsFacet"] as! [[String:AnyObject]]
-            let item = facetitem[indexPath.row - 1]
-            if item["itemName"] as! String == ""{
-                return 0
+        
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+            if indexPath.row > 0 {
+                let itemFacet = self.facet![indexPath.section - 1] as! [String:AnyObject]
+                
+                let facetitem = itemFacet["itemsFacet"] as! [[String:AnyObject]]
+                let item = facetitem[indexPath.row - 1]
+                if item["itemName"] as! String == ""{
+                    return 0
+                }
             }
         }
 
