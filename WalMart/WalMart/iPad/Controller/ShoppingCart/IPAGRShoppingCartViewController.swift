@@ -331,9 +331,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         
         //self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
-        self.ctrlCheckOut?.invokeGetPromotionsService(self.ctrlCheckOut!.picker.textboxValues!, discountAssociateItems: self.ctrlCheckOut!.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
-            print("End form Ipa Shpping cart")
-        })
+        if UserCurrentSession.hasLoggedUser() {
+            self.ctrlCheckOut?.invokeGetPromotionsService(self.ctrlCheckOut!.picker.textboxValues!, discountAssociateItems: self.ctrlCheckOut!.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
+                print("End form Ipa Shpping cart")
+            })
+        }
     }
     
     func closeIPAGRCheckOutViewController() {
