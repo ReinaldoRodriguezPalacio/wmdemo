@@ -148,7 +148,7 @@ class FormFieldView : UIEdgeTextField {
         
         if typeField == TypeField.List{
             self.imageList!.image = UIImage(named: "fieldListOpen")
-
+ 
         }
         return super.resignFirstResponder()
     }
@@ -248,7 +248,7 @@ class FormFieldView : UIEdgeTextField {
            
             if !self.isValid{
                 if validMessageText == nil {
-                    message = NSLocalizedString("field.validate.text.invalid",comment:"")
+                    message = NSLocalizedString("field.validate.text.Email",comment:"")
                 }else {
                     message = NSLocalizedString(validMessageText,comment:"")
                 }

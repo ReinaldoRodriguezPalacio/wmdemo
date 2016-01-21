@@ -311,6 +311,8 @@
 "field.validate.zipcode" = " Código postal inválido";
 "field.validate.telephone.invalid" = " Teléfono no válido";
 "field.validate.confirmpassword.equal" = " La contraseña no coincide con la confirmación";
+"field.validate.text.Email" = "Formato del correo inválido";
+
 
 //help
 "help.item.support.comments" = "Soporte y Comentarios";
