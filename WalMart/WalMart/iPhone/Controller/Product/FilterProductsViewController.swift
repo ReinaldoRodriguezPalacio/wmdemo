@@ -42,7 +42,6 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var selectedElementsFacet: [NSIndexPath:Bool]?
     var selectedOrder: String?
     var isGroceriesSearch: Bool = true
-    var facet: NSArray? = nil
     var facetGr: NSArray? = nil
     var selectedFacetGr: [String:Bool]?
 
@@ -54,7 +53,8 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     var upcByPrice: NSArray?
     var brandFacets: [String] = []
     var isTextSearch: Bool = false
-    
+    var needsToValidateData = true
+    var facet: NSArray? = nil
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_FILTER.rawValue
     }
@@ -121,7 +121,31 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             self.tableView!.dataSource = self
             self.tableView!.reloadData()
         }
+        validateFacetData()
     }
+    
+    func validateFacetData() {
+        if facet != nil {
+            var facetEnd : [AnyObject] = []
+            for facetItemsCount in facet! {
+                let facetitem = facetItemsCount["itemsFacet"] as! [[String:AnyObject]]
+                var newItemsFacet : [[String:AnyObject]] = []
+                for itemFac in facetitem {
+                    if itemFac["itemName"] as! String != ""{
+                        newItemsFacet.append(itemFac)
+                    }
+                }
+               
+                
+                
+                if newItemsFacet.count > 0 {
+                    facetEnd.append(["itemsFacet":newItemsFacet,"type":facetItemsCount["type"],"name":facetItemsCount["name"],"order":facetItemsCount["order"]])
+                }
+            }
+            facet = facetEnd
+        }
+    }
+    
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
@@ -283,20 +307,24 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
         if self.originalSearchContext != nil && self.isTextSearch {
-            return 2
+                 return 2
         }
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
+        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil && facet?.count > 0  {
             return 1 + facet!.count
         }
         
-        if self.facetGr != nil {// new
+        if self.facetGr != nil && self.facetGr?.count > 0 {// new
             return 2
         }
         return 1
-       // return self.originalSearchContext != nil && self.isTextSearch ? 2 : 1
         
+
         
     }
+
+
+   
+    
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -476,18 +504,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             
         }
-        
-        if self.originalSearchContext != nil && self.originalSearchContext! == SearchServiceContextType.WithCategoryForMG && facet != nil {
-            if indexPath.row > 0 {
-                let itemFacet = self.facet![indexPath.section - 1] as! [String:AnyObject]
-                
-                let facetitem = itemFacet["itemsFacet"] as! [[String:AnyObject]]
-                let item = facetitem[indexPath.row - 1]
-                if item["itemName"] as! String == ""{
-                    return 0
-                }
-            }
-        }
+
 
 
         return 36.0
