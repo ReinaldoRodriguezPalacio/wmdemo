@@ -13,7 +13,7 @@ enum OptionsController : String {
     case Recents = "Recents"
     case Address = "Address"
     case Orders = "Orders"
-    case Refered = "ReferedList"
+    //case Refered = "ReferedList"
     
     case StoreLocator = "StoreLocator"
     case CamFind = "CamFind"
@@ -31,7 +31,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Refered.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -135,7 +135,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch(section) {
             case 0:
-                return 4
+                return 3
             case 1:
                 return 5
             case 2:
@@ -155,9 +155,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 9
+            currentOption = indexPath.row + 8
         default:
             print("")
         }
@@ -175,7 +175,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .Notification : image = "menu_icon_notification"
         case .CamFind : image = "Camfind-icon"
         case .TicketList : image = "menu_scanTicket"
-        case .Refered : image = "referidos_on"
+        //case .Refered : image = "referidos_on"
         default :
             print("option don't exist")
         }
@@ -187,7 +187,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case .Orders : image = "Orders-disable-icon"
             case .TicketList : image = "menu_scanTicket_disable"
             case .Notification : image = "menu_icon_notification"
-            case .Refered : image = "referidos_off"
+            //case .Refered : image = "referidos_off"
             default :
                 print("option don't exist")
             }
@@ -214,9 +214,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 0:
             currentOption = indexPath.row
         case 1:
-            currentOption = indexPath.row + 4
+            currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 9
+            currentOption = indexPath.row + 8
         default:
             print("")
         }
@@ -266,9 +266,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .TicketList:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
-        case .Refered:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_REFERED.rawValue, label: "")
-            openRefered()
+//        case .Refered:
+//            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_REFERED.rawValue, label: "")
+//            openRefered()
             default :
                 print("option don't exist")
        
