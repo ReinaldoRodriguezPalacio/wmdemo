@@ -516,7 +516,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.presentMessageTerms(self.femaleButton!, message: NSLocalizedString("field.validate.minmaxlength.gender", comment: ""), errorView: self.errorView!)
             return false
         }
-        
+        if !error{
+
+            self.errorView?.removeFromSuperview()
+        return true
+        }
         
         return true
     }
@@ -611,7 +615,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             return false
         }
         
-        let regExEmailPattern : String = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+        let regExEmailPattern : String = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
         var regExVal: NSRegularExpression?
         do {
             regExVal = try NSRegularExpression(pattern: regExEmailPattern, options: NSRegularExpressionOptions.CaseInsensitive)
