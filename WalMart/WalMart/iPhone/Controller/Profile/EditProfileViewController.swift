@@ -363,7 +363,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                 }
                 }
                 , errorBlock: {(error: NSError) in
-                    self.alertView!.setMessage(error.localizedDescription)
+                    //self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.setMessage(NSLocalizedString("conection.error", comment: ""))
                     self.alertView!.showErrorIcon("Ok")
             })
         }
