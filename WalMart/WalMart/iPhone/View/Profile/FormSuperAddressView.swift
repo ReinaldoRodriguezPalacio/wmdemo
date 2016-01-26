@@ -122,7 +122,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.outdoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.outdoornumber",comment:""))
         self.outdoornumber!.typeField = TypeField.NumAddress
         self.outdoornumber!.minLength = 1
-        self.outdoornumber!.maxLength = 15
+        self.outdoornumber!.maxLength = 5
         self.outdoornumber!.nameField = NSLocalizedString("gr.address.field.outdoornumber",comment:"")
         
         self.indoornumber = FormFieldView()
@@ -130,7 +130,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.indoornumber!.setCustomPlaceholder(NSLocalizedString("gr.address.field.indoornumber",comment:""))
         self.indoornumber!.typeField = TypeField.NumAddress
         self.indoornumber!.minLength = 0
-        self.indoornumber!.maxLength = 15
+        self.indoornumber!.maxLength = 5
         self.indoornumber!.nameField = NSLocalizedString("gr.address.field.indoornumber",comment:"")
         
         
@@ -169,7 +169,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.betweenFisrt!.typeField = TypeField.Alphanumeric
         self.betweenFisrt!.nameField = NSLocalizedString("gr.address.field.betweenFisrt",comment:"")
         self.betweenFisrt!.minLength = 2
-        self.betweenFisrt!.maxLength = 100
+        self.betweenFisrt!.maxLength = 50
         
         self.betweenSecond = FormFieldView()
         self.betweenSecond!.isRequired = false
@@ -177,7 +177,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.betweenSecond!.typeField = TypeField.Alphanumeric
         self.betweenSecond!.nameField = NSLocalizedString("gr.address.field.betweenSecond",comment:"")
         self.betweenSecond!.minLength = 2
-        self.betweenSecond!.maxLength = 100
+        self.betweenSecond!.maxLength = 50
         
         self.titleLabelPhone = UILabel()
         self.titleLabelPhone!.font = WMFont.fontMyriadProLightOfSize(14)
