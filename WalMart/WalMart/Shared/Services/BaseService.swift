@@ -197,6 +197,12 @@ class BaseService : NSObject {
                     self.callPOSTService(params,successBlock:successBlock, errorBlock:errorBlock)
                     return
                 }
+                if error.code == -1001 || error.code == -1003 || error.code == -1009 {
+                    let newError = NSError(domain: ERROR_SERIVCE_DOMAIN, code: -1, userInfo: [NSLocalizedDescriptionKey:NSLocalizedString("conection.error",comment:"")])
+                    errorBlock!(newError)
+                    return
+                }
+                
                 print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
