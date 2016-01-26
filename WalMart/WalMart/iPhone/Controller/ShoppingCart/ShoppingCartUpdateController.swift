@@ -235,7 +235,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     if error.code == 1 || error.code == 999 {
                         self.titleLabel.text = error.localizedDescription
                     }else{
-                        self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
+                        self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                     }
@@ -270,7 +270,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         if error.code == 1 || error.code == 999 {
                             self.titleLabel.text = error.localizedDescription
                         }else{
-                            self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
+                            self.titleLabel.text = error.localizedDescription
                             self.imageProduct.image = UIImage(named:"alert_ups")
                             self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                         }
@@ -329,7 +329,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             if error.code == 1 || error.code == 999 {
                                 self.titleLabel.text = error.localizedDescription
                             }else{
-                                self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
+                                self.titleLabel.text = error.localizedDescription
                                 self.imageProduct.image = UIImage(named:"alert_ups")
                                 self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                             }
@@ -367,7 +367,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     if error.code == 1 || error.code == 999  {
                          self.titleLabel.text = error.localizedDescription
                     }else{
-                        self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
+                        self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                     }
@@ -604,7 +604,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                     if error.code == 1 || error.code == 999 {
                                         self.titleLabel.text = error.localizedDescription
                                     }else{
-                                        self.titleLabel.text = NSLocalizedString("conection.error",comment:"")
+                                        self.titleLabel.text = error.localizedDescription
                                         self.imageProduct.image = UIImage(named:"alert_ups")
                                         self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
                                     }
