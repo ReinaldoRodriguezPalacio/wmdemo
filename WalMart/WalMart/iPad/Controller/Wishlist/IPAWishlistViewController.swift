@@ -406,7 +406,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imgResult], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)
         
-        popup!.presentPopoverFromRect(CGRectMake(30, 160, 10, 120), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popup!.presentPopoverFromRect(CGRectMake(self.shareWishlist.frame.origin.x + 13, self.shareWishlist.frame.maxY - 120, 10, 120), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         
     }
     
