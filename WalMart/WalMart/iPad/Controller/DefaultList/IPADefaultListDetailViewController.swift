@@ -132,8 +132,9 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
                 item["quantity"] = NSNumber(integer:Int(quantity)!)
                 self.detailItems![indexPath!.row] = item
                 self.tableView?.reloadData()
-                self.removeSelector()
+                //self.removeSelector()
                 self.updateTotalLabel()
+                self.sharePopover!.dismissPopoverAnimated(true)
                 //TODO: Update quantity
         }
         
