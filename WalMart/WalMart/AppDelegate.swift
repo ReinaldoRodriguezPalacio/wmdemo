@@ -10,10 +10,16 @@ import UIKit
 import CoreData
 import Tune
 import AdSupport
+import CoreTelephony
+import iAd
+import MobileCoreServices
+import Security
+import StoreKit
+import SystemConfiguration
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -144,6 +150,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
         let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
         Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
+        Tune.setDelegate(self)
+        Tune.setDebugMode(true)
+        Tune.setAllowDuplicateRequests(false)
         //DynatraceUEM
         DynatraceUEM.startupWithApplicationName("", serverURL: "https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
 
@@ -459,6 +468,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
     }
+    
+    //MARK: TuneDelegate
+    func tuneDidSucceedWithData(data: NSData!) {
+        let response = NSString(data: data, encoding:NSUTF8StringEncoding)
+        NSLog("Tune.success: %@", response!);
+
+    }
+    
+    
+    func tuneDidFailWithError(error: NSError!) {
+        NSLog("Tune.failure: %@", error);
+    }
+    
     
 
 }  
