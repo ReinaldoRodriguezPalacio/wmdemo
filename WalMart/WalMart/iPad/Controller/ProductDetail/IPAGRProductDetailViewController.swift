@@ -295,7 +295,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if self.isShowShoppingCart || self.isShowProductDetail  {
             self.closeContainer(
                 { () -> Void in
-                    self.productDetailButton!.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
@@ -358,7 +358,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }
         selectQuantityGR?.closeAction = { () in
             self.closeContainer({ () -> Void in
-                self.productDetailButton!.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                 }, closeRow:true)
@@ -367,7 +367,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         selectQuantityGR?.addToCartAction = { (quantity:String) in
             if self.onHandInventory.integerValue >= Int(quantity) {
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton!.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
@@ -426,12 +426,12 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
 
         
         opencloseContainer(true,viewShow:selectQuantityGR!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton!.setOpenQuantitySelector()
+            self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantityGR?.imageBlurView.frame = frameDetail
-            self.productDetailButton!.addToShoppingCartButton.selected = true
+            self.productDetailButton?.addToShoppingCartButton.selected = true
             },additionalAnimationClose:{ () -> Void in
                 self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
-                self.productDetailButton!.addToShoppingCartButton.selected = true
+                self.productDetailButton?.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
                 self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
         })

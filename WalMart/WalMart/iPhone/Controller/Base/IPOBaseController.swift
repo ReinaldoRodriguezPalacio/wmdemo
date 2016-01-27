@@ -28,7 +28,7 @@ class IPOBaseController : BaseController {
         lastContentOffset = currentOffset;
         
         if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
-            TabBarHidden.isTabBarHidden = true
+            
             isVisibleTab = false;
             if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
                 var insetToUse : CGFloat = scrollView.contentInset.bottom  - 45
@@ -60,7 +60,7 @@ class IPOBaseController : BaseController {
             }
         }
         if differenceFromStart > 0 && TabBarHidden.isTabBarHidden  {
-
+            
             isVisibleTab = true;
             if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
                 if let collectionView = scrollView as? UICollectionView {

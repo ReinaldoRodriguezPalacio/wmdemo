@@ -101,7 +101,6 @@ class BaseController : UIViewController {
                 {
                     upcSend = upc
                 }
-
                 
                 let tuneItem : TuneEventItem = TuneEventItem(name: item["description"] as! String, unitPrice: CGFloat(itemPrice), quantity: quantity)
                 tuneItem.attribute1 = upcSend

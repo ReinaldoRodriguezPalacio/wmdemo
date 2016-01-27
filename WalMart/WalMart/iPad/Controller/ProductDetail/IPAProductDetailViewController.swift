@@ -548,7 +548,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }
             productDetailButton!.image = imageUrl
             productDetailButton!.delegate = self
-            return productDetailButton
+            return productDetailButton!
         }
     }
     
@@ -664,14 +664,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 openShoppingCart()
             }else {
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton!.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         openShoppingCart()
                 }, closeRow:false)
             }
          }else{
             self.closeContainer({ () -> Void in
-                self.productDetailButton!.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
             }, closeRow:true)
         }
@@ -697,7 +697,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         opencloseContainer(true,viewShow:viewDetail!, additionalAnimationOpen: { () -> Void in
             self.viewDetail?.imageBlurView.frame = frameDetail
             self.productDetailButton!.deltailButton.selected = true
-            self.productDetailButton!.reloadShoppinhgButton()
+            self.productDetailButton?.reloadShoppinhgButton()
             },additionalAnimationClose:{ () -> Void in
                 self.viewDetail?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton!.deltailButton.selected = true
@@ -716,7 +716,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         selectQuantity?.closeAction = { () in
             self.closeContainer({ () -> Void in
-                self.productDetailButton!.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
             }, completeClose: { () -> Void in
                 self.isShowShoppingCart = false
             }, closeRow:true)
@@ -726,7 +726,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
             if maxProducts >= Int(quantity) {
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton!.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
@@ -752,19 +752,19 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         opencloseContainer(true,viewShow:selectQuantity!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton!.setOpenQuantitySelector()
+            self.productDetailButton?.setOpenQuantitySelector()
             self.selectQuantity?.imageBlurView.frame = frameDetail
             self.productDetailButton!.addToShoppingCartButton.selected = true
-            self.productDetailButton!.reloadShoppinhgButton()
+            self.productDetailButton?.reloadShoppinhgButton()
             },additionalAnimationClose:{ () -> Void in
                 self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
             })
         
         
-        self.productDetailButton!.reloadButton()
+        self.productDetailButton?.reloadButton()
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {

@@ -74,47 +74,47 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PREVIOUS_ORDERS.rawValue, label: "")
             let order = IPAOrderViewController()
             self.navigation.pushViewController(order, animated: true)
-        case 3:
+        /*case 3:
             let refered = ReferedViewController()
             self.navigation.pushViewController(refered, animated: true)
             refered.navigationController!.setNavigationBarHidden(true, animated: true)
-            refered.hiddenBack = true
-        case 4:
+            refered.hiddenBack = true*/
+        case 3:
               BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue , label: "" )
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
-        case 5:
+        case 4:
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
             return
-        case 6:
+        case 5:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
-        case 7:
+        case 6:
             //Notifica
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC")
             self.navigation.pushViewController(controller, animated: true)
-        case 8:
+        case 7:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 9:
+        case 8:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_TERMS_AND_CONDITIONS.rawValue, label: "")
             let recent = IPATermViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 10:
+        case 9:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SUPPORT.rawValue, label: "")
             let recent = IPASupportViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 11:
+        case 10:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label:"")
             let edit = IPAEditProfileViewController()
             //var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
