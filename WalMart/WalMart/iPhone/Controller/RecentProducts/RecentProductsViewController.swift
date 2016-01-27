@@ -73,7 +73,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 self.viewLoad.stopAnnimating()
                 self.viewLoad = nil
         })
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 92)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -96,9 +96,15 @@ class BaseController : UIViewController {
                         quantity = 1
                     }
                 }
-                
+                var upcSend = ""
+                if let upc = item["upc"] as? String
+                {
+                    upcSend = upc
+                }
+
                 
                 let tuneItem : TuneEventItem = TuneEventItem(name: item["description"] as! String, unitPrice: CGFloat(itemPrice), quantity: quantity)
+                tuneItem.attribute1 = upcSend
                 payPalItems.addObject(tuneItem)
             }
             

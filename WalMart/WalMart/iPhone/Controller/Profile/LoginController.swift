@@ -667,12 +667,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.signUp.lastName?.text = lastName
                 let dateFormatter = NSDateFormatter()
                 dateFormatter.dateFormat = "MM/dd/yyyy"
-                let date = dateFormatter.dateFromString(birthDay)
-                self.signUp.inputBirthdateView?.date = date!
-                dateFormatter.dateFormat = "d MMMM yyyy"
-                self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
-                self.signUp.dateVal = date
-                
+                if birthDay != ""{
+                    let date = dateFormatter.dateFromString(birthDay)
+                    self.signUp.inputBirthdateView?.date = date!
+                    dateFormatter.dateFormat = "d MMMM yyyy"
+                    self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
+                    self.signUp.dateVal = date
+                }
                 if(gender == "male"){
                    self.signUp.maleButton?.selected = true
                 }else{

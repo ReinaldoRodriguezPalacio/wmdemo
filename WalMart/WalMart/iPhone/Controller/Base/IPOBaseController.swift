@@ -55,11 +55,12 @@ class IPOBaseController : BaseController {
                 }
                 
                 willHideTabbar()
+                TabBarHidden.isTabBarHidden = true
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
             }
         }
         if differenceFromStart > 0 && TabBarHidden.isTabBarHidden  {
-            TabBarHidden.isTabBarHidden = false
+
             isVisibleTab = true;
             if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
                 if let collectionView = scrollView as? UICollectionView {
@@ -80,6 +81,7 @@ class IPOBaseController : BaseController {
                 scroll.contentInset = UIEdgeInsetsMake(0, 0, 45, 0)
                 }*/
                 willShowTabbar()
+                TabBarHidden.isTabBarHidden = false
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
             }
         }
