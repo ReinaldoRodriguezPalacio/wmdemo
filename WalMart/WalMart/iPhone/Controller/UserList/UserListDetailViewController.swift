@@ -527,7 +527,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         let button = UIButton(type: .Custom)
         if UserCurrentSession.hasLoggedUser() {
-            button.frame = CGRectMake((bounds.width - 160.0)/2,height - 100, 160 , 40)
+            button.frame = CGRectMake((bounds.width - 160.0)/2,self.emptyView!.frame.height - 100, 160 , 40)
         }else{
             button.frame = CGRectMake((bounds.width - 160.0)/2,self.emptyView!.frame.height - 160, 160 , 40)
         }
