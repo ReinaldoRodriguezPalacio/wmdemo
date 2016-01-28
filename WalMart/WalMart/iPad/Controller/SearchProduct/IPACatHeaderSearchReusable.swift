@@ -63,10 +63,13 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
     }
     
     override func layoutSubviews() {
-        super.layoutSubviews()
-        btnClose.frame = CGRectMake(16 ,3 ,100,100)
-        imageIcon.frame = CGRectMake((self.bounds.width / 2) - 24, 48, 48, 48)
-        titleLabel.frame = CGRectMake(16, 112, self.bounds.width - 32, 50)
+        if self.frame.origin.y >= 0{
+            super.layoutSubviews()
+            btnClose.frame = CGRectMake(16 ,3 ,100,100)
+            imageIcon.frame = CGRectMake((self.bounds.width / 2) - 24, 48, 48, 48)
+            titleLabel.frame = CGRectMake(16, 112, self.bounds.width - 32, 50)
+        }
+        
     }
     
     
