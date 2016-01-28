@@ -940,8 +940,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeShoppingCart()
     }
     
-    func closeShoppingCart() {
-        
+    func closeShoppingCart() {        
         self.btnShopping?.selected = false
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
@@ -961,6 +960,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
             openSearch = false
         }
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
+
+        
     }
     
     func showShoppingCart() {

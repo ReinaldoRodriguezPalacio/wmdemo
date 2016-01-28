@@ -23,9 +23,11 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadMenu", name:"MORE_OPTIONS_RELOAD", object: nil)
+        print("Create MORE_OPTIONS_RELOAD")
+
     }
 
     override func viewWillLayoutSubviews() {
@@ -39,6 +41,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
     }
   
+    func reloadMenu(){
+        self.reloadButtonSession()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "", object: nil)
+    }
 
     
     // MARK: - TableView
