@@ -150,9 +150,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
         let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
         Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
-        Tune.setDelegate(self)
-        Tune.setDebugMode(true)
-        Tune.setAllowDuplicateRequests(false)
+        //Tune.setDelegate(self)
+        //Tune.setDebugMode(true)
+        //Tune.setAllowDuplicateRequests(false)
         //DynatraceUEM
         DynatraceUEM.startupWithApplicationName("", serverURL: "https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
 
