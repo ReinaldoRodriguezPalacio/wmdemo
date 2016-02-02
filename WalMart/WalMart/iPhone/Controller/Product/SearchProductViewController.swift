@@ -831,8 +831,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if error.code == 1 {
                     self.grResults!.resultsInResponse = 0
                     self.grResults!.totalResults = 0
+                    actionError?()
+                }else{
+                    print("GR Search ERROR!!!")
+                    self.grResults!.totalResults = self.allProducts!.count
+                    self.grResults!.resultsInResponse = self.mgResults!.totalResults
+                    actionSuccess?()
+                    print(error)
+                    actionError?()
                 }
-                actionError?()
             }
         )
     }
