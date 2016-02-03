@@ -124,7 +124,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         self.repeatButton = UIButton(type: .Custom)
         self.repeatButton!.setTitle("Repetir Foto", forState: UIControlState.Normal)
-        self.repeatButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
+        self.repeatButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Highlighted)
         self.repeatButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.repeatButton!.addTarget(self, action: "returnCamera", forControlEvents: UIControlEvents.TouchUpInside)
         self.repeatButton!.backgroundColor = WMColor.light_blue
@@ -134,7 +134,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         self.okButton = UIButton(type: .Custom)
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
-        self.okButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
+        self.okButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Highlighted)
         self.okButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.okButton!.addTarget(self, action: "sendPhoto", forControlEvents: UIControlEvents.TouchUpInside)
         self.okButton!.backgroundColor = WMColor.green

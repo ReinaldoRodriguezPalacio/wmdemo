@@ -237,7 +237,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }else{
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
-                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
                })
             }else {
@@ -272,7 +272,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         }else{
                             self.titleLabel.text = error.localizedDescription
                             self.imageProduct.image = UIImage(named:"alert_ups")
-                            self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                            self.viewBgImage.backgroundColor = WMColor.light_light_blue
                         }
                 })
                 
@@ -331,7 +331,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             }else{
                                 self.titleLabel.text = error.localizedDescription
                                 self.imageProduct.image = UIImage(named:"alert_ups")
-                                self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                                self.viewBgImage.backgroundColor = WMColor.light_light_blue
                             }
 
                     }
@@ -369,7 +369,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }else{
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
-                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
             }
         }
@@ -606,7 +606,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                     }else{
                                         self.titleLabel.text = error.localizedDescription
                                         self.imageProduct.image = UIImage(named:"alert_ups")
-                                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
                                     }
                             }
                             

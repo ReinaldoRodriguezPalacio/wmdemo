@@ -298,7 +298,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     colorViewCell!.items = self.colorItems
                     let line: CALayer = CALayer()
                     line.frame = CGRectMake(0.0, 45.0, cellColors.frame.width, 1.0);
-                    line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+                    line.backgroundColor = WMColor.light_light_gray.CGColor
                     colorViewCell!.layer.insertSublayer(line, atIndex: 0)
                     
                 }

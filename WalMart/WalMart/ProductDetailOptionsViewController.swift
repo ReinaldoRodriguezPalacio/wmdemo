@@ -137,7 +137,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         
         let line: CALayer = CALayer()
         line.frame = CGRectMake(0.0, bounds.height - 65, frame.size.width, 0.8);
-        line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 0.7).CGColor
+        line.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(line, atIndex: 0)
         self.updateShopButton()
     }
@@ -189,7 +189,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         let bottomBorder: CALayer = CALayer()
         bottomBorder.frame = CGRectMake(0.0, view.frame.height - 1.1, view.frame.size.width, 1.1);
         
-        bottomBorder.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        bottomBorder.backgroundColor = WMColor.light_light_gray.CGColor
         view.layer.insertSublayer(bottomBorder, atIndex: 0)
     }
     

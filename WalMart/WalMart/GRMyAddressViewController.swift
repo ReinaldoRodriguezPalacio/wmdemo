@@ -59,7 +59,7 @@ class GRMyAddressViewController: MyAddressViewController {
             self.okButton!.frame = CGRectMake((bounds.width / 2) - 49,  self.table!.frame.maxY + 15, 98, 34)
             let line: CALayer = CALayer()
             line.frame = CGRectMake(0.0, self.table!.frame.maxY, bounds.width,1.0)
-            line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 0.7).CGColor
+            line.backgroundColor = WMColor.light_light_gray.CGColor
             self.view.layer.insertSublayer(line, atIndex: 0)
         }
         else{

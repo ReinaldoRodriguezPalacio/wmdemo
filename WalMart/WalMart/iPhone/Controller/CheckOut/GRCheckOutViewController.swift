@@ -530,7 +530,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 titleLabel.text = promotion["promotion"]
                 titleLabel.numberOfLines = 2
                 titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-                titleLabel.textColor = WMColor.UIColorFromRGB(0x797F87)
+                titleLabel.textColor = WMColor.dark_gray
                 
                let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)

@@ -340,7 +340,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         var  imageView : UIView? =  UIView(frame:CGRectMake((self.frame.width/2) - 115 , self.lblQuantityN.frame.minY - 40, 230, 20))
         var  viewContent : UIView? = UIView(frame: imageView!.bounds)
         viewContent!.layer.cornerRadius = 4.0
-        viewContent!.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF)
+        viewContent!.backgroundColor = UIColor.whiteColor()
         imageView!.addSubview(viewContent!)
         self.addSubview(imageView!)
         

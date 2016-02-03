@@ -26,7 +26,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
          self.view.backgroundColor = WMColor.light_light_gray
         
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(self.separatorView!)
 
     }

@@ -28,7 +28,7 @@ class ReferedTableViewCell : UITableViewCell {
     func setup() {
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.UIColorFromRGB(0xE1ECFB)
+        viewBgSel.backgroundColor = WMColor.light_light_gray
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(16)

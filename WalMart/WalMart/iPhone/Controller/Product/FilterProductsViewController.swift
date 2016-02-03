@@ -676,10 +676,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 36.0))
-        header.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        header.backgroundColor = WMColor.light_light_gray
         
         let title = UILabel(frame: CGRectMake(16.0, 0.0, self.view.frame.width - 32.0, 36.0))
-        title.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        title.backgroundColor = WMColor.light_light_gray
         title.textColor = WMColor.gray
         title.font = WMFont.fontMyriadProRegularOfSize(11)
         if section == 0 {

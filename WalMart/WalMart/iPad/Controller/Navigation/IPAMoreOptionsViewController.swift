@@ -99,7 +99,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //            println("option don't exist")
 //        }
 //        if UserCurrentSession.hasLoggedUser() || indexPath.section != 0 {
-//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
 //        } else if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
 //            switch (OptionsController(rawValue: srtOption)!) {
 //            case .Profile : image = "Profile-disable-icon"
@@ -109,7 +109,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //            default :
 //                println("option don't exist")
 //            }
-//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.light_gray)
 //        }
 //        
 //        return cell

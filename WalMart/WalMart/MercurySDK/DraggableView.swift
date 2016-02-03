@@ -52,13 +52,13 @@ class DraggableView: UIView {
         
         information = UILabel(frame: CGRectMake(16, 43, self.frame.size.width - 32, 44))
         information.textAlignment = NSTextAlignment.Center
-        information.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        information.textColor = WMColor.light_blue
         information.font = MercuryFont.fontSFUILightOfSize(18)
         information.numberOfLines = 2
         
         kpiQuestion = UILabel(frame: CGRectMake(16, 264, self.frame.size.width - 32, 87))
         kpiQuestion.textAlignment = NSTextAlignment.Center
-        kpiQuestion.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        kpiQuestion.textColor = WMColor.light_blue
         kpiQuestion.font = MercuryFont.fontSFUIMediumOfSize(25)
         kpiQuestion.numberOfLines = 3
         

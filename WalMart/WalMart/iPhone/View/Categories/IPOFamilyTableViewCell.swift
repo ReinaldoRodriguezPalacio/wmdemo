@@ -29,7 +29,7 @@ class IPOFamilyTableViewCell : UITableViewCell {
     func setup() {
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+        viewBgSel.backgroundColor = WMColor.light_light_gray
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(16)

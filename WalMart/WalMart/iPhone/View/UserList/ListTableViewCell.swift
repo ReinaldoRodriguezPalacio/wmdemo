@@ -89,7 +89,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.copyBtn!)
 
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor  = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor  = WMColor.light_light_gray
         self.contentView.addSubview(self.separatorView!)
         
         var buttonDelete = UIButton()
@@ -112,7 +112,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
         
         viewBgSel = UIView()
-        viewBgSel?.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+        viewBgSel?.backgroundColor = WMColor.light_light_gray
         viewBgSel?.alpha = 1
         self.addSubview(self.viewBgSel!)
         self.sendSubviewToBack(viewBgSel!)
@@ -161,7 +161,6 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
             self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), countItem)
         }
         self.iconView!.image = UIImage(named: "list")
-        //self.iconView!.setup(title, withColor: WMColor.UIColorFromRGB(0x0071CE))
     }
     
     func setValues(listEntity list:List) {
@@ -169,7 +168,6 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.textField!.text = list.name
         self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), list.countItem)
         self.iconView!.image = UIImage(named: "list")
-        //self.iconView!.setup(list.name, withColor: WMColor.UIColorFromRGB(0x0071CE))
     }
     
     func setValues(name nameList:String,count:String,icon:UIImage,enableEditing:Bool) {

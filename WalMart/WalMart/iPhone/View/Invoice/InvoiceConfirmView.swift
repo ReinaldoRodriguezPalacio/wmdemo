@@ -74,7 +74,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.nameLabel = UILabel()
         self.nameLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nameLabel!.text =  "Gerardo"
-        self.nameLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.nameLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.nameLabel!)
         
         self.titleRfc = UILabel()
@@ -86,7 +86,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.rfcLabel = UILabel()
         self.rfcLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.rfcLabel!.text =  "SAML900410MZ5"
-        self.rfcLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.rfcLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.rfcLabel!)
         
         self.titleTicketNumber = UILabel()
@@ -98,7 +98,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.ticketNumberLabel = UILabel()
         self.ticketNumberLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.ticketNumberLabel!.text =  "749 4667 32567 1234"
-        self.ticketNumberLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.ticketNumberLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.ticketNumberLabel!)
         
         self.titleTransactionNumber = UILabel()
@@ -110,7 +110,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.transactionNumberLabel = UILabel()
         self.transactionNumberLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.transactionNumberLabel!.text =  "3456"
-        self.transactionNumberLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.transactionNumberLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.transactionNumberLabel!)
         
         self.titleIEPS = UILabel()
@@ -122,7 +122,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.iepsLabel = UILabel()
         self.iepsLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.iepsLabel!.text =  "Sí declaro"
-        self.iepsLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.iepsLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.iepsLabel!)
         
         self.titleSocialReason = UILabel()
@@ -134,7 +134,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.socialReasonLabel = UILabel()
         self.socialReasonLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.socialReasonLabel!.text =  "Persona Fisica"
-        self.socialReasonLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.socialReasonLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.socialReasonLabel!)
         
         self.titleAddress = UILabel()
@@ -147,7 +147,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.addressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addressLabel!.text =  "Casa de la Abuela \n Avenida de los Insurgentes #1432"
         self.addressLabel!.numberOfLines = 2
-        self.addressLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.addressLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.addressLabel!)
         
         self.editButton = UIButton()

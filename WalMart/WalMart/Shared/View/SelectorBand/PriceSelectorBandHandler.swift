@@ -39,7 +39,6 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.button!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         self.button!.layer.cornerRadius = frame.size.height / 2
         //self.button!.layer.borderWidth = 1
-        //self.button!.layer.borderColor = WMColor.UIColorFromRGB(0xCCCCCC).CGColor
         self.container!.addSubview(self.button!)
 
         //self.price = CurrencyCustomLabel(frame: CGRectMake(0, 0, 0, 14))
@@ -59,7 +58,6 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.band = UICollectionView(frame: CGRectMake(frame.size.width,0.0,frame.size.width, frame.size.height), collectionViewLayout: self.bandLayout!)
         self.band!.layer.cornerRadius = frame.size.height / 2
         //self.band!.layer.borderWidth = 1
-        //self.band!.layer.borderColor = WMColor.UIColorFromRGB(0xCCCCCC).CGColor
         self.band!.backgroundColor = WMColor.yellow
         self.band!.showsHorizontalScrollIndicator = false
         self.band!.showsVerticalScrollIndicator = false

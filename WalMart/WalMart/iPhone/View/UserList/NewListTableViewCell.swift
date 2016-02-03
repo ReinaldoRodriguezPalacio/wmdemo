@@ -56,7 +56,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.scanTicketBtn!)
 
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separatorView!)
         
     }

@@ -43,7 +43,6 @@ class NewListView: UIControl, UITextFieldDelegate {
 //        self.cancelBarButton!.contentHorizontalAlignment = .Left
 //        self.cancelBarButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(16)
 //        self.cancelBarButton!.setTitle(NSLocalizedString("list.new.keyboard.cancel", comment:""), forState: .Normal)
-//        self.cancelBarButton!.setTitleColor(WMColor.UIColorFromRGB(0x999999), forState: .Normal)
 //        self.cancelBarButton!.addTarget(self, action: "cancel:", forControlEvents: .TouchUpInside)
 //        inputView.addSubview(self.cancelBarButton!)
 //        
@@ -52,7 +51,6 @@ class NewListView: UIControl, UITextFieldDelegate {
 //        //self.saveBarButton!.setBackgroundImage(bgImage, forState: .Normal)
 //        self.saveBarButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(16)
 //        self.saveBarButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
-//        self.saveBarButton!.setTitleColor(WMColor.UIColorFromRGB(0x999999), forState: .Normal)
 //        self.saveBarButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
 //        inputView.addSubview(self.saveBarButton!)
 
@@ -61,7 +59,7 @@ class NewListView: UIControl, UITextFieldDelegate {
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.save", comment:""), forState: .Normal)
         self.saveButton!.setTitleColor(WMColor.gray, forState: .Normal)
-        self.saveButton!.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6)
+        self.saveButton!.backgroundColor = WMColor.light_light_gray
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always

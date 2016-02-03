@@ -31,9 +31,6 @@ class IPAListTableViewCell: ListTableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-//        if let text = self.iconView!.titleLabel!.text {
-//            self.iconView?.setup(text, withColor: WMColor.UIColorFromRGB(0x0071CE))
-//        }
     }
     
 }

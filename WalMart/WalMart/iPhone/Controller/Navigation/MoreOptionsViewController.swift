@@ -191,9 +191,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             default :
                 print("option don't exist")
             }
-            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.light_gray)
         } else  {
-             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
         }
         
 

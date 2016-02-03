@@ -54,8 +54,7 @@ class StoreView: UIView {
         self.distanceFmt!.maximumFractionDigits = 2
         self.distanceFmt!.minimumFractionDigits = 2
         self.distanceFmt!.locale = NSLocale.systemLocale()
-        
-        //let textColor = Color.UIColorFromRGB(0x56595c)
+
         let width:CGFloat = self.frame.width - (2*sep)
         
         self.titleLabel = UILabel(frame: CGRectMake(sep, sep, width, 17.0))

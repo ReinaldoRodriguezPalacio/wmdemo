@@ -199,7 +199,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         self.saveButtonBottom!.frame = CGRectMake((self.view.frame.width/2) - 49 ,scrollForm.frame.maxY + 15, 98, 34)
         let line: CALayer = CALayer()
         line.frame = CGRectMake(0.0, scrollForm.frame.maxY, self.view.bounds.width,1.0)
-        line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        line.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(line, atIndex: 0)
         self.saveButton!.removeFromSuperview()
         self.saveButtonBottom!.hidden = false

@@ -98,7 +98,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.confirmLabel = UILabel()
         self.confirmLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.confirmLabel!.text =  NSLocalizedString("refered.label.confirm",comment:"")
-        self.confirmLabel!.textColor = WMColor.UIColorFromRGB(0x5f5f5f)
+        self.confirmLabel!.textColor = WMColor.dark_gray
         self.confirmLabel!.textAlignment = .Center
         self.confirmLabel!.hidden = true
         self.scrollForm.addSubview(self.confirmLabel!)

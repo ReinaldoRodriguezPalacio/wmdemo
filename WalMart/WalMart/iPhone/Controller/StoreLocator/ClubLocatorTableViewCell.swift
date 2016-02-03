@@ -27,7 +27,6 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
         self.backgroundColor = UIColor.whiteColor()
         
-        //let textColor = WMColor.UIColorFromRGB(0x56595c)
         let sep:CGFloat = 16.0
         let width:CGFloat = frame.size.width - (2*sep)
         

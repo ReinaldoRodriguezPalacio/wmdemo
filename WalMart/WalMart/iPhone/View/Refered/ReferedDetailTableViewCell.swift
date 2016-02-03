@@ -27,11 +27,11 @@ class ReferedDetailTableViewCell : UITableViewCell {
     func setup() {
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+        viewBgSel.backgroundColor = WMColor.light_light_gray
         
         referedLabel = UILabel()
         referedLabel.font = WMFont.fontMyriadProLightOfSize(16)
-        referedLabel.textColor = WMColor.UIColorFromRGB(0x757D8A)
+        referedLabel.textColor = WMColor.dark_gray
         referedLabel.numberOfLines = 2
         
         separator = CALayer()

@@ -126,8 +126,8 @@ class ProductDetailColorSizeView: UIView {
             sizeButton.frame = CGRectMake(CGFloat(buttonPosition), 4.8,sizeButonWidth , CGFloat(buttonWidth))
             sizeButton.layer.cornerRadius = 2
             sizeButton.setTitle(item["value"] as? String, forState: UIControlState.Normal)
-            sizeButton.setTitleColor(WMColor.UIColorFromRGB(0x0E1219, alpha: 0.8), forState: UIControlState.Normal)
-            sizeButton.setTitleColor(WMColor.UIColorFromRGB(0xC5C5CC, alpha: 0.8), forState: UIControlState.Disabled)
+            sizeButton.setTitleColor(WMColor.dark_gray, forState: UIControlState.Normal)
+            sizeButton.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             sizeButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
             sizeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
             sizeButton.addTarget(self, action: "selectSize:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -158,7 +158,7 @@ class ProductDetailColorSizeView: UIView {
         let button  = sender as! UIButton
         let backView = button.superview!
         backView.layer.borderWidth = 1
-        backView.layer.borderColor = WMColor.UIColorFromRGB(0x888A8E, alpha: 0.8).CGColor
+        backView.layer.borderColor = WMColor.gray.CGColor
         let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
@@ -170,7 +170,7 @@ class ProductDetailColorSizeView: UIView {
         let button  = sender as! UIButton
         let backView = button.superview!
         backView.layer.borderWidth = 1
-        backView.layer.borderColor = WMColor.UIColorFromRGB(0x888A8E, alpha: 0.8).CGColor
+        backView.layer.borderColor = WMColor.gray.CGColor
         let item: AnyObject = items[button.tag]
         delegate?.selectDetailItem(item["value"] as! String, itemType: item["type"] as! String)
     }
