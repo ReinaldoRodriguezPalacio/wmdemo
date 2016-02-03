@@ -36,7 +36,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         self.titleLabel?.text = NSLocalizedString("refered.title", comment: "")
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(layerLine, atIndex: 0)
         
         referedTable = UITableView()
@@ -49,14 +49,14 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         
         referedCountLabel = UILabel()
         referedCountLabel?.font = WMFont.fontMyriadProLightOfSize(14)
-        referedCountLabel?.textColor = WMColor.listAddressHeaderSectionColor
+        referedCountLabel?.textColor = WMColor.light_blue
         referedCountLabel?.text = ""
         referedCountLabel?.textAlignment = .Center
         self.view.addSubview(referedCountLabel!)
         
         referedDescLabel = UILabel()
         referedDescLabel?.font = WMFont.fontMyriadProLightOfSize(14)
-        referedDescLabel?.textColor = WMColor.listAddressHeaderSectionColor
+        referedDescLabel?.textColor = WMColor.light_blue
         referedDescLabel?.numberOfLines = 3
         referedDescLabel?.text =  NSLocalizedString("refered.description.message", comment: "")
         referedDescLabel?.textAlignment = .Center
@@ -245,7 +245,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             if let isActive = result["responseObject"] as? Bool{
                 if isActive{
                     self.addReferedButton?.enabled = true
-                    self.addReferedButton?.backgroundColor = WMColor.listAddressHeaderSectionColor
+                    self.addReferedButton?.backgroundColor = WMColor.light_blue
                 }
                 else{
                     self.addReferedButton?.enabled = false
@@ -291,12 +291,12 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 {
                     self.alertView!.setMessage(messageResult)
                     self.alertView!.showicon(UIImage(named: "alerta_listo"))
-                    self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                    self.alertView!.showOkButton("OK", colorButton: WMColor.green)
 
                 }else if codeMessage == -1 {
                     self.alertView!.setMessage(messageResult)
                     self.alertView!.showicon(UIImage(named: "alerta_repetir"))
-                    self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                    self.alertView!.showOkButton("OK", colorButton: WMColor.green)
                 }
                 
                 self.pendingRefered =  []
@@ -310,7 +310,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 print("Error AddRefered")
                 self.alertView!.setMessage(NSLocalizedString("refered.add.error", comment: ""))
                 self.alertView!.showicon(UIImage(named: "alerta_fail"))
-                self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                self.alertView!.showOkButton("OK", colorButton: WMColor.green)
             })
     }
     

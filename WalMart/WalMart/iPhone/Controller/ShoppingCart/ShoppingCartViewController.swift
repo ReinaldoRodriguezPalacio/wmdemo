@@ -71,21 +71,21 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.view.backgroundColor = WMColor.shoppingCartTotalBgColor
+        self.view.backgroundColor = WMColor.light_light_gray
         
         viewShoppingCart = UITableView(frame:CGRectMake(0, 46 , self.viewContent.frame.width, viewContent.frame.height - 0 - 46))
         viewShoppingCart.clipsToBounds = false
-        viewShoppingCart.backgroundColor =  WMColor.shoppingCartTotalBgColor
+        viewShoppingCart.backgroundColor =  WMColor.light_light_gray
         self.navigationController?.view.clipsToBounds = true
         self.view.backgroundColor = UIColor.clearColor()
         self.view.clipsToBounds = true
         
         viewHerader = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
-        viewHerader.backgroundColor = WMColor.shoppingCartHeader
+        viewHerader.backgroundColor = WMColor.light_light_gray
         
         titleView = UILabel(frame: viewHerader.bounds)
         titleView.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleView.textColor = WMColor.shoppingCartHeaderTextColor
+        titleView.textColor = WMColor.light_blue
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
         titleView.textAlignment = .Center
         
@@ -94,7 +94,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         editButton = UIButton(frame:CGRectMake(self.view.frame.width - 82, 12, 55, 22))
         editButton.setTitle(NSLocalizedString("shoppingcart.edit",comment:""), forState: UIControlState.Normal)
         editButton.setTitle(NSLocalizedString("shoppingcart.endedit",comment:""), forState: UIControlState.Selected)
-        editButton.backgroundColor = WMColor.shoppingCartEditButtonBgColor
+        editButton.backgroundColor = WMColor.light_blue
         editButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         editButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editButton.layer.cornerRadius = 11
@@ -103,7 +103,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 72, 12, 75, 22))
         deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
-        deleteall.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        deleteall.backgroundColor = WMColor.red
         deleteall.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteall.layer.cornerRadius = 11
@@ -114,7 +114,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
         //closeButton.setTitle(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""), forState: UIControlState.Normal)
         closeButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-        //closeButton.backgroundColor = WMColor.shoppingCartEditButtonBgColor
         //closeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         //closeButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         //closeButton.layer.cornerRadius = 3
@@ -127,7 +126,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         
         viewFooter = UIView()
-        viewFooter.backgroundColor = WMColor.shoppingCartFooter
+        viewFooter.backgroundColor = UIColor.whiteColor()
         
         var x:CGFloat = 16
         if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -147,14 +146,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewFooter.addSubview(buttonWishlist)
         
         buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 40))
-        buttonShop.backgroundColor = WMColor.shoppingCartShopBgColor
+        buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 20
         buttonShop.addTarget(self, action: "showloginshop", forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonShop)
         
         let viewBorderTop = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 1))
-        viewBorderTop.backgroundColor = WMColor.shoppingCartButtonContainerBorderViewColor
+        viewBorderTop.backgroundColor = WMColor.light_light_gray
         viewFooter.addSubview(viewBorderTop)
         
         viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
@@ -209,8 +208,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         self.isEdditing = false
         editButton.selected = false
-        editButton.backgroundColor = WMColor.wishlistEditButtonBgColor
-        editButton.tintColor = WMColor.wishlistEditButtonBgColor
+        editButton.backgroundColor = WMColor.light_blue
+        editButton.tintColor = WMColor.light_blue
         deleteall.alpha = 0
         
         UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
@@ -488,7 +487,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -560,8 +559,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             }
             editButton.selected = true
-            editButton.backgroundColor =  WMColor.UIColorFromRGB(0x8EBB36) // WMColor.wishlistEndEditButtonBgColor
-            editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
+            editButton.backgroundColor =  WMColor.green
+            editButton.tintColor = WMColor.dark_blue
             
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -582,8 +581,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             }
             editButton.selected = false
-            editButton.backgroundColor = WMColor.wishlistEditButtonBgColor
-            editButton.tintColor = WMColor.wishlistEditButtonBgColor
+            editButton.backgroundColor = WMColor.light_blue
+            editButton.tintColor = WMColor.light_blue
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0

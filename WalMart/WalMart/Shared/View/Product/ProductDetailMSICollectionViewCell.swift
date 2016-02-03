@@ -36,14 +36,14 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         descLabel.numberOfLines = 0
         
         downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
-        downBorder.backgroundColor = WMColor.lineSaparatorColor
+        downBorder.backgroundColor = WMColor.light_light_gray
         
         titleLabel.text = NSLocalizedString("productdetail.msitext",comment:"")
         titleLabel.frame = CGRectMake(12, 0, self.bounds.width - (12 * 2), 40.0)
         titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
         titleLabel.numberOfLines = 1
         titleLabel.textAlignment = .Left
-        titleLabel.textColor = WMColor.productProductPromotionsTextColor
+        titleLabel.textColor = WMColor.orange
         
         self.addSubview(titleLabel)
         self.addSubview(downBorder)

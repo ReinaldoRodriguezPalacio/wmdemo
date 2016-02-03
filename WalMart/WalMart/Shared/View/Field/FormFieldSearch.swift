@@ -23,7 +23,7 @@ class FormFieldSearch: UITextField {
         self.layer.cornerRadius = 5
         self.backgroundColor =  UIColor.whiteColor()
         self.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.textColor = WMColor.searchProductFieldTextColor
+        self.textColor = WMColor.dark_gray
     }
     
     override func textRectForBounds(bounds: CGRect) -> CGRect {

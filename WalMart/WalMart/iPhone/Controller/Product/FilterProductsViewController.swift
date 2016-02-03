@@ -67,14 +67,14 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.titleLabel!.text = NSLocalizedString("filter.title", comment:"")
         self.titleLabel!.textAlignment =  .Center
         
-        let iconImage = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
-        let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55, 22), radius: 11)
+        let iconImage = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11) // UIImage(named:"button_bg")
+        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(55, 22), radius: 11)
         
         self.applyButton = UIButton(type: .Custom)
         self.applyButton!.setBackgroundImage(iconImage, forState: .Normal)
         self.applyButton!.setBackgroundImage(iconSelected, forState: .Selected)
         self.applyButton!.setTitle(NSLocalizedString("filter.apply", comment:""), forState: .Normal)
-        self.applyButton!.setTitleColor(WMColor.navigationHeaderBgColor, forState: .Normal)
+        self.applyButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
         self.applyButton!.addTarget(self, action: "applyFilters", forControlEvents: .TouchUpInside)
         self.applyButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         
@@ -84,7 +84,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.removeButton!.setBackgroundImage(iconImage, forState: .Normal)
         self.removeButton!.setBackgroundImage(iconSelected, forState: .Selected)
         self.removeButton!.setTitle(NSLocalizedString("filter.button.clean", comment:""), forState: .Normal)
-        self.removeButton!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.removeButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.removeButton!.addTarget(self, action: "removeFilters", forControlEvents: .TouchUpInside)
         self.removeButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.removeButton!.hidden = true

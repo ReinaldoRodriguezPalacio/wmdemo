@@ -75,7 +75,7 @@ class CommentBubbleView : UIView, UITextViewDelegate {
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         if textView.text == "Agrega tu nota aqui" {
             textView.text = ""
-            textView.textColor = WMColor.searchProductFieldTextColor
+            textView.textColor = WMColor.dark_gray
         }
         return true
     }

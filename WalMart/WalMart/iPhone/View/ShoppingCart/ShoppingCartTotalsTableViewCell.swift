@@ -36,7 +36,7 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
     
     func setup() {
         
-        backgroundColor = WMColor.shoppingCartTotalBgColor
+        backgroundColor = WMColor.light_light_gray
         
 
         

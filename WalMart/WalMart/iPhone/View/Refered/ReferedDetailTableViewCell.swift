@@ -35,7 +35,7 @@ class ReferedDetailTableViewCell : UITableViewCell {
         referedLabel.numberOfLines = 2
         
         separator = CALayer()
-        separator.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        separator.backgroundColor = WMColor.light_light_gray.CGColor
         
         self.addSubview(self.viewBgSel!)
         self.layer.insertSublayer(separator, atIndex: 0)

@@ -39,7 +39,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.titleLabel!.textColor = WMColor.wishlistTitleTextColor
+        self.titleLabel!.textColor = WMColor.light_blue
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.text = NSLocalizedString("wishlist.title",comment:"")
         
@@ -48,10 +48,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
         self.edit.setTitle(NSLocalizedString("wishlist.edit", comment:""), forState: .Normal)
         self.edit.setTitle(NSLocalizedString("wishlist.endedit", comment:""), forState: .Selected)
-        self.edit.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.edit.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.edit.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.edit.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
-        self.edit!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
+        self.edit!.backgroundColor = WMColor.dark_blue
         self.edit.layer.cornerRadius = 11
         self.edit.addTarget(self, action: "editAction:", forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.edit)
@@ -59,7 +59,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.deleteall = UIButton(type: .Custom)
         self.deleteall.frame = CGRectMake(165.0, 12.0, 75.0, 22.0)
         self.deleteall.setTitle(NSLocalizedString("wishlist.deleteall", comment:""), forState: .Normal)
-        self.deleteall.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        self.deleteall.backgroundColor = WMColor.red
         self.deleteall.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.deleteall.alpha = 0
@@ -228,7 +228,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -435,8 +435,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 //cell.shouldChangeState = !isEdditing
             }
             edit.selected = true
-            edit.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.wishlistEndEditButtonBgColor
-            edit.tintColor = WMColor.wishlistEndEditButtonBgColor
+            edit.backgroundColor = WMColor.green
+            edit.tintColor = WMColor.dark_blue
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
                 self.titleLabel!.frame = CGRectMake(self.titleLabel!.frame.minX - 30, self.titleLabel!.frame.minY, self.titleLabel!.frame.width, self.titleLabel!.frame.height)
@@ -451,8 +451,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
             edit.hidden = self.items.count == 0
             edit.selected = false
-            edit.backgroundColor = WMColor.wishlistEditButtonBgColor
-            edit.tintColor = WMColor.wishlistEditButtonBgColor
+            edit.backgroundColor = WMColor.light_blue
+            edit.tintColor = WMColor.light_blue
             isEdditing = !isEdditing
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0
@@ -544,7 +544,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         buttonShop = UIButton(frame: CGRectMake(shareButton.frame.maxX + 16, 14, 240, 34))
         //buttonShop.setTitle("Comprar todo", forState: UIControlState.Normal)
-        buttonShop.backgroundColor = WMColor.shoppingCartShopBgColor
+        buttonShop.backgroundColor = WMColor.green
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonShop.layer.cornerRadius = 17
         buttonShop.addTarget(self, action: "senditemsToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
@@ -740,8 +740,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         deleteall.hidden = self.items.count == 0 && self.isEdditing
         edit.hidden = self.items.count == 0
         edit.selected = false
-        edit.backgroundColor = WMColor.wishlistEditButtonBgColor
-        edit.tintColor = WMColor.wishlistEditButtonBgColor
+        edit.backgroundColor = WMColor.light_blue
+        edit.tintColor = WMColor.light_blue
 
     }
     

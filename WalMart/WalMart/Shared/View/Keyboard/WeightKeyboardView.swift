@@ -26,12 +26,12 @@ class WeightKeyboardView : UIView {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
     }
     
     override init(frame: CGRect) {
         super.init(frame:frame)
-        generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
     }
     
     
@@ -46,7 +46,7 @@ class WeightKeyboardView : UIView {
         btngramos.setImage(imageSelected, forState: UIControlState.Selected)
         
         btngramos.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        btngramos.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Selected)
+        btngramos.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         btngramos.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
         btngramos.titleLabel?.numberOfLines = 2
         btngramos.titleLabel?.textAlignment = .Center
@@ -62,7 +62,7 @@ class WeightKeyboardView : UIView {
         btncuarto.setImage(imageNotSelected, forState: UIControlState.Normal)
         btncuarto.setImage(imageSelected, forState: UIControlState.Selected)
         btncuarto.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        btncuarto.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Selected)
+        btncuarto.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         btncuarto.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
         btncuarto.titleLabel?.numberOfLines = 2
         btncuarto.titleLabel?.textAlignment = .Center
@@ -78,7 +78,7 @@ class WeightKeyboardView : UIView {
         btmediokilo.setImage(imageNotSelected, forState: UIControlState.Normal)
         btmediokilo.setImage(imageSelected, forState: UIControlState.Selected)
         btmediokilo.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        btmediokilo.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Selected)
+        btmediokilo.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         btmediokilo.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
         btmediokilo.titleLabel?.numberOfLines = 2
         btmediokilo.titleLabel?.textAlignment = .Center
@@ -96,7 +96,7 @@ class WeightKeyboardView : UIView {
         bttrescuartos.setImage(imageNotSelected, forState: UIControlState.Normal)
         bttrescuartos.setImage(imageSelected, forState: UIControlState.Selected)
         bttrescuartos.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        bttrescuartos.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Selected)
+        bttrescuartos.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         bttrescuartos.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
         bttrescuartos.titleLabel?.numberOfLines = 2
         bttrescuartos.titleLabel?.textAlignment = .Center
@@ -114,7 +114,7 @@ class WeightKeyboardView : UIView {
         btunkilo.setImage(imageNotSelected, forState: UIControlState.Normal)
         btunkilo.setImage(imageSelected, forState: UIControlState.Selected)
         btunkilo.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        btunkilo.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Selected)
+        btunkilo.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         btunkilo.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
         btunkilo.titleLabel?.numberOfLines = 2
         btunkilo.titleLabel?.textAlignment = .Center

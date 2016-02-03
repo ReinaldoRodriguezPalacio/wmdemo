@@ -17,7 +17,7 @@ class ProductDetailBundleTableViewCell : ProductDetailCrossSellTableViewCell {
         collection.registerClass(ProductDetailBundleItemCollectionViewCell.self, forCellWithReuseIdentifier: "productBundleCell")
         
         downBorder = UIView(frame: CGRectMake(0, 129, self.frame.width, AppDelegate.separatorHeigth()))
-        downBorder.backgroundColor = WMColor.lineSaparatorColor
+        downBorder.backgroundColor = WMColor.light_light_gray
         
         
         self.addSubview(downBorder)

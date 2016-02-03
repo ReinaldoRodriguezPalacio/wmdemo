@@ -32,7 +32,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         descLabel = UIView()
         
         downBorder = UIView(frame: CGRectZero)
-        downBorder.backgroundColor = WMColor.lineSaparatorColor
+        downBorder.backgroundColor = WMColor.light_light_gray
         self.addSubview(downBorder)
         self.addSubview(descLabel)
     }
@@ -56,7 +56,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 if index++ % 2 == 0 {
                     bgView.backgroundColor = UIColor.whiteColor()
                 }else{
-                    bgView.backgroundColor = WMColor.productDetailRowUnevenColor
+                    bgView.backgroundColor = WMColor.light_light_gray
                 }
                 bgView.addSubview(labelCharacteristic)
                 descLabel.addSubview(bgView)

@@ -26,7 +26,7 @@ class GRMyAddressViewController: MyAddressViewController {
         self.titleLabel!.text = NSLocalizedString("gr.address.MyAddress", comment: "")
         
         self.okButton = UIButton(frame: CGRectMake(0, 0, 98, 34))
-        self.okButton!.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        self.okButton!.backgroundColor = WMColor.light_blue
         self.okButton!.layer.cornerRadius = 17
         self.okButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
@@ -86,7 +86,7 @@ class GRMyAddressViewController: MyAddressViewController {
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36))
-        titleView.textColor = WMColor.listAddressHeaderSectionColor
+        titleView.textColor = WMColor.light_blue
         titleView.font = WMFont.fontMyriadProLightOfSize(14)
         titleView.text = NSLocalizedString("gr.address.table.header", comment: "")
         generic.addSubview(titleView)

@@ -44,7 +44,7 @@ class ProductTableViewCell : SWTableViewCell {
         
         productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
-        //productPriceLabel!.textColor = WMColor.priceProductTextColor
+        //productPriceLabel!.textColor = WMColor.orange
         
         self.contentView.addSubview(productImage!)
         self.contentView.addSubview(productShortDescriptionLabel!)
@@ -62,7 +62,7 @@ class ProductTableViewCell : SWTableViewCell {
             }, failure: nil)
         
         productShortDescriptionLabel!.text = productShortDescription
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }
     deinit {
         //print("deinit")

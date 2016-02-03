@@ -41,11 +41,11 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
         
         let borderView = UIView(frame: CGRectMake(self.frame.width, 0, widthAndHeightSeparator, self.frame.height))
-        borderView.backgroundColor = WMColor.lineSaparatorColor
+        borderView.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderView)
         
         borderViewTop = UIView(frame: CGRectMake(0,self.frame.height - widthAndHeightSeparator, self.frame.width,widthAndHeightSeparator ))
-        borderViewTop.backgroundColor = WMColor.lineSaparatorColor
+        borderViewTop.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderViewTop)
         
     }

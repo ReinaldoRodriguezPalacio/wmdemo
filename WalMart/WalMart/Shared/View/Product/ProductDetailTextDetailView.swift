@@ -31,7 +31,7 @@ class ProductDetailTextDetailView : UIView {
         self.clipsToBounds = true
         
         viewBg = UIView(frame:CGRectMake(0, 0,self.frame.width,0))
-        viewBg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        viewBg.backgroundColor = WMColor.light_blue
         self.addSubview(viewBg)
         
         textView = UITextView(frame: CGRectMake(15, 40, self.frame.width - 30, viewBg.frame.height - 50))

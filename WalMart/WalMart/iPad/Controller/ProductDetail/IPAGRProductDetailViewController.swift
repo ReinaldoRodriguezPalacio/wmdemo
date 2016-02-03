@@ -336,7 +336,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.tabledetail, frame: frameDetail)
         self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, atIndex: 0)
         let bg = UIView(frame: frameDetail)
-        bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        bg.backgroundColor = WMColor.light_blue
         self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
         opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
             self.productDetailButton!.listButton.selected = true
@@ -433,7 +433,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton?.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         })
         
     }

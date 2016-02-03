@@ -55,7 +55,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.iconView!)
         
         self.textField = ListFieldSearch(frame: CGRectMake(10.0, 0.0, 200.0, 40.0))
-        self.textField!.backgroundColor = WMColor.UIColorFromRGB(0xF8F7F7)
+        self.textField!.backgroundColor = WMColor.light_light_gray
         self.textField!.layer.cornerRadius = 5.0
         self.textField!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textField!.delegate =  self
@@ -80,7 +80,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.copyBtn!.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
         self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.copyBtn!.backgroundColor = WMColor.UIColorFromRGB(0x2970CA)
+        self.copyBtn!.backgroundColor = WMColor.light_blue
         self.copyBtn!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
         self.copyBtn!.layer.cornerRadius = 9.0
         self.copyBtn!.alpha = 0.0
@@ -95,7 +95,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         var buttonDelete = UIButton()
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete", comment:""), forState: .Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         
         let buttonDuplicate = UIButton()
         buttonDuplicate.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)

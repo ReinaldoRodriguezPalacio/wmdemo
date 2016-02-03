@@ -134,7 +134,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.insertSubview(self.imageBlurView!, atIndex: 0)
         
         let bg = UIView(frame: frame)
-        bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        bg.backgroundColor = WMColor.light_blue
         self.view.insertSubview(bg, aboveSubview: self.imageBlurView!)
     }
     

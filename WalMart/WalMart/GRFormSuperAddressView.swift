@@ -55,7 +55,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelAddress = UILabel()
         self.titleLabelAddress!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelAddress!.text =  NSLocalizedString("gr.address.section.title", comment: "")
-        self.titleLabelAddress!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelAddress!.textColor = WMColor.light_blue
         
         self.errorLabelStore = UILabel()
         self.errorLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
@@ -111,7 +111,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelStore = UILabel()
         self.titleLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelStore!.text =  NSLocalizedString("gr.address.field.store", comment: "")
-        self.titleLabelStore!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelStore!.textColor = WMColor.light_blue
         
         self.store = FormFieldView()
         self.store!.isRequired = true
@@ -130,7 +130,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelBetween = UILabel()
         self.titleLabelBetween!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelBetween!.text =  NSLocalizedString("gr.address.section.between.title", comment: "")
-        self.titleLabelBetween!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelBetween!.textColor = WMColor.light_blue
         
         self.betweenFisrt = FormFieldView()
         self.betweenFisrt!.isRequired = false
@@ -151,7 +151,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.titleLabelPhone = UILabel()
         self.titleLabelPhone!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelPhone!.text =  NSLocalizedString("gr.address.section.between.phone", comment: "")
-        self.titleLabelPhone!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelPhone!.textColor = WMColor.light_blue
         
         self.phoneHomeNumber = FormFieldView()
         self.phoneHomeNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
@@ -358,7 +358,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
            self.popupTableItem = nil
         }else{
             self.popupTable?.frame = CGRectMake(itemView.frame.minX, itemView.frame.maxY - 0.1, itemView.frame.width, tableHeight)
-            self.popupTable?.backgroundColor =  WMColor.loginFieldBgColor
+            self.popupTable?.backgroundColor =  WMColor.light_light_gray
             self.popupTableItem = itemView
             self.popupTable!.hidden = false
         }
@@ -384,7 +384,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         cell.textLabel?.text = itemsToShow[indexPath.row]
         if self.popupTable != nil {
             cell.setSelected(indexPath.row == self.popupTableSelected!.row, animated: true)
-            cell.backgroundColor = WMColor.loginFieldBgColor
+            cell.backgroundColor = WMColor.light_light_gray
         }
         return cell
     }

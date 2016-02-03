@@ -19,7 +19,6 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x2870c9, alpha: 0.5)
      }
     
     override class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPAWMAlertViewController? {
@@ -47,7 +46,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
     class func showAlertWithCancelButton(controller:UIViewController,delegate:IPAWMAlertViewControllerDelegate,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPAWMAlertViewController? {
        let newAlert = showAlert(controller, imageWaiting: imageWaiting, imageDone: imageDone, imageError: imageError)
         newAlert?.delegate = delegate
-        newAlert!.showCancelButton("Cancelar", colorButton:WMColor.loginSignOutButonBgColor)
+        newAlert!.showCancelButton("Cancelar", colorButton:WMColor.dark_blue)
         return newAlert
     }
     

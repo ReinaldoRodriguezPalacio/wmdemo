@@ -33,7 +33,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
         descLabel.numberOfLines = 0
         
         downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
-        downBorder.backgroundColor = WMColor.lineSaparatorColor
+        downBorder.backgroundColor = WMColor.light_light_gray
 
         
         self.addSubview(downBorder)

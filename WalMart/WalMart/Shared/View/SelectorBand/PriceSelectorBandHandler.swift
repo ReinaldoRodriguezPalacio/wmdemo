@@ -30,13 +30,12 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         //self.container!.layer.cornerRadius = 5
         //self.container!.layer.borderWidth = 1
         self.container!.clipsToBounds = true
-        //self.container!.layer.borderColor = WMColor.productAddToCartBorderSelectQuantity.CGColor
         
         self.button = UIButton(type: .Custom)
         self.button!.frame = CGRectMake(frame.width - frame.size.height, 0.0 , frame.size.height, frame.size.height)
         self.button!.addTarget(self, action: "showBand:", forControlEvents: .TouchUpInside)
-        self.button!.setTitleColor(WMColor.UIColorFromRGB(0xFFFFFF), forState: .Normal)
-        self.button!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+        self.button!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.button!.backgroundColor = WMColor.yellow
         self.button!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         self.button!.layer.cornerRadius = frame.size.height / 2
         //self.button!.layer.borderWidth = 1
@@ -44,7 +43,6 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.container!.addSubview(self.button!)
 
         //self.price = CurrencyCustomLabel(frame: CGRectMake(0, 0, 0, 14))
-        //self.price!.backgroundColor = WMColor.productAddToCartPriceSelect
         self.container!.backgroundColor = UIColor.clearColor()
         //self.container!.addSubview(self.price!)
         
@@ -62,7 +60,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.band!.layer.cornerRadius = frame.size.height / 2
         //self.band!.layer.borderWidth = 1
         //self.band!.layer.borderColor = WMColor.UIColorFromRGB(0xCCCCCC).CGColor
-        self.band!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+        self.band!.backgroundColor = WMColor.yellow
         self.band!.showsHorizontalScrollIndicator = false
         self.band!.showsVerticalScrollIndicator = false
         self.band!.delegate = self

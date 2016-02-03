@@ -142,8 +142,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         buttonContainer = UIView(frame: CGRectMake(0, 0, self.view.bounds.width, 45))
         self.view.addSubview(buttonContainer!)
         
-        self.headerView.backgroundColor = WMColor.headerViewBgCollor
-        self.buttonContainer!.backgroundColor = WMColor.tabBarBgColor
+        self.headerView.backgroundColor = WMColor.light_blue
+        self.buttonContainer!.backgroundColor = WMColor.light_blue
         self.btnSearch?.addTarget(self, action: "search:", forControlEvents: UIControlEvents.TouchUpInside)
         
         showBadge()

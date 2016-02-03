@@ -214,7 +214,7 @@ class ProductDetailColorSizeView: UIView {
         for view in self.viewToInsert!.subviews
         {
             view.layer.borderWidth = 0
-            view.layer.borderColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.8).CGColor
+            view.layer.borderColor = UIColor.whiteColor().CGColor
         }
     }
     

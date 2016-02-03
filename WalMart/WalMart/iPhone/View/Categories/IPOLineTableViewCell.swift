@@ -34,10 +34,10 @@ class IPOLineTableViewCell : UITableViewCell {
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(16)
-        titleLabel.textColor = WMColor.lineTextColor
+        titleLabel.textColor = WMColor.dark_gray
         
         separator = UIView()
-        separator.backgroundColor = WMColor.categoryLineSeparatorColor
+        separator.backgroundColor = WMColor.light_gray
         
         self.addSubview(self.viewBgSel!)
         self.addSubview(separator)

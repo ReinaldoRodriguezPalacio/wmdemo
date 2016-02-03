@@ -23,7 +23,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         labelTitle = UILabel(frame: CGRectMake(16, 13, self.frame.width - 32, 14))
         labelTitle.font = WMFont.fontMyriadProLightOfSize(14)
-        labelTitle.textColor = WMColor.shoppingCartBeforeLeaveTextColor
+        labelTitle.textColor = WMColor.orange
         labelTitle.text = NSLocalizedString("shoppingcart.beforeleave",comment:"")
         
         self.addSubview(labelTitle)

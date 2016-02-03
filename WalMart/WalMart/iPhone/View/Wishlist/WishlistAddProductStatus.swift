@@ -21,7 +21,7 @@ class WishlistAddProductStatus : UIView {
         super.init(frame: frame)
         
         viewBg = UIView(frame:CGRectMake(0, 0,320,48))
-        viewBg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        viewBg.backgroundColor = WMColor.light_blue
         self.addSubview(viewBg)
         
         textView = UILabel(frame:CGRectMake(0, 0, 320, 48))

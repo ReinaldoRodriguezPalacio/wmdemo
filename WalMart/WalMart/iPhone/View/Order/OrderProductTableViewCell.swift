@@ -45,7 +45,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         btnShoppingCart.addTarget(self, action: "addToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1))
-        separatorView.backgroundColor = WMColor.wishlistSeparatorBgColor
+        separatorView.backgroundColor = WMColor.light_gray
         
         
         upcString = UILabel(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 18,self.frame.width - productShortDescriptionLabel!.frame.minX, 12))

@@ -64,7 +64,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        separatorView.backgroundColor = WMColor.lineSaparatorColor
+        separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
         self.contentView.addSubview(productPriceSavingLabel)
@@ -99,7 +99,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         if saving.doubleValue > 0 {
             
@@ -148,7 +148,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                 let totalPrice = NSString(format: "%.2f", totalInProducts)
                 
                 let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
-                self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+                self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
                 
                 if self.savingProduct > 0 {
                     

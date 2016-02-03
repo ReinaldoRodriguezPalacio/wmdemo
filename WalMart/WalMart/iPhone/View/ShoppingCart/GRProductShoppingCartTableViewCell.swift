@@ -62,7 +62,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.contentView.addSubview(changeQuantity)
 
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        separatorView.backgroundColor = WMColor.lineSaparatorColor
+        separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
     }
@@ -103,7 +103,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
 
         changeQuantity.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         

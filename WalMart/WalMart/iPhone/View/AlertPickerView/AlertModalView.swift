@@ -55,11 +55,11 @@ class AlertModalView : UIView, UITextFieldDelegate {
     
     func addHeaderAndTitle(title:String){
         headerView = UIView(frame: CGRectMake(3, 3, viewContent.frame.width - 6, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
         let titleLabel = UILabel(frame: headerView.bounds)
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textColor =  WMColor.light_blue
         titleLabel.textAlignment = .Center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2

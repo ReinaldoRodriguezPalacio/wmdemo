@@ -117,11 +117,9 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
         //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
         //            var allButton = UIButton()
-        //            allButton.setTitleColor(WMColor.searchCategoriesAllColor , forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOff, forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOn, forState: UIControlState.Selected)
         //            allButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        //            allButton.titleLabel?.textColor = WMColor.searchCategoriesAllColor
         //            allButton.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
         //
         //            allButton.setTitle(NSLocalizedString("product.searh.all",  comment: ""), forState: UIControlState.Normal)
@@ -142,7 +140,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         titleView.text = NSLocalizedString("product.searh.shown.categories",comment:"")
         generic.addSubview(titleView)
         //        }
-        generic.backgroundColor =  WMColor.searchProductHeaderTableViewColor
+        generic.backgroundColor =  WMColor.light_light_gray
         return generic
     }
     

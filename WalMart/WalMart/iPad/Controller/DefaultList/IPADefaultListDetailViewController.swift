@@ -148,7 +148,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
             self.sharePopover!.delegate = self
-            self.sharePopover!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+            self.sharePopover!.backgroundColor = WMColor.light_blue
             let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
             

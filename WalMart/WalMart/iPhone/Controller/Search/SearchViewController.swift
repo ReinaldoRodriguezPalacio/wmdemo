@@ -55,7 +55,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
  
         viewTapClose = UIView()
         self.viewBackground = UIView()
-        self.viewBackground?.backgroundColor = WMColor.productAddToCartBg
+        self.viewBackground?.backgroundColor = WMColor.light_blue
         self.view.addSubview(self.viewBackground!)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:"handleTap:")
@@ -79,11 +79,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.view.addSubview(self.table!)
         
         self.header = UIView()
-        self.header?.backgroundColor = WMColor.searchProductHeaderViewColor
+        self.header?.backgroundColor = WMColor.dark_blue
         self.view.addSubview(self.header!)
         
         self.headerTable = UIView()
-        self.headerTable?.backgroundColor = WMColor.searchProductHeaderTableViewColor
+        self.headerTable?.backgroundColor = WMColor.light_light_gray
         
         self.resultLabel = UILabel()
         self.resultLabel!.backgroundColor = UIColor.clearColor()
@@ -106,7 +106,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //        self.labelHelpScan!.textAlignment = .Right
         //        self.labelHelpScan!.numberOfLines = 2
         //        self.labelHelpScan!.font = WMFont.fontMyriadProRegularOfSize(14)
-        //        self.labelHelpScan!.textColor = WMColor.searchProductFieldBarCodeColor
         //        self.labelHelpScan!.text = NSLocalizedString("product.searh.field.barcode",comment:"")
         //        self.labelHelpScan!.backgroundColor = UIColor.clearColor()
         
@@ -295,11 +294,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
         //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
         //            var allButton = UIButton()
-        //            allButton.setTitleColor(WMColor.searchCategoriesAllColor , forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOff, forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOn, forState: UIControlState.Selected)
         //            allButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        //            allButton.titleLabel?.textColor = WMColor.searchCategoriesAllColor
         //            allButton.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
         //
         //            allButton.setTitle(NSLocalizedString("product.searh.all",  comment: ""), forState: UIControlState.Normal)
@@ -320,7 +317,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         titleView.text = NSLocalizedString("product.searh.shown.categories",comment:"")
         generic.addSubview(titleView)
         //        }
-        generic.backgroundColor =  WMColor.searchProductHeaderTableViewColor
+        generic.backgroundColor =  WMColor.light_light_gray
         return generic
     }
     

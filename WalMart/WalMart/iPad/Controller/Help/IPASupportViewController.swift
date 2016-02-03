@@ -24,11 +24,11 @@ class IPASupportViewController: SupportViewController {
         
         let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
             attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(18),
-                NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
+                NSForegroundColorAttributeName:WMColor.light_blue])
         
         let attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
             attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldCondOfSize(18),
-                NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
+                NSForegroundColorAttributeName:WMColor.light_blue])
         
         let valuesDescItem = NSMutableAttributedString()
         valuesDescItem.appendAttributedString(attrStringLab)
@@ -45,12 +45,12 @@ class IPASupportViewController: SupportViewController {
         
         
         self.labelQuestion1!.font = WMFont.fontMyriadProLightOfSize(18)
-        self.labelQuestion1!.textColor = WMColor.loginProfileSaveBGColor
+        self.labelQuestion1!.textColor = WMColor.light_blue
         self.labelQuestion1!.backgroundColor = UIColor.clearColor()
         self.labelQuestion1!.textAlignment = .Center
         
         //self.labelQuestion2!.font = WMFont.fontMyriadProLightOfSize(18)
-        self.labelQuestion2!.textColor = WMColor.loginProfileSaveBGColor
+        self.labelQuestion2!.textColor = WMColor.light_blue
         self.labelQuestion2!.backgroundColor = UIColor.clearColor()
         self.labelQuestion2!.textAlignment = .Center
         

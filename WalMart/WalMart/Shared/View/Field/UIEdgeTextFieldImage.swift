@@ -33,7 +33,7 @@ class UIEdgeTextFieldImage : UITextField {
     
    func setup(){
         self.layer.cornerRadius = 5
-        self.backgroundColor =  WMColor.loginFieldBgColor
+        self.backgroundColor =  WMColor.light_light_gray
         self.font = WMFont.fontMyriadProRegularOfSize(14)
         imageIcon = UIImageView()
         imageIcon?.frame = CGRectMake (0 ,0, 45, 45 )

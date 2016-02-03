@@ -284,7 +284,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, atIndex: 0)
             
             let bg = UIView(frame: CGRectMake(0.0, 0.0, 320.0, 360.0))
-            bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+            bg.backgroundColor = WMColor.light_blue
             self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
             
             self.detailCollectionView.scrollEnabled = false

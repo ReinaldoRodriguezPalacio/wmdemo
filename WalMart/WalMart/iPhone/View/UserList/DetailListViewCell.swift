@@ -57,16 +57,16 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator = UIButton(type: .Custom)
         self.quantityIndicator!.setTitle("", forState: .Normal)
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
-        self.quantityIndicator!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Disabled)
+        self.quantityIndicator!.setTitleColor(WMColor.light_blue, forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.quantityIndicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14.0)
-        self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+        self.quantityIndicator!.backgroundColor = WMColor.yellow
         self.quantityIndicator!.addTarget(self, action: "changeQuantity", forControlEvents: .TouchUpInside)
         self.quantityIndicator!.layer.cornerRadius = 16.0
         self.contentView.addSubview(self.quantityIndicator!)
 
         self.separator = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        self.separator!.backgroundColor = WMColor.lineSaparatorColor
+        self.separator!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separator!)
         
         
@@ -80,7 +80,7 @@ class DetailListViewCell: ProductTableViewCell {
         var buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         self.rightUtilityButtons = [buttonDelete]
 
         buttonDelete = UIButton()
@@ -154,7 +154,7 @@ class DetailListViewCell: ProductTableViewCell {
             
             let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
             self.total = formatedPrice
-            self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+            self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             
         }
         else {
@@ -167,20 +167,20 @@ class DetailListViewCell: ProductTableViewCell {
         if let stock = product["stock"] as? NSString {
             if stock.integerValue == 0 {
                 self.quantityIndicator!.enabled = false
-                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+                self.quantityIndicator!.backgroundColor = WMColor.light_gray
             } else {
                 self.quantityIndicator!.enabled = true
-                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+                self.quantityIndicator!.backgroundColor = WMColor.yellow
             }
         }
         
         if let stock = product["stock"] as? Bool {
             if stock {
                 self.quantityIndicator!.enabled = true
-                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+                self.quantityIndicator!.backgroundColor = WMColor.yellow
             } else {
                 self.quantityIndicator!.enabled = false
-                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+                self.quantityIndicator!.backgroundColor = WMColor.light_gray
             }
         }
          checkDisabled(disabled)
@@ -238,7 +238,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator!.setTitle(text!, forState: .Normal)
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
         self.total = formatedPrice
-        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         checkDisabled(disabled)
     }
@@ -336,9 +336,9 @@ class DetailListViewCell: ProductTableViewCell {
             self.quantityIndicator?.backgroundColor = WMColor.light_light_gray
         } else {
             self.productShortDescriptionLabel!.textColor = WMColor.gray
-            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.productImage!.image = imageNormal
-            self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+            self.quantityIndicator!.backgroundColor = WMColor.yellow
         }
     }
 

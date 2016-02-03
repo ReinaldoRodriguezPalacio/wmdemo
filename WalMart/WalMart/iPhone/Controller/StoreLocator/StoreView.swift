@@ -60,12 +60,12 @@ class StoreView: UIView {
         
         self.titleLabel = UILabel(frame: CGRectMake(sep, sep, width, 17.0))
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.titleLabel!.textColor = WMColor.titleTextColor
+        self.titleLabel!.textColor = WMColor.light_blue
         self.addSubview(self.titleLabel!)
         
         self.distanceLabel = UILabel(frame: CGRectMake(sep, self.titleLabel!.frame.maxY, width, 12.0))
         self.distanceLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.distanceLabel!.textColor = WMColor.titleTextColor
+        self.distanceLabel!.textColor = WMColor.light_blue
         self.distanceLabel!.text = "A km"
         self.addSubview(self.distanceLabel!)
         
@@ -86,7 +86,7 @@ class StoreView: UIView {
         self.addSubview(self.phoneLabel!)
         
         self.footerView = UIView()
-        self.footerView!.backgroundColor = WMColor.navigationHeaderBgColor
+        self.footerView!.backgroundColor = WMColor.light_light_gray
         self.addSubview(self.footerView!)
         
         self.buttons = []

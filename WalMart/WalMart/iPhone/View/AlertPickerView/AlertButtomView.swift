@@ -30,7 +30,7 @@ class AlertButtomView : AlertPickerView {
         viewContent.clipsToBounds = true
         
         headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
         let viewButton = UIButton(frame: CGRectMake(10, 3, 40, 40))
@@ -39,7 +39,7 @@ class AlertButtomView : AlertPickerView {
         self.headerView.addSubview(viewButton)
         
         titleLabel = UILabel(frame: headerView.bounds)
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textColor =  WMColor.light_blue
         titleLabel.textAlignment = .Center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
@@ -50,7 +50,7 @@ class AlertButtomView : AlertPickerView {
      
        
         buttonGroceries = UIButton(frame: CGRectMake(0, 0, 210, 34))
-        buttonGroceries.backgroundColor = WMColor.UIColorFromRGB(0x28EBB37)
+        buttonGroceries.backgroundColor = WMColor.green
         buttonGroceries.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonGroceries.layer.cornerRadius = 17
         buttonGroceries.center = CGPointMake(self.viewContent.frame.width / 2, 34)
@@ -59,7 +59,7 @@ class AlertButtomView : AlertPickerView {
         
         
         buttonMG =  UIButton(frame: CGRectMake(0, buttonGroceries.frame.maxY + 50, 210, 34))
-        buttonMG.backgroundColor = WMColor.UIColorFromRGB(0x2870C9)
+        buttonMG.backgroundColor = WMColor.light_blue
         buttonMG.layer.cornerRadius = 17
         buttonMG.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonMG.center = CGPointMake (self.viewContent.frame.width / 2, buttonGroceries.frame.maxY + 20 )

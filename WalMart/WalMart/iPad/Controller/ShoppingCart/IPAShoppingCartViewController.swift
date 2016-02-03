@@ -23,7 +23,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.viewFooter.backgroundColor  =  WMColor.shoppingCartTotalBgColor
+        self.viewFooter.backgroundColor  =  WMColor.light_light_gray
         
         viewShoppingCart.registerClass(ProductShoppingCartTableViewCell.self, forCellReuseIdentifier: "productCell")
         
@@ -46,7 +46,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = WMColor.productDetailBarButtonBorder
+        viewSeparator.backgroundColor = WMColor.light_gray
         self.viewContent.addSubview(viewSeparator)
         
         

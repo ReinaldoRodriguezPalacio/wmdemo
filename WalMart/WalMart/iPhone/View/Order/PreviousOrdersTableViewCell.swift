@@ -36,7 +36,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         
         trackingNumberLabel = UILabel(frame: CGRectMake(103, 18, 130, 14))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        trackingNumberLabel.textColor = WMColor.previosOrderTrackingTextColor
+        trackingNumberLabel.textColor = WMColor.light_blue
         
         statusLabel = UILabel(frame: CGRectMake(self.bounds.width - 94, 18, 70, 14))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -44,7 +44,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         statusLabel.textAlignment = NSTextAlignment.Right
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = WMColor.productDetailBarButtonBorder
+        viewSeparator.backgroundColor = WMColor.light_gray
         self.viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.frame.maxY - AppDelegate.separatorHeigth(),self.frame.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
         self.addSubview(viewSeparator)
         

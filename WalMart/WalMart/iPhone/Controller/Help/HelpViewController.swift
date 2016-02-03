@@ -109,7 +109,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             cell!.setValues(NSLocalizedString("help.item.terms.qualifies", comment: ""),
                 font:WMFont.fontMyriadProLightOfSize(16),
                 numberOfLines: 2,
-                textColor: WMColor.lineTextColor,
+                textColor: WMColor.dark_gray,
                 padding: 12,
                 align:NSTextAlignment.Left)
             
@@ -121,7 +121,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
             cell!.setValues(NSLocalizedString("help.item.howto.tutorial", comment: ""),
                 font:WMFont.fontMyriadProLightOfSize(16),
                 numberOfLines: 2,
-                textColor: WMColor.lineTextColor,
+                textColor: WMColor.dark_gray,
                 padding: 12,
                 align:NSTextAlignment.Left)
             
@@ -133,7 +133,7 @@ class HelpViewController:  NavigationViewController,  UITableViewDelegate, UITab
         let item = self.array![0] as! NSDictionary
         let name = item["title"] as! String
         
-        cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.lineTextColor, padding: 12,align:NSTextAlignment.Left)
+        cell!.setValues(NSLocalizedString(name, comment: ""), font: WMFont.fontMyriadProLightOfSize(16), numberOfLines: 2, textColor: WMColor.dark_gray, padding: 12,align:NSTextAlignment.Left)
 
         return cell!
     }

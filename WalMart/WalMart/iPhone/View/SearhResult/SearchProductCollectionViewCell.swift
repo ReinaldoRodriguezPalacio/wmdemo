@@ -65,11 +65,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 44, self.bounds.maxY - 44 , 44 , 44)
        
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth() - 1, 0,AppDelegate.separatorHeigth(), self.frame.height ))
-        borderView.backgroundColor = WMColor.lineSaparatorColor
+        borderView.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderView)
         
         let borderViewTop = UIView(frame: CGRectMake(0, self.frame.height - AppDelegate.separatorHeigth() , self.frame.width,AppDelegate.separatorHeigth()))
-        borderViewTop.backgroundColor = WMColor.lineSaparatorColor
+        borderViewTop.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderViewTop)
         
         self.contentView.addSubview(addProductToShopingCart!)
@@ -96,7 +96,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
-        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.priceProductTextColor, interLine: false)
+        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
 
         
         var savingPrice = ""

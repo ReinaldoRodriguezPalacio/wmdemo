@@ -40,7 +40,7 @@ class SelectItemTableViewCell : UITableViewCell {
         self.showButton?.hidden = true
         self.showButton?.setTitle("ver", forState: UIControlState.Normal)
         self.showButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.showButton?.setTitleColor( WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+        self.showButton?.setTitleColor( WMColor.light_blue, forState: UIControlState.Normal)
         addSubview(showButton!)
         
     }

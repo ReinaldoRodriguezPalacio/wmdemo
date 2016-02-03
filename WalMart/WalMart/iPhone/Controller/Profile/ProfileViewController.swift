@@ -57,7 +57,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         signOutButton!.setTitle(NSLocalizedString("profile.signOut", comment: ""), forState: UIControlState.Normal)
         signOutButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         signOutButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        signOutButton!.backgroundColor = WMColor.loginSignOutButonBgColor
+        signOutButton!.backgroundColor = WMColor.dark_blue
         signOutButton?.addTarget(self, action: "signOut:", forControlEvents: .TouchUpInside)
         signOutButton!.layer.cornerRadius = 14.0
         self.viewProfile!.addSubview(self.signOutButton!)
@@ -150,11 +150,11 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
         //cell.selectionStyle = .None
         if indexPath.row == 0 {
-            cell.setValues(NSLocalizedString("profile.misarticulos", comment: ""), image: "topSales" , size:16 ,  colorText: WMColor.loginProfileTextColor, colorSeparate:  WMColor.loginProfileLineColor )
+            cell.setValues(NSLocalizedString("profile.misarticulos", comment: ""), image: "topSales" , size:16 ,  colorText: WMColor.light_blue, colorSeparate:  WMColor.light_gray )
         } else  if indexPath.row == 1 {
-            cell.setValues(NSLocalizedString("profile.myAddress", comment: ""), image: "myAddresses" , size:16 ,  colorText: WMColor.loginProfileTextColor, colorSeparate:  WMColor.loginProfileLineColor )
+            cell.setValues(NSLocalizedString("profile.myAddress", comment: ""), image: "myAddresses" , size:16 ,  colorText: WMColor.light_blue, colorSeparate:  WMColor.light_gray )
         } else if indexPath.row == 2 {
-            cell.setValues(NSLocalizedString("profile.myOrders", comment: ""), image: "myOrders" , size:16 ,  colorText: WMColor.loginProfileTextColor, colorSeparate:  WMColor.loginProfileLineColor )
+            cell.setValues(NSLocalizedString("profile.myOrders", comment: ""), image: "myOrders" , size:16 ,  colorText: WMColor.light_blue, colorSeparate:  WMColor.light_gray )
         }
         
         if cell.selectedBackgroundView != nil {

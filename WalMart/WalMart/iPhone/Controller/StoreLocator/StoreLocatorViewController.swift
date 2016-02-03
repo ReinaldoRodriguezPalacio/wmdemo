@@ -75,16 +75,16 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.segmentedView = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16,  150.0, 22.0))
         self.segmentedView.layer.borderWidth = 1
         self.segmentedView.layer.cornerRadius = 11
-        self.segmentedView.layer.borderColor = WMColor.addressSelectorColor.CGColor
+        self.segmentedView.layer.borderColor = WMColor.light_blue.CGColor
         
         let titleMap = NSLocalizedString("store.selector.map", comment:"")
         btnMapView = UIButton(frame: CGRectMake(1, 1, (self.segmentedView.frame.width / 2) - 1, self.segmentedView.frame.height - 2))
         btnMapView.setImage(UIImage(color: UIColor.whiteColor(), size: btnMapView.frame.size), forState: UIControlState.Normal)
-        btnMapView.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnMapView.frame.size), forState: UIControlState.Selected)
+        btnMapView.setImage(UIImage(color: WMColor.light_blue, size: btnMapView.frame.size), forState: UIControlState.Selected)
         btnMapView.setTitle(titleMap, forState: UIControlState.Normal)
         btnMapView.setTitle(titleMap, forState: UIControlState.Selected)
         btnMapView.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnMapView.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnMapView.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnMapView.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnMapView.selected = true
         btnMapView.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnMapView.frame.size.width + 1, 0, 0.0);
@@ -93,9 +93,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let titleSat = NSLocalizedString("store.selector.satelite", comment:"")
         btnSatView = UIButton(frame: CGRectMake(btnMapView.frame.maxX, 1, self.segmentedView.frame.width / 2, self.segmentedView.frame.height - 2))
         btnSatView.setImage(UIImage(color: UIColor.whiteColor(), size: btnMapView.frame.size), forState: UIControlState.Normal)
-        btnSatView.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnMapView.frame.size), forState: UIControlState.Selected)
+        btnSatView.setImage(UIImage(color: WMColor.light_blue, size: btnMapView.frame.size), forState: UIControlState.Selected)
         btnSatView.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnSatView.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnSatView.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSatView.setTitle(titleSat, forState: UIControlState.Normal)
         btnSatView.setTitle(titleSat, forState: UIControlState.Selected)
         btnSatView.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -150,7 +150,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.toggleViewBtn?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
         self.toggleViewBtn?.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.toggleViewBtn!.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
-        self.toggleViewBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.toggleViewBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.toggleViewBtn!.addTarget(self, action: "showTableView:", forControlEvents: .TouchUpInside)
         self.toggleViewBtn!.backgroundColor = UIColor.clearColor()
         self.header!.addSubview(self.toggleViewBtn!)

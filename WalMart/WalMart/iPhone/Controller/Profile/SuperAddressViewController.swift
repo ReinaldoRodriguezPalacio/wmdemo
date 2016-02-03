@@ -35,7 +35,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.hidden = true
@@ -45,7 +45,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.saveButtonBottom = WMRoundButton()
         self.saveButtonBottom?.setFontTitle(WMFont.fontMyriadProRegularOfSize(13))
-        self.saveButtonBottom?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(98, 34), forUIControlState: UIControlState.Normal)
+        self.saveButtonBottom?.setBackgroundColor(WMColor.green, size: CGSizeMake(98, 34), forUIControlState: UIControlState.Normal)
         self.saveButtonBottom!.setTitle(NSLocalizedString("profile.save", comment:"" ).capitalizedString , forState: UIControlState.Normal)
         self.saveButtonBottom!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButtonBottom!.tag = 1

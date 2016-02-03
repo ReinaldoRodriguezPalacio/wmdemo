@@ -30,7 +30,7 @@ class IPAShoppingCartTotalView : UIView {
     }
     
     func setup() {
-        backgroundColor = WMColor.shoppingCartTotalBgColor
+        backgroundColor = WMColor.light_light_gray
         
         let xPoint : CGFloat = 100
         

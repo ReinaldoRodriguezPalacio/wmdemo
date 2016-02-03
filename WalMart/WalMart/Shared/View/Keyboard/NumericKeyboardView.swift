@@ -90,7 +90,7 @@ class NumericKeyboardView : UIView {
             btnNumber.setTitle(txtButton, forState: UIControlState.Normal)
             
             btnNumber.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            btnNumber.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Highlighted)
+            btnNumber.setTitleColor(WMColor.light_blue, forState: UIControlState.Highlighted)
             
             btnNumber.setImage(imageNotSelected, forState: UIControlState.Normal)
             btnNumber.setImage(imageSelected, forState: UIControlState.Highlighted)
