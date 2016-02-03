@@ -44,7 +44,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         statusLabel.textAlignment = NSTextAlignment.Right
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = WMColor.productDetailBarButtonBorder
+        viewSeparator.backgroundColor = WMColor.light_gray
         self.viewSeparator.frame = CGRectMake(dateLabel.frame.minX,self.frame.maxY - AppDelegate.separatorHeigth(),self.frame.width - dateLabel.frame.minX,AppDelegate.separatorHeigth())
         self.addSubview(viewSeparator)
         

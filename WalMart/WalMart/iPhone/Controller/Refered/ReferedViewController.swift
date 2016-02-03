@@ -36,7 +36,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         self.titleLabel?.text = NSLocalizedString("refered.title", comment: "")
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(layerLine, atIndex: 0)
         
         referedTable = UITableView()
@@ -291,12 +291,12 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 {
                     self.alertView!.setMessage(messageResult)
                     self.alertView!.showicon(UIImage(named: "alerta_listo"))
-                    self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                    self.alertView!.showOkButton("OK", colorButton: WMColor.green)
 
                 }else if codeMessage == -1 {
                     self.alertView!.setMessage(messageResult)
                     self.alertView!.showicon(UIImage(named: "alerta_repetir"))
-                    self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                    self.alertView!.showOkButton("OK", colorButton: WMColor.green)
                 }
                 
                 self.pendingRefered =  []
@@ -310,7 +310,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
                 print("Error AddRefered")
                 self.alertView!.setMessage(NSLocalizedString("refered.add.error", comment: ""))
                 self.alertView!.showicon(UIImage(named: "alerta_fail"))
-                self.alertView!.showOkButton("OK", colorButton: WMColor.productAddToCartGoToShoppingBg)
+                self.alertView!.showOkButton("OK", colorButton: WMColor.green)
             })
     }
     

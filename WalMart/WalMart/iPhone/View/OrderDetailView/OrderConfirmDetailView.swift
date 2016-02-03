@@ -110,7 +110,7 @@ class OrderConfirmDetailView : UIView {
         lblTitleTrackingNumber.font = WMFont.fontMyriadProRegularOfSize(14)
         lblTitleTrackingNumber.text = NSLocalizedString("gr.confirma.trakingnum",comment: "")
         lblTitleTrackingNumber.textAlignment = .Center
-        lblTitleTrackingNumber.textColor = WMColor.lineTextColor
+        lblTitleTrackingNumber.textColor = WMColor.dark_gray
         lblTitleTrackingNumber.hidden = true
         
         
@@ -357,7 +357,7 @@ class OrderConfirmDetailView : UIView {
     func labelTitle(frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(12)
-        labelTitleItem.textColor = WMColor.confirmTitleItem
+        labelTitleItem.textColor = WMColor.light_blue
         return labelTitleItem
     }
     

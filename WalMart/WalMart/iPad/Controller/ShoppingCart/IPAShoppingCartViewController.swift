@@ -46,7 +46,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = WMColor.productDetailBarButtonBorder
+        viewSeparator.backgroundColor = WMColor.light_gray
         self.viewContent.addSubview(viewSeparator)
         
         

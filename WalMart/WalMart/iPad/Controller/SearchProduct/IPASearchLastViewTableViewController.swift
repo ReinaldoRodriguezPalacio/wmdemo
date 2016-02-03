@@ -140,7 +140,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         titleView.text = NSLocalizedString("product.searh.shown.categories",comment:"")
         generic.addSubview(titleView)
         //        }
-        generic.backgroundColor =  WMColor.searchProductHeaderTableViewColor
+        generic.backgroundColor =  WMColor.light_light_gray
         return generic
     }
     

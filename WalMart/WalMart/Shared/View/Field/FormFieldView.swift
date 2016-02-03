@@ -29,7 +29,7 @@ class FormFieldView : UIEdgeTextField {
     
     let textBorderOn = WMColor.light_blue.CGColor
     let textBorderOff = UIColor.whiteColor().CGColor
-    let textBorderError = WMColor.profileErrorColor.CGColor
+    let textBorderError = WMColor.red.CGColor
     
     var isRequired : Bool = false 
     var nameField : String!
@@ -92,7 +92,7 @@ class FormFieldView : UIEdgeTextField {
         if(self.isRequired){
             str = "*" + placeholder
         }
-        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.light_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
     func setSelectedCheck( isCheck: Bool){

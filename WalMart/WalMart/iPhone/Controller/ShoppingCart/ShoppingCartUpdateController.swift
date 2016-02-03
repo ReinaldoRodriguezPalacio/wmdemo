@@ -481,7 +481,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             keepShoppingButton.layer.cornerRadius = 20
             keepShoppingButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), forState: UIControlState.Normal)
             keepShoppingButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            keepShoppingButton.backgroundColor = WMColor.productAddToCartKeepShoppingBg
+            keepShoppingButton.backgroundColor = WMColor.dark_blue
             keepShoppingButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             keepShoppingButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
             keepShoppingButton.addTarget(self, action: "keepShopping", forControlEvents: UIControlEvents.TouchUpInside)
@@ -489,7 +489,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             goToShoppingCartButton = UIButton(frame:CGRectMake(keepShoppingButton.frame.maxX + 11, keepShoppingButton.frame.minY,keepShoppingButton.frame.width, keepShoppingButton.frame.height))
             goToShoppingCartButton.layer.cornerRadius = 20
             goToShoppingCartButton.setTitle(NSLocalizedString("shoppingcart.goshoppingcart",comment:""), forState: UIControlState.Normal)
-            goToShoppingCartButton.backgroundColor = WMColor.productAddToCartGoToShoppingBg
+            goToShoppingCartButton.backgroundColor = WMColor.green
             goToShoppingCartButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             goToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
             goToShoppingCartButton.addTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)

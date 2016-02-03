@@ -88,7 +88,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         let keyboard = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantity.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
         //289
-        keyboard.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboard.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
         keyboard.delegate = self
         
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
@@ -96,7 +96,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
-        btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         

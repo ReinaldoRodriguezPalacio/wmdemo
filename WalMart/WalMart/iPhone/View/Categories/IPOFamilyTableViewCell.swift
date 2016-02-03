@@ -36,7 +36,7 @@ class IPOFamilyTableViewCell : UITableViewCell {
         titleLabel.textColor = WMColor.light_blue
         
         separator = UIView()
-        separator.backgroundColor = WMColor.lineSaparatorColor
+        separator.backgroundColor = WMColor.light_light_gray
         
         self.addSubview(self.viewBgSel!)
         self.addSubview(separator)

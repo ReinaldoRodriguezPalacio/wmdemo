@@ -43,11 +43,11 @@ class ShoppingCartButton : UIButton {
         
 
         if aviable {
-            self.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+            self.backgroundColor = WMColor.yellow
             self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         } else {
-            self.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+            self.backgroundColor = WMColor.yellow
             self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         }

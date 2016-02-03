@@ -81,7 +81,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         else {
 //            self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
 //            self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-//            self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
 //            self.saveButton!.layer.cornerRadius = 4.0
             self.content?.addSubview(self.saveButton!)
         }
@@ -231,7 +230,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalPersonButton!.titleLabel?.textColor = WMColor.gray
             addressFiscalPersonButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
-            addressFiscalPersonButton!.setTitleColor(WMColor.loginTypePersonDisabled, forState: UIControlState.Disabled)
+            addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             addressFiscalPersonButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
             addressFiscalMoralButton = UIButton()
@@ -242,7 +241,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalMoralButton!.titleLabel?.textColor = WMColor.gray
             addressFiscalMoralButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
-            addressFiscalMoralButton!.setTitleColor(WMColor.loginTypePersonDisabled, forState: UIControlState.Disabled)
+            addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             addressFiscalMoralButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
             if typeAddress == TypeAddress.FiscalMoral{
@@ -273,10 +272,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             viewButton!.addSubview(addressFiscalMoralButton!)
             
             self.viewTypeAdressFiscal!.addSubview(titleLabel!)
-        
-            /*let lineView = UIView(frame:CGRectMake(0,0, self.view.bounds.width, 1))
-            lineView.backgroundColor = WMColor.loginProfileLineColor
-            self.viewTypeAdressFiscal!.addSubview(lineView)*/
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
             titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )

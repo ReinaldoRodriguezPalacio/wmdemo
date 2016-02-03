@@ -43,7 +43,7 @@ class IPOGroceriesView : UIView {
         gotoGroceries.setTitle( NSLocalizedString("home.gotosuper",comment:""), forState: UIControlState.Normal)
         gotoGroceries.addTarget(self, action: "openGroceriesApp", forControlEvents: UIControlEvents.TouchUpInside)
         gotoGroceries.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        gotoGroceries.backgroundColor = WMColor.gotosuperBgColor
+        gotoGroceries.backgroundColor = WMColor.green
         gotoGroceries.layer.cornerRadius = gotoGroceries.frame.height / 2
         self.addSubview(gotoGroceries)
         

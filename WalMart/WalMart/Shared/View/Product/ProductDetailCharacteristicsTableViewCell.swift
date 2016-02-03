@@ -32,7 +32,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
         descLabel = UIView()
         
         downBorder = UIView(frame: CGRectZero)
-        downBorder.backgroundColor = WMColor.lineSaparatorColor
+        downBorder.backgroundColor = WMColor.light_light_gray
         self.addSubview(downBorder)
         self.addSubview(descLabel)
     }

@@ -159,9 +159,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.saveButton = WMRoundButton()
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton?.tintColor = WMColor.navigationFilterTextColor
+        self.saveButton?.tintColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
+        self.saveButton?.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0

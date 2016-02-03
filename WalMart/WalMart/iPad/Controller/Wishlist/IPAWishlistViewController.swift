@@ -52,7 +52,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         articlesWishlist.font = WMFont.fontMyriadProRegularOfSize(14)
         articlesWishlist.textColor = UIColor.whiteColor()
         
-        buyWishlist.backgroundColor = WMColor.shoppingCartShopBgColor
+        buyWishlist.backgroundColor = WMColor.green
         buyWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buyWishlist.layer.cornerRadius = self.buyWishlist.frame.height / 2
         buyWishlist.addTarget(self, action: "senditemsToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
@@ -71,7 +71,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         self.view.addSubview(titleLabel)
         
         let borderBottom = UIView(frame: CGRectMake(0, self.wishlist.frame.maxY ,self.view.frame.width, AppDelegate.separatorHeigth() ))
-        borderBottom.backgroundColor = WMColor.lineSaparatorColor
+        borderBottom.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(borderBottom)
         
 
@@ -85,7 +85,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         
         deleteAllWishlist.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
-        deleteAllWishlist.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        deleteAllWishlist.backgroundColor = WMColor.red
         deleteAllWishlist.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         deleteAllWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteAllWishlist.layer.cornerRadius = 11
@@ -161,7 +161,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         if isEditingWishList {
             editWishlist.selected = true
             editWishlist.backgroundColor = WMColor.green
-            editWishlist.tintColor = WMColor.wishlistEndEditButtonBgColor
+            editWishlist.tintColor = WMColor.dark_blue
             if self.items.count > 0 {
                 self.wishlist.reloadData()
             }

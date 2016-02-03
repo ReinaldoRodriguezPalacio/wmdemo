@@ -493,7 +493,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let footerHeight:CGFloat = 60.0
         self.buttonShop = UIButton(type: .Custom) as UIButton
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
-        self.buttonShop!.backgroundColor = WMColor.shoppingCartShopBgColor
+        self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
         self.buttonShop!.addTarget(self, action: "shopButtonTaped", forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)

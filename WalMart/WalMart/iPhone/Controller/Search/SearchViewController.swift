@@ -79,11 +79,11 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.view.addSubview(self.table!)
         
         self.header = UIView()
-        self.header?.backgroundColor = WMColor.searchProductHeaderViewColor
+        self.header?.backgroundColor = WMColor.dark_blue
         self.view.addSubview(self.header!)
         
         self.headerTable = UIView()
-        self.headerTable?.backgroundColor = WMColor.searchProductHeaderTableViewColor
+        self.headerTable?.backgroundColor = WMColor.light_light_gray
         
         self.resultLabel = UILabel()
         self.resultLabel!.backgroundColor = UIColor.clearColor()
@@ -106,7 +106,6 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //        self.labelHelpScan!.textAlignment = .Right
         //        self.labelHelpScan!.numberOfLines = 2
         //        self.labelHelpScan!.font = WMFont.fontMyriadProRegularOfSize(14)
-        //        self.labelHelpScan!.textColor = WMColor.searchProductFieldBarCodeColor
         //        self.labelHelpScan!.text = NSLocalizedString("product.searh.field.barcode",comment:"")
         //        self.labelHelpScan!.backgroundColor = UIColor.clearColor()
         
@@ -318,7 +317,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         titleView.text = NSLocalizedString("product.searh.shown.categories",comment:"")
         generic.addSubview(titleView)
         //        }
-        generic.backgroundColor =  WMColor.searchProductHeaderTableViewColor
+        generic.backgroundColor =  WMColor.light_light_gray
         return generic
     }
     

@@ -148,13 +148,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboard = WeightKeyboardView(frame:CGRectMake((self.frame.width / 2) - (289/2), lblQuantityW.frame.maxY + 20, 289, 196))
-        keyboard.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboard.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
         keyboard.delegate = self
 
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY  , 142, 36))
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
-        btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
@@ -237,14 +237,14 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         backToW.addTarget(self, action: "backToWeight", forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboardN = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardN.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboardN.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
         keyboardN.delegate = self
         
         btnOkAddN = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
         //btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
-        btnOkAddN.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAddN.backgroundColor = WMColor.green
         btnOkAddN.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.updateShoppButtonN()
@@ -299,7 +299,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         lblQuantityP.alpha = 0
         
         keyboardP = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardP.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboardP.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
         keyboardP.delegate = self
         keyboardP.alpha = 0
         

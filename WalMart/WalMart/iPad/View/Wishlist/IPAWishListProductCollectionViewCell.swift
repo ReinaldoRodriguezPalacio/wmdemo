@@ -49,7 +49,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.contentView.addSubview(self.deleteProduct)
         
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth(), 0,AppDelegate.separatorHeigth(), self.frame.height ))
-        borderView.backgroundColor = WMColor.lineSaparatorColor
+        borderView.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderView)
         self.contentView.addSubview(addProductToShopingCart!)
         self.contentView.addSubview(productPriceThroughLabel!)
@@ -66,7 +66,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool ) {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         //let formatedPrice = CurrencyCustomLabel.formatString(productPriceThrough)
-        //productPriceThroughLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        //productPriceThroughLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         self.upc = upc
         self.desc = productShortDescription

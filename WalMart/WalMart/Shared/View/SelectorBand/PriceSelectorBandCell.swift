@@ -18,7 +18,7 @@ class PriceSelectorBandCell: SelectorBandCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        self.label!.textColor =  WMColor.UIColorFromRGB(0xFFFFFF)
+        self.label!.textColor = UIColor.whiteColor()
     }
 
 }

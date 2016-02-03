@@ -50,7 +50,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
     func setup() {
     
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.layer.insertSublayer(layerLine, atIndex: 0)
         
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)
@@ -173,7 +173,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.saveButton!.setTitle("Guardar", forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(saveButton!)

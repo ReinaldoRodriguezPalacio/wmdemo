@@ -150,7 +150,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.toggleViewBtn?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
         self.toggleViewBtn?.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.toggleViewBtn!.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
-        self.toggleViewBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.toggleViewBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.toggleViewBtn!.addTarget(self, action: "showTableView:", forControlEvents: .TouchUpInside)
         self.toggleViewBtn!.backgroundColor = UIColor.clearColor()
         self.header!.addSubview(self.toggleViewBtn!)

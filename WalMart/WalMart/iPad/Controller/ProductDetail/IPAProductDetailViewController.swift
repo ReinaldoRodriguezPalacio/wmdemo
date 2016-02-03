@@ -112,7 +112,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tabledetail.separatorStyle = UITableViewCellSeparatorStyle.None
         
         let separator = UIView(frame: CGRectMake(tabledetail.frame.minX, headerView.frame.maxY,1, self.view.bounds.height))
-        separator.backgroundColor = WMColor.lineSaparatorColor
+        separator.backgroundColor = WMColor.light_light_gray
         
         //NSNotificationCenter.defaultCenter().postNotificationName(IPACustomBarNotification.HideBar.toRaw(), object: nil)
         
@@ -323,7 +323,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,3) :
             let cellPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
             let formatedValue = CurrencyCustomLabel.formatString(self.price)
-            cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.priceDetailProductTextColor, interLine: false)
+            cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.orange, interLine: false)
             cell = cellPrice
         case (0,4) :
             if self.saving != ""{
@@ -357,7 +357,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 let msiText = NSLocalizedString("productdetail.msitext",comment:"")
-                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productProductPromotionsTextColor, padding: 12,align:NSTextAlignment.Left)
+                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 12,align:NSTextAlignment.Left)
                 cell = cellPromotion
             }else {
                 return cellForPoint((indexPath.section,2),indexPath: indexPath)

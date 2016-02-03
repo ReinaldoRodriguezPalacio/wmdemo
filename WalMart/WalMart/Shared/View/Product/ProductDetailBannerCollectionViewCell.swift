@@ -105,7 +105,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         } else {
             self.price.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(price))"
-            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceDetailProductTextColor, interLine: false)
+            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         }
         
         if listPrice == "" || (listPrice as NSString).doubleValue == 0 || (price as NSString).doubleValue >= (listPrice as NSString).doubleValue  {

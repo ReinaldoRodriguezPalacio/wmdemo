@@ -184,9 +184,6 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             self.titleLabel.textColor = UIColor.whiteColor()
         }
         
-        /*self.lineView = UIView()
-        self.lineView!.backgroundColor = WMColor.loginProfileLineColor*/
-        
         self.addSubview(viewAddress!)
         
         self.preferedLabel!.font = WMFont.fontMyriadProRegularOfSize(14)

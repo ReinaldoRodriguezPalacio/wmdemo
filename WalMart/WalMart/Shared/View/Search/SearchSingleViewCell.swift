@@ -75,7 +75,7 @@ class SearchSingleViewCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         var color : UIColor!
         if highlighted == true {
-            color = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1)
+            color = UIColor.whiteColor()
         }else{
             color = UIColor.clearColor()
         }

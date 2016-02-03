@@ -48,7 +48,7 @@ class IPOCategoryView : CategoryView {
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
         separator = UIView()
-        separator.backgroundColor = WMColor.categoryLineSeparatorColor
+        separator.backgroundColor = WMColor.light_gray
         
         
         self.addSubview(auxiliarBgView)

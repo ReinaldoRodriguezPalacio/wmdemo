@@ -66,7 +66,7 @@ class DefaultListTableViewCell : UITableViewCell {
         self.addSubview(self.priceView)
         
         self.separator = UIView(frame:CGRectMake(nameView!.frame.minX, 108,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth()))
-        self.separator!.backgroundColor = WMColor.lineSaparatorColor
+        self.separator!.backgroundColor = WMColor.light_light_gray
         self.addSubview(self.separator!)
 
 

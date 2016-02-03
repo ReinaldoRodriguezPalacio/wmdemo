@@ -43,7 +43,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         addButton.backgroundColor = WMColor.green
         addButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
-        keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
         keyboardView.delegate = self
         
         
@@ -51,7 +51,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         addButton.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
-        addButton.backgroundColor = WMColor.productAddToCartPriceSelect
+        addButton.backgroundColor = WMColor.green
         addButton.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         

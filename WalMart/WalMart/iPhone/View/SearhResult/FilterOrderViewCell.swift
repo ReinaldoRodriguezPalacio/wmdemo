@@ -137,7 +137,7 @@ class FilterOrderViewCell: UITableViewCell {
         let button = UIButton(type: .Custom)
         button.setTitle(NSLocalizedString(type.rawValue, comment:""), forState: .Normal)
         button.setTitleColor(WMColor.light_blue, forState: .Normal)
-        button.setTitleColor(WMColor.navigationFilterTextColor, forState: .Selected)
+        button.setTitleColor(UIColor.whiteColor(), forState: .Selected)
         button.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         button.layer.cornerRadius = self.BUTTON_HEIGHT/2
         button.layer.borderWidth = 1.0

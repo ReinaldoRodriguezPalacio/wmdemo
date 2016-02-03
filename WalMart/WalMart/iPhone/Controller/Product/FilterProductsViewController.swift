@@ -84,7 +84,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.removeButton!.setBackgroundImage(iconImage, forState: .Normal)
         self.removeButton!.setBackgroundImage(iconSelected, forState: .Selected)
         self.removeButton!.setTitle(NSLocalizedString("filter.button.clean", comment:""), forState: .Normal)
-        self.removeButton!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.removeButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.removeButton!.addTarget(self, action: "removeFilters", forControlEvents: .TouchUpInside)
         self.removeButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.removeButton!.hidden = true

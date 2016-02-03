@@ -78,7 +78,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         
         viewFooter = UIView(frame: CGRectMake(0, self.view.bounds.height - 72 , self.view.bounds.width, 72))
-        viewFooter.backgroundColor = WMColor.shoppingCartFooter
+        viewFooter.backgroundColor = UIColor.whiteColor()
         viewFooter.alpha = 0
         
         
@@ -92,7 +92,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         buttonShare.addTarget(self, action: "shareShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         buttonShop = UIButton(frame: CGRectMake(buttonShare.frame.maxX + 8, (viewFooter.frame.height / 2) - 17, self.view.frame.width - buttonShare.frame.maxX - 24, 34))
-        buttonShop.backgroundColor = WMColor.shoppingCartShopBgColor
+        buttonShop.backgroundColor = WMColor.green
         buttonShop.layer.cornerRadius = 17
         buttonShop.addTarget(self, action: "showshoppingcart", forControlEvents: UIControlEvents.TouchUpInside)
         buttonShop.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
@@ -116,7 +116,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 80, 12, 75, 22))
         deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
-        deleteall.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        deleteall.backgroundColor = WMColor.red
         deleteall.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteall.layer.cornerRadius = 11
@@ -519,7 +519,6 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             }
             editButton.selected = true
             editButton.backgroundColor = WMColor.green
-            //editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
             
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -639,7 +638,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 80, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -652,7 +651,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 80, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn

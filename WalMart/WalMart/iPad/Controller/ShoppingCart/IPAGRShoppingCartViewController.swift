@@ -51,7 +51,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
         viewSeparator = UIView(frame: CGRectZero)
-        viewSeparator.backgroundColor = WMColor.lineSaparatorColor
+        viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
     }
     

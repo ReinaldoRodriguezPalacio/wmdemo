@@ -66,7 +66,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         self.keyboardView = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantity.frame.maxY + 10, 160, 196))
         //289
-        self.keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        self.keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
         self.keyboardView.delegate = self
         
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, self.keyboardView.frame.maxY + 15 , 142, 36))
@@ -76,7 +76,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
-        btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         var rectSize = CGRectZero

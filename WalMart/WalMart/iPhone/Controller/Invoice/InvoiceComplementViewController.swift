@@ -168,7 +168,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.finishButton!.setTitle("Finalizar", forState:.Normal)
         self.finishButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.finishButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.finishButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.finishButton!.backgroundColor = WMColor.green
         self.finishButton!.layer.cornerRadius = 20
         self.finishButton!.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(finishButton!)

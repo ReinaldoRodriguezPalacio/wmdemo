@@ -85,7 +85,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn = UIButton(type: .Custom)
         self.newListBtn!.setTitle(NSLocalizedString("list.new", comment:""), forState: .Normal)
         self.newListBtn!.setTitle(NSLocalizedString("list.endnew", comment:""), forState: .Selected)
-        self.newListBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.newListBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.newListBtn!.setTitleColor(WMColor.light_blue, forState: .Selected)
         self.newListBtn!.addTarget(self, action: "showNewListField", forControlEvents: .TouchUpInside)
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -117,7 +117,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.searchField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = WMColor.lineSaparatorColor
+        viewSeparator.backgroundColor = WMColor.light_light_gray
         
         self.searchContainer!.addSubview(viewSeparator)
         self.searchContainer!.addSubview(searchField!)
@@ -459,7 +459,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }, completion: { (complete:Bool) -> Void in
                         self.hideSearchField({
                             }, atFinished: { () -> Void in
-                                self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0xE3E3E5)
+                                self.newListBtn!.backgroundColor = WMColor.light_gray
                                 
                                 CATransaction.begin()
                                 CATransaction.setCompletionBlock({ () -> Void in

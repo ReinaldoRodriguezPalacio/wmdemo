@@ -39,7 +39,7 @@ class ReferedTableViewCell : UITableViewCell {
         countLabel.textColor = WMColor.light_blue
         
         separator = CALayer()
-        separator.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        separator.backgroundColor = WMColor.light_light_gray.CGColor
         
         self.addSubview(self.viewBgSel!)
         self.addSubview(self.countLabel)

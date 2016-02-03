@@ -84,7 +84,7 @@ class AddressViewCell: SWTableViewCell {
         self.addressID = addressID
         
         if isViewLine{
-            viewLine.backgroundColor = WMColor.loginProfileLineColor
+            viewLine.backgroundColor = WMColor.light_gray
         }else{
             viewLine.backgroundColor = UIColor.clearColor()
         }

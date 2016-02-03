@@ -75,7 +75,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
         self.editBtn!.setBackgroundImage(iconImage, forState: .Normal)
         self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
-        self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.editBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.editBtn!.layer.cornerRadius = 11
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.editBtn!.backgroundColor = WMColor.light_blue
@@ -86,7 +86,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         self.deleteAllBtn = UIButton(type: .Custom)
         self.deleteAllBtn!.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: .Normal)
-        self.deleteAllBtn!.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        self.deleteAllBtn!.backgroundColor = WMColor.red
         self.deleteAllBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.deleteAllBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.deleteAllBtn!.layer.cornerRadius = 11
@@ -104,7 +104,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.tableView!.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
 
-        self.footerSection!.backgroundColor = WMColor.shoppingCartFooter
+        self.footerSection!.backgroundColor = UIColor.whiteColor()
         
         
         let y = (self.footerSection!.frame.height - 34.0)/2
@@ -125,7 +125,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         x = self.shareButton!.frame.maxX + 16.0
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
-        self.addToCartButton!.backgroundColor = WMColor.shoppingCartShopBgColor
+        self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
         self.addToCartButton!.addTarget(self, action: "addListToCart", forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.addToCartButton!)
@@ -1197,7 +1197,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         containerEditName?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 64)
         
         let separator = UIView(frame:CGRectMake(0, containerEditName!.frame.height - AppDelegate.separatorHeigth(), self.view.frame.width, AppDelegate.separatorHeigth()))
-        separator.backgroundColor = WMColor.lineSaparatorColor
+        separator.backgroundColor = WMColor.light_light_gray
         
         self.nameField = FormFieldView()
         self.nameField!.maxLength = 100

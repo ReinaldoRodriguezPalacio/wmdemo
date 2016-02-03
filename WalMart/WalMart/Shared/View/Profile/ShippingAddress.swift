@@ -55,14 +55,10 @@ class ShippingAddress: AddressView {
             self.titleLabelShiping.textColor = UIColor.whiteColor()
         }
         
-        //self.lineViewShiping = UIView()
-        //self.lineViewShiping!.backgroundColor = WMColor.loginProfileLineColor
-        
         self.addSubview(name!)
         self.addSubview(lastName!)
         self.addSubview(telephone!)
         self.addSubview(titleLabelShiping!)
-        //self.addSubview(lineViewShiping!)
         
        
     }

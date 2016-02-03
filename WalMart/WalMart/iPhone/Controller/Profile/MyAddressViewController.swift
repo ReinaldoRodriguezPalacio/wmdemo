@@ -327,7 +327,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 46))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -384,9 +384,6 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             titleView.text = NSLocalizedString("profile.shipping", comment: "")
         }
         else{
-            /*let lineView = UIView(frame:CGRectMake(0,0,generic.frame.width,1))
-            lineView.backgroundColor = WMColor.loginProfileLineColor
-            generic.addSubview(lineView)*/
             titleView.text = NSLocalizedString("profile.fiscal", comment: "")
         }
         generic.addSubview(titleView)

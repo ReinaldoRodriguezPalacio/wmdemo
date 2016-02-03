@@ -45,7 +45,7 @@ class IPAGRLoginUserOrderView : UIView {
         
         
         btnLogin = UIButton(frame: CGRectZero)
-        btnLogin.backgroundColor = WMColor.shoppingCartShopBgColor
+        btnLogin.backgroundColor = WMColor.green
         btnLogin.layer.cornerRadius = 20
         btnLogin.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
         btnLogin.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)

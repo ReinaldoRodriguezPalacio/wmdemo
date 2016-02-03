@@ -49,7 +49,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
                 self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Selected)
                 self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-                self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+                self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
                 
             }
         }
@@ -138,7 +138,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton = UIButton()
         self.addToShoppingCartButton.frame = CGRectMake(facebookButton.frame.maxX + 12, (self.frame.height / 2) - 17, 102, 34)
         self.addToShoppingCartButton!.layer.cornerRadius = 17
-        self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+        self.addToShoppingCartButton!.backgroundColor = WMColor.yellow
         self.addToShoppingCartButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -152,10 +152,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.addTarget(self, action: "addProductToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         let upBorder = UIView(frame: CGRectMake(0, 0, self.frame.width, AppDelegate.separatorHeigth()))
-        upBorder.backgroundColor = WMColor.lineSaparatorColor
+        upBorder.backgroundColor = WMColor.light_light_gray
         
         let downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
-        downBorder.backgroundColor = WMColor.lineSaparatorColor
+        downBorder.backgroundColor = WMColor.light_light_gray
         
         self.addSubview(upBorder)
         self.addSubview(downBorder)
@@ -232,7 +232,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Selected)
         self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         
-        self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+        self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
         
     }
     
@@ -246,7 +246,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Selected)
             self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
             
-            self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+            self.addToShoppingCartButton!.backgroundColor = WMColor.light_gray
             
         }
     }
@@ -255,7 +255,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         let buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
         
-        let buttonColor = hasDetailOptions ? WMColor.light_blue : isAviableToShoppingCart ? WMColor.productDetailShoppingCartBtnBGColor : WMColor.productDetailShoppingCartNDBtnBGColor
+        let buttonColor = hasDetailOptions ? WMColor.light_blue : isAviableToShoppingCart ? WMColor.yellow : WMColor.light_gray
         
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)

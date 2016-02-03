@@ -102,7 +102,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         descLabel!.addGestureRecognizer(tapOnMore)
         
         let separator = UIView()
-        separator.backgroundColor = WMColor.lineSaparatorColor
+        separator.backgroundColor = WMColor.light_light_gray
         let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
         separator.frame = CGRectMake(0, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
         

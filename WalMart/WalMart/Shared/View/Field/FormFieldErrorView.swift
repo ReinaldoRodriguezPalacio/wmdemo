@@ -26,7 +26,7 @@ class FormFieldErrorView: UIView {
     
     func setup(){
         viewError = UIView()
-        self.viewError!.backgroundColor = WMColor.profileErrorColor
+        self.viewError!.backgroundColor = WMColor.red
         self.viewError!.alpha = 0.9
         
         imageIcon = UIImageView()

@@ -55,7 +55,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         productShortDescriptionLabel!.minimumScaleFactor = 9 / 12
         productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
-        //productPriceLabel!.textColor = WMColor.priceProductTextColor
+        //productPriceLabel!.textColor = WMColor.orange
         
         self.contentView.addSubview(productImage!)
         self.contentView.addSubview(productShortDescriptionLabel!)
@@ -91,7 +91,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         
         productShortDescriptionLabel!.text = productShortDescription
         
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
         
         if hideImage != nil {
             hideImage.hidden = true

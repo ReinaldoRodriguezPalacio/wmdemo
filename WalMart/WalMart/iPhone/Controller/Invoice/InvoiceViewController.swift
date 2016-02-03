@@ -174,7 +174,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.nextButton!.setTitle(NSLocalizedString("invoice.button.next",comment:""), forState:.Normal)
         self.nextButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.nextButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.nextButton!.backgroundColor = WMColor.green
         self.nextButton!.layer.cornerRadius = 20
         self.nextButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(nextButton!)
@@ -272,7 +272,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert(NSLocalizedString("invoice.advice",comment:""), message: message)
-        self.alertView?.showOkButton(NSLocalizedString("invoice.message.continue",comment:""), colorButton: WMColor.loginSignInButonBgColor)
+        self.alertView?.showOkButton(NSLocalizedString("invoice.message.continue",comment:""), colorButton: WMColor.green)
     }
     
     func next(){

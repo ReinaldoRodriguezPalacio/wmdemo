@@ -202,7 +202,7 @@ class IPOWMAlertViewController : UIViewController {
         let rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
         rightButton.layer.cornerRadius = 16
         rightButton.setTitle(NSLocalizedString("shoppingcart.goshoppingcart",comment:""), forState: UIControlState.Normal)
-        rightButton.backgroundColor = WMColor.productAddToCartGoToShoppingBg
+        rightButton.backgroundColor = WMColor.green
         rightButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         rightButton.addTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -215,14 +215,14 @@ class IPOWMAlertViewController : UIViewController {
         leftButton.layer.cornerRadius = 16
         leftButton.setTitle(leftText, forState: UIControlState.Normal)
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        leftButton.backgroundColor = WMColor.productAddToCartKeepShoppingBg
+        leftButton.backgroundColor = WMColor.dark_blue
         leftButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         leftButton.addTarget(self, action: "leftTapInside", forControlEvents: UIControlEvents.TouchUpInside)
         
         rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
         rightButton.layer.cornerRadius = 16
         rightButton.setTitle(rightText, forState: UIControlState.Normal)
-        rightButton.backgroundColor = WMColor.productAddToCartGoToShoppingBg
+        rightButton.backgroundColor = WMColor.green
         rightButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         rightButton.addTarget(self, action: "righTapInside", forControlEvents: UIControlEvents.TouchUpInside)
         

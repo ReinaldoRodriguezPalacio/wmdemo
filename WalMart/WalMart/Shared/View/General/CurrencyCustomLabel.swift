@@ -155,7 +155,7 @@ class CurrencyCustomLabel : UIView  {
             
             let line: CALayer = CALayer()
             line.frame = CGRectMake(self.label1!.frame.minX,sizeTotal.height / 2,totalWidth, 1)
-            line.backgroundColor = WMColor.searchProductPriceThroughLineColor.CGColor
+            line.backgroundColor = WMColor.light_gray.CGColor
             self.layer.insertSublayer(line, atIndex: 0)
         }
     }

@@ -103,7 +103,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 72, 12, 75, 22))
         deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
-        deleteall.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        deleteall.backgroundColor = WMColor.red
         deleteall.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteall.layer.cornerRadius = 11
@@ -126,7 +126,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         
         viewFooter = UIView()
-        viewFooter.backgroundColor = WMColor.shoppingCartFooter
+        viewFooter.backgroundColor = UIColor.whiteColor()
         
         var x:CGFloat = 16
         if UserCurrentSession.sharedInstance().userSigned != nil {
@@ -146,7 +146,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewFooter.addSubview(buttonWishlist)
         
         buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 40))
-        buttonShop.backgroundColor = WMColor.shoppingCartShopBgColor
+        buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 20
         buttonShop.addTarget(self, action: "showloginshop", forControlEvents: UIControlEvents.TouchUpInside)
@@ -487,7 +487,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -560,7 +560,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
             editButton.selected = true
             editButton.backgroundColor =  WMColor.green
-            editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
+            editButton.tintColor = WMColor.dark_blue
             
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in

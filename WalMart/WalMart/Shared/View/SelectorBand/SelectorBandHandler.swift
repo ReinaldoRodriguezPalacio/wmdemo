@@ -61,7 +61,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         
         self.band = UICollectionView(frame: CGRectMake(frame.size.width,0.0,frame.size.width, frame.size.height), collectionViewLayout: self.bandLayout!)
         self.band!.layer.borderWidth = 1
-        self.band!.layer.borderColor = WMColor.categorySelectorIndicatorHomeBgColor.CGColor
+        self.band!.layer.borderColor = WMColor.yellow.CGColor
         self.band!.layer.cornerRadius = 5
         self.band!.backgroundView = UIImageView(image:image_normal)
         self.band!.showsHorizontalScrollIndicator = false

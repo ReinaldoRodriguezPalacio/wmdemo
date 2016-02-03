@@ -50,7 +50,7 @@ class AlertButtomView : AlertPickerView {
      
        
         buttonGroceries = UIButton(frame: CGRectMake(0, 0, 210, 34))
-        buttonGroceries.backgroundColor = WMColor.UIColorFromRGB(0x28EBB37)
+        buttonGroceries.backgroundColor = WMColor.green
         buttonGroceries.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonGroceries.layer.cornerRadius = 17
         buttonGroceries.center = CGPointMake(self.viewContent.frame.width / 2, 34)

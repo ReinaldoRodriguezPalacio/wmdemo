@@ -13,7 +13,7 @@ class IPAGroceriesView : IPOGroceriesView {
     
     override func setup() {
         super.setup()
-        bgView.backgroundColor = WMColor.gotosuperipad 
+        bgView.backgroundColor = UIColor.whiteColor()
         
         descLabel.textColor = WMColor.light_blue
         descLabel.frame = CGRectMake(368, 0, 197, self.frame.height)

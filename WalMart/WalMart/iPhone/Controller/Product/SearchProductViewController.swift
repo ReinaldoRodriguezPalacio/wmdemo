@@ -140,13 +140,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.filterButton!.setImage(iconImage, forState: .Normal)
         //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
         self.filterButton!.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
-        self.filterButton!.tintColor = WMColor.navigationFilterTextColor
+        self.filterButton!.tintColor = UIColor.whiteColor()
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
         self.filterButton!.backgroundColor = WMColor.light_blue
         self.filterButton!.layer.cornerRadius = 11.0
 
-        self.filterButton!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.filterButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         
 

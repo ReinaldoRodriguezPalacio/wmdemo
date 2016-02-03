@@ -61,7 +61,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         tableDetailOrder.registerClass(OrderProductTableViewCell.self, forCellReuseIdentifier: "orderCell")
         tableDetailOrder.separatorStyle = UITableViewCellSeparatorStyle.None
         
-        self.viewFooter!.backgroundColor = WMColor.shoppingCartFooter
+        self.viewFooter!.backgroundColor = UIColor.whiteColor()
         
         
         let y = (self.viewFooter!.frame.height - 34.0)/2
@@ -83,7 +83,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         let x = self.shareButton!.frame.maxX + 16.0
         
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, (self.viewFooter!.frame.width - (x + 16.0)) - 32, 34.0))
-        self.addToCartButton!.backgroundColor = WMColor.shoppingCartShopBgColor
+        self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
  
         
