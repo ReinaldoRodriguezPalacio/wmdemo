@@ -36,7 +36,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     
     func setup() {
         
-        self.backgroundColor = WMColor.blue
+        self.backgroundColor = WMColor.light_blue
         
         carousel = iCarousel(frame: self.bounds)
         carousel.scrollSpeed = 0.70
