@@ -29,7 +29,7 @@ class IPOGroceriesView : UIView {
     
     func setup() {
         bgView = UIView(frame: self.bounds)
-        bgView.backgroundColor = WMColor.gotosuper
+        bgView.backgroundColor = WMColor.light_blue
         self.addSubview(bgView)
         self.clipsToBounds = true
         

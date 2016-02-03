@@ -115,7 +115,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.scanTicketButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.scanTicketButton!.titleLabel!.textAlignment = NSTextAlignment.Center
         self.scanTicketButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.scanTicketButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.scanTicketButton!.backgroundColor = WMColor.light_blue
         self.scanTicketButton!.layer.cornerRadius = 12
         self.content.addSubview(self.scanTicketButton!)
         
@@ -165,7 +165,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.cancelButton!.setTitle(NSLocalizedString("invoice.button.cancel",comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.cancelButton!.backgroundColor = WMColor.light_blue
         self.cancelButton!.layer.cornerRadius = 20
         self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
@@ -214,7 +214,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
-        sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
+        sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
         sectionTitle.backgroundColor = UIColor.whiteColor()

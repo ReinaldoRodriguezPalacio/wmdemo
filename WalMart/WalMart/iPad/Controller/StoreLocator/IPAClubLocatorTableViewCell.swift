@@ -37,7 +37,7 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         
         self.distanceLabel = UILabel()
         self.distanceLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.distanceLabel!.textColor = WMColor.titleTextColor
+        self.distanceLabel!.textColor = WMColor.light_blue
         self.distanceLabel!.text = "A km"
         self.contentView.addSubview(self.distanceLabel!)
 

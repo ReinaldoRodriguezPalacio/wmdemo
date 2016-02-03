@@ -107,7 +107,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
             let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
             let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
-            self.viewMG.setValues(WMColor.mgBG,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance().estimateTotalMG())",totalColor:WMColor.mgBG,empty:totArticlesMG == 0)
+            self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance().estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
 //            }
             
             self.viewSuper.tapAction =  { () -> Void in

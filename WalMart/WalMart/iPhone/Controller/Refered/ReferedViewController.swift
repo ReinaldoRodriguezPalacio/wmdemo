@@ -49,14 +49,14 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         
         referedCountLabel = UILabel()
         referedCountLabel?.font = WMFont.fontMyriadProLightOfSize(14)
-        referedCountLabel?.textColor = WMColor.listAddressHeaderSectionColor
+        referedCountLabel?.textColor = WMColor.light_blue
         referedCountLabel?.text = ""
         referedCountLabel?.textAlignment = .Center
         self.view.addSubview(referedCountLabel!)
         
         referedDescLabel = UILabel()
         referedDescLabel?.font = WMFont.fontMyriadProLightOfSize(14)
-        referedDescLabel?.textColor = WMColor.listAddressHeaderSectionColor
+        referedDescLabel?.textColor = WMColor.light_blue
         referedDescLabel?.numberOfLines = 3
         referedDescLabel?.text =  NSLocalizedString("refered.description.message", comment: "")
         referedDescLabel?.textAlignment = .Center
@@ -245,7 +245,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             if let isActive = result["responseObject"] as? Bool{
                 if isActive{
                     self.addReferedButton?.enabled = true
-                    self.addReferedButton?.backgroundColor = WMColor.listAddressHeaderSectionColor
+                    self.addReferedButton?.backgroundColor = WMColor.light_blue
                 }
                 else{
                     self.addReferedButton?.enabled = false

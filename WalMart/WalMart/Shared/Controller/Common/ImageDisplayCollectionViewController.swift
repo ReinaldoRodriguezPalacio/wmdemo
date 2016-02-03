@@ -67,7 +67,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         self.close!.backgroundColor = UIColor.whiteColor()
         
         self.titleLabel = UILabel()
-        self.titleLabel?.textColor =  WMColor.navigationTilteTextColor
+        self.titleLabel?.textColor =  WMColor.light_blue
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.numberOfLines = 2
         self.titleLabel?.text = name

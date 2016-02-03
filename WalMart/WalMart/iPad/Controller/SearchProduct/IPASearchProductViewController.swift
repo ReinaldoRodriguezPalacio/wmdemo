@@ -42,11 +42,11 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         self.viewBgSelectorBtn.frame = CGRectMake((self.view.bounds.width / 2)  - 160,  self.header!.frame.maxY + 16, 320, 28)
         self.btnSuper.frame = CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2)
         self.btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        self.btnSuper.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        self.btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         
         self.btnTech.frame = CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2)
         self.btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        self.btnTech.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        self.btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
     }
     
     override func viewDidLayoutSubviews() {
@@ -174,7 +174,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         
         self.header?.addSubview(filterView!)
         var view = UIView(frame:CGRectMake(self.header!.frame.maxX - 16, 0, 16, 46))
-        view.backgroundColor = WMColor.navigationHeaderBgColor
+        view.backgroundColor = WMColor.light_light_gray
         self.header?.addSubview(view)
         
         self.viewAnimated = true
@@ -222,7 +222,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
 
     override func removeFilter(){
         var view = UIView(frame:CGRectMake(self.header!.frame.maxX - 16, 0, 16, 46))
-        view.backgroundColor = WMColor.navigationHeaderBgColor
+        view.backgroundColor = WMColor.light_light_gray
         self.header?.addSubview(view)
         self.viewAnimated = true
         

@@ -46,9 +46,9 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
                 reloadButton()
             }else {
                 self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Normal)
-                self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Normal)
+                self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
                 self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Selected)
-                self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Selected)
+                self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
                 self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
                 
             }
@@ -226,11 +226,11 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     func setOpenQuantitySelector() {
         self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Normal)
-        self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Normal)
+        self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         
         self.addToShoppingCartButton!.setImage(nil, forState: UIControlState.Selected)
         self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.cancel",comment:""), forState: UIControlState.Selected)
-        self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Selected)
+        self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         
         self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
         
@@ -241,10 +241,10 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             reloadButton()
         }else {
             self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Normal)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
             
             self.addToShoppingCartButton!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Selected)
-            self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
             
             self.addToShoppingCartButton!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
             
@@ -255,7 +255,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
         let buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
         
-        let buttonColor = hasDetailOptions ? WMColor.navigationTilteTextColor : isAviableToShoppingCart ? WMColor.productDetailShoppingCartBtnBGColor : WMColor.productDetailShoppingCartNDBtnBGColor
+        let buttonColor = hasDetailOptions ? WMColor.light_blue : isAviableToShoppingCart ? WMColor.productDetailShoppingCartBtnBGColor : WMColor.productDetailShoppingCartNDBtnBGColor
         
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -319,8 +319,8 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Selected)
         }
         if !isAviableToShoppingCart{
-            self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Normal)
-            self.addToShoppingCartButton!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Selected)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+            self.addToShoppingCartButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         }
     }
     

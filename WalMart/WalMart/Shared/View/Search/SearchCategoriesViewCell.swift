@@ -24,7 +24,7 @@ class SearchCategoriesViewCell: UITableViewCell {
         self.departament!.font = WMFont.fontMyriadProRegularOfSize(12)
         
         self.title = UILabel()
-        self.title!.textColor = WMColor.searchCategoriesAllColor
+        self.title!.textColor = WMColor.light_blue
         self.title!.backgroundColor = UIColor.clearColor()
         self.title!.font = WMFont.fontMyriadProRegularOfSize(14)
 

@@ -49,7 +49,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.productAddToCartBg
+        self.bgView.backgroundColor = WMColor.light_blue
         self.view.addSubview(bgView)
         
         self.content = TPKeyboardAvoidingScrollView()
@@ -85,7 +85,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         //self.password!.maxLength = 15
         
         self.viewbg = UIView()
-        self.viewbg!.backgroundColor = WMColor.loginFieldBgColor
+        self.viewbg!.backgroundColor = WMColor.light_light_gray
        
         //Login button setup
         registryButton = UIButton()
@@ -116,10 +116,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.noAccount = UILabel()
         self.noAccount!.text = NSLocalizedString("profile.no.account",comment:"")
         self.noAccount!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.noAccount!.textColor = WMColor.loginTitleTextColor
+        self.noAccount!.textColor = WMColor.light_blue
         self.noAccount!.numberOfLines = 0
         self.noAccount!.textAlignment =  .Center
-        self.noAccount!.textColor = WMColor.loginFieldBgColor
+        self.noAccount!.textColor = WMColor.light_light_gray
         
         self.titleLabel = UILabel()
         self.titleLabel!.textColor =  UIColor.whiteColor()

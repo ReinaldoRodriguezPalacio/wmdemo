@@ -68,7 +68,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleName = UILabel()
         self.titleName!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleName!.text =  "Nombre"
-        self.titleName!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleName!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleName!)
         
         self.nameLabel = UILabel()
@@ -80,7 +80,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleRfc = UILabel()
         self.titleRfc!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleRfc!.text =  "RFC"
-        self.titleRfc!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleRfc!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleRfc!)
         
         self.rfcLabel = UILabel()
@@ -92,7 +92,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleTicketNumber = UILabel()
         self.titleTicketNumber!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleTicketNumber!.text =  "Número de ticket"
-        self.titleTicketNumber!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleTicketNumber!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleTicketNumber!)
         
         self.ticketNumberLabel = UILabel()
@@ -104,7 +104,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleTransactionNumber = UILabel()
         self.titleTransactionNumber!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleTransactionNumber!.text =  "Número de transacción"
-        self.titleTransactionNumber!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleTransactionNumber!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleTransactionNumber!)
         
         self.transactionNumberLabel = UILabel()
@@ -116,7 +116,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleIEPS = UILabel()
         self.titleIEPS!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleIEPS!.text =  "Declaro IEPS"
-        self.titleIEPS!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleIEPS!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleIEPS!)
         
         self.iepsLabel = UILabel()
@@ -128,7 +128,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleSocialReason = UILabel()
         self.titleSocialReason!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleSocialReason!.text =  "Razon social"
-        self.titleSocialReason!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleSocialReason!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleSocialReason!)
         
         self.socialReasonLabel = UILabel()
@@ -140,7 +140,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleAddress = UILabel()
         self.titleAddress!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleAddress!.text =  "Dirección de Facturación"
-        self.titleAddress!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleAddress!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleAddress!)
         
         self.addressLabel = UILabel()
@@ -154,7 +154,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.editButton!.setTitle("Editar", forState:.Normal)
         self.editButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.editButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.editButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.editButton!.backgroundColor = WMColor.light_blue
         self.editButton!.layer.cornerRadius = 17
         self.editButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(editButton!)

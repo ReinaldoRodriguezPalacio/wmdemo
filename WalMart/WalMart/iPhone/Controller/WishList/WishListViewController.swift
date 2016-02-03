@@ -39,7 +39,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.titleLabel!.textColor = WMColor.wishlistTitleTextColor
+        self.titleLabel!.textColor = WMColor.light_blue
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.text = NSLocalizedString("wishlist.title",comment:"")
         
@@ -435,7 +435,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 //cell.shouldChangeState = !isEdditing
             }
             edit.selected = true
-            edit.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.wishlistEndEditButtonBgColor
+            edit.backgroundColor = WMColor.green
             edit.tintColor = WMColor.wishlistEndEditButtonBgColor
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
@@ -451,8 +451,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
             edit.hidden = self.items.count == 0
             edit.selected = false
-            edit.backgroundColor = WMColor.wishlistEditButtonBgColor
-            edit.tintColor = WMColor.wishlistEditButtonBgColor
+            edit.backgroundColor = WMColor.light_blue
+            edit.tintColor = WMColor.light_blue
             isEdditing = !isEdditing
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0
@@ -740,8 +740,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         deleteall.hidden = self.items.count == 0 && self.isEdditing
         edit.hidden = self.items.count == 0
         edit.selected = false
-        edit.backgroundColor = WMColor.wishlistEditButtonBgColor
-        edit.tintColor = WMColor.wishlistEditButtonBgColor
+        edit.backgroundColor = WMColor.light_blue
+        edit.tintColor = WMColor.light_blue
 
     }
     

@@ -53,7 +53,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         
         self.newAddressButton = WMRoundButton()
         self.newAddressButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.newAddressButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
+        self.newAddressButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
         self.newAddressButton!.addTarget(self, action: "newAddress", forControlEvents: UIControlEvents.TouchUpInside)
         self.newAddressButton!.setTitle(NSLocalizedString("profile.address.new", comment:"" ) , forState: UIControlState.Normal)
         self.newAddressButton!.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)
@@ -72,16 +72,16 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         viewBgSelectorBtn = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16, 282, 28))
         viewBgSelectorBtn.layer.borderWidth = 1
         viewBgSelectorBtn.layer.cornerRadius = 14
-        viewBgSelectorBtn.layer.borderColor = WMColor.addressSelectorColor.CGColor
+        viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.CGColor
         
         let titleSupper = NSLocalizedString("profile.address.super",comment:"")
         btnSuper = UIButton(frame: CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) - 1, viewBgSelectorBtn.frame.height - 2))
         btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnSuper.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         btnSuper.setTitle(titleSupper, forState: UIControlState.Normal)
         btnSuper.setTitle(titleSupper, forState: UIControlState.Selected)
         btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnSuper.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
@@ -90,9 +90,9 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         let titleTech = NSLocalizedString("profile.address.tech",comment:"")
         btnTech = UIButton(frame: CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2))
         btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnTech.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         btnTech.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnTech.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnTech.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -378,7 +378,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36))
-        titleView.textColor = WMColor.listAddressHeaderSectionColor
+        titleView.textColor = WMColor.light_blue
         titleView.font = WMFont.fontMyriadProLightOfSize(14)
         if section == 0 {
             titleView.text = NSLocalizedString("profile.shipping", comment: "")

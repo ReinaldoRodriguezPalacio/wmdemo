@@ -74,7 +74,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         super.viewDidLoad()
         
         headerView = UIView(frame:CGRectMake(0, 0, self.view.bounds.width, heigthHeader))
-        headerView.backgroundColor = WMColor.productDetailHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         
         let buttonBk = UIButton(frame: CGRectMake(0, 0, 46, 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), forState: UIControlState.Normal)
@@ -86,7 +86,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         titlelbl.text = self.name as String
         titlelbl.numberOfLines = 2
         titlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
-        titlelbl.textColor = WMColor.navigationTilteTextColor
+        titlelbl.textColor = WMColor.light_blue
         titlelbl.adjustsFontSizeToFitWidth = true
         titlelbl.minimumScaleFactor = 9 / 12
         headerView.addSubview(titlelbl)
@@ -377,7 +377,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if bundleItems.count != 0 {
                 let cellBundleItemsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
-                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
+                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
                 cell = cellBundleItemsTitle
             } else {
                 return cellForPoint((indexPath.section,4),indexPath: indexPath)
@@ -398,7 +398,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellCharacteristicsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 self.clearView(cellCharacteristicsTitle!)
                 let charText = NSLocalizedString("productdetail.characteristics",comment:"")
-                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
+                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
             }else{
                 return nil
@@ -760,7 +760,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
             })
         
         
@@ -1125,7 +1125,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let imageHead = UIImage(named:"detail_HeaderMail")
         // Build header title to share
         let tmpheaderView = UIView(frame:CGRectMake(0, 0, self.bannerImagesProducts.frame.width, heigthHeader))
-        tmpheaderView.backgroundColor = WMColor.productDetailHeaderBgColor
+        tmpheaderView.backgroundColor = WMColor.light_light_gray
         
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
@@ -1135,7 +1135,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tmptitlelbl.text = self.name as String
         tmptitlelbl.numberOfLines = 2
         tmptitlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
-        tmptitlelbl.textColor = WMColor.navigationTilteTextColor
+        tmptitlelbl.textColor = WMColor.light_blue
         tmptitlelbl.adjustsFontSizeToFitWidth = true
         tmptitlelbl.minimumScaleFactor = 9 / 12
         tmpheaderView.addSubview(tmptitlelbl)

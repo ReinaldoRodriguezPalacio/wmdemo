@@ -49,7 +49,7 @@ class IPOEmptyView : UIView {
         
         descLabel = UILabel()
         descLabel.font = WMFont.fontMyriadProLightOfSize(14)
-        descLabel.textColor = WMColor.emptyDescTextColor
+        descLabel.textColor = WMColor.light_blue
         descLabel.textAlignment = NSTextAlignment.Center
         
         returnButton = UIButton()
@@ -57,7 +57,7 @@ class IPOEmptyView : UIView {
         returnButton.layer.cornerRadius = 20
         returnButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
-        returnButton.backgroundColor = WMColor.emptyBgRetunBlueColor
+        returnButton.backgroundColor = WMColor.light_blue
         returnButton.setTitle(NSLocalizedString("empty.return",comment:""), forState: UIControlState.Normal)
         returnButton.addTarget(self, action: "returnActionSel", forControlEvents: UIControlEvents.TouchUpInside)
         

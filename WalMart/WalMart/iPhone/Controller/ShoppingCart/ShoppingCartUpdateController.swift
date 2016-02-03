@@ -63,7 +63,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.content.backgroundColor = UIColor.clearColor()
         
         bgView = UIView(frame: self.view.bounds)
-        bgView.backgroundColor = WMColor.productAddToCartBg
+        bgView.backgroundColor = WMColor.light_blue
         
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)

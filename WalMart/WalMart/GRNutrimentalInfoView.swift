@@ -24,7 +24,7 @@ class GRNutrimentalInfoView : UIView {
         self.clipsToBounds = true
         
         viewBg = UIView(frame:CGRectMake(0, 0,self.frame.width,0))
-        viewBg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        viewBg.backgroundColor = WMColor.light_blue
         self.addSubview(viewBg)
         
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))

@@ -19,7 +19,6 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x2870c9, alpha: 0.5)
      }
     
     override class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPAWMAlertViewController? {

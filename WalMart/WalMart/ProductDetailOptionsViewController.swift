@@ -53,7 +53,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         self.view.addSubview(self.otherOptionsView!)
         
         optionsLabel = UILabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.view.frame.width, 15.0))
-        optionsLabel.textColor = WMColor.navigationTilteTextColor
+        optionsLabel.textColor = WMColor.light_blue
         optionsLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         optionsLabel.textAlignment = NSTextAlignment.Center
         optionsLabel.text =  NSLocalizedString("productdetail.options",comment:"")

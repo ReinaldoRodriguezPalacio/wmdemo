@@ -27,7 +27,7 @@ enum TypeField {
 
 class FormFieldView : UIEdgeTextField {
     
-    let textBorderOn = WMColor.profileTextEditingColor.CGColor
+    let textBorderOn = WMColor.light_blue.CGColor
     let textBorderOff = UIColor.whiteColor().CGColor
     let textBorderError = WMColor.profileErrorColor.CGColor
     
@@ -61,7 +61,7 @@ class FormFieldView : UIEdgeTextField {
         self.layer.borderWidth = 1
         self.layer.borderColor = textBorderOff
         self.layer.cornerRadius = 5
-        self.backgroundColor =  WMColor.loginFieldBgColor
+        self.backgroundColor =  WMColor.light_light_gray
         self.font = WMFont.fontMyriadProRegularOfSize(14)
         self.isValid = true
     }

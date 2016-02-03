@@ -35,7 +35,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
         titleLabel.numberOfLines = 1
         titleLabel.textAlignment = .Left
-        titleLabel.textColor =  WMColor.productDetailTitleTextColor
+        titleLabel.textColor =  WMColor.light_blue
         
         descLabel = UIView()
         
@@ -69,7 +69,7 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                 if index++ % 2 == 0 {
                     bgView.backgroundColor = UIColor.whiteColor()
                 }else{
-                    bgView.backgroundColor = WMColor.productDetailRowUnevenColor
+                    bgView.backgroundColor = WMColor.light_light_gray
                 }
                 bgView.addSubview(labelCharacteristic)
                 descLabel.addSubview(bgView)

@@ -33,7 +33,7 @@ class IPOFamilyTableViewCell : UITableViewCell {
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(16)
-        titleLabel.textColor = WMColor.familyTextColor
+        titleLabel.textColor = WMColor.light_blue
         
         separator = UIView()
         separator.backgroundColor = WMColor.lineSaparatorColor

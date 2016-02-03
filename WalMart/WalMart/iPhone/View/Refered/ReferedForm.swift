@@ -54,7 +54,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.titleSection = UILabel()
         self.titleSection!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleSection!.text =  NSLocalizedString("refered.form.title", comment: "")
-        self.titleSection!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleSection!.textColor = WMColor.light_blue
         self.titleSection!.textAlignment = .Left
         self.scrollForm.addSubview(self.titleSection!)
         
@@ -162,11 +162,11 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     
     func addHeaderAndTitle(title:String){
         headerView = UIView(frame: CGRectMake(0, 0, self.frame.width, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         self.scrollForm.addSubview(headerView)
         
         let titleLabel = UILabel(frame: headerView.bounds)
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textColor =  WMColor.light_blue
         titleLabel.textAlignment = .Center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2

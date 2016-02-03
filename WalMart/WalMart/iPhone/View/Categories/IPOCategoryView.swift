@@ -94,7 +94,7 @@ class IPOCategoryView : CategoryView {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.titleLabel.frame = CGRectMake(114, 0, self.frame.width - self.frame.height, self.frame.height)
             self.auxiliarBgView.frame = CGRectMake(self.frame.height, 0, self.frame.width - self.frame.height, self.frame.height)
-            self.titleLabel.textColor = WMColor.categoryTextColor
+            self.titleLabel.textColor = WMColor.light_blue
             let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
             self.separator.frame = CGRectMake(self.auxiliarBgView.frame.minX, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
             }) { (complete:Bool) -> Void in

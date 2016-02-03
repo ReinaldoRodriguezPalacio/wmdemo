@@ -162,7 +162,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.saveButton?.tintColor = WMColor.navigationFilterTextColor
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
-        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0
         self.header?.addSubview(self.saveButton!)
@@ -171,7 +171,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         changePasswordButton!.setTitle(NSLocalizedString("profile.change.password", comment: ""), forState: UIControlState.Normal)
         changePasswordButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         changePasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.changePasswordButton!.backgroundColor = WMColor.loginProfileSaveBGColor
+        self.changePasswordButton!.backgroundColor = WMColor.light_blue
         changePasswordButton!.layer.cornerRadius = 20.0
         changePasswordButton?.addTarget(self, action: "changePassword", forControlEvents: .TouchUpInside)
         

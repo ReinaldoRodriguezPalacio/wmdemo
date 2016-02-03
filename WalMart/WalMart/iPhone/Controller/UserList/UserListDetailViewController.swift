@@ -66,7 +66,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22)
-        let iconSelected = UIImage(color: WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(110, 44), radius: 22)
+        let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
         
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
 
@@ -78,7 +78,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
         self.editBtn!.layer.cornerRadius = 11
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
-        self.editBtn!.backgroundColor = WMColor.titleTextColor
+        self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.hidden = true
         self.header!.addSubview(self.editBtn!)
@@ -509,14 +509,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, bounds.width, 16.0))
         labelOne.textAlignment = .Center
-        labelOne.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        labelOne.textColor = WMColor.light_blue
         labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
         let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, bounds.width, 16))
         labelTwo.textAlignment = .Center
-        labelTwo.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
@@ -534,7 +534,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         /*if IS_IPHONE_4_OR_LESS{
          button.frame = CGRectMake((bounds.width - 160.0)/2,height - 160, 160 , 40)
         }*/
-        button.backgroundColor = WMColor.UIColorFromRGB(0x2870c9)
+        button.backgroundColor = WMColor.light_blue
         button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.addTarget(self, action: "backEmpty", forControlEvents: .TouchUpInside)

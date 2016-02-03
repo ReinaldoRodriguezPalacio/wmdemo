@@ -143,7 +143,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton!.tintColor = WMColor.navigationFilterTextColor
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
-        self.filterButton!.backgroundColor = WMColor.wishlistEditButtonBgColor
+        self.filterButton!.backgroundColor = WMColor.light_blue
         self.filterButton!.layer.cornerRadius = 11.0
 
         self.filterButton!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
@@ -156,16 +156,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         viewBgSelectorBtn = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28))
         viewBgSelectorBtn.layer.borderWidth = 1
         viewBgSelectorBtn.layer.cornerRadius = 14
-        viewBgSelectorBtn.layer.borderColor = WMColor.addressSelectorColor.CGColor
+        viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.CGColor
         
         let titleSupper = NSLocalizedString("profile.address.super",comment:"")
         btnSuper = UIButton(frame: CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2))
         btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnSuper.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         btnSuper.setTitle(titleSupper, forState: UIControlState.Normal)
         btnSuper.setTitle(titleSupper, forState: UIControlState.Selected)
         btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnSuper.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
@@ -174,9 +174,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let titleTech = NSLocalizedString("profile.address.tech",comment:"")
         btnTech = UIButton(frame: CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2))
         btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnTech.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         btnTech.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnTech.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnTech.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -223,7 +223,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.attributedText = myString
         titleLabelEdit.userInteractionEnabled = true
-        titleLabelEdit.textColor =  WMColor.navigationTilteTextColor
+        titleLabelEdit.textColor =  WMColor.light_blue
         titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.textAlignment = .Center

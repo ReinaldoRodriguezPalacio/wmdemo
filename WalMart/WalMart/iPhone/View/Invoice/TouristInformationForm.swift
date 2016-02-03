@@ -62,7 +62,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.titleForm = UILabel()
         self.titleForm!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleForm!.text =  "Tipo de Tránsito"
-        self.titleForm!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleForm!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleForm!)
         
         self.arrivalButton = UIButton()
@@ -164,7 +164,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.cancelButton!.setTitle("Cancelar", forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.cancelButton!.backgroundColor = WMColor.light_blue
         self.cancelButton!.layer.cornerRadius = 17
         self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(cancelButton!)

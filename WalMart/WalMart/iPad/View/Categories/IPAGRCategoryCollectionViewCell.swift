@@ -67,12 +67,12 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         self.descLabel = UILabel()
         self.descLabel?.text = "Lo más destacado"
         self.descLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.descLabel?.textColor = WMColor.navigationFilterBGColor
+        self.descLabel?.textColor = WMColor.light_blue
         
         self.moreLabel = UILabel()
         self.moreLabel?.text = "Ver todo"
         self.moreLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.moreLabel?.textColor = WMColor.navigationFilterBGColor
+        self.moreLabel?.textColor = WMColor.light_blue
         self.moreLabel?.textAlignment = .Center
         
         self.moreButton = UIButton()

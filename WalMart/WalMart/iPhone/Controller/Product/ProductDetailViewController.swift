@@ -93,7 +93,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         
         headerView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         let buttonBk = UIButton(frame: CGRectMake(0, 0, 46, 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), forState: UIControlState.Normal)
         buttonBk.addTarget(self, action: "backButton", forControlEvents: UIControlEvents.TouchUpInside)
@@ -104,7 +104,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         titlelbl.text = self.name as String
         titlelbl.numberOfLines = 2
         titlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
-        titlelbl.textColor = WMColor.navigationTilteTextColor
+        titlelbl.textColor = WMColor.light_blue
         titlelbl.adjustsFontSizeToFitWidth = true
         titlelbl.minimumScaleFactor = 9 / 12
         
@@ -605,7 +605,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.selectQuantity!.frame = finalFrameOfQuantity
                     self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
                     }, completion: { (complete:Bool) -> Void in
-                        self.productDetailButton.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                        self.productDetailButton.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
                 })
             }
         }

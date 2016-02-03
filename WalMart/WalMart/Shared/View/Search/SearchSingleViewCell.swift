@@ -26,7 +26,7 @@ class SearchSingleViewCell: UITableViewCell {
         self.priceLabel?.textAlignment =  NSTextAlignment.Right
         self.title = UILabel()
         
-        self.title!.textColor = WMColor.searchCategoriesAllColor
+        self.title!.textColor = WMColor.light_blue
         self.title!.backgroundColor = UIColor.clearColor()
         self.contentView.addSubview(self.title!)
         self.contentView.addSubview(priceLabel!)

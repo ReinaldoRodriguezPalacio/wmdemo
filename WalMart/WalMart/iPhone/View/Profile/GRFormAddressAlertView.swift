@@ -68,11 +68,11 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         viewContent.clipsToBounds = true
         
         headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
         titleLabel = UILabel(frame: CGRectMake(40,0, headerView.bounds.width - 120 , headerView.bounds.height))
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textColor =  WMColor.light_blue
         titleLabel.textAlignment = .Center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
@@ -83,7 +83,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height))
         
         self.buttonRight = WMRoundButton()
-        self.buttonRight!.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.buttonRight!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
         self.buttonRight.titleLabel?.textColor = UIColor.whiteColor()
         self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)

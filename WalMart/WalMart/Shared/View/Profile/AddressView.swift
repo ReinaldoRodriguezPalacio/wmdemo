@@ -175,7 +175,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabel!.text =  NSLocalizedString("profile.address", comment: "")
         if !isLogin {
-            self.titleLabel!.textColor = WMColor.listAddressHeaderSectionColor
+            self.titleLabel!.textColor = WMColor.light_blue
             self.titleLabel!.backgroundColor = UIColor.whiteColor()
             self.backgroundColor = UIColor.whiteColor()
         }else {

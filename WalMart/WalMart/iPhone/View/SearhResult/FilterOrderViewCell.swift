@@ -46,7 +46,7 @@ class FilterOrderViewCell: UITableViewCell {
         self.popularityButton = self.buildButton(FilterType.popularity)
 
         self.popularityButton!.selected = true
-        self.popularityButton!.backgroundColor = WMColor.navigationTilteTextColor
+        self.popularityButton!.backgroundColor = WMColor.light_blue
 
         self.buttons = [self.descAscButton!, self.descDescButton!, self.priceAscButton!, self.priceDescButton!, self.popularityButton!]
     }
@@ -86,7 +86,7 @@ class FilterOrderViewCell: UITableViewCell {
             for button in self.buttons! {
                 if button == buttonToSelect {
                     button.selected = true
-                    button.backgroundColor = WMColor.navigationTilteTextColor
+                    button.backgroundColor = WMColor.light_blue
                 }
                 else {
                     button.selected = false
@@ -101,7 +101,7 @@ class FilterOrderViewCell: UITableViewCell {
             for button in self.buttons! {
                 if button == sender {
                     button.selected = true
-                    button.backgroundColor = WMColor.navigationTilteTextColor
+                    button.backgroundColor = WMColor.light_blue
                 }
                 else {
                     button.selected = false
@@ -136,12 +136,12 @@ class FilterOrderViewCell: UITableViewCell {
         
         let button = UIButton(type: .Custom)
         button.setTitle(NSLocalizedString(type.rawValue, comment:""), forState: .Normal)
-        button.setTitleColor(WMColor.navigationTilteTextColor, forState: .Normal)
+        button.setTitleColor(WMColor.light_blue, forState: .Normal)
         button.setTitleColor(WMColor.navigationFilterTextColor, forState: .Selected)
         button.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         button.layer.cornerRadius = self.BUTTON_HEIGHT/2
         button.layer.borderWidth = 1.0
-        button.layer.borderColor = WMColor.navigationTilteTextColor.CGColor
+        button.layer.borderColor = WMColor.light_blue.CGColor
         button.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
         self.contentView.addSubview(button)
         return button

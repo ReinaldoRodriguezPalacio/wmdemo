@@ -56,7 +56,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 if index++ % 2 == 0 {
                     bgView.backgroundColor = UIColor.whiteColor()
                 }else{
-                    bgView.backgroundColor = WMColor.productDetailRowUnevenColor
+                    bgView.backgroundColor = WMColor.light_light_gray
                 }
                 bgView.addSubview(labelCharacteristic)
                 descLabel.addSubview(bgView)

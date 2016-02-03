@@ -39,7 +39,7 @@ class IPAGRLoginUserOrderView : UIView {
         lblDesc.text = NSLocalizedString("gr.shoppingcart.login", comment: "")
         lblDesc.font = WMFont.fontMyriadProLightOfSize(16)
         lblDesc.textAlignment = .Center
-        lblDesc.textColor = WMColor.emptyDescTextColor
+        lblDesc.textColor = WMColor.light_blue
         lblDesc.numberOfLines = 0
         self.addSubview(lblDesc)
         

@@ -93,7 +93,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         
         self.backgroundView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
-        self.backgroundView!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        self.backgroundView!.backgroundColor = WMColor.light_blue
         
         if equivalenceByPiece.integerValue > 0 {
             btnChankePices = UIButton(frame:CGRectMake((self.frame.width / 2) - 60, startH + 17, 120, 18 ))
@@ -347,7 +347,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         var lblError : UILabel? =   UILabel(frame:CGRectMake (0, 0 , viewContent!.frame.width, 20))
         lblError!.font = WMFont.fontMyriadProRegularOfSize(12)
         
-        lblError!.textColor = WMColor.titleTextColor
+        lblError!.textColor = WMColor.light_blue
         lblError!.backgroundColor = UIColor.clearColor()
         lblError!.text = message
         lblError!.textAlignment = NSTextAlignment.Center

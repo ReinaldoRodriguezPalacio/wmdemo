@@ -138,7 +138,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         if popover == nil {
             popover = UIPopoverController(contentViewController: searchctrl)
             popover!.delegate = self
-            popover!.backgroundColor = WMColor.productAddToCartBg
+            popover!.backgroundColor = WMColor.light_blue
             popover!.presentPopoverFromRect(CGRectMake(48, self.frame.maxY - 20 , 0, 0), inView: self, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         }
         
@@ -346,7 +346,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 self.scanLabel!.alpha = 1
                 
                 if self.popover != nil {
-                    self.popover!.backgroundColor = WMColor.productAddToCartBg
+                    self.popover!.backgroundColor = WMColor.light_blue
                 }
                 self.searchctrl!.table.alpha = 0
             })

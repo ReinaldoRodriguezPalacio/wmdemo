@@ -55,7 +55,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
  
         viewTapClose = UIView()
         self.viewBackground = UIView()
-        self.viewBackground?.backgroundColor = WMColor.productAddToCartBg
+        self.viewBackground?.backgroundColor = WMColor.light_blue
         self.view.addSubview(self.viewBackground!)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:"handleTap:")
@@ -295,11 +295,9 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         //            var checkTermOff : UIImage = UIImage(named:"filter_check_blue")!
         //            var checkTermOn : UIImage = UIImage(named:"filter_check_blue_selected")!
         //            var allButton = UIButton()
-        //            allButton.setTitleColor(WMColor.searchCategoriesAllColor , forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOff, forState: UIControlState.Normal)
         //            allButton.setImage(checkTermOn, forState: UIControlState.Selected)
         //            allButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        //            allButton.titleLabel?.textColor = WMColor.searchCategoriesAllColor
         //            allButton.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
         //
         //            allButton.setTitle(NSLocalizedString("product.searh.all",  comment: ""), forState: UIControlState.Normal)

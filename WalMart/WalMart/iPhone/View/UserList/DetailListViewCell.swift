@@ -57,7 +57,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator = UIButton(type: .Custom)
         self.quantityIndicator!.setTitle("", forState: .Normal)
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
-        self.quantityIndicator!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Disabled)
+        self.quantityIndicator!.setTitleColor(WMColor.light_blue, forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.quantityIndicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14.0)
         self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)

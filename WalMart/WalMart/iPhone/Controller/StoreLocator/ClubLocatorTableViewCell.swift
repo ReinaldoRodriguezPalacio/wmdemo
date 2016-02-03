@@ -33,7 +33,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         
         self.titleLabel = UILabel(frame: CGRectMake(sep, sep, width, 17.0))
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.titleLabel!.textColor = WMColor.titleTextColor
+        self.titleLabel!.textColor = WMColor.light_blue
         self.contentView.addSubview(self.titleLabel)
 
         self.addressLabel = UILabel(frame: CGRectMake(sep, self.titleLabel.frame.maxY, width, 45.0))
@@ -53,7 +53,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         self.contentView.addSubview(self.phoneLabel)
 
         self.buttonContainer = UIView(frame: CGRectMake(0, frame.size.height - 48.0, frame.size.width, 48.0))
-        self.buttonContainer.backgroundColor = WMColor.navigationHeaderBgColor
+        self.buttonContainer.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.buttonContainer)
         
         self.buildToolbar()

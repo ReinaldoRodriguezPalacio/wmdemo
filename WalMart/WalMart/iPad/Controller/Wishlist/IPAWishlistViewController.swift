@@ -59,7 +59,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
        
         
-        header.backgroundColor = WMColor.wishlistHeaderBgColor
+        header.backgroundColor = WMColor.light_light_gray
         
         titleLabel = UILabel(frame: CGRectMake((header.frame.width/2) - 75, 0, 150, header.frame.height))
         titleLabel.text = NSLocalizedString("wishlist.title",comment:"")
@@ -67,7 +67,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         titleLabel.numberOfLines = 2
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleLabel.textColor = WMColor.navigationTilteTextColor
+        titleLabel.textColor = WMColor.light_blue
         self.view.addSubview(titleLabel)
         
         let borderBottom = UIView(frame: CGRectMake(0, self.wishlist.frame.maxY ,self.view.frame.width, AppDelegate.separatorHeigth() ))
@@ -77,7 +77,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
         editWishlist.setTitle(NSLocalizedString("wishlist.edit",comment:""), forState: UIControlState.Normal)
         editWishlist.setTitle(NSLocalizedString("wishlist.endedit",comment:""), forState: UIControlState.Selected)
-        editWishlist.backgroundColor = WMColor.wishlistEditButtonBgColor
+        editWishlist.backgroundColor = WMColor.light_blue
         editWishlist.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         editWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editWishlist.layer.cornerRadius = 11
@@ -160,7 +160,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         if isEditingWishList {
             editWishlist.selected = true
-            editWishlist.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.wishlistEndEditButtonBgColor
+            editWishlist.backgroundColor = WMColor.green
             editWishlist.tintColor = WMColor.wishlistEndEditButtonBgColor
             if self.items.count > 0 {
                 self.wishlist.reloadData()
@@ -170,8 +170,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             })
         }else {
             editWishlist.selected = false
-            editWishlist.backgroundColor = WMColor.wishlistEditButtonBgColor
-            editWishlist.tintColor = WMColor.wishlistEditButtonBgColor
+            editWishlist.backgroundColor = WMColor.light_blue
+            editWishlist.tintColor = WMColor.light_blue
             if self.items.count > 0 {
                 self.wishlist.reloadData()
             }

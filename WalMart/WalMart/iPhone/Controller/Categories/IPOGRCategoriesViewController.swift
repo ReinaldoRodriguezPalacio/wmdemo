@@ -49,8 +49,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         buttonCollapse.setTitle(NSLocalizedString("gr.category.especiales",comment:""), forState: UIControlState.Selected)
         buttonCollapse.addTarget(self, action: "collapse:", forControlEvents: UIControlEvents.TouchUpInside)
         buttonCollapse.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        buttonCollapse.titleLabel!.textColor = WMColor.navigationFilterBGColor
-        buttonCollapse.setTitleColor(WMColor.navigationFilterBGColor, forState: UIControlState.Normal)
+        buttonCollapse.titleLabel!.textColor = WMColor.light_blue
+        buttonCollapse.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         buttonCollapse.titleEdgeInsets = UIEdgeInsetsMake(2.0,-72, 0.0, 0.0);
         buttonCollapse.imageEdgeInsets = UIEdgeInsetsMake(2.0,40, 0.0, 0.0);
         buttonCollapse.layer.cornerRadius = 2

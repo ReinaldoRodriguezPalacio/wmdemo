@@ -36,7 +36,7 @@ class PreviousOrdersTableViewCell: UITableViewCell {
         
         trackingNumberLabel = UILabel(frame: CGRectMake(103, 18, 130, 14))
         trackingNumberLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        trackingNumberLabel.textColor = WMColor.previosOrderTrackingTextColor
+        trackingNumberLabel.textColor = WMColor.light_blue
         
         statusLabel = UILabel(frame: CGRectMake(self.bounds.width - 94, 18, 70, 14))
         statusLabel.font = WMFont.fontMyriadProRegularOfSize(14)

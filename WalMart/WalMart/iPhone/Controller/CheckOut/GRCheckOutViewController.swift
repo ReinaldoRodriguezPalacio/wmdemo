@@ -503,7 +503,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
-        sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
+        sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
         sectionTitle.backgroundColor = UIColor.whiteColor()
@@ -1674,9 +1674,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
         let btnNewAddress = WMRoundButton()
         btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
-        //newAddressButton = WMRoundButton()  0x8EBB36
         btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        btnNewAddress.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+        btnNewAddress.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
         btnNewAddress.layer.cornerRadius = 2.0
             
         self.picker!.addRigthActionButton(btnNewAddress)

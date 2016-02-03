@@ -68,7 +68,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.hidden = true
@@ -259,7 +259,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
             
             titleLabel = UILabel()
-            titleLabel!.textColor = WMColor.listAddressHeaderSectionColor
+            titleLabel!.textColor = WMColor.light_blue
             titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
             titleLabel!.text =  NSLocalizedString("profile.address.fiscal.section", comment: "")
             

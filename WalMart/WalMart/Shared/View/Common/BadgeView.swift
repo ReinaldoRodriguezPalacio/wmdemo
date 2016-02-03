@@ -28,7 +28,7 @@ class BadgeView : UIView {
         self.backgroundColor = UIColor.whiteColor()
         
         title.frame = CGRectMake(AppDelegate.separatorHeigth(),AppDelegate.separatorHeigth(),self.bounds.width,self.bounds.height)
-        title.textColor = WMColor.badgeTextColor
+        title.textColor = WMColor.light_blue
         title.textAlignment = .Center
         title.font = WMFont.fontMyriadProRegularOfSize(9)
         //self.layer.backgroundColor = UIColor.whiteColor().CGColor

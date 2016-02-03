@@ -38,7 +38,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Súper"
         
-        colCategories.backgroundColor = WMColor.navigationHeaderBgColor
+        colCategories.backgroundColor = WMColor.light_light_gray
         
         loadDepartments()
         

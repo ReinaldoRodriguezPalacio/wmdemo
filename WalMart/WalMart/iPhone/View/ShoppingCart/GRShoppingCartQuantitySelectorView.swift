@@ -64,7 +64,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         
         self.backgroundView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
-        self.backgroundView!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        self.backgroundView!.backgroundColor = WMColor.light_blue
         
         let lblTitle = UILabel(frame:CGRectMake((self.frame.width / 2) - 115, startH + 17, 230, 14))
         lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
@@ -173,7 +173,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             btnSender.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 btnSender.imageView!.alpha = 0.1
-                btnSender.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Normal)
+                btnSender.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
             })
             
         }

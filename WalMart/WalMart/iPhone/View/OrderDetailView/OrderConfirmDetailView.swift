@@ -91,7 +91,7 @@ class OrderConfirmDetailView : UIView {
         viewContent.addSubview(imgConfirm)
         
         buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, 418, 98, 34))
-        buttonOk.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        buttonOk.backgroundColor = WMColor.light_blue
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
@@ -101,7 +101,7 @@ class OrderConfirmDetailView : UIView {
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.text = NSLocalizedString("gr.confirma.generatingorden",comment: "")
         titleLabel.textAlignment = .Center
-        titleLabel.textColor = WMColor.headerViewBgCollor
+        titleLabel.textColor = WMColor.light_blue
         
         imageBarCode = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - 102, iconLoadingDone.frame.maxY + 16, 206, 56))
         
@@ -322,7 +322,7 @@ class OrderConfirmDetailView : UIView {
         self.titleLabel.text = descError
         
         let buttonNOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, viewLoadingDoneAnimate.frame.maxY + 32, 98, 34))
-        buttonNOk.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        buttonNOk.backgroundColor = WMColor.light_blue
         buttonNOk.layer.cornerRadius = 17
         buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonNOk.setTitle("Ok", forState: UIControlState.Normal)
@@ -364,7 +364,7 @@ class OrderConfirmDetailView : UIView {
     func labelValue(frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(14)
-        labelTitleItem.textColor = WMColor.headerViewBgCollor
+        labelTitleItem.textColor = WMColor.light_blue
         return labelTitleItem
     }
     

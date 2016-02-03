@@ -37,7 +37,7 @@ class IPOWMAlertViewController : UIViewController {
         super.viewDidLoad()
         
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.productAddToCartBg
+        self.bgView.backgroundColor = WMColor.light_blue
         
         viewBgImage = UIView()
         viewBgImage.layer.cornerRadius = 80 / 2
@@ -196,7 +196,7 @@ class IPOWMAlertViewController : UIViewController {
         leftButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), forState: UIControlState.Normal)
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         leftButton.backgroundColor = UIColor.whiteColor()
-        leftButton.setTitleColor(WMColor.productAddToCartKeepShoppingText, forState: UIControlState.Normal)
+        leftButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         leftButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
 
         let rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))

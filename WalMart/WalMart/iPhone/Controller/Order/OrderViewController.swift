@@ -226,7 +226,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         facturasToolBar.backgroundColor = UIColor.clearColor()
         
         self.buttonFactura = UIButton(frame: CGRectMake(16, 14, facturasToolBar.frame.width - 32, 34))
-        self.buttonFactura.backgroundColor = WMColor.loginProfileSaveBGColor
+        self.buttonFactura.backgroundColor = WMColor.light_blue
         self.buttonFactura.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.buttonFactura.layer.cornerRadius = 17
         self.buttonFactura.addTarget(self, action: "showWebView", forControlEvents: UIControlEvents.TouchUpInside)

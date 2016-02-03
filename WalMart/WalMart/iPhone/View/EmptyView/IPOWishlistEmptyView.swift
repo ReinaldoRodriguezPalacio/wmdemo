@@ -29,12 +29,12 @@ class IPOWishlistEmptyView : IPOEmptyView {
         
         self.descLabel.text = NSLocalizedString("empty.wishlist.title",comment:"")
         self.descLabel.numberOfLines = 0
-        self.descLabel.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        self.descLabel.textColor = WMColor.light_blue
         self.descLabel.font = WMFont.fontMyriadProLightOfSize(14.0)
         
         self.textLabel = UILabel()
         self.textLabel!.textAlignment = .Center
-        self.textLabel!.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        self.textLabel!.textColor = WMColor.light_blue
         self.textLabel!.font = WMFont.fontMyriadProRegularOfSize(14.0)
         self.textLabel!.text = NSLocalizedString("empty.wishlist.text", comment:"")
         self.addSubview(self.textLabel!)

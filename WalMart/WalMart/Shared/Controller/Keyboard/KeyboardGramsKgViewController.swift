@@ -33,7 +33,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        backgroundView.backgroundColor = WMColor.light_blue
         
         orderPiceButton.backgroundColor = WMColor.blue
         orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
