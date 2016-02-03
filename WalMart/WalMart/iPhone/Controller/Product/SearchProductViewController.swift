@@ -93,12 +93,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var didSelectProduct =  false
     var finsihService =  false
     
-   
-    
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var selectQuantity : ShoppingCartQuantitySelectorView!
     var isTextSearch: Bool = false
     var isOriginalTextSearch: Bool = false
+    
+    var findUpcsMg: NSArray? = []
 
     
     override func getScreenGAIName() -> String {
@@ -193,9 +193,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(collection!)
         self.titleLabel?.text = titleHeader
         
-        self.getServiceProduct(resetTable: false)
-        if  self.searchContextType == .WithCategoryForGR {
-            self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+        if self.findUpcsMg?.count > 0 {
+            self.invokeSearchUPCSCMG()
+        }else{
+            
+            self.getServiceProduct(resetTable: false)
+            if  self.searchContextType == .WithCategoryForGR {
+                self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+            }
         }
     }
     
@@ -404,6 +409,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //                return self.itemsUPCMG!.count
 //            }
 //        }
+        if self.invokeServiceUpc {
+            if let count = self.allProducts?.count {
+                return count
+            }
+        }
         
         var size = 0
         if let count = self.allProducts?.count {
@@ -1469,4 +1479,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func afterAddToSC() {
         self.collection?.reloadData()
     }
+    
+    var invokeServiceUpc =  false
+    
+    func invokeSearchUPCSCMG() {
+        if self.findUpcsMg?.count > 0 {
+             self.filterButton?.alpha = 0
+            let serviceUPC = SearchItemsByUPCService()
+            serviceUPC.callService(self.findUpcsMg as! [String], successJSONBlock: { (result:JSON) -> Void in
+                //self.itemsUPCMG = result.arrayObject
+                let upcs : NSArray = result.arrayObject!
+                if upcs.count > 0 {
+                self.allProducts?.addObjectsFromArray(upcs as! [AnyObject])
+                self.finsihService =  true
+                self.invokeServiceUpc =  true
+                self.collection?.reloadData()
+                self.collection?.layoutIfNeeded()
+                }else{
+                    self.showEmptyView()
+                }
+                
+                print("busqueda completa")
+                }) { (error:NSError) -> Void in
+                    self.finsihService =  true
+                    self.showEmptyView()
+                    print(error.localizedDescription)
+            }
+        } else {
+         self.showEmptyView()
+         print("No hay upcs a buscar ")
+        }
+    }
+    
+    
+    
 }
