@@ -249,12 +249,35 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             } else {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GR_BANNER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_GR_BANNER_NO_AUTH.rawValue, action:WMGAIUtils.ACTION_VIEW_BANNER_PRODUCT.rawValue , label: "\(val)")
             }
-            showProductDetail(val,type: type)
+            if val.rangeOfString(",") != nil {
+                let upcss :NSString = val
+                let myStringArr = upcss.componentsSeparatedByString(",")
+                self.showFindUpc(myStringArr ,type: type)
+                
+            }else{
+                showProductDetail(val,type: type)
+            }
+   
+            
         default:
             return
         }
        
               
+    }
+    
+    func showFindUpc(upcs:NSArray,type:String){
+        let controller = SearchProductViewController()
+        if type == "mg" {
+            controller.searchContextType = .WithCategoryForMG
+        }else {
+            controller.searchContextType = .WithCategoryForGR
+        }
+        controller.findUpcsMg = upcs as? [String]
+        controller.titleHeader = "Recomendados"
+        self.navigationController!.pushViewController(controller, animated: true)
+        
+    
     }
     
     func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?,type:String){

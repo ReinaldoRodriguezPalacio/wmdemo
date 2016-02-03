@@ -126,32 +126,39 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
             let idDepartment = item["idDepto"] as! String
             let famArray : AnyObject = item["family"] as AnyObject!
             let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
-            let famSelected = itemsFam[0]
-            let idFamDefault = famSelected["id"] as! String
+            var famSelected = itemsFam[0]
+            var idFamDefault = famSelected["id"] as! String
             
-            let lineArray : AnyObject = famSelected["line"] as AnyObject!
-            let itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
-            let lineSelected = itemsLine[0]
-            let idLineDefault = lineSelected["id"] as! String
-            let nameLineDefault = lineSelected["name"] as! String
+            var lineArray : AnyObject = famSelected["line"] as AnyObject!
+            var itemsLine : [[String:AnyObject]] = lineArray as! [[String:AnyObject]]
             
-            
-            
-            selIdDepartment = idDepartment
-            selIdFamily = idFamDefault
-            selIdLine = idLineDefault
-            selName = nameLineDefault
-            
-            self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
-            let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
-            UIView.animateWithDuration(0.35, animations: { () -> Void in
-                self.categories.scrollToItemAtIndexPath(self.selectedIndex, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
-                }) { (complete:Bool) -> Void in
-                    if complete {
-                        self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image)
-                    }
+            if itemsLine.count == 0 {
+                famSelected = itemsFam[1]
+                idFamDefault = famSelected["id"] as! String
+                lineArray = famSelected["line"] as AnyObject!
+                itemsLine = lineArray as! [[String:AnyObject]]
             }
-        }
+            
+                let lineSelected =  itemsLine[0]
+                let idLineDefault = lineSelected["id"] as! String
+                let nameLineDefault = lineSelected["name"] as! String
+                
+                selIdDepartment = idDepartment
+                selIdFamily = idFamDefault
+                selIdLine = idLineDefault
+                selName = nameLineDefault
+                
+                self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
+                let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
+                UIView.animateWithDuration(0.35, animations: { () -> Void in
+                    self.categories.scrollToItemAtIndexPath(self.selectedIndex, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
+                    }) { (complete:Bool) -> Void in
+                        if complete {
+                            self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image)
+                        }
+                }
+            }
+        
         
         
        
