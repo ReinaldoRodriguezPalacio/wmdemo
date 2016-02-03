@@ -305,7 +305,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             addressId = addId
         }
         
-        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.listAddressTextColor, padding: 12,align:NSTextAlignment.Left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId)
+        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray, padding: 12,align:NSTextAlignment.Left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId)
         
         cell!.delegateAddres = self
         cell!.delegate = self

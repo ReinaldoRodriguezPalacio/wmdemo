@@ -96,17 +96,17 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.labelQuestion2!.textAlignment = .Center
         
         self.callme!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.callme!.textColor = WMColor.listAddressTextColor
+        self.callme!.textColor = WMColor.gray
         self.callme!.backgroundColor = UIColor.clearColor()
         self.callme!.textAlignment = .Center
         
         self.callmeNumber!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.callmeNumber!.textColor = WMColor.listAddressTextColor
+        self.callmeNumber!.textColor = WMColor.gray
         self.callmeNumber!.backgroundColor = UIColor.clearColor()
         self.callmeNumber!.textAlignment = .Center
         
         self.sendmeMail!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.sendmeMail!.textColor = WMColor.listAddressTextColor
+        self.sendmeMail!.textColor = WMColor.gray
         self.sendmeMail!.backgroundColor = UIColor.clearColor()
         self.sendmeMail!.textAlignment = .Center
         

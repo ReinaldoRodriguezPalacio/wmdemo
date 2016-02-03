@@ -115,7 +115,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
 //        //self.segmented!.momentary = true
 //        
 //        var segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
-//            NSForegroundColorAttributeName:WMColor.productDetailPriceText]
+//            NSForegroundColorAttributeName:WMColor.gray]
 //        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Normal)
 //        
 //        segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),

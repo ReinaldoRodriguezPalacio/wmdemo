@@ -44,7 +44,7 @@ class IPOEmptyView : UIView {
     }
     
     func setup() {
-        self.backgroundColor = WMColor.emptyBgColor
+        self.backgroundColor = WMColor.light_gray
         iconImageView = UIImageView()
         
         descLabel = UILabel()

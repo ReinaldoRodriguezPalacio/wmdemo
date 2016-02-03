@@ -53,7 +53,7 @@ class IPOWMAlertViewController : UIViewController {
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
-        titleLabel.textColor = WMColor.productAddToCartTitle
+        titleLabel.textColor = WMColor.light_gray
         titleLabel.textAlignment = .Center
         titleLabel.numberOfLines = 0
         
@@ -141,7 +141,7 @@ class IPOWMAlertViewController : UIViewController {
     
     func showErrorIcon(titleDone:String) {
        showicon(self.imageError)
-        showOkButton(titleDone, colorButton:WMColor.emptyBgRetunGreenColor)
+        showOkButton(titleDone, colorButton:WMColor.green)
     }
     
     func showicon(image:UIImage?) {

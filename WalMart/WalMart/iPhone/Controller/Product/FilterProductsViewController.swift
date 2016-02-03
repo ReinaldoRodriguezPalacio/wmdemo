@@ -680,7 +680,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         let title = UILabel(frame: CGRectMake(16.0, 0.0, self.view.frame.width - 32.0, 36.0))
         title.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
-        title.textColor = WMColor.UIColorFromRGB(0x797F89)
+        title.textColor = WMColor.gray
         title.font = WMFont.fontMyriadProRegularOfSize(11)
         if section == 0 {
             title.text = NSLocalizedString("filter.section.order", comment:"")

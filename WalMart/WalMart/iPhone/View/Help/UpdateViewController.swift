@@ -43,7 +43,7 @@ class UpdateViewController: UIView {
         later = UIButton()
         later.setTitle(NSLocalizedString("update.later" ,comment:""), forState: UIControlState.Normal)
         later.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        later.backgroundColor = WMColor.regular_blue
+        later.backgroundColor = WMColor.blue
         later.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
         later.layer.cornerRadius = 18
         later.addTarget(self, action: "updatelater", forControlEvents: UIControlEvents.TouchUpInside)

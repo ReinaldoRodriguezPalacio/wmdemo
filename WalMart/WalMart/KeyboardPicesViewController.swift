@@ -29,7 +29,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
         super.viewDidLoad()
         backgroundView.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
         
-        orderPiceButton.backgroundColor = WMColor.regular_blue
+        orderPiceButton.backgroundColor = WMColor.blue
         orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         orderPiceButton.layer.cornerRadius = 9
         orderPiceButton.addTarget(self, action: "gotograms", forControlEvents: UIControlEvents.TouchUpInside)

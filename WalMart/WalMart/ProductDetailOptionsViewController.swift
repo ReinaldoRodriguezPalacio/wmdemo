@@ -68,7 +68,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         buttonShop = UIButton(frame: CGRectMake(0, self.price.frame.maxY , 60, 34))
         buttonShop.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Disabled)
-        buttonShop.backgroundColor = WMColor.disabled_light_gray
+        buttonShop.backgroundColor = WMColor.light_gray
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonShop.layer.cornerRadius = 17
         buttonShop.enabled = false
@@ -157,7 +157,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         } else {
             priceBefore.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice))"
-            self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.productDetailPriceListText, interLine: true)
+            self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
             self.listPriceStr = listPrice
         }
         
@@ -166,7 +166,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         } else {
             self.saving.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(saving))"
-            self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.savingTextColor, interLine: false)
+            self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.green, interLine: false)
             self.savingStr = saving
         }
         
@@ -343,7 +343,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         if self.buttonShop.enabled{
             self.buttonShop.backgroundColor = WMColor.yellow
         }else {
-            self.buttonShop.backgroundColor = WMColor.disabled_light_gray
+            self.buttonShop.backgroundColor = WMColor.light_gray
         }
     }
     

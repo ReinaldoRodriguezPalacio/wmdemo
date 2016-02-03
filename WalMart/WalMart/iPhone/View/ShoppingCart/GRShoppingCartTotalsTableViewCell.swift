@@ -17,7 +17,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         
         numProducts = UILabel(frame: CGRectMake(16, 25, 75, 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        numProducts.textColor = WMColor.shoppingCartShopTotalsTextColor
+        numProducts.textColor = WMColor.gray
         self.addSubview(numProducts)
         
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")

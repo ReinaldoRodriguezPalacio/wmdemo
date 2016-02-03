@@ -43,7 +43,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
@@ -111,7 +111,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.productDetailPriceText, interLine: false)
+            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
             productPriceSavingLabel.hidden = false
         }else{
             self.savingProduct = 0
@@ -158,7 +158,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                     let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
                     let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
                     let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-                    self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.productDetailPriceText, interLine: false)
+                    self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
                     self.productPriceSavingLabel.hidden = false
                     
                     

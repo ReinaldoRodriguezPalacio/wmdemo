@@ -190,7 +190,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.addSubview(viewAddress!)
         
         self.preferedLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.preferedLabel!.textColor = WMColor.addressPreferedTextColor
+        self.preferedLabel!.textColor = WMColor.gray
         self.preferedLabel!.textAlignment = .Right
         
         self.telephone = FormFieldView()

@@ -32,7 +32,7 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
         
         descLabel = UILabel()
         descLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-        descLabel.textColor = WMColor.productDetailTextColor
+        descLabel.textColor = WMColor.gray
         descLabel.numberOfLines = 0
         
         downBorder = UIView(frame: CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth()))
@@ -75,12 +75,12 @@ class ProductDetailMSICollectionViewCell : UICollectionViewCell {
             let lblPay = UILabel(frame: CGRectMake(16, currntY, 55, 14))
             lblPay.textAlignment = NSTextAlignment.Right
             lblPay.font = WMFont.fontMyriadProSemiboldOfSize(14)
-            lblPay.textColor = WMColor.productDetailMSIBoldTextColor
+            lblPay.textColor = WMColor.gray
             lblPay.text = "\(msiVal) \(lblPagos)"
             
             let lblDesc = CurrencyCustomLabel(frame: CGRectMake(lblPay.frame.maxX + 4, currntY, 150, 14))
             lblDesc.textAlignment = NSTextAlignment.Left
-            lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProLightOfSize(14), color:  WMColor.productDetailMSITextColor, interLine: false)
+            lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProLightOfSize(14), color:  WMColor.dark_gray, interLine: false)
             
             self.addSubview(lblPay)
             self.addSubview(lblDesc)

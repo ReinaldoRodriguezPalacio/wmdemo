@@ -99,7 +99,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             btnChankePices = UIButton(frame:CGRectMake((self.frame.width / 2) - 60, startH + 17, 120, 18 ))
             btnChankePices.titleLabel?.font = WMFont.fontMyriadProSemiboldSize(12)
             btnChankePices.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            btnChankePices.backgroundColor = WMColor.regular_blue
+            btnChankePices.backgroundColor = WMColor.blue
             btnChankePices.layer.cornerRadius = 9
             btnChankePices.addTarget(self, action: "orderbypices", forControlEvents: UIControlEvents.TouchUpInside)
             btnChankePices.setTitle(NSLocalizedString("shoppingcart.selectpices",comment:""), forState: UIControlState.Normal)
@@ -209,7 +209,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonGramsKG.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonGramsKG.selected = true
         buttonGramsKG.addTarget(self, action: "changegrkg:", forControlEvents: UIControlEvents.TouchUpInside)
-        buttonGramsKG.backgroundColor = WMColor.regular_blue
+        buttonGramsKG.backgroundColor = WMColor.blue
         buttonGramsKG.layer.cornerRadius = 9
 
         

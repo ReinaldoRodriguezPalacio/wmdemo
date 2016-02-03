@@ -67,7 +67,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.signInOrClose = WMRoundButton()
         let sizeImage = CGSizeMake(90, 24)
         self.signInOrClose?.setFontTitle(WMFont.fontMyriadProRegularOfSize(12))
-        self.signInOrClose?.setBackgroundColor(WMColor.regular_blue, size: sizeImage, forUIControlState: UIControlState.Selected)
+        self.signInOrClose?.setBackgroundColor(WMColor.blue, size: sizeImage, forUIControlState: UIControlState.Selected)
         self.signInOrClose?.setTitle("cerrar sesión", forState: UIControlState.Selected)
         self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
         self.signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
@@ -191,7 +191,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             default :
                 print("option don't exist")
             }
-            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.regular_gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
         } else  {
              cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
         }

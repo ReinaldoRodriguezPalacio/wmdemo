@@ -20,7 +20,7 @@ class FilterCategoryViewCell: UITableViewCell {
     var upcs: [String]?
     
     var upperTextColor = WMColor.navigationTilteTextColor
-    var lineTextColor = WMColor.searchProductDescriptionTextColors
+    var lineTextColor = WMColor.gray
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

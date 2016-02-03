@@ -64,7 +64,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), forState: UIControlState.Normal)
         buttonTerms.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         buttonTerms.addTarget(self, action: "termsclick", forControlEvents: UIControlEvents.TouchUpInside)
-        buttonTerms.backgroundColor = WMColor.medium_blue
+        buttonTerms.backgroundColor = WMColor.blue
         buttonTerms.layer.cornerRadius = 8
         buttonTerms.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(10)
         buttonTerms.alpha = 0

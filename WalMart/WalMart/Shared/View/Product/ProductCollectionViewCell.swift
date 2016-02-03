@@ -50,7 +50,7 @@ class ProductCollectionViewCell : UICollectionViewCell {
         productShortDescriptionLabel = UILabel()
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         productShortDescriptionLabel!.numberOfLines = 2
-        productShortDescriptionLabel!.textColor =  WMColor.productDescriptionTextColor
+        productShortDescriptionLabel!.textColor =  WMColor.gray
         productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
         productShortDescriptionLabel!.minimumScaleFactor = 9 / 12
         productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)

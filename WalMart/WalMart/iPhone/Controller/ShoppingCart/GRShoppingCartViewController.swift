@@ -664,7 +664,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 36, 109))
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: UIControlState.Normal)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
+        buttonDelete.backgroundColor = WMColor.light_gray
         toReturn.append(buttonDelete)
         
         return toReturn

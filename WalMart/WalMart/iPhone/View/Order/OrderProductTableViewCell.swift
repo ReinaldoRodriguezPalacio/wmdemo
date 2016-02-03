@@ -31,7 +31,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         self.productPriceLabel!.hidden = true
         
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
@@ -88,8 +88,8 @@ class OrderProductTableViewCell : ProductTableViewCell {
         let lblUPC = NSLocalizedString("previousorder.upc",comment:"")
 
         //var valueItem = NSMutableAttributedString()
-        let attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
-        let attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
+        let attrStringLab = NSAttributedString(string:"\(lblUPC): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
+        let attrStringVal = NSAttributedString(string:"\(upc)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
         let valuesDescItem = NSMutableAttributedString()
         valuesDescItem.appendAttributedString(attrStringLab)
@@ -100,8 +100,8 @@ class OrderProductTableViewCell : ProductTableViewCell {
         let lblItems = NSLocalizedString("previousorder.quantity",comment:"")
         
         //var valueItemQ = NSMutableAttributedString()
-        let attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemLabelColor])
-        let attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.previosOrderTextItemValueColor])
+        let attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
+        let attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
         let valuesDescItemQ = NSMutableAttributedString()
         valuesDescItemQ.appendAttributedString(attrStringLabQ)

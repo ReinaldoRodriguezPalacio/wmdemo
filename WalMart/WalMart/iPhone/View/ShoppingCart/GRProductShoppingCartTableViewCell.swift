@@ -39,7 +39,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
@@ -52,7 +52,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         productPriceSavingLabel = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
         productPriceSavingLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
-        productPriceSavingLabel!.textColor = WMColor.savingTextColor
+        productPriceSavingLabel!.textColor = WMColor.green
         
         
         self.contentView.addSubview(productPriceSavingLabel)

@@ -44,9 +44,9 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.productPriceThroughLabel = CurrencyCustomLabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
         //self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
-        //self.productPriceThroughLabel!.textColor = WMColor.savingTextColor
+        //self.productPriceThroughLabel!.textColor = WMColor.green
         
-        self.productShortDescriptionLabel!.textColor = WMColor.searchProductDescriptionTextColors
+        self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
@@ -114,7 +114,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         if savingPrice != ""{
             self.productPriceThroughLabel!.hidden = false
-            self.productPriceThroughLabel!.updateMount(savingPrice, font: IS_IPAD ? WMFont.fontMyriadProSemiboldOfSize(14) :WMFont.fontMyriadProSemiboldOfSize(9), color: WMColor.savingTextColor, interLine: false)
+            self.productPriceThroughLabel!.updateMount(savingPrice, font: IS_IPAD ? WMFont.fontMyriadProSemiboldOfSize(14) :WMFont.fontMyriadProSemiboldOfSize(9), color: WMColor.green, interLine: false)
         }else{
             
             self.productPriceThroughLabel!.hidden = true

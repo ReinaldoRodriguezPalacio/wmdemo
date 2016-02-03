@@ -66,13 +66,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
 
         self.listName = UILabel()
         self.listName!.font = self.listNameFont
-        self.listName!.textColor = WMColor.regular_gray
+        self.listName!.textColor = WMColor.gray
         self.listName!.numberOfLines = 2
         self.contentView.addSubview(self.listName!)
         
         self.articlesTitle = UILabel()
         self.articlesTitle!.font = self.articlesTitleFont
-        self.articlesTitle!.textColor = WMColor.regular_gray
+        self.articlesTitle!.textColor = WMColor.gray
         self.articlesTitle!.text = NSLocalizedString("list.articles",comment:"")
         self.contentView.addSubview(self.articlesTitle!)
         
@@ -106,7 +106,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         
         buttonDelete = UIButton()
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)
-        //buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
+        //buttonDelete.backgroundColor = WMColor.light_gray
         buttonDelete.backgroundColor = UIColor.whiteColor()
 
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)

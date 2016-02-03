@@ -33,7 +33,7 @@ class SelectItemTableViewCell : UITableViewCell {
         self.addSubview(checkSelected)
         
         self.textLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.textLabel?.textColor = WMColor.selectorPickerText
+        self.textLabel?.textColor = WMColor.gray
         self.textLabel?.numberOfLines = 0
         
         self.showButton = UIButton()

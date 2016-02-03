@@ -32,7 +32,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     override func setup() {
         super.setup()
         
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
@@ -99,7 +99,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             let formatedSaving = CurrencyCustomLabel.formatString(saving)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.productDetailPriceText, interLine: false)
+            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
             productPriceSavingLabel.hidden = false
         }else{
             productPriceSavingLabel.hidden = true

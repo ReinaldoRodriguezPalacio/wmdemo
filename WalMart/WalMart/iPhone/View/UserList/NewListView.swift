@@ -27,7 +27,7 @@ class NewListView: UIControl, UITextFieldDelegate {
         self.backgroundColor = UIColor.clearColor()
         
         self.inputNameList = ListFieldSearch(frame: CGRectMake(16.0, 8.0, frame.width - 36.0, 40.0))
-        self.inputNameList!.backgroundColor = WMColor.UIColorFromRGB(0xEDEDEE)
+        self.inputNameList!.backgroundColor = WMColor.light_gray
         self.inputNameList!.layer.cornerRadius = 10.0
         self.inputNameList!.font = WMFont.fontMyriadProLightOfSize(16)
         self.inputNameList!.delegate =  self
@@ -60,7 +60,7 @@ class NewListView: UIControl, UITextFieldDelegate {
         self.saveButton!.frame = CGRectMake(0.0, 0.0, 46.0, 40.0)
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.save", comment:""), forState: .Normal)
-        self.saveButton!.setTitleColor(WMColor.UIColorFromRGB(0x797F89), forState: .Normal)
+        self.saveButton!.setTitleColor(WMColor.gray, forState: .Normal)
         self.saveButton!.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
         self.inputNameList!.rightView = self.saveButton

@@ -159,8 +159,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                  addressFiscalButton!.setTitleColor(UIColor.whiteColor() , forState: UIControlState.Normal)
             }else {
                 named = "checkAddressOn"
-                addressShipingButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
-                addressFiscalButton!.setTitleColor(WMColor.loginTermsConditionTextColor , forState: UIControlState.Normal)
+                addressShipingButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+                addressFiscalButton!.setTitleColor(WMColor.gray , forState: UIControlState.Normal)
             }
             
             let checkTermOn : UIImage = UIImage(named:named)!
@@ -173,14 +173,14 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressShipingButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
             addressShipingButton!.setTitle(NSLocalizedString("profile.address.shiping",  comment: ""), forState: UIControlState.Normal)
             addressShipingButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressShipingButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
+            addressShipingButton!.titleLabel?.textColor = WMColor.gray
             addressShipingButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
            
             addressFiscalButton!.setImage(checkTermOff, forState: UIControlState.Normal)
             addressFiscalButton!.setImage(checkTermOn, forState: UIControlState.Selected)
             
             addressFiscalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
+            addressFiscalButton!.titleLabel?.textColor = WMColor.gray
             addressFiscalButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
           
             addressFiscalButton!.setTitle(NSLocalizedString("profile.address.fiscal",  comment: ""), forState: UIControlState.Normal)
@@ -229,8 +229,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalPersonButton!.addTarget(self, action: "checkSelectedFisical:", forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), forState: UIControlState.Normal)
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalPersonButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
-            addressFiscalPersonButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+            addressFiscalPersonButton!.titleLabel?.textColor = WMColor.gray
+            addressFiscalPersonButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
             addressFiscalPersonButton!.setTitleColor(WMColor.loginTypePersonDisabled, forState: UIControlState.Disabled)
             addressFiscalPersonButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
@@ -240,8 +240,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalMoralButton!.addTarget(self, action: "checkSelectedFisical:", forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), forState: UIControlState.Normal)
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalMoralButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
-            addressFiscalMoralButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+            addressFiscalMoralButton!.titleLabel?.textColor = WMColor.gray
+            addressFiscalMoralButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
             addressFiscalMoralButton!.setTitleColor(WMColor.loginTypePersonDisabled, forState: UIControlState.Disabled)
             addressFiscalMoralButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             

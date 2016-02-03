@@ -28,7 +28,7 @@ class TextboxTableViewCell: UITableViewCell{
     func setup() {
         
         self.textLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.textLabel?.textColor = WMColor.selectorPickerText
+        self.textLabel?.textColor = WMColor.gray
         self.textLabel?.numberOfLines = 0
         self.textLabel?.hidden = true
         textbox = FormFieldView(frame: CGRectMake(5,3, self.frame.width - 12, self.frame.height - 6))

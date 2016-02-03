@@ -101,7 +101,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
         titleLabel = UILabel(frame: CGRectMake((self.view.frame.width / 2) - 116, viewBgImage.frame.maxY + 23, 232, 200))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
-        titleLabel.textColor = WMColor.productAddToCartTitle
+        titleLabel.textColor = WMColor.light_gray
         titleLabel.numberOfLines =  3
         titleLabel.textAlignment = .Center
         titleLabel.numberOfLines = 0

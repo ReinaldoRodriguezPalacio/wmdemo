@@ -313,7 +313,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if self.saving.doubleValue > 0{
                 let cellListPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
                 let formatedValue = "\(CurrencyCustomLabel.formatString(self.listPrice))"
-                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.productDetailPriceText, interLine: true)
+                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.gray, interLine: true)
                 cell = cellListPrice
             }else{
                 let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
@@ -337,7 +337,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                         savingSend = "\(savingStr) \(formated)"
                     }
                     
-                    cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.savingTextColor, interLine: false)
+                    cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
                     cell = cellAhorro
                 }else {
                     let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)

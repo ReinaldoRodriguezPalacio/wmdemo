@@ -19,7 +19,7 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
         
         productPriceSavingLabelGR = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
         productPriceSavingLabelGR!.font = WMFont.fontMyriadProSemiboldSize(14)
-        productPriceSavingLabelGR!.textColor = WMColor.savingTextColor
+        productPriceSavingLabelGR!.textColor = WMColor.green
         self.contentView.addSubview(productPriceSavingLabelGR)
         
     }

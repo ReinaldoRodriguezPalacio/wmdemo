@@ -109,7 +109,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //            default :
 //                println("option don't exist")
 //            }
-//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.regular_gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
 //        }
 //        
 //        return cell

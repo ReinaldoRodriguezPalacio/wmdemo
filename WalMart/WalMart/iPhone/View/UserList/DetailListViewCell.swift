@@ -42,11 +42,11 @@ class DetailListViewCell: ProductTableViewCell {
         self.selectionStyle = .None
         
         self.promoDescription = UILabel()
-        self.promoDescription!.textColor = WMColor.savingTextColor
+        self.promoDescription!.textColor = WMColor.green
         self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
         self.contentView.addSubview(self.promoDescription!)
         
-        self.productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.productShortDescriptionLabel!.numberOfLines = 2
         self.productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
@@ -85,7 +85,7 @@ class DetailListViewCell: ProductTableViewCell {
 
         buttonDelete = UIButton()
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
+        buttonDelete.backgroundColor = WMColor.light_gray
         
        
         
@@ -330,12 +330,12 @@ class DetailListViewCell: ProductTableViewCell {
     func checkDisabled(disabled:Bool) {
         self.check!.selected = !disabled
         if disabled {
-            self.productShortDescriptionLabel?.textColor = WMColor.disabled_light_gray
-            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.disabled_light_gray, interLine: false)
+            self.productShortDescriptionLabel?.textColor = WMColor.light_light_gray
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.light_light_gray, interLine: false)
             self.productImage!.image = imageGrayScale
-            self.quantityIndicator?.backgroundColor = WMColor.disabled_light_gray
+            self.quantityIndicator?.backgroundColor = WMColor.light_light_gray
         } else {
-            self.productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+            self.productShortDescriptionLabel!.textColor = WMColor.gray
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
             self.productImage!.image = imageNormal
             self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)

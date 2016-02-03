@@ -33,7 +33,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         
         self.productPriceThroughLabel = CurrencyCustomLabel(frame: CGRectZero)
         
-        self.productShortDescriptionLabel!.textColor = WMColor.searchProductDescriptionTextColors
+        self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2

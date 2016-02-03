@@ -823,7 +823,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
                     savingSend = "\(savingStr) \(formated)"
                 }
                 
-                cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.savingTextColor, interLine: false)
+                cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
                 cell = cellAhorro
                
             } else{

@@ -134,7 +134,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.maleButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.maleButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.maleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.maleButton!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.maleButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         self.maleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
         self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.maleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
@@ -146,7 +146,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.femaleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.femaleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
         self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.femaleButton!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.femaleButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     
 

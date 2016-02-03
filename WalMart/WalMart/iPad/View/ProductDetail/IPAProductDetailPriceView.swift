@@ -51,9 +51,9 @@ class IPAProductDetailPriceView : UIView {
         let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
         let savingPriceFormatedValue = "\(ahorrasLabel) \(CurrencyCustomLabel.formatString(savingPrice))"
         
-        originalPriceLabel.updateMount(originalPriceFormatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.productDetailPriceListText, interLine: true)
-        currentPriceLabel.updateMount(currentPriceFormatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.productDetailPriceText, interLine: false)
-        savingPriceLabel.updateMount(savingPriceFormatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color:WMColor.productDetailPriceText, interLine: false)
+        originalPriceLabel.updateMount(originalPriceFormatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
+        currentPriceLabel.updateMount(currentPriceFormatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.gray, interLine: false)
+        savingPriceLabel.updateMount(savingPriceFormatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color:WMColor.gray, interLine: false)
         
       
         

@@ -33,7 +33,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.selectionStyle = .None
         
         self.inputNameList = ListFieldSearch(frame: CGRectMake(16.0, 0.0, 200.0, 40.0))
-        self.inputNameList!.backgroundColor = WMColor.UIColorFromRGB(0xEDEDEE)
+        self.inputNameList!.backgroundColor = WMColor.light_gray
         self.inputNameList!.layer.cornerRadius = 5.0
         self.inputNameList!.font = WMFont.fontMyriadProLightOfSize(16)
         self.inputNameList!.delegate =  self
