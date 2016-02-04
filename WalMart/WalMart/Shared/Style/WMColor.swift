@@ -10,14 +10,15 @@ import Foundation
 
 struct WMColor {
     //Color palette
-    static var dark_gray: UIColor{return UIColorFromRGB(0x525B66)}
-    static var gray: UIColor{return UIColorFromRGB(0x797F89)}
+    static var dark_gray: UIColor{return UIColorFromRGB(0x525A66)}
+    static var gray: UIColor{return UIColorFromRGB(0x787F88)}
+    static var empty_gray: UIColor{return UIColorFromRGB(0x787F88)}
     static var light_gray: UIColor{return UIColorFromRGB(0xEDEDEE)}
     static var light_light_gray: UIColor{return UIColorFromRGB(0xF8F7F7)}
     static var light_blue: UIColor{return UIColorFromRGB(0x2870C9)}
     static var light_light_blue: UIColor{return UIColorFromRGB(0x76B3E5)}
-    static var blue: UIColor{return UIColorFromRGB(0x015AA3)}
-    static var dark_blue: UIColor{return UIColorFromRGB(0x2C4E86)}
+    static var blue: UIColor{return UIColorFromRGB(0x005AA2)}
+    static var dark_blue: UIColor{return UIColorFromRGB(0x004D86)}
     static var yellow: UIColor{return UIColorFromRGB(0xFFB300)}
     static var orange: UIColor{return UIColorFromRGB(0xF27B20)}
     static var green: UIColor{return UIColorFromRGB(0x8EBB36)}
