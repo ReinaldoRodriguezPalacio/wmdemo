@@ -1524,15 +1524,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func retrieveParam(key:String) -> Param? {
-        let user = UserCurrentSession.sharedInstance().userSigned
+
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Param", inManagedObjectContext: self.managedContext!)
-        if user != nil {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
-        }
-        else {
-            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
-        }
+        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
+        
         var parameter: Param? = nil
         do{
             let result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [Param]

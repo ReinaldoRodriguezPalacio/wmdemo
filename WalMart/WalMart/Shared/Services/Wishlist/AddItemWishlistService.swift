@@ -76,10 +76,7 @@ class AddItemWishlistService : BaseService {
                 }, errorBlock: { (error:NSError) -> Void in
             })
             var wishlistProduct : Wishlist
-            var predicate = NSPredicate(format: "product.upc == %@ && user == nil",product["upc"] as! NSString)
-            if UserCurrentSession.hasLoggedUser() {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
-            }
+            let predicate = NSPredicate(format: "product.upc == %@",product["upc"] as! NSString)
             let array : [Wishlist] =  self.retrieve("Wishlist",sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]
             if array.count == 0 {
                 wishlistProduct = NSEntityDescription.insertNewObjectForEntityForName("Wishlist", inManagedObjectContext: context) as! Wishlist

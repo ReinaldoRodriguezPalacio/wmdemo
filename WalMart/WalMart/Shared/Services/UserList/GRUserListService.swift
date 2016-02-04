@@ -295,7 +295,7 @@ class GRUserListService : GRBaseService {
         if user != nil {
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString as String, inManagedObjectContext: self.managedContext!)
-            fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
+            //fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
             do{
                 userList = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
             }catch{
