@@ -92,7 +92,7 @@ class FormFieldView : UIEdgeTextField {
         if(self.isRequired){
             str = "*" + placeholder
         }
-        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.light_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
     func setSelectedCheck( isCheck: Bool){

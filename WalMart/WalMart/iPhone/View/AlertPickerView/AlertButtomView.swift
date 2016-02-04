@@ -104,7 +104,7 @@ class AlertButtomView : AlertPickerView {
         self.bgView.addSubview(imgBgView)
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.6)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
         

@@ -37,7 +37,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
         addButton.backgroundColor = WMColor.green
         addButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
-        keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
+        keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboardView.delegate = self
         
         

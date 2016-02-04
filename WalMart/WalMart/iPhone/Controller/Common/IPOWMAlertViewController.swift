@@ -37,11 +37,11 @@ class IPOWMAlertViewController : UIViewController {
         super.viewDidLoad()
         
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.light_blue
+        self.bgView.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.7)
         
         viewBgImage = UIView()
         viewBgImage.layer.cornerRadius = 80 / 2
-        viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.5)
+        viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
         
         if imageWaiting != nil {
             imageIcon = UIImageView()

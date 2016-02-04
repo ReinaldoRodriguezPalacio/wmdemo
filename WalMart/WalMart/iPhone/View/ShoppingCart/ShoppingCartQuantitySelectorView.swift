@@ -43,7 +43,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         
         let bgView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
-        bgView.backgroundColor = WMColor.light_blue
+        bgView.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         
         let lblTitle = UILabel(frame:CGRectMake((self.frame.width / 2) - 115, startH + 17, 230, 14))
         lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
@@ -66,7 +66,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         self.keyboardView = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantity.frame.maxY + 10, 160, 196))
         //289
-        self.keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
+        self.keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         self.keyboardView.delegate = self
         
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, self.keyboardView.frame.maxY + 15 , 142, 36))

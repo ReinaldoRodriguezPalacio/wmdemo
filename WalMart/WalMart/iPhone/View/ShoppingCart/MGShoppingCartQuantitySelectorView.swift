@@ -20,7 +20,7 @@ class MGShoppingCartQuantitySelectorView : ShoppingCartQuantitySelectorView {
      let startPos = (self.frame.width - 288) / 2
      self.keyboardView = NumericKeyboardView(frame:CGRectMake(startPos, lblQuantity.frame.maxY + 10, 315, 212))
      self.keyboardView.widthButton = 80
-     self.keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor(),numberOfButtons: 5)
+     self.keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor(),numberOfButtons: 5)
     self.keyboardView.delegate = self
     self.lblQuantity.textAlignment = .Center
     

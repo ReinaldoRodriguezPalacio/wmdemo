@@ -16,7 +16,7 @@ struct WMColor {
     static var light_light_gray: UIColor{return UIColorFromRGB(0xF8F7F7)}
     static var light_blue: UIColor{return UIColorFromRGB(0x2870C9)}
     static var light_light_blue: UIColor{return UIColorFromRGB(0x76B3E5)}
-    static var blue: UIColor{return UIColorFromRGB(0x335A9D)}
+    static var blue: UIColor{return UIColorFromRGB(0x015AA3)}
     static var dark_blue: UIColor{return UIColorFromRGB(0x2C4E86)}
     static var yellow: UIColor{return UIColorFromRGB(0xFFB300)}
     static var orange: UIColor{return UIColorFromRGB(0xF27B20)}
@@ -41,6 +41,10 @@ struct WMColor {
             blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
             alpha: CGFloat(alpha)
         )
+    }
+    
+    static func UIColorFromRGB(wmcolor: UIColor, alpha: Double) -> UIColor {
+        return wmcolor.colorWithAlphaComponent(CGFloat(alpha))
     }
     
 }
