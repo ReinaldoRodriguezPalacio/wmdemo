@@ -710,7 +710,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let bounds = controller.view.bounds
             
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
-            self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
+            self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpForSearchView"))
             controller.view.addSubview(self.helpView!)

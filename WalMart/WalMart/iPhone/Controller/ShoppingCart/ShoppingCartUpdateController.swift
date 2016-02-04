@@ -563,7 +563,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.imageProduct.frame = CGRectMake(0, 0, 80, 80)
                     self.viewBgImage.addSubview(self.imageProduct)
                     self.viewBgImage.hidden = false
-                    self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.5)
+                    self.viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
                     self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, `repeat`: 100)
                     self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showDoneIcon", userInfo: nil, repeats: false)
                     self.finishCall = false

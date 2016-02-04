@@ -835,7 +835,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
-            self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
+            self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
             self.view.addSubview(self.helpView!)

@@ -48,7 +48,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
         
         viewBG = UIView(frame:CGRectZero)
         viewBG.alpha = 0
-        viewBG.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.6)
+        viewBG.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.view.addSubview(viewBG)
         
         viewSuper = PreShoppingCartView(frame: CGRectZero)

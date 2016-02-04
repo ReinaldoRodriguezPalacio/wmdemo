@@ -320,7 +320,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     self.viewBgWishlist = UIView(frame: self.currentController!.view.bounds)
                     self.viewBgWishlist.userInteractionEnabled = true
                     self.viewBgWishlist.alpha = 0
-                    self.viewBgWishlist.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.2)
+                    self.viewBgWishlist.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
                     
                     self.viewBgWishlist.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapHideWhishList"))
                     

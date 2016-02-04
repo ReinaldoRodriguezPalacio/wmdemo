@@ -22,7 +22,7 @@ class IPAFamilyTableViewCell : IPOFamilyTableViewCell {
         self.addSubview(separatorView)
         
         let bgColorView = UIView()
-        bgColorView.backgroundColor =  WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.12)
+        bgColorView.backgroundColor =  UIColor.whiteColor().colorWithAlphaComponent(0.12)
         self.selectedBackgroundView = bgColorView
         
         

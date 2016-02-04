@@ -42,6 +42,10 @@ struct WMColor {
         )
     }
     
+    static func UIColorFromRGB(wmcolor: UIColor, alpha: Double) -> UIColor {
+        return wmcolor.colorWithAlphaComponent(CGFloat(alpha))
+    }
+    
 }
 
 extension UInt {

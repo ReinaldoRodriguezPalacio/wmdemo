@@ -148,7 +148,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboard = WeightKeyboardView(frame:CGRectMake((self.frame.width / 2) - (289/2), lblQuantityW.frame.maxY + 20, 289, 196))
-        keyboard.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
+        keyboard.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboard.delegate = self
 
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY  , 142, 36))
@@ -216,7 +216,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonKg = UIButton(frame: CGRectMake((self.frame.width / 2.0) , startH + 17, 100, 14))
         buttonKg.setTitle("Kilos", forState: UIControlState.Normal)
         buttonKg.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        buttonKg.setTitleColor(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
+        buttonKg.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.6), forState: UIControlState.Normal)
         buttonKg.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonKg.addTarget(self, action: "changegrkg:", forControlEvents: UIControlEvents.TouchUpInside)
 
@@ -237,7 +237,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         backToW.addTarget(self, action: "backToWeight", forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboardN = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardN.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
+        keyboardN.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboardN.delegate = self
         
         btnOkAddN = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
@@ -299,7 +299,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         lblQuantityP.alpha = 0
         
         keyboardP = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardP.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: UIColor.whiteColor())
+        keyboardP.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboardP.delegate = self
         keyboardP.alpha = 0
         

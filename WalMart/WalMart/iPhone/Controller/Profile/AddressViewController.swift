@@ -185,7 +185,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalButton!.setTitle(NSLocalizedString("profile.address.fiscal",  comment: ""), forState: UIControlState.Normal)
             addressFiscalButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
           
-            addressFiscalButton!.setTitleColor(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.7), forState: UIControlState.Disabled)
+            addressFiscalButton!.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.7), forState: UIControlState.Disabled)
             
             if typeAddress == TypeAddress.Shiping{
                 addressShipingButton!.selected = true

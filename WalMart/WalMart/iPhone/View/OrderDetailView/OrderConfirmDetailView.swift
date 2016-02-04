@@ -148,13 +148,13 @@ class OrderConfirmDetailView : UIView {
       
         
         viewLoadingDoneAnimate = UIView()
-        viewLoadingDoneAnimate.backgroundColor = WMColor.UIColorFromRGB(0x2970ca , alpha: 0.5)
+        viewLoadingDoneAnimate.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
         viewLoadingDoneAnimate.frame = CGRectMake(0, 0,  imgIcon!.size.width - 2, imgIcon!.size.height - 2)
         viewLoadingDoneAnimate.center = iconLoadingDone.center
         viewLoadingDoneAnimate.layer.cornerRadius = (imgIcon!.size.height - 2) / 2
         
         viewLoadingDoneAnimateAux = UIView()
-        viewLoadingDoneAnimateAux.backgroundColor = WMColor.UIColorFromRGB(0x2970ca , alpha: 0.5)
+        viewLoadingDoneAnimateAux.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
         viewLoadingDoneAnimateAux.frame = CGRectMake(0, 0,  imgIcon!.size.width - 2, imgIcon!.size.height - 2)
         viewLoadingDoneAnimateAux.center = iconLoadingDone.center
         viewLoadingDoneAnimateAux.layer.cornerRadius = (imgIcon!.size.height - 2) / 2
@@ -226,7 +226,7 @@ class OrderConfirmDetailView : UIView {
         
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.6)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
         bgView.alpha = 0
