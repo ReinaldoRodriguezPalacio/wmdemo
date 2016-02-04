@@ -92,7 +92,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         registryButton!.setTitle(NSLocalizedString("profile.create.an.account", comment: ""), forState: UIControlState.Normal)
         registryButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        registryButton!.backgroundColor = WMColor.dark_blue
+        registryButton!.backgroundColor = WMColor.blue
         registryButton!.layer.cornerRadius = 20.0
         registryButton?.addTarget(self, action: "registryUser", forControlEvents: .TouchUpInside)
   
@@ -159,7 +159,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         
         self.loginFacebookButton = UIButton(type: .Custom)
         self.loginFacebookButton.layer.cornerRadius =  20.0
-        self.loginFacebookButton!.backgroundColor = WMColor.dark_blue
+        self.loginFacebookButton!.backgroundColor = WMColor.blue
         self.loginFacebookButton!.addTarget(self, action: "facebookLogin", forControlEvents: .TouchUpInside)
         self.loginFacebookButton!.setTitle("Ingresar con Facebook", forState: UIControlState.Normal)
         self.loginFacebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -356,7 +356,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }else{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
                 if !self.closeAlertOnSuccess {
-                  self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.dark_blue)
+                  self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
                 }
             }
             
@@ -581,7 +581,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func facebookLogin(){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         if !self.closeAlertOnSuccess {
-            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.dark_blue)
+            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
         }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")

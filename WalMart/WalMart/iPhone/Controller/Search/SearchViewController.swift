@@ -55,7 +55,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
  
         viewTapClose = UIView()
         self.viewBackground = UIView()
-        self.viewBackground?.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.8)
+        self.viewBackground?.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         self.view.addSubview(self.viewBackground!)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:"handleTap:")
