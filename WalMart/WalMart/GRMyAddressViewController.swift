@@ -155,6 +155,12 @@ class GRMyAddressViewController: MyAddressViewController {
                         self.alertView!.setMessage("\(message)")
                         self.alertView!.showDoneIcon()
                     }
+                    let serviceAddress = GRAddressesByIDService()
+                    serviceAddress.addressId = result["addressID"] as? String
+                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        }, errorBlock: { (error:NSError) -> Void in
+                    })
                 }
                 self.alertView = nil
                 

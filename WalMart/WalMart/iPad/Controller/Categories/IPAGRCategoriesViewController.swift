@@ -257,7 +257,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil {
+        if UserCurrentSession.sharedInstance().storeName != nil && UserCurrentSession.sharedInstance().storeName != "" {
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)

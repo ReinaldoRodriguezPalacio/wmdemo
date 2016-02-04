@@ -37,7 +37,7 @@ class IPOWMAlertViewController : UIViewController {
         super.viewDidLoad()
         
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.7)
+        self.bgView.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         
         viewBgImage = UIView()
         viewBgImage.layer.cornerRadius = 80 / 2

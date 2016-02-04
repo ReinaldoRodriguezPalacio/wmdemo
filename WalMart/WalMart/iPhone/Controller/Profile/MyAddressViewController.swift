@@ -480,8 +480,6 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     
     func applyPrefered (addressID: String){
         
-        
-        
         viewLoad = WMLoadingView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
         viewLoad.backgroundColor = UIColor.whiteColor()
         self.alertView = nil
@@ -571,6 +569,12 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                         self.alertView!.setMessage("\(message)")
                         self.alertView!.showDoneIcon()
                     }
+                    let serviceAddress = GRAddressesByIDService()
+                    serviceAddress.addressId = result["addressID"] as? String
+                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        }, errorBlock: { (error:NSError) -> Void in
+                    })
                 }
                 self.alertView = nil
                 
