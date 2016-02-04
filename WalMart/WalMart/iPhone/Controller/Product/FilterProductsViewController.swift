@@ -48,6 +48,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
 
     var delegate:FilterProductsViewControllerDelegate?
     var successCallBack : (() -> Void)? = nil
+    var backFilter : (() -> Void)? = nil
     
     var prices: NSArray?
     var upcPrices: NSArray?
@@ -918,7 +919,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     override func back() {
         super.back()
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SEARCH_PRODUCT_FILTER_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK_SEARCH_PRODUCT.rawValue , label: "")
-
+        self.backFilter?()
     }
     
 }

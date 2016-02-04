@@ -1070,6 +1070,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             //controllerFilter.searchContext = self.searchContextType
             controllerFilter?.facetGr = self.facetGr
+            controllerFilter?.backFilter = {() in
+                self.loading?.stopAnnimating()
+            }
+
             
         }
         controllerFilter.isGroceriesSearch = self.btnSuper.selected
