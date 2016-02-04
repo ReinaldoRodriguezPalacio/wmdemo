@@ -67,11 +67,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
             let fetchRequest = NSFetchRequest()
             fetchRequest.entity = NSEntityDescription.entityForName("Cart", inManagedObjectContext: self.managedContext!)
             
-            var predicate = NSPredicate(format: "product.upc == %@ && user == nil && status != %@", self.upc as NSString,NSNumber(integer: CartStatus.Deleted.rawValue))
-            if UserCurrentSession.hasLoggedUser() {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ && status != %@", self.upc as NSString,UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue))
-            }
-            
+            let predicate = NSPredicate(format: "product.upc == %@ && status != %@", self.upc as NSString,NSNumber(integer: CartStatus.Deleted.rawValue))
             fetchRequest.predicate = predicate
             
             //var error: NSError? = nil

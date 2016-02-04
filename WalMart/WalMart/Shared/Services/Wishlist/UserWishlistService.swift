@@ -32,14 +32,14 @@ class UserWishlistService : BaseService {
                     let context: NSManagedObjectContext = appDelegate.managedObjectContext!
                     let user = UserCurrentSession.sharedInstance().userSigned
                     
-                    let predicate = NSPredicate(format: "user == %@ ", user!)
-                    let array : [Wishlist] =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
+                    //let predicate = NSPredicate(format: "user == %@ ", user!)
+                    let array : [Wishlist] =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:nil) as! [Wishlist]) as [Wishlist]
                     for itemWishlist in array {
                         context.deleteObject(itemWishlist)
                     }
                     
-                    let predicateSinUsr = NSPredicate(format: "user == nil ")
-                    let arraySinUsr : [Wishlist] =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicateSinUsr) as! [Wishlist]) as [Wishlist]
+                    //let predicateSinUsr = NSPredicate(format: "user == nil ")
+                    let arraySinUsr : [Wishlist] =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:nil) as! [Wishlist]) as [Wishlist]
                     for itemWishlist in arraySinUsr {
                         context.deleteObject(itemWishlist)
                     }
@@ -128,10 +128,8 @@ class UserWishlistService : BaseService {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
-        if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: WishlistStatus.Deleted.rawValue))
-        }
+        let predicate = NSPredicate(format: "status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
+      
         let array  =  (self.retrieve("Wishlist" as NSString as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]) as [Wishlist]
         
         var returnDictionary = [:]

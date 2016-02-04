@@ -36,7 +36,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-    var loginFacebookButton: UIButton!
+    //var loginFacebookButton: UIButton!
 	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
     
@@ -157,7 +157,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)
         
-        self.loginFacebookButton = UIButton(type: .Custom)
+        /*self.loginFacebookButton = UIButton(type: .Custom)
         self.loginFacebookButton.layer.cornerRadius =  20.0
         self.loginFacebookButton!.backgroundColor = WMColor.dark_blue
         self.loginFacebookButton!.addTarget(self, action: "facebookLogin", forControlEvents: .TouchUpInside)
@@ -167,7 +167,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginFacebookButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 2, 16)
         self.loginFacebookButton!.imageView?.sizeThatFits(CGSizeMake(20.0, 20.0))
         self.loginFacebookButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.content!.addSubview(self.loginFacebookButton)
+        self.content!.addSubview(self.loginFacebookButton)*/
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -209,8 +209,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }else{
                 self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-                self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
+                //self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }
             
             self.bgView!.frame = self.view.bounds

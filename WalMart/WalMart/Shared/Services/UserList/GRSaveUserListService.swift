@@ -55,7 +55,7 @@ class GRSaveUserListService : GRBaseService {
 
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         if  UserCurrentSession.hasLoggedUser() {
-            
+            print(params["name"] as! String)
             var cleaned:[String:AnyObject] = ["name":(params["name"] as! String)]
             //Se remueven atributos de los productos que sean innecesarios
             if let items = params["items"] as? [AnyObject] {

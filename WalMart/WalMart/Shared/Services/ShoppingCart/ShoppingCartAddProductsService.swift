@@ -147,10 +147,7 @@ class ShoppingCartAddProductsService : BaseService {
         for product in params as! NSArray {
             
             var cartProduct : Cart
-            var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! String)
-            if UserCurrentSession.hasLoggedUser() {
-                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! String,UserCurrentSession.sharedInstance().userSigned!)
-            }
+            let predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! String)
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
                 cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart", inManagedObjectContext: context) as! Cart
