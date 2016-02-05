@@ -355,30 +355,35 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                 return
             }
         }
-        
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
+        if self.list?.count < 12{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
 
-        let svcList = GRSaveUserListService()
-        svcList.callService(svcList.buildParams(value),
-            successBlock: { (result:NSDictionary) -> Void in
+            let svcList = GRSaveUserListService()
+            svcList.callService(svcList.buildParams(value),
+                successBlock: { (result:NSDictionary) -> Void in
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 
-                self.loadLocalList()
-                self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.alertView!.afterRemove = {
+                    self.loadLocalList()
+                    self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
+                    self.alertView!.showDoneIcon()
+                    self.alertView!.afterRemove = {
+                    }
+                },
+                errorBlock: { (error:NSError) -> Void in
+                        print(error)
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.afterRemove = {
+                    }
                 }
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print(error)
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.alertView!.afterRemove = {
-                }
-            }
-        )
+            )
+        }else{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+            self.alertView!.showErrorIcon("Ok")
+        }
     }
 
     func scanTicket() {
