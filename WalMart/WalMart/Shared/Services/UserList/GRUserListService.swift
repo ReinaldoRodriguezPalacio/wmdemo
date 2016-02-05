@@ -291,16 +291,13 @@ class GRUserListService : GRBaseService {
     
     func retrieveUserList() -> [List]? {
         var userList: [List]?
-        let user = UserCurrentSession.sharedInstance().userSigned
-        if user != nil {
-            let fetchRequest = NSFetchRequest()
-            fetchRequest.entity = NSEntityDescription.entityForName("List" as NSString as String, inManagedObjectContext: self.managedContext!)
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
             //fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
-            do{
-                userList = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
-            }catch{
-                print("Error retrieveUserList")
-            }
+        do{
+            userList = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
+        }catch{
+            print("Error retrieveUserList")
         }
         return userList
     }

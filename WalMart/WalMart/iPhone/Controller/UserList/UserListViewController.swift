@@ -127,6 +127,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         let defaultListSvc = DefaultListService()
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -134,7 +135,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
         self.showLoadingView()
         self.reloadList(
             success:{() -> Void in
@@ -148,7 +148,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
         self.view.endEditing(true)
@@ -269,7 +268,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
-            self.itemsUserList = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
             self.tableuserlist!.reloadData()
             self.checkEditBtn()
             if !self.newListEnabled && !self.isEditingUserList {
@@ -319,7 +319,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
-            self.itemsUserList = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
@@ -666,6 +667,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     )
                 }
                 else{
+                    if self.alertView != nil{
+                        self.alertView!.close()
+                    }
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
                     self.alertView!.showErrorIcon("Ok")
@@ -1508,20 +1512,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     //MARK: - DB
-    
-    func retrieveNotSyncList() -> [List]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
-        fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var result: [List]? = nil
-        do{
-            result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
-        }
-        catch{
-            print("retrieveNotSyncList error")
-        }
-        return result
-    }
     
     func retrieveParam(key:String) -> Param? {
 

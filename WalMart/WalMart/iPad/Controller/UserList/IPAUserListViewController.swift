@@ -272,7 +272,8 @@ class IPAUserListViewController: UserListViewController {
             )
         }
         else {
-            self.itemsUserList = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
             //println(self.itemsUserList)
             self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList

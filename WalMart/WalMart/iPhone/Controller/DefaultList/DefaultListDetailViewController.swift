@@ -464,7 +464,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             }
         } else {
             let itemsUserList = service.retrieveUserList()
-            self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
+            if itemsUserList?.count >= 12{
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }else{
+                self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
+            }
         }
 
         

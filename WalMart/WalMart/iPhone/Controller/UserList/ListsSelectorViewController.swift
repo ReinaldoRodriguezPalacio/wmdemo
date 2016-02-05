@@ -123,7 +123,8 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             //self.retrieveItemsFromService()
         }
         else {
-            self.list = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.list = service.retrieveNotSyncList()
         }
         self.tableView!.reloadData()
         self.showLoadingIfNeeded()
@@ -256,20 +257,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         //fetchRequest.predicate = NSPredicate(format: "user == %@", user)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "registryDate", ascending: false)]
         let result: [List] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [List]
-        return result
-    }
-
-    func retrieveNotSyncList() -> [List]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
-        fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var result: [List]? = nil
-        do{
-          result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
-        }
-        catch let error as NSError{
-            print("Fetch failed: \(error.localizedDescription)")
-        }
         return result
     }
 
