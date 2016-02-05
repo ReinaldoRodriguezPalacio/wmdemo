@@ -374,7 +374,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func duplicate() {
         if UserCurrentSession.hasLoggedUser() {
-            //self.itemsUserList =
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveUserList()
             self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
                 self.delegate?.reloadTableListUser()
                 self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
