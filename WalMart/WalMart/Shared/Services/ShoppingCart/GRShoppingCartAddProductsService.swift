@@ -14,6 +14,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
     func buildParams(quantity:String,upc:String,comments:String) -> NSArray {
         let quantityInt : Int = Int(quantity)!
         return [["quantity":quantityInt,"upc":upc,"comments":comments]]
+        //return [["items":["quantity":quantityInt,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]]
     }
     
     func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString) -> [String:AnyObject] {
@@ -32,6 +33,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable]
     }
     
+  
+    
     func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         callService(requestParams: builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,pesable:pesable), successBlock: successBlock, errorBlock: errorBlock)
     }
@@ -49,9 +52,12 @@ class GRShoppingCartAddProductsService : GRBaseService {
     
     func buildProductObject(upc upc:String, quantity:String, comments:String) -> [String:AnyObject] {
         return ["quantity":quantity,"upc":upc,"comments":comments]
+        //return ["items":["quantity":quantity,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]
     }
     
+    
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.jsonFromObject(params)
         if UserCurrentSession.hasLoggedUser() {
             var itemsSvc : [[String:AnyObject]] = []
             var upcSend = ""
@@ -68,6 +74,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
             
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
             if !hasUPC {
+                 self.jsonFromObject(itemsSvc)
                 self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     if self.updateShoppingCart() {
