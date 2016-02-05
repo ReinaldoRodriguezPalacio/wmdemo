@@ -74,10 +74,10 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             for var idx = 0; idx < itemsUserList!.count; idx++ {
                 var name:String? = nil
                 if let innerList = itemsUserList![idx] as? [String:AnyObject] {
-                    let innerListId = innerList["id"] as! String
-                    if innerListId == listId! {
-                        continue
-                    }
+                    //let innerListId = innerList["id"] as! String
+                    //if innerListId == listId! {
+                      //  continue
+                    //}
                     name = innerList["name"] as? String
                 }
                 else if let listEntity = itemsUserList![idx] as? List {
