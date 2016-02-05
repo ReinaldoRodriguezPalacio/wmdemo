@@ -101,7 +101,12 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             if range.location != NSNotFound {
                 back()
             }
-            
+        
+            range = string.rangeOfString("m_Ingresar.aspx?goto=app_CheckOut.aspx")
+            if range.location != NSNotFound {
+                back()
+            }
+        
             let rangeMobile = string.rangeOfString("/m_")
             let rangeMobilePayment = string.rangeOfString("/m_CreditCardPayment.aspx")
             let rangePayment = string.rangeOfString("/CreditCardPayment.aspx")
