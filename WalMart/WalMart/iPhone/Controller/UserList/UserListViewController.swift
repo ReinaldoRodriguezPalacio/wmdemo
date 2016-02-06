@@ -596,8 +596,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func duplicateList(cell:ListTableViewCell) {
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
-            
-            if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
+            if self.itemsUserList!.count >= 12 {
+                if self.alertView != nil{
+                    self.alertView!.close()
+                    self.alertView = nil
+                }
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }
+            else if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                 let listId = listItem["id"] as! String
                 let listName = listItem["name"] as! String
 //                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
@@ -623,7 +631,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 })
             }
             else if let listItem = self.itemsUserList![indexPath.row] as? List {
-                if self.itemsUserList!.count <= 11 {
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
                     
@@ -674,16 +681,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         }
                     )
                 }
-                else{
-                    if self.alertView != nil{
-                        self.alertView!.close()
-                    }
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-                    self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
-                    self.alertView!.showErrorIcon("Ok")
-                }
             }
-        }
     }
     
     func didListChangeName(cell:ListTableViewCell, text:String?) {
