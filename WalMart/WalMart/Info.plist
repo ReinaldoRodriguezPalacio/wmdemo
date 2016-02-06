@@ -37,7 +37,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>FacebookAppID</key>
 	<string>713976458739956</string>
 	<key>FacebookDisplayName</key>
@@ -595,7 +595,7 @@
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getPromotionsMG</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -948,7 +948,7 @@
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
-			<string>http://192.168.43.192:8085/walmartmg/list/getPromotionsMG</string>
+			<string>http://192.168.43.192:8085/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>
@@ -1047,7 +1047,7 @@
 			<key>WalmartMG.ProductbySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getItemsBySearchingWithFacets</string>
 			<key>WalmartMG.PromotionsMgService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getPromotionsMG</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPromotionsMG</string>
 			<key>WalmartMG.PushNotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getPushNotifications</string>
 			<key>WalmartMG.RecommendedItemsService</key>

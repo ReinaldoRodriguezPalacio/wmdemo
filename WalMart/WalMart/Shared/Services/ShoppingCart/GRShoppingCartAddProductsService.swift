@@ -116,8 +116,10 @@ class GRShoppingCartAddProductsService : GRBaseService {
         for product in params as! NSArray {
             
             var cartProduct : Cart
-            let predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
-            
+            var predicate = NSPredicate(format: "product.upc == %@ ",product["upc"] as! NSString)
+            if UserCurrentSession.hasLoggedUser() {
+                predicate = NSPredicate(format: "product.upc == %@ AND user == %@ ",product["upc"] as! NSString,UserCurrentSession.sharedInstance().userSigned!)
+            }
             let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
             if array.count == 0 {
                 cartProduct = NSEntityDescription.insertNewObjectForEntityForName("Cart" as String, inManagedObjectContext: context) as! Cart

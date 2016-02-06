@@ -198,13 +198,20 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     
     //MARK: - List Utilities
+    var listSelectedDuplicate : NSIndexPath?
     
     func duplicateList(){
+        
         let indexpath = self.tableuserlist!.indexPathForSelectedRow // NSIndexPath(forRow: 1, inSection: 1)
+        self.listSelectedDuplicate = self.tableuserlist!.indexPathForSelectedRow
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
             self.duplicateList(cell!)
         }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
+
+
     }
     
     func changeVisibilityBtn(button: UIButton, visibility: CGFloat) {
@@ -271,6 +278,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
             self.tableuserlist!.reloadData()
+            self.tableuserlist!.selectRowAtIndexPath(self.listSelectedDuplicate, animated: false, scrollPosition: .None)
             self.checkEditBtn()
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
@@ -1514,11 +1522,15 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: - DB
     
     func retrieveParam(key:String) -> Param? {
-
+        let user = UserCurrentSession.sharedInstance().userSigned
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Param", inManagedObjectContext: self.managedContext!)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        
+        if user != nil {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
+        }
+        else {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
+        }
         var parameter: Param? = nil
         do{
             let result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [Param]

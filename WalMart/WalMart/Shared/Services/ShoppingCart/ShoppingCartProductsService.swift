@@ -36,7 +36,7 @@ class ShoppingCartProductsService : BaseService {
                     
                     var currentQuantity = 0
                     
-                    let predicate = NSPredicate(format: "type == %@", ResultObjectType.Mg.rawValue)
+                    let predicate = NSPredicate(format: "user == %@  AND type == %@", user!,ResultObjectType.Mg.rawValue)
                     let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                     for cart in array {
                         context.deleteObject(cart)
@@ -155,9 +155,9 @@ class ShoppingCartProductsService : BaseService {
     func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        var predicate = NSPredicate(format: " status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
+        var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: " status != %@ AND type == %@",NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
         }
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         var returnDictionary = [:]

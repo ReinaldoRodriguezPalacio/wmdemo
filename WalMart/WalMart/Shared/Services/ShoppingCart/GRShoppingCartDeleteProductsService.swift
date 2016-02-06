@@ -56,8 +56,10 @@ class GRShoppingCartDeleteProductsService : GRBaseService {
         if let parameter = params["parameter"] as? [String] {
             if parameter.count > 0 {
                 for upc in parameter {
-                    let predicate = NSPredicate(format: "product.upc == %@ ",upc)
-                   
+                    var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
+                    if UserCurrentSession.hasLoggedUser() {
+                        predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
+                    }
                     let array : [Cart] =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
                     
                     for cartDelete in array {

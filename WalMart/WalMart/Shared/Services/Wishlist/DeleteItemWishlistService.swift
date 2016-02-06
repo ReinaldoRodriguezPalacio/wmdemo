@@ -58,7 +58,10 @@ class DeleteItemWishlistService : BaseService {
         if parameter.count > 0 {
             for upcVal in parameter {
                 let upc = upcVal as! String
-                let predicate = NSPredicate(format: "product.upc == %@ ",upc)
+                var predicate = NSPredicate(format: "product.upc == %@ AND user == nil ",upc)
+                if UserCurrentSession.hasLoggedUser() {
+                    predicate  = NSPredicate(format: "product.upc == %@ AND user == %@ ",upc,UserCurrentSession.sharedInstance().userSigned!)
+                }
                 let array : [Wishlist] =  self.retrieve("Wishlist" as String,sortBy:nil,isAscending:true,predicate:predicate) as! [Wishlist]
                 
                 for wishlistDelete in array {

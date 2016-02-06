@@ -1220,10 +1220,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if let user = UserCurrentSession.sharedInstance().userSigned {
             let service = GRUserListService()
             self.itemsUserList = service.retrieveUserList()
-            self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
-                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-                self.alertView!.showDoneIcon()
-            })
+            if  self.itemsUserList!.count == 12{
+                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+                alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max", comment: ""))
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+            }else{
+                self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+                    self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                    self.alertView!.showDoneIcon()
+                })
+            }
+
         }else{
          NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
         }

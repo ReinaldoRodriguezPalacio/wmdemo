@@ -78,10 +78,15 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
+        let user = UserCurrentSession.sharedInstance().userSigned
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Param", inManagedObjectContext: context)
-        fetchRequest.predicate = NSPredicate(format: "key == %@", key)
-        
+        if user != nil {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
+        }
+        else {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, NSNull())
+        }
         var result: [Param]? = nil
         do{
             result = try context.executeFetchRequest(fetchRequest) as? [Param]

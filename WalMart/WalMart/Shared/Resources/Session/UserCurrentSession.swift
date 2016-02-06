@@ -284,10 +284,12 @@ class UserCurrentSession : NSObject {
     }
     
     func userItemsInWishlist() -> Int {
-        
         var predicate : NSPredicate? = nil
-        predicate = NSPredicate(format: "status != %@",NSNumber(integer:WishlistStatus.Deleted.rawValue))
-        
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ &&  status != %@", userSigned!,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        }else {
+            predicate = NSPredicate(format: "user == nil &&  status != %@",NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        }
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
@@ -310,10 +312,12 @@ class UserCurrentSession : NSObject {
     
     
     func userHasUPCWishlist(upc:String) -> Bool {
-        
         var predicate : NSPredicate? = nil
-        predicate = NSPredicate(format: "product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
-        
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status != %@", userSigned!,upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        }else {
+            predicate = NSPredicate(format: "user == nil && product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        }
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         let request    = NSFetchRequest(entityName: "Wishlist" as NSString as String)
@@ -335,10 +339,12 @@ class UserCurrentSession : NSObject {
     }
     
     func userHasUPCUserlist(upc:String) -> Bool {
-        
         var predicate : NSPredicate? = nil
-        predicate = NSPredicate(format: "ANY products.upc == %@ ", upc)
-       
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && ANY products.upc == %@ ", userSigned!,upc)
+        }else {
+            predicate = NSPredicate(format: "user == nil && ANY products.upc == %@ ", upc)
+        }
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         let request    = NSFetchRequest(entityName: "List" as NSString as String)
@@ -360,10 +366,15 @@ class UserCurrentSession : NSObject {
     }
     
     func userHasUPCShoppingCart(upc:String) -> Bool {
-        
         var  predicate  : NSPredicate? = nil
-        predicate = NSPredicate(format: "product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
-
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status != %@",userSigned!, upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            //let setItems = userSigned?.productsInCart.filteredSetUsingPredicate(predicate!)
+            //return setItems?.count != 0
+        }else{
+            predicate = NSPredicate(format: "user == nil && product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            
+        }
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -388,10 +399,15 @@ class UserCurrentSession : NSObject {
     }
     
     func userHasNoteUPCShoppingCart(upc:String) -> Bool {
-        
         var  predicate  : NSPredicate? = nil
-        predicate = NSPredicate(format: "product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
-
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && product.upc == %@ && status != %@",userSigned!, upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            //let setItems = userSigned?.productsInCart.filteredSetUsingPredicate(predicate!)
+            //return setItems?.count != 0
+        }else{
+            predicate = NSPredicate(format: "user == nil && product.upc == %@ && status != %@", upc,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            
+        }
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -427,7 +443,7 @@ class UserCurrentSession : NSObject {
     
     
     func WishlistWithoutUser() -> [Wishlist]? {
-        let predicate = NSPredicate(format: "status != %@",NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        let predicate = NSPredicate(format: "user == nil && status != %@",NSNumber(integer:WishlistStatus.Deleted.rawValue))
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -684,7 +700,14 @@ class UserCurrentSession : NSObject {
     
     func userCartByType(type:String) -> [Cart]? {
         var  predicate  : NSPredicate? = nil
-        predicate = NSPredicate(format: "type == %@ && status != %@", type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+        if userSigned != nil {
+            predicate = NSPredicate(format: "user == %@ && type == %@ && status != %@",userSigned!, type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            //let setItems = userSigned?.productsInCart.filteredSetUsingPredicate(predicate!)
+            //return setItems?.count != 0
+        }else{
+            predicate = NSPredicate(format: "user == nil && type == %@ && status != %@", type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            
+        }
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

@@ -254,7 +254,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func retrieveItems(forUser user:User) -> [List]? {
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
-        //fetchRequest.predicate = NSPredicate(format: "user == %@", user)
+        fetchRequest.predicate = NSPredicate(format: "user == %@", user)
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "registryDate", ascending: false)]
         let result: [List] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [List]
         return result
