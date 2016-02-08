@@ -127,6 +127,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         let defaultListSvc = DefaultListService()
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
     }
     
