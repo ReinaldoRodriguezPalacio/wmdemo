@@ -257,6 +257,12 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.navigationController?.popViewControllerAnimated(true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
+                    let serviceAddress = GRAddressesByIDService()
+                    serviceAddress.addressId = resultCall["addressID"] as? String
+                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        }, errorBlock: { (error:NSError) -> Void in
+                    })
                 }
                 self.alertView!.showDoneIcon()
                 }) { (error:NSError) -> Void in

@@ -542,7 +542,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let service = GRAddressAddService()
         var params = self.viewAddress!.getParams()
         
-        let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:"" , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" , operationType:"A" , preferred: true)
+        let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" , operationType:"A" , preferred: true)
         
             service.callService(requestParams: paramsSend, successBlock: { (resultCall:NSDictionary) -> Void  in
             print("Se realizao la direccion")
