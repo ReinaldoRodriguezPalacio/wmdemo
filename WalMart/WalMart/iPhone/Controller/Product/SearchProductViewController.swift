@@ -1072,6 +1072,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter?.facetGr = self.facetGr
             controllerFilter?.backFilter = {() in
                 self.loading?.stopAnnimating()
+                self.loading?.removeFromSuperview()
             }
 
             
