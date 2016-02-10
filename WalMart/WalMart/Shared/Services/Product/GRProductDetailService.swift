@@ -9,10 +9,20 @@
 import Foundation
 
 class GRProductDetailService : GRBaseService {
+    var useSignals = false
     
     override init() {
         super.init()
         self.urlForSession = true
+        self.useSignalsServices = self.useSignals
+        print(self.useSignals)
+    }
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.urlForSession = true
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
     }
     
     

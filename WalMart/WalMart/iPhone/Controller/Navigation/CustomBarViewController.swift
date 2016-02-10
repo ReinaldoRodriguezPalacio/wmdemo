@@ -800,7 +800,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 
             
             let controller = ProductDetailPageViewController()
-            let svcValidate = GRProductDetailService()
+            let test : NSDictionary = NSDictionary(dictionary: ["signals" : true])
+            let svcValidate = GRProductDetailService(dictionary: test)
+            
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
             if upcDesc.length < 13 {

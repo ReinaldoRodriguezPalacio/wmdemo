@@ -885,7 +885,7 @@
 		<dict>
 			<key>WalmartMG.GRProductBySearchSignalService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemsBySearching</string>
-			<key>WalmartMG.GRProductDetailSignalService</key>
+			<key>WalmartMG.GRProductDetailService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemByUpc</string>
 			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
