@@ -701,7 +701,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/sendOrderWithSlot</string>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
@@ -794,7 +794,7 @@
 			<key>WalmartMG.GRSaveUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/saveList</string>
 			<key>WalmartMG.GRSendOrderService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlot</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRShoppingCartDeleteProductsService</key>
