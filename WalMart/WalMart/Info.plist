@@ -2,10 +2,60 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>WMSignalsServices</key>
+	<dict>
+		<key>PRODUCTION</key>
+		<dict>
+			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/addItemToShoppingCart</string>
+			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/getItemsBySearching</string>
+			<key>WalmartMG.ProductDetailSignalService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/getItemByUpc</string>
+			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
+		</dict>
+		<key>DEVWM</key>
+		<dict>
+			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
+			<key>WalmartMG.GRProductDetailSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemByUpc</string>
+			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemsBySearching</string>
+			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/2/addItemToShoppingCart</string>
+		</dict>
+	</dict>
+	<key>clusterWMSignalsServices</key>
+	<dict>
+		<key>PRODUCTION</key>
+		<dict>
+			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/addItemToShoppingCart</string>
+			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemsBySearching</string>
+			<key>WalmartMG.GRProductDetailSignalService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc</string>
+			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
+		</dict>
+		<key>DEVWM</key>
+		<dict>
+			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
+			<key>WalmartMG.GRProductDetailSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemByUpc</string>
+			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemsBySearching</string>
+			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/2/addItemToShoppingCart</string>
+		</dict>
+	</dict>
 	<key>cpwrUEM_instr.webRequestTiming</key>
 	<false/>
 	<key>cpwrUEM_instr.lifecycleMonitoring</key>
-	<true/>
+	<false/>
 	<key>cpwrUEM_startup.agentPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>WMMobileAppTracking</key>

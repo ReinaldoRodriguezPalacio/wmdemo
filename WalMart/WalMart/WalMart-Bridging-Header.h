@@ -70,7 +70,6 @@
 //MERCURY
 // Stompkit
 #import "StompKit.h"
-#import "CompuwareUEM.h"
 
 
 

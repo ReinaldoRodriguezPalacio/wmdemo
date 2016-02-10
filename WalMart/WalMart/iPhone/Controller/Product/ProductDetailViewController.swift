@@ -693,31 +693,32 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
         
-       
-        let productService = ProductDetailService()
-        productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
-            
-            self.reloadViewWithData(result)
-            if let facets = result["facets"] as? [String:AnyObject] {
-                self.facets = facets
-                self.facetsDetails = self.getFacetsDetails()
-                if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
-                    self.colorItems = colors
-                }
-            }
-            
-            }) { (error:NSError) -> Void in
-                //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
-                let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+            let productService = ProductDetailService()
+            productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
                 
-                self.name = NSLocalizedString("empty.productdetail.title",comment:"")
-                empty.returnAction = { () in
-                    print("")
-                    self.navigationController!.popViewControllerAnimated(true)
+                self.reloadViewWithData(result)
+                if let facets = result["facets"] as? [String:AnyObject] {
+                    self.facets = facets
+                    self.facetsDetails = self.getFacetsDetails()
+                    if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
+                        self.colorItems = colors
+                    }
                 }
-                self.view.addSubview(empty)
-                self.viewLoad.stopAnnimating()
-        }
+                
+                }) { (error:NSError) -> Void in
+                    //var empty = IPOGenericEmptyView(frame:self.viewLoad.frame)
+                    let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+                    
+                    self.name = NSLocalizedString("empty.productdetail.title",comment:"")
+                    empty.returnAction = { () in
+                        print("")
+                        self.navigationController!.popViewControllerAnimated(true)
+                    }
+                    self.view.addSubview(empty)
+                    self.viewLoad.stopAnnimating()
+            }
+        
+        
     }
     
     func reloadViewWithData(result:NSDictionary){
