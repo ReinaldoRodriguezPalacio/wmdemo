@@ -579,6 +579,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func showListsGR() {
         buttonSelected(self.buttonList[4])
+        NSNotificationCenter.defaultCenter().postNotificationName("ReloadListFormUpdate", object: self)
     }
    
     

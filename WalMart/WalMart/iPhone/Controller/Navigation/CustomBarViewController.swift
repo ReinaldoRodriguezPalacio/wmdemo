@@ -1076,7 +1076,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func showListsGR() {
         buttonSelected(self.buttonList[3])
-}
+         NSNotificationCenter.defaultCenter().postNotificationName("ReloadListFormUpdate", object: self)
+    }
         
         
     
