@@ -11,10 +11,6 @@ import Foundation
 
 class GRBaseService : BaseService {
     
-    var urlForSession = false
-    var useSignalsServices = false
-    
-    
     override func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
         var serviceConfigDictionary = ConfigServices.ConfigIdGR

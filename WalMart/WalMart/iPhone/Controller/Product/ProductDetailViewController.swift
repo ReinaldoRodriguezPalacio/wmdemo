@@ -694,7 +694,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
         
             let productService = ProductDetailService()
-            productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
+            let params = productService.buildParams(upc as String, collection: "mg")
+            productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
                 
                 self.reloadViewWithData(result)
                 if let facets = result["facets"] as? [String:AnyObject] {

@@ -50,6 +50,9 @@ class BaseService : NSObject {
         static var onceToken : dispatch_once_t = 0
     }
     
+    var urlForSession = false
+    var useSignalsServices = false
+    
     override init() {
         super.init()
         dispatch_once(&AFStatic.onceToken) {
