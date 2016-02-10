@@ -555,7 +555,6 @@
 		AC6B421319F8607E005DF8F0 /* IPAMasterHelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6B421219F8607E005DF8F0 /* IPAMasterHelpViewController.swift */; };
 		AC6BC2C619EEC3B100835D03 /* IPAWMAlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6BC2C519EEC3B100835D03 /* IPAWMAlertViewController.swift */; };
 		AC6BC2C819EEC89C00835D03 /* IPAAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6BC2C719EEC89C00835D03 /* IPAAddressViewController.swift */; };
-		AC6EB3981C062C8200C9B4AA /* libDynatraceUEM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC6EB3971C062C8200C9B4AA /* libDynatraceUEM.a */; };
 		AC6EF06719B1361D00DB28AF /* SearchProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EF06619B1361D00DB28AF /* SearchProductViewController.swift */; };
 		AC6EF06A19B13E2E00DB28AF /* SearchProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6EF06919B13E2E00DB28AF /* SearchProductCollectionViewCell.swift */; };
 		AC74D4F719CB767A00CD55B3 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC74D4F619CB767A00CD55B3 /* Profile.swift */; };
@@ -1208,8 +1207,6 @@
 		AC6B421219F8607E005DF8F0 /* IPAMasterHelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMasterHelpViewController.swift; path = iPad/Controller/Help/IPAMasterHelpViewController.swift; sourceTree = "<group>"; };
 		AC6BC2C519EEC3B100835D03 /* IPAWMAlertViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAWMAlertViewController.swift; path = iPad/Controller/Common/IPAWMAlertViewController.swift; sourceTree = "<group>"; };
 		AC6BC2C719EEC89C00835D03 /* IPAAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAAddressViewController.swift; path = iPad/Controller/Profile/IPAAddressViewController.swift; sourceTree = "<group>"; };
-		AC6EB3961C062C8200C9B4AA /* DynatraceUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DynatraceUEM.h; sourceTree = "<group>"; };
-		AC6EB3971C062C8200C9B4AA /* libDynatraceUEM.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libDynatraceUEM.a; sourceTree = "<group>"; };
 		AC6EF06619B1361D00DB28AF /* SearchProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchProductViewController.swift; path = iPhone/Controller/Product/SearchProductViewController.swift; sourceTree = "<group>"; };
 		AC6EF06919B13E2E00DB28AF /* SearchProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchProductCollectionViewCell.swift; path = iPhone/View/SearhResult/SearchProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		AC74D4F619CB767A00CD55B3 /* Profile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Profile.swift; path = Shared/Model/Entity/Profile.swift; sourceTree = "<group>"; };
@@ -1226,7 +1223,6 @@
 		AC9AF41C1BE2B1B700C7638B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMyAddressViewController.swift; path = iPad/Controller/Profile/IPAMyAddressViewController.swift; sourceTree = "<group>"; };
 		ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAEditProfileViewController.swift; path = iPad/Controller/Profile/IPAEditProfileViewController.swift; sourceTree = "<group>"; };
-		ACC8204F1BFE7EE0001A0B73 /* CompuwareUEM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompuwareUEM.h; sourceTree = "<group>"; };
 		ACCBF5CB1A9404C2008D3239 /* SearchCategoriesViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchCategoriesViewCell.swift; path = Shared/View/Search/SearchCategoriesViewCell.swift; sourceTree = "<group>"; };
 		ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditProfileViewController.swift; path = iPhone/Controller/Profile/EditProfileViewController.swift; sourceTree = "<group>"; };
 		ACEB8D2E1BFE813D00063E3B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
@@ -1250,7 +1246,6 @@
 				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
 				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
 				ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */,
-				AC6EB3981C062C8200C9B4AA /* libDynatraceUEM.a in Frameworks */,
 				ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
@@ -3077,7 +3072,6 @@
 			isa = PBXGroup;
 			children = (
 				85A40B161C223AE40036C78A /* MercurySDK */,
-				ACC8204E1BFE7EE0001A0B73 /* DynatraceADK */,
 				AC59116119DE08BE00EB095C /* GAnalitics */,
 				AC88FA6C19CA388C003BD859 /* ScrollViewForm */,
 				AC5F647019BF52E10098BE43 /* fmdb */,
@@ -3255,16 +3249,6 @@
 				04D2A3971A2FD4FF008DAE37 /* MapKit.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		ACC8204E1BFE7EE0001A0B73 /* DynatraceADK */ = {
-			isa = PBXGroup;
-			children = (
-				AC6EB3961C062C8200C9B4AA /* DynatraceUEM.h */,
-				AC6EB3971C062C8200C9B4AA /* libDynatraceUEM.a */,
-				ACC8204F1BFE7EE0001A0B73 /* CompuwareUEM.h */,
-			);
-			path = DynatraceADK;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -4002,6 +3986,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				DT_ENABLED = DynatraceUEM;
+				DT_ENABLED_UPLOAD = YES;
+				DT_HEADER_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
+				DT_LDFLAGS = "-lsqlite3 -lstdc++ -lz -framework CoreTelephony -framework MessageUI -framework Security -framework SystemConfiguration -framework CoreLocation -framework QuartzCore -framework UIKit -framework Foundation -framework CoreGraphics -force_load \"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk/libDynatraceUEM.a\"";
+				DT_LIBRARY_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
+				DT_VERSION = 6.3.0.1289;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4011,6 +4001,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(DT_HEADER_PATH)",
 				);
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -4023,15 +4014,18 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/Dynatrace",
 					"$(PROJECT_DIR)/WalMart/DynatraceADK",
+					"$(DT_LIBRARY_PATH)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 					"-lz",
+					"$(DT_LDFLAGS)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
+				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4047,6 +4041,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				DT_ENABLED = DynatraceUEM;
+				DT_ENABLED_UPLOAD = YES;
+				DT_HEADER_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
+				DT_LDFLAGS = "-lsqlite3 -lstdc++ -lz -framework CoreTelephony -framework MessageUI -framework Security -framework SystemConfiguration -framework CoreLocation -framework QuartzCore -framework UIKit -framework Foundation -framework CoreGraphics -force_load \"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk/libDynatraceUEM.a\"";
+				DT_LIBRARY_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
+				DT_VERSION = 6.3.0.1289;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4056,6 +4056,7 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(DT_HEADER_PATH)",
 				);
 				INFOPLIST_FILE = WalMart/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -4068,15 +4069,18 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/Dynatrace",
 					"$(PROJECT_DIR)/WalMart/DynatraceADK",
+					"$(DT_LIBRARY_PATH)",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
 					"-lz",
+					"$(DT_LDFLAGS)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
 				PROVISIONING_PROFILE = "";
+				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
