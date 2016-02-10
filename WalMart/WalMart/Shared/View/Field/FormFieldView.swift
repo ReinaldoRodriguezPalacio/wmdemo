@@ -248,7 +248,7 @@ class FormFieldView : UIEdgeTextField {
            
             if !self.isValid{
                 if validMessageText == nil {
-                    message = NSLocalizedString("field.validate.text.Email",comment:"")
+                    message = NSLocalizedString("field.validate.text",comment:"")
                 }else {
                     message = NSLocalizedString(validMessageText,comment:"")
                 }
