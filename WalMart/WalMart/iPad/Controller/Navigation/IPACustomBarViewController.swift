@@ -213,14 +213,14 @@ class IPACustomBarViewController :  CustomBarViewController {
             //contDetail.upc = upc!
             let svcValidate = GRProductDetailService()
             
-            
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
             if upcDesc.length < 13 {
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            svcValidate.callService(paddedUPC as String, successBlock: { (result:NSDictionary) -> Void in
+            let params = svcValidate.buildParams(paddedUPC as String, collection: "dah")
+            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
                 if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){

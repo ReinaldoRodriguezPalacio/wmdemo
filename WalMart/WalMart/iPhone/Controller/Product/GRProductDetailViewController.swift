@@ -34,7 +34,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         self.type = ResultObjectType.Groceries
     
         let productService = GRProductDetailService()
-        productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
+        let params = productService.buildParams(upc as String, collection: "dah")
+        productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
             //println("ResultGr \(result)")
             

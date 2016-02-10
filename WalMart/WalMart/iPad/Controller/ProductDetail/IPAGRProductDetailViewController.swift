@@ -37,7 +37,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         
 
         let productService = GRProductDetailService()
-        productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
+        let params = productService.buildParams(upc as String, collection: "dah")
+        productService.callService(requestParams: params, successBlock: { (result: NSDictionary) -> Void in
             self.name = result["description"] as! String
             if let priceR =  result["price"] as? NSNumber {
                 self.price = "\(priceR)"
