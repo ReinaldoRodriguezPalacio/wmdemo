@@ -301,7 +301,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.comments = commentsParams as String
                     }
                     
-                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                         
                         self.finishCall = true
                         if self.timmer == nil {
@@ -341,7 +341,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             typeProduct = ResultObjectType.Mg
             
-            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
                 if self.timmer == nil {
@@ -587,7 +587,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             }
                             let pesable = self.params["pesable"] as! NSString
                             let serviceAddProduct = GRShoppingCartAddProductsService()
-                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable, successBlock: { (result:NSDictionary) -> Void in
+                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable,parameter:nil, successBlock: { (result:NSDictionary) -> Void in
                                 
                                 self.finishCall = true
                                 

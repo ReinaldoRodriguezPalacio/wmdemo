@@ -11,7 +11,20 @@ import CoreData
 
 
 class ShoppingCartAddProductsService : BaseService {
+    var useSignals = false
+    override init() {
+        super.init()
+        self.urlForSession = true
+    }
     
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.urlForSession = true
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
+
 
     class func maxItemsInShoppingCart() -> Int {
         return ShoppingCartParams.maxProducts
@@ -22,7 +35,10 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [[String:AnyObject]] {
+    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+        if useSignals && parameter != nil{
+            return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"parameter":parameter!]]
+        }
         return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]]
     }
     
@@ -35,11 +51,11 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
     
-    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
     }
     func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable), successBlock: successBlock, errorBlock: errorBlock)
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
