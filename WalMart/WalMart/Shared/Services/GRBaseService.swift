@@ -12,7 +12,6 @@ import Foundation
 class GRBaseService : BaseService {
     
     var urlForSession = false
-    var useSignalsServices = false
     
     
     override func serviceUrl(serviceName:String) -> String {

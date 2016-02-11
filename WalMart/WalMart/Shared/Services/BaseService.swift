@@ -49,6 +49,7 @@ class BaseService : NSObject {
         static var managerGR : AFHTTPSessionManager!
         static var onceToken : dispatch_once_t = 0
     }
+    var useSignalsServices = false
     
     override init() {
         super.init()
@@ -77,7 +78,13 @@ class BaseService : NSObject {
     
     func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(ConfigServices.ConfigIdMG) as! NSDictionary
+        var serviceConfigDictionary = ConfigServices.ConfigIdMG
+        
+        if useSignalsServices {
+            serviceConfigDictionary =  ConfigServices.ConfigIdGRSignals
+        }
+        
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
         let environmentServices = services.objectForKey(environment) as! NSDictionary
         let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL

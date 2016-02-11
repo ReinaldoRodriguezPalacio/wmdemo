@@ -61,6 +61,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     
+    var fromSignals =  false
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
     }
@@ -692,8 +694,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
-        
-            let productService = ProductDetailService()
+            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : self.fromSignals])
+            let productService = ProductDetailService(dictionary: signalsDictionary)
             productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
                 
                 self.reloadViewWithData(result)

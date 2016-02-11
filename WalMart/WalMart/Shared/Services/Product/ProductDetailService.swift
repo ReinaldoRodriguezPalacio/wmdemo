@@ -11,6 +11,14 @@ import Foundation
 class ProductDetailService : BaseService {
     
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
+    var useSignals = false
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
+    
     
     func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)

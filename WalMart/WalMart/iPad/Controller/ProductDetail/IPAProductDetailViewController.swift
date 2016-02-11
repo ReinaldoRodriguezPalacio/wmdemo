@@ -65,6 +65,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var selectedDetailItem: [String:String]? = nil
     var colorViewCell: ProductDetailColorSizeView? = nil
     var isGift: Bool = false
+    var fromSignals =  false
     
     
     
@@ -956,9 +957,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadDataFromService() {
         
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : self.fromSignals])
+        let productService = ProductDetailService(dictionary: signalsDictionary)
         
-        
-        let productService = ProductDetailService()
         productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
             
             self.reloadViewWithData(result)
