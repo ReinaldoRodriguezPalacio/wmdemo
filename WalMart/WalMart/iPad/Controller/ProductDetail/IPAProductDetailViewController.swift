@@ -959,8 +959,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : self.fromSignals])
         let productService = ProductDetailService(dictionary: signalsDictionary)
-        
-        productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
+        let params = productService.buildParams(upc as String, collection: "mg")
+        productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [String:AnyObject] {

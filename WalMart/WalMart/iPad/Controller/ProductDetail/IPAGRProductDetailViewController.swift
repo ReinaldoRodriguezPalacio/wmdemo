@@ -35,9 +35,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     override func loadDataFromService() {
         
-
-        let productService = GRProductDetailService()
-        productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : self.fromSignals])
+        let productService = GRProductDetailService(dictionary:signalsDictionary)
+        let params = productService.buildParams(upc as String, collection: "dah")
+        productService.callService(requestParams: params, successBlock: { (result: NSDictionary) -> Void in
             self.name = result["description"] as! String
             if let priceR =  result["price"] as? NSNumber {
                 self.price = "\(priceR)"

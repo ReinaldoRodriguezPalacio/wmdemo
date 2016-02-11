@@ -49,6 +49,8 @@ class BaseService : NSObject {
         static var managerGR : AFHTTPSessionManager!
         static var onceToken : dispatch_once_t = 0
     }
+    
+    var urlForSession = false
     var useSignalsServices = false
     
     override init() {

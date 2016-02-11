@@ -28,6 +28,14 @@ class GRProductDetailService : GRBaseService {
     
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
     
+    func buildParams(upc:String,collection:String) -> AnyObject{
+        if useSignalsServices {
+            let channel = IS_IPAD ? "ipad" : "iphone"
+            return ["upc":upc,"params":["eventtype": "pdpview","collection":collection,"channel": channel]]
+        }
+        return upc
+    }
+    
     func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)
     }

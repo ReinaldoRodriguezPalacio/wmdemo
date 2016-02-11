@@ -32,9 +32,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func loadDataFromService() {
         
         self.type = ResultObjectType.Groceries
-    
-        let productService = GRProductDetailService()
-        productService.callService(requestParams:upc, successBlock: { (result: NSDictionary) -> Void in
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : self.fromSignals])
+        let productService = GRProductDetailService(dictionary:signalsDictionary )
+        let params = productService.buildParams(upc as String, collection: "dah")
+        productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
             //println("ResultGr \(result)")
             

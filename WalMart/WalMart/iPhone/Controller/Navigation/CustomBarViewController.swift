@@ -800,8 +800,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 
             
             let controller = ProductDetailPageViewController()
-            let test : NSDictionary = NSDictionary(dictionary: ["signals" : true])
-            let svcValidate = GRProductDetailService(dictionary: test)
+            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : true])
+            let svcValidate = GRProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
@@ -809,7 +809,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
+            let params = svcValidate.buildParams(paddedUPC as String, collection: "dah")
+            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 
                 let controllernav = self.currentController as? UINavigationController
