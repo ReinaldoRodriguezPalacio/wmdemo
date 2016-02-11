@@ -406,13 +406,13 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemsBySearching</string>
-			<key>WalmartMG.GRProductDetailSignalService</key>
+			<key>WalmartMG.GRProductDetailService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemByUpc</string>
-			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
-			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/addItemToShoppingCart</string>
 		</dict>
 		<key>PRODUCTION</key>
@@ -883,24 +883,24 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<key>WalmartMG.GRProductBySearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/getItemByUpc</string>
-			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
-			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/2/addItemToShoppingCart</string>
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.GRProductBySearchSignalService</key>
+			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemsBySearching</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc</string>
-			<key>WalmartMG.GRShoppingCartAddProductsSignalService</key>
+			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToShoppingCartByUpcWithCommentsNew</string>
-			<key>WalmartMG.ShoppingCartAddProductsSignalService</key>
+			<key>WalmartMG.ShoppingCartAddProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/addItemToShoppingCart</string>
 		</dict>
 	</dict>
