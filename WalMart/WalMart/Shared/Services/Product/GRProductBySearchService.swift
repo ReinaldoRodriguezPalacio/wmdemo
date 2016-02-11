@@ -9,11 +9,20 @@
 import UIKit
 
 class GRProductBySearchService: GRBaseService {
-   
+   var useSignals = false
     override init() {
         super.init()
         self.urlForSession = true
     }
+    
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.urlForSession = true
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
+    
     
     func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
         return [
