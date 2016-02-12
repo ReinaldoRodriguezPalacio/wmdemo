@@ -83,7 +83,7 @@ class BaseService : NSObject {
         var serviceConfigDictionary = ConfigServices.ConfigIdMG
         
         if useSignalsServices {
-            serviceConfigDictionary =  ConfigServices.ConfigIdGRSignals
+            serviceConfigDictionary =  ConfigServices.ConfigIdMGSignals
         }
         
         let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
@@ -193,6 +193,7 @@ class BaseService : NSObject {
                              NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                         })
                     }
+                    errorBlock!(errorResult)
                     return
                 }
                 errorBlock!(errorResult)

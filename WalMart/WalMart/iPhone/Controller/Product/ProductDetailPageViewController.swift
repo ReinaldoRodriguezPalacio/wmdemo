@@ -65,7 +65,8 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
                 vc.upc = upc
                 vc.name = descr
-                vc.view.tag = ixSelected                
+                vc.view.tag = ixSelected
+                vc.fromSignals =  true
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :

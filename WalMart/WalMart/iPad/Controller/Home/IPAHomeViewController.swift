@@ -66,6 +66,20 @@ class IPAHomeViewController : HomeViewController {
         }
     }
     
+    override func showFindUpc(upcs:NSArray,type:String){
+        let controller = IPASearchProductViewController()
+        if type == "mg" {
+            controller.searchContextType = .WithCategoryForMG
+        }else {
+            controller.searchContextType = .WithCategoryForGR
+        }
+        controller.findUpcsMg = upcs as? [String]
+        controller.titleHeader = "Recomendados"
+        self.navigationController!.pushViewController(controller, animated: true)
+        
+        
+    }
+    
     func reloadSelectedCell() {
         if currentCellSelected != nil {
             if let currentCell = collection.cellForItemAtIndexPath(currentCellSelected) as? IPAProductHomeCollectionViewCell {

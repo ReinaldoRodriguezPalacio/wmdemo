@@ -13,13 +13,11 @@ class GRShoppingCartAddProductsService : GRBaseService {
     var useSignals = false
     override init() {
         super.init()
-        self.urlForSession = true
     }
     
     
     init(dictionary:NSDictionary){
         super.init()
-        self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
         self.useSignals = self.useSignalsServices
     }

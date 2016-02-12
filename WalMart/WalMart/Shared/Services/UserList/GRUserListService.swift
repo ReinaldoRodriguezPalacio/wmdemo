@@ -50,6 +50,7 @@ class GRUserListService : GRBaseService {
     
     func mergeList(response:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         let notSyncList = self.retrieveNotSyncList()
+        
         if notSyncList != nil && notSyncList!.count > 0 {
             let list = notSyncList!.first
             var listToMerge: [String:AnyObject]? = nil
@@ -153,7 +154,7 @@ class GRUserListService : GRBaseService {
                 }
                 if !exist {
                     //self.removeNotificationsFromList(list.idList)
-                    self.managedContext!.deleteObject(entity)
+                   // self.managedContext!.deleteObject(entity)
                 }
             }
         }
@@ -293,7 +294,7 @@ class GRUserListService : GRBaseService {
         var userList: [List]?
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
-            //fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
+        //fetchRequest.predicate = NSPredicate(format: "user == %@", user!)
         do{
             userList = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
         }catch{
@@ -322,7 +323,7 @@ class GRUserListService : GRBaseService {
         do{
             result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
         }catch{
-            print("findListById")
+            print("Error retrieveUserList")
         }
         return result
     }

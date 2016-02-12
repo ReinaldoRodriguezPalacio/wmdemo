@@ -19,7 +19,11 @@ struct ConfigServices {
     static var ConfigIdMG : String = "WMURLServices"
     static var ConfigIdGRSign : String = "WMGroceriesURLServicesSession"
     static var ConfigIdGR : String = "WMGroceriesURLServices"
-    static var ConfigIdGRSignals : String = "WMSignalsServices"
+    
+    static var ConfigIdMGSignals : String = "WMURLSignalsServices"
+    static var ConfigIdGRSignals : String = "WMGroceriesURLSignalsServices"
+    static var ConfigIdGRSignalsSing : String = "WMGroceriesURLSignalsServicesSession"
+    
     
     static var camfindparams : String = ""
 }
@@ -179,7 +183,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 ConfigServices.ConfigIdMG = "clusterWMURLServices"
                 ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
                 ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
-                ConfigServices.ConfigIdGRSignals = "clusterWMSignalsServices"
+                
+                ConfigServices.ConfigIdMGSignals = "clusterWMURLSignalsServices"
+                ConfigServices.ConfigIdGRSignals = "clusterWMGroceriesURLSignalsServices"
+                ConfigServices.ConfigIdGRSignalsSing = "clusterWMGroceriesURLSignalsServicesSession"
             }
         }
         
