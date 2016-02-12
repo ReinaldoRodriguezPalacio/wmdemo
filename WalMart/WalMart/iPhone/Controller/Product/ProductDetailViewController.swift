@@ -28,7 +28,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var freeShipping : Bool = false
     var isLoading : Bool = false
     var viewDetail : ProductDetailTextDetailView!
-    var productDetailButton: ProductDetailButtonBarCollectionViewCell!
+    var productDetailButton: ProductDetailButtonBarCollectionViewCell?
     var selectQuantity : ShoppingCartQuantitySelectorView? = nil
     var isShowProductDetail : Bool = false
     var isShowShoppingCart : Bool = false
@@ -138,7 +138,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         if isShowShoppingCart {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.productDetailButton.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
                 self.isShowShoppingCart = false
                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
                 self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
@@ -199,26 +199,26 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
             
             productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
-            productDetailButton.upc = self.upc as String
-            productDetailButton.desc = self.name as String
-            productDetailButton.price = self.price as String
-            productDetailButton.price = self.price as String
+            productDetailButton!.upc = self.upc as String
+            productDetailButton!.desc = self.name as String
+            productDetailButton!.price = self.price as String
+            productDetailButton!.price = self.price as String
             
-            productDetailButton.isActive = self.strisActive
-            productDetailButton.onHandInventory = self.onHandInventory as String
-            productDetailButton.isPreorderable = self.strisPreorderable
+            productDetailButton!.isActive = self.strisActive
+            productDetailButton!.onHandInventory = self.onHandInventory as String
+            productDetailButton!.isPreorderable = self.strisPreorderable
             
-            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
+            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
             }
-            productDetailButton.image = imageUrl
-            productDetailButton.delegate = self
+            productDetailButton!.image = imageUrl
+            productDetailButton!.delegate = self
 
-            return productDetailButton
+            return productDetailButton!
         }
         return headerView
     }
@@ -464,7 +464,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 { () in
                     UIView.animateWithDuration(0.5,
                         animations: { () -> Void in
-                            self.productDetailButton.reloadShoppinhgButton()
+                            self.productDetailButton?.reloadShoppinhgButton()
                             self.isShowShoppingCart = false
                             self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
                             self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
@@ -506,7 +506,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 
                         UIView.animateWithDuration(0.2,
                             animations: { () -> Void in
-                                self.productDetailButton.reloadShoppinhgButton()
+                                self.productDetailButton?.reloadShoppinhgButton()
                                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0	)
                                 self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
@@ -540,7 +540,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     
                     self.selectQuantity!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
-                        self.productDetailButton.setOpenQuantitySelector()
+                        self.productDetailButton?.setOpenQuantitySelector()
                         self.selectQuantity!.frame = finalFrameOfQuantity
                         self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
                     })
@@ -563,7 +563,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 
                 UserCurrentSession.sharedInstance().loadMGShoppingCart
                     { () -> Void in
-                        self.productDetailButton.reloadShoppinhgButton()
+                        self.productDetailButton?.reloadShoppinhgButton()
                 }
                 
                 if self.selectQuantity != nil {
@@ -575,7 +575,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         else {
             UserCurrentSession.sharedInstance().loadMGShoppingCart
                 { () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
             }
         }
         
@@ -601,11 +601,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.selectQuantity!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
                
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.productDetailButton.setOpenQuantitySelector()
+                    self.productDetailButton!.setOpenQuantitySelector()
                     self.selectQuantity!.frame = finalFrameOfQuantity
                     self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
                     }, completion: { (complete:Bool) -> Void in
-                        self.productDetailButton.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                        self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
                 })
             }
         }
@@ -632,7 +632,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.viewDetail!.frame = finalFrameOfQuantity
             self.viewDetail!.imageBlurView.frame = finalFrameOfQuantity
             //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
-            self.productDetailButton.deltailButton.selected = true
+            self.productDetailButton!.deltailButton.selected = true
         })
     }
     
@@ -651,7 +651,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.viewDetail = nil
                     
             
-            self.productDetailButton.deltailButton.selected = false
+            self.productDetailButton!.deltailButton.selected = false
                 }
         }
         }
@@ -911,31 +911,31 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) 
             
             productDetailButton = ProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 56.0))
-            productDetailButton.upc = self.upc as String
-            productDetailButton.desc = self.name as String
-            productDetailButton.price = self.price as String
-            productDetailButton.isPesable  = self.isPesable
+            productDetailButton!.upc = self.upc as String
+            productDetailButton!.desc = self.name as String
+            productDetailButton!.price = self.price as String
+            productDetailButton!.isPesable  = self.isPesable
 
-            productDetailButton.isActive = self.strisActive
-            productDetailButton.onHandInventory = self.onHandInventory as String
-            productDetailButton.isPreorderable = self.strisPreorderable
-            productDetailButton.hasDetailOptions = (self.facets?.count > 0)
-            productDetailButton.listButton.enabled = !self.isGift
+            productDetailButton!.isActive = self.strisActive
+            productDetailButton!.onHandInventory = self.onHandInventory as String
+            productDetailButton!.isPreorderable = self.strisPreorderable
+            productDetailButton!.hasDetailOptions = (self.facets?.count > 0)
+            productDetailButton!.listButton.enabled = !self.isGift
             
-            productDetailButton.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
+            productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
             }
-            productDetailButton.image = imageUrl
-            productDetailButton.delegate = self
+            productDetailButton!.image = imageUrl
+            productDetailButton!.delegate = self
             
             for subView in view.subviews{
                 subView.removeFromSuperview()
             }
             
-            view.addSubview(productDetailButton)
+            view.addSubview(productDetailButton!)
             
             return view
         }
@@ -1053,7 +1053,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.isContainerHide = true
                 self.isShowShoppingCart = false
                 self.isShowProductDetail = false
-                self.productDetailButton.deltailButton.selected = false
+                self.productDetailButton!.deltailButton.selected = false
                 self.detailCollectionView.scrollEnabled = true
                 completeClose()
                 for viewInCont in self.containerinfo.subviews {
@@ -1135,7 +1135,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     func endUpdatingShoppingCart(sender:AnyObject) {
-        self.productDetailButton.reloadShoppinhgButton()
+        self.productDetailButton!.reloadShoppinhgButton()
     }
     
     func showProductDetailOptions() {
@@ -1146,7 +1146,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.currentItem = 0
         controller.type = self.type.rawValue
         controller.onHandInventory = self.onHandInventory
-        controller.detailProductCart = self.productDetailButton.detailProductCart
+        controller.detailProductCart = self.productDetailButton!.detailProductCart
         controller.strIsPreorderable = self.strisPreorderable
         controller.facets = self.facets
         controller.facetsDetails = self.facetsDetails

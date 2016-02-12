@@ -231,9 +231,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
             }
-            productDetailButton.image = imageUrl
-            productDetailButton.delegate = self
-            view.addSubview(productDetailButton)
+            productDetailButton!.image = imageUrl
+            productDetailButton!.delegate = self
+            view.addSubview(productDetailButton!)
             
             return view
         }
@@ -250,7 +250,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         if self.selectQuantityGR != nil {
             self.closeContainer(
                 { () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton!.reloadShoppinhgButton()
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
@@ -340,7 +340,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             }
             selectQuantityGR?.closeAction = { () in
                 self.closeContainer({ () -> Void in
-                    self.productDetailButton.reloadShoppinhgButton()
+                    self.productDetailButton?.reloadShoppinhgButton()
                     }, completeClose: { () -> Void in
                         self.isShowShoppingCart = false
                             self.selectQuantityGR = nil
@@ -348,13 +348,13 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 })
             }
             selectQuantityGR.addUpdateNote = {() in
-                if self.productDetailButton.detailProductCart != nil {
+                if self.productDetailButton!.detailProductCart != nil {
                     let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
                     let frame = vc!.view.frame
                     
                     
                     let addShopping = ShoppingCartUpdateController()
-                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton.detailProductCart!.quantity.stringValue) as! [String:AnyObject]
+                    let paramsToSC = self.buildParamsUpdateShoppingCart(self.productDetailButton!.detailProductCart!.quantity.stringValue) as! [String:AnyObject]
                     addShopping.params = paramsToSC
                     vc!.addChildViewController(addShopping)
                     addShopping.view.frame = frame
@@ -362,7 +362,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                     addShopping.didMoveToParentViewController(vc!)
                     addShopping.typeProduct = ResultObjectType.Groceries
                     
-                    addShopping.comments = self.productDetailButton.detailProductCart!.note!
+                    addShopping.comments = self.productDetailButton!.detailProductCart!.note!
                     addShopping.goToShoppingCart = {() in }
                     addShopping.removeSpinner()
                     addShopping.addActionButtons()
@@ -370,8 +370,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 }
             
             }
-            if productDetailButton.detailProductCart?.quantity != nil {
-                selectQuantityGR?.userSelectValue(productDetailButton.detailProductCart?.quantity.stringValue)
+            if productDetailButton!.detailProductCart?.quantity != nil {
+                selectQuantityGR?.userSelectValue(productDetailButton!.detailProductCart?.quantity.stringValue)
                 selectQuantityGR?.first = true
                 selectQuantityGR?.showNoteButton()
             }
@@ -381,7 +381,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
                 if self.onHandInventory.integerValue >= Int(quantity) {
                     self.closeContainer({ () -> Void in
-                        self.productDetailButton.reloadShoppinhgButton()
+                        self.productDetailButton!.reloadShoppinhgButton()
                         }, completeClose: { () -> Void in
                             
                             self.isShowShoppingCart = false
@@ -414,14 +414,14 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             
             self.opencloseContainer(true, viewShow:selectQuantityGR!,
                 additionalAnimationOpen: { () -> Void in
-                    self.productDetailButton.setOpenQuantitySelector()
+                    self.productDetailButton!.setOpenQuantitySelector()
                     self.selectQuantityGR?.imageBlurView.frame = frameDetail
-                    self.productDetailButton.addToShoppingCartButton.selected = true
+                    self.productDetailButton!.addToShoppingCartButton.selected = true
                 },
                 additionalAnimationClose:{ () -> Void in
                     self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail,
                     self.detailCollectionView.frame.width, self.heightDetail)
-                    self.productDetailButton.addToShoppingCartButton.selected = true
+                    self.productDetailButton!.addToShoppingCartButton.selected = true
                 }
             )
         }else{
@@ -436,7 +436,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 
                 
                 
-                self.productDetailButton.reloadShoppinhgButton()
+                self.productDetailButton?.reloadShoppinhgButton()
 //                UserCurrentSession.sharedInstance().loadGRShoppingCart
 //                    { () -> Void in
 //                        self.productDetailButton.reloadShoppinhgButton()
@@ -449,7 +449,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             UserCurrentSession.sharedInstance().loadGRShoppingCart
                 { () -> Void in
                     if self.productDetailButton != nil {
-                        self.productDetailButton.reloadShoppinhgButton()
+                        self.productDetailButton?.reloadShoppinhgButton()
                     }
             }
         }
@@ -634,7 +634,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             //TODO: Add message
             self.showMessageWishList("Se agregó a la lista")
             
-            self.productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+            self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
             
             
         }
@@ -723,7 +723,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                                 self.listSelectorContainer = nil
                                 
                                 //self.productDetailButton!.listButton.selected = false
-                                self.productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
+                                self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc as String)
                                 
                                 action?()
                                 self.detailCollectionView.scrollEnabled = true
@@ -841,7 +841,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 self.nutrimentalsView!.frame = finalFrameOfQuantity
                 self.nutrimentalsView!.imageBlurView.frame = finalFrameOfQuantity
                 //self.viewDetail.frame = CGRectMake(0, 0, self.tabledetail.frame.width, self.tabledetail.frame.height - 145)
-                self.productDetailButton.deltailButton.selected = true
+                self.productDetailButton!.deltailButton.selected = true
             })
             
         }
@@ -863,7 +863,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                         self.nutrimentalsView = nil
                         
                         
-                        self.productDetailButton.deltailButton.selected = false
+                        self.productDetailButton!.deltailButton.selected = false
                     }
             }
         }
