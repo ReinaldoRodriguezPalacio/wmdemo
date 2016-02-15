@@ -34,7 +34,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         self.type = ResultObjectType.Groceries
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = GRProductDetailService(dictionary:signalsDictionary )
-        let params = productService.buildParams(upc as String, collection: "dah")
+        let eventType = self.fromSearch ? "clickdetails" : "pdpview"
+        let params = productService.buildParams(upc as String,eventtype:eventType)
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
             //println("ResultGr \(result)")

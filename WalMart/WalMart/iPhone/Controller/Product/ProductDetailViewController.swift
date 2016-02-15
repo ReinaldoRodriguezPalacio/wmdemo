@@ -61,7 +61,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     
-    var fromSignals =  false
+    var fromSearch =  false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -697,7 +697,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             //TODO signals
             let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let productService = ProductDetailService(dictionary: signalsDictionary)
-            let params = productService.buildParams(upc as String, collection: "mg")
+            let eventType = self.fromSearch ? "clickdetails" : "pdpview"
+            let params = productService.buildParams(upc as String,eventtype:eventType)
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
                 
                 self.reloadViewWithData(result)

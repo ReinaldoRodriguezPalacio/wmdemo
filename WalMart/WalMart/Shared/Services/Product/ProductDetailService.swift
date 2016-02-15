@@ -28,10 +28,10 @@ class ProductDetailService : BaseService {
     
 
 
-    func buildParams(upc:String,collection:String) -> AnyObject{
+    func buildParams(upc:String,eventtype:String) -> AnyObject{
         if useSignalsServices {
             let channel = IS_IPAD ? "ipad" : "iphone"
-            return ["upc":upc,"params":["eventtype": "pdpview","collection":collection,"channel": channel]]
+            return ["upc":upc,"params":["eventtype": eventtype,"collection":"mg","channel": channel]]
         }
         return upc
     }

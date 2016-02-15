@@ -608,7 +608,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
                 }
             }
-        
+            controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "")
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
             self.navigationController!.pushViewController(controller, animated: true)

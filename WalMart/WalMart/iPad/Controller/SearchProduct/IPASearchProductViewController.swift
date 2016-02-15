@@ -92,6 +92,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 currentCellSelected = indexPath
                 let pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.view)
                 //let pontInView =  currentCell.productImage?.convertRect(currentCell!.productImage!.frame, toView: self.view)
+                paginatedProductDetail.isForSeach = (self.textToSearch != nil && self.textToSearch != "")
                 paginatedProductDetail.animationController = ProductDetailNavigatinAnimationController(nav:self.navigationController!)
                 paginatedProductDetail.animationController.originPoint =  pontInView
                 paginatedProductDetail.animationController.setImage(currentCell!.productImage!.image!)
