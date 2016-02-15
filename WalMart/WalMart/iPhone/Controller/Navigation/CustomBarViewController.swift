@@ -800,7 +800,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 
             
             let controller = ProductDetailPageViewController()
-            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : true])
+            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let svcValidate = GRProductDetailService(dictionary: useSignalsService)
             
             let upcDesc : NSString = upc! as NSString

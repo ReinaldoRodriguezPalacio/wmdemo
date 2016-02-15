@@ -695,7 +695,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             //TODO signals
-            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : true])
+            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let params = productService.buildParams(upc as String, collection: "mg")
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
