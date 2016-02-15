@@ -63,5 +63,8 @@ class GRBaseService : BaseService {
         return -100
     }
 
+    static func getUseSignalServices() ->Bool{
+        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
+    }
     
 }

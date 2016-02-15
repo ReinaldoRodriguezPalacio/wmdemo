@@ -295,7 +295,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     typeProduct = ResultObjectType.Groceries
                     print("Parametros = \(params)")
                     //TODO Signals
-                    let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : true])
+                    let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
                     let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
                     
                     if let commentsParams = params["comments"] as? NSString{
