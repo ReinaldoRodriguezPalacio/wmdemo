@@ -42,6 +42,9 @@ class ProductDetailService : BaseService {
     
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        print("BEFORE CALLSERVICE::")
+        self.jsonFromObject(params)
+        
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! NSDictionary
             successBlock!(resultObject)

@@ -731,7 +731,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let startOffSet = self.mgResults!.resultsInResponse
         
         //TODO: Signals
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : false])
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : true])//--
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
@@ -805,7 +805,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             startOffSet++
         }
         //TODO: Signals
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : false])
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : true])//--
         let service = GRProductBySearchService(dictionary: signalsDictionary)
         
        // self.brandText = self.idSort != "" ? "" : self.brandText

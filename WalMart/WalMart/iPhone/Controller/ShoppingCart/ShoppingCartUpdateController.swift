@@ -278,7 +278,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
             }
         }else{
-            let serviceAddProduct  = ShoppingCartAddProductsService()
+            
+            let signalParametrer = params["parameter"] as? [String:AnyObject]
+            
+            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : signalParametrer != nil ? true :  false])
+            let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
             
             var numOnHandInventory : NSString = "0"
             if let numberOf = params["onHandInventory"] as? NSString{
@@ -295,14 +299,16 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     typeProduct = ResultObjectType.Groceries
                     print("Parametros = \(params)")
                     //TODO Signals
-                    let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : true])
+                    let signalParametrer = params["parameter"] as? [String:AnyObject]
+                    
+                    let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : signalParametrer != nil ? true :  false])
                     let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
                     
                     if let commentsParams = params["comments"] as? NSString{
                         self.comments = commentsParams as String
                     }
                     
-                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
+                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString,parameter:signalParametrer, successBlock: { (result:NSDictionary) -> Void in
                         
                         self.finishCall = true
                         if self.timmer == nil {

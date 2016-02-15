@@ -11,6 +11,8 @@ import CoreData
 
 class GRShoppingCartAddProductsService : GRBaseService {
     var useSignals = false
+    var parameterSend:[String:AnyObject]?
+    
     override init() {
         super.init()
     }
@@ -34,7 +36,9 @@ class GRShoppingCartAddProductsService : GRBaseService {
     
     func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,pesable:NSString,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
         if useSignals && parameter != nil{
+            self.parameterSend  = parameter
           return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable,"parameter":parameter!]]
+            
         }
         return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"pesable":pesable]]
     }
@@ -64,16 +68,26 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return ["strArrImp":products]
     }
     
-    func buildProductObject(upc upc:String, quantity:String, comments:String) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:String, comments:String) -> AnyObject {
         return ["quantity":quantity,"upc":upc,"comments":comments]
-        //return ["items":["quantity":quantity,"upc":upc,"comments":comments],"parameter":["eventtype":"addticart","q":"busqueda","collection": "mg","channel":"ipad"]]
     }
+    
+    func buildProductObject(upcsParams:[AnyObject]) -> AnyObject {
+        
+        if useSignals  && self.parameterSend != nil {
+            return   ["items":upcsParams,"parameter":self.parameterSend!]
+            
+        }
+        return upcsParams
+    }
+    
+    
     
     
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.jsonFromObject(params)
         if UserCurrentSession.hasLoggedUser() {
-            var itemsSvc : [[String:AnyObject]] = []
+            var itemsSvc : [AnyObject] = []
             var upcSend = ""
             for itemSvc in params as! NSArray {
                 let upc = itemSvc["upc"] as! String
@@ -88,8 +102,16 @@ class GRShoppingCartAddProductsService : GRBaseService {
             
             let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
             if !hasUPC {
-                 self.jsonFromObject(itemsSvc)
-                self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+              
+                
+                var send  : AnyObject?
+                if useSignals  && self.parameterSend != nil{
+                send = buildProductObject(itemsSvc)
+                }else{
+                    send = itemsSvc
+                }
+                self.jsonFromObject(send!)
+                self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     if self.updateShoppingCart() {
 //                        let shoppingService = GRShoppingCartProductsService()

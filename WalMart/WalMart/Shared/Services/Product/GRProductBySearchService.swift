@@ -28,7 +28,7 @@ class GRProductBySearchService: GRBaseService {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
-            var parameter = ["q":searchText,"eventtype": "clickdetails","collection":"dah","channel": channel] as [String:AnyObject]
+            var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:AnyObject]
             if searchText == ""{
                parameter = ["category":idDepartment!,"eventtype": "categoryview","collection":"dah","channel": channel]
             }

@@ -12,6 +12,7 @@ import CoreData
 
 class ShoppingCartAddProductsService : BaseService {
     var useSignals = false
+    var parameterSend : AnyObject?
     override init() {
         super.init()
         self.urlForSession = true
@@ -37,6 +38,7 @@ class ShoppingCartAddProductsService : BaseService {
     
     func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
         if useSignals && parameter != nil{
+            parameterSend = parameter!
             return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"parameter":parameter!]]
         }
         return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]]
@@ -48,6 +50,15 @@ class ShoppingCartAddProductsService : BaseService {
     
     func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
+    }
+    
+    func buildProductObject(upcsParams:[AnyObject]) -> AnyObject {
+        
+        if useSignals  && self.parameterSend != nil {
+            return   ["items":upcsParams,"parameter":self.parameterSend!]
+            
+        }
+        return upcsParams
     }
 
     
@@ -81,6 +92,8 @@ class ShoppingCartAddProductsService : BaseService {
             }
             
             if itemsSvc.count > 1 {
+                
+                
                 self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     
@@ -109,7 +122,13 @@ class ShoppingCartAddProductsService : BaseService {
             
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
                 if !hasUPC {
-                        self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+                    var send  : AnyObject?
+                    if useSignals  && self.parameterSend != nil{
+                        send = buildProductObject(itemsSvc)
+                    }else{
+                        send = itemsSvc
+                    }
+                        self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
                         
                         
                         if self.updateShoppingCart() {

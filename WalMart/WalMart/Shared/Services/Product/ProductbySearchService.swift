@@ -25,7 +25,7 @@ class ProductbySearchService : BaseService {
         if useSignals {
             let channel = IS_IPAD ? "ipad" : "iphone"
             let searchText = text != nil ? text! : ""
-            var parameter = ["q":searchText,"eventtype": "clickdetails","collection":"mg","channel": channel]
+            var parameter = ["q":searchText,"eventtype": "search","collection":"mg","channel": channel]
             if searchText == ""{
                 parameter = ["category":idDepartment!,"eventtype": "categoryview","collection":"mg","channel": channel]
             }
