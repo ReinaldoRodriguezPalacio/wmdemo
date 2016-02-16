@@ -407,13 +407,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //updateItemSavingForUPC(indexPath,upc:upc)
             
             cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory)
-            
+            cellProduct.priceSelector.closeBand()
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)
                 cellProduct.showLeftUtilityButtonsAnimated(false)
             }else{
                 cellProduct.setEditing(false, animated: false)
-                cellProduct.hideUtilityButtonsAnimated(true)
+                cellProduct.hideUtilityButtonsAnimated(false)
             }
             
             cell = cellProduct
