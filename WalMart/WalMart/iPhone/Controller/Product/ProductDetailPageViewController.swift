@@ -65,17 +65,19 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
                 vc.upc = upc
                 vc.name = descr
-                vc.view.tag = ixSelected
                 vc.fromSearch =  self.isForSeach
+                vc.view.tag = ixSelected
+                
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
                 if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? ProductDetailViewController {
                     vc.upc = upc
+                    vc.fromSearch =  self.isForSeach
                     vc.name = descr
                     vc.saving = saving == nil ? "" : saving!
                     vc.view.tag = ixSelected
-                    vc.fromSearch =  self.isForSeach
+                   
                     return vc
             }
         default:

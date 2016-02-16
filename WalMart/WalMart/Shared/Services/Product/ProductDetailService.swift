@@ -31,7 +31,7 @@ class ProductDetailService : BaseService {
     func buildParams(upc:String,eventtype:String) -> AnyObject{
         if useSignalsServices {
             let channel = IS_IPAD ? "ipad" : "iphone"
-            return ["upc":upc,"params":["eventtype": eventtype,"collection":"mg","channel": channel]]
+            return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"mg","channel": channel]]
         }
         return upc
     }
@@ -43,7 +43,7 @@ class ProductDetailService : BaseService {
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         print("BEFORE CALLSERVICE::")
-        self.jsonFromObject(params)
+        //self.jsonFromObject(params)
         
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! NSDictionary

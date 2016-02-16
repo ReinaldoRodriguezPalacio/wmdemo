@@ -31,7 +31,7 @@ class GRProductDetailService : GRBaseService {
     func buildParams(upc:String,eventtype:String) -> AnyObject{
         if useSignalsServices {
             let channel = IS_IPAD ? "ipad" : "iphone"
-            return ["upc":upc,"params":["eventtype": eventtype,"collection":"dah","channel": channel]]
+            return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"dah","channel": channel]]
         }
         return upc
     }

@@ -15,13 +15,14 @@ class ShoppingCartAddProductsService : BaseService {
     var parameterSend : AnyObject?
     override init() {
         super.init()
-        self.urlForSession = true
+        //self.urlForSession = true
     }
+    
     
     
     init(dictionary:NSDictionary){
         super.init()
-        self.urlForSession = true
+        //self.urlForSession = true
         self.useSignalsServices = dictionary["signals"] as! Bool
         self.useSignals = self.useSignalsServices
     }
