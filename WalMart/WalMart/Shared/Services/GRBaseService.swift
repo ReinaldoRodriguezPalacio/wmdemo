@@ -19,7 +19,11 @@ class GRBaseService : BaseService {
         }
         
         if useSignalsServices {
-            serviceConfigDictionary = UserCurrentSession.hasLoggedUser() ? ConfigServices.ConfigIdGRSignals : ConfigServices.ConfigIdGRSignalsSing
+            if UserCurrentSession.hasLoggedUser() &&  self.urlForSession {
+                serviceConfigDictionary = ConfigServices.ConfigIdGRSignalsSing
+            }else{
+                serviceConfigDictionary = ConfigServices.ConfigIdGRSignals
+            }
         }
         
         

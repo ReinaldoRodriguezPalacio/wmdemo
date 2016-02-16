@@ -608,7 +608,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
                 }
             }
-            controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "")
+            controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
             self.navigationController!.pushViewController(controller, animated: true)
@@ -731,7 +731,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let startOffSet = self.mgResults!.resultsInResponse
         
         //TODO: Signals
-        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
@@ -1477,6 +1477,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
         }
         else {
+            
             if searchText != ""{
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"parameter":["q":searchText,"eventtype": "addticart","collection":"mg","channel": channel]]
             }
