@@ -1196,7 +1196,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.collection?.alpha = 0
             if self.empty == nil {
                 self.viewBgSelectorBtn.alpha = 0
-                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height))
+                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
                 self.empty.returnAction = { () in
                     self.viewBgSelectorBtn.alpha = 1
                     self.returnBack()

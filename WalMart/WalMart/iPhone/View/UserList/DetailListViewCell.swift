@@ -44,6 +44,8 @@ class DetailListViewCell: ProductTableViewCell {
         self.promoDescription = UILabel()
         self.promoDescription!.textColor = WMColor.green
         self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        self.promoDescription!.numberOfLines = 2
+        self.promoDescription!.textAlignment = .Center
         self.contentView.addSubview(self.promoDescription!)
         
         self.productShortDescriptionLabel!.textColor = WMColor.gray
@@ -265,7 +267,7 @@ class DetailListViewCell: ProductTableViewCell {
             self.promoDescription!.frame = CGRectZero
         }
         else {
-            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 100.0, 14.0)
+            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 26.0)
         }
 
         self.separator!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
