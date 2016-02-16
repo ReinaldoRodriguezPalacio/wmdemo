@@ -330,15 +330,17 @@ class DetailListViewCell: ProductTableViewCell {
     func checkDisabled(disabled:Bool) {
         self.check!.selected = !disabled
         if disabled {
-            self.productShortDescriptionLabel?.textColor = WMColor.light_light_gray
-            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.light_light_gray, interLine: false)
+            self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
             self.productImage!.image = imageGrayScale
-            self.quantityIndicator?.backgroundColor = WMColor.light_light_gray
+            self.quantityIndicator?.backgroundColor = WMColor.empty_gray_btn
+            self.promoDescription?.textColor = WMColor.empty_gray_btn
         } else {
             self.productShortDescriptionLabel!.textColor = WMColor.gray
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.productImage!.image = imageNormal
             self.quantityIndicator!.backgroundColor = WMColor.yellow
+            self.promoDescription?.textColor = WMColor.green
         }
     }
 

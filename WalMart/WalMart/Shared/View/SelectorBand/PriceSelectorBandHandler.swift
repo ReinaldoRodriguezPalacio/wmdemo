@@ -133,6 +133,13 @@ class PriceSelectorBandHandler: SelectorBandHandler {
                 self.delegate?.endEdditingQuantity()
         })
     }
+    
+    func closeBand(){
+        let frame = self.container!.frame
+        self.band!.frame = CGRectMake(frame.size.width,0.0,0, frame.size.height)
+        self.tapGesture.enabled = true
+        self.isShowingScroll = false
+    }
 
     //MARK: - UICollectionView
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

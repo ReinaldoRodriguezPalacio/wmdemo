@@ -37,7 +37,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func setup() {
         
-        let startH = (self.bounds.height - 360) / 2
+        let startH : CGFloat = 0 //(self.bounds.height - 360) / 2
         
         self.backgroundColor = UIColor.clearColor()
         
@@ -62,7 +62,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
         closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
-       
         
         self.keyboardView = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantity.frame.maxY + 10, 160, 196))
         //289
