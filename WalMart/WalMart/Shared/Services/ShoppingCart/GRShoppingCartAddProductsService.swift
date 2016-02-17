@@ -110,7 +110,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
                 }else{
                     send = itemsSvc
                 }
-                self.jsonFromObject(send!)
+                //self.jsonFromObject(send!)
                 self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     if self.updateShoppingCart() {
