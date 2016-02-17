@@ -408,6 +408,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory)
             cellProduct.priceSelector.closeBand()
+            cellProduct.endEdditingQuantity()
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)
                 cellProduct.showLeftUtilityButtonsAnimated(false)

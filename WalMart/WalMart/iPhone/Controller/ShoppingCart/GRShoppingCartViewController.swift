@@ -721,10 +721,48 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
     }
     
+    func retrieveParam(entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil) -> AnyObject{
+        
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context)
+        fetchRequest.predicate = predicate
+        
+        var error: NSError? = nil
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
+        if error != nil {
+            print("errore: \(error)")
+        }
+        
+        return fetchedResult!
+        
+    }
+    
+    
+    
     func deleteAll() {
         
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
+        
+        var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+        if UserCurrentSession.hasLoggedUser() {
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+        }
+        var arrayUPCQuantity : [[String:String]] = []
+        let array  =  self.retrieveParam("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+        let service = GRProductsByUPCService()
+        for item in array {
+            arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
+        }
+        
         
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
