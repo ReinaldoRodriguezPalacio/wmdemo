@@ -168,7 +168,7 @@ class BaseService : NSObject {
     }
 
     
-    func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> NSURLSessionDataTask {
         let afManager = getManager()
        //TODO: Quitar no debe de ir
         var url = serviceUrl()
@@ -178,7 +178,7 @@ class BaseService : NSObject {
 //                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
 //            }
 
-        afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
+        let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
@@ -216,7 +216,7 @@ class BaseService : NSObject {
                 print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
-        
+       return task
     }
     
     func callGETService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

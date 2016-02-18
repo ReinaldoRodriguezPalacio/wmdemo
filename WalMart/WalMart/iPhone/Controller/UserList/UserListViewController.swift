@@ -1127,6 +1127,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             return
         }
+        if indexPath.section != 0  && !self.isShowingWishList {
+           return
+        }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
         

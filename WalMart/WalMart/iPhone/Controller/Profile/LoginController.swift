@@ -355,7 +355,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             }else{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                if !self.closeAlertOnSuccess {
+                if !self.closeAlertOnSuccess && UserCurrentSession.hasLoggedUser() {
                   self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
                 }
             }

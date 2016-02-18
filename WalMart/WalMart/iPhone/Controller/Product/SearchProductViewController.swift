@@ -419,12 +419,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if let count = self.allProducts?.count {
             var commonTotal = 0
             if self.btnSuper.selected {
-                commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
+                commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.resultsInResponse)
                 if count == commonTotal {
                     return count
                 }
             } else {
-                commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
+                commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.resultsInResponse)
                 if count == commonTotal {
                     return count
                 }
