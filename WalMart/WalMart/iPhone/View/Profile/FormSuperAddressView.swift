@@ -193,6 +193,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.phoneHomeNumber!.maxLength = 10
         self.phoneHomeNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHomeNumber!.inputAccessoryView = viewAccess
+        self.phoneHomeNumber!.delegate =  self
         
         self.phoneWorkNumber = FormFieldView()
         self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
@@ -212,13 +213,12 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         
+        if UserCurrentSession.hasLoggedUser() {
+            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
+            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
+            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
+        }
         
-//        if UserCurrentSession.hasLoggedUser() {
-//            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
-//            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
-//            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
-//        }
-//        
         
         self.addSubview(self.titleLabelAddress)
         self.addSubview(self.errorLabelStore)
@@ -743,6 +743,14 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             self.store!.text = ""
             self.selectedStore = nil
         }
+        if textField == self.phoneHomeNumber{
+            if zipcode.characters.count == 11{
+                return false }
+            
+        }
+        
+        
+        
         return true
     }
 }

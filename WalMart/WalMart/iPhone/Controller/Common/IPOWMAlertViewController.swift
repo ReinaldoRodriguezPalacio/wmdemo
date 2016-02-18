@@ -31,6 +31,7 @@ class IPOWMAlertViewController : UIViewController {
     
     var leftAction : (() -> Void)? = nil
     var rightAction : (() -> Void)? = nil
+    var isOtherFame : Bool = false
     
     
     override func viewDidLoad() {
@@ -79,10 +80,12 @@ class IPOWMAlertViewController : UIViewController {
         self.bgView.frame = bounds
         
         viewBgImage.frame = CGRectMake((bounds.width - 80)  / 2 , (bounds.height - 80 - 200) / 2, 80, 80)
-        
+        //   titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
+
         titleLabel!.sizeToFit()
-        titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
-       
+        titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 330) / 2,  viewBgImage.frame.maxY + 16, 330, titleLabel!.frame.height)
+        //titleLabel.backgroundColor = UIColor.redColor()
+       //232
         spinImage.frame = CGRectMake((bounds.width - 84)  / 2, (bounds.height - 84 - 200)  / 2, 84, 84)
        
         if imageIcon != nil && imageIcon.image != nil {
@@ -93,14 +96,19 @@ class IPOWMAlertViewController : UIViewController {
         if self.doneButton != nil {
             doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, titleLabel.frame.maxY + 16, 160 , 40)
         }
-        
         if leftButton != nil {
-            leftButton.frame = CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32)
+            leftButton.frame =  self.isOtherFame ? CGRectMake(16, self.titleLabel.frame.maxY + 60 + 24, self.view.frame.width - 32, 32) :
+                CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32)
+            
         }
-       
+        //es 370 lo cambie a 350 pero no es ese checar despues de comer y 330 iphone 4s
         if rightButton != nil {
-            rightButton.frame =  CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height)
+            rightButton.frame =  self.isOtherFame ? CGRectMake(16, self.titleLabel.frame.maxY + 24, self.view.frame.width - 32, 32) :
+                CGRectMake(leftButton.frame.maxX + 11, self.titleLabel.frame.maxY + 16, leftButton.frame.width, leftButton.frame.height)
+            
         }
+        
+
         
     }
     
@@ -210,8 +218,13 @@ class IPOWMAlertViewController : UIViewController {
         self.view.addSubview(rightButton)
     }
     
-    func addActionButtonsWithCustomText(leftText:String,leftAction:(() -> Void),rightText:String,rightAction:(() -> Void)) {
+    func addActionButtonsWithCustomText(leftText:String,leftAction:(() -> Void),rightText:String,rightAction:(() -> Void),isNewFrame:Bool) {
+        self.isOtherFame = isNewFrame
+        
         leftButton = UIButton(frame:CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32))
+        if isNewFrame {
+            leftButton = UIButton(frame:CGRectMake(11, self.titleLabel.frame.maxY + 100, self.view.frame.width - 22, 32))
+        }
         leftButton.layer.cornerRadius = 16
         leftButton.setTitle(leftText, forState: UIControlState.Normal)
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -219,7 +232,12 @@ class IPOWMAlertViewController : UIViewController {
         leftButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         leftButton.addTarget(self, action: "leftTapInside", forControlEvents: UIControlEvents.TouchUpInside)
         
+
         rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
+        if isNewFrame {
+             rightButton = UIButton(frame:CGRectMake(16, 375, self.view.frame.width - 32, 32))
+        }
+        
         rightButton.layer.cornerRadius = 16
         rightButton.setTitle(rightText, forState: UIControlState.Normal)
         rightButton.backgroundColor = WMColor.productAddToCartGoToShoppingBg

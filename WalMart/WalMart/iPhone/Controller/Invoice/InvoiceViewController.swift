@@ -260,7 +260,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
             self.alertView?.close() }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
             self.alertView?.close()
             self.navigationController?.popViewControllerAnimated(true)
-        })
+        },isNewFrame: false)
     }
     
     func showInfoAlert(){

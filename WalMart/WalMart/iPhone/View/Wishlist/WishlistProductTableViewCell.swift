@@ -27,6 +27,12 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     var onHandInventory : NSString = "0"
     var isPesable : String!
     var isPreorderable : String!
+    //Ale
+    var imagePresale : UIImageView!
+    var borderViewTop : UIView!
+    var iconDiscount : UIImageView!
+    let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
+    var presale : UILabel!
     
     
     override func setup() {
@@ -63,6 +69,11 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         self.contentView.addSubview(productPriceSavingLabel)
         self.contentView.addSubview(self.separatorView!)
         
+        //Ale
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
+        
         
     }
     
@@ -82,7 +93,8 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,saving:NSString,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,pesable :NSString) {
-        
+        imagePresale.hidden = !isPreorderable
+
         self.upc = upc
         self.desc = productShortDescription
         self.imageURL = productImageURL

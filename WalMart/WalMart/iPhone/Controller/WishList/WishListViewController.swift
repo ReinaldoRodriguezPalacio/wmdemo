@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import CoreData
 
 class WishListViewController : NavigationViewController, UITableViewDataSource,UITableViewDelegate, WishlistProductTableViewCellDelegate, SWTableViewCellDelegate,UIActivityItemSource {
     
@@ -610,6 +610,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func senditemsToShoppingCart() {
         var params : [AnyObject] =  []
+        var paramsPreorderable : [AnyObject] =  []
+
         for itemWishList in self.items {
             
             let upc = itemWishList["upc"] as! NSString
@@ -641,26 +643,114 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
-            
-            
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
-                    print(paramsItem)
-                    params.append(paramsItem)
+                    //params.append(paramsItem)
+                    if isPreorderable == "true" {
+                        paramsPreorderable.append(paramsItem)
+                    }else{
+                        params.append(paramsItem)
+                    }
                 }
-                
             }
+        }//For alert
+        
+        if paramsPreorderable.count == 0 && params.count == 0 {
+            if self.items.count > 0 {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                let aleradyMessage = NSLocalizedString("shoppingcart.alreadyincart",comment:"")
+                alert!.setMessage(aleradyMessage)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            }
+            return
         }
+        
+        
+        let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
+        
+        if paramsPreorderable.count == 0 &&  totArticlesMG == 0{
+            self.sendNewItemsToShoppingCart(params)
+        }else{
+            
+            if paramsPreorderable.count > 1 && params.count == 0  &&  totArticlesMG == 0{
+                
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                alert!.spinImage.hidden =  true
+                let messagePreorderable = NSLocalizedString("alert.presaletobuyback",comment:"")
+                alert!.setMessage(messagePreorderable)
+                alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
+                    alert!.close()
+                    
+                    }, rightText: "Ok", rightAction: { () -> Void in
+                        self.sendNewItemsToShoppingCart([paramsPreorderable[0]])
+                        alert!.close()
+                    }, isNewFrame: false)
+                
+            } else if paramsPreorderable.count > 0 && params.count > 0 &&  totArticlesMG == 0{
+                
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                alert!.spinImage.hidden =  true
+                let messagePreorderable = NSLocalizedString("alert.presalewishlist",comment:"")
+                alert!.setMessage(messagePreorderable)
+                alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
+                    alert!.close()
+                    }, rightText: "Ok", rightAction: { () -> Void in
+                        self.sendNewItemsToShoppingCart(params)
+                        alert!.close()
+                    }, isNewFrame: false)
+            }else {
+                
+                if totArticlesMG == 0 {
+                    self.sendNewItemsToShoppingCart(paramsPreorderable)
+                }else{
+                    
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    alert!.spinImage.hidden =  true
+                    var messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
+                    messagePreorderable =  NSLocalizedString("alert.presaleindependent",comment:"")
+                    alert!.setMessage(messagePreorderable)
+                    
+                    alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
+                        print("Cancelar accion")
+                        
+                        alert!.close()
+                        
+                        
+                        }, rightText: "Vaciar carrito y comprar este artículo", rightAction: { () -> Void in
+                            WishListViewController.deleteAllShoppingCart({ () -> Void in
+                                //Agregar al carrito
+                                if paramsPreorderable.count == 0 {
+                                     self.sendNewItemsToShoppingCart(params)
+                                }else{
+                                    if paramsPreorderable.count > 1 {
+                                        self.sendNewItemsToShoppingCart([paramsPreorderable[0]])
+                                    }else{
+                                        self.sendNewItemsToShoppingCart(paramsPreorderable)
+                                    }
+                                }
+                            })
+                            
+                            alert!.close()
+                            
+                        },isNewFrame: true)//Close - addActionButtonsWithCustomText
+                }
+            }//close else
+        }
+        
+        
+    }
+
+    
+    func sendNewItemsToShoppingCart(params:[AnyObject]){
+        
         if params.count > 0 {
             let paramsAll = ["allitems":params, "image":"wishlist_addToCart"]
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: paramsAll as [NSObject : AnyObject])
         }
-        if !(self.items.count > 0){
-            self.updateEditButton()
-        }
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_CHECKOUT.rawValue, label: "")
+  
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue, label: "")
         
     }
     
@@ -749,5 +839,38 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         super.back()
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_BACK_WISHLIST.rawValue, label: "")
     }
+    
+    
+    
+    class func deleteAllShoppingCart(onFinish:(() -> Void) ) {
+        if let itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as? [AnyObject] {
+            let serviceSCDelete = ShoppingCartDeleteProductsService()
+            var upcs : [String] = []
+            for itemSClist in itemsInShoppingCart {
+                let upc = itemSClist["upc"] as! String
+                upcs.append(upc)
+            }
+            
+            serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
+                /* println("Error not done")
+                
+                self.reloadShoppingCart()
+                self.navigationController!.popToRootViewControllerAnimated(true)
+                */
+                UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
+                    
+                    //self.startAddingToShoppingCart()
+                    
+                    onFinish()
+                    
+                })
+                
+                }) { (error:NSError) -> Void in
+            }
+        }
+    }
+    
+
+    
     
 }

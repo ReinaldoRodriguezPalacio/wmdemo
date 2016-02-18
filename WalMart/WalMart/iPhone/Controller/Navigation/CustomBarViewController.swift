@@ -259,7 +259,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         
                         self.addOrUpdateParam(version, value: "true")
                         alertNot?.close()
-                })
+                },isNewFrame: false)
             }
         }
     }

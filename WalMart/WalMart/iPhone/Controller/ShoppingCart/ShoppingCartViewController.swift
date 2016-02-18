@@ -391,6 +391,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                 onHandInventory = inventory
             }
+            
+            
+            var isPreorderable = "false"
+            if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
+                isPreorderable = preorderable
+            }
 
 
             let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
@@ -407,7 +413,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory)
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable)
             
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)

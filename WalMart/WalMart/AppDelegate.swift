@@ -383,7 +383,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                             
                             customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                             alertNot?.close()
-                    })
+                    },isNewFrame: false)
                 }
             }
         }

@@ -22,6 +22,52 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         //viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x2870c9, alpha: 0.5)
      }
     
+    override func viewWillLayoutSubviews() {
+    super.viewWillLayoutSubviews()
+        
+        let bounds = self.view.bounds
+        
+        titleLabel!.sizeToFit()
+        
+        if  self.isOtherFame {
+            spinImage.frame = CGRectMake((bounds.width - 84)  / 2, (bounds.height - 84 - 200)  / 2, 84, 84)
+            viewBgImage.frame = CGRectMake((bounds.width - 80)  / 2 , 192, 80, 80)
+            
+            if imageIcon != nil && imageIcon.image != nil {
+                imageIcon.frame = CGRectMake( 0,0,imageIcon.image!.size.width,imageIcon.image!.size.height)
+                imageIcon.center = CGPointMake(viewBgImage.frame.width / 2, viewBgImage.frame.width / 2)
+            }
+        }
+
+        titleLabel.frame = self.isOtherFame ? CGRectMake((self.view.bounds.width / 2) - (321 / 2),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) :
+            CGRectMake((bounds.width - 370) / 2,  viewBgImage.frame.maxY + 16, 370, titleLabel!.frame.height)
+      
+        if self.doneButton != nil {
+            doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, titleLabel.frame.maxY + 16, 160 , 40)
+        }
+        
+        
+        if leftButton != nil {
+            leftButton.frame =  self.isOtherFame ? CGRectMake((self.view.bounds.width / 2) - (288 / 2),self.titleLabel.frame.maxY + 52 + 56, 288, 32) :
+                CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32)
+        }
+        
+        
+        if rightButton != nil {
+            rightButton.frame =  self.isOtherFame ? CGRectMake((self.view.bounds.width / 2) - (288 / 2), self.titleLabel.frame.maxY + 52, 288, 32) :
+                CGRectMake(leftButton.frame.maxX + 11, self.titleLabel.frame.maxY + 16, leftButton.frame.width, leftButton.frame.height)
+        }
+        
+        
+       
+
+        
+
+        
+     
+    
+    }
+    
     override class func showAlert(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPAWMAlertViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         //var frame = vc!.view.bounds

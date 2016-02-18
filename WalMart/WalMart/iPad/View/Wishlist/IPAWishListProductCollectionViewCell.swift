@@ -28,6 +28,12 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     var onHandInventory : NSString = "0"
     var isPreorderable : String! = "false"
     
+    //Ale
+    var imagePresale : UIImageView!
+    var borderViewTop : UIView!
+    var iconDiscount : UIImageView!
+    let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
+    var presale : UILabel!
     override func setup() {
         super.setup()
         
@@ -60,14 +66,20 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.productPriceLabel!.frame = CGRectMake(0, self.productImage!.frame.maxY + 8, self.bounds.width , 16)
         self.productPriceThroughLabel!.frame = CGRectMake(0, self.productPriceThroughLabel!.frame.maxY , self.bounds.width , 16)
         self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 66,self.productImage!.frame.maxY + 8 , 66 , 34)
+        
+        //Ale
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
     }
 
-    
+
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool ) {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         //let formatedPrice = CurrencyCustomLabel.formatString(productPriceThrough)
         //productPriceThroughLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
-        
+        imagePresale.hidden = !isPreorderable
+
         self.upc = upc
         self.desc = productShortDescription
         self.imageURL = productImageURL

@@ -37,12 +37,16 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var separatorView : UIView!
     var onHandInventory : NSString = ""
     var isPreorderable : String = ""
+    var imagePresale : UIImageView!
     
     override func setup() {
         super.setup()
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
-        
+    
         productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
@@ -83,8 +87,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString) {
-        
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,isPreorderable:String) {
+        imagePresale.hidden = isPreorderable == "true" ? false : true
         self.priceProduct = productPrice.doubleValue
         self.upc = upc
         self.desc = productShortDescription

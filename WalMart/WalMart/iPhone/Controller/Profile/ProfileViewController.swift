@@ -181,7 +181,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
     
     func signOut(sender:UIButton?) {
         
-        if sender == nil {
+        if IS_IPAD  {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         }else{
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))

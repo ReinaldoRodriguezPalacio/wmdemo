@@ -198,7 +198,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                 }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
                                     alertView?.close()
                                     self.createList(metaObj)
-                            })
+                            },isNewFrame: false)
                         }else{
                             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                             alertView?.showicon(UIImage(named: "searchScan"))
@@ -217,7 +217,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                         cont!.closeAlert(true, messageSucesss:false)
                                         self.createList(metaObj)
                                     }
-                            })
+                            },isNewFrame: false)
                         }
                     }else{
                         let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
@@ -238,7 +238,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                             }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
                                 alertView?.close()
                                 self.searchProduct(metaObj)
-                        })
+                        },isNewFrame: false)
                     } else {
                           let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                         alertView!.setMessage("El número de ticket es incorrecto o no pertenece a Walmart")
