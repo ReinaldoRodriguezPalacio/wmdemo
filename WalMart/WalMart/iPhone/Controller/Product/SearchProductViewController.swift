@@ -329,8 +329,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         var startPoint = self.header!.frame.maxY
         if self.isTextSearch || self.isOriginalTextSearch {
-            viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28)
-            startPoint = viewBgSelectorBtn.frame.maxY + 16
+            viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+            startPoint = viewBgSelectorBtn.frame.maxY + 20
         }else {
             viewBgSelectorBtn.alpha = 0
         }
@@ -539,13 +539,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        var size = CGSizeMake(self.view.bounds.maxX/2, 190)
-        let commonTotal = self.mgResults!.totalResults + self.grResults!.totalResults
-        if indexPath.row == self.allProducts!.count && self.allProducts!.count < commonTotal {
-            size = CGSizeMake(self.view.bounds.maxX, 80)
-        }
-        return size
-    }
+        return CGSizeMake(self.view.bounds.maxX/2, 190)
+     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
@@ -1041,7 +1036,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-        let maxY =  self.viewBgSelectorBtn.frame.maxY
+        let maxY = self.collection!.frame.minY
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
             self.emptyMGGR.returnAction = { () in
