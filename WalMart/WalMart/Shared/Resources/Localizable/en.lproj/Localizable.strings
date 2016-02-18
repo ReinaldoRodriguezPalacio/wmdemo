@@ -84,7 +84,7 @@
 "shoppingcart.shop" = "Comprar ";
 "shoppingcart.loading" = "Actualizando carrito";
 "shoppingcart.ready" = "¡Listo!";
-"shoppingcart.alreadyincart" = "Los artícuos ya se encuentran en tu carrito";
+"shoppingcart.alreadyincart" = "Los artículos ya se encuentran en tu carrito";
 "shoppingcart.articles" = "artículos";
 "shoppingcart.noarticles" = "Sin artículos";
 "shoppingcart.noarticles.gr" = "Sin artículos\nToca aquí para hacer tu Súper";

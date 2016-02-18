@@ -766,9 +766,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
-        for itemWishlist in self.itemsInCart {
-            let upc = itemWishlist["upc"] as! String
-           allUPCS.append(upc)
+        for itemWishlist in arrayUPCQuantity {
+            print(itemWishlist)
+            let upc = itemWishlist["upc"] 
+           allUPCS.append("\(upc!)")
         }
         
         if viewLoad == nil {
