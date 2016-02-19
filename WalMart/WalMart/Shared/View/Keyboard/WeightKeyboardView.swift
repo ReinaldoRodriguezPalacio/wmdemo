@@ -11,7 +11,7 @@ import Foundation
 class WeightKeyboardView : UIView {
     
     var widthButton : CGFloat = 80.0
-    var separatorR : CGFloat = 24.0
+    var separatorR : CGFloat = 23.0
     
     var btngramos : UIButton!
     var btncuarto : UIButton!
@@ -40,7 +40,7 @@ class WeightKeyboardView : UIView {
         let imageNotSelected = generateCircleImage(normal, size: CGSizeMake(widthButton, widthButton))
         let imageSelected = generateCircleImage(selected, size:CGSizeMake(widthButton, widthButton))
         
-        btngramos = UIButton(frame: CGRectMake(0, 0, widthButton, widthButton))
+        btngramos = UIButton(frame: CGRectMake(1, 1, widthButton, widthButton))
         btngramos.setTitle(strTitles[0], forState: UIControlState.Normal)
         btngramos.setImage(imageNotSelected, forState: UIControlState.Normal)
         btngramos.setImage(imageSelected, forState: UIControlState.Selected)
@@ -57,7 +57,7 @@ class WeightKeyboardView : UIView {
         let insetTitle : CGFloat = btngramos.frame.width * -1
         btngramos.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitle , 0.0, 0.0);
         
-        btncuarto = UIButton(frame: CGRectMake(btngramos.frame.maxX + separatorR, 0, widthButton, widthButton))
+        btncuarto = UIButton(frame: CGRectMake(btngramos.frame.maxX + separatorR, 1, widthButton, widthButton))
         btncuarto.setTitle(strTitles[1], forState: UIControlState.Normal)
         btncuarto.setImage(imageNotSelected, forState: UIControlState.Normal)
         btncuarto.setImage(imageSelected, forState: UIControlState.Selected)
@@ -73,7 +73,7 @@ class WeightKeyboardView : UIView {
         let insetTitleC : CGFloat = btncuarto.frame.width * -1
         btncuarto.titleEdgeInsets = UIEdgeInsetsMake(2.0, insetTitleC , 0.0, 0.0);
         
-        btmediokilo = UIButton(frame: CGRectMake(btncuarto.frame.maxX + separatorR, 0, widthButton, widthButton))
+        btmediokilo = UIButton(frame: CGRectMake(btncuarto.frame.maxX + separatorR, 1, widthButton, widthButton))
         btmediokilo.setTitle(strTitles[2], forState: UIControlState.Normal)
         btmediokilo.setImage(imageNotSelected, forState: UIControlState.Normal)
         btmediokilo.setImage(imageSelected, forState: UIControlState.Selected)
@@ -180,9 +180,9 @@ class WeightKeyboardView : UIView {
     func generateCircleImage (colorImage:UIColor,size:CGSize) -> UIImage {
         var screenShot : UIImage? = nil
         autoreleasepool {
-            let tempView = UIView(frame: CGRectMake(0, 0, size.width, size.height))
+            let tempView = UIView(frame: CGRectMake(0, 0, (size.width - 2), (size.height - 2)))
             tempView.backgroundColor = colorImage
-            tempView.layer.cornerRadius = size.width / 2
+            tempView.layer.cornerRadius = (size.width - 2) / 2
             
             UIGraphicsBeginImageContext(size);
             tempView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
