@@ -1114,7 +1114,37 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func userLogOut(not:NSNotification) {
         self.removeAllCookies()
         self.buttonSelected(self.buttonList[0])
+        
         self.viewControllers.removeRange(1..<self.viewControllers.count)
+        let viewContrlls = self.viewControllers
+        
+        for var vcNavigatin in  viewContrlls {
+            if let navController = vcNavigatin as? UINavigationController {
+                var pastSearchController = false
+                for var categoriesVC in navController.viewControllers  {
+                    
+                    if categoriesVC.isKindOfClass(SearchProductViewController) || categoriesVC.isKindOfClass(ProductDetailPageViewController) {
+                        
+                        if let navSearch = categoriesVC as? NavigationViewController {
+                            navSearch.back()
+                            navSearch.view.removeFromSuperview()
+                            navSearch.removeFromParentViewController()
+                            pastSearchController =  true
+                            print("Elimina ::: SearchProductViewController")
+                        }else{
+                            if pastSearchController {
+                                categoriesVC.view.removeFromSuperview()
+                                categoriesVC.removeFromParentViewController()
+                                print("Elimina ::: ProductDetailPageViewController")
+                            }
+                        }
+                    }else{
+                        print(categoriesVC)
+                    }
+                }
+            }
+        }
+        
         self.createInstanceOfControllers()
         self.buttonSelected(self.buttonList[0])
         // aqui va la notificacion
