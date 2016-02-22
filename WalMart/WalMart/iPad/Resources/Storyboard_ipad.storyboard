@@ -2,7 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A2301" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" initialViewController="BF4-ZB-eWP">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--TmpIPA Home View Controller-->
@@ -789,7 +789,7 @@
             <objects>
                 <viewController id="2wj-Jj-a7v" customClass="MyAddressViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cpV-Rd-hFg">
-                        <rect key="frame" x="0.0" y="0.0" width="704" height="659"/>
+                        <rect key="frame" x="0.0" y="0.0" width="703.5" height="659"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

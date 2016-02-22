@@ -38,7 +38,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     override func setup() {
         super.setup()
         
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
@@ -63,7 +63,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         btnShoppingCart.addTarget(self, action: "addToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        self.separatorView!.backgroundColor = WMColor.lineSaparatorColor
+        self.separatorView!.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(btnShoppingCart)
         self.contentView.addSubview(productPriceSavingLabel)
@@ -105,13 +105,13 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         if saving.doubleValue > 0 {
             let formatedSaving = CurrencyCustomLabel.formatString(saving)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.productDetailPriceText, interLine: false)
+            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
             productPriceSavingLabel.hidden = false
         }else{
             productPriceSavingLabel.hidden = true

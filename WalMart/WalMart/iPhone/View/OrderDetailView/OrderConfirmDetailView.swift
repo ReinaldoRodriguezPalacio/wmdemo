@@ -91,7 +91,7 @@ class OrderConfirmDetailView : UIView {
         viewContent.addSubview(imgConfirm)
         
         buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, 418, 98, 34))
-        buttonOk.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        buttonOk.backgroundColor = WMColor.light_blue
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
@@ -101,7 +101,7 @@ class OrderConfirmDetailView : UIView {
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.text = NSLocalizedString("gr.confirma.generatingorden",comment: "")
         titleLabel.textAlignment = .Center
-        titleLabel.textColor = WMColor.headerViewBgCollor
+        titleLabel.textColor = WMColor.light_blue
         
         imageBarCode = UIImageView(frame: CGRectMake((self.viewContent.frame.width / 2) - 102, iconLoadingDone.frame.maxY + 16, 206, 56))
         
@@ -110,7 +110,7 @@ class OrderConfirmDetailView : UIView {
         lblTitleTrackingNumber.font = WMFont.fontMyriadProRegularOfSize(14)
         lblTitleTrackingNumber.text = NSLocalizedString("gr.confirma.trakingnum",comment: "")
         lblTitleTrackingNumber.textAlignment = .Center
-        lblTitleTrackingNumber.textColor = WMColor.lineTextColor
+        lblTitleTrackingNumber.textColor = WMColor.dark_gray
         lblTitleTrackingNumber.hidden = true
         
         
@@ -148,13 +148,13 @@ class OrderConfirmDetailView : UIView {
       
         
         viewLoadingDoneAnimate = UIView()
-        viewLoadingDoneAnimate.backgroundColor = WMColor.UIColorFromRGB(0x2970ca , alpha: 0.5)
+        viewLoadingDoneAnimate.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
         viewLoadingDoneAnimate.frame = CGRectMake(0, 0,  imgIcon!.size.width - 2, imgIcon!.size.height - 2)
         viewLoadingDoneAnimate.center = iconLoadingDone.center
         viewLoadingDoneAnimate.layer.cornerRadius = (imgIcon!.size.height - 2) / 2
         
         viewLoadingDoneAnimateAux = UIView()
-        viewLoadingDoneAnimateAux.backgroundColor = WMColor.UIColorFromRGB(0x2970ca , alpha: 0.5)
+        viewLoadingDoneAnimateAux.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
         viewLoadingDoneAnimateAux.frame = CGRectMake(0, 0,  imgIcon!.size.width - 2, imgIcon!.size.height - 2)
         viewLoadingDoneAnimateAux.center = iconLoadingDone.center
         viewLoadingDoneAnimateAux.layer.cornerRadius = (imgIcon!.size.height - 2) / 2
@@ -226,7 +226,7 @@ class OrderConfirmDetailView : UIView {
         
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.6)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
         bgView.alpha = 0
@@ -322,7 +322,7 @@ class OrderConfirmDetailView : UIView {
         self.titleLabel.text = descError
         
         let buttonNOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, viewLoadingDoneAnimate.frame.maxY + 32, 98, 34))
-        buttonNOk.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        buttonNOk.backgroundColor = WMColor.light_blue
         buttonNOk.layer.cornerRadius = 17
         buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonNOk.setTitle("Ok", forState: UIControlState.Normal)
@@ -357,14 +357,14 @@ class OrderConfirmDetailView : UIView {
     func labelTitle(frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(12)
-        labelTitleItem.textColor = WMColor.confirmTitleItem
+        labelTitleItem.textColor = WMColor.light_blue
         return labelTitleItem
     }
     
     func labelValue(frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(14)
-        labelTitleItem.textColor = WMColor.headerViewBgCollor
+        labelTitleItem.textColor = WMColor.light_blue
         return labelTitleItem
     }
     

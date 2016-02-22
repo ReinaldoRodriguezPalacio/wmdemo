@@ -71,7 +71,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         self.topBarView = UIView()
         self.topBackgroundView = UIView()
-        self.topBackgroundView?.backgroundColor = WMColor.productAddToCartBg
+        self.topBackgroundView?.backgroundColor = WMColor.light_blue
         self.topBackgroundView!.alpha = 0.7
         self.topBarView!.addSubview(topBackgroundView!)
         self.view.addSubview(self.topBarView!)
@@ -106,8 +106,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.cancelButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.cancelButton!.setTitleColor(WMColor.productAddToCartBg, forState: UIControlState.Highlighted)
-        self.cancelButton!.setTitleColor(WMColor.productAddToCartBg, forState: UIControlState.Selected)
+        self.cancelButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Highlighted)
+        self.cancelButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         self.cancelButton!.setTitle(NSLocalizedString("product.searh.cancel",  comment: ""), forState: UIControlState.Normal)
         self.cancelButton!.addTarget(self, action: "closeCamera", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -124,17 +124,17 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         self.repeatButton = UIButton(type: .Custom)
         self.repeatButton!.setTitle("Repetir Foto", forState: UIControlState.Normal)
-        self.repeatButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
+        self.repeatButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Highlighted)
         self.repeatButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.repeatButton!.addTarget(self, action: "returnCamera", forControlEvents: UIControlEvents.TouchUpInside)
-        self.repeatButton!.backgroundColor = WMColor.productAddToCartBg
+        self.repeatButton!.backgroundColor = WMColor.light_blue
         self.repeatButton!.layer.cornerRadius = 18.0
         self.repeatButton!.alpha = 0
         self.view!.addSubview(self.repeatButton!)
         
         self.okButton = UIButton(type: .Custom)
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
-        self.okButton!.setTitleColor(WMColor.UIColorFromRGB(0x807E7E), forState: UIControlState.Highlighted)
+        self.okButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Highlighted)
         self.okButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.okButton!.addTarget(self, action: "sendPhoto", forControlEvents: UIControlEvents.TouchUpInside)
         self.okButton!.backgroundColor = WMColor.green
@@ -144,7 +144,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         if IS_IPAD {
             self.IPAPreviewBarView = UIView()
-            self.IPAPreviewBarView?.backgroundColor = WMColor.productAddToCartBg
+            self.IPAPreviewBarView?.backgroundColor = WMColor.light_blue
             self.IPAPreviewBarView!.alpha = 0.0;
             self.view.addSubview(self.IPAPreviewBarView!)
             

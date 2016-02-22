@@ -18,7 +18,7 @@ class ProfileViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.loginProfileSelectedColor
+        viewBgSel.backgroundColor = WMColor.dark_blue
         viewBgSel.alpha = 0.2
         
         self.backgroundColor = UIColor.clearColor()

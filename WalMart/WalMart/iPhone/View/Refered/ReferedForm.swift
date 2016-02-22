@@ -42,7 +42,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     
     func setup() {
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.layer.insertSublayer(layerLine, atIndex: 0)
         
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: self.frame)
@@ -54,7 +54,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.titleSection = UILabel()
         self.titleSection!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleSection!.text =  NSLocalizedString("refered.form.title", comment: "")
-        self.titleSection!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleSection!.textColor = WMColor.light_blue
         self.titleSection!.textAlignment = .Left
         self.scrollForm.addSubview(self.titleSection!)
         
@@ -90,7 +90,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.saveButton!.setTitle(NSLocalizedString("refered.button.send",comment:""), forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
         self.scrollForm.addSubview(saveButton!)
@@ -98,7 +98,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.confirmLabel = UILabel()
         self.confirmLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.confirmLabel!.text =  NSLocalizedString("refered.label.confirm",comment:"")
-        self.confirmLabel!.textColor = WMColor.UIColorFromRGB(0x5f5f5f)
+        self.confirmLabel!.textColor = WMColor.dark_gray
         self.confirmLabel!.textAlignment = .Center
         self.confirmLabel!.hidden = true
         self.scrollForm.addSubview(self.confirmLabel!)
@@ -162,11 +162,11 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     
     func addHeaderAndTitle(title:String){
         headerView = UIView(frame: CGRectMake(0, 0, self.frame.width, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         self.scrollForm.addSubview(headerView)
         
         let titleLabel = UILabel(frame: headerView.bounds)
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textColor =  WMColor.light_blue
         titleLabel.textAlignment = .Center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2

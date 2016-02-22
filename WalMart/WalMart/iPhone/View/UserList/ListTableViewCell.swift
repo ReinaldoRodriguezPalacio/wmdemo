@@ -59,7 +59,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.iconView!)
         
         self.textField = ListFieldSearch(frame: CGRectMake(10.0, 0.0, 200.0, 40.0))
-        self.textField!.backgroundColor = WMColor.UIColorFromRGB(0xF8F7F7)
+        self.textField!.backgroundColor = WMColor.light_light_gray
         self.textField!.layer.cornerRadius = 5.0
         self.textField!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.textField!.delegate =  self
@@ -70,13 +70,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
 
         self.listName = UILabel()
         self.listName!.font = self.listNameFont
-        self.listName!.textColor = WMColor.regular_gray
+        self.listName!.textColor = WMColor.gray
         self.listName!.numberOfLines = 2
         self.contentView.addSubview(self.listName!)
         
         self.articlesTitle = UILabel()
         self.articlesTitle!.font = self.articlesTitleFont
-        self.articlesTitle!.textColor = WMColor.regular_gray
+        self.articlesTitle!.textColor = WMColor.gray
         self.articlesTitle!.text = NSLocalizedString("list.articles",comment:"")
         self.contentView.addSubview(self.articlesTitle!)
         
@@ -84,7 +84,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.copyBtn!.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
         self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.copyBtn!.backgroundColor = WMColor.UIColorFromRGB(0x2970CA)
+        self.copyBtn!.backgroundColor = WMColor.light_blue
         self.copyBtn!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
         self.copyBtn!.layer.cornerRadius = 9.0
         self.copyBtn!.alpha = 0.0
@@ -93,13 +93,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.copyBtn!)
 
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor  = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor  = WMColor.light_light_gray
         self.contentView.addSubview(self.separatorView!)
         
         var buttonDelete = UIButton()
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete", comment:""), forState: .Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         
         let buttonDuplicate = UIButton()
         buttonDuplicate.setTitle(NSLocalizedString("list.copy", comment:""), forState: .Normal)
@@ -110,12 +110,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         
         buttonDelete = UIButton()
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)
+        //buttonDelete.backgroundColor = WMColor.light_gray
         buttonDelete.backgroundColor = UIColor.whiteColor()
 
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
         
         viewBgSel = UIView()
-        viewBgSel?.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+        viewBgSel?.backgroundColor = WMColor.light_light_gray
         viewBgSel?.alpha = 1
         self.addSubview(self.viewBgSel!)
         self.sendSubviewToBack(viewBgSel!)

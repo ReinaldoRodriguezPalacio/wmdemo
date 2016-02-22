@@ -105,7 +105,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         } else {
             self.price.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(price))"
-            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceDetailProductTextColor, interLine: false)
+            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         }
         
         if listPrice == "" || (listPrice as NSString).doubleValue == 0 || (price as NSString).doubleValue >= (listPrice as NSString).doubleValue  {
@@ -113,7 +113,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         } else {
             priceBefore.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice))"
-            self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.productDetailPriceListText, interLine: true)
+            self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
         }
         
         if saving == "" {
@@ -121,7 +121,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         } else {
             self.saving.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(saving))"
-            self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.savingTextColor, interLine: false)
+            self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.green, interLine: false)
         }
         
     }

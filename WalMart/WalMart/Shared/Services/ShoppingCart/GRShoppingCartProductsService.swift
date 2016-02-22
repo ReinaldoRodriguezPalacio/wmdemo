@@ -275,8 +275,7 @@ class GRShoppingCartProductsService : GRBaseService {
                 print(error1.description)
             }
             
-            
-            
+            print(arrayUpcsUpdate)
             
             serviceUpdate.callService(requestParams: arrayUpcsUpdate, successBlock: { (result:NSDictionary) -> Void in
                 ShoppingCartService.isSynchronizing = false

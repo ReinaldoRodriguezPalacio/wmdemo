@@ -69,7 +69,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         else{
             self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 177 , self.view.frame.width, 72))
         }
-        self.footerSection!.backgroundColor = WMColor.shoppingCartFooter
+        self.footerSection!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(footerSection!)
         
         let y = (self.footerSection!.frame.height - 34.0)/2
@@ -90,7 +90,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         
         x = self.shareButton!.frame.maxX + 16.0
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
-        self.addToCartButton!.backgroundColor = WMColor.shoppingCartShopBgColor
+        self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
         self.addToCartButton!.addTarget(self, action: "addListToCart", forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.addToCartButton!)
@@ -464,7 +464,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             }
         } else {
             let itemsUserList = service.retrieveUserList()
-            self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
+            if itemsUserList?.count >= 12{
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }else{
+                self.copyList(listName, itemsUserList: itemsUserList, successDuplicateList: successDuplicateList)
+            }
         }
 
         

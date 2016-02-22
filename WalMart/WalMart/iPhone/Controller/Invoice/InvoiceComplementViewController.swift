@@ -75,7 +75,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
         iepsYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         iepsYesSelect!.titleLabel?.textAlignment = .Left
-        iepsYesSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        iepsYesSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         iepsYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         self.content.addSubview(self.iepsYesSelect!)
         
@@ -87,7 +87,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsNoSelect!.setTitle("No", forState: UIControlState.Normal)
         iepsNoSelect!.titleLabel?.textAlignment = .Left
         iepsNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        iepsNoSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        iepsNoSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         iepsNoSelect!.selected = true
         self.content.addSubview(self.iepsNoSelect!)
         
@@ -100,7 +100,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristYesSelect!.addTarget(self, action: "checkTourist:", forControlEvents: UIControlEvents.TouchUpInside)
         touristYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
         touristYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        touristYesSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        touristYesSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         touristYesSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         touristYesSelect!.titleLabel?.textAlignment = .Left
         self.content.addSubview(self.touristYesSelect!)
@@ -112,7 +112,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristNoSelect!.addTarget(self, action: "checkTourist:", forControlEvents: UIControlEvents.TouchUpInside)
         touristNoSelect!.setTitle("No", forState: UIControlState.Normal)
         touristNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        touristNoSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        touristNoSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         touristNoSelect!.selected = true
         touristNoSelect!.titleLabel?.textAlignment = .Left
         self.content.addSubview(self.touristNoSelect!)
@@ -126,7 +126,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalPersonSelect!.addTarget(self, action: "checkAddress:", forControlEvents: UIControlEvents.TouchUpInside)
         addressFiscalPersonSelect!.setTitle("Persona Física", forState: UIControlState.Normal)
         addressFiscalPersonSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        addressFiscalPersonSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        addressFiscalPersonSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         addressFiscalPersonSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         addressFiscalPersonSelect!.selected = true
         addressFiscalPersonSelect!.titleLabel?.textAlignment = .Left
@@ -139,7 +139,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalMoralSelect!.addTarget(self, action: "checkAddress:", forControlEvents: UIControlEvents.TouchUpInside)
         addressFiscalMoralSelect!.setTitle("Persona Moral", forState: UIControlState.Normal)
         addressFiscalMoralSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
-        addressFiscalMoralSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        addressFiscalMoralSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         addressFiscalMoralSelect!.titleLabel?.textAlignment = .Left
         self.content.addSubview(self.addressFiscalMoralSelect!)
         
@@ -159,7 +159,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.returnButton!.setTitle("Regresar", forState:.Normal)
         self.returnButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.returnButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.returnButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.returnButton!.backgroundColor = WMColor.light_blue
         self.returnButton!.layer.cornerRadius = 20
         self.returnButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(returnButton!)
@@ -168,7 +168,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.finishButton!.setTitle("Finalizar", forState:.Normal)
         self.finishButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.finishButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.finishButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.finishButton!.backgroundColor = WMColor.green
         self.finishButton!.layer.cornerRadius = 20
         self.finishButton!.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(finishButton!)
@@ -181,9 +181,8 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
             
             let btnNewAddress = WMRoundButton()
             btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
-            //newAddressButton = WMRoundButton()  0x8EBB36
             btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-            btnNewAddress.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+            btnNewAddress.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
             btnNewAddress.layer.cornerRadius = 2.0
         
             self.picker!.addRigthActionButton(btnNewAddress)
@@ -244,7 +243,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
-        sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
+        sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
         sectionTitle.backgroundColor = UIColor.whiteColor()

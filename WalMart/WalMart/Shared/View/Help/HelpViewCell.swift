@@ -38,7 +38,7 @@ class HelpViewCell: UITableViewCell {
         titleLabel.textColor = textColor
         
         viewLine.frame =  CGRectMake(padding, self.bounds.height-1 , self.bounds.width - padding, AppDelegate.separatorHeigth() )
-        viewLine.backgroundColor = WMColor.lineSaparatorColor
+        viewLine.backgroundColor = WMColor.light_light_gray
         titleLabel.frame = CGRectMake(padding, 1, self.bounds.width -  (padding * 2), self.bounds.height - 1)
     }
     

@@ -28,10 +28,10 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         viewTitleCheckout = UILabel(frame: viewHerader.bounds)
         viewTitleCheckout.font = WMFont.fontMyriadProRegularOfSize(14)
-        viewTitleCheckout.textColor = WMColor.shoppingCartHeaderTextColor
+        viewTitleCheckout.textColor = WMColor.light_blue
         viewTitleCheckout.text = "Verifica tu pedido"
         viewTitleCheckout.textAlignment = .Center
-        viewTitleCheckout.backgroundColor = WMColor.shoppingCartHeader
+        viewTitleCheckout.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewTitleCheckout)
         
         self.viewFooter.hidden = true
@@ -51,7 +51,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
         viewSeparator = UIView(frame: CGRectZero)
-        viewSeparator.backgroundColor = WMColor.lineSaparatorColor
+        viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
     }
     

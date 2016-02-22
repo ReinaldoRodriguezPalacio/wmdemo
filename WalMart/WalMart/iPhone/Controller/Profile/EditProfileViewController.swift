@@ -134,7 +134,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.maleButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.maleButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.maleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.maleButton!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.maleButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         self.maleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
         self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.maleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
@@ -146,7 +146,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.femaleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.femaleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
         self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.femaleButton!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.femaleButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     
 
@@ -159,10 +159,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.saveButton = WMRoundButton()
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton?.tintColor = WMColor.navigationFilterTextColor
+        self.saveButton?.tintColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
-        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0
         self.header?.addSubview(self.saveButton!)
@@ -171,7 +171,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         changePasswordButton!.setTitle(NSLocalizedString("profile.change.password", comment: ""), forState: UIControlState.Normal)
         changePasswordButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         changePasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.changePasswordButton!.backgroundColor = WMColor.loginProfileSaveBGColor
+        self.changePasswordButton!.backgroundColor = WMColor.light_blue
         changePasswordButton!.layer.cornerRadius = 20.0
         changePasswordButton?.addTarget(self, action: "changePassword", forControlEvents: .TouchUpInside)
         
@@ -350,6 +350,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                 
                 if self.delegate == nil {
                     self.navigationController!.popViewControllerAnimated(true)
+                    NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
                 }
                 else{
                     

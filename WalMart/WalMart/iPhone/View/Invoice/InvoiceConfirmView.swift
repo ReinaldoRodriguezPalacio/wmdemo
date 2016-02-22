@@ -55,7 +55,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
     func setup() {
         
         self.layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
         self.layer.insertSublayer(layerLine, atIndex: 0)
         
         self.scrollForm = TPKeyboardAvoidingScrollView()
@@ -68,93 +68,93 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.titleName = UILabel()
         self.titleName!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleName!.text =  "Nombre"
-        self.titleName!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleName!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleName!)
         
         self.nameLabel = UILabel()
         self.nameLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nameLabel!.text =  "Gerardo"
-        self.nameLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.nameLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.nameLabel!)
         
         self.titleRfc = UILabel()
         self.titleRfc!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleRfc!.text =  "RFC"
-        self.titleRfc!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleRfc!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleRfc!)
         
         self.rfcLabel = UILabel()
         self.rfcLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.rfcLabel!.text =  "SAML900410MZ5"
-        self.rfcLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.rfcLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.rfcLabel!)
         
         self.titleTicketNumber = UILabel()
         self.titleTicketNumber!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleTicketNumber!.text =  "Número de ticket"
-        self.titleTicketNumber!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleTicketNumber!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleTicketNumber!)
         
         self.ticketNumberLabel = UILabel()
         self.ticketNumberLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.ticketNumberLabel!.text =  "749 4667 32567 1234"
-        self.ticketNumberLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.ticketNumberLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.ticketNumberLabel!)
         
         self.titleTransactionNumber = UILabel()
         self.titleTransactionNumber!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleTransactionNumber!.text =  "Número de transacción"
-        self.titleTransactionNumber!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleTransactionNumber!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleTransactionNumber!)
         
         self.transactionNumberLabel = UILabel()
         self.transactionNumberLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.transactionNumberLabel!.text =  "3456"
-        self.transactionNumberLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.transactionNumberLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.transactionNumberLabel!)
         
         self.titleIEPS = UILabel()
         self.titleIEPS!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleIEPS!.text =  "Declaro IEPS"
-        self.titleIEPS!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleIEPS!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleIEPS!)
         
         self.iepsLabel = UILabel()
         self.iepsLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.iepsLabel!.text =  "Sí declaro"
-        self.iepsLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.iepsLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.iepsLabel!)
         
         self.titleSocialReason = UILabel()
         self.titleSocialReason!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleSocialReason!.text =  "Razon social"
-        self.titleSocialReason!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleSocialReason!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleSocialReason!)
         
         self.socialReasonLabel = UILabel()
         self.socialReasonLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.socialReasonLabel!.text =  "Persona Fisica"
-        self.socialReasonLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.socialReasonLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.socialReasonLabel!)
         
         self.titleAddress = UILabel()
         self.titleAddress!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleAddress!.text =  "Dirección de Facturación"
-        self.titleAddress!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleAddress!.textColor = WMColor.light_blue
         self.scrollForm.addSubview(self.titleAddress!)
         
         self.addressLabel = UILabel()
         self.addressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addressLabel!.text =  "Casa de la Abuela \n Avenida de los Insurgentes #1432"
         self.addressLabel!.numberOfLines = 2
-        self.addressLabel!.textColor = WMColor.UIColorFromRGB(0x646C79)
+        self.addressLabel!.textColor = WMColor.dark_gray
         self.scrollForm.addSubview(self.addressLabel!)
         
         self.editButton = UIButton()
         self.editButton!.setTitle("Editar", forState:.Normal)
         self.editButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.editButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.editButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.editButton!.backgroundColor = WMColor.light_blue
         self.editButton!.layer.cornerRadius = 17
         self.editButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(editButton!)
@@ -163,7 +163,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.saveButton!.setTitle("Generar Factura", forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(saveButton!)

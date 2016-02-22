@@ -25,6 +25,8 @@ let IS_IPHONE_5 = (IS_IPHONE && SCREEN_MAX_LENGTH == 568.0)
 let IS_IPHONE_6 = (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 let IS_IPHONE_6P = (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
+let IS_IOS8_OR_LESS = (NSString(string: UIDevice.currentDevice().systemVersion).doubleValue < 9.0)
+
 
 class IPOEmptyView : UIView {
     
@@ -44,12 +46,12 @@ class IPOEmptyView : UIView {
     }
     
     func setup() {
-        self.backgroundColor = WMColor.emptyBgColor
+        self.backgroundColor = WMColor.light_gray
         iconImageView = UIImageView()
         
         descLabel = UILabel()
         descLabel.font = WMFont.fontMyriadProLightOfSize(14)
-        descLabel.textColor = WMColor.emptyDescTextColor
+        descLabel.textColor = WMColor.light_blue
         descLabel.textAlignment = NSTextAlignment.Center
         
         returnButton = UIButton()
@@ -57,7 +59,7 @@ class IPOEmptyView : UIView {
         returnButton.layer.cornerRadius = 20
         returnButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         
-        returnButton.backgroundColor = WMColor.emptyBgRetunBlueColor
+        returnButton.backgroundColor = WMColor.light_blue
         returnButton.setTitle(NSLocalizedString("empty.return",comment:""), forState: UIControlState.Normal)
         returnButton.addTarget(self, action: "returnActionSel", forControlEvents: UIControlEvents.TouchUpInside)
         
@@ -76,7 +78,7 @@ class IPOEmptyView : UIView {
          iconImageView.frame = CGRectMake(0.0, 0.0,  self.bounds.width,  iconImageView.image!.size.height)//  self.bounds.height)
         }
         self.descLabel.frame = CGRectMake(0.0, 28.0, self.bounds.width, 16.0)
-        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.size.height - 133, 160 , 40)
+        self.returnButton.frame = CGRectMake((self.bounds.width - 160 ) / 2, self.bounds.size.height - 100, 160 , 40)
     }
 
     func returnActionSel() {

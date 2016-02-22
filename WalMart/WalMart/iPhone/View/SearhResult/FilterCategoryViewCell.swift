@@ -19,8 +19,8 @@ class FilterCategoryViewCell: UITableViewCell {
     var type: CategoryType = .department
     var upcs: [String]?
     
-    var upperTextColor = WMColor.navigationTilteTextColor
-    var lineTextColor = WMColor.searchProductDescriptionTextColors
+    var upperTextColor = WMColor.light_blue
+    var lineTextColor = WMColor.gray
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

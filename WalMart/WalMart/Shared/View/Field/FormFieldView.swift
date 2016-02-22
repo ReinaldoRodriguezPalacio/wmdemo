@@ -27,9 +27,9 @@ enum TypeField {
 
 class FormFieldView : UIEdgeTextField {
     
-    let textBorderOn = WMColor.profileTextEditingColor.CGColor
+    let textBorderOn = WMColor.light_blue.CGColor
     let textBorderOff = UIColor.whiteColor().CGColor
-    let textBorderError = WMColor.profileErrorColor.CGColor
+    let textBorderError = WMColor.red.CGColor
     
     var isRequired : Bool = false 
     var nameField : String!
@@ -61,7 +61,7 @@ class FormFieldView : UIEdgeTextField {
         self.layer.borderWidth = 1
         self.layer.borderColor = textBorderOff
         self.layer.cornerRadius = 5
-        self.backgroundColor =  WMColor.loginFieldBgColor
+        self.backgroundColor =  WMColor.light_light_gray
         self.font = WMFont.fontMyriadProRegularOfSize(14)
         self.isValid = true
     }
@@ -84,7 +84,7 @@ class FormFieldView : UIEdgeTextField {
             str = "*" + placeholder
         }
         
-        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
+        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.gray , NSFontAttributeName:WMFont.fontMyriadProLightOfSize(14)])
     }
     
     func setCustomPlaceholderRegular(placeholder : String){
@@ -92,7 +92,7 @@ class FormFieldView : UIEdgeTextField {
         if(self.isRequired){
             str = "*" + placeholder
         }
-        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.searchProductFieldBarCodeColor , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
+        self.attributedPlaceholder = NSAttributedString(string: str, attributes: [NSForegroundColorAttributeName:WMColor.empty_gray , NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(14)])
     }
     
     func setSelectedCheck( isCheck: Bool){
@@ -248,7 +248,7 @@ class FormFieldView : UIEdgeTextField {
            
             if !self.isValid{
                 if validMessageText == nil {
-                    message = NSLocalizedString("field.validate.text.Email",comment:"")
+                    message = NSLocalizedString("field.validate.text",comment:"")
                 }else {
                     message = NSLocalizedString(validMessageText,comment:"")
                 }

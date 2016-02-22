@@ -68,7 +68,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.hidden = true
@@ -81,7 +81,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         else {
 //            self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
 //            self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-//            self.saveButton!.backgroundColor = WMColor.loginSignInButonBgColor
 //            self.saveButton!.layer.cornerRadius = 4.0
             self.content?.addSubview(self.saveButton!)
         }
@@ -159,8 +158,8 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                  addressFiscalButton!.setTitleColor(UIColor.whiteColor() , forState: UIControlState.Normal)
             }else {
                 named = "checkAddressOn"
-                addressShipingButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
-                addressFiscalButton!.setTitleColor(WMColor.loginTermsConditionTextColor , forState: UIControlState.Normal)
+                addressShipingButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+                addressFiscalButton!.setTitleColor(WMColor.gray , forState: UIControlState.Normal)
             }
             
             let checkTermOn : UIImage = UIImage(named:named)!
@@ -173,20 +172,20 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressShipingButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
             addressShipingButton!.setTitle(NSLocalizedString("profile.address.shiping",  comment: ""), forState: UIControlState.Normal)
             addressShipingButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressShipingButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
+            addressShipingButton!.titleLabel?.textColor = WMColor.gray
             addressShipingButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
            
             addressFiscalButton!.setImage(checkTermOff, forState: UIControlState.Normal)
             addressFiscalButton!.setImage(checkTermOn, forState: UIControlState.Selected)
             
             addressFiscalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
+            addressFiscalButton!.titleLabel?.textColor = WMColor.gray
             addressFiscalButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
           
             addressFiscalButton!.setTitle(NSLocalizedString("profile.address.fiscal",  comment: ""), forState: UIControlState.Normal)
             addressFiscalButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
           
-            addressFiscalButton!.setTitleColor(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.7), forState: UIControlState.Disabled)
+            addressFiscalButton!.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.7), forState: UIControlState.Disabled)
             
             if typeAddress == TypeAddress.Shiping{
                 addressShipingButton!.selected = true
@@ -229,9 +228,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalPersonButton!.addTarget(self, action: "checkSelectedFisical:", forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), forState: UIControlState.Normal)
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalPersonButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
-            addressFiscalPersonButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
-            addressFiscalPersonButton!.setTitleColor(WMColor.loginTypePersonDisabled, forState: UIControlState.Disabled)
+            addressFiscalPersonButton!.titleLabel?.textColor = WMColor.gray
+            addressFiscalPersonButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+            addressFiscalPersonButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             addressFiscalPersonButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
             addressFiscalMoralButton = UIButton()
@@ -240,9 +239,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalMoralButton!.addTarget(self, action: "checkSelectedFisical:", forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), forState: UIControlState.Normal)
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-            addressFiscalMoralButton!.titleLabel?.textColor = WMColor.loginTermsConditionTextColor
-            addressFiscalMoralButton!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
-            addressFiscalMoralButton!.setTitleColor(WMColor.loginTypePersonDisabled, forState: UIControlState.Disabled)
+            addressFiscalMoralButton!.titleLabel?.textColor = WMColor.gray
+            addressFiscalMoralButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
+            addressFiscalMoralButton!.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             addressFiscalMoralButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
             
             if typeAddress == TypeAddress.FiscalMoral{
@@ -259,7 +258,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
             
             titleLabel = UILabel()
-            titleLabel!.textColor = WMColor.listAddressHeaderSectionColor
+            titleLabel!.textColor = WMColor.light_blue
             titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
             titleLabel!.text =  NSLocalizedString("profile.address.fiscal.section", comment: "")
             
@@ -273,10 +272,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             viewButton!.addSubview(addressFiscalMoralButton!)
             
             self.viewTypeAdressFiscal!.addSubview(titleLabel!)
-        
-            /*let lineView = UIView(frame:CGRectMake(0,0, self.view.bounds.width, 1))
-            lineView.backgroundColor = WMColor.loginProfileLineColor
-            self.viewTypeAdressFiscal!.addSubview(lineView)*/
             self.viewTypeAdressFiscal!.addSubview(viewButton!)
             
             titleLabel!.frame = CGRectMake(10, 0, self.view.bounds.width - 20, 35 )
@@ -547,7 +542,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let service = GRAddressAddService()
         var params = self.viewAddress!.getParams()
         
-        let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:"" , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" , operationType:"A" , preferred: true)
+        let paramsSend =  service.buildParams("", addressID: "", zipCode: params["zipCode"] as! String, street:params["street"] as! String, innerNumber:params["innerNumber"] as! String, state:"" , county:"", neighborhoodID:params["neighborhoodID"] as! String, phoneNumber:params["TelNumber"]as! String , outerNumber:params["outerNumber"] as! String, adName:params["name"] as! String, reference1:"" , reference2:"" , storeID:"" , operationType:"A" , preferred: true)
         
             service.callService(requestParams: paramsSend, successBlock: { (resultCall:NSDictionary) -> Void  in
             print("Se realizao la direccion")

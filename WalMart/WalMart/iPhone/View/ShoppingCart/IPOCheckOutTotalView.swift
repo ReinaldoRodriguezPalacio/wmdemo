@@ -31,14 +31,14 @@ class IPOCheckOutTotalView : UIView {
     func setup() {
         numProducts = UILabel(frame: CGRectMake(16, 16, 75, 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        numProducts.textColor = WMColor.shoppingCartShopTotalsTextColor
+        numProducts.textColor = WMColor.gray
         self.addSubview(numProducts)
         
         
         
         subtotalTitleLabel = UILabel()
         subtotalTitleLabel.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
-        subtotalTitleLabel.textColor = WMColor.regular_gray
+        subtotalTitleLabel.textColor = WMColor.gray
         subtotalTitleLabel.font = WMFont.fontMyriadProSemiboldOfSize(12)
         subtotalTitleLabel.textAlignment = .Right
         subtotalTitleLabel.frame = CGRectMake(156, 18, 91, 12)
@@ -46,7 +46,7 @@ class IPOCheckOutTotalView : UIView {
         
         savingTitleLable = UILabel()
         savingTitleLable.text = NSLocalizedString("shoppingcart.saving",comment:"")
-        savingTitleLable.textColor =  WMColor.savingTextColor
+        savingTitleLable.textColor =  WMColor.green
         savingTitleLable.font = WMFont.fontMyriadProSemiboldOfSize(12)
         savingTitleLable.textAlignment = .Right
         savingTitleLable.frame = CGRectMake(156, subtotalTitleLabel.frame.maxY + 6, 91, 12)
@@ -102,10 +102,10 @@ class IPOCheckOutTotalView : UIView {
         let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
         
        // let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-        subtotalValueLabel.updateMount( CurrencyCustomLabel.formatString(String(subNewTotal)), font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.shoppingCartShopTotalsTextColor, interLine: false)
+        subtotalValueLabel.updateMount( CurrencyCustomLabel.formatString(String(subNewTotal)), font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
         
        //s let formatedSaving = CurrencyCustomLabel.formatString(saving)
-        savingValueLabel.updateMount(CurrencyCustomLabel.formatString(saving), font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.savingTextColor, interLine: false)
+        savingValueLabel.updateMount(CurrencyCustomLabel.formatString(saving), font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.green, interLine: false)
         
         //let formatedTotal = CurrencyCustomLabel.formatString("\(total)")
         totalValueLabel.updateMount(CurrencyCustomLabel.formatString(subtotal), font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.orange, interLine: false)
@@ -155,10 +155,10 @@ class IPOCheckOutTotalView : UIView {
             let total = dSubtotal!.doubleValue - dSaving!.doubleValue
             
             let formatedSubTotal = CurrencyCustomLabel.formatString(subtotal)
-            subtotalValueLabel.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.shoppingCartShopTotalsTextColor, interLine: false)
+            subtotalValueLabel.updateMount(formatedSubTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.gray, interLine: false)
             
             let formatedSaving = CurrencyCustomLabel.formatString(saving)
-            savingValueLabel.updateMount(formatedSaving, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.savingTextColor, interLine: false)
+            savingValueLabel.updateMount(formatedSaving, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.green, interLine: false)
             
             let formatedTotal = CurrencyCustomLabel.formatString("\(total)")
             totalValueLabel.updateMount(formatedTotal, font: WMFont.fontMyriadProRegularOfSize(12), color: WMColor.orange, interLine: false)

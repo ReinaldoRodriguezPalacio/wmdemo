@@ -28,18 +28,18 @@ class ReferedTableViewCell : UITableViewCell {
     func setup() {
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.UIColorFromRGB(0xE1ECFB)
+        viewBgSel.backgroundColor = WMColor.light_light_gray
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(16)
-        titleLabel.textColor = WMColor.familyTextColor
+        titleLabel.textColor = WMColor.light_blue
         
         countLabel = UILabel()
         countLabel.font = WMFont.fontMyriadProLightOfSize(16)
-        countLabel.textColor = WMColor.familyTextColor
+        countLabel.textColor = WMColor.light_blue
         
         separator = CALayer()
-        separator.backgroundColor = WMColor.lineSaparatorColor.CGColor
+        separator.backgroundColor = WMColor.light_light_gray.CGColor
         
         self.addSubview(self.viewBgSel!)
         self.addSubview(self.countLabel)

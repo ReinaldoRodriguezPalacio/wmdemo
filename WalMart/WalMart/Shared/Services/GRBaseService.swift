@@ -11,14 +11,22 @@ import Foundation
 
 class GRBaseService : BaseService {
     
-    var urlForSession = false
-    
     override func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
         var serviceConfigDictionary = ConfigServices.ConfigIdGR
         if self.urlForSession {
             serviceConfigDictionary = UserCurrentSession.hasLoggedUser() ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdGR
         }
+        
+        if useSignalsServices {
+            if UserCurrentSession.hasLoggedUser() &&  self.urlForSession {
+                serviceConfigDictionary = ConfigServices.ConfigIdGRSignalsSing
+            }else{
+                serviceConfigDictionary = ConfigServices.ConfigIdGRSignals
+            }
+        }
+        
+        
         let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
         let environmentServices = services[environment] as! [String:AnyObject]
         let serviceURL =  environmentServices[serviceName] as! String
@@ -59,5 +67,8 @@ class GRBaseService : BaseService {
         return -100
     }
 
+    static func getUseSignalServices() ->Bool{
+        return NSBundle.mainBundle().objectForInfoDictionaryKey("useSignalsServices") as! Bool
+    }
     
 }

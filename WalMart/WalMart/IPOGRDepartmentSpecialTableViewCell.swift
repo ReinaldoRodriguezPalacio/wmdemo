@@ -41,12 +41,12 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         self.descLabel = UILabel()
         self.descLabel?.text = "Lo más destacado"
         self.descLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.descLabel?.textColor = WMColor.navigationFilterBGColor
+        self.descLabel?.textColor = WMColor.light_blue
         
         self.moreLabel = UILabel()
         self.moreLabel?.text = "Ver todo"
         self.moreLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.moreLabel?.textColor = WMColor.navigationFilterBGColor
+        self.moreLabel?.textColor = WMColor.light_blue
         self.moreLabel?.textAlignment = .Center
         self.moreLabel!.hidden =  true
         
@@ -102,7 +102,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         descLabel!.addGestureRecognizer(tapOnMore)
         
         let separator = UIView()
-        separator.backgroundColor = WMColor.lineSaparatorColor
+        separator.backgroundColor = WMColor.light_light_gray
         let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
         separator.frame = CGRectMake(0, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
         
@@ -134,7 +134,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         labelLoading.text =  NSLocalizedString("gr.category.message.loading", comment:"")
         labelLoading.textAlignment =  .Center
         labelLoading.font =  WMFont.fontMyriadProRegularOfSize(14)
-        labelLoading.textColor = WMColor.navigationFilterBGColor
+        labelLoading.textColor = WMColor.light_blue
 
         
         viewLoading!.addSubview(labelLoading)

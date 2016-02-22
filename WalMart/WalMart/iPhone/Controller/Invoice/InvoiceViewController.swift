@@ -72,7 +72,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         invoiceSelect!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
         invoiceSelect!.setTitle(NSLocalizedString("invoice.button.invoice",comment:""), forState: UIControlState.Normal)
         invoiceSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        invoiceSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        invoiceSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         invoiceSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
         invoiceSelect!.selected = true
         self.content.addSubview(self.invoiceSelect!)
@@ -84,7 +84,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         consultSelect!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
         consultSelect!.setTitle(NSLocalizedString("invoice.button.consult",comment:""), forState: UIControlState.Normal)
         consultSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
-        consultSelect!.setTitleColor(WMColor.loginTermsConditionTextColor, forState: UIControlState.Normal)
+        consultSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         self.content.addSubview(self.consultSelect!)
         
         self.sectionUserInfo = self.buildSectionTitle(NSLocalizedString("invoice.section.yourdata",comment:""), frame: CGRectMake(margin, self.invoiceSelect!.frame.maxY + 5.0, width, lheight))
@@ -115,7 +115,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.scanTicketButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.scanTicketButton!.titleLabel!.textAlignment = NSTextAlignment.Center
         self.scanTicketButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.scanTicketButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.scanTicketButton!.backgroundColor = WMColor.light_blue
         self.scanTicketButton!.layer.cornerRadius = 12
         self.content.addSubview(self.scanTicketButton!)
         
@@ -130,8 +130,8 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.ticketNumber!.isRequired = true
         var placeholder = NSMutableAttributedString()
         placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.ticketnumber",comment:"")
-, attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
-        placeholder.appendAttributedString(NSAttributedString(string:NSLocalizedString("invoice.field.tc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
+, attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
+        placeholder.appendAttributedString(NSAttributedString(string:NSLocalizedString("invoice.field.tc",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
         self.ticketNumber!.setCustomAttributedPlaceholder(placeholder)
         self.ticketNumber!.typeField = TypeField.String
         self.ticketNumber!.nameField = "ticketNumber"
@@ -141,8 +141,8 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.transactionNumber = FormFieldView(frame: CGRectMake(margin, self.ticketNumber!.frame.maxY + 5.0, width - 24, fheight))
         self.transactionNumber!.isRequired = true
         placeholder = NSMutableAttributedString()
-        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.transactionnumber",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
-        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.tr",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.loginFieldTextPlaceHolderColor]))
+        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.transactionnumber",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
+        placeholder.appendAttributedString(NSAttributedString(string: NSLocalizedString("invoice.field.tr",comment:""), attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(13),NSForegroundColorAttributeName:WMColor.dark_gray]))
         self.transactionNumber!.setCustomAttributedPlaceholder(placeholder)
         self.transactionNumber!.typeField = TypeField.String
         self.transactionNumber!.nameField = "transactionNumber"
@@ -165,7 +165,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.cancelButton!.setTitle(NSLocalizedString("invoice.button.cancel",comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.listAddressHeaderSectionColor
+        self.cancelButton!.backgroundColor = WMColor.light_blue
         self.cancelButton!.layer.cornerRadius = 20
         self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
@@ -174,7 +174,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.nextButton!.setTitle(NSLocalizedString("invoice.button.next",comment:""), forState:.Normal)
         self.nextButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.nextButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.nextButton!.backgroundColor = WMColor.green
         self.nextButton!.layer.cornerRadius = 20
         self.nextButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(nextButton!)
@@ -214,7 +214,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
-        sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
+        sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
         sectionTitle.backgroundColor = UIColor.whiteColor()
@@ -272,7 +272,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         
         self.alertView = IPOWMAlertInfoViewController.showAttributedAlert(NSLocalizedString("invoice.advice",comment:""), message: message)
-        self.alertView?.showOkButton(NSLocalizedString("invoice.message.continue",comment:""), colorButton: WMColor.loginSignInButonBgColor)
+        self.alertView?.showOkButton(NSLocalizedString("invoice.message.continue",comment:""), colorButton: WMColor.green)
     }
     
     func next(){

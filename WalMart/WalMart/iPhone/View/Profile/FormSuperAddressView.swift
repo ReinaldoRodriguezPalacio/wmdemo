@@ -90,7 +90,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelAddress = UILabel()
         self.titleLabelAddress!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelAddress!.text =  NSLocalizedString("gr.address.section.title", comment: "")
-        self.titleLabelAddress!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelAddress!.textColor = WMColor.light_blue
         
         self.errorLabelStore = UILabel()
         self.errorLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
@@ -161,7 +161,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelBetween = UILabel()
         self.titleLabelBetween!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelBetween!.text =  NSLocalizedString("gr.address.section.between.title", comment: "")
-        self.titleLabelBetween!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelBetween!.textColor = WMColor.light_blue
         
         self.betweenFisrt = FormFieldView()
         self.betweenFisrt!.isRequired = false
@@ -182,7 +182,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.titleLabelPhone = UILabel()
         self.titleLabelPhone!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelPhone!.text =  NSLocalizedString("gr.address.section.between.phone", comment: "")
-        self.titleLabelPhone!.textColor = WMColor.listAddressHeaderSectionColor
+        self.titleLabelPhone!.textColor = WMColor.light_blue
         
         self.phoneHomeNumber = FormFieldView()
         self.phoneHomeNumber!.isRequired = true
@@ -219,6 +219,12 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
         }
         
+        if UserCurrentSession.hasLoggedUser() {
+            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
+            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
+            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
+        }
+
         
         self.addSubview(self.titleLabelAddress)
         self.addSubview(self.errorLabelStore)

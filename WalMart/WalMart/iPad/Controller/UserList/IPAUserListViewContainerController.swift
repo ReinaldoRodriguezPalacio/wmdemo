@@ -23,10 +23,10 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
 
-         self.view.backgroundColor = WMColor.navigationHeaderBgColor
+         self.view.backgroundColor = WMColor.light_light_gray
         
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(self.separatorView!)
 
     }
@@ -165,7 +165,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         
         let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, width, 20.0))
         labelOne.textAlignment = .Center
-        labelOne.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        labelOne.textColor = WMColor.light_blue
         labelOne.font = WMFont.fontMyriadProLightOfSize(16.0)
         labelOne.text = NSLocalizedString("list.empty", comment:"")
         self.emptyView!.addSubview(labelOne)

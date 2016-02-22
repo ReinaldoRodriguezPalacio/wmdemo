@@ -36,7 +36,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
     
     func setup() {
         
-        self.backgroundColor = WMColor.categorySelectorHomeBgColor
+        self.backgroundColor = WMColor.light_blue
         
         carousel = iCarousel(frame: self.bounds)
         carousel.scrollSpeed = 0.70
@@ -52,7 +52,7 @@ class CategoryCollectionViewCell : UICollectionViewCell,iCarouselDataSource, iCa
         let initialW : CGFloat = 75.0
         let initialH : CGFloat = 4.0
         selectorIndicator = UIView(frame: CGRectMake((self.frame.width / 2) - (initialW / 2), self.frame.height - initialH, initialW, initialH))
-        selectorIndicator.backgroundColor = WMColor.categorySelectorIndicatorHomeBgColor
+        selectorIndicator.backgroundColor = WMColor.yellow
         
         self.addSubview(carousel)
         self.addSubview(selectorIndicator)

@@ -127,7 +127,7 @@ class IPAUserListViewController: UserListViewController {
             }
 
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.height))
-            self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
+            self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
             view.addSubview(self.helpView!)
@@ -290,6 +290,9 @@ class IPAUserListViewController: UserListViewController {
         }
         else {
             self.itemsUserList = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
+            //println(self.itemsUserList)
             self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList
             self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)

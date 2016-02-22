@@ -236,14 +236,14 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, self.view.bounds.width, 16.0))
         labelOne.textAlignment = .Center
-        labelOne.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        labelOne.textColor = WMColor.light_blue
         labelOne.font = WMFont.fontMyriadProLightOfSize(14.0)
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
         let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, self.view.bounds.width, 16))
         labelTwo.textAlignment = .Center
-        labelTwo.textColor = WMColor.UIColorFromRGB(0x2870c9)
+        labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
@@ -366,7 +366,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.sharePopover = UIPopoverController(contentViewController: controller)
         self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
         self.sharePopover!.delegate = self
-        self.sharePopover!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        self.sharePopover!.backgroundColor = WMColor.light_blue
         let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
 
@@ -374,7 +374,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func duplicate() {
         if UserCurrentSession.hasLoggedUser() {
-            //self.itemsUserList =
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveUserList()
             self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
                 self.delegate?.reloadTableListUser()
                 self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))

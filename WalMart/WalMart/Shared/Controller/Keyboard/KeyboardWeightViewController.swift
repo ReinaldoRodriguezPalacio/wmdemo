@@ -31,9 +31,9 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        backgroundView.backgroundColor = WMColor.light_blue
 
-        orderPiceButton.backgroundColor = WMColor.regular_blue
+        orderPiceButton.backgroundColor = WMColor.blue
         orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         orderPiceButton.layer.cornerRadius = 9
         orderPiceButton.addTarget(self, action: "gotopice", forControlEvents: UIControlEvents.TouchUpInside)
@@ -48,7 +48,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         addButton.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
-        addButton.backgroundColor = WMColor.productAddToCartPriceSelect
+        addButton.backgroundColor = WMColor.green
         addButton.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         let btnLess = UIButton(frame: CGRectMake(0, 0, 32, 32))

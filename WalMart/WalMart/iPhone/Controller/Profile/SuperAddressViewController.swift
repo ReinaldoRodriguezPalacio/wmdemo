@@ -35,7 +35,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        self.saveButton?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.hidden = true
@@ -45,7 +45,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
         self.saveButtonBottom = WMRoundButton()
         self.saveButtonBottom?.setFontTitle(WMFont.fontMyriadProRegularOfSize(13))
-        self.saveButtonBottom?.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(98, 34), forUIControlState: UIControlState.Normal)
+        self.saveButtonBottom?.setBackgroundColor(WMColor.green, size: CGSizeMake(98, 34), forUIControlState: UIControlState.Normal)
         self.saveButtonBottom!.setTitle(NSLocalizedString("profile.save", comment:"" ).capitalizedString , forState: UIControlState.Normal)
         self.saveButtonBottom!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButtonBottom!.tag = 1
@@ -199,7 +199,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         self.saveButtonBottom!.frame = CGRectMake((self.view.frame.width/2) - 49 ,scrollForm.frame.maxY + 15, 98, 34)
         let line: CALayer = CALayer()
         line.frame = CGRectMake(0.0, scrollForm.frame.maxY, self.view.bounds.width,1.0)
-        line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        line.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(line, atIndex: 0)
         self.saveButton!.removeFromSuperview()
         self.saveButtonBottom!.hidden = false
@@ -257,6 +257,12 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
                 self.navigationController?.popViewControllerAnimated(true)
                 if let message = resultCall["message"] as? String {
                     self.alertView!.setMessage("\(message)")
+                    let serviceAddress = GRAddressesByIDService()
+                    serviceAddress.addressId = resultCall["addressID"] as? String
+                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        }, errorBlock: { (error:NSError) -> Void in
+                    })
                 }
                 self.alertView!.showDoneIcon()
                 }) { (error:NSError) -> Void in

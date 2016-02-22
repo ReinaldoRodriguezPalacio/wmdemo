@@ -41,11 +41,11 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
         
         let borderView = UIView(frame: CGRectMake(self.frame.width, 0, widthAndHeightSeparator, self.frame.height))
-        borderView.backgroundColor = WMColor.lineSaparatorColor
+        borderView.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderView)
         
         borderViewTop = UIView(frame: CGRectMake(0,self.frame.height - widthAndHeightSeparator, self.frame.width,widthAndHeightSeparator ))
-        borderViewTop.backgroundColor = WMColor.lineSaparatorColor
+        borderViewTop.backgroundColor = WMColor.light_light_gray
         self.addSubview(borderViewTop)
         
     }
@@ -56,13 +56,13 @@ class ProductHomeCollectionViewCell : ProductCollectionViewCell {
         imagePresale.hidden = !preorderable
         productPriceLabel!.label2?.hidden = false
         if  saving != "" && saving != "null"  {
-            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.savingTextColor, interLine: false)
+            productPriceLabel!.updateMount(saving, font: WMFont.fontMyriadProSemiboldSize(10), color: WMColor.green, interLine: false)
             productPriceLabel!.label2?.hidden = true
             productPriceLabel?.label1?.lineBreakMode = .ByTruncatingTail
         }
         if listPrice {
-            productPriceLabel!.label1?.textColor = WMColor.savingTextColor
-            productPriceLabel!.label2?.textColor = WMColor.savingTextColor
+            productPriceLabel!.label1?.textColor = WMColor.green
+            productPriceLabel!.label2?.textColor = WMColor.green
         }
 
     }

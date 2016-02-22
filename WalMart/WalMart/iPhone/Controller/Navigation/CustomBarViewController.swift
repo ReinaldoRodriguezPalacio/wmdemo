@@ -142,8 +142,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         buttonContainer = UIView(frame: CGRectMake(0, 0, self.view.bounds.width, 45))
         self.view.addSubview(buttonContainer!)
         
-        self.headerView.backgroundColor = WMColor.headerViewBgCollor
-        self.buttonContainer!.backgroundColor = WMColor.tabBarBgColor
+        self.headerView.backgroundColor = WMColor.light_blue
+        self.buttonContainer!.backgroundColor = WMColor.light_blue
         self.btnSearch?.addTarget(self, action: "search:", forControlEvents: UIControlEvents.TouchUpInside)
         
         showBadge()
@@ -710,7 +710,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             let bounds = controller.view.bounds
             
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
-            self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
+            self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpForSearchView"))
             controller.view.addSubview(self.helpView!)
@@ -800,14 +800,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 
             
             let controller = ProductDetailPageViewController()
-            let svcValidate = GRProductDetailService()
+            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let svcValidate = GRProductDetailService(dictionary: useSignalsService)
+            
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
             if upcDesc.length < 13 {
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            svcValidate.callService(requestParams:paddedUPC, successBlock: { (result:NSDictionary) -> Void in
+            let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview")
+            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 controller.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 
                 let controllernav = self.currentController as? UINavigationController
@@ -940,8 +943,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeShoppingCart()
     }
     
-    func closeShoppingCart() {
-        
+    func closeShoppingCart() {        
         self.btnShopping?.selected = false
         self.btnCloseShopping?.alpha = 0
         self.showBadge()
@@ -961,6 +963,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             vcRoot.view.removeGestureRecognizer(gestureCloseShoppingCart)
             openSearch = false
         }
+        
+        NSNotificationCenter.defaultCenter().postNotificationName("MORE_OPTIONS_RELOAD", object: nil)
+
+        
     }
     
     func showShoppingCart() {
@@ -1073,7 +1079,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func showListsGR() {
         buttonSelected(self.buttonList[3])
-}
+         NSNotificationCenter.defaultCenter().postNotificationName("ReloadListFormUpdate", object: self)
+    }
         
         
     
@@ -1106,11 +1113,17 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func userLogOut(not:NSNotification) {
         self.removeAllCookies()
-        self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
         self.buttonSelected(self.buttonList[0])
-        // aqui va la notificacion
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "sendHomeNotification", userInfo: nil, repeats: false)
+    }
+    
+    func sendHomeNotification(){
+        if let navController = self.viewControllers[0] as? UINavigationController {
+            navController.popToRootViewControllerAnimated(true)
+            self.viewControllers[0] = navController
+        }
     }
     
     func removeAllCookies() {

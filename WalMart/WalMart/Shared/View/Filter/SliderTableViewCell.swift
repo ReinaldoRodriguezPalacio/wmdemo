@@ -24,7 +24,7 @@ class SliderTableViewCell: UITableViewCell {
     var maxValue: Double = 0.0
     var values: NSArray?
     
-    let labelColor =  WMColor.navigationTilteTextColor
+    let labelColor =  WMColor.light_blue
     let numFont = WMFont.fontMyriadProRegularOfSize(12)
     let centFont = WMFont.fontMyriadProRegularOfSize(6)
     

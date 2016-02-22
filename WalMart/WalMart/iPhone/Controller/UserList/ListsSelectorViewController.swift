@@ -123,7 +123,8 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
             //self.retrieveItemsFromService()
         }
         else {
-            self.list = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.list = service.retrieveNotSyncList()
         }
         self.tableView!.reloadData()
         self.showLoadingIfNeeded()
@@ -134,7 +135,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.insertSubview(self.imageBlurView!, atIndex: 0)
         
         let bg = UIView(frame: frame)
-        bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        bg.backgroundColor = WMColor.light_blue
         self.view.insertSubview(bg, aboveSubview: self.imageBlurView!)
     }
     
@@ -259,20 +260,6 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         return result
     }
 
-    func retrieveNotSyncList() -> [List]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
-        fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var result: [List]? = nil
-        do{
-          result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
-        }
-        catch let error as NSError{
-            print("Fetch failed: \(error.localizedDescription)")
-        }
-        return result
-    }
-
     func retrieveItemsFromService(){
         let userListsService = GRUserListService()
         userListsService.callService([:],
@@ -368,30 +355,35 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
                 return
             }
         }
-        
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
+        if self.list?.count < 12{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
 
-        let svcList = GRSaveUserListService()
-        svcList.callService(svcList.buildParams(value),
-            successBlock: { (result:NSDictionary) -> Void in
+            let svcList = GRSaveUserListService()
+            svcList.callService(svcList.buildParams(value),
+                successBlock: { (result:NSDictionary) -> Void in
                 
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_ADD_TO_LIST.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: "")
                 
-                self.loadLocalList()
-                self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
-                self.alertView!.showDoneIcon()
-                self.alertView!.afterRemove = {
+                    self.loadLocalList()
+                    self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
+                    self.alertView!.showDoneIcon()
+                    self.alertView!.afterRemove = {
+                    }
+                },
+                errorBlock: { (error:NSError) -> Void in
+                        print(error)
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                    self.alertView!.afterRemove = {
+                    }
                 }
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print(error)
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-                self.alertView!.afterRemove = {
-                }
-            }
-        )
+            )
+        }else{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+            self.alertView!.showErrorIcon("Ok")
+        }
     }
 
     func scanTicket() {

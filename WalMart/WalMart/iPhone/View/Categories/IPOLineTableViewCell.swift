@@ -30,14 +30,14 @@ class IPOLineTableViewCell : UITableViewCell {
     func setup() {
         
         viewBgSel = UIView()
-        viewBgSel.backgroundColor = WMColor.UIColorFromRGB(0xF0F2FA)
+        viewBgSel.backgroundColor = WMColor.light_light_gray
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProLightOfSize(16)
-        titleLabel.textColor = WMColor.lineTextColor
+        titleLabel.textColor = WMColor.dark_gray
         
         separator = UIView()
-        separator.backgroundColor = WMColor.categoryLineSeparatorColor
+        separator.backgroundColor = WMColor.light_gray
         
         self.addSubview(self.viewBgSel!)
         self.addSubview(separator)

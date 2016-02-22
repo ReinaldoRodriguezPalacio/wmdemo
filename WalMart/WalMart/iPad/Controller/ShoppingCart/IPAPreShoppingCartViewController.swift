@@ -48,7 +48,7 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
         
         viewBG = UIView(frame:CGRectZero)
         viewBG.alpha = 0
-        viewBG.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.6)
+        viewBG.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.view.addSubview(viewBG)
         
         viewSuper = PreShoppingCartView(frame: CGRectZero)
@@ -122,12 +122,12 @@ class IPAPreShoppingCartViewController :  BaseController,UIDynamicAnimatorDelega
                 let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
                 let totArticlesGR = UserCurrentSession.sharedInstance().numberOfArticlesGR()
                 let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
-                self.viewSuper.setValues(WMColor.superBG,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance().estimateTotalGR())",totalColor:WMColor.superBG, empty: totArticlesGR == 0 )
+                self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance().estimateTotalGR())",totalColor:WMColor.green, empty: totArticlesGR == 0 )
                 
                 let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
             let noArticlesMgStr = NSLocalizedString("shoppingcart.noarticles.mg",comment:"")
                 let articlesInCartMG = totArticlesMG > 0 ? "\(totArticlesMG) \(articlesStr)" : noArticlesMgStr
-                self.viewMG.setValues(WMColor.mgBG,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance().estimateTotalMG())",totalColor:WMColor.mgBG,empty:totArticlesMG == 0)
+                self.viewMG.setValues(WMColor.light_blue,imgBgName:"preCart_mg_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[1],articles:articlesInCartMG,total:"\(UserCurrentSession.sharedInstance().estimateTotalMG())",totalColor:WMColor.light_blue,empty:totArticlesMG == 0)
             
             self.viewMG.tapAction =  { () -> Void in
                 // self.yPointOpen = self.viewMG.imgBackground.convertRect(self.viewMG.imgBackground.frame, toView: self.view).maxY

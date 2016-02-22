@@ -33,7 +33,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.buttonContainer!.backgroundColor = WMColor.IPATabBarBgColor
+        self.buttonContainer!.backgroundColor = WMColor.blue
         
         let storyboard = self.loadStoryboardDefinition()
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("shoppingCartVC") as? UINavigationController {
@@ -213,14 +213,14 @@ class IPACustomBarViewController :  CustomBarViewController {
             //contDetail.upc = upc!
             let svcValidate = GRProductDetailService()
             
-            
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
             if upcDesc.length < 13 {
                 let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
                 paddedUPC = "\(toFill)\(paddedUPC)"
             }
-            svcValidate.callService(paddedUPC as String, successBlock: { (result:NSDictionary) -> Void in
+            let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview")
+            svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
                 if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
@@ -320,7 +320,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     self.viewBgWishlist = UIView(frame: self.currentController!.view.bounds)
                     self.viewBgWishlist.userInteractionEnabled = true
                     self.viewBgWishlist.alpha = 0
-                    self.viewBgWishlist.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.2)
+                    self.viewBgWishlist.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
                     
                     self.viewBgWishlist.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapHideWhishList"))
                     
@@ -556,29 +556,18 @@ class IPACustomBarViewController :  CustomBarViewController {
             self.viewControllers[0] = navController
         }
         self.buttonSelected(self.buttonList[0])
-        //self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
-       /* if let navController = self.currentController as? UINavigationController{
-            dispatch_async(dispatch_get_main_queue()) {
-                navController.popToRootViewControllerAnimated(true)
-                self.displayContentController(navController)
-                if self.currentController != nil  {
-                    self.hideContentController(self.currentController!)
-                }
-                self.currentController = navController
-            }
-        }*/
-        // aqui va la notificacion
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "sendHomeNotification", userInfo: nil, repeats: false)
     }
     
-    func sendHomeNotification(){
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil) 
+    override func sendHomeNotification(){
+        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
     }
     
     override func showListsGR() {
         buttonSelected(self.buttonList[4])
+        NSNotificationCenter.defaultCenter().postNotificationName("ReloadListFormUpdate", object: self)
     }
    
     

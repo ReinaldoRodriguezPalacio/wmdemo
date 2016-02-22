@@ -26,7 +26,7 @@ class SearchSingleViewCell: UITableViewCell {
         self.priceLabel?.textAlignment =  NSTextAlignment.Right
         self.title = UILabel()
         
-        self.title!.textColor = WMColor.searchCategoriesAllColor
+        self.title!.textColor = WMColor.light_blue
         self.title!.backgroundColor = UIColor.clearColor()
         self.contentView.addSubview(self.title!)
         self.contentView.addSubview(priceLabel!)
@@ -75,7 +75,7 @@ class SearchSingleViewCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         var color : UIColor!
         if highlighted == true {
-            color = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1)
+            color = UIColor.whiteColor()
         }else{
             color = UIColor.clearColor()
         }

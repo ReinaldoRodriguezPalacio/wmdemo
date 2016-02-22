@@ -38,7 +38,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Súper"
         
-        colCategories.backgroundColor = WMColor.navigationHeaderBgColor
+        colCategories.backgroundColor = WMColor.light_light_gray
         
         loadDepartments()
         
@@ -257,12 +257,15 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil {
+        if UserCurrentSession.sharedInstance().storeName != nil{
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16)]
-            let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString) ", attributes:attrs)
+            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
+            if UserCurrentSession.sharedInstance().storeName == "" {
+                boldString = NSMutableAttributedString(string:"Sin tienda ", attributes:attrs)
+            }
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;

@@ -48,6 +48,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.selectionStyle = UITableViewCellSelectionStyle.None
     
         productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
@@ -68,7 +70,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        separatorView.backgroundColor = WMColor.lineSaparatorColor
+        separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
         self.contentView.addSubview(productPriceSavingLabel)
@@ -103,7 +105,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         if saving.doubleValue > 0 {
             
@@ -115,7 +117,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.productDetailPriceText, interLine: false)
+            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
             productPriceSavingLabel.hidden = false
         }else{
             self.savingProduct = 0
@@ -152,7 +154,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                 let totalPrice = NSString(format: "%.2f", totalInProducts)
                 
                 let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
-                self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+                self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
                 
                 if self.savingProduct > 0 {
                     
@@ -162,7 +164,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
                     let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
                     let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
                     let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-                    self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.productDetailPriceText, interLine: false)
+                    self.productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
                     self.productPriceSavingLabel.hidden = false
                     
                     

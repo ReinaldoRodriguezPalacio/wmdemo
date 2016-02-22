@@ -27,33 +27,32 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     
         self.backgroundColor = UIColor.whiteColor()
         
-        //let textColor = WMColor.UIColorFromRGB(0x56595c)
         let sep:CGFloat = 16.0
         let width:CGFloat = frame.size.width - (2*sep)
         
         self.titleLabel = UILabel(frame: CGRectMake(sep, sep, width, 17.0))
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.titleLabel!.textColor = WMColor.titleTextColor
+        self.titleLabel!.textColor = WMColor.light_blue
         self.contentView.addSubview(self.titleLabel)
 
         self.addressLabel = UILabel(frame: CGRectMake(sep, self.titleLabel.frame.maxY, width, 45.0))
         self.addressLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addressLabel!.numberOfLines = 0
-        self.addressLabel!.textColor = WMColor.productDetailTextColor
+        self.addressLabel!.textColor = WMColor.gray
         self.contentView.addSubview(self.addressLabel)
 
         self.hoursOpenLabel = UILabel()
         self.hoursOpenLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.hoursOpenLabel!.textColor = WMColor.productDetailTextColor
+        self.hoursOpenLabel!.textColor = WMColor.gray
         self.contentView.addSubview(self.hoursOpenLabel)
         
         self.phoneLabel = UILabel()
         self.phoneLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.phoneLabel!.textColor = WMColor.productDetailTextColor
+        self.phoneLabel!.textColor = WMColor.gray
         self.contentView.addSubview(self.phoneLabel)
 
         self.buttonContainer = UIView(frame: CGRectMake(0, frame.size.height - 48.0, frame.size.width, 48.0))
-        self.buttonContainer.backgroundColor = WMColor.navigationHeaderBgColor
+        self.buttonContainer.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.buttonContainer)
         
         self.buildToolbar()

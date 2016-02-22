@@ -93,12 +93,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var didSelectProduct =  false
     var finsihService =  false
     
-   
-    
     var selectQuantityGR : GRShoppingCartQuantitySelectorView!
     var selectQuantity : ShoppingCartQuantitySelectorView!
     var isTextSearch: Bool = false
     var isOriginalTextSearch: Bool = false
+    
+    var findUpcsMg: NSArray? = []
 
     
     override func getScreenGAIName() -> String {
@@ -140,13 +140,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.filterButton!.setImage(iconImage, forState: .Normal)
         //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
         self.filterButton!.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
-        self.filterButton!.tintColor = WMColor.navigationFilterTextColor
+        self.filterButton!.tintColor = UIColor.whiteColor()
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
-        self.filterButton!.backgroundColor = WMColor.wishlistEditButtonBgColor
+        self.filterButton!.backgroundColor = WMColor.light_blue
         self.filterButton!.layer.cornerRadius = 11.0
 
-        self.filterButton!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
+        self.filterButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.filterButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         
 
@@ -156,16 +156,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         viewBgSelectorBtn = UIView(frame: CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28))
         viewBgSelectorBtn.layer.borderWidth = 1
         viewBgSelectorBtn.layer.cornerRadius = 14
-        viewBgSelectorBtn.layer.borderColor = WMColor.addressSelectorColor.CGColor
+        viewBgSelectorBtn.layer.borderColor = WMColor.light_blue.CGColor
         
         let titleSupper = NSLocalizedString("profile.address.super",comment:"")
         btnSuper = UIButton(frame: CGRectMake(1, 1, (viewBgSelectorBtn.frame.width / 2) , viewBgSelectorBtn.frame.height - 2))
         btnSuper.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnSuper.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        btnSuper.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         btnSuper.setTitle(titleSupper, forState: UIControlState.Normal)
         btnSuper.setTitle(titleSupper, forState: UIControlState.Selected)
         btnSuper.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnSuper.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnSuper.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
@@ -174,9 +174,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let titleTech = NSLocalizedString("profile.address.tech",comment:"")
         btnTech = UIButton(frame: CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2))
         btnTech.setImage(UIImage(color: UIColor.whiteColor(), size: btnSuper.frame.size), forState: UIControlState.Normal)
-        btnTech.setImage(UIImage(color: WMColor.addressSelectorColor, size: btnSuper.frame.size), forState: UIControlState.Selected)
+        btnTech.setImage(UIImage(color: WMColor.light_blue, size: btnSuper.frame.size), forState: UIControlState.Selected)
         btnTech.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        btnTech.setTitleColor(WMColor.addressSelectorColor, forState: UIControlState.Normal)
+        btnTech.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Normal)
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
@@ -193,9 +193,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(collection!)
         self.titleLabel?.text = titleHeader
         
-        self.getServiceProduct(resetTable: false)
-        if  self.searchContextType == .WithCategoryForGR {
-            self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+        if self.findUpcsMg?.count > 0 {
+            self.invokeSearchUPCSCMG()
+        }else{
+            self.getServiceProduct(resetTable: false)
+            if  self.searchContextType == .WithCategoryForGR {
+                self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
+            }
         }
     }
     
@@ -223,7 +227,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.attributedText = myString
         titleLabelEdit.userInteractionEnabled = true
-        titleLabelEdit.textColor =  WMColor.navigationTilteTextColor
+        titleLabelEdit.textColor =  WMColor.light_blue
         titleLabelEdit.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabelEdit.numberOfLines = 2
         titleLabelEdit.textAlignment = .Center
@@ -286,7 +290,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //}
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -300,6 +304,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //            self.showEmptyMGGRView()
 //        }
 //        self.hasEmptyView = true
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
+            self.showEmptyMGGRView()
+        } else if self.allProducts == nil || self.allProducts!.count == 0 {
+            self.showEmptyView()
+        }
         if finsihService || didSelectProduct {
             self.loading?.stopAnnimating()
         }
@@ -324,8 +333,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         
         var startPoint = self.header!.frame.maxY
         if self.isTextSearch || self.isOriginalTextSearch {
-            viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 16, 288, 28)
-            startPoint = viewBgSelectorBtn.frame.maxY + 16
+            viewBgSelectorBtn.frame =  CGRectMake(16,  self.header!.frame.maxY + 20, 288, 28)
+            startPoint = viewBgSelectorBtn.frame.maxY + 20
         }else {
             viewBgSelectorBtn.alpha = 0
         }
@@ -404,17 +413,22 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //                return self.itemsUPCMG!.count
 //            }
 //        }
+        if self.invokeServiceUpc {
+            if let count = self.allProducts?.count {
+                return count
+            }
+        }
         
         var size = 0
         if let count = self.allProducts?.count {
             var commonTotal = 0
             if self.btnSuper.selected {
-                commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
+                commonTotal =  (self.grResults!.totalResults == -1 ? 0:(self.grResults!.totalResults == 0 && self.grResults!.resultsInResponse != 0 ? self.grResults!.resultsInResponse : self.grResults!.totalResults))
                 if count == commonTotal {
                     return count
                 }
             } else {
-                commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
+                commonTotal = (self.mgResults!.totalResults == -1 ? 0:(self.mgResults!.totalResults == 0 && self.mgResults!.resultsInResponse != 0 ? self.mgResults!.resultsInResponse : self.mgResults!.totalResults))
                 if count == commonTotal {
                     return count
                 }
@@ -529,13 +543,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        var size = CGSizeMake(self.view.bounds.maxX/2, 190)
-        let commonTotal = self.mgResults!.totalResults + self.grResults!.totalResults
-        if indexPath.row == self.allProducts!.count && self.allProducts!.count < commonTotal {
-            size = CGSizeMake(self.view.bounds.maxX, 80)
-        }
-        return size
-    }
+        return CGSizeMake(self.view.bounds.maxX/2, 190)
+     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat{
         return 0
@@ -598,7 +607,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
                 }
             }
-        
+            controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
             self.navigationController!.pushViewController(controller, animated: true)
@@ -720,9 +729,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         print("Invoking MG Search")
         let startOffSet = self.mgResults!.resultsInResponse
         
-        
-        
-        let service = ProductbySearchService()
+        //TODO: Signals
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
             successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
@@ -794,8 +803,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if startOffSet > 0 {
             startOffSet++
         }
+        //TODO: Signals
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let service = GRProductBySearchService(dictionary: signalsDictionary)
         
-        let service = GRProductBySearchService()//TODO Agregar rating al idSort
        // self.brandText = self.idSort != "" ? "" : self.brandText
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort == "" ? "" : self.idSort , departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult,brand:self.brandText)
         service.callService(params,
@@ -831,8 +842,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 if error.code == 1 {
                     self.grResults!.resultsInResponse = 0
                     self.grResults!.totalResults = 0
+                    actionError?()
+                }else{
+                    print("GR Search ERROR!!!")
+                    self.grResults!.totalResults = self.allProducts!.count
+                    self.grResults!.resultsInResponse = self.mgResults!.totalResults
+                    actionSuccess?()
+                    print(error)
+                    actionError?()
                 }
-                actionError?()
             }
         )
     }
@@ -1022,7 +1040,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-        let maxY =  self.viewBgSelectorBtn.frame.maxY
+        let maxY = self.collection!.frame.minY
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
             self.emptyMGGR.returnAction = { () in
@@ -1070,6 +1088,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controllerFilter.originalSearchContext = self.originalSearchContextType == nil ? self.searchContextType : self.originalSearchContextType
             //controllerFilter.searchContext = self.searchContextType
             controllerFilter?.facetGr = self.facetGr
+            controllerFilter?.backFilter = {() in
+              self.loading?.stopAnnimating()
+            }
             
         }
         controllerFilter.isGroceriesSearch = self.btnSuper.selected
@@ -1446,11 +1467,19 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String) -> [String:AnyObject] {
         let pesable = cell.pesable! ? "1" : "0"
-        
+        let searchText = self.textToSearch ?? ""
+        let channel = IS_IPAD ? "ipad" : "iphone"
         if cell.type == ResultObjectType.Groceries.rawValue {
-           return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+            if searchText != ""{
+                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addticart","collection":"dah","channel": channel]]
+            }
+            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
         }
         else {
+            
+            if searchText != ""{
+            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"parameter":["q":searchText,"eventtype": "addticart","collection":"mg","channel": channel]]
+            }
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable]
         }
     }
@@ -1459,4 +1488,38 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     func afterAddToSC() {
         self.collection?.reloadData()
     }
+    
+    var invokeServiceUpc =  false
+    
+    func invokeSearchUPCSCMG() {
+        if self.findUpcsMg?.count > 0 {
+             self.filterButton?.alpha = 0
+            let serviceUPC = SearchItemsByUPCService()
+            serviceUPC.callService(self.findUpcsMg as! [String], successJSONBlock: { (result:JSON) -> Void in
+                //self.itemsUPCMG = result.arrayObject
+                let upcs : NSArray = result.arrayObject!
+                if upcs.count > 0 {
+                self.allProducts?.addObjectsFromArray(upcs as! [AnyObject])
+                self.finsihService =  true
+                self.invokeServiceUpc =  true
+                self.collection?.reloadData()
+                self.collection?.layoutIfNeeded()
+                }else{
+                    self.showEmptyView()
+                }
+                
+                print("busqueda completa")
+                }) { (error:NSError) -> Void in
+                    self.finsihService =  true
+                    self.showEmptyView()
+                    print(error.localizedDescription)
+            }
+        } else {
+         self.showEmptyView()
+         print("No hay upcs a buscar ")
+        }
+    }
+    
+    
+    
 }

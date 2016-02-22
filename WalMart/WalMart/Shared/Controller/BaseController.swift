@@ -65,6 +65,7 @@ class BaseController : UIViewController {
 
     class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
         
+        print("TUNE_EVENT_\(event)")
         switch(event){
         case TUNE_EVENT_PURCHASE:
             let payPalItems:NSMutableArray = []
@@ -114,8 +115,8 @@ class BaseController : UIViewController {
             event.refId = refId
             event.revenue = CGFloat(total)
             event.currencyCode = "MXN"
-            
             Tune.measureEvent(event)
+            
             
             break
         case TUNE_EVENT_LOGIN:
@@ -123,8 +124,8 @@ class BaseController : UIViewController {
             Tune.setUserName(userName)
             Tune.setGender(gender.lowercaseString == "male" ?TuneGender.Male:TuneGender.Female)
             Tune.setUserId(idUser)
-            
             Tune.measureEventName(event)
+            print(TUNE_EVENT_LOGIN)
             break
         case TUNE_EVENT_REGISTRATION:
             Tune.setUserEmail(email)
@@ -132,6 +133,7 @@ class BaseController : UIViewController {
             Tune.setGender(gender.lowercaseString == "male" ? TuneGender.Male :TuneGender.Female)
             Tune.setUserId(idUser)
             Tune.measureEventName(TUNE_EVENT_REGISTRATION)
+            print(TUNE_EVENT_REGISTRATION)
             
             break
             
@@ -141,6 +143,7 @@ class BaseController : UIViewController {
             
         
         }
+        
         
     
     }

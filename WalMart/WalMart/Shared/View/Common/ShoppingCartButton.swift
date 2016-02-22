@@ -43,11 +43,11 @@ class ShoppingCartButton : UIButton {
         
 
         if aviable {
-            self.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+            self.backgroundColor = WMColor.yellow
             self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         } else {
-            self.backgroundColor = WMColor.productDetailShoppingCartBtnBGColor
+            self.backgroundColor = WMColor.yellow
             self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         }
@@ -116,7 +116,7 @@ class ShoppingCartButton : UIButton {
                 titleString = self.titleLabel?.text
                 
                 self.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
-                self.backgroundColor = WMColor.shoppingCartNoteButtonBgColor
+                self.backgroundColor = WMColor.light_blue
                 self.setTitle(NSLocalizedString("shoppingcart.note", comment:""), forState: UIControlState.Normal)
 //                self.frame = CGRectMake(frameButton!.minX - 36, frameButton!.minY, 87, frameButton!.height)
 //                

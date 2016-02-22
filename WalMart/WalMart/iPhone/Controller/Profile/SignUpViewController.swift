@@ -205,7 +205,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.continueButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment: ""), forState: UIControlState.Normal)
         self.continueButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         self.continueButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.continueButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        self.continueButton!.backgroundColor = WMColor.green
         self.continueButton!.layer.cornerRadius = 20.0
         self.continueButton!.addTarget(self, action: "continueToInfo", forControlEvents: .TouchUpInside)
         
@@ -215,7 +215,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.cancelButton!.setTitle(NSLocalizedString("profile.create.an.cancel", comment: ""), forState: UIControlState.Normal)
         self.cancelButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.loginSignOutButonBgColor
+        self.cancelButton!.backgroundColor = WMColor.dark_blue
         self.cancelButton!.layer.cornerRadius = 20.0
         self.cancelButton!.addTarget(self, action: "cancelRegistry:", forControlEvents: .TouchUpInside)
         
@@ -415,12 +415,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                     let login = LoginService()
                     login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                         
-                        //BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName: self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
+                       
 
                           self.alertAddress?.registryAddress(dictSend)
                         
                         }, errorBlock: { (error:NSError) -> Void in
                             self.alertView!.close()
+                             BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName: self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
                           self.alertAddress?.registryAddress(dictSend)
                     })
                     
@@ -602,7 +603,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                     if becomeFirstResponder {
                         field.becomeFirstResponder()
                     }
-                    field.layer.borderColor =   WMColor.profileErrorColor.CGColor
+                    field.layer.borderColor =   WMColor.red.CGColor
                 }
         })
     }
@@ -762,7 +763,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.backButton!.setTitle(NSLocalizedString("signup.info.return", comment: ""), forState: UIControlState.Normal)
             self.backButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             self.backButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            self.backButton!.backgroundColor = WMColor.loginSignOutButonBgColor
+            self.backButton!.backgroundColor = WMColor.dark_blue
             self.backButton!.layer.cornerRadius = 20.0
             self.backButton!.addTarget(self, action: "backRegistry:", forControlEvents: .TouchUpInside)
             
@@ -770,7 +771,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.registryButton!.setTitle(NSLocalizedString("signup.info.registry", comment: ""), forState: UIControlState.Normal)
             self.registryButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             self.registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            self.registryButton!.backgroundColor = WMColor.loginSignInButonBgColor
+            self.registryButton!.backgroundColor = WMColor.green
             self.registryButton!.layer.cornerRadius = 20.0
             self.registryButton!.addTarget(self, action: "registryUser", forControlEvents: .TouchUpInside)
             

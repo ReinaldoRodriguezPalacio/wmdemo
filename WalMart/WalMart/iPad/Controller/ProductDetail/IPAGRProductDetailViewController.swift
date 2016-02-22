@@ -35,9 +35,11 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     override func loadDataFromService() {
         
-
-        let productService = GRProductDetailService()
-        productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let productService = GRProductDetailService(dictionary:signalsDictionary)
+        let eventType = self.fromSearch ? "clickdetails" : "pdpview"
+        let params = productService.buildParams(upc as String, eventtype: eventType)
+        productService.callService(requestParams: params, successBlock: { (result: NSDictionary) -> Void in
             self.name = result["description"] as! String
             if let priceR =  result["price"] as? NSNumber {
                 self.price = "\(priceR)"
@@ -336,7 +338,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.tabledetail, frame: frameDetail)
         self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, atIndex: 0)
         let bg = UIView(frame: frameDetail)
-        bg.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        bg.backgroundColor = WMColor.light_blue
         self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
         opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
             self.productDetailButton!.listButton.selected = true
@@ -433,7 +435,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton?.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton!.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         })
         
     }
@@ -823,7 +825,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
                     savingSend = "\(savingStr) \(formated)"
                 }
                 
-                cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.savingTextColor, interLine: false)
+                cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
                 cell = cellAhorro
                
             } else{

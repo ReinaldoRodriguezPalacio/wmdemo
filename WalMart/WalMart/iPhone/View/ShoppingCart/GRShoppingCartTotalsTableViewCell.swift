@@ -17,7 +17,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         
         numProducts = UILabel(frame: CGRectMake(16, 25, 75, 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
-        numProducts.textColor = WMColor.shoppingCartShopTotalsTextColor
+        numProducts.textColor = WMColor.gray
         self.addSubview(numProducts)
         
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
@@ -37,8 +37,8 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         total.frame = CGRectMake(total.frame.origin.x , 25, total.frame.size.width, total.frame.size.height)
 
         valueTotal.frame = CGRectMake(valueTotal.frame.origin.x, 25 , valueTotal.frame.size.width, valueTotal.frame.size.height)
-        totalSavingTitle.frame = CGRectMake(totalSavingTitle.frame.origin.x, total.frame.maxY + 4.0 , 91, 12)
-        valueTotalSaving.frame = CGRectMake(totalSavingTitle.frame.maxX + 3,  totalSavingTitle.frame.minY , 50, 12)
+        totalSavingTitle.frame = CGRectMake(totalSavingTitle.frame.origin.x, total.frame.maxY + 4.0 , 101, 12)
+        valueTotalSaving.frame = CGRectMake(totalSavingTitle.frame.maxX + 8,  totalSavingTitle.frame.minY , 50, 12)
 
     }
     

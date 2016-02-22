@@ -23,7 +23,7 @@ class DoneView : UIView {
         
         information = UILabel(frame: CGRectMake(16, 23, self.frame.size.width - 32, 36))
         information.textAlignment = NSTextAlignment.Center
-        information.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        information.textColor = WMColor.light_blue
         information.font = WMFont.fontMyriadProLightOfSize(18)
         information.numberOfLines = 2
         information.text = "¡Gracias!"

@@ -39,7 +39,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
         
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
         
@@ -52,7 +52,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         productPriceSavingLabel = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
         productPriceSavingLabel!.font = WMFont.fontMyriadProSemiboldSize(14)
-        productPriceSavingLabel!.textColor = WMColor.savingTextColor
+        productPriceSavingLabel!.textColor = WMColor.green
         
         
         self.contentView.addSubview(productPriceSavingLabel)
@@ -62,7 +62,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.contentView.addSubview(changeQuantity)
 
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        separatorView.backgroundColor = WMColor.lineSaparatorColor
+        separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
     }
@@ -103,7 +103,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
         let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
-        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
 
         changeQuantity.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
         

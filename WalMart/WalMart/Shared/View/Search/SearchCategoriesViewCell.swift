@@ -20,11 +20,11 @@ class SearchCategoriesViewCell: UITableViewCell {
         self.backgroundColor = UIColor.clearColor()
         
         self.departament = UILabel()
-        self.departament!.textColor = WMColor.searchTitleSectionColor
+        self.departament!.textColor = WMColor.gray
         self.departament!.font = WMFont.fontMyriadProRegularOfSize(12)
         
         self.title = UILabel()
-        self.title!.textColor = WMColor.searchCategoriesAllColor
+        self.title!.textColor = WMColor.light_blue
         self.title!.backgroundColor = UIColor.clearColor()
         self.title!.font = WMFont.fontMyriadProRegularOfSize(14)
 
@@ -61,7 +61,7 @@ class SearchCategoriesViewCell: UITableViewCell {
     override func setHighlighted(highlighted: Bool, animated: Bool) {
         var color : UIColor!
         if highlighted == true {
-            color = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1)
+            color = UIColor.whiteColor()
         }else{
             color = UIColor.clearColor()
         }

@@ -40,7 +40,7 @@ class CommentView : UIView {
         
         information = UILabel(frame: CGRectMake(16, 43, self.frame.size.width - 32, 36))
         information.textAlignment = NSTextAlignment.Center
-        information.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        information.textColor = WMColor.light_blue
         information.font = MercuryFont.fontSFUIRegularOfSize(25)
         information.numberOfLines = 2
         information.text = "¡Listo!"
@@ -52,7 +52,7 @@ class CommentView : UIView {
         
         questionmessage = UILabel(frame: CGRectMake(16, 270, self.frame.size.width - 32, 36))
         questionmessage.textAlignment = NSTextAlignment.Center
-        questionmessage.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        questionmessage.textColor = WMColor.light_blue
         questionmessage.font = MercuryFont.fontSFUILightOfSize(18)
         questionmessage.numberOfLines = 2
         questionmessage.text = "¿Tienes algún comentario?"
@@ -62,7 +62,7 @@ class CommentView : UIView {
         buttonMessage.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         buttonMessage.setTitle("Mensaje", forState: UIControlState.Normal)
         buttonMessage.backgroundColor = UIColor.whiteColor()
-        buttonMessage.setTitleColor(WMColor.UIColorFromRGB(0xB0B1B4), forState: UIControlState.Normal)
+        buttonMessage.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         buttonMessage.addTarget(self, action: "comment:", forControlEvents: UIControlEvents.TouchUpInside)
         buttonMessage.layer.cornerRadius = 4
         buttonMessage.titleLabel?.font = MercuryFont.fontSFUIRegularOfSize(14)
@@ -74,12 +74,12 @@ class CommentView : UIView {
         textMesage = UITextView(frame: CGRectMake(16, 60, frame.width - 32, frame.height - 210))
         textMesage.alpha = 0
         textMesage.font = MercuryFont.fontSFUIRegularOfSize(14)
-        textMesage.textColor = WMColor.UIColorFromRGB(0x797C81)
+        textMesage.textColor = WMColor.dark_gray
         
         
         titleMessage = UILabel(frame: CGRectMake(16, 23, self.frame.size.width - 32, 18))
         titleMessage.textAlignment = NSTextAlignment.Left
-        titleMessage.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        titleMessage.textColor = WMColor.light_blue
         titleMessage.font = MercuryFont.fontSFUILightOfSize(18)
         titleMessage.numberOfLines = 2
         titleMessage.text = "Comentarios"
@@ -160,7 +160,7 @@ class CommentView : UIView {
     func actionCancel() {
         self.viewBack?.frame = self.originalFrame
         self.buttonMessage.setTitle("Mensaje", forState: UIControlState.Normal)
-        self.buttonMessage.setTitleColor(WMColor.UIColorFromRGB(0xB0B1B4), forState: UIControlState.Normal)
+        self.buttonMessage.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.textMesage.alpha = 0

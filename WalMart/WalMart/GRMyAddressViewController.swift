@@ -26,7 +26,7 @@ class GRMyAddressViewController: MyAddressViewController {
         self.titleLabel!.text = NSLocalizedString("gr.address.MyAddress", comment: "")
         
         self.okButton = UIButton(frame: CGRectMake(0, 0, 98, 34))
-        self.okButton!.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        self.okButton!.backgroundColor = WMColor.light_blue
         self.okButton!.layer.cornerRadius = 17
         self.okButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
@@ -59,7 +59,7 @@ class GRMyAddressViewController: MyAddressViewController {
             self.okButton!.frame = CGRectMake((bounds.width / 2) - 49,  self.table!.frame.maxY + 15, 98, 34)
             let line: CALayer = CALayer()
             line.frame = CGRectMake(0.0, self.table!.frame.maxY, bounds.width,1.0)
-            line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 0.7).CGColor
+            line.backgroundColor = WMColor.light_light_gray.CGColor
             self.view.layer.insertSublayer(line, atIndex: 0)
         }
         else{
@@ -86,7 +86,7 @@ class GRMyAddressViewController: MyAddressViewController {
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let generic : UIView = UIView(frame: CGRectMake(0,0,tableView.frame.width,36))
         let titleView : UILabel = UILabel(frame:CGRectMake(16,0,tableView.frame.width,36))
-        titleView.textColor = WMColor.listAddressHeaderSectionColor
+        titleView.textColor = WMColor.light_blue
         titleView.font = WMFont.fontMyriadProLightOfSize(14)
         titleView.text = NSLocalizedString("gr.address.table.header", comment: "")
         generic.addSubview(titleView)
@@ -155,6 +155,12 @@ class GRMyAddressViewController: MyAddressViewController {
                         self.alertView!.setMessage("\(message)")
                         self.alertView!.showDoneIcon()
                     }
+                    let serviceAddress = GRAddressesByIDService()
+                    serviceAddress.addressId = result["addressID"] as? String
+                    serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                        UserCurrentSession.sharedInstance().getStoreByAddress(result)
+                        }, errorBlock: { (error:NSError) -> Void in
+                    })
                 }
                 self.alertView = nil
                 

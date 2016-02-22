@@ -65,6 +65,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var selectedDetailItem: [String:String]? = nil
     var colorViewCell: ProductDetailColorSizeView? = nil
     var isGift: Bool = false
+    var fromSearch =  false
     
     
     
@@ -74,7 +75,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         super.viewDidLoad()
         
         headerView = UIView(frame:CGRectMake(0, 0, self.view.bounds.width, heigthHeader))
-        headerView.backgroundColor = WMColor.productDetailHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         
         let buttonBk = UIButton(frame: CGRectMake(0, 0, 46, 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), forState: UIControlState.Normal)
@@ -86,7 +87,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         titlelbl.text = self.name as String
         titlelbl.numberOfLines = 2
         titlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
-        titlelbl.textColor = WMColor.navigationTilteTextColor
+        titlelbl.textColor = WMColor.light_blue
         titlelbl.adjustsFontSizeToFitWidth = true
         titlelbl.minimumScaleFactor = 9 / 12
         headerView.addSubview(titlelbl)
@@ -112,7 +113,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tabledetail.separatorStyle = UITableViewCellSeparatorStyle.None
         
         let separator = UIView(frame: CGRectMake(tabledetail.frame.minX, headerView.frame.maxY,1, self.view.bounds.height))
-        separator.backgroundColor = WMColor.lineSaparatorColor
+        separator.backgroundColor = WMColor.light_light_gray
         
         //NSNotificationCenter.defaultCenter().postNotificationName(IPACustomBarNotification.HideBar.toRaw(), object: nil)
         
@@ -298,7 +299,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     colorViewCell!.items = self.colorItems
                     let line: CALayer = CALayer()
                     line.frame = CGRectMake(0.0, 45.0, cellColors.frame.width, 1.0);
-                    line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+                    line.backgroundColor = WMColor.light_light_gray.CGColor
                     colorViewCell!.layer.insertSublayer(line, atIndex: 0)
                     
                 }
@@ -313,7 +314,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if self.saving.doubleValue > 0{
                 let cellListPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
                 let formatedValue = "\(CurrencyCustomLabel.formatString(self.listPrice))"
-                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.productDetailPriceText, interLine: true)
+                cellListPrice!.setValues(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), textColor: WMColor.gray, interLine: true)
                 cell = cellListPrice
             }else{
                 let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
@@ -323,7 +324,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,3) :
             let cellPrice = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
             let formatedValue = CurrencyCustomLabel.formatString(self.price)
-            cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.priceDetailProductTextColor, interLine: false)
+            cellPrice!.setValues(formatedValue, font: WMFont.fontMyriadProSemiboldSize(30), textColor: WMColor.orange, interLine: false)
             cell = cellPrice
         case (0,4) :
             if self.saving != ""{
@@ -337,7 +338,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                         savingSend = "\(savingStr) \(formated)"
                     }
                     
-                    cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.savingTextColor, interLine: false)
+                    cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
                     cell = cellAhorro
                 }else {
                     let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
@@ -357,7 +358,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 let msiText = NSLocalizedString("productdetail.msitext",comment:"")
-                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productProductPromotionsTextColor, padding: 12,align:NSTextAlignment.Left)
+                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 12,align:NSTextAlignment.Left)
                 cell = cellPromotion
             }else {
                 return cellForPoint((indexPath.section,2),indexPath: indexPath)
@@ -377,7 +378,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if bundleItems.count != 0 {
                 let cellBundleItemsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
-                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
+                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
                 cell = cellBundleItemsTitle
             } else {
                 return cellForPoint((indexPath.section,4),indexPath: indexPath)
@@ -398,7 +399,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellCharacteristicsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 self.clearView(cellCharacteristicsTitle!)
                 let charText = NSLocalizedString("productdetail.characteristics",comment:"")
-                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.productDetailTitleTextColor, padding: 12,align:NSTextAlignment.Left)
+                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
             }else{
                 return nil
@@ -733,7 +734,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                         
                         let pesable = self.isPesable ? "1" : "0"
                         
-                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"1",pesable:pesable,isPreorderable:"\(self.isPreorderable)")
+                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"\(maxProducts)",pesable:pesable,isPreorderable:"\(self.isPreorderable)")
                         params.updateValue(comments, forKey: "comments")
                         params.updateValue(self.type, forKey: "type")
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
@@ -760,7 +761,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail, self.tabledetail.frame.width, self.heightDetail)
                 self.productDetailButton!.addToShoppingCartButton.selected = true
             },additionalAnimationFinish: { () -> Void in
-                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.navigationTilteTextColor, forState: UIControlState.Normal)
+                self.productDetailButton?.addToShoppingCartButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
             })
         
         
@@ -956,10 +957,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func loadDataFromService() {
         
-        
-        
-        let productService = ProductDetailService()
-        productService.callService(upc as String, successBlock: { (result: NSDictionary) -> Void in
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let productService = ProductDetailService(dictionary: signalsDictionary)
+        let eventType = self.fromSearch ? "clickdetails" : "pdpview"
+        let params = productService.buildParams(upc as String,eventtype: eventType)
+        productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [String:AnyObject] {
@@ -1125,7 +1127,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let imageHead = UIImage(named:"detail_HeaderMail")
         // Build header title to share
         let tmpheaderView = UIView(frame:CGRectMake(0, 0, self.bannerImagesProducts.frame.width, heigthHeader))
-        tmpheaderView.backgroundColor = WMColor.productDetailHeaderBgColor
+        tmpheaderView.backgroundColor = WMColor.light_light_gray
         
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: "\(self.name) - \(self.upc)")
@@ -1135,7 +1137,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         tmptitlelbl.text = self.name as String
         tmptitlelbl.numberOfLines = 2
         tmptitlelbl.font = WMFont.fontMyriadProRegularOfSize(14)
-        tmptitlelbl.textColor = WMColor.navigationTilteTextColor
+        tmptitlelbl.textColor = WMColor.light_blue
         tmptitlelbl.adjustsFontSizeToFitWidth = true
         tmptitlelbl.minimumScaleFactor = 9 / 12
         tmpheaderView.addSubview(tmptitlelbl)

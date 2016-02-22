@@ -29,7 +29,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         collection?.registerClass(IPACatHeaderSearchReusable.self, forSupplementaryViewOfKind: CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage")
         
         if let layoutFlow = collection!.collectionViewLayout as? UICollectionViewFlowLayout {
-            layoutFlow.headerReferenceSize = CGSizeMake(1024, 44)
+            layoutFlow.headerReferenceSize = CGSizeMake(1024, 54)
         }
         self.header?.removeFromSuperview()
         
@@ -73,7 +73,7 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
         }
         if kind == UICollectionElementKindSectionHeader {
             let view = collection?.dequeueReusableSupplementaryViewOfKind(UICollectionElementKindSectionHeader, withReuseIdentifier: "header", forIndexPath: indexPath) as! IPASectionHeaderSearchReusable
-            self.header!.frame = CGRectMake(0, 0, 1024, 44)
+            self.header!.frame = CGRectMake(0, 0, 1024, 54)
             
             self.filterButton!.frame = CGRectMake(self.view.bounds.maxX - 85, (self.header!.frame.size.height - 22)/2 , 55, 22)//CGRectMake(1024 - 87, 0 , 44, 22)
             
@@ -111,11 +111,13 @@ class IPASearchCatProductViewController : IPASearchProductViewController {
     
     override func getCollectionView() -> UICollectionView {
         let customlayout = CSStickyHeaderFlowLayout()
+        customlayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 216)
         customlayout.parallaxHeaderReferenceSize = CGSizeMake(1024, 216)
         customlayout.parallaxHeaderMinimumReferenceSize = CGSizeMake(1024, 216)
         customlayout.disableStickyHeaders = false
         //customlayout.parallaxHeaderAlwaysOnTop = true
-        return UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
+        let collectionView = UICollectionView(frame: self.view.bounds, collectionViewLayout: customlayout)
+        return collectionView
     }
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

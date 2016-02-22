@@ -61,7 +61,7 @@ class ShoppingCartCrossSellItemCollectionViewCell : ProductCollectionViewCell {
             productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: UIColor.lightGrayColor(), interLine: false)
             imageShoppingCart.image = UIImage(named: "cart_desabled")
         } else {
-            productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.priceProductTextColor, interLine: false)
+            productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
             imageShoppingCart.image = UIImage(named: "ProductToShopingCart")
         }
         

@@ -48,21 +48,17 @@ class ShippingAddress: AddressView {
         self.titleLabelShiping!.text =  NSLocalizedString("profile.address.personal.data", comment: "")
         
         if !isLogin {
-            self.titleLabelShiping!.textColor = WMColor.listAddressHeaderSectionColor
+            self.titleLabelShiping!.textColor = WMColor.light_blue
             self.titleLabelShiping!.backgroundColor = UIColor.whiteColor()
         }else {
             self.titleLabelShiping!.backgroundColor = UIColor.clearColor()
             self.titleLabelShiping.textColor = UIColor.whiteColor()
         }
         
-        //self.lineViewShiping = UIView()
-        //self.lineViewShiping!.backgroundColor = WMColor.loginProfileLineColor
-        
         self.addSubview(name!)
         self.addSubview(lastName!)
         self.addSubview(telephone!)
         self.addSubview(titleLabelShiping!)
-        //self.addSubview(lineViewShiping!)
         
        
     }

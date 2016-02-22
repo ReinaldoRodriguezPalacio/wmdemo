@@ -53,7 +53,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         self.view.addSubview(self.otherOptionsView!)
         
         optionsLabel = UILabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.view.frame.width, 15.0))
-        optionsLabel.textColor = WMColor.navigationTilteTextColor
+        optionsLabel.textColor = WMColor.light_blue
         optionsLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         optionsLabel.textAlignment = NSTextAlignment.Center
         optionsLabel.text =  NSLocalizedString("productdetail.options",comment:"")
@@ -68,7 +68,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         buttonShop = UIButton(frame: CGRectMake(0, self.price.frame.maxY , 60, 34))
         buttonShop.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.setTitle(NSLocalizedString("productdetail.shop",comment:""), forState: UIControlState.Disabled)
-        buttonShop.backgroundColor = WMColor.disabled_light_gray
+        buttonShop.backgroundColor = WMColor.light_gray
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonShop.layer.cornerRadius = 17
         buttonShop.enabled = false
@@ -137,7 +137,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         
         let line: CALayer = CALayer()
         line.frame = CGRectMake(0.0, bounds.height - 65, frame.size.width, 0.8);
-        line.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 0.7).CGColor
+        line.backgroundColor = WMColor.light_light_gray.CGColor
         self.view.layer.insertSublayer(line, atIndex: 0)
         self.updateShopButton()
     }
@@ -148,7 +148,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         } else {
             self.price.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(price))"
-            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceDetailProductTextColor, interLine: false)
+            self.price.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.priceStr = price
         }
         
@@ -157,7 +157,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         } else {
             priceBefore.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(listPrice))"
-            self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.productDetailPriceListText, interLine: true)
+            self.priceBefore.updateMount(formatedValue, font: WMFont.fontMyriadProLightOfSize(14), color: WMColor.dark_gray, interLine: true)
             self.listPriceStr = listPrice
         }
         
@@ -166,7 +166,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         } else {
             self.saving.hidden = false
             let formatedValue = "\(CurrencyCustomLabel.formatString(saving))"
-            self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.savingTextColor, interLine: false)
+            self.saving.updateMount(formatedValue, font: WMFont.fontMyriadProSemiboldOfSize(14), color: WMColor.green, interLine: false)
             self.savingStr = saving
         }
         
@@ -189,7 +189,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         let bottomBorder: CALayer = CALayer()
         bottomBorder.frame = CGRectMake(0.0, view.frame.height - 1.1, view.frame.size.width, 1.1);
         
-        bottomBorder.backgroundColor = WMColor.UIColorFromRGB(0xF6F6F6, alpha: 1.0).CGColor
+        bottomBorder.backgroundColor = WMColor.light_light_gray.CGColor
         view.layer.insertSublayer(bottomBorder, atIndex: 0)
     }
     
@@ -343,7 +343,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         if self.buttonShop.enabled{
             self.buttonShop.backgroundColor = WMColor.yellow
         }else {
-            self.buttonShop.backgroundColor = WMColor.disabled_light_gray
+            self.buttonShop.backgroundColor = WMColor.light_gray
         }
     }
     

@@ -44,9 +44,9 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.productPriceThroughLabel = CurrencyCustomLabel(frame:CGRectZero)
         self.productPriceThroughLabel!.textAlignment = .Center
         //self.productPriceThroughLabel!.font = WMFont.fontMyriadProSemiboldOfSize(9)
-        //self.productPriceThroughLabel!.textColor = WMColor.savingTextColor
+        //self.productPriceThroughLabel!.textColor = WMColor.green
         
-        self.productShortDescriptionLabel!.textColor = WMColor.searchProductDescriptionTextColors
+        self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
@@ -65,11 +65,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 44, self.bounds.maxY - 44 , 44 , 44)
        
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth() - 1, 0,AppDelegate.separatorHeigth(), self.frame.height ))
-        borderView.backgroundColor = WMColor.lineSaparatorColor
+        borderView.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderView)
         
         let borderViewTop = UIView(frame: CGRectMake(0, self.frame.height - AppDelegate.separatorHeigth() , self.frame.width,AppDelegate.separatorHeigth()))
-        borderViewTop.backgroundColor = WMColor.lineSaparatorColor
+        borderViewTop.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderViewTop)
         
         self.contentView.addSubview(addProductToShopingCart!)
@@ -96,7 +96,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
-        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.priceProductTextColor, interLine: false)
+        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.orange, interLine: false)
 
         
         var savingPrice = ""
@@ -114,7 +114,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         if savingPrice != ""{
             self.productPriceThroughLabel!.hidden = false
-            self.productPriceThroughLabel!.updateMount(savingPrice, font: IS_IPAD ? WMFont.fontMyriadProSemiboldOfSize(14) :WMFont.fontMyriadProSemiboldOfSize(9), color: WMColor.savingTextColor, interLine: false)
+            self.productPriceThroughLabel!.updateMount(savingPrice, font: IS_IPAD ? WMFont.fontMyriadProSemiboldOfSize(14) :WMFont.fontMyriadProSemiboldOfSize(9), color: WMColor.green, interLine: false)
         }else{
             
             self.productPriceThroughLabel!.hidden = true

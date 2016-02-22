@@ -27,6 +27,9 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         
         options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadMenu", name:"MORE_OPTIONS_RELOAD", object: nil)
+        print("Create MORE_OPTIONS_RELOAD")
+
     }
 
     override func viewWillLayoutSubviews() {
@@ -38,6 +41,14 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.emailLabel?.frame = CGRectMake(16 , 60, self.view.frame.width - 32, 25)
         self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , 117, 95, 24)
         self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
+    }
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "RELOAD_PROFILE", object: nil)
+    }
+  
+    func reloadMenu(){
+        self.reloadButtonSession()
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "", object: nil)
     }
 
 
@@ -94,7 +105,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //            println("option don't exist")
 //        }
 //        if UserCurrentSession.hasLoggedUser() || indexPath.section != 0 {
-//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
 //        } else if UserCurrentSession.sharedInstance().userSigned == nil && indexPath.section == 0 {
 //            switch (OptionsController(rawValue: srtOption)!) {
 //            case .Profile : image = "Profile-disable-icon"
@@ -104,7 +115,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 //            default :
 //                println("option don't exist")
 //            }
-//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.regular_gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+//            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.light_gray)
 //        }
 //        
 //        return cell
@@ -159,6 +170,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     override func editProfile(sender:UIButton) {
        self.delegate.selectedDetail(10)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadProfile", name: "RELOAD_PROFILE", object: nil)
+
+    }
+    
+    func reloadProfile() {
+        self.reloadButtonSession()
     }
 
     

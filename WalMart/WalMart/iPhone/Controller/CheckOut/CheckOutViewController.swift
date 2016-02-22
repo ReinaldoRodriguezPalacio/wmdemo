@@ -101,7 +101,12 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             if range.location != NSNotFound {
                 back()
             }
-            
+        
+//            range = string.rangeOfString("m_Ingresar.aspx?goto=app_CheckOut.aspx")
+//            if range.location != NSNotFound {
+//                back()
+//            }
+        
             let rangeMobile = string.rangeOfString("/m_")
             let rangeMobilePayment = string.rangeOfString("/m_CreditCardPayment.aspx")
             let rangePayment = string.rangeOfString("/CreditCardPayment.aspx")
@@ -150,9 +155,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             didLoginWithEmail = true
             
             //sendTuneAnalytics
-            //let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
-            //let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
-            //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
+            let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
+            let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
+            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
             
             
             let loginService = LoginWithEmailService()
@@ -185,9 +190,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         //sendTuneAnalytics
         if stopTune {
             print("before finishLoadCheckOut stopTune:::")
-            //let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
-            //let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
-            //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
+            let items :[[String:AnyObject]] = self.itemsMG as! [[String:AnyObject]]
+            let newTotal:NSNumber = NSNumber(float:(self.total! as NSString).floatValue)
+            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
             stopTune =  false
         }
         
@@ -209,7 +214,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         self.webCheckOut.delegate = nil
         self.webCheckOut = nil
         self.finishLoadCheckOut = nil
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        //self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
         if afterclose != nil {
             afterclose!()
         }

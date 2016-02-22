@@ -33,7 +33,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.selectionStyle = .None
         
         self.inputNameList = ListFieldSearch(frame: CGRectMake(16.0, 0.0, 200.0, 40.0))
-        self.inputNameList!.backgroundColor = WMColor.UIColorFromRGB(0xEDEDEE)
+        self.inputNameList!.backgroundColor = WMColor.light_gray
         self.inputNameList!.layer.cornerRadius = 5.0
         self.inputNameList!.font = WMFont.fontMyriadProLightOfSize(16)
         self.inputNameList!.delegate =  self
@@ -45,7 +45,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
         self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.saveButton!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
+        self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always
@@ -56,7 +56,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.contentView.addSubview(self.scanTicketBtn!)
 
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separatorView!)
         
     }

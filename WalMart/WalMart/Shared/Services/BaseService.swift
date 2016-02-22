@@ -50,6 +50,9 @@ class BaseService : NSObject {
         static var onceToken : dispatch_once_t = 0
     }
     
+    var urlForSession = false
+    var useSignalsServices = false
+    
     override init() {
         super.init()
         dispatch_once(&AFStatic.onceToken) {
@@ -77,7 +80,13 @@ class BaseService : NSObject {
     
     func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(ConfigServices.ConfigIdMG) as! NSDictionary
+        var serviceConfigDictionary = ConfigServices.ConfigIdMG
+        
+        if useSignalsServices {
+            serviceConfigDictionary =  ConfigServices.ConfigIdMGSignals
+        }
+        
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
         let environmentServices = services.objectForKey(environment) as! NSDictionary
         let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
@@ -159,7 +168,7 @@ class BaseService : NSObject {
     }
 
     
-    func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> NSURLSessionDataTask {
         let afManager = getManager()
        //TODO: Quitar no debe de ir
         var url = serviceUrl()
@@ -169,7 +178,7 @@ class BaseService : NSObject {
 //                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
 //            }
 
-        afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
+        let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
@@ -184,6 +193,7 @@ class BaseService : NSObject {
                              NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)
                         })
                     }
+                    errorBlock!(errorResult)
                     return
                 }
                 errorBlock!(errorResult)
@@ -206,7 +216,7 @@ class BaseService : NSObject {
                 print("Response Error : \(error) \n Response \(request.response)")
                 errorBlock!(error)
         })
-        
+       return task
     }
     
     func callGETService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

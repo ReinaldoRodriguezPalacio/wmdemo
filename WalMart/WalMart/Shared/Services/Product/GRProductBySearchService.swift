@@ -9,13 +9,40 @@
 import UIKit
 
 class GRProductBySearchService: GRBaseService {
-   
+   var useSignals = false
     override init() {
         super.init()
         self.urlForSession = true
     }
     
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.urlForSession = true
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
+    
+    
     func buildParamsForSearch(text text:String?, family idFamily:String?, line idLine:String?, sort idSort:String?, departament idDepartment:String?, start startOffSet:Int, maxResult max:Int, brand:String?) -> [String:AnyObject]! {
+        if useSignals {
+            let channel = IS_IPAD ? "ipad" : "iphone"
+            let searchText = text != nil ? text! : ""
+            var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:AnyObject]
+            if searchText == ""{
+               parameter = ["category":idDepartment!,"eventtype": "categoryview","collection":"dah","channel": channel]
+            }
+            return [
+                JSON_KEY_TEXT:searchText, //"pText"
+                JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""), //"idDepartment"
+                JSON_KEY_IDFAMILY:(idFamily != nil ? idFamily! : ""), //"idFamily"
+                JSON_KEY_IDLINE:(idLine != nil ? idLine! : ""), //"idLine"
+                JSON_KEY_SORT:(idSort != nil ? idSort! : ""), //"sort"
+                JSON_KEY_STARTOFFSET:"\(startOffSet)", //startOffSet
+                JSON_KEY_MAXRESULTS:"\(max)" //"maxResults"
+                ,JSON_KEY_BRAND:(brand != nil ? brand! : "")//"brand"
+                ,"parameter":parameter] as [String:AnyObject]
+        }
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""), //"pText"
             JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""), //"idDepartment"

@@ -9,8 +9,32 @@
 import Foundation
 
 class ProductDetailService : BaseService {
-    
+     var useSignals = false
     let JSON_PRODUCTDETAIL_RESULT = "responseObject"
+    
+    override init() {
+        super.init()
+        self.urlForSession = true
+        self.useSignalsServices = self.useSignals
+        print(self.useSignals)
+    }
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.urlForSession = true
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
+    
+
+
+    func buildParams(upc:String,eventtype:String) -> AnyObject{
+        if useSignalsServices {
+            let channel = IS_IPAD ? "ipad" : "iphone"
+            return ["upc":upc,"parameter":["eventtype": eventtype,"collection":"mg","channel": channel]]
+        }
+        return upc
+    }
     
     func callService(UPC:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callService(requestParams:UPC,successBlock: successBlock, errorBlock: errorBlock)
@@ -18,6 +42,9 @@ class ProductDetailService : BaseService {
     
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        print("BEFORE CALLSERVICE::")
+        //self.jsonFromObject(params)
+        
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             let resultObject = resultCall[self.JSON_PRODUCTDETAIL_RESULT] as! NSDictionary
             successBlock!(resultObject)

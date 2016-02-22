@@ -43,12 +43,12 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         self.promoAccept!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.promoAccept!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.promoAccept!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
 
         
         lblPersonalData = UILabel(frame: CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, self.view.frame.width - 32, 84))
         lblPersonalData.text = NSLocalizedString("signup.info.share", comment: "")
-        lblPersonalData.textColor = WMColor.regular_gray
+        lblPersonalData.textColor = WMColor.gray
         lblPersonalData.font = WMFont.fontMyriadProRegularOfSize(12)
         lblPersonalData.numberOfLines = 0
         
@@ -61,7 +61,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.acceptSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         self.acceptSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.acceptSharePersonal!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.acceptSharePersonal!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         
         self.declineSharePersonal = UIButton(frame: CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16))
         self.declineSharePersonal?.setTitle(NSLocalizedString("signup.info.share.no", comment: ""), forState: UIControlState.Normal)
@@ -71,7 +71,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.declineSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         self.declineSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
-        self.declineSharePersonal!.setTitleColor(WMColor.regular_gray, forState: UIControlState.Normal)
+        self.declineSharePersonal!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         
         //let iconImage = UIImage(named:"button_bg")
         //let iconSelected = UIImage(named:"button_bg_active")
@@ -79,13 +79,13 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.saveButton = WMRoundButton()
         //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
         //self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
-        self.saveButton!.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
+        self.saveButton!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
-        self.saveButton!.tintColor = WMColor.navigationFilterTextColor
+        self.saveButton!.tintColor = UIColor.whiteColor()
         self.saveButton!.layer.cornerRadius = 11
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        self.saveButton?.titleLabel!.textColor = WMColor.navigationFilterTextColor
+        self.saveButton?.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.hidden = true
         self.saveButton!.tag = 0
         self.header?.addSubview(self.saveButton!)

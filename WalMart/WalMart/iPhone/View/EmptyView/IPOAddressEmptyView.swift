@@ -17,7 +17,7 @@ class IPOAddressEmptyView : IPOEmptyView {
         descLabel.text = NSLocalizedString("empty.address",comment:"")
         descLabel.numberOfLines = 0
         
-        returnButton.backgroundColor = WMColor.emptyBgRetunGreenColor
+        returnButton.backgroundColor = WMColor.green
         returnButton.setTitle(NSLocalizedString("profile.address.new",comment:""), forState: UIControlState.Normal)
         
     }

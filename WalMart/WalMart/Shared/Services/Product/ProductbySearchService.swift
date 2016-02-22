@@ -9,8 +9,36 @@
 import Foundation
 
 class ProductbySearchService : BaseService {
+    var useSignals = false
+    
+    override init() {
+        super.init()
+    }
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
     
     func buildParamsForSearch(text text:String? , family idFamily:String?, line idLine:String?, sort idSort:String?,departament idDepartment:String?, start startOffSet:Int, maxResult max:Int) -> [String:AnyObject]! {
+        if useSignals {
+            let channel = IS_IPAD ? "ipad" : "iphone"
+            let searchText = text != nil ? text! : ""
+            var parameter = ["q":searchText,"eventtype": "search","collection":"mg","channel": channel]
+            if searchText == ""{
+                parameter = ["category":idDepartment!,"eventtype": "categoryview","collection":"mg","channel": channel]
+            }
+            return [
+                JSON_KEY_TEXT:(text != nil ? text! : ""),
+                JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""),
+                JSON_KEY_IDFAMILY:(idFamily != nil ? idFamily! : ""),
+                JSON_KEY_IDLINE:(idLine != nil ? idLine! : ""),
+                JSON_KEY_SORT:(idSort != nil ? idSort! : ""),
+                JSON_KEY_STARTOFFSET:"\(startOffSet)",
+                JSON_KEY_MAXRESULTS:"\(max)",
+                "parameter":parameter] as [String:AnyObject]
+        }
         return [
             JSON_KEY_TEXT:(text != nil ? text! : ""),
             JSON_KEY_IDDEPARTMENT:(idDepartment != nil ? idDepartment! : ""),

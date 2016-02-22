@@ -27,9 +27,9 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        backgroundView.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        backgroundView.backgroundColor = WMColor.light_blue
         
-        orderPiceButton.backgroundColor = WMColor.regular_blue
+        orderPiceButton.backgroundColor = WMColor.blue
         orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         orderPiceButton.layer.cornerRadius = 9
         orderPiceButton.addTarget(self, action: "gotograms", forControlEvents: UIControlEvents.TouchUpInside)
@@ -37,7 +37,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
         addButton.backgroundColor = WMColor.green
         addButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
-        keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboardView.delegate = self
         
         
@@ -45,7 +45,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
         addButton.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
-        addButton.backgroundColor = WMColor.productAddToCartPriceSelect
+        addButton.backgroundColor = WMColor.green
         addButton.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         

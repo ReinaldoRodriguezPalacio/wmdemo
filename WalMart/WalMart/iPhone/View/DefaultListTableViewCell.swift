@@ -51,13 +51,13 @@ class DefaultListTableViewCell : UITableViewCell {
         
         self.nameView = UILabel(frame: CGRectMake(self.iconView.frame.maxX + 16, 17, self.frame.width - (self.iconView.frame.maxX + 32), 14))
         self.nameView!.font =  WMFont.fontMyriadProLightOfSize(16) //WMFont.fontMyriadProRegularOfSize(14)
-        self.nameView!.textColor = WMColor.regular_gray
+        self.nameView!.textColor = WMColor.gray
         self.nameView!.numberOfLines = 2
         self.addSubview(self.nameView)
         
         self.articlesView = UILabel(frame: CGRectMake(self.iconView.frame.maxX + 14, self.nameView!.frame.maxY + 16, 81, 14))
         self.articlesView!.font = WMFont.fontMyriadProRegularOfSize(14)// WMFont.fontMyriadProSemiboldSize(14)
-        self.articlesView!.textColor = WMColor.regular_gray
+        self.articlesView!.textColor = WMColor.gray
         self.addSubview(self.articlesView)
         
         self.priceView = UILabel(frame: CGRectMake(self.iconView.frame.maxX + 16, self.articlesView!.frame.maxY + 8, 81, 18))
@@ -66,7 +66,7 @@ class DefaultListTableViewCell : UITableViewCell {
         self.addSubview(self.priceView)
         
         self.separator = UIView(frame:CGRectMake(nameView!.frame.minX, 108,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth()))
-        self.separator!.backgroundColor = WMColor.lineSaparatorColor
+        self.separator!.backgroundColor = WMColor.light_light_gray
         self.addSubview(self.separator!)
 
 

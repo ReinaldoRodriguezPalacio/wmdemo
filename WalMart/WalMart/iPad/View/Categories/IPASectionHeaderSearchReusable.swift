@@ -36,7 +36,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
         
         
         title = UIButton(frame: CGRectMake((self.frame.width / 2) - 200, (self.frame.height / 2) - 12, 400, 24))
-        title.backgroundColor = WMColor.categoryTitleButtonBgColor
+        title.backgroundColor = WMColor.light_blue
         title.addTarget(self, action: "didTapInTitle", forControlEvents: UIControlEvents.TouchUpInside)
         title.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         title.titleLabel!.font =  WMFont.fontMyriadProRegularOfSize(16)
@@ -58,7 +58,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     
     func didTapInTitle() {
-        title.backgroundColor = WMColor.categoryTitleButtonBgColorSel
+        title.backgroundColor = WMColor.blue
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.titleImage.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
         })
@@ -70,7 +70,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     
     func setSelected(){
-        title.backgroundColor = WMColor.categoryTitleButtonBgColorSel
+        title.backgroundColor = WMColor.blue
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.titleImage.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
         })
@@ -79,7 +79,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
     
     func dismissPopover() {
         dispatch_async(dispatch_get_main_queue(),{
-            self.title.backgroundColor = WMColor.categoryTitleButtonBgColor
+            self.title.backgroundColor = WMColor.light_blue
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.titleImage.transform = CGAffineTransformMakeRotation(CGFloat(0))
             })

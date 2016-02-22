@@ -18,6 +18,7 @@ import StoreKit
 import SystemConfiguration
 
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                             
@@ -150,13 +151,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
         let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
         Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
-        Tune.setDelegate(self)
-        Tune.setDebugMode(true)
-        Tune.setAllowDuplicateRequests(false)
-        //DynatraceUEM
-        DynatraceUEM.startupWithApplicationName("", serverURL: "https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
-
-    
+        //Tune.setDelegate(self)
+        //Tune.setDebugMode(true)
+        //Tune.setAllowDuplicateRequests(false)
+        //CompuwareUEM.startupWithApplicationName("WalMart", serverURL:"https://www.walmartmobile.com.mx/walmartmg/", allowAnyCert: false, certificatePath: nil)
         
         return true
     }

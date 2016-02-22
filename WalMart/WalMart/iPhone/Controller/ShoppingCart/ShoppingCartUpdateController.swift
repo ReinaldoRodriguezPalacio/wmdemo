@@ -63,7 +63,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.content.backgroundColor = UIColor.clearColor()
         
         bgView = UIView(frame: self.view.bounds)
-        bgView.backgroundColor = WMColor.productAddToCartBg
+        bgView.backgroundColor = WMColor.light_blue
         
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
@@ -101,7 +101,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
         titleLabel = UILabel(frame: CGRectMake((self.view.frame.width / 2) - 116, viewBgImage.frame.maxY + 23, 232, 200))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
-        titleLabel.textColor = WMColor.productAddToCartTitle
+        titleLabel.textColor = WMColor.light_gray
         titleLabel.numberOfLines =  3
         titleLabel.textAlignment = .Center
         titleLabel.numberOfLines = 0
@@ -237,7 +237,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }else{
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
-                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
                })
             }else {
@@ -272,13 +272,15 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         }else{
                             self.titleLabel.text = error.localizedDescription
                             self.imageProduct.image = UIImage(named:"alert_ups")
-                            self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                            self.viewBgImage.backgroundColor = WMColor.light_light_blue
                         }
                 })
                 
             }
         }else{
-            let serviceAddProduct  = ShoppingCartAddProductsService()
+            let signalParametrer = params["parameter"] as? [String:AnyObject]
+            let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
+            let serviceAddProduct  = ShoppingCartAddProductsService(dictionary:signalsDictionary)
             
             var numOnHandInventory : NSString = "0"
             if let numberOf = params["onHandInventory"] as? NSString{
@@ -294,14 +296,17 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if type == ResultObjectType.Groceries.rawValue {
                     typeProduct = ResultObjectType.Groceries
                     print("Parametros = \(params)")
+                    //TODO Signals
+                    let signalParametrer = params["parameter"] as? [String:AnyObject]
                     
-                    let serviceAddProduct = GRShoppingCartAddProductsService()
+                    let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : signalParametrer == nil ? false : GRBaseService.getUseSignalServices()])
+                    let serviceAddProduct = GRShoppingCartAddProductsService(dictionary:signalsDictionary)
                     
                     if let commentsParams = params["comments"] as? NSString{
                         self.comments = commentsParams as String
                     }
                     
-                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: self.comments ,desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,pesable:params["pesable"] as! NSString,parameter:signalParametrer, successBlock: { (result:NSDictionary) -> Void in
                         
                         self.finishCall = true
                         if self.timmer == nil {
@@ -331,7 +336,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             }else{
                                 self.titleLabel.text = error.localizedDescription
                                 self.imageProduct.image = UIImage(named:"alert_ups")
-                                self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                                self.viewBgImage.backgroundColor = WMColor.light_light_blue
                             }
 
                     }
@@ -341,7 +346,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             typeProduct = ResultObjectType.Mg
             
-            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
                 if self.timmer == nil {
@@ -369,7 +374,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }else{
                         self.titleLabel.text = error.localizedDescription
                         self.imageProduct.image = UIImage(named:"alert_ups")
-                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
             }
         }
@@ -481,7 +486,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             keepShoppingButton.layer.cornerRadius = 20
             keepShoppingButton.setTitle(NSLocalizedString("shoppingcart.keepshopping",comment:""), forState: UIControlState.Normal)
             keepShoppingButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-            keepShoppingButton.backgroundColor = WMColor.productAddToCartKeepShoppingBg
+            keepShoppingButton.backgroundColor = WMColor.dark_blue
             keepShoppingButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             keepShoppingButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
             keepShoppingButton.addTarget(self, action: "keepShopping", forControlEvents: UIControlEvents.TouchUpInside)
@@ -489,7 +494,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             goToShoppingCartButton = UIButton(frame:CGRectMake(keepShoppingButton.frame.maxX + 11, keepShoppingButton.frame.minY,keepShoppingButton.frame.width, keepShoppingButton.frame.height))
             goToShoppingCartButton.layer.cornerRadius = 20
             goToShoppingCartButton.setTitle(NSLocalizedString("shoppingcart.goshoppingcart",comment:""), forState: UIControlState.Normal)
-            goToShoppingCartButton.backgroundColor = WMColor.productAddToCartGoToShoppingBg
+            goToShoppingCartButton.backgroundColor = WMColor.green
             goToShoppingCartButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             goToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
             goToShoppingCartButton.addTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
@@ -547,7 +552,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             }) { (complete:Bool) -> Void in
                 
-                if complete {
+               // if complete {
                     self.closeDone = true
                     self.titleLabel.alpha = 1.0
                     self.commentTextView!.hidden = true
@@ -563,7 +568,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.imageProduct.frame = CGRectMake(0, 0, 80, 80)
                     self.viewBgImage.addSubview(self.imageProduct)
                     self.viewBgImage.hidden = false
-                    self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.5)
+                    self.viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
                     self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, `repeat`: 100)
                     self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showDoneIcon", userInfo: nil, repeats: false)
                     self.finishCall = false
@@ -587,7 +592,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             }
                             let pesable = self.params["pesable"] as! NSString
                             let serviceAddProduct = GRShoppingCartAddProductsService()
-                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable, successBlock: { (result:NSDictionary) -> Void in
+                            serviceAddProduct.callService(self.params["upc"] as! String, quantity:self.params["quantity"] as! String, comments: self.comments ,desc:self.params["desc"] as! String,price:self.params["price"] as! String,imageURL:self.params["imgUrl"] as! String,onHandInventory:numOnHandInventory,pesable:pesable,parameter:nil, successBlock: { (result:NSDictionary) -> Void in
                                 
                                 self.finishCall = true
                                 
@@ -606,12 +611,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                                     }else{
                                         self.titleLabel.text = error.localizedDescription
                                         self.imageProduct.image = UIImage(named:"alert_ups")
-                                        self.viewBgImage.backgroundColor = WMColor.UIColorFromRGB(0x76B3E5)
+                                        self.viewBgImage.backgroundColor = WMColor.light_light_blue
                                     }
                             }
                             
                         }
-                    }
+                   // }
                     
                 }
                 
@@ -742,10 +747,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func showBottonAddNote(show: Bool) {
         self.goToShoppingCartButton.alpha = show ? 1.0 : 0.0
-        
-        
-
-        
     }
     
     

@@ -54,17 +54,18 @@ class SignUpMGViewController: SignUpViewController {
                             //self.alertView!.showDoneIcon()
                             self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
-                                
+                                BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName:self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
                                 //self.alertView!.close()
                                 self.addressMgView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
                                     if finish{
-                                        //BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName:self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
+                                        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.addressMgView.viewAddress!.telephone!.text!, work: "", cellPhone: "")
                                         self.addressMgView.view.removeFromSuperview()
                                         //self.alertView!.setMessage("Registro exitoso")
                                         //self.alertView!.showDoneIcon()
                                         self.successCallBack?()
                                         print("Termina registro de direccion")
+                                        
                                     }else{
                                         //Error
                                         self.backRegistry(self.backButton!)

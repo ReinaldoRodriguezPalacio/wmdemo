@@ -24,7 +24,7 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         super.init(frame: frame)
 
         let backgroundColorView = UIView()
-        backgroundColorView.backgroundColor = WMColor.UIColorFromRGB(0xEEEEEE)
+        backgroundColorView.backgroundColor = WMColor.light_light_gray
         self.selectedBackgroundView = backgroundColorView
 
         self.distanceFmt = NSNumberFormatter()
@@ -37,12 +37,12 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         
         self.distanceLabel = UILabel()
         self.distanceLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.distanceLabel!.textColor = WMColor.titleTextColor
+        self.distanceLabel!.textColor = WMColor.light_blue
         self.distanceLabel!.text = "A km"
         self.contentView.addSubview(self.distanceLabel!)
 
         self.separatorView = UIView()
-        self.separatorView!.backgroundColor  = WMColor.UIColorFromRGB(0xEEEEEE)
+        self.separatorView!.backgroundColor  = WMColor.light_light_gray
         self.contentView.addSubview(self.separatorView!)
 
         self.buttonContainer!.removeFromSuperview()

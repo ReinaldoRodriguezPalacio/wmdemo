@@ -42,11 +42,13 @@ class DetailListViewCell: ProductTableViewCell {
         self.selectionStyle = .None
         
         self.promoDescription = UILabel()
-        self.promoDescription!.textColor = WMColor.savingTextColor
+        self.promoDescription!.textColor = WMColor.green
         self.promoDescription!.font = WMFont.fontMyriadProSemiboldOfSize(12)
+        self.promoDescription!.numberOfLines = 2
+        self.promoDescription!.textAlignment = .Center
         self.contentView.addSubview(self.promoDescription!)
         
-        self.productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
+        self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.productShortDescriptionLabel!.numberOfLines = 2
         self.productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
@@ -57,16 +59,16 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator = UIButton(type: .Custom)
         self.quantityIndicator!.setTitle("", forState: .Normal)
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
-        self.quantityIndicator!.setTitleColor(WMColor.productDetailShoppingTexttnBGColor, forState: UIControlState.Disabled)
+        self.quantityIndicator!.setTitleColor(WMColor.light_blue, forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.quantityIndicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14.0)
-        self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+        self.quantityIndicator!.backgroundColor = WMColor.yellow
         self.quantityIndicator!.addTarget(self, action: "changeQuantity", forControlEvents: .TouchUpInside)
         self.quantityIndicator!.layer.cornerRadius = 16.0
         self.contentView.addSubview(self.quantityIndicator!)
 
         self.separator = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
-        self.separator!.backgroundColor = WMColor.lineSaparatorColor
+        self.separator!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separator!)
         
         
@@ -80,12 +82,12 @@ class DetailListViewCell: ProductTableViewCell {
         var buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         self.rightUtilityButtons = [buttonDelete]
 
         buttonDelete = UIButton()
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
+        buttonDelete.backgroundColor = WMColor.light_gray
         
        
         
@@ -154,7 +156,7 @@ class DetailListViewCell: ProductTableViewCell {
             
             let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
             self.total = formatedPrice
-            self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+            self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             
         }
         else {
@@ -167,20 +169,20 @@ class DetailListViewCell: ProductTableViewCell {
         if let stock = product["stock"] as? NSString {
             if stock.integerValue == 0 {
                 self.quantityIndicator!.enabled = false
-                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+                self.quantityIndicator!.backgroundColor = WMColor.light_gray
             } else {
                 self.quantityIndicator!.enabled = true
-                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+                self.quantityIndicator!.backgroundColor = WMColor.yellow
             }
         }
         
         if let stock = product["stock"] as? Bool {
             if stock {
                 self.quantityIndicator!.enabled = true
-                self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+                self.quantityIndicator!.backgroundColor = WMColor.yellow
             } else {
                 self.quantityIndicator!.enabled = false
-                self.quantityIndicator!.backgroundColor = WMColor.productDetailShoppingCartNDBtnBGColor
+                self.quantityIndicator!.backgroundColor = WMColor.light_gray
             }
         }
          checkDisabled(disabled)
@@ -238,7 +240,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator!.setTitle(text!, forState: .Normal)
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
         self.total = formatedPrice
-        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
         
         checkDisabled(disabled)
     }
@@ -265,7 +267,7 @@ class DetailListViewCell: ProductTableViewCell {
             self.promoDescription!.frame = CGRectZero
         }
         else {
-            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 100.0, 14.0)
+            self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 26.0)
         }
 
         self.separator!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
@@ -330,15 +332,17 @@ class DetailListViewCell: ProductTableViewCell {
     func checkDisabled(disabled:Bool) {
         self.check!.selected = !disabled
         if disabled {
-            self.productShortDescriptionLabel?.textColor = WMColor.disabled_light_gray
-            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.disabled_light_gray, interLine: false)
+            self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
             self.productImage!.image = imageGrayScale
-            self.quantityIndicator?.backgroundColor = WMColor.disabled_light_gray
+            self.quantityIndicator?.backgroundColor = WMColor.empty_gray_btn
+            self.promoDescription?.textColor = WMColor.empty_gray_btn
         } else {
-            self.productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
-            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+            self.productShortDescriptionLabel!.textColor = WMColor.gray
+            self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.productImage!.image = imageNormal
-            self.quantityIndicator!.backgroundColor = WMColor.UIColorFromRGB(0xFFB500)
+            self.quantityIndicator!.backgroundColor = WMColor.yellow
+            self.promoDescription?.textColor = WMColor.green
         }
     }
 

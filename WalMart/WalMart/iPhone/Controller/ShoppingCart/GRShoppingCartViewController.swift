@@ -45,11 +45,11 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         super.viewDidLoad()
         
         viewHerader = UIView(frame: CGRectMake(0, 0, self.view.bounds.width, 46))
-        viewHerader.backgroundColor = WMColor.shoppingCartHeader
+        viewHerader.backgroundColor = WMColor.light_light_gray
         
         titleView = UILabel(frame: viewHerader.bounds)
         titleView.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleView.textColor = WMColor.shoppingCartHeaderTextColor
+        titleView.textColor = WMColor.light_blue
         titleView.text = NSLocalizedString("shoppingcart.title",comment:"")
         titleView.textAlignment = .Center
         
@@ -78,7 +78,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         
         viewFooter = UIView(frame: CGRectMake(0, self.view.bounds.height - 72 , self.view.bounds.width, 72))
-        viewFooter.backgroundColor = WMColor.shoppingCartFooter
+        viewFooter.backgroundColor = UIColor.whiteColor()
         viewFooter.alpha = 0
         
         
@@ -92,7 +92,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         buttonShare.addTarget(self, action: "shareShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         buttonShop = UIButton(frame: CGRectMake(buttonShare.frame.maxX + 8, (viewFooter.frame.height / 2) - 17, self.view.frame.width - buttonShare.frame.maxX - 24, 34))
-        buttonShop.backgroundColor = WMColor.shoppingCartShopBgColor
+        buttonShop.backgroundColor = WMColor.green
         buttonShop.layer.cornerRadius = 17
         buttonShop.addTarget(self, action: "showshoppingcart", forControlEvents: UIControlEvents.TouchUpInside)
         buttonShop.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
@@ -107,7 +107,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         editButton = UIButton(frame:CGRectMake(self.view.frame.width - 71, 12, 55, 22))
         editButton.setTitle(NSLocalizedString("shoppingcart.edit",comment:""), forState: UIControlState.Normal)
         editButton.setTitle(NSLocalizedString("shoppingcart.endedit",comment:""), forState: UIControlState.Selected)
-        editButton.backgroundColor = WMColor.shoppingCartEditButtonBgColor
+        editButton.backgroundColor = WMColor.light_blue
         editButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         editButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editButton.layer.cornerRadius = 11
@@ -116,7 +116,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 80, 12, 75, 22))
         deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
-        deleteall.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        deleteall.backgroundColor = WMColor.red
         deleteall.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteall.layer.cornerRadius = 11
@@ -518,8 +518,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             }
             editButton.selected = true
-            editButton.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)
-            //editButton.tintColor = WMColor.wishlistEndEditButtonBgColor
+            editButton.backgroundColor = WMColor.green
             
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -542,8 +541,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
                 }
             }
             editButton.selected = false
-            editButton.backgroundColor = WMColor.wishlistEditButtonBgColor
-            //editButton.tintColor = WMColor.wishlistEditButtonBgColor
+            editButton.backgroundColor = WMColor.light_blue
             
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 0
@@ -634,13 +632,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let buttonNote = UIButton(frame: CGRectMake(0, 0, 80, 109))
         buttonNote.setTitle(NSLocalizedString("shoppingcart.note",comment:""), forState: UIControlState.Normal)
         buttonNote.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonNote.backgroundColor = WMColor.shoppingCartNoteButtonBgColor
+        buttonNote.backgroundColor = WMColor.light_blue
         toReturn.append(buttonNote)
         
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 80, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -653,7 +651,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 80, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteButtonBgColor
+        buttonDelete.backgroundColor = WMColor.red
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -664,7 +662,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let buttonDelete = UIButton(frame: CGRectMake(0, 0, 36, 109))
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: UIControlState.Normal)
-        buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
+        buttonDelete.backgroundColor = WMColor.light_gray
         toReturn.append(buttonDelete)
         
         return toReturn
@@ -723,16 +721,55 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
     }
     
+    func retrieveParam(entityName : String, sortBy:String? = nil, isAscending:Bool = true, predicate:NSPredicate? = nil) -> AnyObject{
+        
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName(entityName, inManagedObjectContext: context)
+        fetchRequest.predicate = predicate
+        
+        var error: NSError? = nil
+        var fetchedResult: [AnyObject]?
+        do {
+            fetchedResult = try context.executeFetchRequest(fetchRequest)
+        } catch let error1 as NSError {
+            error = error1
+            fetchedResult = nil
+        }
+        if error != nil {
+            print("errore: \(error)")
+        }
+        
+        return fetchedResult!
+        
+    }
+    
+    
+    
     func deleteAll() {
         
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_DELETE_ALL_PRODUCTS_CART.rawValue, label: "")
         
+        var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+        if UserCurrentSession.hasLoggedUser() {
+            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Groceries.rawValue)
+        }
+        var arrayUPCQuantity : [[String:String]] = []
+        let array  =  self.retrieveParam("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
+        let service = GRProductsByUPCService()
+        for item in array {
+            arrayUPCQuantity.append(service.buildParamService(item.product.upc, quantity: item.quantity.stringValue))
+        }
+        
+        
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
-        for itemWishlist in self.itemsInCart {
-            let upc = itemWishlist["upc"] as! String
-           allUPCS.append(upc)
+        for itemWishlist in arrayUPCQuantity {
+            print(itemWishlist)
+            let upc = itemWishlist["upc"] 
+           allUPCS.append("\(upc!)")
         }
         
         if viewLoad == nil {

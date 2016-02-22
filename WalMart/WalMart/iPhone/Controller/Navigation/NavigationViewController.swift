@@ -22,10 +22,10 @@ class NavigationViewController: IPOBaseController {
     func setup() {
         self.header = UIView()
         self.titleLabel = UILabel()
-        self.titleLabel?.textColor =  WMColor.navigationTilteTextColor
+        self.titleLabel?.textColor =  WMColor.light_blue
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.titleLabel!.numberOfLines = 2
-        self.header?.backgroundColor = WMColor.navigationHeaderBgColor
+        self.header?.backgroundColor = WMColor.light_light_gray
         self.header?.addSubview(self.titleLabel!)
         self.view.addSubview(self.header!)
         

@@ -24,7 +24,7 @@ class UndeliveredView : UIView {
         
         title = UILabel(frame: CGRectMake(8, 20, self.frame.size.width - 16, 76))
         title.textAlignment = NSTextAlignment.Center
-        title.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        title.textColor = WMColor.light_blue
         title.font = MercuryFont.fontSFUIRegularOfSize(25)
         title.text = "Orden no recibida"
         title.numberOfLines = 1
@@ -32,7 +32,7 @@ class UndeliveredView : UIView {
         
         information = UILabel(frame: CGRectMake(8, 90, self.frame.size.width - 16, 76))
         information.textAlignment = NSTextAlignment.Center
-        information.textColor = WMColor.UIColorFromRGB(0x0071CE)
+        information.textColor = WMColor.light_blue
         information.font = MercuryFont.fontSFUILightOfSize(18)
         information.numberOfLines = 4
         

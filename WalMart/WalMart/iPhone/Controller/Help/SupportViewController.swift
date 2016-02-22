@@ -65,11 +65,11 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
             attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
-                NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
+                NSForegroundColorAttributeName:WMColor.light_blue])
         
         let attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
             attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14),
-                NSForegroundColorAttributeName:WMColor.loginProfileSaveBGColor])
+                NSForegroundColorAttributeName:WMColor.light_blue])
         
         let valuesDescItem = NSMutableAttributedString()
         valuesDescItem.appendAttributedString(attrStringLab)
@@ -86,27 +86,27 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         
         self.labelQuestion1!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.labelQuestion1!.textColor = WMColor.loginProfileSaveBGColor
+        self.labelQuestion1!.textColor = WMColor.light_blue
         self.labelQuestion1!.backgroundColor = UIColor.clearColor()
         self.labelQuestion1!.textAlignment = .Center
         
         self.labelQuestion2!.font = WMFont.fontMyriadProLightOfSize(14)
-        self.labelQuestion2!.textColor = WMColor.loginProfileSaveBGColor
+        self.labelQuestion2!.textColor = WMColor.light_blue
         self.labelQuestion2!.backgroundColor = UIColor.clearColor()
         self.labelQuestion2!.textAlignment = .Center
         
         self.callme!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.callme!.textColor = WMColor.listAddressTextColor
+        self.callme!.textColor = WMColor.gray
         self.callme!.backgroundColor = UIColor.clearColor()
         self.callme!.textAlignment = .Center
         
         self.callmeNumber!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.callmeNumber!.textColor = WMColor.listAddressTextColor
+        self.callmeNumber!.textColor = WMColor.gray
         self.callmeNumber!.backgroundColor = UIColor.clearColor()
         self.callmeNumber!.textAlignment = .Center
         
         self.sendmeMail!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.sendmeMail!.textColor = WMColor.listAddressTextColor
+        self.sendmeMail!.textColor = WMColor.gray
         self.sendmeMail!.backgroundColor = UIColor.clearColor()
         self.sendmeMail!.textAlignment = .Center
         
@@ -217,7 +217,7 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
-        sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
+        sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
         sectionTitle.backgroundColor = UIColor.whiteColor()

@@ -43,7 +43,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
         titleLabel.font =  WMFont.fontMyriadProLightOfSize(14)
         titleLabel.numberOfLines = 1
         titleLabel.textAlignment = .Left
-        titleLabel.textColor = WMColor.productDetailTitleTextColor
+        titleLabel.textColor = WMColor.light_blue
         self.addSubview(titleLabel)
         
         let collectionLayout = UICollectionViewFlowLayout()

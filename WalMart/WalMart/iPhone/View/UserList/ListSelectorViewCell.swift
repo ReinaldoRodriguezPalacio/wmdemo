@@ -63,11 +63,11 @@ class ListSelectorViewCell: UITableViewCell {
         self.contentView.addSubview(self.openDetail!)
 
         self.separator = UIView()
-        self.separator!.backgroundColor  = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35)
+        self.separator!.backgroundColor  = UIColor.whiteColor().colorWithAlphaComponent(0.35)
         self.contentView.addSubview(self.separator!)
 
         let selectionColor = UIView(frame: CGRectMake(0.0, 0.0, 320, 50.0))
-        selectionColor.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.10)
+        selectionColor.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.10)
         self.selectedBackgroundView = selectionColor
         
     }
@@ -131,7 +131,7 @@ class ListSelectorViewCell: UITableViewCell {
 
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        //self.backgroundColor = selected ? Color.UIColorFromRGB(0xFFFFFF, alpha: 0.10) : UIColor.clearColor()
+        //self.backgroundColor = selected ? UIColor.whiteColor().colorWithAlphaComponent(0.10) : UIColor.clearColor()
     }
 
 }

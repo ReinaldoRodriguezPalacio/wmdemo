@@ -493,7 +493,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         let footerHeight:CGFloat = 60.0
         self.buttonShop = UIButton(type: .Custom) as UIButton
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
-        self.buttonShop!.backgroundColor = WMColor.shoppingCartShopBgColor
+        self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
         self.buttonShop!.addTarget(self, action: "shopButtonTaped", forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
@@ -503,7 +503,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
-        sectionTitle.textColor = WMColor.listAddressHeaderSectionColor
+        sectionTitle.textColor = WMColor.light_blue
         sectionTitle.font = WMFont.fontMyriadProLightOfSize(14)
         sectionTitle.text = title
         sectionTitle.backgroundColor = UIColor.whiteColor()
@@ -530,7 +530,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 titleLabel.text = promotion["promotion"]
                 titleLabel.numberOfLines = 2
                 titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-                titleLabel.textColor = WMColor.UIColorFromRGB(0x797F87)
+                titleLabel.textColor = WMColor.dark_gray
                 
                let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
@@ -1574,10 +1574,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
                 // deliveryAmount
-//                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-//                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
-//                let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-//                let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+                let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+                let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+                let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
+                let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
 
                 
                 
@@ -1594,7 +1594,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 var correlationId = ""
                 var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
                 
-                //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
+                BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
                 
                 let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
                 
@@ -1674,9 +1674,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             
         let btnNewAddress = WMRoundButton()
         btnNewAddress.setTitle("nueva", forState: UIControlState.Normal)
-        //newAddressButton = WMRoundButton()  0x8EBB36
         btnNewAddress.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
-        btnNewAddress.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+        btnNewAddress.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
         btnNewAddress.layer.cornerRadius = 2.0
             
         self.picker!.addRigthActionButton(btnNewAddress)

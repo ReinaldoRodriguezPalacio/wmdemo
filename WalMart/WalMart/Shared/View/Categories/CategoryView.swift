@@ -36,7 +36,7 @@ class CategoryView : UITableViewCell {
         
         titleLabel = UILabel()
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(25)
-        titleLabel.textColor = WMColor.categoryTextColor
+        titleLabel.textColor = WMColor.light_blue
         
         
         self.addSubview(imageBackground)

@@ -93,13 +93,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         
         self.backgroundView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
-        self.backgroundView!.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        self.backgroundView!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         
         if equivalenceByPiece.integerValue > 0 {
             btnChankePices = UIButton(frame:CGRectMake((self.frame.width / 2) - 60, startH + 17, 120, 18 ))
             btnChankePices.titleLabel?.font = WMFont.fontMyriadProSemiboldSize(12)
             btnChankePices.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            btnChankePices.backgroundColor = WMColor.regular_blue
+            btnChankePices.backgroundColor = WMColor.blue
             btnChankePices.layer.cornerRadius = 9
             btnChankePices.addTarget(self, action: "orderbypices", forControlEvents: UIControlEvents.TouchUpInside)
             btnChankePices.setTitle(NSLocalizedString("shoppingcart.selectpices",comment:""), forState: UIControlState.Normal)
@@ -148,13 +148,13 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboard = WeightKeyboardView(frame:CGRectMake((self.frame.width / 2) - (289/2), lblQuantityW.frame.maxY + 20, 289, 196))
-        keyboard.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        //keyboard.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboard.delegate = self
 
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY  , 142, 36))
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
-        btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
@@ -209,14 +209,14 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonGramsKG.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonGramsKG.selected = true
         buttonGramsKG.addTarget(self, action: "changegrkg:", forControlEvents: UIControlEvents.TouchUpInside)
-        buttonGramsKG.backgroundColor = WMColor.regular_blue
+        buttonGramsKG.backgroundColor = WMColor.blue
         buttonGramsKG.layer.cornerRadius = 9
 
         
         buttonKg = UIButton(frame: CGRectMake((self.frame.width / 2.0) , startH + 17, 100, 14))
         buttonKg.setTitle("Kilos", forState: UIControlState.Normal)
         buttonKg.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
-        buttonKg.setTitleColor(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.6), forState: UIControlState.Normal)
+        buttonKg.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.6), forState: UIControlState.Normal)
         buttonKg.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonKg.addTarget(self, action: "changegrkg:", forControlEvents: UIControlEvents.TouchUpInside)
 
@@ -237,14 +237,14 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         backToW.addTarget(self, action: "backToWeight", forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboardN = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardN.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboardN.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboardN.delegate = self
         
         btnOkAddN = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, keyboard.frame.maxY + 15 , 142, 36))
         //btnOkAddN.setTitle("\(strAdddToSC) $0.00", forState: UIControlState.Normal)
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
-        btnOkAddN.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAddN.backgroundColor = WMColor.green
         btnOkAddN.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.updateShoppButtonN()
@@ -299,7 +299,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         lblQuantityP.alpha = 0
         
         keyboardP = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
-        keyboardP.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        keyboardP.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         keyboardP.delegate = self
         keyboardP.alpha = 0
         
@@ -340,14 +340,14 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         var  imageView : UIView? =  UIView(frame:CGRectMake((self.frame.width/2) - 115 , self.lblQuantityN.frame.minY - 40, 230, 20))
         var  viewContent : UIView? = UIView(frame: imageView!.bounds)
         viewContent!.layer.cornerRadius = 4.0
-        viewContent!.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF)
+        viewContent!.backgroundColor = UIColor.whiteColor()
         imageView!.addSubview(viewContent!)
         self.addSubview(imageView!)
         
         var lblError : UILabel? =   UILabel(frame:CGRectMake (0, 0 , viewContent!.frame.width, 20))
         lblError!.font = WMFont.fontMyriadProRegularOfSize(12)
         
-        lblError!.textColor = WMColor.titleTextColor
+        lblError!.textColor = WMColor.light_blue
         lblError!.backgroundColor = UIColor.clearColor()
         lblError!.text = message
         lblError!.textAlignment = NSTextAlignment.Center

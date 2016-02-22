@@ -91,7 +91,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewContent.clipsToBounds = true
         
         headerView = UIView(frame: CGRectMake(0, 0, viewContent.frame.width, 46))
-        headerView.backgroundColor = WMColor.navigationHeaderBgColor
+        headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
         closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
@@ -100,7 +100,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         headerView.addSubview(closeButton)
 
         titleLabel = UILabel(frame: headerView.bounds)
-        titleLabel.textColor =  WMColor.navigationTilteTextColor
+        titleLabel.textColor =  WMColor.light_blue
         titleLabel.textAlignment = .Center
         titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
         titleLabel.numberOfLines = 2
@@ -120,7 +120,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewFooter = UIView(frame: CGRectMake(0, self.viewContentOptions.frame.height - 64, self.frame.width, 64))
         buttonOk = UIButton(frame: CGRectMake(0, 0, 98, 34))
 
-        buttonOk.backgroundColor = WMColor.UIColorFromRGB(0x2970ca)
+        buttonOk.backgroundColor = WMColor.light_blue
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
@@ -334,7 +334,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         self.bgView.addSubview(imgBgView)
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.6)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
         
         tableData.reloadData()
@@ -419,7 +419,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
            //Save action
             self.delegate?.saveReplaceViewSelected()
         } else {
-            self.buttonRight.setBackgroundColor(WMColor.UIColorFromRGB(0x8EBB36), size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+            self.buttonRight.setBackgroundColor(WMColor.green, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
             lastTitle = self.buttonRight.titleLabel?.text
             isNewAddres =  true
             if !IS_IPAD{
@@ -462,7 +462,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     func closeNew() {
         onClosePicker?()
         isNewAddres =  false
-         self.buttonRight.setBackgroundColor(WMColor.UIColorFromRGB(0x2970ca), size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
+         self.buttonRight.setBackgroundColor(WMColor.light_blue, size:CGSizeMake(64.0, 22), forUIControlState: UIControlState.Normal)
          self.titleLabel.textAlignment = .Center
          self.titleLabel.frame =  CGRectMake(0, self.titleLabel.frame.origin.y, self.titleLabel.frame.width, self.titleLabel.frame.height)
         

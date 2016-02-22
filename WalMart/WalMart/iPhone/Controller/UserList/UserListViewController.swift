@@ -85,11 +85,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn = UIButton(type: .Custom)
         self.newListBtn!.setTitle(NSLocalizedString("list.new", comment:""), forState: .Normal)
         self.newListBtn!.setTitle(NSLocalizedString("list.endnew", comment:""), forState: .Selected)
-        self.newListBtn!.setTitleColor(WMColor.navigationFilterTextColor, forState: .Normal)
-        self.newListBtn!.setTitleColor(WMColor.UIColorFromRGB(0x2970CA), forState: .Selected)
+        self.newListBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.newListBtn!.setTitleColor(WMColor.light_blue, forState: .Selected)
         self.newListBtn!.addTarget(self, action: "showNewListField", forControlEvents: .TouchUpInside)
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
+        self.newListBtn!.backgroundColor = WMColor.green
         self.newListBtn!.layer.cornerRadius = 11.0
         self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         self.header!.addSubview(self.newListBtn!)
@@ -101,7 +101,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
         self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.editBtn!.backgroundColor = WMColor.wishlistEditButtonBgColor
+        self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.layer.cornerRadius = 11.0
         self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
         self.header!.addSubview(self.editBtn!)
@@ -117,7 +117,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.searchField!.nameField = NSLocalizedString("list.search.placeholder",comment:"")
         
         viewSeparator = UIView()
-        viewSeparator.backgroundColor = WMColor.lineSaparatorColor
+        viewSeparator.backgroundColor = WMColor.light_light_gray
         
         self.searchContainer!.addSubview(viewSeparator)
         self.searchContainer!.addSubview(searchField!)
@@ -129,14 +129,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
         
         self.tableuserlist?.allowsMultipleSelection = false
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "ReloadListFormUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
         self.showLoadingView()
         self.reloadList(
             success:{() -> Void in
@@ -150,7 +152,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
         self.view.endEditing(true)
@@ -201,13 +202,20 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     
     //MARK: - List Utilities
+    var listSelectedDuplicate : NSIndexPath?
     
     func duplicateList(){
+        
         let indexpath = self.tableuserlist!.indexPathForSelectedRow // NSIndexPath(forRow: 1, inSection: 1)
+        self.listSelectedDuplicate = self.tableuserlist!.indexPathForSelectedRow
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
             self.duplicateList(cell!)
         }
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
+
+
     }
     
     func changeVisibilityBtn(button: UIButton, visibility: CGFloat) {
@@ -271,8 +279,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
-            self.itemsUserList = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
             self.tableuserlist!.reloadData()
+            self.tableuserlist!.selectRowAtIndexPath(self.listSelectedDuplicate, animated: false, scrollPosition: .None)
             self.checkEditBtn()
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
@@ -321,7 +331,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         else {
             self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
-            self.itemsUserList = self.retrieveNotSyncList()
+            let service = GRUserListService()
+            self.itemsUserList = service.retrieveNotSyncList()
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({
                     }, atFinished: {
@@ -461,7 +472,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }, completion: { (complete:Bool) -> Void in
                         self.hideSearchField({
                             }, atFinished: { () -> Void in
-                                self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0xE3E3E5)
+                                self.newListBtn!.backgroundColor = WMColor.light_gray
                                 
                                 CATransaction.begin()
                                 CATransaction.setCompletionBlock({ () -> Void in
@@ -524,7 +535,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                     CATransaction.commit()
                     
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36) // WMColor.green
+                    self.newListBtn!.backgroundColor = WMColor.green
                     }, atFinished: {
                         self.editBtn!.enabled = true
                         
@@ -557,7 +568,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.isShowingSuperlists = true
                 
                 self.newListBtn!.selected = false
-                self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
+                self.newListBtn!.backgroundColor = WMColor.green
                 self.reloadList(
                     success: { () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
@@ -589,8 +600,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func duplicateList(cell:ListTableViewCell) {
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
-            
-            if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
+            if self.itemsUserList!.count >= 12 {
+                if self.alertView != nil{
+                    self.alertView!.close()
+                    self.alertView = nil
+                }
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }
+            else if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                 let listId = listItem["id"] as! String
                 let listName = listItem["name"] as! String
 //                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
@@ -602,7 +621,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingWishList  = true
                     self.isShowingSuperlists = true
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.green
+                    self.newListBtn!.backgroundColor = WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
@@ -616,7 +635,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 })
             }
             else if let listItem = self.itemsUserList![indexPath.row] as? List {
-                if self.itemsUserList!.count <= 11 {
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
                     
@@ -655,7 +673,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.isShowingSuperlists = true
                     
                     self.newListBtn!.selected = false
-                    self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36) //WMColor.green
+                    self.newListBtn!.backgroundColor = WMColor.green
                     self.reloadList(
                         success: { () -> Void in
                             self.alertView!.setMessage(NSLocalizedString("list.message.listDuplicated", comment:""))
@@ -667,13 +685,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         }
                     )
                 }
-                else{
-                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-                    self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
-                    self.alertView!.showErrorIcon("Ok")
-                }
             }
-        }
     }
     
     func didListChangeName(cell:ListTableViewCell, text:String?) {
@@ -714,11 +726,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
-        case 0:
+        case 0://Duplicate list
             if let cellList = cell as? ListTableViewCell {
                 cellList.duplicate()
             }
-        case 1:
+        case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
@@ -743,6 +755,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.showEditionMode()
                     }
                     self.checkEditBtn()
+                    self.reloadList(success: { () -> Void in
+                        
+                        }, failure: { (error) -> Void in
+                            
+                    })
                 }
             }
         default:
@@ -837,7 +854,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         if requiredHelp && UserCurrentSession.sharedInstance().userSigned != nil {
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
-            self.helpView!.backgroundColor = WMColor.UIColorFromRGB(0x000000, alpha: 0.70)
+            self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
             self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
             self.view.addSubview(self.helpView!)
@@ -1116,6 +1133,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 }
             }
             return
+        }
+        if indexPath.section != 0  && !self.isShowingWishList {
+           return
         }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
@@ -1423,7 +1443,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             self.isShowingSuperlists = true
                             
                             self.newListBtn!.selected = false
-                            self.newListBtn!.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)
+                            self.newListBtn!.backgroundColor = WMColor.green
                             self.reloadList(
                                 success: { () -> Void in
                                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicketDone", comment:""))
@@ -1510,20 +1530,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     //MARK: - DB
-    
-    func retrieveNotSyncList() -> [List]? {
-        let fetchRequest = NSFetchRequest()
-        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)
-        fetchRequest.predicate = NSPredicate(format: "idList == nil")
-        var result: [List]? = nil
-        do{
-            result = try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]
-        }
-        catch{
-            print("retrieveNotSyncList error")
-        }
-        return result
-    }
     
     func retrieveParam(key:String) -> Param? {
         let user = UserCurrentSession.sharedInstance().userSigned

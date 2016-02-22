@@ -25,7 +25,7 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         
         messageLabel = UILabel()
         messageLabel.font = WMFont.fontMyriadProRegularOfSize(15)
-        messageLabel.textColor = WMColor.productAddToCartTitle
+        messageLabel.textColor = WMColor.light_gray
         messageLabel.textAlignment = .Left
         messageLabel.numberOfLines = 0
         

@@ -39,7 +39,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         
         self.productPriceThroughLabel = CurrencyCustomLabel(frame: CGRectZero)
         
-        self.productShortDescriptionLabel!.textColor = WMColor.searchProductDescriptionTextColors
+        self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
@@ -54,7 +54,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         
         
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth(), 0,AppDelegate.separatorHeigth(), self.frame.height ))
-        borderView.backgroundColor = WMColor.lineSaparatorColor
+        borderView.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(borderView)
         self.contentView.addSubview(addProductToShopingCart!)
         self.contentView.addSubview(productPriceThroughLabel!)

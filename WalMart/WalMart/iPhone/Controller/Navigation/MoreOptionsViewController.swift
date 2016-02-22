@@ -67,7 +67,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.signInOrClose = WMRoundButton()
         let sizeImage = CGSizeMake(90, 24)
         self.signInOrClose?.setFontTitle(WMFont.fontMyriadProRegularOfSize(12))
-        self.signInOrClose?.setBackgroundColor(WMColor.regular_blue, size: sizeImage, forUIControlState: UIControlState.Selected)
+        self.signInOrClose?.setBackgroundColor(WMColor.blue, size: sizeImage, forUIControlState: UIControlState.Selected)
         self.signInOrClose?.setTitle("cerrar sesión", forState: UIControlState.Selected)
         self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
         self.signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
@@ -105,6 +105,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     override func viewWillLayoutSubviews() {
         let bounds = self.view.bounds.size
         self.tableView!.frame = CGRectMake(0.0, profileView!.frame.maxY, bounds.width, bounds.height - profileView!.frame.maxY)
+        self.profileView?.backgroundColor = WMColor.light_blue
         self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )
          signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45, 109, 90, 24)
     }
@@ -191,9 +192,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             default :
                 print("option don't exist")
             }
-            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.regular_gray, colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.light_gray)
         } else  {
-             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.UIColorFromRGB(0x0E7DD3), colorSeparate: WMColor.UIColorFromRGB(0xDDDEE0))
+             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
         }
         
 

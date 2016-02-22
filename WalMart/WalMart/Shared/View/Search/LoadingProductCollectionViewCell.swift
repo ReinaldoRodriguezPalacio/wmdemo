@@ -34,11 +34,12 @@ class LoadingProductCollectionViewCell: UICollectionViewCell {
 //        self.contentView.addSubview(self.loading!)
 
         self.title = UILabel()
-        self.title!.textColor = WMColor.searchProductDescriptionTextColors
+        self.title!.textColor = WMColor.gray
         self.title!.textAlignment = .Center
         self.title!.backgroundColor = UIColor.clearColor()
         self.title!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.title!.text = NSLocalizedString("product.search.loading", comment:"")
+        self.title!.numberOfLines = 2
         self.contentView.addSubview(self.title!)
 
         self.activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: .Gray)

@@ -204,7 +204,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             self.emptyView.hidden = self.items.count > 0
             self.facturasToolBar.hidden = !(self.items.count > 0)
             if self.items.count > 0 {
-                self.facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)
+                self.facturasToolBar.backgroundColor = UIColor.whiteColor()
             }
             self.tableOrders.reloadData()
             self.viewLoad.stopAnnimating()
@@ -214,7 +214,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
                 self.emptyView.hidden = self.items.count > 0
                 self.facturasToolBar.hidden = !(self.items.count > 0)
                 if self.items.count > 0 {
-                    self.facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)
+                    self.facturasToolBar.backgroundColor = UIColor.whiteColor()
                 }
         })
     }
@@ -222,11 +222,11 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
        func tabFooterView() {
         facturasToolBar = UIView(frame: CGRectMake(0, self.view.frame.height - 64 , self.view.bounds.width, 64))
-        //facturasToolBar.backgroundColor = WMColor.UIColorFromRGB(0xFFFFFF,alpha:0.9)
+        //facturasToolBar.backgroundColor = UIColor.whiteColor()
         facturasToolBar.backgroundColor = UIColor.clearColor()
         
         self.buttonFactura = UIButton(frame: CGRectMake(16, 14, facturasToolBar.frame.width - 32, 34))
-        self.buttonFactura.backgroundColor = WMColor.loginProfileSaveBGColor
+        self.buttonFactura.backgroundColor = WMColor.light_blue
         self.buttonFactura.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.buttonFactura.layer.cornerRadius = 17
         self.buttonFactura.addTarget(self, action: "showWebView", forControlEvents: UIControlEvents.TouchUpInside)

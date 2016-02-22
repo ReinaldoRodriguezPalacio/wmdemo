@@ -36,7 +36,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-    var loginFacebookButton: UIButton!
+    //var loginFacebookButton: UIButton!
 	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
     
@@ -49,7 +49,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bgView = UIView()
-        self.bgView.backgroundColor = WMColor.productAddToCartBg
+        self.bgView.backgroundColor = WMColor.light_blue
         self.view.addSubview(bgView)
         
         self.content = TPKeyboardAvoidingScrollView()
@@ -85,14 +85,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         //self.password!.maxLength = 15
         
         self.viewbg = UIView()
-        self.viewbg!.backgroundColor = WMColor.loginFieldBgColor
+        self.viewbg!.backgroundColor = WMColor.light_light_gray
        
         //Login button setup
         registryButton = UIButton()
         registryButton!.setTitle(NSLocalizedString("profile.create.an.account", comment: ""), forState: UIControlState.Normal)
         registryButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        registryButton!.backgroundColor = WMColor.loginSignOutButonBgColor
+        registryButton!.backgroundColor = WMColor.blue
         registryButton!.layer.cornerRadius = 20.0
         registryButton?.addTarget(self, action: "registryUser", forControlEvents: .TouchUpInside)
   
@@ -100,7 +100,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
         signInButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         signInButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        signInButton!.backgroundColor = WMColor.loginSignInButonBgColor
+        signInButton!.backgroundColor = WMColor.green
         signInButton!.addTarget(self, action: "signIn:", forControlEvents: .TouchUpInside)
         signInButton!.layer.cornerRadius = 20.0
 
@@ -116,10 +116,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.noAccount = UILabel()
         self.noAccount!.text = NSLocalizedString("profile.no.account",comment:"")
         self.noAccount!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.noAccount!.textColor = WMColor.loginTitleTextColor
+        self.noAccount!.textColor = WMColor.light_blue
         self.noAccount!.numberOfLines = 0
         self.noAccount!.textAlignment =  .Center
-        self.noAccount!.textColor = WMColor.loginFieldBgColor
+        self.noAccount!.textColor = WMColor.light_light_gray
         
         self.titleLabel = UILabel()
         self.titleLabel!.textColor =  UIColor.whiteColor()
@@ -129,7 +129,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.titleLabel!.textAlignment = NSTextAlignment.Center
         
         viewLine = UIView()
-        viewLine!.backgroundColor = WMColor.loginProfileLineColor
+        viewLine!.backgroundColor = WMColor.light_gray
         
         self.content!.addSubview(self.titleLabel!)
         self.content.backgroundColor = UIColor.clearColor()
@@ -157,9 +157,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)
         
-        self.loginFacebookButton = UIButton(type: .Custom)
+        /*self.loginFacebookButton = UIButton(type: .Custom)
         self.loginFacebookButton.layer.cornerRadius =  20.0
-        self.loginFacebookButton!.backgroundColor = WMColor.UIColorFromRGB(0x005AA2)
+        self.loginFacebookButton!.backgroundColor = WMColor.blue
         self.loginFacebookButton!.addTarget(self, action: "facebookLogin", forControlEvents: .TouchUpInside)
         self.loginFacebookButton!.setTitle("Ingresar con Facebook", forState: UIControlState.Normal)
         self.loginFacebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -167,7 +167,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginFacebookButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 2, 16)
         self.loginFacebookButton!.imageView?.sizeThatFits(CGSizeMake(20.0, 20.0))
         self.loginFacebookButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.content!.addSubview(self.loginFacebookButton)
+        self.content!.addSubview(self.loginFacebookButton)*/
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -209,8 +209,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }else{
                 self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-                self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, loginFacebookButton!.frame.maxY + 20, self.password!.frame.width, 20)
+                //self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }
             
             self.bgView!.frame = self.view.bounds
@@ -355,8 +355,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             }else{
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-                if !self.closeAlertOnSuccess {
-                  self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.loginSignOutButonBgColor)
+                if !self.closeAlertOnSuccess && UserCurrentSession.hasLoggedUser() {
+                  self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
                 }
             }
             
@@ -581,7 +581,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func facebookLogin(){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         if !self.closeAlertOnSuccess {
-            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.loginSignOutButonBgColor)
+            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
         }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")

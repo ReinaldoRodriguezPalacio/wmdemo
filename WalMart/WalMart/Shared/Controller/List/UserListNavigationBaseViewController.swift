@@ -74,10 +74,10 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             for var idx = 0; idx < itemsUserList!.count; idx++ {
                 var name:String? = nil
                 if let innerList = itemsUserList![idx] as? [String:AnyObject] {
-                    let innerListId = innerList["id"] as! String
-                    if innerListId == listId! {
-                        continue
-                    }
+                    //let innerListId = innerList["id"] as! String
+                    //if innerListId == listId! {
+                      //  continue
+                    //}
                     name = innerList["name"] as? String
                 }
                 else if let listEntity = itemsUserList![idx] as? List {
@@ -98,8 +98,31 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         }
         
         let idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        
+        /*if self.existnameList("\(listName) \(idxTxt)"){
+            idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx++)"
+        }*/
+        
+        
         return "\(listName) \(idxTxt)"
     }
+    
+    /*func existnameList(nameList:String)->Bool{
+        var nameExist = false
+        
+        if itemsUserList!.count > 0 {
+            for var idx = 0; idx < itemsUserList!.count; idx++ {
+                if let listEntity = itemsUserList![idx] as? List {
+                    if nameList ==  listEntity.name {
+                        nameExist =  true
+                    }
+                }
+            }
+        }
+        
+        return nameExist
+    
+    }*/
     
     
 }

@@ -1,4 +1,4 @@
-//
+  //
 //  ShoppingCartAddProductsService.swift
 //  WalMart
 //
@@ -11,7 +11,22 @@ import CoreData
 
 
 class ShoppingCartAddProductsService : BaseService {
+    var useSignals = false
+    var parameterSend : AnyObject?
+    override init() {
+        super.init()
+        //self.urlForSession = true
+    }
     
+    
+    
+    init(dictionary:NSDictionary){
+        super.init()
+        //self.urlForSession = true
+        self.useSignalsServices = dictionary["signals"] as! Bool
+        self.useSignals = self.useSignalsServices
+    }
+
 
     class func maxItemsInShoppingCart() -> Int {
         return ShoppingCartParams.maxProducts
@@ -22,7 +37,11 @@ class ShoppingCartAddProductsService : BaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]
     }
     
-    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String) -> [[String:AnyObject]] {
+    func builParams(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,parameter:[String:AnyObject]?) -> [[String:AnyObject]] {
+        if useSignals && parameter != nil{
+            parameterSend = parameter!
+            return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable,"parameter":parameter!]]
+        }
         return [["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"isPreorderable":isPreorderable]]
     }
     
@@ -33,13 +52,22 @@ class ShoppingCartAddProductsService : BaseService {
     func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,isPreorderable:String) -> [String:AnyObject] {
         return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist]
     }
+    
+    func buildProductObject(upcsParams:[AnyObject]) -> AnyObject {
+        
+        if useSignals  && self.parameterSend != nil {
+            return   ["items":upcsParams,"parameter":self.parameterSend!]
+            
+        }
+        return upcsParams
+    }
 
     
-    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable), successBlock: successBlock, errorBlock: errorBlock)
+    func callService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,parameter:[String:AnyObject]?,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        callService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable, parameter:parameter), successBlock: successBlock, errorBlock: errorBlock)
     }
     func callCoreDataService(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable), successBlock: successBlock, errorBlock: errorBlock)
+        callCoreDataService(builParams(upc,quantity:quantity,comments:comments,desc:desc,price:price,imageURL:imageURL,onHandInventory:onHandInventory,isPreorderable: isPreorderable,parameter: nil), successBlock: successBlock, errorBlock: errorBlock)
     }
     
     func callService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
@@ -65,6 +93,8 @@ class ShoppingCartAddProductsService : BaseService {
             }
             
             if itemsSvc.count > 1 {
+                
+                
                 self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                     
                     
@@ -93,7 +123,13 @@ class ShoppingCartAddProductsService : BaseService {
             
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upcSend)
                 if !hasUPC {
-                        self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
+                    var send  : AnyObject?
+                    if useSignals  && self.parameterSend != nil{
+                        send = buildProductObject(itemsSvc)
+                    }else{
+                        send = itemsSvc
+                    }
+                        self.callPOSTService(send!, successBlock: { (resultCall:NSDictionary) -> Void in
                         
                         
                         if self.updateShoppingCart() {
@@ -120,10 +156,16 @@ class ShoppingCartAddProductsService : BaseService {
     func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
         if (UserCurrentSession.sharedInstance().hasPreorderable()) {
-            let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
-            let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
-            errorBlock?(error)
-            return
+            let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
+            
+            if items!.count == 1 {
+                print("Adddto cart")
+            }else{
+                let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
+                let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+                errorBlock?(error)
+                return
+            }
         } else {
             for product in params as! NSArray {
                 

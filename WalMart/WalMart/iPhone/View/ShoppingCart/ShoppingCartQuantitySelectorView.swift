@@ -37,13 +37,13 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func setup() {
         
-        let startH = (self.bounds.height - 360) / 2
+        let startH : CGFloat = 0 //(self.bounds.height - 360) / 2
         
         self.backgroundColor = UIColor.clearColor()
         
         
         let bgView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
-        bgView.backgroundColor = WMColor.productAddToCartQuantitySelectorBgColor
+        bgView.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         
         let lblTitle = UILabel(frame:CGRectMake((self.frame.width / 2) - 115, startH + 17, 230, 14))
         lblTitle.font = WMFont.fontMyriadProSemiboldSize(14)
@@ -62,11 +62,10 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
         closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
-       
         
         self.keyboardView = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantity.frame.maxY + 10, 160, 196))
         //289
-        self.keyboardView.generateButtons(WMColor.UIColorFromRGB(0xFFFFFF, alpha: 0.35), selected: WMColor.UIColorFromRGB(0xFFFFFF, alpha: 1.0))
+        self.keyboardView.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
         self.keyboardView.delegate = self
         
         btnOkAdd = UIButton(frame: CGRectMake((self.frame.width / 2) - 71, self.keyboardView.frame.maxY + 15 , 142, 36))
@@ -76,7 +75,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
-        btnOkAdd.backgroundColor = WMColor.productAddToCartPriceSelect
+        btnOkAdd.backgroundColor = WMColor.green
         btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
         
         var rectSize = CGRectZero
@@ -139,7 +138,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
             btnSender.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             UIView.animateWithDuration(0.4, animations: { () -> Void in
                 btnSender.imageView!.alpha = 0.1
-                btnSender.setTitleColor(WMColor.productAddToCartQuantitySelectorBgColor, forState: UIControlState.Normal)
+                btnSender.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
                 
             })
             

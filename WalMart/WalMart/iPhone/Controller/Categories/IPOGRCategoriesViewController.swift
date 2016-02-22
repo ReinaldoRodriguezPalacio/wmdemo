@@ -49,8 +49,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         buttonCollapse.setTitle(NSLocalizedString("gr.category.especiales",comment:""), forState: UIControlState.Selected)
         buttonCollapse.addTarget(self, action: "collapse:", forControlEvents: UIControlEvents.TouchUpInside)
         buttonCollapse.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
-        buttonCollapse.titleLabel!.textColor = WMColor.navigationFilterBGColor
-        buttonCollapse.setTitleColor(WMColor.navigationFilterBGColor, forState: UIControlState.Normal)
+        buttonCollapse.titleLabel!.textColor = WMColor.light_blue
+        buttonCollapse.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
         buttonCollapse.titleEdgeInsets = UIEdgeInsetsMake(2.0,-72, 0.0, 0.0);
         buttonCollapse.imageEdgeInsets = UIEdgeInsetsMake(2.0,40, 0.0, 0.0);
         buttonCollapse.layer.cornerRadius = 2
@@ -373,12 +373,15 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil && UserCurrentSession.sharedInstance().storeName != "" {
+        if UserCurrentSession.sharedInstance().storeName != nil {
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
-            let boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
+            var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
+            if UserCurrentSession.sharedInstance().storeName == "" {
+                 boldString = NSMutableAttributedString(string:"Sin tienda ", attributes:attrs)
+            }
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;
