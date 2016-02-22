@@ -214,7 +214,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         self.webCheckOut.delegate = nil
         self.webCheckOut = nil
         self.finishLoadCheckOut = nil
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        //self.navigationController?.popToRootViewControllerAnimated(true)
+        self.navigationController?.popViewControllerAnimated(true)
         if afterclose != nil {
             afterclose!()
         }
