@@ -225,7 +225,7 @@
         <!--Home View Controller-->
         <scene sceneID="me6-Tb-UmA">
             <objects>
-                <viewController id="IjD-ot-ygk" customClass="HomeViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="homeVC" id="IjD-ot-ygk" customClass="HomeViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="P5E-Gl-oVt"/>
                         <viewControllerLayoutGuide type="bottom" id="8DJ-lB-xEZ"/>
