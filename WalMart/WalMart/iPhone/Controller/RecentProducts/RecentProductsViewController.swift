@@ -37,7 +37,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         self.view.addSubview(recentProducts)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
-        emptyView = IPOGenericEmptyView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        emptyView = IPOGenericEmptyView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109))
         emptyView.returnAction = {() in
             self.back()
         }
@@ -73,7 +73,11 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 self.viewLoad.stopAnnimating()
                 self.viewLoad = nil
         })
-        self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 110)
+        if IS_IOS8_OR_LESS {
+            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        }else{
+            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109)
+        }
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
