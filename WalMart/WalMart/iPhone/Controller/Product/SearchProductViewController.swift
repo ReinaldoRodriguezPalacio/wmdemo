@@ -196,7 +196,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.findUpcsMg?.count > 0 {
             self.invokeSearchUPCSCMG()
         }else{
-            
             self.getServiceProduct(resetTable: false)
             if  self.searchContextType == .WithCategoryForGR {
                 self.getFacet(self.idDepartment!,textSearch:self.textToSearch,idFamily:self.idFamily)
@@ -291,7 +290,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //}
         }
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -305,6 +304,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //            self.showEmptyMGGRView()
 //        }
 //        self.hasEmptyView = true
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
+            self.showEmptyMGGRView()
+        } else if self.allProducts == nil || self.allProducts!.count == 0 {
+            self.showEmptyView()
+        }
         if finsihService || didSelectProduct {
             self.loading?.stopAnnimating()
         }
