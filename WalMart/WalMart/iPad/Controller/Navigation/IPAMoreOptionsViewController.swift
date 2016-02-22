@@ -23,6 +23,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.emailLabel?.textAlignment = .Center
         
         options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
        
@@ -30,17 +31,17 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        
+
 
         self.profileView?.frame = CGRectMake(0, 0, self.view.frame.width, 160)
-        self.imgProfile?.frame = CGRectMake((self.view.frame.width / 2) - 12 , 32,24, 24)
-        self.userName?.frame = CGRectMake(16 , 71, self.view.frame.width - 32, 25)
-        self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , 110, 90, 24)
+        self.userName?.frame = CGRectMake(16 , 32, self.view.frame.width - 32, 25)
+        self.emailLabel?.frame = CGRectMake(16 , 60, self.view.frame.width - 32, 25)
+        self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , 117, 95, 24)
         self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
     }
-  
 
-    
+
+
     // MARK: - TableView
     
     

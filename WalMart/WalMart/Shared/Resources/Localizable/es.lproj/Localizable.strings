@@ -595,8 +595,8 @@
 //conection
 "conection.error" = "¡Ups!\n Hubo un error, vuelve a intentarlo.";
 
-//alertpresale
-"alert.presaleindependent" = "La compra de artículos en preventa debe hacerce de manera independiente. \n\nTermina la compra de los artículos en tu carrito o vacíalo para hacer esta compra.";
-"alert.presalewishlist" = "La compra de artículos en preventa debe hacerce de manera independiente. \n\nDejaremos estos artículos en tu wishlist para que los agregues a tu carrito de \nmanera individual.";
-"alert.presaletobuyback" = "La compra de artículos en preventa debe hacerce de manera independiente. \n\nSolo agregaremos este artículo a tu carrito. \nUna vez termianda tu compra, regresa para comprar el siguiente artículo en Preventa";
+//presale
+"alert.presaleindependent" = "La compra de artículos en preventa debe hacerse de manera independiente. \n\nTermina la compra de los artículos en tu carrito o vacíalo para hacer esta compra.";
+"alert.presalewishlist" = "La compra de artículos en preventa debe hacerse de manera independiente. \n\nDejaremos estos artículos en tu wishlist para que los agregues a tu carrito de \nmanera individual.";
+"alert.presaletobuyback" = "La compra de artículos en preventa debe hacerse de manera independiente. \n\nSolo agregaremos este artículo a tu carrito. \nUna vez termianda tu compra, regresa para comprar el siguiente artículo en Preventa";
 

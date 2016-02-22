@@ -127,6 +127,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         let defaultListSvc = DefaultListService()
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
+        
+        self.tableuserlist?.allowsMultipleSelection = false
     }
     
     override func viewWillAppear(animated: Bool) {

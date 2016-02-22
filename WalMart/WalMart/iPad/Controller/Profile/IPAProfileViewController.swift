@@ -35,9 +35,7 @@ class IPAProfileViewController:  ProfileViewController  , EditProfileViewControl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
-        self.imageBG!.frame = CGRectMake(0,0,bounds.width, bounds.height )
-        self.viewProfile!.frame = CGRectMake(0,0,bounds.width, bounds.height )
-        self.imageProfile!.frame = CGRectMake((bounds.width - 24 )/2 , 45 , 24, 24 )
+
         self.nameLabel!.frame = CGRectMake(15,self.imageProfile!.frame.maxY + 5 ,bounds.width - 30, 55)
         self.emailLabel!.frame = CGRectMake(0,self.nameLabel!.frame.maxY + 5 , bounds.width, 16)
         self.editProfileButton!.frame = CGRectMake(bounds.width - 63, 0 , 63, 63 )

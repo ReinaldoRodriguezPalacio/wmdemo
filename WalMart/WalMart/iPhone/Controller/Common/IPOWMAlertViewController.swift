@@ -32,6 +32,7 @@ class IPOWMAlertViewController : UIViewController {
     var leftAction : (() -> Void)? = nil
     var rightAction : (() -> Void)? = nil
     var isOtherFame : Bool = false
+    var btnFrame : Bool = false
     
     
     override func viewDidLoad() {
@@ -83,7 +84,14 @@ class IPOWMAlertViewController : UIViewController {
         //   titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
 
         titleLabel!.sizeToFit()
-        titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 330) / 2,  viewBgImage.frame.maxY + 16, 330, titleLabel!.frame.height)
+        if  self.btnFrame {
+
+             titleLabel.frame =  CGRectMake(16,  viewBgImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
+        }else{
+              titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 330) / 2,  viewBgImage.frame.maxY + 16, 330, titleLabel!.frame.height)
+        }
+      
+        
         //titleLabel.backgroundColor = UIColor.redColor()
        //232
         spinImage.frame = CGRectMake((bounds.width - 84)  / 2, (bounds.height - 84 - 200)  / 2, 84, 84)
@@ -97,13 +105,13 @@ class IPOWMAlertViewController : UIViewController {
             doneButton.frame = CGRectMake((bounds.width - 160 ) / 2, titleLabel.frame.maxY + 16, 160 , 40)
         }
         if leftButton != nil {
-            leftButton.frame =  self.isOtherFame ? CGRectMake(16, self.titleLabel.frame.maxY + 60 + 24, self.view.frame.width - 32, 32) :
+            leftButton.frame =  self.isOtherFame  ? CGRectMake(16, self.titleLabel.frame.maxY + 60 + 24, self.view.frame.width - 32, 32) :
                 CGRectMake((self.view.bounds.width / 2) - 134, self.titleLabel.frame.maxY + 16, 128, 32)
             
         }
         //es 370 lo cambie a 350 pero no es ese checar despues de comer y 330 iphone 4s
         if rightButton != nil {
-            rightButton.frame =  self.isOtherFame ? CGRectMake(16, self.titleLabel.frame.maxY + 24, self.view.frame.width - 32, 32) :
+            rightButton.frame =  self.isOtherFame  ? CGRectMake(16, self.titleLabel.frame.maxY + 24, self.view.frame.width - 32, 32) :
                 CGRectMake(leftButton.frame.maxX + 11, self.titleLabel.frame.maxY + 16, leftButton.frame.width, leftButton.frame.height)
             
         }

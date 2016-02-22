@@ -156,8 +156,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
     
     func editWishlist(sender:AnyObject) {
-        isEditingWishList = !isEditingWishList
-        
+        isEditingWishList = (sender.tag == 0 ? false : isEditingWishList)
+
         if isEditingWishList {
             editWishlist.selected = true
             editWishlist.backgroundColor = WMColor.UIColorFromRGB(0x8EBB36)//WMColor.wishlistEndEditButtonBgColor
@@ -308,6 +308,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             self.deleteAllWishlist.hidden = self.items.count == 0 && self.isEditingWishList
             self.updateShopButton()
             self.editWishlist.hidden = self.items.count == 0
+            self.isEditingWishList =  true
+             self.editWishlist.tag = 1
             self.editWishlist(self.editWishlist)
             self.deleteAllWishlist.hidden = self.items.count == 0
             if self.items.count == 0 {
@@ -392,9 +394,11 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }else{
             
             if paramsPreorderable.count > 1 && params.count == 0  &&  totArticlesMG == 0{
-                
-                let alert = IPAWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+               
+                let itemImage = paramsPreorderable[0] as! NSDictionary
+                let alert = IPAWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 alert!.spinImage.hidden =  true
+                alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
                 let messagePreorderable = NSLocalizedString("alert.presaletobuyback",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -409,6 +413,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 
                 let alert = IPAWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 alert!.spinImage.hidden =  true
+                alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
                 let messagePreorderable = NSLocalizedString("alert.presalewishlist",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -617,7 +622,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         self.items = []
         self.reloadWishlist()
-        self.editWishlist(editWishlist)
+        self.isEditingWishList =  false
+        self.editWishlist.tag = 1
+        self.editWishlist(self.editWishlist)
     }
     
     func close (){

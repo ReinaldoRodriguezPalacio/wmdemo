@@ -17,6 +17,11 @@ class IPAListTableViewCell: ListTableViewCell {
         // Drawing code
     }
     */
+    
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -24,16 +29,11 @@ class IPAListTableViewCell: ListTableViewCell {
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.selectionStyle = .Default
+        self.selectionStyle = .None
 
     }
 
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-//        if let text = self.iconView!.titleLabel!.text {
-//            self.iconView?.setup(text, withColor: WMColor.UIColorFromRGB(0x0071CE))
-//        }
-    }
+
     
 }

@@ -139,7 +139,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         closeButton.frame = CGRectMake(0, 5, 44, 44)
         viewBgImage.frame = CGRectMake((self.view.frame.width / 2) - 40, 100, 80, 80)
         spinImage.frame = CGRectMake((self.view.frame.width / 2) - 42, 98, 84, 84)
-        titleLabel.frame = CGRectMake((self.view.frame.width / 2) - 116, titleLabel.frame.minY, titleLabel.frame.width, titleLabel.frame.height)
+        titleLabel.frame = CGRectMake((self.view.frame.width / 2) - (titleLabel.frame.width / 2), titleLabel.frame.minY, titleLabel.frame.width, titleLabel.frame.height)
         
         if closeDone == false {
             imageProduct.frame = CGRectMake(viewBgImage.frame.width / 4, viewBgImage.frame.width / 4, viewBgImage.frame.width - (viewBgImage.frame.width / 2), viewBgImage.frame.width - (viewBgImage.frame.width / 2))

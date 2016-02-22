@@ -675,9 +675,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }else{
             
             if paramsPreorderable.count > 1 && params.count == 0  &&  totArticlesMG == 0{
-                
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                let itemImage =  paramsPreorderable[0] as! NSDictionary
+               
+                let alert = IPOWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 alert!.spinImage.hidden =  true
+                alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
                 let messagePreorderable = NSLocalizedString("alert.presaletobuyback",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -692,6 +694,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 alert!.spinImage.hidden =  true
+                alert!.btnFrame =  true
                 let messagePreorderable = NSLocalizedString("alert.presalewishlist",comment:"")
                 alert!.setMessage(messagePreorderable)
                 alert!.addActionButtonsWithCustomText("Cancelar", leftAction: { () -> Void in
@@ -742,6 +745,23 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
     }
 
+    
+    class func createImage(url:String) -> UIImage{
+        let imageData = NSData(contentsOfURL: NSURL(string: url)!)!//urlImage["imgUrl"] as! String
+        let image = UIImage(data:imageData)
+        let newSize = CGSize(width: 60.0, height: 60.0)
+        let RECT = CGRectMake(0, 0, newSize.width, newSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0)
+        UIBezierPath(roundedRect:RECT , cornerRadius: 10.0).addClip()
+        image!.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+        
+        let newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+        
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
     
     func sendNewItemsToShoppingCart(params:[AnyObject]){
         

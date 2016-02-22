@@ -108,8 +108,8 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     
     
     func showListDetailAnimated(forId idList:String?, orEntity entity:List?, andName name:String?) {
-        
-        if (self.currentListId != nil && self.currentListId == idList) || (self.currentEntity != nil && self.currentEntity == entity) {
+        //(self.currentListId != nil && self.currentListId == idList) ||
+        if (self.currentEntity != nil && self.currentEntity == entity) {
             return
         }
         

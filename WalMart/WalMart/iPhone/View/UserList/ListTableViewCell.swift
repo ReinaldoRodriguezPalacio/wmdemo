@@ -20,6 +20,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     let articlesTitleFont = WMFont.fontMyriadProRegularOfSize(14)
     let leftBtnWidth:CGFloat = 48.0
 
+    var listId: String?
+    
     var listName: UILabel?
     var articlesTitle: UILabel?
     var iconView: UIImageView?
@@ -33,6 +35,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     var isCopyEnabled = false
     var enableEditing = true
     var canDelete = true
+    
+    var selectedCell = false
     
     var viewBgSel : UIView?
     
@@ -106,7 +110,6 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         
         buttonDelete = UIButton()
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: .Normal)
-        //buttonDelete.backgroundColor = WMColor.wishlistDeleteLeftButtonBgColor
         buttonDelete.backgroundColor = UIColor.whiteColor()
 
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
@@ -116,8 +119,6 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         viewBgSel?.alpha = 1
         self.addSubview(self.viewBgSel!)
         self.sendSubviewToBack(viewBgSel!)
-        
-        //self.selectedBackgroundView = viewBgSel
         
     }
     
@@ -161,15 +162,15 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
             self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), countItem)
         }
         self.iconView!.image = UIImage(named: "list")
-        //self.iconView!.setup(title, withColor: WMColor.UIColorFromRGB(0x0071CE))
+        self.listId = object["id"] as! String
     }
     
     func setValues(listEntity list:List) {
         self.listName!.text = list.name
         self.textField!.text = list.name
+        self.listId = list.name
         self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), list.countItem)
         self.iconView!.image = UIImage(named: "list")
-        //self.iconView!.setup(list.name, withColor: WMColor.UIColorFromRGB(0x0071CE))
     }
     
     func setValues(name nameList:String,count:String,icon:UIImage,enableEditing:Bool) {
@@ -285,13 +286,10 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     }
     
     override func setSelected(selected: Bool, animated: Bool) {
-        //super.setSelected(selected, animated: true)
         viewBgSel?.hidden = !selected
     }
     
     override func setHighlighted(highlighted: Bool, animated: Bool) {
-        //super.setHighlighted(highlighted, animated: highlighted)
-        viewBgSel?.hidden = true
     }
     
     

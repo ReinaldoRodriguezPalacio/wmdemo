@@ -52,7 +52,6 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.deleteProduct.setImage(UIImage(named:"wishlist_delete"), forState: UIControlState.Normal)
         self.deleteProduct.addTarget(self, action: "deleteProductWishList", forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.contentView.addSubview(self.deleteProduct)
         
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth(), 0,AppDelegate.separatorHeigth(), self.frame.height ))
         borderView.backgroundColor = WMColor.lineSaparatorColor
@@ -70,7 +69,8 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         //Ale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
-        self.addSubview(imagePresale)
+        self.contentView.addSubview(imagePresale)
+        self.contentView.addSubview(self.deleteProduct)
     }
 
 
