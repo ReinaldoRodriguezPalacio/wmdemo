@@ -1116,18 +1116,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
         self.buttonSelected(self.buttonList[0])
-        //self.buttonSelected(self.buttonList[0])
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "sendHomeNotification", userInfo: nil, repeats: false)
     }
     
     func sendHomeNotification(){
         if let navController = self.viewControllers[0] as? UINavigationController {
-            let vc = storyboard!.instantiateViewControllerWithIdentifier("homeVC")
             navController.popToRootViewControllerAnimated(true)
-            navController.setViewControllers([vc], animated: false)
             self.viewControllers[0] = navController
         }
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
     }
     
     func removeAllCookies() {

@@ -724,11 +724,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
-        case 0:
+        case 0://Duplicate list
             if let cellList = cell as? ListTableViewCell {
                 cellList.duplicate()
             }
-        case 1:
+        case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
@@ -753,6 +753,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.showEditionMode()
                     }
                     self.checkEditBtn()
+                    self.reloadList(success: { () -> Void in
+                        
+                        }, failure: { (error) -> Void in
+                            
+                    })
                 }
             }
         default:

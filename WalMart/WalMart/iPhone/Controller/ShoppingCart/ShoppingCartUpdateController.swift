@@ -552,7 +552,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             }) { (complete:Bool) -> Void in
                 
-                if complete {
+               // if complete {
                     self.closeDone = true
                     self.titleLabel.alpha = 1.0
                     self.commentTextView!.hidden = true
@@ -616,7 +616,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                             }
                             
                         }
-                    }
+                   // }
                     
                 }
                 
@@ -747,10 +747,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func showBottonAddNote(show: Bool) {
         self.goToShoppingCartButton.alpha = show ? 1.0 : 0.0
-        
-        
-
-        
     }
     
     
