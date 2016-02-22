@@ -40,6 +40,9 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , 110, 90, 24)
         self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
     }
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "RELOAD_PROFILE", object: nil)
+    }
   
     func reloadMenu(){
         self.reloadButtonSession()
@@ -164,6 +167,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     override func editProfile(sender:UIButton) {
        self.delegate.selectedDetail(10)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadProfile", name: "RELOAD_PROFILE", object: nil)
+
+    }
+    
+    func reloadProfile() {
+        self.reloadButtonSession()
     }
 
     

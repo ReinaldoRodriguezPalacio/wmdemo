@@ -321,7 +321,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
 //        self.addChildViewController(vc)
 //        self.view.addSubview(vc.view)
         
-        
+        if isShowProductDetail == true {
+            self.closeProductDetail()
+        }
         
         self.comments = comments
         if selectQuantityGR == nil {
@@ -818,6 +820,18 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     override func startAnimatingProductDetail() {
+        
+        if self.selectQuantityGR != nil {
+            self.closeContainer(
+                { () -> Void in
+                    self.productDetailButton?.reloadShoppinhgButton()
+                }, completeClose: { () -> Void in
+                    self.selectQuantityGR = nil
+                  self.isShowProductDetail = true
+                }
+            )
+        }
+        
         if self.nutrmentals.count == 0 {
             super.startAnimatingProductDetail()
         } else {

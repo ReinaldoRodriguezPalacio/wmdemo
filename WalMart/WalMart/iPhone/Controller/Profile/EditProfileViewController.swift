@@ -350,6 +350,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
                 
                 if self.delegate == nil {
                     self.navigationController!.popViewControllerAnimated(true)
+                    NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
                 }
                 else{
                     
