@@ -46,8 +46,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.addSubview(imagePresale)
         
         self.selectionStyle = UITableViewCellSelectionStyle.None
-    
-        productShortDescriptionLabel!.textColor = WMColor.shoppingCartProductTextColor
         
         productShortDescriptionLabel!.textColor = WMColor.gray
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
