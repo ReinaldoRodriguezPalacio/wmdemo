@@ -39,7 +39,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.profileView?.frame = CGRectMake(0, 0, self.view.frame.width, 160)
         self.userName?.frame = CGRectMake(16 , 32, self.view.frame.width - 32, 25)
         self.emailLabel?.frame = CGRectMake(16 , 60, self.view.frame.width - 32, 25)
-        self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , 117, 95, 24)
+        self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , 107, 95, 24)
         self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
     }
     override func viewDidDisappear(animated: Bool) {
