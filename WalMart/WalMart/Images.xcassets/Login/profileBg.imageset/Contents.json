@@ -1,18 +1,6 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
       "idiom" : "iphone",
       "filename" : "profile_Bg.png",
       "scale" : "1x"
@@ -28,12 +16,10 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "bg_ipad.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "bg_ipad@2x.png",
       "scale" : "2x"
     },
     {

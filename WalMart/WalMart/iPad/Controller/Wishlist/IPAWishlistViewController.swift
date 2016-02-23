@@ -156,7 +156,13 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
     
     func editWishlist(sender:AnyObject) {
-        isEditingWishList = (sender.tag == 0 ? false : isEditingWishList)
+        //aqui se agrego
+        //isEditingWishList = !isEditingWishList
+
+
+        isEditingWishList = (sender.tag == 0 ? true : isEditingWishList)
+
+        
 
         if isEditingWishList {
             editWishlist.selected = true
@@ -625,6 +631,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         self.isEditingWishList =  false
         self.editWishlist.tag = 1
         self.editWishlist(self.editWishlist)
+        self.deleteAllWishlist.alpha = 0
+
     }
     
     func close (){
