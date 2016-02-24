@@ -33,6 +33,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let bounds = self.view.bounds
         let height = bounds.height - self.header!.frame.height
         
+        self.searchField!.frame = CGRectMake(10, 10,322.0, 40.0)
+        self.clearButton!.frame = CGRectMake(self.searchField.frame.width - 40 , 0, 48, 40)
         self.searchView!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, 60)
         self.clubCollection!.frame = CGRectMake(0.0, self.searchView!.frame.maxY, 342.0, height - 60)
         self.clubMap!.frame = CGRectMake(342.0, self.header!.frame.maxY, bounds.width - 342.0, height)
