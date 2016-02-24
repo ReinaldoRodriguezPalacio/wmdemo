@@ -156,13 +156,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
 
     
     func editWishlist(sender:AnyObject) {
-        //aqui se agrego
-        //isEditingWishList = !isEditingWishList
-
-
-        isEditingWishList = (sender.tag == 0 ? true : isEditingWishList)
-
-        
+   
+        isEditingWishList = sender.tag == 1 ? true : !isEditingWishList
 
         if isEditingWishList {
             editWishlist.selected = true
@@ -173,6 +168,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteAllWishlist.alpha = 1
+                self.editWishlist.tag = 0
             })
         }else {
             editWishlist.selected = false
@@ -183,8 +179,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteAllWishlist.alpha = 0
+                self.editWishlist.tag = 0
             })
         }
+        
         
     }
     
@@ -314,7 +312,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             self.deleteAllWishlist.hidden = self.items.count == 0 && self.isEditingWishList
             self.updateShopButton()
             self.editWishlist.hidden = self.items.count == 0
-            self.isEditingWishList =  true
+            //self.isEditingWishList =  true
              self.editWishlist.tag = 1
             self.editWishlist(self.editWishlist)
             self.deleteAllWishlist.hidden = self.items.count == 0
@@ -628,7 +626,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         }
         self.items = []
         self.reloadWishlist()
-        self.isEditingWishList =  false
+        //self.isEditingWishList =  false
         self.editWishlist.tag = 1
         self.editWishlist(self.editWishlist)
         self.deleteAllWishlist.alpha = 0

@@ -333,7 +333,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 self.camLabel!.alpha = 0
                 self.scanLabel!.alpha = 0
                 
-                self.popover!.backgroundColor = UIColor.whiteColor()
+                self.popover?.backgroundColor = UIColor.whiteColor()
                 self.searchctrl!.table.alpha = 0.8
             })
         }
@@ -444,11 +444,16 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         
     }
     
-    func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool {
-        self.closeSearch()
-        
-        return true
+//    func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool {
+//        //self.closeSearch()
+//        self.field.resignFirstResponder()
+//        return true
+//    }
+    
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverController){
+        print("popoverPresentationControllerDidDismissPopover")
     }
+
     
     func textFieldShouldEndEditing(textField: UITextField) -> Bool {
         if validateText() {
@@ -461,7 +466,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return true
         
     }
-    
+   
     func validateText() -> Bool {
         let toValidate : NSString = field.text!
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
