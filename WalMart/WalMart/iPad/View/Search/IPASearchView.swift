@@ -72,7 +72,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        self.setPopOver()
+       // self.setPopOver()
     }
     
     func setPopOver() {
@@ -225,6 +225,9 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if keyword.length() > 3 {
+            setPopOver()
+        }
         if !camfine{
         if keyword.length() > 51{
             return false
@@ -333,7 +336,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 self.camLabel!.alpha = 0
                 self.scanLabel!.alpha = 0
                 
-                self.popover!.backgroundColor = UIColor.whiteColor()
+                self.popover?.backgroundColor = UIColor.whiteColor()
                 self.searchctrl!.table.alpha = 0.8
             })
         }
@@ -346,7 +349,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 self.scanLabel!.alpha = 1
                 
                 if self.popover != nil {
-                    self.popover!.backgroundColor = WMColor.light_blue
+                    self.popover?.backgroundColor = WMColor.light_blue
                 }
                 self.searchctrl!.table.alpha = 0
             })
@@ -445,8 +448,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     }
     
     func popoverControllerShouldDismissPopover(popoverController: UIPopoverController) -> Bool {
-        self.closeSearch()
-        
         return true
     }
     
@@ -461,7 +462,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return true
         
     }
-    
+   
     func validateText() -> Bool {
         let toValidate : NSString = field.text!
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
