@@ -25,6 +25,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
     var bannerCell: BannerCollectionViewCell?
+    var plecaItems :  NSDictionary? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -41,6 +42,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         //Read a banner list
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
+        self.plecaItems = serviceBanner.getPleca()
+
+        print("::::PLECA VALOR:::")
+        print(plecaItems!["terms"] as! String)
+        print(plecaItems!["eventUrl"] as! String)
+    
         
         //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
@@ -376,6 +383,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         //Read a banner list
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
+        self.plecaItems = serviceBanner.getPleca()
+        
+        print("::::PLECA VALOR:::")
+        print(plecaItems!["terms"] as! String)
+        print(plecaItems!["eventUrl"] as! String)
         
         var toReturn :[[String:AnyObject]] = []
         

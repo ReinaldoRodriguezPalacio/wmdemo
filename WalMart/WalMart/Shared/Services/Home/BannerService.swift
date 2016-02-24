@@ -15,6 +15,7 @@ class BannerService : BaseService {
     let JSON_BANNER_BANNERLIST = "bannerList"
     let JSON_BANNER_EMBEDDEDLIST = "embeddedList"
     let JSON_BANNER_LANDING = "landing"
+    let JSON_BANNER_PLECA = "pleca"
     
     
     
@@ -102,8 +103,19 @@ class BannerService : BaseService {
             return landingItem
         }
         return nil
-        
-
     }
+    
+    func getPleca() -> NSDictionary? {
+        
+        let values = getDataFromFile(fileName)
+        if values == nil {
+            return nil
+        }
+        if let landingItem = values![JSON_BANNER_PLECA] as? [[String:String]] {
+            return landingItem[0] as NSDictionary
+        }
+        return nil
+    }
+    
     
 }
