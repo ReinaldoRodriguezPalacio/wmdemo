@@ -622,9 +622,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
         viewDetail = ProductDetailTextDetailView(frame: CGRectMake(0,360, 320, 0))
         viewDetail!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
-        self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+        //self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
         viewDetail.setTextDetail(detail as String)
         viewDetail.closeDetail = { () in
+            self.isShowProductDetail = true
             self.closeProductDetail()
         }
         self.view.addSubview(viewDetail)
@@ -645,7 +646,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.detailCollectionView.scrollEnabled = true
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             
-            self.viewDetail!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+            self.viewDetail?.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
             self.viewDetail.frame = CGRectMake(0,360, 320, 0)
             }) { (ended:Bool) -> Void in
                 if self.viewDetail != nil {
@@ -653,7 +654,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.viewDetail = nil
                     
             
-            self.productDetailButton!.deltailButton.selected = false
+            self.productDetailButton?.deltailButton.selected = false
                 }
         }
         }
@@ -1066,7 +1067,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     viewInCont.removeFromSuperview()
                 }
                 self.selectQuantity = nil
-                self.viewDetail = nil
+                //self.viewDetail = nil
         }
     }
     

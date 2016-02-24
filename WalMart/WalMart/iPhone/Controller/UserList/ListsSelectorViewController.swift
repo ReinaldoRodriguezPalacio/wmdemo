@@ -135,7 +135,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         self.view.insertSubview(self.imageBlurView!, atIndex: 0)
         
         let bg = UIView(frame: frame)
-        bg.backgroundColor = WMColor.light_blue
+        bg.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         self.view.insertSubview(bg, aboveSubview: self.imageBlurView!)
     }
     

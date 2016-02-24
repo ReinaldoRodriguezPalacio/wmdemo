@@ -38,8 +38,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         let params = productService.buildParams(upc as String,eventtype:eventType)
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
-            //println("ResultGr \(result)")
-            
             
             self.name = result["description"] as! NSString
             if let priceR =  result["price"] as? NSNumber {
@@ -248,7 +246,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
 
     override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
-
+self.closeProductDetail()
         if self.selectQuantityGR != nil {
             self.closeContainer(
                 { () -> Void in
@@ -266,7 +264,6 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ADD_TO_LIST.rawValue, label: "\(self.name) - \(self.upc)")
 
 
-        
 
         if self.listSelectorController == nil {
             self.listSelectorContainer = UIView(frame: CGRectMake(0, 360.0, 320.0, 0.0))
@@ -283,11 +280,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.listSelectorController!.view.clipsToBounds = true
             
             self.listSelectorBackgroundView = self.listSelectorController!.createBlurImage(self.view, frame: CGRectMake(0, 0, 320, 360))
-            self.listSelectorContainer!.insertSubview(self.listSelectorBackgroundView!, atIndex: 0)
-            
-            let bg = UIView(frame: CGRectMake(0.0, 0.0, 320.0, 360.0))
-            bg.backgroundColor = WMColor.light_blue
-            self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRectMake(0, 0, 320, 360))
             
             self.detailCollectionView.scrollEnabled = false
             UIView.animateWithDuration(0.3,
@@ -482,6 +475,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     func listSelectorDidAddProduct(inList listId:String) {
         let frameDetail = CGRectMake(320.0, 0.0, 320.0, 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, 320.0, 360.0))
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
         }
@@ -871,11 +865,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.detailCollectionView.scrollEnabled = true
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 
-                self.nutrimentalsView!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
-                self.nutrimentalsView!.frame = CGRectMake(0,360, 320, 0)
+                self.nutrimentalsView?.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+                self.nutrimentalsView?.frame = CGRectMake(0,360, 320, 0)
                 }) { (ended:Bool) -> Void in
                     if self.nutrimentalsView != nil {
-                        self.nutrimentalsView!.removeFromSuperview()
+                        self.nutrimentalsView?.removeFromSuperview()
                         self.nutrimentalsView = nil
                         
                         
@@ -888,7 +882,11 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     override func closeProductDetail () {
         if isShowProductDetail == true {
             if viewDetail ==  nil {
+                if  self.nutrimentalsView != nil {
                     closeProductDetailNutrimental()
+                }else{
+                     super.closeProductDetail()
+                }
             }else {
                 super.closeProductDetail()
             }

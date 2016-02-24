@@ -462,7 +462,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         return true
         
     }
-    
+   
     func validateText() -> Bool {
         let toValidate : NSString = field.text!
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())

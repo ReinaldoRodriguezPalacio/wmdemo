@@ -60,7 +60,12 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.searchBackView = UIView()
         self.searchBackView.backgroundColor = UIColor.blackColor()
         self.searchBackView.alpha = 0.35
+        self.searchBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removePop:"))
         
+    }
+    
+    func removePop(sender:UITapGestureRecognizer) {
+        self.searchView.closeSearch()
     }
     
     override func retrieveTabBarOptions() -> [String] {
@@ -211,7 +216,9 @@ class IPACustomBarViewController :  CustomBarViewController {
             
             let contDetail = IPAProductDetailPageViewController()
             //contDetail.upc = upc!
-            let svcValidate = GRProductDetailService()
+            let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+            let svcValidate = GRProductDetailService(dictionary: useSignalsService)
+            //let svcValidate = GRProductDetailService()
             
             let upcDesc : NSString = upc! as NSString
             var paddedUPC = upcDesc
