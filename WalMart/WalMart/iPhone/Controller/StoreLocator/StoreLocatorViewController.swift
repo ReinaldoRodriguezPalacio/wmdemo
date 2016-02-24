@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 import CoreData
 
-class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, CLLocationManagerDelegate, StoreViewDelegate, UIActionSheetDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, CLLocationManagerDelegate, StoreViewDelegate, UIActionSheetDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout,UITextFieldDelegate {
 
     let annotationIdentifier = "StoreAnnotation"
 
@@ -46,6 +46,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var items: [Store]?
     var selectedStore: Store? //Only for maps directions
     var instructionsForCar = false
+    var searchView: UIView!
+    var clearButton : UIButton?
+    var searchField: FormFieldSearch!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
@@ -154,12 +157,35 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.toggleViewBtn!.addTarget(self, action: "showTableView:", forControlEvents: .TouchUpInside)
         self.toggleViewBtn!.backgroundColor = UIColor.clearColor()
         self.header!.addSubview(self.toggleViewBtn!)
+        
+        self.searchView = UIView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 60))
+        self.searchView.hidden = true
+        self.searchView.backgroundColor = WMColor.light_blue
+        self.view.addSubview(searchView)
+    
+        self.searchField = FormFieldSearch(frame: CGRectMake(10, 10, self.view.frame.width - 20, 40.0))
+        self.searchField!.returnKeyType = .Search
+        self.searchField!.autocapitalizationType = .None
+        self.searchField!.autocorrectionType = .No
+        self.searchField!.enablesReturnKeyAutomatically = true
+        self.searchField!.placeholder = NSLocalizedString("search.info.placeholder",comment:"")
+        self.searchField!.delegate = self
+        self.searchView.addSubview(self.searchField)
+        
+        self.clearButton = UIButton(type: .Custom)
+        self.clearButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
+        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
+        self.clearButton!.addTarget(self, action: "clearSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        self.clearButton!.hidden = true
+        self.searchField!.addSubview(self.clearButton!)
 
         self.clubCollectionLayout = UICollectionViewFlowLayout()
         self.clubCollectionLayout!.minimumInteritemSpacing = 0.0
         self.clubCollectionLayout!.minimumLineSpacing = 0.0
         
-        self.clubCollection = UICollectionView(frame: self.clubMap!.frame, collectionViewLayout: self.clubCollectionLayout!)
+        self.clubCollection = UICollectionView(frame: CGRectMake(self.clubMap!.frame.minX, self.searchView!.frame.maxY, self.clubMap!.frame.width, self.clubMap!.frame.height - 60), collectionViewLayout: self.clubCollectionLayout!)
         self.clubCollection!.backgroundColor = UIColor.whiteColor()
         self.clubCollection!.registerClass(ClubLocatorTableViewCell.self, forCellWithReuseIdentifier: "club")
         self.clubCollection!.delegate = self
@@ -190,8 +216,12 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         var bounds = self.view.bounds
         var height = bounds.height - self.header!.frame.height
         
+        self.searchView.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 60)
+        self.searchField.frame = CGRectMake(10, 10, self.view.frame.width - 20, 40.0)
+        self.clearButton!.frame = CGRectMake(self.searchField.frame.width - 40 , 0, 48, 40)
+        
         self.clubMap!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
-        self.clubCollection?.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
+        self.clubCollection?.frame = CGRectMake(0.0, self.searchView!.frame.maxY, bounds.width, height - 60)
 
         if self.segmentedView!.frame.origin.y == 16 {
             self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
@@ -207,7 +237,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             height = bounds.height - 20.0
             self.toggleViewBtn!.frame = CGRectMake(bounds.width - 87.0, 10.0, 71.0, height)
         }
-
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -437,6 +466,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showmap",comment:""), forState: .Normal)
             self.clubMap!.hidden = true
             self.clubCollection!.hidden = false
+            self.searchView!.hidden = false
             self.isShowingMap = false
             //self.applyMapViewMemoryHotFix()
             
@@ -451,6 +481,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
             self.clubMap!.hidden = false
             self.clubCollection!.hidden = true
+            self.searchView!.hidden = true
             self.isShowingMap = true
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_MAP_STORE_LOCATOR.rawValue, label: "")
@@ -697,6 +728,51 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
         
         
+    }
+    
+    //MARK: - UITextFieldDelegate
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        
+        var txtAfterUpdate : NSString = textField.text! as String
+        txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
+        
+        self.items = self.searchForItems(txtAfterUpdate as String)
+        self.clubCollection!.reloadData()
+        return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+
+    func searchForItems(textUpdate:String) -> [Store]? {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: context)
+        if textUpdate != "" {
+             self.clearButton?.hidden = false
+            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR  address CONTAINS[cd] %@",textUpdate,textUpdate)
+        }else{
+            self.clearButton?.hidden = true
+        }
+        var result: [Store]? =  nil
+        do{
+            result =  try context.executeFetchRequest(fetchRequest) as? [Store]
+            print(result)
+            
+        }catch{
+            print("searchForItems Error")
+        }
+        return result
+    }
+    
+    func clearSearch(){
+        self.searchField!.text = ""
+        self.clearButton?.hidden = true
+        self.items = self.searchForItems("")
+        self.clubCollection!.reloadData()
     }
     
 }

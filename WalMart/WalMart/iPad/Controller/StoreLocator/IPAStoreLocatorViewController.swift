@@ -25,6 +25,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         self.toggleViewBtn?.removeFromSuperview()
         self.toggleViewBtn = nil
         self.backButton?.hidden = true
+        self.searchView.hidden = false
     }
     
     override func viewWillLayoutSubviews() {
@@ -32,7 +33,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         let bounds = self.view.bounds
         let height = bounds.height - self.header!.frame.height
         
-        self.clubCollection!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, height)
+        self.searchView!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, 60)
+        self.clubCollection!.frame = CGRectMake(0.0, self.searchView!.frame.maxY, 342.0, height - 60)
         self.clubMap!.frame = CGRectMake(342.0, self.header!.frame.maxY, bounds.width - 342.0, height)
         
         self.segmentedView!.frame = CGRectMake(self.clubCollection!.frame.maxX + 30.0, bounds.height - 38.0, 150.0, 22.0)
