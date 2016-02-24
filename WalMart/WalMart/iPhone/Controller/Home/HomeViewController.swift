@@ -45,8 +45,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.plecaItems = serviceBanner.getPleca()
 
         print("::::PLECA VALOR:::")
-        print(plecaItems!["terms"] as! String)
-        print(plecaItems!["eventUrl"] as! String)
+        if plecaItems !=  nil {
+            print(plecaItems?["terms"] as! String)
+            print(plecaItems?["eventUrl"] as! String)
+        }
     
         
         //let recommendItemsService = RecommendedItemsService()
@@ -386,8 +388,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.plecaItems = serviceBanner.getPleca()
         
         print("::::PLECA VALOR:::")
-        print(plecaItems!["terms"] as! String)
-        print(plecaItems!["eventUrl"] as! String)
+        if self.plecaItems !=  nil {
+            print(plecaItems!["terms"] as! String)
+            print(plecaItems!["eventUrl"] as! String)
+        }
         
         var toReturn :[[String:AnyObject]] = []
         
