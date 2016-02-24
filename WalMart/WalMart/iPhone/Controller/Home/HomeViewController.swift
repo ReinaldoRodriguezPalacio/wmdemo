@@ -25,7 +25,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
     var bannerCell: BannerCollectionViewCell?
-    
+    //ale
+    var alertBank: UIView!
+    var viewContents : UIView?
+
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
     }
@@ -33,6 +36,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //ale
+        alertBank = UIView(frame: CGRectMake(0, 10, self.view.frame.width, 46))
+        alertBank.backgroundColor = WMColor.light_light_gray
+        
+        //ale
+//        titleView = UILabel(frame: alertBank.bounds)
+//        titleView.font = WMFont.fontMyriadProRegularOfSize(14)
+//        titleView.textColor = WMColor.light_blue
+//        titleView.text = NSLocalizedString("detalles.button",comment:"")
+//        titleView.textAlignment = .right
+        
+        
         
         collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
@@ -54,6 +69,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
         
+        //ale
+        //self.viewContents!.addSubview(alertBank)
+        
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -68,6 +86,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        
+
+
        
     }
     
@@ -75,7 +96,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         super.viewDidLayoutSubviews()
 
         //let offset = collection.frame.maxY - self.view.bounds.maxY
-             
+        
+        //ale
+        //self.alertBank.frame = CGRectMake(0, viewContent.frame.height - 72 , self.viewContent.frame.width, 72)
+
+
+        
     }
     // MARK: - UICollectionViewDataSource
     

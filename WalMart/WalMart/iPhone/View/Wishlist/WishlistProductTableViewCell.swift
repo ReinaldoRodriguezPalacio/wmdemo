@@ -27,7 +27,7 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     var onHandInventory : NSString = "0"
     var isPesable : String!
     var isPreorderable : String!
-    //Ale
+    
     var imagePresale : UIImageView!
     var borderViewTop : UIView!
     var iconDiscount : UIImageView!
@@ -63,13 +63,14 @@ class WishlistProductTableViewCell : ProductTableViewCell {
         btnShoppingCart.addTarget(self, action: "addToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
         
         self.separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
+        
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(btnShoppingCart)
         self.contentView.addSubview(productPriceSavingLabel)
         self.contentView.addSubview(self.separatorView!)
         
-        //Ale
+        
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
