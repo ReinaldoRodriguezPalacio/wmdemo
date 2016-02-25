@@ -11,10 +11,7 @@ import UIKit
 class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
 
     var storeIcon: UIImageView?
-    var distanceLabel: UILabel?
     var separatorView: UIView?
-
-    var distanceFmt: NSNumberFormatter?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
@@ -27,19 +24,8 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
         backgroundColorView.backgroundColor = WMColor.light_light_gray
         self.selectedBackgroundView = backgroundColorView
 
-        self.distanceFmt = NSNumberFormatter()
-        self.distanceFmt!.maximumFractionDigits = 2
-        self.distanceFmt!.minimumFractionDigits = 2
-        self.distanceFmt!.locale = NSLocale.systemLocale()
-
         self.storeIcon = UIImageView(image: UIImage(named: "sparkle"))
         self.contentView.addSubview(self.storeIcon!)
-        
-        self.distanceLabel = UILabel()
-        self.distanceLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-        self.distanceLabel!.textColor = WMColor.light_blue
-        self.distanceLabel!.text = "A km"
-        self.contentView.addSubview(self.distanceLabel!)
 
         self.separatorView = UIView()
         self.separatorView!.backgroundColor  = WMColor.light_light_gray
@@ -47,22 +33,6 @@ class IPAClubLocatorTableViewCell: ClubLocatorTableViewCell {
 
         self.buttonContainer!.removeFromSuperview()
         self.buttonContainer = nil
-    }
-    
-    override func buildToolbar() {
-    }
-    
-    override func setValues(store:Store?, userLocation:CLLocation?) {
-        super.setValues(store, userLocation: userLocation)
-        var distanceTxt: String? = ""
-        if userLocation != nil {
-            let storeLocation: CLLocation = CLLocation(latitude: self.store!.latitude!.doubleValue, longitude: self.store!.longitude!.doubleValue)
-            let distance: CLLocationDistance = userLocation!.distanceFromLocation(storeLocation)
-            distanceTxt = self.distanceFmt!.stringFromNumber(NSNumber(double: distance/1000))
-        }
-        
-        self.distanceLabel!.text = String(format: NSLocalizedString("store.distance", comment:""), distanceTxt!)
-
     }
 
     override func layoutSubviews() {

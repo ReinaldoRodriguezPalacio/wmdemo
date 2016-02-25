@@ -302,6 +302,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.clubMap!.overlays.count > 0 && self.viewBgDetailView == nil {
             MapKitUtils.zoomMapViewToFitAnnotations(self.clubMap, animated: true)
         }
+        
+        self.clubCollection?.reloadData()
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
