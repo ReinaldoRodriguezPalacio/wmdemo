@@ -49,6 +49,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var searchView: UIView!
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
+    var separator: CALayer!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_STORELOCATORMAP.rawValue
@@ -158,22 +159,27 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.toggleViewBtn!.backgroundColor = UIColor.clearColor()
         self.header!.addSubview(self.toggleViewBtn!)
         
-        self.searchView = UIView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 60))
+        self.searchView = UIView(frame: CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 72))
         self.searchView.hidden = true
-        self.searchView.backgroundColor = WMColor.light_blue
+        self.searchView.backgroundColor = UIColor.whiteColor()
+        
+        self.separator = CALayer()
+        self.separator.backgroundColor = WMColor.light_light_gray.CGColor
+        self.separator.frame = CGRectMake(0, self.searchView!.frame.maxY - 1, self.view.frame.width, 1)
+        self.searchView.layer.insertSublayer(separator, atIndex: 0)
         self.view.addSubview(searchView)
     
-        self.searchField = FormFieldSearch(frame: CGRectMake(10, 10, self.view.frame.width - 20, 40.0))
+        self.searchField = FormFieldSearch(frame: CGRectMake(16, 16, self.view.frame.width - 32, 40.0))
         self.searchField!.returnKeyType = .Search
         self.searchField!.autocapitalizationType = .None
         self.searchField!.autocorrectionType = .No
         self.searchField!.enablesReturnKeyAutomatically = true
-        self.searchField!.placeholder = NSLocalizedString("search.info.placeholder",comment:"")
+        self.searchField!.placeholder = NSLocalizedString("store.search.placeholder",comment:"")
+        self.searchField!.backgroundColor = WMColor.light_light_gray
         self.searchField!.delegate = self
         self.searchView.addSubview(self.searchField)
         
         self.clearButton = UIButton(type: .Custom)
-        self.clearButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
@@ -216,12 +222,13 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         var bounds = self.view.bounds
         var height = bounds.height - self.header!.frame.height
         
-        self.searchView.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 60)
-        self.searchField.frame = CGRectMake(10, 10, self.view.frame.width - 20, 40.0)
+        self.searchView.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 72)
+        self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
+        self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - 32, 40.0)
         self.clearButton!.frame = CGRectMake(self.searchField.frame.width - 40 , 0, 48, 40)
         
         self.clubMap!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
-        self.clubCollection?.frame = CGRectMake(0.0, self.searchView!.frame.maxY, bounds.width, height - 60)
+        self.clubCollection?.frame = CGRectMake(0.0, self.searchView!.frame.maxY, bounds.width, height - 72)
 
         if self.segmentedView!.frame.origin.y == 16 {
             self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
@@ -754,8 +761,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if textUpdate != "" {
              self.clearButton?.hidden = false
             fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR  address CONTAINS[cd] %@",textUpdate,textUpdate)
+            self.searchField.layer.borderColor = WMColor.light_blue.CGColor
         }else{
             self.clearButton?.hidden = true
+            self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         }
         var result: [Store]? =  nil
         do{
@@ -770,6 +779,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     
     func clearSearch(){
         self.searchField!.text = ""
+        self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         self.clearButton?.hidden = true
         self.items = self.searchForItems("")
         self.clubCollection!.reloadData()
