@@ -682,7 +682,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="308" height="658"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="more_bg" id="42u-ee-kaL">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="loginBg" id="42u-ee-kaL">
                                 <rect key="frame" x="0.0" y="46" width="308" height="160"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <rect key="contentStretch" x="0.0" y="0.0" width="0.0" height="0.0"/>
@@ -1052,7 +1052,7 @@
     <resources>
         <image name="location" width="34" height="34"/>
         <image name="location_selected" width="34" height="34"/>
-        <image name="more_bg" width="320" height="160"/>
+        <image name="loginBg" width="320" height="458"/>
         <image name="navBar_cart" width="35" height="35"/>
         <image name="navBar_logo" width="112" height="28"/>
         <image name="navBar_search" width="20" height="20"/>
