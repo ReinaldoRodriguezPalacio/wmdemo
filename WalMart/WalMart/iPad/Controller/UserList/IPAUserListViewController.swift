@@ -300,7 +300,8 @@ class IPAUserListViewController: UserListViewController {
 
             self.tableuserlist!.reloadData()
             self.checkEditBtn()
-            self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: true, scrollPosition: UITableViewScrollPosition.Top)
+            /*self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: true, scrollPosition: UITableViewScrollPosition.Top)*/
+            
             if !self.newListEnabled && !self.isEditingUserList {
                 self.showSearchField({ () -> Void in
                     }, atFinished: { () -> Void in
