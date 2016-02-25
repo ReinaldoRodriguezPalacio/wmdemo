@@ -491,6 +491,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clubMap!.hidden = false
             self.clubCollection!.hidden = true
             self.searchView!.hidden = true
+            self.searchField.resignFirstResponder()
             self.isShowingMap = true
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_MAP_STORE_LOCATOR.rawValue, label: "")
@@ -685,6 +686,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
             self.clubMap!.hidden = false
             self.clubCollection!.hidden = true
+            self.searchView!.hidden = true
+            self.searchField.resignFirstResponder()
             self.isShowingMap = true
             //self.gotoPosition?.hidden = false
         }
