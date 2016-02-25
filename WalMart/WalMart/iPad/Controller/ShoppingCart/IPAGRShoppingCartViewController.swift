@@ -168,6 +168,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
+                self.ctrlCheckOut?.addViewLoad()
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantityGR?.closeAction()
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)

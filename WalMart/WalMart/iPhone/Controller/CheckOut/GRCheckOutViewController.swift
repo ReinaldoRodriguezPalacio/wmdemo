@@ -320,7 +320,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
                     
-                    self.removeViewLoad()
+                    //self.removeViewLoad()
                 }
                 
                 
@@ -656,7 +656,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func buildSlotsPicker(date:NSDate?) {
-        self.addViewLoad()
+        //self.addViewLoad()
         var strDate = ""
         if date != nil {
             let formatService  = NSDateFormatter()
@@ -698,7 +698,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.picker!.showPicker()
             }
             
-            self.removeViewLoad()
+            self.removeViewLoad()//ok
             
         })
     }
@@ -727,7 +727,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
-        self.addViewLoad()
+        //self.addViewLoad()
         
         let service = GRPaymentTypeService()
         service.callService("2",
@@ -746,7 +746,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                 }
-                self.removeViewLoad()
+                //self.removeViewLoad()
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
@@ -854,6 +854,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.invokeDeliveryTypesService({ () -> Void in
                         //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         //self.alertView!.showDoneIcon()
+                        self.removeViewLoad()//--
                     })
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
@@ -970,7 +971,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
-        self.addViewLoad()
+        //--self.addViewLoad()
         let service = GRAddressByUserService()
         service.callService(
             { (result:NSDictionary) -> Void in
@@ -1013,7 +1014,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                 }
-                self.removeViewLoad()
+                //--self.removeViewLoad()
                 endCallAddress()
             }, errorBlock: { (error:NSError) -> Void in
                 
@@ -1052,7 +1053,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokeDeliveryTypesService(endCallTypeService:(() -> Void)) {
-        self.addViewLoad()
+        //--self.addViewLoad()
         let service = GRDeliveryTypeService()
         let shouldFreeShepping = (discountsFreeShippingAssociated && asociateDiscount) || (discountsFreeShippingNotAssociated && !asociateDiscount)
         //Validar self.selectedAddress != nil
@@ -1124,7 +1125,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.updateShopButton("\(self.newTotal)")
                     }
                     
-                    self.removeViewLoad()
+                    //--self.removeViewLoad()//ok
                     
                     endCallTypeService()
                 },
@@ -1154,13 +1155,13 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func reloadUserAddresses(){
-        self.addViewLoad()
+        //--self.addViewLoad()
 
         self.invokeAddressUserService({ () -> Void in
            self.getItemsTOSelectAddres()
             self.address!.onBecomeFirstResponder = {() in
                 self.showAddressPicker()
-                self.removeViewLoad()
+                //--self.removeViewLoad()
             }
             //TODO 
             let date = NSDate()
@@ -1211,7 +1212,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     }
                 }
                 self.slotsItems = result["slots"] as! NSArray as [AnyObject]
-                self.addViewLoad()
+                //--self.addViewLoad()
                 endCallTypeService()
                 }) { (error:NSError) -> Void in
                     self.removeViewLoad()
@@ -1266,6 +1267,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.paymentOptions! {
+                self.addViewLoad()//--ok
                 self.paymentOptions!.text = selectedStr
                 self.selectedPaymentType = indexPath
                 let paymentType: AnyObject = self.paymentOptionsItems![indexPath.row]
@@ -1281,6 +1283,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 self.validateMercuryDelivery()
             }
             if formFieldObj ==  self.address! {
+                self.addViewLoad()//--ok
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
@@ -1330,7 +1333,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
 
             }
             if formFieldObj == self.discountAssociate!{
-                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
+                self.addViewLoad()//--ok
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                     //self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
@@ -1423,7 +1427,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             if self.addressItems?.count < 12 {
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
-                self.addViewLoad()
+                //--self.addViewLoad()
                 print("Se realizao la direccion")
                 self.picker!.closeNew()
                 self.picker!.closePicker()
@@ -1684,7 +1688,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.picker!.cellType = TypeField.Check
         if !self.selectedAddressHasStore {
             self.picker!.onClosePicker = {
-                self.removeViewLoad()
+                //--self.removeViewLoad()
                 self.picker!.onClosePicker = nil
                 self.navigationController?.popViewControllerAnimated(true)
                 self.picker!.closePicker()
