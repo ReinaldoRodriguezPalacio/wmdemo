@@ -28,9 +28,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     //ale
     var alertBank: UIView!
     var viewContents : UIView?
-
+    var titleView : UILabel?
     var plecaItems :  NSDictionary? = nil
-    
+    var detailsButton : UIButton!
+    var imageNotification : UIImageView?
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
     }
@@ -38,16 +39,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //ale
-        alertBank = UIView(frame: CGRectMake(0, 10, self.view.frame.width, 46))
-        alertBank.backgroundColor = WMColor.light_light_gray
-        
-        //ale
-//        titleView = UILabel(frame: alertBank.bounds)
-//        titleView.font = WMFont.fontMyriadProRegularOfSize(14)
-//        titleView.textColor = WMColor.light_blue
-//        titleView.text = NSLocalizedString("detalles.button",comment:"")
-//        titleView.textAlignment = .right
+      
+
         
         
         
@@ -64,7 +57,35 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if plecaItems !=  nil {
             print(plecaItems?["terms"] as! String)
             print(plecaItems?["eventUrl"] as! String)
+            alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
+            alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
+            self.view.addSubview(alertBank)
+            
+            //ale
+            titleView =  UILabel(frame:  CGRectMake(28, 0, self.view.frame.width-91, alertBank.frame.height))
+            titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
+            titleView!.textColor = UIColor.whiteColor()
+            titleView!.text = plecaItems?["terms"] as? String
+            titleView!.textAlignment = .Left
+            self.alertBank.addSubview(titleView!)
+            
+            detailsButton =  UIButton(frame:  CGRectMake(self.view.frame.width-60, 12, 55, 22))
+            detailsButton.backgroundColor = WMColor.green
+            detailsButton!.layer.cornerRadius = 11.0
+            detailsButton!.setTitle("Detalles", forState:.Normal)
+            detailsButton!.addTarget(self, action: "openUrl", forControlEvents: .TouchUpInside)
+            detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
+            detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+            self.alertBank.addSubview(detailsButton!)
+            
+            
+            
+            self.imageNotification = UIImageView(frame:CGRectMake(8,alertBank.frame.midY-6,12,12))
+            self.imageNotification?.image = UIImage(named: "notification_icon")
+            self.alertBank.addSubview(imageNotification!)
+
         }
+        
     
         
         //let recommendItemsService = RecommendedItemsService()
@@ -81,6 +102,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         //ale
         //self.viewContents!.addSubview(alertBank)
+        
+    }
+    func openUrl (){
+     self.termsSelect (plecaItems?["eventUrl"] as! String)
         
     }
     override func viewDidAppear(animated: Bool) {
