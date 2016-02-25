@@ -383,7 +383,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         if paramsPreorderable.count == 0 && params.count == 0{
             if self.items.count > 0 {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                let aleradyMessage = NSLocalizedString("shoppingcart.alreadyincart",comment:"")
+                let aleradyMessage = NSLocalizedString("empty.productdetail.barras",comment:"")
                 alert!.setMessage(aleradyMessage)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }
