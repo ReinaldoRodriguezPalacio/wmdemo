@@ -55,6 +55,8 @@
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233F1C2B683400361329 /* Tune.framework */; };
+		4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B61C7F6881006227EF /* LineViewController.swift */; };
+		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
 		5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716A1A9549590029786B /* GRSendOrderService.swift */; };
 		5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */; };
 		560323391C2B4B3200361329 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560323381C2B4B3200361329 /* iAd.framework */; };
@@ -631,6 +633,8 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A6DF5B61C7F6881006227EF /* LineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineViewController.swift; path = iPhone/Controller/Categories/LineViewController.swift; sourceTree = "<group>"; };
+		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
 		5601716A1A9549590029786B /* GRSendOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRSendOrderService.swift; path = Shared/Services/checkout/GRSendOrderService.swift; sourceTree = "<group>"; };
 		5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutConfirmViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutConfirmViewController.swift; sourceTree = "<group>"; };
 		560323381C2B4B3200361329 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -1987,9 +1991,11 @@
 		56527DE919AFFFFF008032C6 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				4A6DF5B61C7F6881006227EF /* LineViewController.swift */,
 				56DA713C1A3F9AEB00048539 /* IPOCategoriesViewController.swift */,
 				04678D051A48D30500190685 /* IPOGRCategoriesViewController.swift */,
 				561657D819B1423900DA056A /* FamilyViewController.swift */,
+				4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3384,6 +3390,7 @@
 			files = (
 				85A40B6A1C223AE40036C78A /* Application.swift in Sources */,
 				56ED1B631A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift in Sources */,
+				4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */,
 				564578F019AE33AB006A7152 /* AFURLConnectionOperation.m in Sources */,
 				5614A65C1A6872E20048B71A /* GRAddressByUserService.swift in Sources */,
 				AC6AAE9E19CCD408004081C4 /* AddressViewCell.swift in Sources */,
@@ -3588,6 +3595,7 @@
 				56EF81371A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift in Sources */,
 				56C5B22519AE879600BB81DE /* BaseService.swift in Sources */,
 				5681998219E3460A00362D3C /* WishlistAddProductStatus.swift in Sources */,
+				4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */,
 				56AE80E219D9CC5000D5DDA4 /* ProductDetailBundleItemCollectionViewCell.swift in Sources */,
 				56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */,
 				56895A501AA644D900561B12 /* MD5Util.swift in Sources */,
