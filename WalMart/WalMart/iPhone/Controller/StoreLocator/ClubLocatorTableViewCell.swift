@@ -16,7 +16,9 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     var phoneLabel: UILabel!
     var hoursOpenLabel: UILabel!
     var buttonContainer: UIView!
+    var distanceLabel: UILabel?
     var delegate: StoreViewDelegate!
+    var distanceFmt: NSNumberFormatter?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
@@ -54,6 +56,17 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         self.buttonContainer = UIView(frame: CGRectMake(0, frame.size.height - 48.0, frame.size.width, 48.0))
         self.buttonContainer.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.buttonContainer)
+        
+        self.distanceLabel = UILabel()
+        self.distanceLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+        self.distanceLabel!.textColor = WMColor.light_blue
+        self.distanceLabel!.text = "A km"
+        self.contentView.addSubview(self.distanceLabel!)
+        
+        self.distanceFmt = NSNumberFormatter()
+        self.distanceFmt!.maximumFractionDigits = 2
+        self.distanceFmt!.minimumFractionDigits = 2
+        self.distanceFmt!.locale = NSLocale.systemLocale()
         
         self.buildToolbar()
     }
@@ -101,6 +114,15 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         self.addressLabel.text = "\(store!.address!) CP: \(store!.zipCode!)"
         self.phoneLabel.text = String(format: NSLocalizedString("store.telephone", comment:""), store!.telephone!)
         self.hoursOpenLabel!.text = String(format: NSLocalizedString("store.opens", comment:""), store!.opens!)
+        
+        var distanceTxt: String? = ""
+        if userLocation != nil {
+            let storeLocation: CLLocation = CLLocation(latitude: self.store!.latitude!.doubleValue, longitude: self.store!.longitude!.doubleValue)
+            let distance: CLLocationDistance = userLocation!.distanceFromLocation(storeLocation)
+            distanceTxt = self.distanceFmt!.stringFromNumber(NSNumber(double: distance/1000))
+        }
+        
+        self.distanceLabel!.text = String(format: NSLocalizedString("store.distance", comment:""), distanceTxt!)
 
         self.setNeedsLayout()
         
@@ -112,11 +134,13 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         let width:CGFloat = bounds.width - (2*sep)
 
         let computedRect = self.size(forLabel: self.addressLabel, andSize: CGSizeMake(width, CGFloat.max))
-        self.addressLabel.frame = CGRectMake(sep, self.titleLabel.frame.maxY + 16.0, width, computedRect.height)
+        self.distanceLabel!.frame = CGRectMake(sep, self.titleLabel!.frame.maxY, width - sep, 12.0)
+        self.addressLabel.frame = CGRectMake(sep, self.distanceLabel!.frame.maxY + 16.0, width, computedRect.height)
         self.phoneLabel!.frame = CGRectMake(sep, self.addressLabel.frame.maxY + 16.0, width, 17.0)
         self.hoursOpenLabel!.frame = CGRectMake(sep, self.phoneLabel.frame.maxY, width, 17.0)
         
         self.buttonContainer!.frame = CGRectMake(0.0, bounds.height - 48.0, bounds.width, 48.0)
+        
     }
     
     //MARK: - Actions

@@ -246,7 +246,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
 
     override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
-self.closeProductDetail()
+        self.closeProductDetail()
         if self.selectQuantityGR != nil {
             self.closeContainer(
                 { () -> Void in
@@ -578,6 +578,8 @@ self.closeProductDetail()
         
         let frameDetail = CGRectMake(320.0, 0.0, 320.0, 360.0)
         self.selectQuantityGR = self.instanceOfQuantitySelector(frameDetail)
+        self.selectQuantityGR!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, 320.0, 360.0))
+
         self.selectQuantityGR!.closeAction = { () in
             self.removeListSelector(action: nil)
         }
