@@ -318,14 +318,28 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }else{
                 showProductDetail(val,type: type)
             }
+        case "lc":
+            self.openLandinCampaign()
+            print("Hacer busqueda por lines ")
    
-            
         default:
             return
         }
        
               
     }
+    
+    
+    func openLandinCampaign (){
+        
+        let controller = IPOLinesViewController()
+       
+        self.navigationController!.pushViewController(controller, animated: true)
+
+    }
+    
+    
+    
     
     func showFindUpc(upcs:NSArray,type:String){
         let controller = SearchProductViewController()
@@ -362,7 +376,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         willHideTabbar()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
-        
         
         self.navigationController!.pushViewController(controller, animated: true)
     }
