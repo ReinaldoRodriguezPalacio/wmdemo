@@ -403,6 +403,7 @@
 "store.showtable" = "lista";
 "store.selector.map" = "Mapa";
 "store.selector.satelite" = "Satélite";
+"store.search.placeholder" = "Buscar tienda";
 
 //GR Category
 "gr.category.colapsar" = "Contraer";
