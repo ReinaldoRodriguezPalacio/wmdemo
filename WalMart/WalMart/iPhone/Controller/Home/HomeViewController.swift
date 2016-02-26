@@ -54,40 +54,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.plecaItems = serviceBanner.getPleca()
 
         print("::::PLECA VALOR:::")
-        if plecaItems !=  nil {
-            print(plecaItems?["terms"] as! String)
-            print(plecaItems?["eventUrl"] as! String)
-            alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
-            alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
-            self.view.addSubview(alertBank)
-            
-            //ale
-            titleView =  UILabel(frame:  CGRectMake(28, 0, self.view.frame.width-91, alertBank.frame.height))
-            titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
-            titleView!.textColor = UIColor.whiteColor()
-            titleView!.text = plecaItems?["terms"] as? String
-            titleView!.textAlignment = .Left
-            self.alertBank.addSubview(titleView!)
-            
-            detailsButton =  UIButton(frame:  CGRectMake(self.view.frame.width-60, 12, 55, 22))
-            detailsButton.backgroundColor = WMColor.green
-            detailsButton!.layer.cornerRadius = 11.0
-            detailsButton!.setTitle("Detalles", forState:.Normal)
-            detailsButton!.addTarget(self, action: "openUrl", forControlEvents: .TouchUpInside)
-            detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
-            detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-            self.alertBank.addSubview(detailsButton!)
-            
-            
-            
-            self.imageNotification = UIImageView(frame:CGRectMake(8,alertBank.frame.midY-6,12,12))
-            self.imageNotification?.image = UIImage(named: "notification_icon")
-            self.alertBank.addSubview(imageNotification!)
+        NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
 
-        }
-        
     
-        
+    
+    
         //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
         
@@ -97,16 +69,72 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         self.categories = getCategories()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatecontent:", name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+        
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
         
-        //ale
-        //self.viewContents!.addSubview(alertBank)
+
         
     }
+    func removePleca(){
+    }
+    
+    func showPleca (){
+        if plecaItems !=  nil {
+            print(plecaItems?["terms"] as! String)
+            print(plecaItems?["eventUrl"] as! String)
+            alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
+            alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
+            self.view.addSubview(alertBank)
+            
+            
+            titleView =  UILabel()
+            titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
+            titleView!.textColor = UIColor.whiteColor()
+            titleView!.text = plecaItems?["terms"] as? String
+            titleView!.textAlignment = .Left
+            titleView?.alpha = 0
+            self.alertBank.addSubview(titleView!)
+            
+            detailsButton =  UIButton()
+            detailsButton.backgroundColor = WMColor.green
+            detailsButton!.layer.cornerRadius = 11.0
+            detailsButton!.setTitle("Detalles", forState:.Normal)
+            detailsButton!.addTarget(self, action: "openUrl", forControlEvents: .TouchUpInside)
+            detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
+            detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
+            detailsButton?.alpha = 0
+            self.alertBank.addSubview(detailsButton!)
+            
+            
+            
+            self.imageNotification = UIImageView()
+            self.imageNotification?.image = UIImage(named: "notification_icon")
+            self.alertBank.addSubview(imageNotification!)
+            
+            UIView.animateWithDuration(0.4, animations: {
+                self.alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 46)
+                self.titleView!.frame = CGRectMake(28, 0, self.view.frame.width-91, self.alertBank.frame.height)
+                self.detailsButton.frame = CGRectMake(self.view.frame.width-60, 12, 55, 22)
+                self.imageNotification?.frame = CGRectMake(8,self.alertBank.frame.midY-6,12,12)
+                
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        self.titleView?.alpha = 1
+                        self.detailsButton?.alpha = 1
+                        self.imageNotification?.alpha = 1
+
+                        
+                    }
+            })
+            
+        }
+    }
+    
     func openUrl (){
      self.termsSelect (plecaItems?["eventUrl"] as! String)
-        
+     self.alertBank.alpha = 0
+    
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -129,11 +157,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-
-        //let offset = collection.frame.maxY - self.view.bounds.maxY
-        
-        //ale
-        //self.alertBank.frame = CGRectMake(0, viewContent.frame.height - 72 , self.viewContent.frame.width, 72)
 
 
         
