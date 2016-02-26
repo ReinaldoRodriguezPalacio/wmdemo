@@ -101,6 +101,18 @@ class IPAHomeViewController : HomeViewController {
         }
     }
     
+    override func openLandinCampaign(urlTicer:String){
+        
+        let controller = IPALinesViewController()
+        controller.urlTicer = urlTicer
+        controller.searchContextType =  .WithCategoryForMG
+        controller.frameStart =  CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        controller.frameEnd =  CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        
+
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
+    
     override func showFindUpc(upcs:NSArray,type:String){
         let controller = IPASearchProductViewController()
         if type == "mg" {
