@@ -278,7 +278,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func bannerDidSelect(queryBanner:String,type:String) {
+    func bannerDidSelect(queryBanner:String,type:String,urlTicer:String?) {
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Banner.rawValue
         
@@ -319,7 +319,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 showProductDetail(val,type: type)
             }
         case "lc":
-            self.openLandinCampaign()
+            self.openLandinCampaign(urlTicer!)
             print("Hacer busqueda por lines ")
    
         default:
@@ -330,10 +330,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func openLandinCampaign (){
+    func openLandinCampaign(urlTicer:String){
         
         let controller = IPOLinesViewController()
-       
+        controller.urlTicer = urlTicer
         self.navigationController!.pushViewController(controller, animated: true)
 
     }

@@ -502,6 +502,8 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.LineService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -601,6 +603,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.LineService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -1009,6 +1013,8 @@
 		</dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.LineService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -1108,6 +1114,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.LineService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>

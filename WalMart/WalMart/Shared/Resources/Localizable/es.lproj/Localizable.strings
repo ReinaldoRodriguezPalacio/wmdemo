@@ -605,3 +605,27 @@
 //alertBank
 "detalles.button" = "detalles";
 
+//Reminders
+"list.reminder.help" = "¿Cuándo quieres tu primer recordatorio?";
+"list.reminder.delete" = "Eliminar";
+"list.reminder.option.onetime" = "Sólo una vez";
+"list.reminder.option.weekly" = "Semanal";
+"list.reminder.option.everyTwoWeek" = "Cada 2 semanas";
+"list.reminder.option.everyThreeWeek" = "Cada 3 semanas";
+"list.reminder.option.montly" = "Cada Mes";
+"list.reminder.confirm.new" = "Recibirás una alerta %@ a partir de %@";
+"list.reminder.confirm.delete" = "¿Estas seguro de querer eliminar este recordatorio?";
+"list.reminder.confirm.ok" = "Aceptar";
+"list.reminder.confirm.cancel" = "Cancelar";
+"list.reminder.alert.content" = "Recordatorio: %@. Toca el botón para iniciar compra";
+"list.reminder.notification.content" = "Recordatorio: %@. Toca aquí para iniciar compra";
+"list.reminder.notification.validationDate" = "La fecha de inicio debe ser posterior a la fecha actual.";
+"list.reminder.notification.validation" = "Es necesario habilitar las notificaciones para la aplicación desde ajustes del dispositivo";
+"list.reminder.notification.settings" = "Configurar";
+"list.reminder.help.frequency" = "¿Con que frecuencia quieres tus recordatorios?";
+"list.reminder.help.calendar" = "Elige la fecha de inicio de tus recordatorios";
+"list.reminder.help.edit" = "Recordatorio: %@";
+"list.delete.edit" = "Editar";
+"list.delete.deleteAll" = "Eliminar todo";
+"list.delete.delete" = "Eliminar";
+
