@@ -11,39 +11,33 @@ import Foundation
 
 class LineViewController : FamilyViewController {
     
-    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
     }
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+      
         familyTable = UITableView()
         familyTable.registerClass(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
         familyTable.separatorStyle = UITableViewCellSeparatorStyle.None
-        
         familyTable.delegate = self
         familyTable.dataSource = self
+        familyTable.frame = self.view.bounds
         
         self.view.addSubview(familyTable)
     }
     
     override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        familyTable.frame = self.view.bounds
+
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int{
-        return families.count
+        return 1
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if selectedFamily != nil {
-            if selectedFamily.section == section {
-                return numberOfRowsInSection(section) + 1
-            }
-        }
-        return 1
+
+        return families.count
     }
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -52,20 +46,13 @@ class LineViewController : FamilyViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell! = nil
-        if indexPath.row == 0 {
-            let cellFamily = familyTable.dequeueReusableCellWithIdentifier(familyReuseIdentifier(), forIndexPath: indexPath) as! IPOFamilyTableViewCell
-            let selectedSection = families[indexPath.section]
-            let nameFamily = selectedSection["name"] as! String
-            cellFamily.setTitle(nameFamily)
-            cell = cellFamily
-        } else {
+     
+    
             let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as! IPOLineTableViewCell
-            let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
-            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
-            let selectedItem = itemLine["id"] as! String
-            cellLine.setTitle(itemLine["name"] as! String)
-            cellLine.showSeparator =  linesArr.count == indexPath.row 
+            let selectedSection = families[indexPath.row]
+            let selectedItem = selectedSection["line"] as! String
+            cellLine.setTitle(selectedSection["nameLine"] as! String)
+            cellLine.showSeparator =  true
             cell = cellLine
             
             if selectedItem == self.departmentId
@@ -76,30 +63,14 @@ class LineViewController : FamilyViewController {
             {
                 cell.backgroundColor = UIColor.whiteColor()
             }
-        }
+        
         return cell
     }
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row == 0  {
-            let changeSelection = (selectedFamily == nil || (selectedFamily != nil && selectedFamily.section != indexPath.section) )
-            if selectedFamily != nil {
-                deSelectSection(selectedFamily)
-            }
-            if changeSelection {
-                selectSection(indexPath)
-                self.familyTable.scrollToRowAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
-            }
-            let label = families[indexPath.section]["name"] as! String
-            let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-            BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_OPEN_ACCESSORY_LINES.rawValue, label:label)
-        }
-        else {
-            let selectedSection = families[indexPath.section]
-            let linesArr = selectedSection["line"] as! NSArray
-            let itemLine = linesArr[indexPath.row - 1] as! NSDictionary
 
+            let selectedSection = families[indexPath.row]
             let controller = SearchProductViewController()
             controller.searchContextType = .WithCategoryForMG
             if self.categoriesType != nil {
@@ -110,50 +81,13 @@ class LineViewController : FamilyViewController {
                 }
              
             }
-            controller.titleHeader = itemLine["name"] as? String
-            controller.idDepartment = departmentId
-            controller.idFamily = selectedSection["id"] as? String
-            controller.idLine = itemLine["id"] as? String
+            controller.titleHeader = selectedSection["nameLine"] as? String
+            controller.idDepartment = "_"
+            controller.idFamily = "_"
+            controller.idLine = selectedSection["line"] as? String
 
             self.navigationController!.pushViewController(controller, animated: true)
-            let label = itemLine["name"] as! String
-            let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-            BaseController.sendAnalytics("\(labelCategory)_AUTH", categoryNoAuth:"MG\(labelCategory)_NO_AUTH", action: WMGAIUtils.ACTION_SELECTED_LINE.rawValue, label:label)
-        }
+        
     }
-    
-  /*  func numberOfRowsInSection(section:Int) -> Int {
-        if section < families.count {
-            let selectedSection = families[section]
-            let nameLine = selectedSection["line"] as! NSArray
-            return nameLine.count
-        }
-        return 1
-    }
-    
-    func selectSection(indexPath: NSIndexPath!) {
-        selectedFamily = indexPath
-        let numberOfItems = numberOfRowsInSection(indexPath.section)
-        var arratIndexes : [NSIndexPath] = []
-        if numberOfItems > 0 {
-            for index in 1...numberOfItems {
-                arratIndexes.append(NSIndexPath(forRow: index, inSection: indexPath.section))
-            }
-            self.familyTable.insertRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
-        }
-    }
-    
-    func deSelectSection(indexPath: NSIndexPath!) {
-        selectedFamily = nil
-        let numberOfItems = numberOfRowsInSection(indexPath.section)
-        var arratIndexes : [NSIndexPath] = []
-        if numberOfItems > 0 {
-            for index in 1...numberOfItems {
-                arratIndexes.append(NSIndexPath(forRow: index, inSection: indexPath.section))
-            }
-            self.familyTable.deleteRowsAtIndexPaths(arratIndexes, withRowAnimation: .Automatic)
-        }
-    }*/
-    
     
 }

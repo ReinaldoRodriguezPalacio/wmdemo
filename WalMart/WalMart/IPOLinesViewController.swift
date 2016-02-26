@@ -10,88 +10,98 @@ import Foundation
 class IPOLinesViewController : IPOCategoriesViewController {
 
     var lineController : LineViewController!
+    var buttonClose : UIButton!
+    var imageBackground : UIImageView!
+    var imageIcon : UIImageView!
+    var titleLabel : UILabel!
+    var urlTicer : String!
     
     override func viewDidLoad() {
-        //super.viewDidLoad()
+      self.view.backgroundColor =  UIColor.whiteColor()
+
+        imageBackground = UIImageView()
+        imageBackground.contentMode = UIViewContentMode.Left
+        imageBackground.clipsToBounds = true
+        
+        self.imageBackground.setImageWithURL(NSURL(string: urlTicer), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.image = image
+            }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+             print("Error al presentar imagen")
+        }
+    
+        imageIcon = UIImageView()
+        imageIcon.image = UIImage(named: "categories_default")
         
         
+        titleLabel = UILabel()
+        titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
+        titleLabel.textColor = UIColor.whiteColor()
+        titleLabel.textAlignment = .Center
+        titleLabel.text = "Titulo de familia"
+        
+        buttonClose = UIButton()
+        buttonClose.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
+        buttonClose.addTarget(self, action: "closeDepartment", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.view.addSubview(imageBackground)
+        self.view.addSubview(imageIcon)
+        self.view.addSubview(titleLabel)
+        self.view.addSubview(buttonClose)
+        
+        
+
         self.viewFamily = UIView()
-        self.viewFamily.backgroundColor = UIColor.whiteColor()
-        
         self.lineController = LineViewController()
         self.lineController.categoriesType = .CategoryForMG
         self.addChildViewController(self.lineController)
-        self.viewFamily.addSubview(self.lineController.view)
+        self.viewFamily.addSubview(self.lineController.view)        
+        self.invokeServiceLine()
     }
     
     
     override func viewWillLayoutSubviews() {
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
-        lineController.view.frame = viewFamily.bounds
+       // lineController.view.frame = viewFamily.frame
+        
+        self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , CELL_HEIGHT)
+        titleLabel.frame = CGRectMake(0, 66, self.view.frame.width , 16)
+        imageIcon.frame = CGRectMake((self.view.frame.width / 2) - 14, 22 , 28, 28)
+        buttonClose.frame = CGRectMake(0, 0, 40, 40)
+    }
+    
+    var linesCamp :[[String:AnyObject]]?
+    
+    func invokeServiceLine(){
+        
+        let service =  LineService()
+        
+        service.callService(requestParams: [:], successBlock: { (response:NSDictionary) -> Void in
+            let listLines  =  response["listLines"] as! NSArray
+            print(listLines)
+            self.linesCamp = listLines as! [[String : AnyObject]]
+            self.didSelectDeparmentAtIndex(NSIndexPath(index: 0))
+           
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error")
+        })
+    
     }
     
     
     override func didSelectDeparmentAtIndex(indexPath: NSIndexPath){
         
-        var currentItem = indexPath.row
-        if indexPath.row == 0  && landingItem != nil  {
-            let eventUrl = landingItem!["eventUrl"]
-            self.handleLandingEvent(eventUrl!)
-            return
-        }
+        lineController.departmentId = "0"
+        lineController.families = self.linesCamp!
+        lineController.selectedFamily = nil
+        lineController.familyTable.reloadData()
+        self.viewFamily.alpha = 1
+        self.view.addSubview(self.viewFamily)
+       
         
-        if landingItem != nil {
-            currentItem = currentItem - 1
-        }
-        
-        let item = items![currentItem] as! [String:AnyObject]
-        let famArray : AnyObject = item["family"] as AnyObject!
-        let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
-        
-        let label = item["description"] as! String
-        let labelCategory = label.uppercaseString.stringByReplacingOccurrencesOfString(" ", withString: "_")
-        BaseController.sendAnalytics("MG_\(labelCategory)_VIEW_AUTH", categoryNoAuth: "MG_\(labelCategory)_VIEW_NO_AUTH", action: WMGAIUtils.ACTION_SHOW_FAMILIES.rawValue, label: label)
-        
-        familyController.departmentId = item["idDepto"] as! String
-        familyController.families = itemsFam
-        familyController.selectedFamily = nil
-        familyController.familyTable.reloadData()
-        
-        var categoryCell = self.categories.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
-        if categoryCell == nil {
-            self.categories.reloadItemsAtIndexPaths([indexPath])
-            categoryCell = self.categories.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
-        }
-        let frameOriginal = self.categories.convertRect(categoryCell!.frame, toView:  self.view)
-        selectedView = IPODepartmentCollectionViewCell(frame:frameOriginal)
-        selectedView.isOpen = true
-        selectedView.setValuesFromCell(categoryCell!)
-        self.view.addSubview(selectedView)
-        
-        selectedView.onclose = {() in
-            print("Close")
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.viewFamily.alpha = 0
-            })
-            self.closeDepartment()
-        }
-        
-        selectedView.animateToOpenDepartment(self.view.frame.width, endAnumating: { () -> Void in
-            
-            self.viewFamily.alpha = 0
-            self.familyController.familyTable.reloadData()
-            self.view.addSubview(self.viewFamily)
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.viewFamily.alpha = 1
-            })
-            
-            print("End")
-            
-        })
-        
+    }
+    override func closeDepartment() {
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     
-    
-
 }
