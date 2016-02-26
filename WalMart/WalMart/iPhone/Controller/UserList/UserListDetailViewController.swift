@@ -48,6 +48,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var selectedItems : NSMutableArray? = nil
     
     var containerEditName: UIView?
+    var reminderButton: UIButton?
+    var reminderImage: UIImageView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -140,6 +142,22 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         
+        self.reminderButton = UIButton()
+        self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
+        self.reminderButton!.setImage(UIImage(named: "calendar_blue"), forState: .Normal)
+        self.reminderButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
+        self.reminderButton!.setTitleColor(UIColor.whiteColor(), forState: .Selected)
+        self.reminderButton!.setImage(UIImage(named: "calendar_white"), forState: .Selected)
+        self.reminderButton!.layer.borderColor = WMColor.light_light_blue.CGColor
+        self.reminderButton!.addTarget(self, action: "addReminder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.reminderButton!.layer.borderWidth = 0.5
+        self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
+        self.reminderButton!.titleLabel?.textAlignment = .Center
+        self.view.addSubview(reminderButton!)
+        
+        self.reminderImage = UIImageView(image: UIImage(named: "blue_arrow"))
+        self.view.addSubview(reminderImage!)
+        
         if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
             let tabBarHeight:CGFloat = 45.0
             self.footerConstraint?.constant = tabBarHeight
@@ -150,6 +168,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.isSharing = false
 
          buildEditNameSection()
+        
+        let reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+        self.setReminderSelected(reminderService.existNotificationForCurrentList())
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -161,11 +182,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     override func viewWillLayoutSubviews() {
-        if !self.isSharing {
-            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
-        }
         super.viewWillLayoutSubviews()
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
+        if !self.isSharing {
+            self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
+            self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
+            self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+        }
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {titleLabel
 //            self.layoutTitleLabel()
 //        }
@@ -245,13 +268,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if !self.isEdditing {
             
-            
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
             
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.tableConstraint?.constant = 110
                 self.containerEditName!.alpha = 1
                 self.footerSection!.alpha = 0
+                self.reminderButton?.alpha = 0.0
             }, completion: { (complete:Bool) -> Void in
                 
                 
@@ -261,7 +284,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 0.0
                         self.deleteAllBtn!.alpha = 1.0
-                        
                     }, completion: { (finished:Bool) -> Void in
                         
                     }
@@ -287,7 +309,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 1.0
                         self.deleteAllBtn!.alpha = 0.0
-                        
                     }, completion: { (finished:Bool) -> Void in
                         if finished {
                             self.deleteAllBtn!.hidden = true
@@ -303,8 +324,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
                 }, completion: { (completition:Bool) -> Void in
-                    self.tableConstraint?.constant = self.header!.frame.maxY
+                    self.tableConstraint?.constant = self.reminderButton!.frame.maxY
                     self.containerEditName!.alpha = 0
+                    self.reminderButton?.alpha = 1.0
                     self.footerSection!.alpha = 1
             })
             
@@ -1284,5 +1306,36 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     override func back() {
         super.back()
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
+    }
+    
+    func setReminderSelected(selected:Bool){
+        self.reminderButton?.selected = selected
+        if selected{
+            let reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+            self.reminderButton!.setTitle("Tienes un recordatorio de esta lista. \(reminderService.getNotificationPeriod())", forState: .Selected)
+            self.reminderButton!.backgroundColor = WMColor.light_blue
+            self.reminderButton!.layer.borderColor = WMColor.light_blue.CGColor
+            self.reminderImage?.image = UIImage(named: "white_arrow")
+            self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
+            self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 30)
+        }else{
+            self.reminderButton!.backgroundColor = UIColor.whiteColor()
+            self.reminderButton!.layer.borderColor = WMColor.light_light_blue.CGColor
+            self.reminderImage?.image = UIImage(named: "blue_arrow")
+            self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 110)
+            self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 125)
+        }
+    }
+    
+    func addReminder(){
+        let selected = self.reminderButton!.selected
+        let reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+        if  selected {
+            reminderService.removeNotificationsFromCurrentList()
+            self.setReminderSelected(false)
+        }else{
+            reminderService.scheduleNotifications(forOption: 3, withDate: NSDate())
+            self.setReminderSelected(true)
+        }
     }
 }
