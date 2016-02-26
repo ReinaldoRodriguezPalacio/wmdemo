@@ -21,7 +21,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
 
     override func viewDidLoad() {
         self.view.clipsToBounds = true
-        self.view.backgroundColor = UIColor.blueColor()
+        self.view.backgroundColor = UIColor.whiteColor()
         
         viewImageBgCategory = UIImageView(frame: CGRectMake(-120, 0, 1024, frameStart.height))
         viewImageBgCategory.contentMode = UIViewContentMode.ScaleAspectFill
@@ -45,7 +45,6 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         viewImageContent.addSubview(imageIcon)
         viewImageContent.addSubview(titleLabel)
         viewImageContent.clipsToBounds = true
-        viewImageContent.backgroundColor =  UIColor.redColor()
         
         self.invokeServiceLine { () -> Void in
             

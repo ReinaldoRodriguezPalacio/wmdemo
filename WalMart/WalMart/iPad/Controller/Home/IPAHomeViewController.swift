@@ -18,25 +18,29 @@ class IPAHomeViewController : HomeViewController {
         collection.registerClass(IPABannerCollectionViewCell.self, forCellWithReuseIdentifier: "iPABannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "iPACategoryHome")
         collection.registerClass(IPAProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductHome")
-        
-        
+
+
+    }
+    
+    override func showPleca(){
         print("::::PLECA VALOR:::")
         if plecaItems !=  nil {
             print(plecaItems?["terms"] as! String)
             print(plecaItems?["eventUrl"] as! String)
-            alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 46)
+            
+            alertBank = UIView(frame:CGRectMake(0, 0, self.view.frame.width, 46))
             alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
             self.view.addSubview(alertBank)
             
             //self.view.frame.width-600
-            titleView!.frame =  CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, alertBank.frame.height)
+            titleView =  UILabel(frame: CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, alertBank.frame.height))
             titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
             titleView!.textColor = UIColor.whiteColor()
             titleView!.text = plecaItems?["terms"] as? String
             titleView!.textAlignment = .Left
             self.alertBank.addSubview(titleView!)
             
-            detailsButton!.frame = CGRectMake(self.view.frame.width / 2+85, 12, 55, 22)
+            detailsButton = UIButton(frame: CGRectMake(self.view.frame.width / 2+85, 12, 55, 22))
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", forState:.Normal)
@@ -45,15 +49,11 @@ class IPAHomeViewController : HomeViewController {
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             self.alertBank.addSubview(detailsButton!)
             
-            
-            
-            self.imageNotification!.frame = CGRectMake(self.view.bounds.width / 2-150,alertBank.frame.midY-6,12,12)
+            self.imageNotification = UIImageView(frame:CGRectMake(self.view.bounds.width / 2-150,alertBank.frame.midY-6,12,12))
             self.imageNotification?.image = UIImage(named: "notification_icon")
             self.alertBank.addSubview(imageNotification!)
             
         }
-        
-
     }
     
     override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

@@ -40,10 +40,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func viewDidLoad() {
         super.viewDidLoad()
       
-
-        
-        
-        
         collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
         collection.registerClass(ProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "productHome")
@@ -57,9 +53,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
         NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
 
-    
-    
-    
         //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
         
@@ -105,9 +98,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
             self.alertBank.addSubview(detailsButton!)
-            
-            
-            
+ 
             self.imageNotification = UIImageView()
             self.imageNotification?.image = UIImage(named: "notification_icon")
             self.alertBank.addSubview(imageNotification!)
