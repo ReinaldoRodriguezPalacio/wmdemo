@@ -14,15 +14,13 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     var lineController : IPALinesListViewController!
     var buttonClose : UIButton!
     var imageBackground : UIImageView!
-   
     var urlTicer : String!
     var linesCamp :[[String:AnyObject]]?
  
 
     override func viewDidLoad() {
         self.view.clipsToBounds = true
-        self.view.backgroundColor = UIColor.whiteColor()
-        
+        //self.showLoadingView()
         viewImageBgCategory = UIImageView(frame: CGRectMake(-120, 0, 1024, frameStart.height))
         viewImageBgCategory.contentMode = UIViewContentMode.ScaleAspectFill
         viewImageBgCategory.image = imgCategory
@@ -53,6 +51,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.searchProduct.searchContextType = self.searchContextType
             self.searchProduct.delegateImgHeader = self
             self.searchProduct.imageBgCategory =  UIImage(named: "header_default")
+            self.imageBackground = UIImageView()
+            self.imageBackground.setImageWithURL(NSURL(string: self.urlTicer), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageBackground.image = image
+                self.searchProduct.imageBgCategory = image
+                
+                }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+                    print("Error al presentar imagen")
+            }
             self.searchProduct.imageIconCategory = UIImage(named: "efault")
             self.searchProduct.titleCategory = ""
             self.searchProduct.idFamily  = "_"
@@ -85,8 +91,10 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             let listLines  =  response["listLines"] as! NSArray
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
+            //self.removeLoadingView()
            succesBlock()
             }, errorBlock: { (error:NSError) -> Void in
+                self.closeCategory()
                 print("Error")
         })
         
@@ -111,7 +119,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             popover = UIPopoverController(contentViewController: lineController)
         }
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, frameStart.height + 40, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,340, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         searchProduct.setSelectedHeaderCat()
         
         if lineController.familyTable != nil {
@@ -131,7 +139,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         lineController.families = self.linesCamp!
         
-        let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height + 40 ), toView:self.view)
+        let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2, 245), toView:self.view)
         print(pointPop)
         if #available(iOS 8.0, *) {
             lineController.modalPresentationStyle = .Popover
@@ -171,6 +179,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         popover!.dismissPopoverAnimated(false)
         
     }
+
     
 
 }
