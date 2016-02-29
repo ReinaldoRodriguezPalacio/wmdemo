@@ -1590,15 +1590,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if textUpdate != "" {
             fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)",textUpdate,textUpdate)
         }
-        let labelTracker : String = String(format: "name CONTAINS[cd] %@ OR  (ANY products.desc CONTAINS[cd] %@)", textUpdate,textUpdate)
-        //Event
-//        //TODOGAI
-//        if let tracker = GAI.sharedInstance().defaultTracker {
-//            tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.SCREEN_LISTS.rawValue,
-//                action:WMGAIUtils.GR_EVENT_LISTS_SEARCHCOMPLETE.rawValue,
-//                label: labelTracker,
-//                value: nil).build() as [NSObject:AnyObject])
-//        }
         var result: [List]? =  nil
         do{
             result =  try self.managedContext!.executeFetchRequest(fetchRequest) as? [List]

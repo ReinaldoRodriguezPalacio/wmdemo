@@ -604,6 +604,7 @@
 "detalles.button" = "detalles";
 
 //Reminders
+"list.reminder.title" = "Recordatorio";
 "list.reminder.help" = "¿Cuándo quieres tu primer recordatorio?";
 "list.reminder.delete" = "Eliminar";
 "list.reminder.option.onetime" = "Sólo una vez";
