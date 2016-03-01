@@ -660,7 +660,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         if paramsPreorderable.count == 0 && params.count == 0 {
             if self.items.count > 0 {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                let aleradyMessage = NSLocalizedString("empty.productdetail.barras",comment:"")
+                let aleradyMessage = NSLocalizedString("shoppingcart.isincart",comment:"")
                 alert!.setMessage(aleradyMessage)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             }

@@ -50,7 +50,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.plecaItems = serviceBanner.getPleca()
 
         print("::::PLECA VALOR:::")
-        NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
         NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
 
         //let recommendItemsService = RecommendedItemsService()
@@ -72,19 +71,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func removePleca(){
         UIView.animateWithDuration(0.5 , animations: {
             self.alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 0)
-   self.titleView?.alpha = 0
-                    self.detailsButton?.alpha = 0
-                    self.imageNotification?.alpha = 0
+            self.titleView?.alpha = 0
+            self.detailsButton?.alpha = 0
+            self.imageNotification?.alpha = 0
             
             }, completion: {(bool : Bool) in
                 if bool {
                     self.alertBank?.alpha = 0
-                 
-                     self.alertBank?.removeFromSuperview()
-                    
+                    self.alertBank?.removeFromSuperview()
                 }
         })
-        
     }
     
     func showPleca (){
@@ -149,11 +145,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.bannerCell?.startTimmer()
+        NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
+
     }
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
         self.bannerCell?.stopTimmer()
+        self.removePleca()
+        
     }
     
     override func viewWillLayoutSubviews() {
