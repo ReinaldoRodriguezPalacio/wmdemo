@@ -759,7 +759,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                             return Int(firstOrder) < Int(secondOrder)
                         }
                         self.facet = sortFacet
-                    }
+                    }//
+                    
                     
                     //                    if self.allProducts != nil {
                     //                        self.allProducts = self.allProducts!.arrayByAddingObjectsFromArray(arrayProduct!)
@@ -776,6 +777,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 }
                 
                 actionSuccess?()
+                NSNotificationCenter.defaultCenter().postNotificationName("FINISH_SEARCH", object: nil)
                 
             }, errorBlock: {(error: NSError) in
                 print("MG Search ERROR!!!")

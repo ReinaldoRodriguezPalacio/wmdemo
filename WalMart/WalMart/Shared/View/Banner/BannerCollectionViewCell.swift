@@ -250,7 +250,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         let type = values["type"]
         let queryBanner = values["eventUrl"]
         let teaserUrlPhone = values["teaserUrlPhone"]
-        let bannerUrlTablet = values["bannerUrlTablet"]
+        let bannerUrlTablet = values["teaserUrlIpad"]
         
         delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone)
     }

@@ -17,6 +17,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     var urlTicer : String!
     var linesCamp :[[String:AnyObject]]?
     var familyId : String!
+    var loading: WMLoadingView?
  
 
     override func viewDidLoad() {
@@ -80,6 +81,21 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
          //self.view.addSubview(viewImageContent)
     }
     
+    override func viewWillAppear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "finisSearch", name: "FINISH_SEARCH", object: nil)
+
+        if self.loading == nil {
+            self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(true)
+        }
+    }
+    func finisSearch(){
+        self.loading!.stopAnnimating()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        print("::Termina carga de productos de linea::")
+    }
 
     
     override func viewDidAppear(animated: Bool) {
@@ -94,6 +110,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
             //self.removeLoadingView()
+            
            succesBlock()
             }, errorBlock: { (error:NSError) -> Void in
                 self.closeCategory()
@@ -127,6 +144,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         if lineController.familyTable != nil {
             lineController.familyTable.reloadData()
         }
+       self.loading?.stopAnnimating()
         
     }
     
