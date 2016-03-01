@@ -8,7 +8,11 @@
 
 import UIKit
 
-class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol{
+protocol ReminderViewControllerDelegate {
+    func notifyReminderWillClose(forceValidation flag:Bool, value:Bool)
+}
+
+class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol,UIActionSheetDelegate{
     
     var listId: String?
     var listName: String?
@@ -17,6 +21,9 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     var selectedPeriodicity: Int?
     var reminderService: ReminderNotificationService?
     var fmtDisplay: NSDateFormatter?
+    var actionSheet: UIActionSheet?
+    var alertView: IPOWMAlertViewController?
+    var delegate: ReminderViewControllerDelegate?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REMINDER.rawValue
@@ -34,12 +41,29 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
         self.calendar!.backgroundColor = UIColor.whiteColor()
         self.calendar!.bottomExpanding = true
         self.view.addSubview(self.calendar!)
+        
+        if !self.reminderService!.existNotificationForCurrentList(){
+            showNotificationOptions()
+        }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.frame.size
         self.calendar!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, 500.0)
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        if self.actionSheet != nil && self.actionSheet!.visible {
+            let cancelIdx = self.actionSheet!.cancelButtonIndex
+            self.actionSheet!.dismissWithClickedButtonIndex(cancelIdx, animated: false)
+        }
+    }
+    
+    override func back() {
+        self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+        super.back()
     }
     
     // MARK: - ABCalendarPickerDataSourceProtocol
@@ -142,7 +166,9 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
         
         if theDate!.compare(today!) != NSComparisonResult.OrderedDescending {
             let text = NSLocalizedString("list.reminder.notification.validationDate",comment:"")
-            //AlertController.presentViewController(text, icon: UIImage(named:"alerta_notificacion"))
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(text)
+            self.alertView!.showErrorIcon("Aceptar")
             return
         }
         
@@ -150,26 +176,46 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
             let text = self.reminderService!.options[self.selectedPeriodicity!]
             let title = String(format: NSLocalizedString("list.reminder.confirm.new",comment:""), text, self.fmtDisplay!.stringFromDate(date!))
             
-           /* AlertController.presentViewController(title,
-                icon:UIImage(named:"alerta_notificacion"),
-                titleButtonLeft: NSLocalizedString("list.reminder.confirm.cancel", comment:""),
-                leftAction: {() -> Void in
-                    self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
-                    self.navigationController?.popViewControllerAnimated(true)
-                },
-                titleButtonRight: NSLocalizedString("list.reminder.confirm.ok", comment:""),
-                rightAction: {() -> Void in
-                    
-                    BaseGAIViewController.sendAnalytics(SAMSGAIUtils.CATEGORY_REMINDER_AUTH.rawValue, categoryNoAuth: SAMSGAIUtils.CATEGORY_REMINDER_NO_AUTH.rawValue, action: SAMSGAIUtils.ACTION_REMINDER_WEEK.rawValue, label: text)
-                    
-                    BaseGAIViewController.sendAnalytics(SAMSGAIUtils.CATEGORY_REMINDER_AUTH.rawValue, categoryNoAuth: SAMSGAIUtils.CATEGORY_REMINDER_NO_AUTH.rawValue, action: SAMSGAIUtils.ACTION_REMINDER_SELECTED.rawValue, label: String(date))
-                    BaseGAIViewController.sendAnalytics(SAMSGAIUtils.CATEGORY_REMINDER_AUTH.rawValue, categoryNoAuth: SAMSGAIUtils.CATEGORY_REMINDER_NO_AUTH.rawValue, action: SAMSGAIUtils.ACTION_REMINDER_CONFIRM.rawValue, label: "")
-                    self.scheduleNotifications(forOption:self.selectedPeriodicity!, withDate:date)
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(title)
+            self.alertView!.showDoneIconWithoutClose()
+            self.alertView!.addActionButtonsWithCustomText("Cancelar", leftAction: {() -> Void in
+                self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+                self.alertView!.close()
+                self.navigationController?.popViewControllerAnimated(true)
+                }, rightText: "Aceptar", rightAction: {() -> Void in
+                    self.reminderService!.scheduleNotifications(forOption:self.selectedPeriodicity!, withDate:date)
                     self.delegate?.notifyReminderWillClose(forceValidation: false, value: true)
+                    self.alertView!.close()
                     self.navigationController?.popViewControllerAnimated(true)
-                }
-            )*/
-            
+                }, isNewFrame: false)
+        }
+    }
+    
+    
+    //MARK - Notifications
+    func showNotificationOptions() {
+        self.buildOptions()
+        self.actionSheet!.showInView(self.view)
+    }
+    
+    func buildOptions() {
+        self.actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
+        self.actionSheet!.actionSheetStyle = .Automatic
+        for option in self.reminderService!.options {
+            self.actionSheet!.addButtonWithTitle(option)
+        }
+        let cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
+        self.actionSheet!.cancelButtonIndex = cancelIdx
+        self.actionSheet!.tintColor = WMColor.dark_blue
+    }
+    
+    //MARK: - UIActionSheetDelegate
+    
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if self.actionSheet!.cancelButtonIndex != buttonIndex {
+            self.selectedPeriodicity = buttonIndex
+            //self.performSegueWithIdentifier("showAlerts", sender: self)
         }
     }
 }

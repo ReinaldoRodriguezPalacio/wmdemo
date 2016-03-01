@@ -9,7 +9,7 @@
 import Foundation
 
 protocol BannerCollectionViewCellDelegate {
-    func bannerDidSelect(queryBanner:String,type:String,urlTicer:String?)
+    func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?)
     func termsSelect(url:String)
 }
 
@@ -249,9 +249,10 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         
         let type = values["type"]
         let queryBanner = values["eventUrl"]
-        let urlTicer = values["ticer"]
+        let teaserUrlPhone = values["teaserUrlPhone"]
+        let bannerUrlTablet = values["bannerUrlTablet"]
         
-        delegate.bannerDidSelect(queryBanner!, type: type!,urlTicer: urlTicer)
+        delegate.bannerDidSelect(queryBanner!, type: type!,urlTteaser: IS_IPAD ? bannerUrlTablet : teaserUrlPhone)
     }
     
     

@@ -15,7 +15,9 @@ class BannerService : BaseService {
     let JSON_BANNER_BANNERLIST = "bannerList"
     let JSON_BANNER_EMBEDDEDLIST = "embeddedList"
     let JSON_BANNER_LANDING = "landing"
+    let JSON_BANNER_LANDINGCAMPANA = "landingcampana"
     let JSON_BANNER_PLECA = "pleca"
+
     
     
     
@@ -87,6 +89,13 @@ class BannerService : BaseService {
                 bannerItems.append(banner)
             }
         }
+        //LANDINGCAMPANA
+        if var moreBanner = values![JSON_BANNER_LANDINGCAMPANA] as? [[String:String]] {
+            for banner in moreBanner {
+                bannerItems.append(banner)
+            }
+        }
+
         
         
         return bannerItems

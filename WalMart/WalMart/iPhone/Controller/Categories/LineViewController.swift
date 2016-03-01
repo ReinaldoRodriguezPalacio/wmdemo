@@ -50,9 +50,11 @@ class LineViewController : FamilyViewController {
     
             let cellLine = familyTable.dequeueReusableCellWithIdentifier(lineReuseIdentifier(), forIndexPath: indexPath) as! IPOLineTableViewCell
             let selectedSection = families[indexPath.row]
-            let selectedItem = selectedSection["line"] as! String
-            cellLine.setTitle(selectedSection["nameLine"] as! String)
+            let selectedItem = selectedSection["id"] as! String
+            cellLine.setTitle(selectedSection["name"] as! String)
+            cellLine.setValues(selectedSection["price"] as! String)
             cellLine.showSeparator =  true
+        
             cell = cellLine
             
             if selectedItem == self.departmentId
@@ -81,10 +83,10 @@ class LineViewController : FamilyViewController {
                 }
              
             }
-            controller.titleHeader = selectedSection["nameLine"] as? String
+            controller.titleHeader = selectedSection["name"] as? String
             controller.idDepartment = "_"
             controller.idFamily = "_"
-            controller.idLine = selectedSection["line"] as? String
+            controller.idLine = selectedSection["id"] as? String
 
             self.navigationController!.pushViewController(controller, animated: true)
         

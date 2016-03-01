@@ -100,10 +100,11 @@ class IPAHomeViewController : HomeViewController {
         }
     }
     
-    override func openLandinCampaign(urlTicer:String){
+    override func openLandinCampaign(urlTicer:String,idFamily:String){
         
         let controller = IPALinesViewController()
         controller.urlTicer = urlTicer
+        controller.familyId = idFamily
         controller.searchContextType =  .WithCategoryForMG
         controller.frameStart =  CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         controller.frameEnd =  CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)

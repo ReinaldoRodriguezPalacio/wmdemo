@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate {
+class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -1309,6 +1309,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
     
+    //MARK: - Reminder
+    
     func setReminderSelected(selected:Bool){
         self.reminderButton?.selected = selected
         if selected{
@@ -1332,10 +1334,19 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let reminderViewController = ReminderViewController()
         reminderViewController.listId = self.listId!
         reminderViewController.listName = self.listName!
+        reminderViewController.delegate = self
         if  selected {
             reminderViewController.selectedPeriodicity = self.reminderService!.selectedPeriodicity
             reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
         }
         self.navigationController?.pushViewController(reminderViewController, animated: true)
+    }
+    
+    func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
+        if self.reminderService!.existNotificationForCurrentList() || value{
+            setReminderSelected(true)
+        }else{
+            setReminderSelected(false)
+        }
     }
 }

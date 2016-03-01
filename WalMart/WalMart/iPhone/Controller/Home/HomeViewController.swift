@@ -311,13 +311,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func bannerDidSelect(queryBanner:String,type:String,urlTicer:String?) {
+    func bannerDidSelect(queryBanner:String,type:String,urlTteaser:String?) {
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Banner.rawValue
         
         //var params : Dictionary<String,String>?  = nil
         var components = queryBanner.componentsSeparatedByString("_")
-        if(components.count <= 1){
+        if urlTteaser !=  nil  {
+            components[0] = "lc"
+        }
+        if(components.count <= 1 && urlTteaser == nil){
             return
         }
         let bannerStr : NSString = queryBanner
@@ -352,7 +355,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 showProductDetail(val,type: type)
             }
         case "lc":
-            self.openLandinCampaign(urlTicer!)
+            self.openLandinCampaign(urlTteaser!,idFamily:queryBanner)
             print("Hacer busqueda por lines ")
    
         default:
@@ -363,10 +366,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     
-    func openLandinCampaign(urlTicer:String){
+    func openLandinCampaign(urlTicer:String,idFamily:String){
         
         let controller = IPOLinesViewController()
         controller.urlTicer = urlTicer
+        controller.familyName = idFamily
         self.navigationController!.pushViewController(controller, animated: true)
 
     }
