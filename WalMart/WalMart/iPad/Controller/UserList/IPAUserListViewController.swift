@@ -42,8 +42,12 @@ class IPAUserListViewController: UserListViewController {
         self.needsToShowWishList = false
         
         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
-        
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
+        self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
     }
 
     override func didReceiveMemoryWarning() {
@@ -67,7 +71,7 @@ class IPAUserListViewController: UserListViewController {
     override func showSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?, animated:Bool) {
         self.isToggleBarEnabled = false
         self.searchContainer!.hidden = false
-        //self.searchConstraint!.constant = self.SC_HEIGHT
+        self.searchConstraint?.constant = self.SC_HEIGHT
         if animated {
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
