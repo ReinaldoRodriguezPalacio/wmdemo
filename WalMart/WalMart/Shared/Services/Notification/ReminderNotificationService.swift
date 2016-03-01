@@ -163,7 +163,7 @@ class ReminderNotificationService {
         return exist
     }
     
-    func isEnableLocalNotificationForApp() -> Bool {
+    static func isEnableLocalNotificationForApp() -> Bool {
         if(UIApplication.instancesRespondToSelector(Selector("currentUserNotificationSettings")))
         {
             if #available(iOS 8.0, *) {

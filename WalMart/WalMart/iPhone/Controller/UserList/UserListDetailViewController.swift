@@ -51,6 +51,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var reminderButton: UIButton?
     var reminderImage: UIImageView?
     var reminderService: ReminderNotificationService?
+    var showReminderButton: Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -154,24 +155,26 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton!.layer.borderWidth = 0.5
         self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
         self.reminderButton!.titleLabel?.textAlignment = .Center
-        self.view.addSubview(reminderButton!)
         
         self.reminderImage = UIImageView(image: UIImage(named: "blue_arrow"))
-        self.view.addSubview(reminderImage!)
         
         if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
             let tabBarHeight:CGFloat = 45.0
             self.footerConstraint?.constant = tabBarHeight
             self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
             self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-            
         }
         self.isSharing = false
-
-         buildEditNameSection()
-        
-        self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
-        self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
+        buildEditNameSection()
+        self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp()
+        self.tableConstraint?.constant = (self.showReminderButton ? 70.0 : 46.0)
+        if showReminderButton{
+            self.view.addSubview(reminderButton!)
+            self.view.addSubview(reminderImage!)
+            self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+            self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
+        }
+       
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -186,9 +189,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         super.viewWillLayoutSubviews()
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
         if !self.isSharing {
-            self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
-            self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-            self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+            if showReminderButton{
+                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
+                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
+                self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+            }else{
+                self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+            }
         }
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {titleLabel
 //            self.layoutTitleLabel()
@@ -276,6 +283,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.containerEditName!.alpha = 1
                 self.footerSection!.alpha = 0
                 self.reminderButton?.alpha = 0.0
+                self.reminderImage?.alpha = 0.0
             }, completion: { (complete:Bool) -> Void in
                 
                 
@@ -325,9 +333,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
                 }, completion: { (completition:Bool) -> Void in
-                    self.tableConstraint?.constant = self.reminderButton!.frame.maxY
+                    self.tableConstraint?.constant = (self.showReminderButton ? self.reminderButton!.frame.maxY : self.header!.frame.maxY)
                     self.containerEditName!.alpha = 0
                     self.reminderButton?.alpha = 1.0
+                    self.reminderImage?.alpha = 1.0
                     self.footerSection!.alpha = 1
             })
             
@@ -1343,6 +1352,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
+
         if self.reminderService!.existNotificationForCurrentList() || value{
             setReminderSelected(true)
         }else{
