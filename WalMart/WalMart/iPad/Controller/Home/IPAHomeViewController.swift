@@ -23,34 +23,55 @@ class IPAHomeViewController : HomeViewController {
     }
     
     override func showPleca(){
-        print("::::PLECA VALOR:::")
+        print("::::showPleca:::")
         if plecaItems !=  nil {
-            print(plecaItems?["terms"] as! String)
-            print(plecaItems?["eventUrl"] as! String)
-            
-            alertBank = UIView(frame:CGRectMake(0, 0, self.view.frame.width, 46))
-            alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
-            self.view.addSubview(alertBank)
-            
-            titleView =  UILabel(frame: CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, alertBank.frame.height))
+            if alertBank ==  nil {
+                alertBank = UIView(frame:CGRectMake(0, 0, self.view.frame.width, 0))
+                alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
+                self.view.addSubview(alertBank!)
+            }
+            if titleView ==  nil {
+                titleView =  UILabel(frame: CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, alertBank!.frame.height))
+            }
             titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
             titleView!.textColor = UIColor.whiteColor()
             titleView!.text = plecaItems?["terms"] as? String
             titleView!.textAlignment = .Left
-            self.alertBank.addSubview(titleView!)
-            
-            detailsButton = UIButton(frame: CGRectMake(self.view.frame.width / 2+85, 12, 55, 22))
+            titleView?.alpha = 0
+            self.alertBank!.addSubview(titleView!)
+            if detailsButton ==  nil{
+                detailsButton = UIButton(frame: CGRectMake(self.view.frame.width / 2+85, 12, 55, 22))
+            }
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", forState:.Normal)
             detailsButton!.addTarget(self, action: "openUrl", forControlEvents: .TouchUpInside)
             detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
-            self.alertBank.addSubview(detailsButton!)
-            
-            self.imageNotification = UIImageView(frame:CGRectMake(self.view.bounds.width / 2-150,alertBank.frame.midY-6,12,12))
+            detailsButton.alpha = 0
+            self.alertBank!.addSubview(detailsButton!)
+            if imageNotification ==  nil {
+                self.imageNotification = UIImageView(frame:CGRectMake(self.view.bounds.width / 2-150,alertBank!.frame.midY-6,12,12))
+            }
             self.imageNotification?.image = UIImage(named: "notification_icon")
-            self.alertBank.addSubview(imageNotification!)
+            imageNotification?.alpha =  0
+            self.alertBank!.addSubview(imageNotification!)
+            
+            UIView.animateWithDuration(0.4, animations: {
+                self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
+                self.titleView!.frame = CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, self.alertBank!.frame.height)
+                self.detailsButton.frame = CGRectMake(self.view.frame.width / 2+85, 12, 55, 22)
+                self.imageNotification?.frame = CGRectMake(self.view.bounds.width / 2-150,self.alertBank!.frame.midY-6,12,12)
+                
+                }, completion: {(bool : Bool) in
+                    if bool {
+                        self.alertBank?.alpha = 1
+                        self.titleView?.alpha = 1
+                        self.detailsButton?.alpha = 1
+                        self.imageNotification?.alpha = 1
+                        
+                    }
+            })
             
         }
     }
