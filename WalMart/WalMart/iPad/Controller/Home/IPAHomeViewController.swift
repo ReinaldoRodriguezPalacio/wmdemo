@@ -32,7 +32,6 @@ class IPAHomeViewController : HomeViewController {
             alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
             self.view.addSubview(alertBank)
             
-            //self.view.frame.width-600
             titleView =  UILabel(frame: CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, alertBank.frame.height))
             titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
             titleView!.textColor = UIColor.whiteColor()

@@ -526,7 +526,7 @@
 "search.info.button.camera" = "Busca tomando\nuna foto";
 "search.info.button.barcode" = "Escanea un\nCódigo de Barras";
 "camfind.message.photo" = "Fotografía un artículo";
-"camfind.message.preview" = "Buscaremos este articulo en WalMart";
+"camfind.message.preview" = "Buscaremos este artículo en WalMart";
 
 //AvisoProvacidad
 "privace.notice.message" = "Nuestro Aviso de Privacidad ha cambiado, te invitamos a conocerlo.";
@@ -604,6 +604,7 @@
 "detalles.button" = "detalles";
 
 //Reminders
+"list.reminder.title" = "Recordatorio";
 "list.reminder.help" = "¿Cuándo quieres tu primer recordatorio?";
 "list.reminder.delete" = "Eliminar";
 "list.reminder.option.onetime" = "Sólo una vez";
@@ -617,7 +618,7 @@
 "list.reminder.confirm.cancel" = "Cancelar";
 "list.reminder.alert.content" = "Recordatorio: %@. Toca el botón para iniciar compra";
 "list.reminder.notification.content" = "Recordatorio: %@. Toca aquí para iniciar compra";
-"list.reminder.notification.validationDate" = "La fecha de inicio debe ser posterior a la fecha actual.";
+"list.reminder.notification.validationDate" = "La fecha de inicio debe ser\n posterior a la fecha actual.";
 "list.reminder.notification.validation" = "Es necesario habilitar las notificaciones para la aplicación desde ajustes del dispositivo";
 "list.reminder.notification.settings" = "Configurar";
 "list.reminder.help.frequency" = "¿Con que frecuencia quieres tus recordatorios?";

@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate {
+class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -50,6 +50,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var containerEditName: UIView?
     var reminderButton: UIButton?
     var reminderImage: UIImageView?
+    var reminderService: ReminderNotificationService?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -169,8 +170,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
          buildEditNameSection()
         
-        let reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
-        self.setReminderSelected(reminderService.existNotificationForCurrentList())
+        self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+        self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -1308,11 +1309,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")
     }
     
+    //MARK: - Reminder
+    
     func setReminderSelected(selected:Bool){
         self.reminderButton?.selected = selected
         if selected{
-            let reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
-            self.reminderButton!.setTitle("Tienes un recordatorio de esta lista. \(reminderService.getNotificationPeriod())", forState: .Selected)
+            self.reminderButton!.setTitle("Tienes un recordatorio de esta lista. \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
             self.reminderButton!.backgroundColor = WMColor.light_blue
             self.reminderButton!.layer.borderColor = WMColor.light_blue.CGColor
             self.reminderImage?.image = UIImage(named: "white_arrow")
@@ -1329,13 +1331,22 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func addReminder(){
         let selected = self.reminderButton!.selected
-        let reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+        let reminderViewController = ReminderViewController()
+        reminderViewController.listId = self.listId!
+        reminderViewController.listName = self.listName!
+        reminderViewController.delegate = self
         if  selected {
-            reminderService.removeNotificationsFromCurrentList()
-            self.setReminderSelected(false)
+            reminderViewController.selectedPeriodicity = self.reminderService!.selectedPeriodicity
+            reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+        }
+        self.navigationController?.pushViewController(reminderViewController, animated: true)
+    }
+    
+    func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
+        if self.reminderService!.existNotificationForCurrentList() || value{
+            setReminderSelected(true)
         }else{
-            reminderService.scheduleNotifications(forOption: 3, withDate: NSDate())
-            self.setReminderSelected(true)
+            setReminderSelected(false)
         }
     }
 }

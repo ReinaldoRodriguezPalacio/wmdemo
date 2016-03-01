@@ -320,7 +320,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
                     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
                     
-                    //--self.removeViewLoad()
+                    //self.removeViewLoad()
                 }
                 
                 
@@ -656,7 +656,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func buildSlotsPicker(date:NSDate?) {
-       //-- self.addViewLoad()
+        //self.addViewLoad()
         var strDate = ""
         if date != nil {
             let formatService  = NSDateFormatter()
@@ -699,6 +699,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             self.removeViewLoad()//ok
             
+            self.removeViewLoad()//ok
+            
         })
     }
 
@@ -726,7 +728,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
-       //-- self.addViewLoad()
+        //self.addViewLoad()
         
         let service = GRPaymentTypeService()
         service.callService("2",
@@ -745,7 +747,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                 }
-                //--self.removeViewLoad()
+                //self.removeViewLoad()
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
@@ -851,7 +853,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.invokeDeliveryTypesService({ () -> Void in
                         //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         //self.alertView!.showDoneIcon()
-                        self.removeViewLoad() //--
+                        self.removeViewLoad()//--
                     })
                     if self.newTotal != nil {
                         self.updateShopButton("\(self.newTotal)")
@@ -1122,7 +1124,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         self.updateShopButton("\(self.newTotal)")
                     }
                     
-                    //self.removeViewLoad()//ok
+                    //--self.removeViewLoad()//ok
                     
                     endCallTypeService()
                 },
@@ -1332,7 +1334,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             if formFieldObj == self.discountAssociate!{
                 self.addViewLoad()//--ok
-                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
                     //self.invokeGetPromotionsService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
@@ -1737,7 +1739,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             viewLoad = WMLoadingView(frame: self.view.bounds)
             viewLoad.backgroundColor = UIColor.whiteColor()
             viewLoad.startAnnimating(true)
-            print("addViewLoad")
             self.view.addSubview(viewLoad)
         }
     }
@@ -1746,7 +1747,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         if self.viewLoad != nil {
             self.viewLoad.stopAnnimating()
             self.viewLoad = nil
-            print("removeViewLoad")
         }
     }
     

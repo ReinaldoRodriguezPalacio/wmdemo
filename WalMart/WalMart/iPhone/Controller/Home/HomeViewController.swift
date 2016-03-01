@@ -51,7 +51,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
         print("::::PLECA VALOR:::")
         NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
-        NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
 
         //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
@@ -70,6 +70,21 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
     }
     func removePleca(){
+        UIView.animateWithDuration(0.5 , animations: {
+            self.alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 0)
+   self.titleView?.alpha = 0
+                    self.detailsButton?.alpha = 0
+                    self.imageNotification?.alpha = 0
+            
+            }, completion: {(bool : Bool) in
+                if bool {
+                    self.alertBank?.alpha = 0
+                 
+                     self.alertBank?.removeFromSuperview()
+                    
+                }
+        })
+        
     }
     
     func showPleca (){
@@ -79,6 +94,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
             alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
             self.view.addSubview(alertBank)
+            alertBank?.alpha = 0
+            
             
             
             titleView =  UILabel()
@@ -98,10 +115,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
             self.alertBank.addSubview(detailsButton!)
- 
+            
             self.imageNotification = UIImageView()
             self.imageNotification?.image = UIImage(named: "notification_icon")
             self.alertBank.addSubview(imageNotification!)
+            imageNotification?.alpha = 0
             
             UIView.animateWithDuration(0.4, animations: {
                 self.alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 46)
@@ -111,10 +129,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 
                 }, completion: {(bool : Bool) in
                     if bool {
+                        self.alertBank?.alpha = 1
                         self.titleView?.alpha = 1
                         self.detailsButton?.alpha = 1
                         self.imageNotification?.alpha = 1
-
                         
                     }
             })

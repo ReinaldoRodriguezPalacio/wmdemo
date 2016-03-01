@@ -66,13 +66,6 @@
 		4A5A9D511C84A99B00A2A7F4 /* ABCalendarPickerDefaultWeekdaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D3A1C84A99B00A2A7F4 /* ABCalendarPickerDefaultWeekdaysProvider.m */; };
 		4A5A9D521C84A99B00A2A7F4 /* ABCalendarPickerDefaultYearsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D3C1C84A99B00A2A7F4 /* ABCalendarPickerDefaultYearsProvider.m */; };
 		4A5A9D531C84A99B00A2A7F4 /* ABViewPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D401C84A99B00A2A7F4 /* ABViewPool.m */; };
-		4A5A9D541C84A99B00A2A7F4 /* GradientBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D411C84A99B00A2A7F4 /* GradientBar.png */; };
-		4A5A9D551C84A99B00A2A7F4 /* TileDisabledSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D421C84A99B00A2A7F4 /* TileDisabledSelected.png */; };
-		4A5A9D561C84A99B00A2A7F4 /* TileNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D431C84A99B00A2A7F4 /* TileNormal.png */; };
-		4A5A9D571C84A99B00A2A7F4 /* TilePattern.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D441C84A99B00A2A7F4 /* TilePattern.png */; };
-		4A5A9D581C84A99B00A2A7F4 /* TileSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D451C84A99B00A2A7F4 /* TileSelected.png */; };
-		4A5A9D591C84A99B00A2A7F4 /* TileToday.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D461C84A99B00A2A7F4 /* TileToday.png */; };
-		4A5A9D5A1C84A99B00A2A7F4 /* TileTodaySelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4A5A9D471C84A99B00A2A7F4 /* TileTodaySelected.png */; };
 		4A5A9D5B1C84A99B00A2A7F4 /* UIMyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D491C84A99B00A2A7F4 /* UIMyButton.m */; };
 		4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233F1C2B683400361329 /* Tune.framework */; };
 		4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B61C7F6881006227EF /* LineViewController.swift */; };
@@ -425,6 +418,7 @@
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
 		6C9B5AE21BA76F8E009C7327 /* ProductDetailOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */; };
+		6CBCCFAC1C84C2E3002D7717 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */; };
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
 		6CD5DF1D1B790B3D0032B552 /* GRDiscountAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */; };
 		6CD5DF211B7969560032B552 /* TextboxTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */; };
@@ -685,13 +679,6 @@
 		4A5A9D3E1C84A99B00A2A7F4 /* ABCalendarPickerStyleProviderProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABCalendarPickerStyleProviderProtocol.h; sourceTree = "<group>"; };
 		4A5A9D3F1C84A99B00A2A7F4 /* ABViewPool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ABViewPool.h; sourceTree = "<group>"; };
 		4A5A9D401C84A99B00A2A7F4 /* ABViewPool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ABViewPool.m; sourceTree = "<group>"; };
-		4A5A9D411C84A99B00A2A7F4 /* GradientBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GradientBar.png; sourceTree = "<group>"; };
-		4A5A9D421C84A99B00A2A7F4 /* TileDisabledSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TileDisabledSelected.png; sourceTree = "<group>"; };
-		4A5A9D431C84A99B00A2A7F4 /* TileNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TileNormal.png; sourceTree = "<group>"; };
-		4A5A9D441C84A99B00A2A7F4 /* TilePattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TilePattern.png; sourceTree = "<group>"; };
-		4A5A9D451C84A99B00A2A7F4 /* TileSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TileSelected.png; sourceTree = "<group>"; };
-		4A5A9D461C84A99B00A2A7F4 /* TileToday.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TileToday.png; sourceTree = "<group>"; };
-		4A5A9D471C84A99B00A2A7F4 /* TileTodaySelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TileTodaySelected.png; sourceTree = "<group>"; };
 		4A5A9D481C84A99B00A2A7F4 /* UIMyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIMyButton.h; sourceTree = "<group>"; };
 		4A5A9D491C84A99B00A2A7F4 /* UIMyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMyButton.m; sourceTree = "<group>"; };
 		4A6DF5B61C7F6881006227EF /* LineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineViewController.swift; path = iPhone/Controller/Categories/LineViewController.swift; sourceTree = "<group>"; };
@@ -1085,6 +1072,7 @@
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
 		6C9B5AE11BA76F8E009C7327 /* ProductDetailOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailOptionsViewController.swift; sourceTree = "<group>"; };
+		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
 		6CD5DF1C1B790B3D0032B552 /* GRDiscountAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountAssociateService.swift; sourceTree = "<group>"; };
 		6CD5DF201B7969560032B552 /* TextboxTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextboxTableViewCell.swift; sourceTree = "<group>"; };
@@ -1480,13 +1468,6 @@
 				4A5A9D3E1C84A99B00A2A7F4 /* ABCalendarPickerStyleProviderProtocol.h */,
 				4A5A9D3F1C84A99B00A2A7F4 /* ABViewPool.h */,
 				4A5A9D401C84A99B00A2A7F4 /* ABViewPool.m */,
-				4A5A9D411C84A99B00A2A7F4 /* GradientBar.png */,
-				4A5A9D421C84A99B00A2A7F4 /* TileDisabledSelected.png */,
-				4A5A9D431C84A99B00A2A7F4 /* TileNormal.png */,
-				4A5A9D441C84A99B00A2A7F4 /* TilePattern.png */,
-				4A5A9D451C84A99B00A2A7F4 /* TileSelected.png */,
-				4A5A9D461C84A99B00A2A7F4 /* TileToday.png */,
-				4A5A9D471C84A99B00A2A7F4 /* TileTodaySelected.png */,
 				4A5A9D481C84A99B00A2A7F4 /* UIMyButton.h */,
 				4A5A9D491C84A99B00A2A7F4 /* UIMyButton.m */,
 			);
@@ -1857,6 +1838,7 @@
 		564578C519AE3032006A7152 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				6CBCCFA81C84C284002D7717 /* Reminder */,
 				6C8D5C251BF250DD0020962E /* Refered */,
 				6C3448911BDED98100092965 /* Invoice */,
 				5ADA68CF1BA0EDC2006F1C01 /* Notification   */,
@@ -2898,6 +2880,14 @@
 			name = Refered;
 			sourceTree = "<group>";
 		};
+		6CBCCFA81C84C284002D7717 /* Reminder */ = {
+			isa = PBXGroup;
+			children = (
+				6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */,
+			);
+			name = Reminder;
+			sourceTree = "<group>";
+		};
 		85A40B161C223AE40036C78A /* MercurySDK */ = {
 			isa = PBXGroup;
 			children = (
@@ -3464,13 +3454,11 @@
 				5670FFF51A532EBD00C29A5E /* specialstest.json in Resources */,
 				AC5911AA19DE26E600EB095C /* productsAvailability.html in Resources */,
 				56527DD319AFA8C2008032C6 /* MyriadPro-Regular.otf in Resources */,
-				4A5A9D561C84A99B00A2A7F4 /* TileNormal.png in Resources */,
 				5688470419E8630E00D5C45D /* Storyboard_ipad.storyboard in Resources */,
 				56527DCF19AFA8C2008032C6 /* MyriadPro-Light.otf in Resources */,
 				85A40B771C223AE40036C78A /* Documentation.html in Resources */,
 				8B2C81BF1ACAF59400A220BD /* TermsSuper.pdf in Resources */,
 				56527DA419AF9438008032C6 /* Localizable.strings in Resources */,
-				4A5A9D5A1C84A99B00A2A7F4 /* TileTodaySelected.png in Resources */,
 				56527DCE19AFA8C2008032C6 /* MyriadPro-It.otf in Resources */,
 				AC5911A419DE26E600EB095C /* bbvabancomer_pagodeservicios.jpg in Resources */,
 				56527DD419AFA8C2008032C6 /* MyriadPro-Semibold.otf in Resources */,
@@ -3483,15 +3471,11 @@
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
-				4A5A9D551C84A99B00A2A7F4 /* TileDisabledSelected.png in Resources */,
 				AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */,
-				4A5A9D581C84A99B00A2A7F4 /* TileSelected.png in Resources */,
-				4A5A9D571C84A99B00A2A7F4 /* TilePattern.png in Resources */,
 				AC59115C19DDEEB700EB095C /* privacy.pdf in Resources */,
 				56527DCC19AFA8C2008032C6 /* MyriadPro-BoldCond.otf in Resources */,
 				56527DCD19AFA8C2008032C6 /* MyriadPro-BoldIt.otf in Resources */,
 				AC5911AC19DE26E600EB095C /* shippingCosts.html in Resources */,
-				4A5A9D591C84A99B00A2A7F4 /* TileToday.png in Resources */,
 				8B44A1BF1AA7E16C008E3CC0 /* TiempoEntrega.pdf in Resources */,
 				56527DC819AFA8C2008032C6 /* MyriadPro-BlackCond.otf in Resources */,
 				AC5911A719DE26E600EB095C /* howToBuy.html in Resources */,
@@ -3513,7 +3497,6 @@
 				85E92EEA1C48564E00603663 /* SF-UI-Display-Light.otf in Resources */,
 				AC5911A819DE26E600EB095C /* paymentsType.html in Resources */,
 				85E92EEC1C48564E00603663 /* SF-UI-Display-Regular.otf in Resources */,
-				4A5A9D541C84A99B00A2A7F4 /* GradientBar.png in Resources */,
 				AC536D4019DB3C84007D2D42 /* help.json in Resources */,
 				56527DD219AFA8C2008032C6 /* MyriadPro-LightSemiExtIt.otf in Resources */,
 			);
@@ -3850,6 +3833,7 @@
 				AC880A1919EC341A00C01920 /* FormFieldSearch.swift in Sources */,
 				56527DF619B00953008032C6 /* CurrencyCustomLabel.swift in Sources */,
 				AC44BCDE19D5CCE70055DE71 /* FieldInputView.swift in Sources */,
+				6CBCCFAC1C84C2E3002D7717 /* ReminderViewController.swift in Sources */,
 				04BD7ACB1A95585B00086B18 /* GRLinesForSearchService.swift in Sources */,
 				56DA713F1A3F9B9400048539 /* IPODepartmentCollectionViewCell.swift in Sources */,
 				569733E41A71765600C9A09F /* GRCheckOutViewController.swift in Sources */,
