@@ -620,7 +620,7 @@
 "list.reminder.confirm.cancel" = "Cancelar";
 "list.reminder.alert.content" = "Recordatorio: %@. Toca el botón para iniciar compra";
 "list.reminder.notification.content" = "Recordatorio: %@. Toca aquí para iniciar compra";
-"list.reminder.notification.validationDate" = "La fecha de inicio debe ser posterior a la fecha actual.";
+"list.reminder.notification.validationDate" = "La fecha de inicio debe ser\n posterior a la fecha actual.";
 "list.reminder.notification.validation" = "Es necesario habilitar las notificaciones para la aplicación desde ajustes del dispositivo";
 "list.reminder.notification.settings" = "Configurar";
 "list.reminder.help.frequency" = "¿Con que frecuencia quieres tus recordatorios?";
