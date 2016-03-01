@@ -24,6 +24,7 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     var actionSheet: UIActionSheet?
     var alertView: IPOWMAlertViewController?
     var delegate: ReminderViewControllerDelegate?
+    var deleteButton: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REMINDER.rawValue
@@ -31,26 +32,39 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.whiteColor()
         self.fmtDisplay = NSDateFormatter()
         self.fmtDisplay!.dateFormat = "MMMM d"
         self.titleLabel?.text = NSLocalizedString("list.reminder.title", comment:"")
         self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
         self.reminderService?.findNotificationForCurrentList()
         //ABCalendarPickerStateDays
-        self.calendar = ABCalendarPicker(frame: CGRectMake(0.0, 50.0, 320.0, 500.0), andState: ABCalendarPickerStateDays, andDelegate: self, andDataSource:self)
+        let calendarWidth: CGFloat = IS_IPAD ? 540 : 320
+        self.calendar = ABCalendarPicker(frame: CGRectMake(0.0, 46, calendarWidth, 500), andState: ABCalendarPickerStateDays, andDelegate: self, andDataSource:self)
         self.calendar!.backgroundColor = UIColor.whiteColor()
         self.calendar!.bottomExpanding = true
         self.view.addSubview(self.calendar!)
         
+        self.deleteButton = UIButton()
+        self.deleteButton!.setTitle("Eliminar", forState: .Normal)
+        self.deleteButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
+        self.deleteButton!.titleLabel?.font =  WMFont.fontMyriadProRegularOfSize(12)
+        self.deleteButton!.addTarget(self, action: "deleteReminder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.header!.addSubview(deleteButton!)
+        
         if !self.reminderService!.existNotificationForCurrentList(){
             showNotificationOptions()
+            self.deleteButton!.hidden = true
+        }else{
+            self.deleteButton!.hidden = false
         }
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.frame.size
-        self.calendar!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, 500.0)
+        self.deleteButton!.frame = CGRectMake(self.header!.frame.width - 80, 0.0, 80, self.header!.frame.height)
+        self.calendar!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, 500)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -63,7 +77,12 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     
     override func back() {
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
-        super.back()
+        if IS_IPAD{
+            self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+        }else{
+            super.back()
+        }
+       
     }
     
     // MARK: - ABCalendarPickerDataSourceProtocol
@@ -166,7 +185,7 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
         
         if theDate!.compare(today!) != NSComparisonResult.OrderedDescending {
             let text = NSLocalizedString("list.reminder.notification.validationDate",comment:"")
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(self,imageWaiting:UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(text)
             self.alertView!.showErrorIcon("Aceptar")
             return
@@ -176,19 +195,33 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
             let text = self.reminderService!.options[self.selectedPeriodicity!]
             let title = String(format: NSLocalizedString("list.reminder.confirm.new",comment:""), text, self.fmtDisplay!.stringFromDate(date!))
             
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+            self.alertView = IPOWMAlertViewController.showAlert(self,imageWaiting:UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(title)
             self.alertView!.showDoneIconWithoutClose()
             self.alertView!.addActionButtonsWithCustomText("Cancelar", leftAction: {() -> Void in
-                self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+                //self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
                 self.alertView!.close()
-                self.navigationController?.popViewControllerAnimated(true)
+                //self.navigationController?.popViewControllerAnimated(true)
                 }, rightText: "Aceptar", rightAction: {() -> Void in
                     self.reminderService!.scheduleNotifications(forOption:self.selectedPeriodicity!, withDate:date)
                     self.delegate?.notifyReminderWillClose(forceValidation: false, value: true)
                     self.alertView!.close()
-                    self.navigationController?.popViewControllerAnimated(true)
+                    if IS_IPAD{
+                        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+                    }else{
+                        self.navigationController?.popViewControllerAnimated(true)
+                    }
                 }, isNewFrame: false)
+        }
+    }
+    
+    func deleteReminder(){
+        self.reminderService!.removeNotificationsFromCurrentList()
+        self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+        if IS_IPAD{
+            self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
+        }else{
+            self.navigationController?.popViewControllerAnimated(true)
         }
     }
     
@@ -216,6 +249,8 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
         if self.actionSheet!.cancelButtonIndex != buttonIndex {
             self.selectedPeriodicity = buttonIndex
             //self.performSegueWithIdentifier("showAlerts", sender: self)
+        }else{
+            self.back()
         }
     }
 }
