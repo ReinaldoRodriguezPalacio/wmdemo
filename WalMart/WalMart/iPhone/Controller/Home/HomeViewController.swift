@@ -26,7 +26,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var categoryCell : CategoryCollectionViewCell!
     var bannerCell: BannerCollectionViewCell?
     //ale
-    var alertBank: UIView!
+    var alertBank: UIView?
     var viewContents : UIView?
     var titleView : UILabel?
     var plecaItems :  NSDictionary? = nil
@@ -68,9 +68,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
         
     }
+    
     func removePleca(){
+        
         UIView.animateWithDuration(0.5 , animations: {
-            self.alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 0)
+            print(":::removePleca::::")
+            self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 0)
             self.titleView?.alpha = 0
             self.detailsButton?.alpha = 0
             self.imageNotification?.alpha = 0
@@ -79,19 +82,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 if bool {
                     self.alertBank?.alpha = 0
                     self.alertBank?.removeFromSuperview()
+                    self.alertBank = nil
                 }
         })
     }
     
     func showPleca (){
         if plecaItems !=  nil {
-            print(plecaItems?["terms"] as! String)
-            print(plecaItems?["eventUrl"] as! String)
-            alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
-            alertBank.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
-            self.view.addSubview(alertBank)
-            alertBank?.alpha = 0
-            
+            print(":::showPleca::::")
+            if alertBank == nil {
+                alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
+                alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
+                self.view.addSubview(alertBank!)
+            }
             
             
             titleView =  UILabel()
@@ -100,7 +103,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             titleView!.text = plecaItems?["terms"] as? String
             titleView!.textAlignment = .Left
             titleView?.alpha = 0
-            self.alertBank.addSubview(titleView!)
+            self.alertBank!.addSubview(titleView!)
             
             detailsButton =  UIButton()
             detailsButton.backgroundColor = WMColor.green
@@ -110,18 +113,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
-            self.alertBank.addSubview(detailsButton!)
+            self.alertBank!.addSubview(detailsButton!)
             
             self.imageNotification = UIImageView()
             self.imageNotification?.image = UIImage(named: "notification_icon")
-            self.alertBank.addSubview(imageNotification!)
+            self.alertBank!.addSubview(imageNotification!)
             imageNotification?.alpha = 0
             
             UIView.animateWithDuration(0.4, animations: {
-                self.alertBank.frame = CGRectMake(0, 0, self.view.frame.width, 46)
-                self.titleView!.frame = CGRectMake(28, 0, self.view.frame.width-91, self.alertBank.frame.height)
+                self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
+                self.titleView!.frame = CGRectMake(28, 0, self.view.frame.width-91, self.alertBank!.frame.height)
                 self.detailsButton.frame = CGRectMake(self.view.frame.width-60, 12, 55, 22)
-                self.imageNotification?.frame = CGRectMake(8,self.alertBank.frame.midY-6,12,12)
+                self.imageNotification?.frame = CGRectMake(8,self.alertBank!.frame.midY-6,12,12)
                 
                 }, completion: {(bool : Bool) in
                     if bool {
@@ -138,7 +141,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     func openUrl (){
      self.termsSelect (plecaItems?["eventUrl"] as! String)
-     self.alertBank.alpha = 0
+     self.alertBank!.alpha = 0
     
     }
     override func viewDidAppear(animated: Bool) {
