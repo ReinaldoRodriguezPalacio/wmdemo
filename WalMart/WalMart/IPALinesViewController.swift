@@ -16,10 +16,12 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     var imageBackground : UIImageView!
     var urlTicer : String!
     var linesCamp :[[String:AnyObject]]?
+    var familyId : String!
  
 
     override func viewDidLoad() {
         self.view.clipsToBounds = true
+        self.view.backgroundColor = UIColor.whiteColor()
         //self.showLoadingView()
         viewImageBgCategory = UIImageView(frame: CGRectMake(-120, 0, 1024, frameStart.height))
         viewImageBgCategory.contentMode = UIViewContentMode.ScaleAspectFill
@@ -52,19 +54,19 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.searchProduct.delegateImgHeader = self
             self.searchProduct.imageBgCategory =  UIImage(named: "header_default")
             self.imageBackground = UIImageView()
-            self.imageBackground.setImageWithURL(NSURL(string: self.urlTicer), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.setImageWithURL(NSURL(string: "http://\(self.urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
                 self.imageBackground.image = image
                 self.searchProduct.imageBgCategory = image
                 
                 }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                     print("Error al presentar imagen")
             }
-            self.searchProduct.imageIconCategory = UIImage(named: "efault")
+            self.searchProduct.imageIconCategory = UIImage(named: "default")
             self.searchProduct.titleCategory = ""
             self.searchProduct.idFamily  = "_"
             self.searchProduct.idDepartment = "_"
-            self.searchProduct.idLine = lineSelect["line"] as? String
-            self.searchProduct.titleHeader = lineSelect["nameLine"] as? String
+            self.searchProduct.idLine = lineSelect["id"] as? String
+            self.searchProduct.titleHeader = lineSelect["name"] as? String
             self.searchProduct.hiddenBack = true
             self.searchProduct.delegateHeader = self
             self.view.addSubview(self.viewImageContent)
@@ -75,7 +77,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.addPopover()
             
         }
-         self.view.addSubview(viewImageContent)
+         //self.view.addSubview(viewImageContent)
     }
     
 
@@ -85,10 +87,10 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     }
     
     func invokeServiceLine(succesBlock:(() -> Void)){
-        
+        print("familyId::::\(familyId)")
         let service =  LineService()
-        service.callService(requestParams: [:], successBlock: { (response:NSDictionary) -> Void in
-            let listLines  =  response["listLines"] as! NSArray
+        service.callService(requestParams:familyId, successBlock: { (response:NSDictionary) -> Void in
+            let listLines  =  response["responseArray"] as! NSArray
             print(listLines)
             self.linesCamp = listLines as? [[String : AnyObject]]
             //self.removeLoadingView()
@@ -119,7 +121,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             popover = UIPopoverController(contentViewController: lineController)
         }
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,340, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,250, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         searchProduct.setSelectedHeaderCat()
         
         if lineController.familyTable != nil {

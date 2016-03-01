@@ -15,6 +15,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
     var imageIcon : UIImageView!
     var titleLabel : UILabel!
     var urlTicer : String!
+    var familyName : String!
     
     override func viewDidLoad() {
       self.view.backgroundColor =  UIColor.whiteColor()
@@ -23,21 +24,21 @@ class IPOLinesViewController : IPOCategoriesViewController {
         imageBackground.contentMode = UIViewContentMode.Left
         imageBackground.clipsToBounds = true
         
-        self.imageBackground.setImageWithURL(NSURL(string: urlTicer), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+        self.imageBackground.setImageWithURL(NSURL(string: "http://\(urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image
             }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
              print("Error al presentar imagen")
         }
     
         imageIcon = UIImageView()
-        imageIcon.image = UIImage(named: "categories_default")
+        imageIcon.image = UIImage(named: "default")
         
         
         titleLabel = UILabel()
         titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
         titleLabel.textColor = UIColor.whiteColor()
         titleLabel.textAlignment = .Center
-        titleLabel.text = "Titulo de familia"
+        titleLabel.text = ""
         
         buttonClose = UIButton()
         buttonClose.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
@@ -72,13 +73,13 @@ class IPOLinesViewController : IPOCategoriesViewController {
     var linesCamp :[[String:AnyObject]]?
     
     func invokeServiceLine(){
-        
+        print("familyName :::\(familyName)")
         let service =  LineService()
         
-        service.callService(requestParams: [:], successBlock: { (response:NSDictionary) -> Void in
-            let listLines  =  response["listLines"] as! NSArray
+        service.callService(requestParams: familyName, successBlock: { (response:NSDictionary) -> Void in
+            let listLines  =  response["responseArray"] as! NSArray
             print(listLines)
-            self.linesCamp = listLines as! [[String : AnyObject]]
+            self.linesCamp = listLines as? [[String : AnyObject]]
             self.didSelectDeparmentAtIndex(NSIndexPath(index: 0))
            
             }, errorBlock: { (error:NSError) -> Void in

@@ -14,9 +14,14 @@ class LineService : BaseService {
         super.init()
     }
     
+    
+    func buildParamsLine(familyId:String) -> NSDictionary {
+        return ["id":familyId]
+    }
+    
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.jsonFromObject(params)
-        self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+        print("Call service :: ::LineService ")
+        self.callPOSTService(buildParamsLine(params as! String), successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
                 print("Error LineService: \(error)")
