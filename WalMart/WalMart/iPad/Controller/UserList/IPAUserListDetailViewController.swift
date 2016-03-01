@@ -427,4 +427,22 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         super.invokeDeleteProductFromListService(upc)
         self.delegate!.reloadTableListUser()
     }
+    
+   override func addReminder(){
+        let selected = self.reminderButton!.selected
+        let reminderViewController = ReminderViewController()
+        reminderViewController.listId = self.listId!
+        reminderViewController.listName = self.listName!
+        reminderViewController.delegate = self
+        if  selected {
+            reminderViewController.selectedPeriodicity = self.reminderService!.selectedPeriodicity
+            reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+        }
+        let navController = UINavigationController(rootViewController: reminderViewController)
+        navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        navController.navigationBarHidden = true
+        navController.view.layer.cornerRadius = 8.0
+        self.navigationController?.presentViewController(navController, animated: true, completion: nil)
+    }
+
 }
