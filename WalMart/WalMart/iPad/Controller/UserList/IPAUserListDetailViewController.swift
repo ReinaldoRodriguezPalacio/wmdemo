@@ -87,7 +87,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
         if !isShared {
-            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+            if showReminderButton{
+                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
+                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
+                self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+            }else{
+                self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+            }
         }
 
     }
@@ -254,7 +260,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
 
     override func showLoadingView() {
-        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, self.tableView!.bounds.height + self.header!.frame.height))
+        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, self.tableView!.bounds.height + self.header!.frame.height + 24))
         self.loading!.startAnnimating(false)
         self.view.addSubview(self.loading!)
     }
