@@ -526,7 +526,7 @@
 "search.info.button.camera" = "Busca tomando\nuna foto";
 "search.info.button.barcode" = "Escanea un\nCódigo de Barras";
 "camfind.message.photo" = "Fotografía un artículo";
-"camfind.message.preview" = "Buscaremos este articulo en WalMart";
+"camfind.message.preview" = "Buscaremos este artículo en WalMart";
 
 //AvisoProvacidad
 "privace.notice.message" = "Nuestro Aviso de Privacidad ha cambiado, te invitamos a conocerlo.";
