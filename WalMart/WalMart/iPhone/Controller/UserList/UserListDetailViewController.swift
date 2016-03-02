@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate {
+class UserListDetailViewController: UserListNavigationBaseViewController, UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, DetailListViewCellDelegate, UITextFieldDelegate, ReminderViewControllerDelegate,AddProductTolistViewDelegate,BarCodeViewControllerDelegate,CameraViewControllerDelegate {
 
     let CELL_ID = "listCell"
     let TOTAL_CELL_ID = "totalsCell"
@@ -52,6 +52,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var reminderImage: UIImageView?
     var reminderService: ReminderNotificationService?
     var showReminderButton: Bool = false
+    
+    var addProductsView : AddProductTolistView?
+    
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -96,14 +99,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.deleteAllBtn!.layer.cornerRadius = 11
         self.deleteAllBtn!.alpha = 0
         self.deleteAllBtn!.hidden = true
-//        self.deleteAllBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
         self.deleteAllBtn!.addTarget(self, action: "deleteAll", forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.deleteAllBtn!)
 
-        
-       
-        
-        
         self.titleLabel?.text = self.listName
         self.tableView!.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: self.TOTAL_CELL_ID)
@@ -156,6 +154,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
         self.reminderButton!.titleLabel?.textAlignment = .Center
         
+        
         self.reminderImage = UIImageView(image: UIImage(named: "blue_arrow"))
         
         if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
@@ -167,13 +166,19 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.isSharing = false
         buildEditNameSection()
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp()
-        self.tableConstraint?.constant = (self.showReminderButton ? 70.0 : 46.0)
+        self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : 110.0)
         if showReminderButton{
             self.view.addSubview(reminderButton!)
             self.view.addSubview(reminderImage!)
             self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
             self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
         }
+        
+        self.addProductsView = AddProductTolistView()
+        self.addProductsView!.delegate =  self
+        self.view.addSubview(self.addProductsView!)
+        
+        
        
     }
     
@@ -188,15 +193,25 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
+        
+        
         if !self.isSharing {
             if showReminderButton{
                 self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
+                
                 self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-                self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+                
+                self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                
+                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
+
             }else{
-                self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+                self.self.addProductsView!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 64.0)
+                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
             }
         }
+        
+        
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {titleLabel
 //            self.layoutTitleLabel()
 //        }
@@ -208,7 +223,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.editBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)
             self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
         }
-        
         
         
     }
@@ -1359,4 +1373,31 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             setReminderSelected(false)
         }
     }
+    
+    //MARK: AddProductTolistViewDelegate
+    func scanCode() {
+        let barCodeController = BarCodeViewController()
+        barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
+        barCodeController.delegate = self
+        barCodeController.searchProduct = false
+        barCodeController.createListDelegate = true
+        self.presentViewController(barCodeController, animated: true, completion: nil)
+    }
+    
+    func showCamera() {
+        let cameraController = CameraViewController()
+        cameraController.delegate = self
+        self.presentViewController(cameraController, animated: true, completion: nil)
+    }
+    
+    //MARK: BarCodeViewControllerDelegate
+    func barcodeCaptured(value: String?) {
+        print(value)
+    }
+    
+    //MARK: CameraViewControllerDelegate
+    func photoCaptured(value: String?, upcs: [String]?, done: (() -> Void)) {
+        print(value)
+    }
+    
 }

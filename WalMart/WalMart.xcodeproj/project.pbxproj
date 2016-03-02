@@ -70,6 +70,7 @@
 		4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233F1C2B683400361329 /* Tune.framework */; };
 		4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B61C7F6881006227EF /* LineViewController.swift */; };
 		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
+		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
 		4AE7FA941C802805007C43B3 /* IPALinesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */; };
@@ -683,6 +684,7 @@
 		4A5A9D491C84A99B00A2A7F4 /* UIMyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIMyButton.m; sourceTree = "<group>"; };
 		4A6DF5B61C7F6881006227EF /* LineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineViewController.swift; path = iPhone/Controller/Categories/LineViewController.swift; sourceTree = "<group>"; };
 		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
+		4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductTolistView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
 		4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesListViewController.swift; sourceTree = "<group>"; };
@@ -1348,6 +1350,7 @@
 				04C711C91A856C800095090E /* NewListSelectorViewCell.swift */,
 				041CC49E1A85807C00750B5E /* NewListView.swift */,
 				04B640D31A8C14A300D5835E /* DetailListViewCell.swift */,
+				4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */,
 			);
 			name = UserList;
 			path = iPhone/View/UserList;
@@ -3727,6 +3730,7 @@
 				56C5B22519AE879600BB81DE /* BaseService.swift in Sources */,
 				5681998219E3460A00362D3C /* WishlistAddProductStatus.swift in Sources */,
 				4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */,
+				4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */,
 				56AE80E219D9CC5000D5DDA4 /* ProductDetailBundleItemCollectionViewCell.swift in Sources */,
 				56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */,
 				56895A501AA644D900561B12 /* MD5Util.swift in Sources */,

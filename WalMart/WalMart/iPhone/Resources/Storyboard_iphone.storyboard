@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--Custom Bar View Controller-->
@@ -618,8 +618,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="t4y-XR-WcP">
-                                <rect key="frame" x="0.0" y="70" width="320" height="391"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="56" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="t4y-XR-WcP">
+                                <rect key="frame" x="0.0" y="134" width="320" height="331"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="320" id="uF1-3y-63A"/>
@@ -640,7 +640,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="t4y-XR-WcP" firstAttribute="top" secondItem="Qrh-HU-L6w" secondAttribute="bottom" constant="70" id="2bI-9c-JB7"/>
+                            <constraint firstItem="t4y-XR-WcP" firstAttribute="top" secondItem="Qrh-HU-L6w" secondAttribute="bottom" constant="134" id="2bI-9c-JB7"/>
                             <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="EJX-yf-xlB" secondAttribute="bottom" id="DF4-ep-pB4"/>
                             <constraint firstItem="QS7-sk-BHA" firstAttribute="top" secondItem="t4y-XR-WcP" secondAttribute="bottom" id="DdJ-hz-hVf"/>
                         </constraints>

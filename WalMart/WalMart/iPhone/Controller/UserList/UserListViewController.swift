@@ -734,9 +734,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
                     if let listId = listItem["id"] as? String {
-
+                      self.deleteListInDB(listId)
                         
                         self.invokeDeleteListService(listId)
+                       
                     }
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
@@ -765,6 +766,29 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         default:
             print("other pressed")
         }
+    }
+    
+    
+    func deleteListInDB(idList:String){
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
+        fetchRequest.predicate = NSPredicate(format: "idList == %@", idList)
+        
+        let result: [List] = (try! context.executeFetchRequest(fetchRequest)) as! [List]
+        if result.count > 0 {
+            for listDetail in result {
+                context.deleteObject(listDetail)
+            }
+            do {
+                try context.save()
+            } catch {
+                abort()
+            }
+        }
+        
     }
     
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerLeftUtilityButtonWithIndex index: Int) {
