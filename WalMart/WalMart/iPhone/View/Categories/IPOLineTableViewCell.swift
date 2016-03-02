@@ -67,7 +67,7 @@ class IPOLineTableViewCell : UITableViewCell {
 
         titleLabel.frame = self.newFrame ? CGRectMake(16, 0, 200, self.bounds.height) : CGRectMake(40, 0, self.bounds.width - 40, self.bounds.height)
         label.frame = CGRectMake(titleLabel.frame.maxX + 5, 0, 40, self.bounds.height)
-        priceLabel?.frame =  CGRectMake(label.frame.maxX, 0, 50, self.bounds.height)
+        priceLabel?.frame =  CGRectMake(label.frame.maxX + 5, 0, 50, self.bounds.height)
 
 
         if showSeparator {
