@@ -16,6 +16,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
     var titleLabel : UILabel!
     var urlTicer : String!
     var familyName : String!
+    var loading: WMLoadingView?
     
     override func viewDidLoad() {
       self.view.backgroundColor =  UIColor.whiteColor()
@@ -59,7 +60,16 @@ class IPOLinesViewController : IPOCategoriesViewController {
         self.invokeServiceLine()
     }
     
-    
+    override func viewWillAppear(animated: Bool) {
+        if self.loading == nil {
+            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(self.isVisibleTab)
+        }
+    }
+
+
     override func viewWillLayoutSubviews() {
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
        // lineController.view.frame = viewFamily.frame
@@ -97,6 +107,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
         lineController.familyTable.reloadData()
         self.viewFamily.alpha = 1
         self.view.addSubview(self.viewFamily)
+        self.loading!.stopAnnimating()
        
         
     }
