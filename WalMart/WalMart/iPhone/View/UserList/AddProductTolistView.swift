@@ -11,6 +11,7 @@ import Foundation
 protocol AddProductTolistViewDelegate {
     func scanCode()
     func showCamera()
+    func searchByText(text:String)
 }
 
 class AddProductTolistView: UIView,UITextFieldDelegate {
@@ -48,12 +49,12 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         self.addSubview(self.textFindProduct!)
         
         self.camButtom = UIButton(type: .Custom)
-        self.camButtom!.setImage(UIImage(named: "list_scan_ticket"), forState: .Normal)
+        self.camButtom!.setImage(UIImage(named: "cam_icon_addtolist"), forState: .Normal)
         self.camButtom!.addTarget(self, action: "showCamera", forControlEvents: .TouchUpInside)
         self.addSubview(self.camButtom!)
   
         self.scannerButton = UIButton(type: .Custom)
-        self.scannerButton!.setImage(UIImage(named: "list_scan_ticket"), forState: .Normal)
+        self.scannerButton!.setImage(UIImage(named: "barcode_icon_addtolist"), forState: .Normal)
         self.scannerButton!.addTarget(self, action: "scanCode", forControlEvents: .TouchUpInside)
         self.addSubview(self.scannerButton!)
         
@@ -85,8 +86,46 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     }
     
     
+    //MARK: UITextFieldDelegate
     
+    override func becomeFirstResponder() -> Bool {
+        
+        return true
+    }
     
+    override func resignFirstResponder() -> Bool {
+        
+        return true
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        print(textField.text)
+        self.delegate?.searchByText(textField.text!)
+        textField.resignFirstResponder()
+        textField.text! =  ""
+        return true
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text!
+        let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if keyword.characters.count > 0{
+            
+        }
+        
+        return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        print("textFieldDidBeginEditing")
+    }
+    
+    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+         print("textFieldShouldEndEditing")
+        return true
+    }
+    
+
     
 
 }
