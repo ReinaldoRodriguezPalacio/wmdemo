@@ -667,10 +667,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             return
         }
         
-        
+        let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
-        if paramsPreorderable.count == 0 &&  totArticlesMG == 0{
+        if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
             self.sendNewItemsToShoppingCart(params)
         }else{
             

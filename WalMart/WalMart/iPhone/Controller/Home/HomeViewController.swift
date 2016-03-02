@@ -25,7 +25,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
     var bannerCell: BannerCollectionViewCell?
-    //ale
     var alertBank: UIView?
     var viewContents : UIView?
     var titleView : UILabel?
@@ -39,25 +38,25 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     override func viewDidLoad() {
         super.viewDidLoad()
-      
+        
         collection.registerClass(BannerCollectionViewCell.self, forCellWithReuseIdentifier: "bannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "categoryHome")
         collection.registerClass(ProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "productHome")
-
+        
         //Read a banner list
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
         self.plecaItems = serviceBanner.getPleca()
-
+        
         print("::::PLECA VALOR:::")
         NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
-
+        
         //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
         
         //let exclusiveItemsService = GRExclusiveItemsService()
         self.exclusiveItems = []
-    
+        
         
         self.categories = getCategories()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatecontent:", name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
@@ -65,7 +64,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
         
-
+        
         
     }
     
@@ -88,8 +87,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     func showPleca (){
+        print(":::showPleca::::")
         if plecaItems !=  nil {
-            print(":::showPleca::::")
             if alertBank == nil {
                 alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
                 alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
@@ -97,7 +96,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
             
             
-            titleView =  UILabel()
+            
+            
+            if titleView ==  nil {
+                titleView =  UILabel()
+                
+            }
             titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
             titleView!.textColor = UIColor.whiteColor()
             titleView!.text = plecaItems?["terms"] as? String
@@ -105,7 +109,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             titleView?.alpha = 0
             self.alertBank!.addSubview(titleView!)
             
-            detailsButton =  UIButton()
+            
+            
+            if detailsButton ==  nil {
+                detailsButton =  UIButton()
+            }
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", forState:.Normal)
@@ -114,8 +122,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
             self.alertBank!.addSubview(detailsButton!)
-            
-            self.imageNotification = UIImageView()
+            if imageNotification ==  nil {
+                self.imageNotification = UIImageView()
+            }
             self.imageNotification?.image = UIImage(named: "notification_icon")
             self.alertBank!.addSubview(imageNotification!)
             imageNotification?.alpha = 0
