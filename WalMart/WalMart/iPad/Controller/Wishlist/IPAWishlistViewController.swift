@@ -375,20 +375,39 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                     }
 
                 }
+
                 
             }
         }//for
         //condiciones
         
         if paramsPreorderable.count == 0 && params.count == 0{
-            if self.items.count > 0 {
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                let aleradyMessage = NSLocalizedString("shoppingcart.isincart",comment:"")
-                alert!.setMessage(aleradyMessage)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            if self.items.count == 1 {
+                for itemWishList in self.items {
+                    let upc = itemWishList["upc"] as! NSString
+                    
+                    let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
+                    if hasUPC {
+                        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+                        alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
+                        alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                        
+                        return
+                    }
+                }
+                
+                
+                if self.items.count > 0 {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                    let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
+                    
+                    alert!.setMessage(aleradyMessage)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+                return
+                
             }
-            return
-
+            
         }
         let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
@@ -464,7 +483,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 }
             }//close else
         }
- 
+
         
     }
     
