@@ -146,17 +146,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         self.reminderButton = UIButton()
         self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
-        self.reminderButton!.setImage(UIImage(named: "calendar_blue"), forState: .Normal)
-        self.reminderButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
-        self.reminderButton!.setTitleColor(UIColor.whiteColor(), forState: .Selected)
-        self.reminderButton!.setImage(UIImage(named: "calendar_white"), forState: .Selected)
-        self.reminderButton!.layer.borderColor = WMColor.light_light_blue.CGColor
+        self.reminderButton!.setImage(UIImage(named: "reminder_icon"), forState: .Normal)
+        self.reminderButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        self.reminderButton!.backgroundColor = WMColor.orange
         self.reminderButton!.addTarget(self, action: "addReminder", forControlEvents: UIControlEvents.TouchUpInside)
-        self.reminderButton!.layer.borderWidth = 0.5
         self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
         self.reminderButton!.titleLabel?.textAlignment = .Center
+        self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 110)
+        self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 125)
         
-        self.reminderImage = UIImageView(image: UIImage(named: "blue_arrow"))
+        self.reminderImage = UIImageView(image: UIImage(named: "white_arrow"))
         
         if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
             let tabBarHeight:CGFloat = 45.0
@@ -1323,18 +1322,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func setReminderSelected(selected:Bool){
         self.reminderButton?.selected = selected
         if selected{
-            self.reminderButton!.setTitle("Tienes un recordatorio de esta lista. \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
-            self.reminderButton!.backgroundColor = WMColor.light_blue
-            self.reminderButton!.layer.borderColor = WMColor.light_blue.CGColor
-            self.reminderImage?.image = UIImage(named: "white_arrow")
-            self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 15)
-            self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 30)
+            self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
+            self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Normal)
         }else{
-            self.reminderButton!.backgroundColor = UIColor.whiteColor()
-            self.reminderButton!.layer.borderColor = WMColor.light_light_blue.CGColor
-            self.reminderImage?.image = UIImage(named: "blue_arrow")
-            self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 110)
-            self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 125)
+            self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
         }
     }
     

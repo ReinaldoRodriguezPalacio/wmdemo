@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "calendar_icon.png",
+      "filename" : "recordatorio_icon.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "calendar_icon@2x.png",
+      "filename" : "recordatorio_icon@2x.png",
       "scale" : "2x"
     },
     {
