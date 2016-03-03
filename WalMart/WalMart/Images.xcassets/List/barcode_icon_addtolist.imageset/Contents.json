@@ -16,10 +16,12 @@
     },
     {
       "idiom" : "ipad",
+      "filename" : "barcode_icon_addtolist-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
+      "filename" : "barcode_icon_addtolist@2x-1.png",
       "scale" : "2x"
     }
   ],
