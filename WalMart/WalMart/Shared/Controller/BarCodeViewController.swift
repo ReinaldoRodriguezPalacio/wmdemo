@@ -11,8 +11,9 @@ import AVFoundation
 import QuartzCore
 import CoreData
 
-protocol BarCodeViewControllerDelegate{
+@objc protocol BarCodeViewControllerDelegate{
     func barcodeCaptured(value:String?)
+    optional func barcodeCapturedWithType(value:String?,isUpcSearch:Bool)
 }
 
 class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDelegate, UIAlertViewDelegate {
@@ -31,7 +32,8 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var close : UIButton!
     var helpText: String?
     var searchProduct = false
-    var createListDelegate = false
+    var useDelegate = false
+    var isAnyActionFromCode =  false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SCANBARCODE.rawValue
@@ -184,6 +186,10 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         for obj in metadataObjects {
             if let metaObj = obj as? AVMetadataMachineReadableCodeObject {
                 self.dismissViewControllerAnimated(true, completion:{ (Void) -> Void in
+                    if self.isAnyActionFromCode {
+                        self.searchProduct(metaObj)
+                        return
+                    }
                 if self.searchProduct {
                     if metaObj.type! == "org.gs1.EAN-13"
                     {
@@ -254,7 +260,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     func closeAlert(){
         self.dismissViewControllerAnimated(true, completion: { () -> Void in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_CANCEL_SEARCH.rawValue, label: "")
-            if self.createListDelegate {
+            if self.useDelegate {
               self.delegate!.barcodeCaptured(nil)
             }
         })
@@ -281,14 +287,27 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     func searchProduct(barcode: AVMetadataMachineReadableCodeObject){
         let code = barcode.stringValue!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         let character = code.substringToIndex(code.startIndex.advancedBy(code.characters.count-1 ))
-        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ScanBarCode.rawValue, object: character, userInfo: nil)
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
+        
+        if useDelegate{
+            if self.isAnyActionFromCode {
+                let isUpcSearch =  barcode.type == "org.gs1.EAN-13"
+                self.delegate?.barcodeCapturedWithType!(isUpcSearch ? character : barcode.stringValue, isUpcSearch: isUpcSearch)
+            }else{
+            self.delegate?.barcodeCaptured(character)
+            }
+            
+        }else{
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ScanBarCode.rawValue, object: character, userInfo: nil)
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: character)
+        }
     }
+    
+
     
     func createList(barcode: AVMetadataMachineReadableCodeObject){
         let barcodeValue = barcode.stringValue!
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SCAN_BAR_CODE.rawValue, action: WMGAIUtils.ACTION_BARCODE_SCANNED_UPC.rawValue, label: barcodeValue)
-        if createListDelegate{
+        if useDelegate{
             self.delegate?.barcodeCaptured(barcodeValue)
         }
         else{

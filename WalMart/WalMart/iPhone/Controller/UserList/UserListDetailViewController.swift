@@ -296,6 +296,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.footerSection!.alpha = 0
                 self.reminderButton?.alpha = 0.0
                 self.reminderImage?.alpha = 0.0
+                self.addProductsView?.alpha = 0
             }, completion: { (complete:Bool) -> Void in
                 
                 
@@ -345,11 +346,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
                 }, completion: { (completition:Bool) -> Void in
-                    self.tableConstraint?.constant = (self.showReminderButton ? self.reminderButton!.frame.maxY : self.header!.frame.maxY)
+                    self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : self.header!.frame.maxY)
                     self.containerEditName!.alpha = 0
                     self.reminderButton?.alpha = 1.0
                     self.reminderImage?.alpha = 1.0
                     self.footerSection!.alpha = 1
+                    self.addProductsView?.alpha = 1
+                    
             })
             
            
@@ -1369,8 +1372,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.delegate = self
-        barCodeController.searchProduct = false
-        barCodeController.createListDelegate = true
+        barCodeController.searchProduct = true
+        barCodeController.useDelegate = true
+        barCodeController.isAnyActionFromCode =  true
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
@@ -1379,15 +1383,163 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         cameraController.delegate = self
         self.presentViewController(cameraController, animated: true, completion: nil)
     }
+    func searchByText(text: String) {
+        self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .WithText,searchServiceFromContext:.FromSearchText )
+    }
+    
     
     //MARK: BarCodeViewControllerDelegate
     func barcodeCaptured(value: String?) {
         print(value)
     }
     
+    func barcodeCapturedWithType(value: String?, isUpcSearch: Bool) {
+        
+        if isUpcSearch {
+            self.findProdutFromUpc(value!)
+        }else{
+            self.invokeServicefromTicket(value!)
+        }
+    }
+    
     //MARK: CameraViewControllerDelegate
     func photoCaptured(value: String?, upcs: [String]?, done: (() -> Void)) {
         print(value)
+        self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .FromSearchCamFind)
     }
+    
+    //MARK:  Actions
+    func findProdutFromUpc(upc:String){
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("Agregando el producto a tu lista", comment:""))
+        
+        let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let svcValidate = GRProductDetailService(dictionary: useSignalsService)
+        
+        let upcDesc : NSString = upc as NSString
+        var paddedUPC = upcDesc
+        if upcDesc.length < 13 {
+            let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
+            paddedUPC = "\(toFill)\(paddedUPC)"
+        }
+        let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview")
+        svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
+            //[["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
+            print("Correcto el producto es::::")
+            self.invokeAddproductTolist(result,products: nil, succesBlock: { () -> Void in
+                print("Se agrega correctamnete")
+            })
+            
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error al buscar producto")
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
+        })
+        
+    }
+    
+    func searchByTextAndCamfind(text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
+        
+        let controller = SearchProductViewController()
+        controller.upcsToShow = upcs
+        controller.searchContextType = searchContextType
+        controller.titleHeader = text
+        controller.textToSearch = text
+        controller.searchFromContextType = searchServiceFromContext
+        self.navigationController?.pushViewController(controller, animated: true)
+        
+    }
+    
+    
+    func invokeAddproductTolist(response:NSDictionary?,products:[AnyObject]?,succesBlock:(() -> Void)){
+        
+        let service = GRAddItemListService()
+        var isPesable  = ""
+        var isActive =  true
+        var upcAdd = ""
+        if response != nil {
+            if let pesable = response!["type"] as? String {
+                isPesable = pesable
+            }
+            if let active = response!["stock"] as? Int {
+                isActive = active == 1  ? true :  false
+            }
+            if let upc =  response!["upc"] as? String{
+                upcAdd = upc
+            }
+        }
+        
+        let productObject = response == nil ? [] : [service.buildProductObject(upc:upcAdd, quantity:1,pesable:isPesable,active:isActive)]
+      
+        service.callService(service.buildParams(idList: self.listId!, upcs: products != nil ? products : productObject),
+            successBlock: { (result:NSDictionary) -> Void in
+                succesBlock()
+                self.alertView?.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                self.alertView?.showDoneIcon()
+                self.loadServiceItems(nil)
+              
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error at add product to list: \(error.localizedDescription)")
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
+               
+            }
+        )
+    }
+ 
+    func invokeServicefromTicket(ticket:String){
+        
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("Agregando los productos a tu lista", comment:""))
+        
+        let service = GRProductByTicket()
+        service.callService(service.buildParams(ticket),
+            successBlock: { (result: NSDictionary) -> Void in
+                
+                
+                if let items = result["items"] as? [AnyObject] {
+                    if items.count == 0 {
+                        self.alertView?.setMessage(NSLocalizedString("list.message.noProductsForTicket", comment:""))
+                        self.alertView?.showErrorIcon("Ok")
+                        return
+                    }
+                    
+                    let service = GRAddItemListService()
+                    var products: [AnyObject] = []
+                    for var idx = 0; idx < items.count; idx++ {
+                        let item = items[idx] as! [String:AnyObject]
+                        let upc = item["upc"] as! String
+                        var quantity: Int = 0
+                        
+                        if  let qIntProd = item["quantity"] as? Int {
+                            quantity = qIntProd
+                        }
+                        if  let qIntProd = item["quantity"] as? NSString {
+                            quantity = qIntProd.integerValue
+                        }
+                        var pesable = "0"
+                        if  let pesableP = item["type"] as? String {
+                            pesable = pesableP
+                        }
+                        var active = true
+                        if let stock = item["stock"] as? Bool {
+                            active = stock
+                        }
+                        products.append(service.buildProductObject(upc: upc, quantity: quantity,pesable:pesable,active:active))
+                    }
+                    
+                    self.invokeAddproductTolist(nil, products:products, succesBlock: { () -> Void in
+                        print("Se agrega correctamnete")
+                    })
+                
+                }
+            },  errorBlock: { (error:NSError) -> Void in
+                self.alertView?.setMessage(error.localizedDescription)
+                self.alertView?.showErrorIcon("Ok")
+        })
+        
+    }
+    
+    
     
 }
