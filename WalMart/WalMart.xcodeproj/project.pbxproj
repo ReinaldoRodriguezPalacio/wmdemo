@@ -389,6 +389,7 @@
 		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
 		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
+		5A5E5EE51C8773E100E519AD /* CarouselService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E5EE41C8773E100E519AD /* CarouselService.swift */; };
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
@@ -1044,6 +1045,7 @@
 		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
+		5A5E5EE41C8773E100E519AD /* CarouselService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselService.swift; sourceTree = "<group>"; };
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
@@ -2462,6 +2464,7 @@
 			isa = PBXGroup;
 			children = (
 				5696078E19B4D955005D20DC /* BannerService.swift */,
+				5A5E5EE41C8773E100E519AD /* CarouselService.swift */,
 				5696079019B4D986005D20DC /* RecommendedItemsService.swift */,
 				56AED5E919C36F69004CAECA /* CategoryService.swift */,
 				4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */,
@@ -3863,6 +3866,7 @@
 				85A40B881C223AE40036C78A /* ShopperAnnotation.swift in Sources */,
 				85A40B761C223AE40036C78A /* FollowViewController.swift in Sources */,
 				5684E9B21A65CB5A00765833 /* GRUserListService.swift in Sources */,
+				5A5E5EE51C8773E100E519AD /* CarouselService.swift in Sources */,
 				56D81C2E1BC5801F00AE8EC2 /* GRFacets.swift in Sources */,
 				56E54E5319EC882B0004161C /* IPABannerCollectionViewCell.swift in Sources */,
 				85A40B6E1C223AE40036C78A /* Delivery.swift in Sources */,

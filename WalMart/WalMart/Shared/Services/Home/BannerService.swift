@@ -10,7 +10,7 @@ import Foundation
 
 class BannerService : BaseService {
     
-    let fileName = "banner.json"
+    let fileName =  "banner.json"
     
     let JSON_BANNER_BANNERLIST = "bannerList"
     let JSON_BANNER_EMBEDDEDLIST = "embeddedList"

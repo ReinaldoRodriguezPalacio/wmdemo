@@ -31,6 +31,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var plecaItems :  NSDictionary? = nil
     var detailsButton : UIButton!
     var imageNotification : UIImageView?
+    var categoryType :  [String:String]!
+    //var carouselItems : [[String:String]]
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
     }
@@ -47,7 +49,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         let serviceBanner = BannerService()
         self.bannerItems = serviceBanner.getBannerContent()
         self.plecaItems = serviceBanner.getPleca()
-        
+      
+
+    
         print("::::PLECA VALOR:::")
         NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
         
@@ -64,6 +68,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
         
+        let servicecarousel = CarouselService()
+        self.recommendItems = servicecarousel.getCarouselContent()
         
         
     }
@@ -198,8 +204,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if self.categories.count > 0 {
             let catNameFilter = self.categories[selectedIndexCategory]
             let arrayItems : AnyObject = self.recommendCategoryItems[catNameFilter]!
-            let arrayItemsResult =  arrayItems as! [AnyObject]
-            return arrayItemsResult.count
+            //let arrayItemsResult =  arrayItems as! [AnyObject]
+            return arrayItems.count
         }
         return 0
     }
@@ -242,7 +248,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     if imageArray.count > 0 {
                         imageUrl = imageArray.objectAtIndex(0) as! String
                     }
-                } else if let imageStr = recommendProduct["imageUrl"] as? String  {
+                } else if let imageStr = recommendProduct["image"] as? String 	 {
                     imageUrl = imageStr
                 }
                 
@@ -300,9 +306,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let arrayItemsResult =  arrayItems as! [AnyObject]
             let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
             
+            let type = self.categoryType[catNameFilter]!
             let upc = recommendProduct["upc"] as! String
             let desc = recommendProduct["description"] as! String
-            let type = recommendProduct["type"] as! String
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
             
             
@@ -432,20 +438,20 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func getCategories() -> [String]{
         
         let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
-        //var specialsGRCat : [String:AnyObject] = RecommendedCategory.groceriescategory
+        self.categoryType = [:]
         var categories : [String] = []
         self.recommendCategoryItems = [:]
         
         for itemRec in self.recommendItems! {
             var nameCategory = "Otros"
-            let upc = itemRec["upc"] as! String!
-            //var isCategorySpecial = false
+            let categoryname = itemRec["name"] as! String
+            let categorytype = itemRec["type"] as! String
+            self.categoryType[categoryname] = categorytype
+            categories.append(itemRec["name"] as! String)
+            let upcs = itemRec["upcs"] as! NSArray
+
             
-            for special in  specialsCat {
-                
-                let upcs = special["upcs"] as! NSArray
-                if upcs.containsObject(upc) {
-                    nameCategory = special["name"] as! String
+                    nameCategory = itemRec["name"] as! String
                     if categories.filter({ (catName) -> Bool in return catName == nameCategory }).count == 0 {
                         categories.append(nameCategory)
                     }
@@ -455,40 +461,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                         array.append(itemRec)
                         recommendCategoryItems.updateValue(array, forKey: nameCategory)
                     } else {
-                        let itemsRec = [itemRec]
-                        recommendCategoryItems[nameCategory] = itemsRec
+                        recommendCategoryItems[nameCategory] = upcs
                     }
-                    //isCategorySpecial = true
-                    break
-                }
             }
-             //GRA: Se quitan otros Sprint 18 MG
-//            if isCategorySpecial {
-//                continue
-//            }
-//           
-//            if categories.filter({ (catName) -> Bool in return catName == nameCategory }).count == 0 {
-//                categories.append(nameCategory)
-//            }
-//            if let catItem : AnyObject = recommendCategoryItems[nameCategory] {
-//                var array = catItem as [AnyObject]
-//                array.append(itemRec)
-//                recommendCategoryItems.updateValue(array, forKey: nameCategory)
-//            } else {
-//                var itemsRec = [itemRec]
-//                recommendCategoryItems[nameCategory] = itemsRec
-//            }
 
-        }
         
         categories.sortInPlace { (item, seconditem) -> Bool in
-            let first = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
-            let second = specialsCat.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
-            let firstItem = first[0] as! NSDictionary
-            let firstOrder = firstItem["order"] as! Int
-            let secondItem = second[0] as! NSDictionary
-            let secondOrder = secondItem["order"] as! Int
-            return firstOrder < secondOrder
+            let first = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == item })
+            let second = self.recommendItems!.filter({ (catego) -> Bool in return (catego["name"] as! String!) == seconditem })
+            let firstItem = first[0] as NSDictionary
+            let firstOrder = firstItem["orden"] as! String
+            let secondItem = second[0] as NSDictionary
+            let secondOrder = secondItem["orden"] as! String
+            return  Int(firstOrder) < Int(secondOrder)
         }
         
         return categories
@@ -498,8 +483,14 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func updatecontent(sender:AnyObject) {
         //Read a banner list
         let serviceBanner = BannerService()
+      
         self.bannerItems = serviceBanner.getBannerContent()
         self.plecaItems = serviceBanner.getPleca()
+        
+        let servicecarousel = CarouselService()
+        self.recommendItems = servicecarousel.getCarouselContent()
+
+        
         
         print("::::PLECA VALOR:::")
         if self.plecaItems !=  nil {
@@ -507,7 +498,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             print(plecaItems!["eventUrl"] as! String)
         }
         
-        var toReturn :[[String:AnyObject]] = []
+        /*var toReturn :[[String:AnyObject]] = []
         
         let recommendItemsService = RecommendedItemsService()
         self.recommendItems = recommendItemsService.getRecommendedContent()
@@ -528,7 +519,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             toReturn.append(itemUpdate)
         }
         
-        self.recommendItems = toReturn
+        self.recommendItems = toReturn */
+        
+        
         self.categories = getCategories()
         
         collection.reloadData()

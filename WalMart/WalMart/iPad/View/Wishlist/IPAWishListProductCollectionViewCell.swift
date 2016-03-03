@@ -28,7 +28,6 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
     var onHandInventory : NSString = "0"
     var isPreorderable : String! = "false"
     
-    //Ale
     var imagePresale : UIImageView!
     var borderViewTop : UIView!
     var iconDiscount : UIImageView!
