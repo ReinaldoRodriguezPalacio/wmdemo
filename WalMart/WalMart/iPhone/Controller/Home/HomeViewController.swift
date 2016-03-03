@@ -306,9 +306,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let arrayItemsResult =  arrayItems as! [AnyObject]
             let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
             
-            let type = self.categoryType[catNameFilter]!
             let upc = recommendProduct["upc"] as! String
             let desc = recommendProduct["description"] as! String
+            let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
+
+            
             controller.itemsToShow = [["upc":upc,"description":desc,"type":type]]
             
             
