@@ -164,17 +164,19 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.isSharing = false
         buildEditNameSection()
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp()
-        self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : 110.0)
+        self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : 46.0)
+        self.addProductsView = AddProductTolistView()
+        self.addProductsView!.delegate =  self
         if showReminderButton{
             self.view.addSubview(reminderButton!)
             self.view.addSubview(reminderImage!)
             self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
             self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
+            self.view.addSubview(self.addProductsView!)
+
         }
         
-        self.addProductsView = AddProductTolistView()
-        self.addProductsView!.delegate =  self
-        self.view.addSubview(self.addProductsView!)
+        
         
         
        
@@ -204,8 +206,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
 
             }else{
-                self.self.addProductsView!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 64.0)
-                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
+                self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
             }
         }
         
