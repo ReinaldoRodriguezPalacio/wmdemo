@@ -172,10 +172,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             ShoppingCartParams.maxProducts = maxproducts
         }
         if let specials = itemsconfig["specials"] as? NSArray {
-            RecommendedCategory.cagtegories = specials
+           // RecommendedCategory.cagtegories = specials
         }
         if let groceriescategory = itemsconfig["groceriescategoryproduct"] as? [String:AnyObject] {
-            RecommendedCategory.groceriescategory = groceriescategory
+           // RecommendedCategory.groceriescategory = groceriescategory
         }
         
         if let serviceapp = itemsconfig["serviceUrl"] as? String {
@@ -324,11 +324,20 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let banService = BannerService()
         let params = Dictionary<String, String>()
         banService.callService(params, successBlock: { (result:NSDictionary) -> Void in
-            print("Call service BannerService success")
+
             }) { (error:NSError) -> Void in
                 print("Call service BannerService error \(error)")
         }
         
+        
+        let caroService = CarouselService()
+        let caroparams = Dictionary<String, String>()
+        caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+            print("Call service BannerService success")
+            }) { (error:NSError) -> Void in
+                print("Call service BannerService error \(error)")
+        }
+
     }
     
     deinit{
