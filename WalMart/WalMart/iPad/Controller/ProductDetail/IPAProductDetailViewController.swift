@@ -66,10 +66,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var colorViewCell: ProductDetailColorSizeView? = nil
     var isGift: Bool = false
     var fromSearch =  false
-    
-    
-    
-    
+    var isEmpty: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -154,6 +151,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func backButton () {
+        if self.isEmpty {
+           self.navigationController?.popViewControllerAnimated(true)
+            return
+        }
+        
         if  self.navigationController != nil {
             if self.pagerController != nil {
                 self.navigationController!.delegate = self.pagerController
@@ -976,9 +978,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let empty = IPOGenericEmptyView(frame:CGRectMake(0, self.headerView.frame.maxY, self.view.frame.width, self.view.frame.height - self.headerView.frame.maxY))
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
-                    print("")
+                    print("Return Button")
                     self.navigationController!.popViewControllerAnimated(true)
                 }
+                self.isEmpty = true
                 self.view.addSubview(empty)
         }
     }

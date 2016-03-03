@@ -57,7 +57,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             gestureSwipeLeft.direction = UISwipeGestureRecognizerDirection.Left
             self.header!.addGestureRecognizer(gestureSwipeLeft)
         }
-
+        
+        self.reminderButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
     }
 
     override func didReceiveMemoryWarning() {
@@ -88,10 +89,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.customLabel?.frame  = self.addToCartButton!.bounds
         if !isShared {
             if showReminderButton{
-                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
-                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-                self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
-                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
+                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
+                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
+				self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
             }else{
                 self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
             }
@@ -429,21 +430,16 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.delegate!.reloadTableListUser()
     }
     
-   override func addReminder(){
+    override func addReminder(){
         let selected = self.reminderButton!.selected
         let reminderViewController = ReminderViewController()
         reminderViewController.listId = self.listId!
         reminderViewController.listName = self.listName!
         reminderViewController.delegate = self
         if  selected {
-            reminderViewController.selectedPeriodicity = self.reminderService!.selectedPeriodicity
+            reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
             reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
         }
-        let navController = UINavigationController(rootViewController: reminderViewController)
-        navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        navController.navigationBarHidden = true
-        navController.view.layer.cornerRadius = 8.0
-        self.navigationController?.presentViewController(navController, animated: true, completion: nil)
+        self.parentViewController?.navigationController?.pushViewController(reminderViewController, animated: true)
     }
-
 }

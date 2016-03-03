@@ -37,6 +37,7 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     var modalView: AlertModalView?
     var timePicker: UIDatePicker?
     var content:TPKeyboardAvoidingScrollView?
+    var errorView : FormFieldErrorView? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REMINDER.rawValue
@@ -54,7 +55,7 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
         
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        self.content!.layer.insertSublayer(layerLine, atIndex: 0)
+        self.view.layer.insertSublayer(layerLine, atIndex: 1000)
         
         self.view.backgroundColor = UIColor.whiteColor()
         self.fmtDisplay = NSDateFormatter()
@@ -133,7 +134,7 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
         self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
-        self.content!.addSubview(cancelButton!)
+        self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
         self.saveButton!.setTitle("Guardar", forState:.Normal)
@@ -142,7 +143,7 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
-        self.content!.addSubview(saveButton!)
+        self.view.addSubview(saveButton!)
     
         
         if !self.reminderService!.existNotificationForCurrentList(){
@@ -200,10 +201,10 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
         self.dateField!.frame = CGRectMake(16, self.dateLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
         self.hourLabel!.frame = CGRectMake(16, self.dateField!.frame.maxY + 16,  self.view.frame.width - 32, 20)
         self.hourField!.frame = CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - (46))
-        self.layerLine.frame = CGRectMake(0,  self.hourField!.frame.maxY + 16,  self.view.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake(16, self.hourField!.frame.maxY + 32, 140, 34)
-        self.saveButton!.frame = CGRectMake(  self.view.frame.width - 156 , self.hourField!.frame.maxY + 32, 140, 34)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height)
+        self.layerLine.frame = CGRectMake(0,  self.view.bounds.height - 108,  self.view.frame.width, 1)
+        self.cancelButton!.frame = CGRectMake(16,self.layerLine.frame.maxY + 16, 140, 34)
+        self.saveButton!.frame = CGRectMake(  self.view.frame.width - 156 , self.layerLine.frame.maxY + 16, 140, 34)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -226,18 +227,56 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     }
     
     func save(){
-        if self.reminderService!.existNotificationForCurrentList(){
-            self.reminderService!.removeNotificationsFromCurrentList()
+        if self.validateReminderForm(){
+            if self.reminderService!.existNotificationForCurrentList(){
+                self.reminderService!.removeNotificationsFromCurrentList()
+            }
+            self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
+            self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
+            self.navigationController?.popViewControllerAnimated(true)
         }
-        self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
-        self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
-        self.navigationController?.popViewControllerAnimated(true)
     }
     
     func timeChanged(){
+        if self.errorView != nil{
+            self.errorView!.removeFromSuperview()
+            self.errorView!.focusError = nil
+            self.errorView = nil
+        }
         let date = self.timePicker!.date
         self.hourField!.text = self.timeDisplay!.stringFromDate(date)
         //self.selectedDate = date
+    }
+    
+    func validateReminderForm() -> Bool{
+        var field = FormFieldView()
+        var message = ""
+        let frequencyMessage = self.frequencyField!.validate()
+        let timeMessage = self.hourField!.validate()
+        if !hourField!.isValid
+        {
+            field = hourField!
+            message = timeMessage!
+        }
+        let dateMessage = self.dateField!.validate()
+        if !dateField!.isValid
+        {
+            field = dateField!
+            message = dateMessage!
+        }
+        if !frequencyField!.isValid
+        {
+            field = frequencyField!
+            message = frequencyMessage!
+        }
+        if message.characters.count > 0 {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field,  nameField:field.nameField ,  message: message ,errorView:self.errorView!,  becomeFirstResponder: false )
+            return false
+        }
+        return true
     }
     
     //MARK - Notifications
@@ -260,20 +299,31 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     //MARK: - UIActionSheetDelegate
     
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if self.errorView != nil{
+            self.errorView!.removeFromSuperview()
+            self.errorView!.focusError = nil
+            self.errorView = nil
+        }
         if self.actionSheet!.cancelButtonIndex != buttonIndex {
             self.selectedPeriodicity = buttonIndex
             self.frequencyField?.text = self.reminderService!.options[buttonIndex]
-            //self.performSegueWithIdentifier("showAlerts", sender: self)
+            self.frequencyField?.layer.borderWidth = 0
         }
     }
     
     //MARK: -CalendarViewDelegate
     
     func selectedDate(date: NSDate?) {
+        if self.errorView != nil{
+            self.errorView!.removeFromSuperview()
+            self.errorView!.focusError = nil
+            self.errorView = nil
+        }
        self.modalView?.closePicker()
         if date != nil{
             self.currentOriginalFireDate = date
             self.dateField?.text = self.fmtDisplay!.stringFromDate(self.currentOriginalFireDate!).capitalizedString
+            self.dateField?.layer.borderWidth = 0
         }
     }
     

@@ -15,7 +15,7 @@ protocol IPAMoreOptionsViewControllerDelegate {
 class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     var delegate:IPAMoreOptionsViewControllerDelegate!
-
+    var selected: NSIndexPath?
     
     @IBOutlet var imgProfile: UIImageView?
     
@@ -29,7 +29,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadMenu", name:"MORE_OPTIONS_RELOAD", object: nil)
         print("Create MORE_OPTIONS_RELOAD")
-
+        // Como usar el app
+        self.selected = NSIndexPath(forRow: 0, inSection: 2)
     }
 
     override func viewWillLayoutSubviews() {
@@ -43,6 +44,11 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.passwordLabel?.frame = CGRectMake(16 , self.emailLabel!.frame.maxY + 5, self.view.frame.width - 32, 25)
         self.signInOrClose?.frame = CGRectMake((self.view.frame.width / 2) - 45 , self.passwordLabel!.frame.maxY + 5, 95, 24)
         self.tableView?.frame = CGRectMake(0, self.profileView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.profileView!.frame.maxY)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .None)
     }
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "RELOAD_PROFILE", object: nil)
@@ -137,7 +143,6 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         return 36.0
     }
     
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
@@ -158,8 +163,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
             print("")
         }
 
-        
-        
+        self.selected = indexPath
         self.delegate.selectedDetail(currentOption)
     }
     

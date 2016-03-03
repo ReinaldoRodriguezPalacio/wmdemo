@@ -89,11 +89,11 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     
     // MARK: - ABCalendarPickerDelegateProtocol
     func calendarPickerHeightForHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
-        return UIScreen.mainScreen().bounds.size.height == 568.0 ? 50.0 : 20.0
+        return 50
     }
     
     func calendarPickerHeightForColumnHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
-        return UIScreen.mainScreen().bounds.size.height == 568.0 ? 50.0 : 20.0
+        return 50
     }
     
     func calendarPicker(calendarPicker: ABCalendarPicker!, animateNewHeight height: CGFloat) {
