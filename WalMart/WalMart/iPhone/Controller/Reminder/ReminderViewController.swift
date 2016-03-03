@@ -12,19 +12,31 @@ protocol ReminderViewControllerDelegate {
     func notifyReminderWillClose(forceValidation flag:Bool, value:Bool)
 }
 
-class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol,UIActionSheetDelegate{
+class ReminderViewController: NavigationViewController,UIActionSheetDelegate,CalendarViewDelegate, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate{
     
     var listId: String?
     var listName: String?
-    var calendar: ABCalendarPicker?
     var currentOriginalFireDate: NSDate?
     var selectedPeriodicity: Int?
     var reminderService: ReminderNotificationService?
     var fmtDisplay: NSDateFormatter?
+    var timeDisplay: NSDateFormatter?
     var actionSheet: UIActionSheet?
     var alertView: IPOWMAlertViewController?
     var delegate: ReminderViewControllerDelegate?
+    var frequencyLabel:UILabel?
+    var dateLabel:UILabel?
+    var hourLabel:UILabel?
+    var frequencyField: FormFieldView?
+    var dateField: FormFieldView?
+    var hourField:FormFieldView?
     var deleteButton: UIButton?
+    var saveButton: UIButton?
+    var cancelButton: UIButton?
+    var layerLine: CALayer!
+    var modalView: AlertModalView?
+    var timePicker: UIDatePicker?
+    var content:TPKeyboardAvoidingScrollView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REMINDER.rawValue
@@ -32,39 +44,166 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.content = TPKeyboardAvoidingScrollView()
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - (46))
+        self.content!.delegate = self
+        self.content!.scrollDelegate = self
+        self.content!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.content!)
+        
+        self.layerLine = CALayer()
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
+        self.content!.layer.insertSublayer(layerLine, atIndex: 0)
+        
         self.view.backgroundColor = UIColor.whiteColor()
         self.fmtDisplay = NSDateFormatter()
-        self.fmtDisplay!.dateFormat = "MMMM d"
+        self.fmtDisplay!.dateFormat = "EEEE dd, MMMM"
+        
+        self.timeDisplay = NSDateFormatter()
+        self.timeDisplay!.dateFormat = "HH:mm"
+        
         self.titleLabel?.text = NSLocalizedString("list.reminder.title", comment:"")
         self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
         self.reminderService?.findNotificationForCurrentList()
-        //ABCalendarPickerStateDays
-        let calendarWidth: CGFloat = IS_IPAD ? 540 : 320
-        self.calendar = ABCalendarPicker(frame: CGRectMake(0.0, 46, calendarWidth, 500), andState: ABCalendarPickerStateDays, andDelegate: self, andDataSource:self)
-        self.calendar!.backgroundColor = UIColor.whiteColor()
-        self.calendar!.bottomExpanding = true
-        self.view.addSubview(self.calendar!)
-        
         self.deleteButton = UIButton()
-        self.deleteButton!.setTitle("Eliminar", forState: .Normal)
-        self.deleteButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
+        self.deleteButton!.setTitle("eliminar", forState: .Normal)
+        self.deleteButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.deleteButton!.titleLabel?.font =  WMFont.fontMyriadProRegularOfSize(12)
         self.deleteButton!.addTarget(self, action: "deleteReminder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.deleteButton!.backgroundColor = WMColor.red
+        self.deleteButton!.layer.cornerRadius = 8.0
         self.header!.addSubview(deleteButton!)
         
+        self.frequencyLabel = UILabel()
+        self.frequencyLabel?.font = WMFont.fontMyriadProLightOfSize(14)
+        self.frequencyLabel?.textColor = WMColor.light_light_blue
+        self.frequencyLabel?.textAlignment = .Left
+        self.frequencyLabel?.text = "Frecuencia del recordatorio"
+        self.content!.addSubview(self.frequencyLabel!)
+        
+        self.dateLabel = UILabel()
+        self.dateLabel?.font = WMFont.fontMyriadProLightOfSize(14)
+        self.dateLabel?.textColor = WMColor.light_light_blue
+        self.dateLabel?.textAlignment = .Left
+        self.dateLabel?.text = "Fecha de inicio"
+        self.content!.addSubview(self.dateLabel!)
+        
+        self.hourLabel = UILabel()
+        self.hourLabel?.font = WMFont.fontMyriadProLightOfSize(14)
+        self.hourLabel?.textColor = WMColor.light_light_blue
+        self.hourLabel?.textAlignment = .Left
+        self.hourLabel?.text = "Horario"
+        self.content!.addSubview(self.hourLabel!)
+        
+        self.frequencyField = FormFieldView(frame: CGRectMake(16, self.frequencyLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40))
+        self.frequencyField!.isRequired = true
+        self.frequencyField!.setCustomPlaceholder("Semanal")
+        self.frequencyField!.typeField = TypeField.List
+        self.frequencyField!.setImageTypeField()
+        self.frequencyField!.nameField = "frequencyField"
+        self.frequencyField!.minLength = 3
+        self.frequencyField!.maxLength = 25
+        self.content!.addSubview(self.frequencyField!)
+        
+        self.dateField = FormFieldView(frame:CGRectMake(16, self.dateLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40))
+        self.dateField!.isRequired = true
+        self.dateField!.setCustomPlaceholder("Fecha")
+        self.dateField!.typeField = TypeField.List
+        self.dateField!.setImageTypeField()
+        self.dateField!.nameField = "dateField"
+        self.dateField!.minLength = 3
+        self.dateField!.maxLength = 25
+        self.content!.addSubview(self.dateField!)
+        
+        self.hourField = FormFieldView(frame:CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40))
+        self.hourField!.isRequired = true
+        self.hourField!.setCustomPlaceholder("Hora")
+        self.hourField!.typeField = TypeField.List
+        self.hourField!.setImageTypeField()
+        self.hourField!.nameField = "hourField"
+        self.hourField!.minLength = 3
+        self.hourField!.maxLength = 25
+        self.content!.addSubview(self.hourField!)
+        
+        self.cancelButton = UIButton()
+        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
+        self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
+        self.cancelButton!.layer.cornerRadius = 17
+        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.content!.addSubview(cancelButton!)
+        
+        self.saveButton = UIButton()
+        self.saveButton!.setTitle("Guardar", forState:.Normal)
+        self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
+        self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.saveButton!.backgroundColor = WMColor.green
+        self.saveButton!.layer.cornerRadius = 17
+        self.saveButton!.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
+        self.content!.addSubview(saveButton!)
+    
+        
         if !self.reminderService!.existNotificationForCurrentList(){
-            showNotificationOptions()
             self.deleteButton!.hidden = true
         }else{
             self.deleteButton!.hidden = false
+            self.frequencyField?.text = self.reminderService!.options[self.selectedPeriodicity!]
+            self.dateField?.text = self.fmtDisplay!.stringFromDate(self.currentOriginalFireDate!).capitalizedString
+            self.hourField?.text = self.timeDisplay!.stringFromDate(self.currentOriginalFireDate!)
         }
+        
+        self.frequencyField?.onBecomeFirstResponder = { () in
+            self.showNotificationOptions()
+        }
+        
+        self.dateField?.onBecomeFirstResponder = { () in
+            let calendarView = CalendarView(frame: CGRectMake(0, 0,  288, 444))
+            calendarView.delegate = self
+            if !self.reminderService!.existNotificationForCurrentList(){
+               calendarView.originalDate = self.currentOriginalFireDate
+            }
+            self.modalView = AlertModalView.initModalWithView("Fecha de inicio",innerView: calendarView)
+            self.modalView!.showPicker()
+        }
+        
+        self.timePicker = UIDatePicker()
+        self.timePicker!.datePickerMode = .Time
+        self.timePicker!.locale = NSLocale(localeIdentifier: "da_DK")
+        self.timePicker!.minuteInterval = 15
+        self.timePicker!.date = NSDate()
+        self.timePicker!.addTarget(self, action: "timeChanged", forControlEvents: .ValueChanged)
+        self.hourField!.inputView = self.timePicker!
+        
+        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44),
+            inputViewStyle: .Keyboard,
+            titleSave: "Ok",
+            save: { (field:UITextField?) -> Void in
+                field?.resignFirstResponder()
+                if field != nil {
+                    if field!.text == nil || field!.text!.isEmpty {
+                        self.timeChanged()
+                    }
+                }
+        })
+        self.hourField!.inputAccessoryView = viewAccess
+        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let bounds = self.view.frame.size
-        self.deleteButton!.frame = CGRectMake(self.header!.frame.width - 80, 0.0, 80, self.header!.frame.height)
-        self.calendar!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, 500)
+        self.deleteButton!.frame = CGRectMake(self.header!.frame.width - 80, 12, 65, 22)
+        self.frequencyLabel!.frame = CGRectMake(16, 16,  self.view.frame.width - 32, 20)
+        self.frequencyField!.frame = CGRectMake(16, self.frequencyLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
+        self.dateLabel!.frame = CGRectMake(16, self.frequencyField!.frame.maxY + 16,  self.view.frame.width - 32, 20)
+        self.dateField!.frame = CGRectMake(16, self.dateLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
+        self.hourLabel!.frame = CGRectMake(16, self.dateField!.frame.maxY + 16,  self.view.frame.width - 32, 20)
+        self.hourField!.frame = CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - (46))
+        self.layerLine.frame = CGRectMake(0,  self.hourField!.frame.maxY + 16,  self.view.frame.width, 1)
+        self.cancelButton!.frame = CGRectMake(16, self.hourField!.frame.maxY + 32, 140, 34)
+        self.saveButton!.frame = CGRectMake(  self.view.frame.width - 156 , self.hourField!.frame.maxY + 32, 140, 34)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -77,154 +216,29 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     
     override func back() {
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
-        if IS_IPAD{
-            self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
-        }else{
-            super.back()
-        }
-       
-    }
-    
-    // MARK: - ABCalendarPickerDataSourceProtocol
-    func calendarPicker(calendarPicker: ABCalendarPicker!, numberOfEventsForDate date: NSDate!, onState state: ABCalendarPickerState) -> Int {
-        if self.currentOriginalFireDate != nil {
-            let closedDate = self.reminderService!.createDateFrom(date, forHour: 12, andMinute: 00)
-            let compareResult = closedDate!.compare(self.currentOriginalFireDate!)
-            if compareResult == NSComparisonResult.OrderedSame {
-                return 1
-            }
-            else if compareResult == NSComparisonResult.OrderedDescending {
-                if let type = self.reminderService!.currentNotificationConfig![REMINDER_PARAM_TYPE] as? NSNumber {
-                    switch(type.integerValue) {
-                    case 1 :
-                        if self.isDate(closedDate!, partOfIntervalOfDays: 7, fromDate: self.currentOriginalFireDate!) {
-                            return 1
-                        }
-                    case 2 :
-                        if self.isDate(closedDate!, partOfIntervalOfDays: 14, fromDate: self.currentOriginalFireDate!) {
-                            return 1
-                        }
-                    case 3 :
-                        if self.isDate(closedDate!, partOfIntervalOfDays: 21, fromDate: self.currentOriginalFireDate!) {
-                            return 1
-                        }
-                    case 4 :
-                        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
-                        //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-                        calendar!.timeZone = NSTimeZone.localTimeZone()
-                        let closedDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: closedDate!)
-                        let dayRangeClosedDate = calendar!.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: closedDate!)
-                        //print("month:\(closedDateComponents.month) days:\(dayRangeClosedDate.length)")
-                        let originalDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: self.currentOriginalFireDate!)
-                        let originalRangeClosedDate = calendar!.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: self.currentOriginalFireDate!)
-                        //this day is last of month
-                        if closedDateComponents.day == originalDateComponents.day {
-                            return 1
-                        }
-                        
-                        if closedDateComponents.day == dayRangeClosedDate.length && originalDateComponents.day == originalRangeClosedDate.length {
-                            return 1
-                        }
-                        
-                        if originalDateComponents.day == originalRangeClosedDate.length && originalDateComponents.day < dayRangeClosedDate.length {
-                            return 1
-                        }
-                        
-                        if closedDateComponents.day == dayRangeClosedDate.length && originalDateComponents.day > dayRangeClosedDate.length {
-                            return 1
-                        }
-                        
-                        return 0
-                    default :
-                        
-                        break
-                        
-                    }
-                }
-            }
-            
-            
-        }
-        return 0
-    }
-    
-    func isDate(theDate:NSDate, partOfIntervalOfDays days:Int, fromDate:NSDate) -> Bool {
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
-        //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
-        calendar!.timeZone = NSTimeZone.localTimeZone()
-        let components = calendar!.components(NSCalendarUnit.Day, fromDate: fromDate, toDate: theDate, options: [])
-        return components.day % days == 0
-    }
-    
-    // MARK: - ABCalendarPickerDelegateProtocol
-    func calendarPickerHeightForHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
-        return UIScreen.mainScreen().bounds.size.height == 568.0 ? 50.0 : 20.0
-    }
-    
-    func calendarPickerHeightForColumnHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
-        return UIScreen.mainScreen().bounds.size.height == 568.0 ? 50.0 : 20.0
-    }
-    
-    func calendarPicker(calendarPicker: ABCalendarPicker!, animateNewHeight height: CGFloat) {
-        
-    }
-    
-    func calendarPicker(calendarPicker: ABCalendarPicker!, shouldSetState state: ABCalendarPickerState, fromState: ABCalendarPickerState) -> Bool {
-        
-        return state.rawValue == ABCalendarPickerStateDays.rawValue
-    }
-    
-    
-    func calendarPicker(calendarPicker: ABCalendarPicker!, willAnimateWith animation: ABCalendarPickerAnimation) {
-    }
-    
-    func calendarPicker(calendarPicker: ABCalendarPicker!, dateSelected date: NSDate!, withState state: ABCalendarPickerState) {
-        
-        let theDate = self.reminderService!.createDateFrom(date, forHour: 0, andMinute: 0)
-        let today = self.reminderService!.createDateFrom(NSDate(), forHour: 0, andMinute: 0)
-        
-        if theDate!.compare(today!) != NSComparisonResult.OrderedDescending {
-            let text = NSLocalizedString("list.reminder.notification.validationDate",comment:"")
-            self.alertView = IPOWMAlertViewController.showAlert(self,imageWaiting:UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
-            self.alertView!.setMessage(text)
-            self.alertView!.showErrorIcon("Aceptar")
-            return
-        }
-        
-        if self.selectedPeriodicity != nil {
-            let text = self.reminderService!.options[self.selectedPeriodicity!]
-            let title = String(format: NSLocalizedString("list.reminder.confirm.new",comment:""), text, self.fmtDisplay!.stringFromDate(date!))
-            
-            self.alertView = IPOWMAlertViewController.showAlert(self,imageWaiting:UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
-            self.alertView!.setMessage(title)
-            self.alertView!.showDoneIconWithoutClose()
-            self.alertView!.addActionButtonsWithCustomText("Cancelar", leftAction: {() -> Void in
-                //self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
-                self.alertView!.close()
-                //self.navigationController?.popViewControllerAnimated(true)
-                }, rightText: "Aceptar", rightAction: {() -> Void in
-                    self.reminderService!.scheduleNotifications(forOption:self.selectedPeriodicity!, withDate:date)
-                    self.delegate?.notifyReminderWillClose(forceValidation: false, value: true)
-                    self.alertView!.close()
-                    if IS_IPAD{
-                        self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
-                    }else{
-                        self.navigationController?.popViewControllerAnimated(true)
-                    }
-                }, isNewFrame: false)
-        }
+        super.back()
     }
     
     func deleteReminder(){
         self.reminderService!.removeNotificationsFromCurrentList()
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
-        if IS_IPAD{
-            self.navigationController!.dismissViewControllerAnimated(true, completion: nil)
-        }else{
-            self.navigationController?.popViewControllerAnimated(true)
-        }
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
+    func save(){
+        if self.reminderService!.existNotificationForCurrentList(){
+            self.reminderService!.removeNotificationsFromCurrentList()
+        }
+        self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
+        self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
+        self.navigationController?.popViewControllerAnimated(true)
+    }
+    
+    func timeChanged(){
+        let date = self.timePicker!.date
+        self.hourField!.text = self.timeDisplay!.stringFromDate(date)
+        //self.selectedDate = date
+    }
     
     //MARK - Notifications
     func showNotificationOptions() {
@@ -248,9 +262,24 @@ class ReminderViewController: NavigationViewController,ABCalendarPickerDelegateP
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
         if self.actionSheet!.cancelButtonIndex != buttonIndex {
             self.selectedPeriodicity = buttonIndex
+            self.frequencyField?.text = self.reminderService!.options[buttonIndex]
             //self.performSegueWithIdentifier("showAlerts", sender: self)
-        }else{
-            self.back()
         }
+    }
+    
+    //MARK: -CalendarViewDelegate
+    
+    func selectedDate(date: NSDate?) {
+       self.modalView?.closePicker()
+        if date != nil{
+            self.currentOriginalFireDate = date
+            self.dateField?.text = self.fmtDisplay!.stringFromDate(self.currentOriginalFireDate!).capitalizedString
+        }
+    }
+    
+    //MARK: - TPKeyboardAvoidingScrollViewDelegate
+    
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
+        return CGSizeMake(self.view.frame.width, self.content!.contentSize.height)
     }
 }

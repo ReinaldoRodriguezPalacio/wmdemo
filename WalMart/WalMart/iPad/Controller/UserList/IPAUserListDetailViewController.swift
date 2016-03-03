@@ -90,7 +90,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             if showReminderButton{
                 self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
                 self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-                self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+                self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
             }else{
                 self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
             }
