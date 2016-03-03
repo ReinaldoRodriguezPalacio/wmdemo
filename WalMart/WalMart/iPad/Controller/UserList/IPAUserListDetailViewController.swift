@@ -92,7 +92,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
                 self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
 				self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
-                self.tableView?.frame = CGRectMake(0, self.reminderButton!.frame.maxY, self.view.frame.width, self.view.frame.height - self.reminderButton!.frame.maxY)
+                self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
             }else{
                 self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
             }
@@ -262,7 +262,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
 
     override func showLoadingView() {
-        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, self.tableView!.bounds.height + self.header!.frame.height + 24))
+        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, self.tableView!.bounds.height + self.header!.frame.height + 88))
         self.loading!.startAnnimating(false)
         self.view.addSubview(self.loading!)
     }
