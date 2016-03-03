@@ -1349,7 +1349,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         reminderViewController.listName = self.listName!
         reminderViewController.delegate = self
         if  selected {
-            reminderViewController.selectedPeriodicity = self.reminderService!.selectedPeriodicity
+            reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
             reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
         }
         self.navigationController?.pushViewController(reminderViewController, animated: true)
