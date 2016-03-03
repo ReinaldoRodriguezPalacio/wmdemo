@@ -36,20 +36,23 @@ class ReminderNotificationService {
     }
 
     //MARK: - Notifications
-    func scheduleNotifications(forOption option:Int, withDate fireDate:NSDate) {
+    func scheduleNotifications(forOption option:Int, withDate fireDate:NSDate, forTime time:String) {
+        let timeArray = time.componentsSeparatedByString(":")
+        let hour = Int(timeArray.first!)
+        let min = Int(timeArray.last!)
         let title = self.options[option]
         switch (option) {
         case 0 : //Sólo una vez
-            if let date = self.createDateFrom(fireDate, forHour: 12, andMinute: 00) {
+            if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: nil, customType:0)
             }
         case 1 : //Semanal
-            if let date = self.createDateFrom(fireDate, forHour: 12, andMinute: 00) {
+            if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendarUnit.Weekday, customType:1)
             }
         case 2 : //Cada 2 semanas
             //Generate all notifications for a year (52 weaks; 26 for every 2 weeks at year)
-            if let date = self.createDateFrom(fireDate, forHour: 12, andMinute: 00) {
+            if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 var nextDate = date
                 for var i = 0; i < 26; i++ {
                     self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:2)
@@ -58,7 +61,7 @@ class ReminderNotificationService {
             }
         case 3 : //Cada 3 semanas
             //Generate all notifications for a year (52 weaks; 18 for every 3 weeks at year, more or less)
-            if let date = self.createDateFrom(fireDate, forHour: 12, andMinute: 00) {
+            if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 var nextDate = date
                 for var i = 0; i < 18; i++ {
                     self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:3)
@@ -66,7 +69,7 @@ class ReminderNotificationService {
                 }
             }
         default:
-            if let date = self.createDateFrom(fireDate, forHour: 12, andMinute: 00) {
+            if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 self.createLocalNotification(title: title, fireDate: date, originalFireDate: date, frequency: NSCalendarUnit.Month, customType:4)
             }
         }
