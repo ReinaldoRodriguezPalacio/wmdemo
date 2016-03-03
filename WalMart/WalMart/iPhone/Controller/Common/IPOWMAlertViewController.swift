@@ -81,14 +81,14 @@ class IPOWMAlertViewController : UIViewController {
         self.bgView.frame = bounds
         
         viewBgImage.frame = CGRectMake((bounds.width - 80)  / 2 , (bounds.height - 80 - 200) / 2, 80, 80)
-        //   titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
+         //titleLabel.frame = CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
 
         titleLabel!.sizeToFit()
         if  self.btnFrame {
 
              titleLabel.frame =  CGRectMake(16,  viewBgImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
         }else{
-              titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 330) / 2,  viewBgImage.frame.maxY + 16, 330, titleLabel!.frame.height)
+              titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
         }
       
         

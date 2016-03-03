@@ -1,18 +1,6 @@
 {
   "images" : [
     {
-      "idiom" : "universal",
-      "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
-    },
-    {
       "idiom" : "iphone",
       "filename" : "cam_icon_addtolist.png",
       "scale" : "1x"
@@ -28,10 +16,12 @@
     },
     {
       "idiom" : "ipad",
+      "filename" : "cam_icon_addtolist-1.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
+      "filename" : "cam_icon_addtolist@2x-1.png",
       "scale" : "2x"
     }
   ],

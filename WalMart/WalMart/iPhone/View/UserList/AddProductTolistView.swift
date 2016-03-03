@@ -67,7 +67,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        self.textFindProduct.frame = CGRectMake(16.0,12 , 176, 40.0)
+        self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
         self.camButtom.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16, 12, 40, 40)
         self.scannerButton.frame = CGRectMake(self.camButtom.frame.maxX + 16 , 12, 40, 40)
         line.frame = CGRectMake(0,self.textFindProduct.frame.maxY + 11,self.frame.width, 1)
