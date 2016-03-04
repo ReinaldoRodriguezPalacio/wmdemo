@@ -125,9 +125,9 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         }
 
         
-        if row != 3 && row != 5 {
+        //if row != 3 && row != 5 {
             selected  = row
-        }
+        //}
         
 //        selected = row
 //        self.viewControllers = [profile, navigation];

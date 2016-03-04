@@ -12,7 +12,7 @@ protocol ReminderViewControllerDelegate {
     func notifyReminderWillClose(forceValidation flag:Bool, value:Bool)
 }
 
-class ReminderViewController: NavigationViewController,UIActionSheetDelegate,CalendarViewDelegate, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate{
+class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerSelectOptionDelegate{
     
     var listId: String?
     var listName: String?
@@ -21,7 +21,6 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     var reminderService: ReminderNotificationService?
     var fmtDisplay: NSDateFormatter?
     var timeDisplay: NSDateFormatter?
-    var actionSheet: UIActionSheet?
     var alertView: IPOWMAlertViewController?
     var delegate: ReminderViewControllerDelegate?
     var frequencyLabel:UILabel?
@@ -38,6 +37,7 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     var timePicker: UIDatePicker?
     var content:TPKeyboardAvoidingScrollView?
     var errorView : FormFieldErrorView? = nil
+    var picker : AlertPickerView!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REMINDER.rawValue
@@ -155,8 +155,17 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
             self.hourField?.text = self.timeDisplay!.stringFromDate(self.currentOriginalFireDate!)
         }
         
+        self.picker = AlertPickerView.initPickerWithDefault()
+        
         self.frequencyField?.onBecomeFirstResponder = { () in
-            self.showNotificationOptions()
+            self.picker!.selected = NSIndexPath(forRow: self.selectedPeriodicity ?? 0, inSection: 0)
+            self.picker!.sender = self.frequencyField!
+            self.picker!.selectOptionDelegate = self
+            self.picker!.setValues("Frecuencia del recordatorio", values: self.reminderService!.options)
+            self.picker!.hiddenRigthActionButton(true)
+            self.picker!.cellType = TypeField.Check
+            self.picker!.showPicker()
+
         }
         
         self.dateField?.onBecomeFirstResponder = { () in
@@ -209,10 +218,6 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        if self.actionSheet != nil && self.actionSheet!.visible {
-            let cancelIdx = self.actionSheet!.cancelButtonIndex
-            self.actionSheet!.dismissWithClickedButtonIndex(cancelIdx, animated: false)
-        }
     }
     
     override func back() {
@@ -279,40 +284,7 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
         return true
     }
     
-    //MARK - Notifications
-    func showNotificationOptions() {
-        self.buildOptions()
-        self.actionSheet!.showInView(self.view)
-    }
-    
-    func buildOptions() {
-        self.actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: nil, destructiveButtonTitle: nil)
-        self.actionSheet!.actionSheetStyle = .Automatic
-        for option in self.reminderService!.options {
-            self.actionSheet!.addButtonWithTitle(option)
-        }
-        let cancelIdx = self.actionSheet!.addButtonWithTitle("Cancel")
-        self.actionSheet!.cancelButtonIndex = cancelIdx
-        self.actionSheet!.tintColor = WMColor.dark_blue
-    }
-    
-    //MARK: - UIActionSheetDelegate
-    
-    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
-        if self.errorView != nil{
-            self.errorView!.removeFromSuperview()
-            self.errorView!.focusError = nil
-            self.errorView = nil
-        }
-        if self.actionSheet!.cancelButtonIndex != buttonIndex {
-            self.selectedPeriodicity = buttonIndex
-            self.frequencyField?.text = self.reminderService!.options[buttonIndex]
-            self.frequencyField?.layer.borderWidth = 0
-        }
-    }
-    
     //MARK: -CalendarViewDelegate
-    
     func selectedDate(date: NSDate?) {
         if self.errorView != nil{
             self.errorView!.removeFromSuperview()
@@ -331,5 +303,17 @@ class ReminderViewController: NavigationViewController,UIActionSheetDelegate,Cal
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
         return CGSizeMake(self.view.frame.width, self.content!.contentSize.height)
+    }
+    
+    //MARK: - AlertPickerSelectOptionDelegate
+    func didSelectOptionAtIndex(indexPath: NSIndexPath){
+        if self.errorView != nil{
+            self.errorView!.removeFromSuperview()
+            self.errorView!.focusError = nil
+            self.errorView = nil
+        }
+        self.selectedPeriodicity = indexPath.row
+        self.frequencyField?.text = self.reminderService!.options[indexPath.row]
+        self.frequencyField?.layer.borderWidth = 0
     }
 }

@@ -15,8 +15,8 @@ import Foundation
     
     func viewReplaceContent(frame:CGRect) -> UIView!
     func saveReplaceViewSelected()
-    optional func closeAlertPk()
     func buttomViewSelected(sender:UIButton)
+    optional func closeAlertPk()
 }
 
 protocol AlertPickerSelectOptionDelegate {
@@ -233,6 +233,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         if self.selected != nil && itemsToShow.count > 0 {
             delegate?.didSelectOption(self,indexPath:self.selected,selectedStr: self.itemsToShow[self.selected.row])
+            selectOptionDelegate?.didSelectOptionAtIndex(self.selected)
         }else {
              delegate?.didDeSelectOption(self)
         }

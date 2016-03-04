@@ -171,6 +171,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     override func signOut(sender: UIButton?) {
         self.delegate.selectedDetail(7)
+        self.selected = NSIndexPath(forRow: 0, inSection: 2)
         super.signOut(nil)
     }
 
@@ -184,6 +185,27 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.reloadButtonSession()
     }
 
-    
+    override func openLoginOrProfile() {
+        if UserCurrentSession.sharedInstance().userSigned == nil{
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
+            let cont = LoginController.showLogin()
+            cont!.successCallBack = {() in
+                if cont.alertView != nil {
+                    cont!.closeAlert(true, messageSucesss: true)
+                }else {
+                    cont!.closeModal()
+                }
+                self.reloadButtonSession()
+                // Como usar el app
+                self.tableView?.reloadData()
+                self.selected = NSIndexPath(forRow: 0, inSection: 2)
+                self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .None)
+            }
+        }
+        else {
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
+            self.signOut(nil)
+        }
+    }
     
 }
