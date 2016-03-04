@@ -191,8 +191,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         viewBgSelectorBtn.backgroundColor = UIColor.whiteColor()
         viewBgSelectorBtn.addSubview(btnSuper)
         viewBgSelectorBtn.addSubview(btnTech)
-        
-        self.view.addSubview(viewBgSelectorBtn)
+        if self.idListFromSearch == ""{
+            self.view.addSubview(viewBgSelectorBtn)
+        }
         
         self.view.addSubview(collection!)
         self.titleLabel?.text = titleHeader
@@ -343,6 +344,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             viewBgSelectorBtn.alpha = 0
         }
         
+        if self.idListFromSearch != "" {
+            startPoint = self.header!.frame.maxY
+        }
         
         //TODO MAke Search only one resultset
         contentCollectionOffset = CGPointZero
@@ -694,7 +698,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                         print("Searching products for text")
                         self.invokeSearchProductsInGroceries(
                             actionSuccess: { () -> Void in
-                                self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                                    self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                               
                             },
                             actionError: { () -> Void in
                                 self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
@@ -745,6 +750,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     
     func invokeSearchproductsInMG(actionSuccess actionSuccess:(() -> Void)?, actionError:(() -> Void)?) {
+        
+        if self.idListFromSearch != ""{
+            actionSuccess?()
+            return
+        }
         
         if self.mgResults!.totalResults != -1 && self.mgResults!.resultsInResponse >= self.mgResults!.totalResults {
             print("MG Search IS COMPLETE!!!")
@@ -962,6 +972,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
                 }
             }
+        }
+        
+        if self.idListFromSearch != ""{
+            btnTech.selected = false
+            btnSuper.selected = true
         }
         
         self.showLoadingIfNeeded(true)

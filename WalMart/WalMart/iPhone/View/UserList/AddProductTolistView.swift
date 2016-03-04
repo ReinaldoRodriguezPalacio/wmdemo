@@ -21,8 +21,8 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     var camButtom :  UIButton!
     var textFindProduct : FormFieldSearch!
     var line: CALayer!
-    var changeFrame =  false
-
+    var changeFrame =  false//detail_close
+    var closeSearch : UIButton!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -36,6 +36,12 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     
     
     func setup(){
+        
+        self.closeSearch = UIButton(type: .Custom)
+        self.closeSearch!.setImage(UIImage(named: "delete_icon"), forState: .Normal)
+        self.closeSearch!.addTarget(self, action: "closeSearchText", forControlEvents: .TouchUpInside)
+        self.closeSearch!.hidden =  true
+        self.addSubview(self.closeSearch!)
         
         
         self.textFindProduct = FormFieldSearch()
@@ -72,8 +78,11 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
             
             self.camButtom.hidden =  true
             self.scannerButton.hidden =  true
-            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 32, 40.0)
+            self.closeSearch.hidden =  false
+            self.closeSearch.frame  = CGRectMake(16.0,24 ,12, 12)
+            self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX + 16.0,12 ,self.frame.width - 60, 40.0)
         }else{
+            self.closeSearch.hidden =  true
             self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
             self.camButtom.hidden =  false
             self.scannerButton.hidden =  false
@@ -94,6 +103,13 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     
     func scanCode (){
          self.delegate?.scanCode()
+    }
+    
+    func closeSearchText(){
+        changeFrame =  false
+        self.layoutSubviews()
+        self.textFindProduct.resignFirstResponder()
+        self.textFindProduct.text! =  ""
     }
     
     
@@ -127,7 +143,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         
         if keyword.characters.count > 0 {
             changeFrame =  true
-            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 32, 40.0)
+            self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX + 16.0,12 ,self.frame.width - 32, 40.0)
 
         }else {
              changeFrame = false
