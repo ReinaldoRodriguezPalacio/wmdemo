@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import CoreData
+
 
 struct SearchResult {
     var products: NSArray? = nil
@@ -99,6 +101,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var isOriginalTextSearch: Bool = false
     
     var findUpcsMg: NSArray? = []
+    
+    var idListFromSearch : String? = ""
 
     
     override func getScreenGAIName() -> String {
@@ -534,10 +538,34 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isPreorderable:isPreorderable,
             isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),
             type:type as String,
-            pesable : isPesable
+            pesable : isPesable,
+            isFormList: idListFromSearch != "" ?  true :  false,
+            productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! )
         )
         cell.delegate = self
         return cell
+    }
+    
+    func validateProductInList(forProduct upc:String?, inListWithId listId:String) -> Bool {
+        let detail: Product? = self.retrieveProductInList(forProduct: upc, inListWithId: listId)
+        return detail != nil
+    }
+    
+    func retrieveProductInList(forProduct upc:String?, inListWithId listId:String) -> Product? {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        var detail: Product? = nil
+        if upc != nil {
+            let fetchRequest = NSFetchRequest()
+            fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: context)
+            fetchRequest.predicate = NSPredicate(format: "upc == %@ && list.idList == %@", upc!, listId)
+            var result: [Product] = (try! context.executeFetchRequest(fetchRequest)) as! [Product]
+            if result.count > 0 {
+                detail = result[0]
+            }
+        }
+        return detail
     }
     
     
@@ -1384,12 +1412,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             //let quantity : Int = quantity.toInt()!
             if cell.onHandInventory.integerValue >= Int(quantity) {
                 self.selectQuantityGR?.closeAction()
-                let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                if self.idListFromSearch == ""{
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    //CAMBIA IMAGEN CARRO SELECCIONADO
+                    //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                }else{
+                    self.addItemToList(cell, quantity:quantity)
+                }
                 
-                //CAMBIA IMAGEN CARRO SELECCIONADO
-                //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
-                
-                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
             } else {
                 let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                 
@@ -1520,6 +1552,31 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
          self.showEmptyView()
          print("No hay upcs a buscar ")
         }
+    }
+    
+    //MARK AddToList
+    
+    func addItemToList(cell:SearchProductCollectionViewCell,quantity:String){
+       let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("list.message.addingProductToList.fromList", comment:""))
+        
+        let service = GRAddItemListService()
+        let pesable = cell.pesable! ? "1" : "0"
+        let productObject = service.buildProductObject(upc: cell.upc as String, quantity:Int(quantity)!,pesable:pesable,active:true)
+        service.callService(service.buildParams(idList: self.idListFromSearch!, upcs: [productObject]),
+            successBlock: { (result:NSDictionary) -> Void in
+                alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                alertView!.showDoneIcon()
+                print("Error at add product to list)")
+                self.collection?.reloadData()
+
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error at add product to list: \(error.localizedDescription)")
+                alertView!.setMessage(error.localizedDescription)
+                alertView!.showErrorIcon("Ok")
+              
+            }
+        )
     }
     
     

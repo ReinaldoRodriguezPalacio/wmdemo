@@ -77,7 +77,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.addProductToShopingCart!.bringSubviewToFront(self.contentView)
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
@@ -150,6 +150,17 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
             }
         }
+        
+        if isFormList {
+            if productInlist {
+                self.addProductToShopingCart!.setImage(UIImage(named: "list"), forState: UIControlState.Normal)
+
+            }else{
+                self.addProductToShopingCart!.setImage(UIImage(named: "detail_list_selected"), forState: UIControlState.Normal)
+
+            }
+        }
+        
     }
     
     

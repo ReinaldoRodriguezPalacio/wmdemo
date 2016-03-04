@@ -21,6 +21,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     var camButtom :  UIButton!
     var textFindProduct : FormFieldSearch!
     var line: CALayer!
+    var changeFrame =  false
 
     
     required init?(coder aDecoder: NSCoder) {
@@ -67,7 +68,17 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
+        if changeFrame {
+            
+            self.camButtom.hidden =  true
+            self.scannerButton.hidden =  true
+            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 32, 40.0)
+        }else{
+            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
+            self.camButtom.hidden =  false
+            self.scannerButton.hidden =  false
+        }
+        
         self.camButtom.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16, 12, 40, 40)
         self.scannerButton.frame = CGRectMake(self.camButtom.frame.maxX + 16 , 12, 40, 40)
         line.frame = CGRectMake(0,self.textFindProduct.frame.maxY + 11,self.frame.width, 1)
@@ -100,17 +111,28 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         print(textField.text)
+        changeFrame =  false
         self.delegate?.searchByText(textField.text!)
         textField.resignFirstResponder()
         textField.text! =  ""
+        self.layoutSubviews()
+        
+        
         return true
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
-        if keyword.characters.count > 0{
-            
+        
+        if keyword.characters.count > 0 {
+            changeFrame =  true
+            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 32, 40.0)
+
+        }else {
+             changeFrame = false
+            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
+
         }
         
         return true
@@ -120,12 +142,13 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         print("textFieldDidBeginEditing")
     }
     
-    func textFieldShouldEndEditing(textField: UITextField) -> Bool {
+    func textFieldDidEndEditing(textField: UITextField) {
+
          print("textFieldShouldEndEditing")
-        return true
+        
+
     }
     
-
     
 
 }

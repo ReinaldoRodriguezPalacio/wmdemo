@@ -1382,7 +1382,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.presentViewController(cameraController, animated: true, completion: nil)
     }
     func searchByText(text: String) {
+        let message = self.validateText(text)
+        if message != ""{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+                UIImage(named:"noAvaliable"))
+            self.alertView!.setMessage(message)
+            self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+             self.addProductsView?.changeFrame = false
+        return
+        }
         self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .WithText,searchServiceFromContext:.FromSearchText )
+        
     }
     
     
@@ -1445,6 +1455,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.titleHeader = text
         controller.textToSearch = text
         controller.searchFromContextType = searchServiceFromContext
+        controller.idListFromSearch =  self.listId
         self.navigationController?.pushViewController(controller, animated: true)
         
     }
@@ -1537,6 +1548,31 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.alertView?.showErrorIcon("Ok")
         })
         
+    }
+    
+    //MARK validate search
+    func validateText(search:String) -> String {
+        var message  =  ""
+        let toValidate : NSString = search
+        let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if toValidate.isEqualToString(""){
+            message = "Escriba una palabra a buscar"
+        }
+        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
+            message = NSLocalizedString("product.search.minimum",comment:"")
+        }
+        if !validateSearch(search)  {
+           message = "Texto no permitido"
+        }
+        if search.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
+            message = "La longitud no puede ser mayor a 50 caracteres"
+        }
+        return message
+    }
+    
+    func validateSearch(toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-z._-ñÑÁáÉéÍíÓóÚú ]{0,100}$";
+        return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
     
     
