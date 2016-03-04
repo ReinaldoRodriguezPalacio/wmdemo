@@ -32,7 +32,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
 
         let recent = IPAHelpViewController()
         self.navigation.pushViewController(recent, animated: true)
-        selected = 5
+        selected = 7
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {
@@ -125,7 +125,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         }
 
         
-        if row != 4 && row != 6 {
+        if row != 3 && row != 5 {
             selected  = row
         }
         

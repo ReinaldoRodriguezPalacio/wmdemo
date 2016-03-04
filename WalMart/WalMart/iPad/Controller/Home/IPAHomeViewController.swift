@@ -100,7 +100,9 @@ class IPAHomeViewController : HomeViewController {
             for productRecomm  in arrayItemsResult {
                 let upc = productRecomm["upc"] as! String
                 let desc = productRecomm["description"] as! String
-                let type = productRecomm["type"] as! String
+                //let type = productRecomm["type"] as! String
+                let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
+
                 paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SPECIAL_DETAILS.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(desc) - \(upc)")

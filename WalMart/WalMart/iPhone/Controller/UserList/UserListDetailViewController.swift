@@ -149,9 +149,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton!.backgroundColor = WMColor.orange
         self.reminderButton!.addTarget(self, action: "addReminder", forControlEvents: UIControlEvents.TouchUpInside)
         self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
-        self.reminderButton!.titleLabel?.textAlignment = .Center
-        self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 110)
-        self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 2, right: 125)
+        self.reminderButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
+        self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 2, right:0 )
         
         self.reminderImage = UIImageView(image: UIImage(named: "white_arrow"))
         
@@ -198,11 +198,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if !self.isSharing {
             if showReminderButton{
                 self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
-                
                 self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-                
                 self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
-                
                 self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
 
             }else{
@@ -1405,8 +1402,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     //MARK: CameraViewControllerDelegate
     func photoCaptured(value: String?, upcs: [String]?, done: (() -> Void)) {
-        print(value)
-        self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .FromSearchCamFind)
+        if value !=  nil {
+            self.searchByTextAndCamfind(value!, upcs: upcs, searchContextType: .WithTextForCamFind,searchServiceFromContext: .FromSearchCamFind)
+        }
     }
     
     //MARK:  Actions

@@ -387,4 +387,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
         selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
     }
+    
+    override func back() {
+        self.returnBack()
+    }
 }
