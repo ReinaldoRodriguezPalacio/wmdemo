@@ -62,15 +62,15 @@ class IPAHomeViewController : HomeViewController {
                 self.titleView!.frame = CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, self.alertBank!.frame.height)
                 self.detailsButton.frame = CGRectMake(self.view.frame.width / 2+85, 12, 55, 22)
                 self.imageNotification?.frame = CGRectMake(self.view.bounds.width / 2-150,self.alertBank!.frame.midY-6,12,12)
-                
+
                 }, completion: {(bool : Bool) in
-                    if bool {
+//                    if bool {
                         self.alertBank?.alpha = 1
                         self.titleView?.alpha = 1
                         self.detailsButton?.alpha = 1
                         self.imageNotification?.alpha = 1
                         
-                    }
+//                    }
             })
             
         }

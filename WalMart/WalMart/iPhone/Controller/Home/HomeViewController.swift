@@ -76,19 +76,18 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     func removePleca(){
         
-        UIView.animateWithDuration(0.5 , animations: {
+        UIView.animateWithDuration(0.3 , animations: {
             print(":::removePleca::::")
-            self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 0)
+           
             self.titleView?.alpha = 0
             self.detailsButton?.alpha = 0
             self.imageNotification?.alpha = 0
-            
+             self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 0)
             }, completion: {(bool : Bool) in
-                if bool {
                     self.alertBank?.alpha = 0
                     self.alertBank?.removeFromSuperview()
                     self.alertBank = nil
-                }
+
         })
     }
     
@@ -135,20 +134,19 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             self.alertBank!.addSubview(imageNotification!)
             imageNotification?.alpha = 0
             
-            UIView.animateWithDuration(0.4, animations: {
+            UIView.animateWithDuration(0.3, animations: {
                 self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
                 self.titleView!.frame = CGRectMake(28, 0, self.view.frame.width-91, self.alertBank!.frame.height)
                 self.detailsButton.frame = CGRectMake(self.view.frame.width-60, 12, 55, 22)
                 self.imageNotification?.frame = CGRectMake(8,self.alertBank!.frame.midY-6,12,12)
                 
                 }, completion: {(bool : Bool) in
-                    if bool {
                         self.alertBank?.alpha = 1
                         self.titleView?.alpha = 1
                         self.detailsButton?.alpha = 1
                         self.imageNotification?.alpha = 1
                         
-                    }
+                    
             })
             
         }
@@ -163,8 +161,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.bannerCell?.startTimmer()
-        NSTimer.scheduledTimerWithTimeInterval(6.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
-        NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
 
     }
     
