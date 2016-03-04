@@ -1260,6 +1260,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             self.alertView!.setMessage(NSLocalizedString("list.message.deleteListDone", comment:""))
                             self.alertView!.showDoneIcon()
                             self.deleteListServiceInvoked = false
+                            let reminderService = ReminderNotificationService(listId: listId, listName: "")
+                            reminderService.removeNotificationsFromCurrentList()
                         },
                         failure: { (error) -> Void in
                             self.alertView!.setMessage(error.localizedDescription)
