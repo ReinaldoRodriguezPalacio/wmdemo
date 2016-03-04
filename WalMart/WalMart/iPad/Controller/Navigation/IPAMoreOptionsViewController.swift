@@ -146,6 +146,9 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
+            self.openLoginOrProfile()
+            self.selected = NSIndexPath(forRow: 0, inSection: 2)
+            self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
             return
         }
         
@@ -164,6 +167,9 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         }
 
         self.selected = indexPath
+        if currentOption >= 3 && currentOption <= 5{
+           self.selected = NSIndexPath(forRow: 0, inSection: 2)
+        }
         self.delegate.selectedDetail(currentOption)
     }
     
@@ -184,7 +190,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     func reloadProfile() {
         self.reloadButtonSession()
     }
-
+    
     override func openLoginOrProfile() {
         if UserCurrentSession.sharedInstance().userSigned == nil{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_LOGIN.rawValue, label: "")
@@ -196,16 +202,27 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                     cont!.closeModal()
                 }
                 self.reloadButtonSession()
-                // Como usar el app
-                self.tableView?.reloadData()
                 self.selected = NSIndexPath(forRow: 0, inSection: 2)
-                self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .None)
+                self.tableView?.reloadData()
+                self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
+                //self.performSegueWithIdentifier("showProfile", sender: self)
+                //TODO: Poner acciones, cambio boton y nombre
             }
         }
         else {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
             self.signOut(nil)
         }
+    }
+
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = super.tableView(tableView, cellForRowAtIndexPath: indexPath)
+        
+        if indexPath == self.selected! {
+           cell.selected = true
+        }
+        
+        return cell
     }
     
 }

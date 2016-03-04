@@ -47,6 +47,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     var buttonRight : WMRoundButton!
     var buttonOk : UIButton!
+    var buttonCancel : UIButton!
     
     var closeButton : UIButton!
     var viewButtonClose : UIButton!
@@ -59,6 +60,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var stopRemoveView: Bool? = false
     var isNewAddres: Bool  =  false
     var selectDelegate: Bool = false
+    var showCancelButton: Bool = false
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -67,6 +69,12 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
+        setup()
+    }
+    
+    init(frame: CGRect, showCancelButton:Bool) {
+        super.init(frame:frame)
+        self.showCancelButton = true
         setup()
     }
     
@@ -126,6 +134,21 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
         buttonOk.center = CGPointMake(self.viewContent.frame.width / 2, 32)
         buttonOk.addTarget(self, action: "okAction", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        buttonCancel = UIButton(frame: CGRectMake(0, 0, 120, 34))
+        buttonCancel.backgroundColor = WMColor.empty_gray_btn
+        buttonCancel.layer.cornerRadius = 17
+        buttonCancel.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        buttonCancel.setTitle("Cancelar", forState: UIControlState.Normal)
+        buttonCancel.center = CGPointMake((self.viewContent.frame.width / 2) - 68 , 32)
+        buttonCancel.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        if self.showCancelButton{
+            buttonOk.backgroundColor = WMColor.green
+            buttonOk.frame = CGRectMake(0, 0, 120, 34)
+            buttonOk.center = CGPointMake((self.viewContent.frame.width / 2) + 68 , 32)
+            viewFooter.addSubview(buttonCancel)
+        }
         
         viewFooter.backgroundColor = UIColor.whiteColor()
         viewFooter.addSubview(buttonOk)
@@ -311,6 +334,12 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     class func initPickerWithDefault() -> AlertPickerView {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = AlertPickerView(frame:vc!.view.bounds)
+        return newAlert
+    }
+    
+    class func initPickerWithDefaultCancelButton() -> AlertPickerView {
+        let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let newAlert = AlertPickerView(frame:vc!.view.bounds,showCancelButton: true)
         return newAlert
     }
     

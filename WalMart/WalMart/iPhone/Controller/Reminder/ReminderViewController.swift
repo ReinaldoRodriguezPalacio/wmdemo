@@ -102,7 +102,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.frequencyField!.setCustomPlaceholder("Semanal")
         self.frequencyField!.typeField = TypeField.List
         self.frequencyField!.setImageTypeField()
-        self.frequencyField!.nameField = "frequencyField"
+        self.frequencyField!.nameField = "Frecuencia del recordatorio"
         self.frequencyField!.minLength = 3
         self.frequencyField!.maxLength = 25
         self.content!.addSubview(self.frequencyField!)
@@ -112,7 +112,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.dateField!.setCustomPlaceholder("Fecha")
         self.dateField!.typeField = TypeField.List
         self.dateField!.setImageTypeField()
-        self.dateField!.nameField = "dateField"
+        self.dateField!.nameField = "Fecha de inicio"
         self.dateField!.minLength = 3
         self.dateField!.maxLength = 25
         self.content!.addSubview(self.dateField!)
@@ -122,7 +122,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.hourField!.setCustomPlaceholder("Hora")
         self.hourField!.typeField = TypeField.List
         self.hourField!.setImageTypeField()
-        self.hourField!.nameField = "hourField"
+        self.hourField!.nameField = "Horario"
         self.hourField!.minLength = 3
         self.hourField!.maxLength = 25
         self.content!.addSubview(self.hourField!)
@@ -155,7 +155,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             self.hourField?.text = self.timeDisplay!.stringFromDate(self.currentOriginalFireDate!)
         }
         
-        self.picker = AlertPickerView.initPickerWithDefault()
+        self.picker = AlertPickerView.initPickerWithDefaultCancelButton()
         
         self.frequencyField?.onBecomeFirstResponder = { () in
             self.picker!.selected = NSIndexPath(forRow: self.selectedPeriodicity ?? 0, inSection: 0)
@@ -212,8 +212,16 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.hourField!.frame = CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height)
         self.layerLine.frame = CGRectMake(0,  self.view.bounds.height - 108,  self.view.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake(16,self.layerLine.frame.maxY + 16, 140, 34)
-        self.saveButton!.frame = CGRectMake(  self.view.frame.width - 156 , self.layerLine.frame.maxY + 16, 140, 34)
+        self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 78,self.layerLine.frame.maxY + 16, 140, 34)
+        self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 78 , self.layerLine.frame.maxY + 16, 140, 34)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        self.hourField!.setImageTypeField()
+        self.dateField!.setImageTypeField()
+        self.frequencyField!.setImageTypeField()
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -222,12 +230,24 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     
     override func back() {
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+        if IS_IPAD{
+            self.willMoveToParentViewController(nil)
+            self.view.removeFromSuperview()
+            self.removeFromParentViewController()
+            return
+        }
         super.back()
     }
     
     func deleteReminder(){
         self.reminderService!.removeNotificationsFromCurrentList()
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+        if IS_IPAD{
+            self.willMoveToParentViewController(nil)
+            self.view.removeFromSuperview()
+            self.removeFromParentViewController()
+            return
+        }
         self.navigationController?.popViewControllerAnimated(true)
     }
     
@@ -238,6 +258,12 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             }
             self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
             self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
+            if IS_IPAD{
+                self.willMoveToParentViewController(nil)
+                self.view.removeFromSuperview()
+                self.removeFromParentViewController()
+                return
+            }
             self.navigationController?.popViewControllerAnimated(true)
         }
     }
