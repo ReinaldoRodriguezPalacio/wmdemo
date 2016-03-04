@@ -153,10 +153,10 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         if isFormList {
             if productInlist {
-                self.addProductToShopingCart!.setImage(UIImage(named: "list"), forState: UIControlState.Normal)
+                self.addProductToShopingCart!.setImage(UIImage(named: "addedtolist_icon"), forState: UIControlState.Normal)
 
             }else{
-                self.addProductToShopingCart!.setImage(UIImage(named: "detail_list_selected"), forState: UIControlState.Normal)
+                self.addProductToShopingCart!.setImage(UIImage(named: "addtolist_icon"), forState: UIControlState.Normal)
 
             }
         }
