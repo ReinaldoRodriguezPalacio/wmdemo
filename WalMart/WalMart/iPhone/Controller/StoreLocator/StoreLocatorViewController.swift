@@ -401,6 +401,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.searchField.resignFirstResponder()
     }
 
     //MARK: - Actions
