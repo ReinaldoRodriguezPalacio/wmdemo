@@ -445,5 +445,37 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         navController.view.layer.cornerRadius = 8.0
         self.navigationController?.presentViewController(navController, animated: true, completion: nil)
     }
+    
+    
+    //MARK: AddProductTolistViewDelegate
+    override func scanCode() {
+        let barCodeController = IPABarCodeViewController()
+        barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
+        barCodeController.delegate = self
+        barCodeController.searchProduct = true
+        barCodeController.useDelegate = true
+        barCodeController.isAnyActionFromCode =  true
+        self.presentViewController(barCodeController, animated: true, completion: nil)
+    }
+    
+    
+    override func searchByTextAndCamfind(text: String,upcs:[String]?,searchContextType:SearchServiceContextType,searchServiceFromContext:SearchServiceFromContext) {
+        
+        let controller = IPASearchProductViewController()
+        controller.upcsToShow = upcs
+        controller.searchContextType = searchContextType
+        controller.titleHeader = text
+        controller.textToSearch = text
+        controller.searchFromContextType = searchServiceFromContext
+        self.navigationController?.pushViewController(controller, animated: true)
+        
+    }
+    
+    override func invokeAddproductTolist(response:NSDictionary?,products:[AnyObject]?,succesBlock:(() -> Void)){
+        super.invokeAddproductTolist(response, products: products) { () -> Void in
+            self.reloadTableListUser()
+        }
+        
+    }
 
 }
