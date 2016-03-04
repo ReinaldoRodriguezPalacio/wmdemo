@@ -464,6 +464,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         controller.titleHeader = text
         controller.textToSearch = text
         controller.searchFromContextType = searchServiceFromContext
+        controller.idListFromSearch = self.listId
         self.navigationController?.pushViewController(controller, animated: true)
         
     }
