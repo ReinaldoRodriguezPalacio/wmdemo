@@ -94,6 +94,8 @@ class IPOLinesViewController : IPOCategoriesViewController {
            
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
+                self.navigationController?.popToRootViewControllerAnimated(true)
+                
         })
     
     }

@@ -105,6 +105,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     var idFreeShepping : Int! = 0
     var totalDiscountsOrder : Double! = 0
     var newTotal : Double!
+    var idStore :String =  ""
     
     var deliveryAmount : Double!
     var discountsAssociated : Double!
@@ -776,6 +777,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             var paramsDic: [String:String] = pickerValues
             paramsDic["isAssociated"] = self.isAssociateSend ? "1":"0"//self.showDiscountAsociate ? "1":"0"
             paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
+        paramsDic["addressId"] = self.selectedAddress == nil ? "" : self.selectedAddress
             let promotionsService = GRGetPromotionsService()
         
         print("TOTAL::::\(paramsDic)")
@@ -784,6 +786,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
         self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
         self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+
         
             //self.promotionIds! = ""
         
@@ -896,6 +899,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             //self.addViewLoad()
             var paramsDic: [String:String] = pickerValues
             paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())"
+            paramsDic["addressId"] = self.selectedAddress == nil ? "" : self.selectedAddress
+            
             let discountAssociateService = GRDiscountAssociateService()
             
             
@@ -1290,26 +1295,34 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
-                    if  let selectedAddressHasStoreVal = option["isAddressOk"] as? String {
-                        if selectedAddressHasStoreVal == "False" {
-                            self.selectedAddressHasStore  = false
-                            self.picker!.newItemForm()
-                            self.picker!.stopRemoveView = true
-                            let delay = 0.5 * Double(NSEC_PER_SEC)
-                            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-                            dispatch_after(time, dispatch_get_main_queue()) {
-                                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                                self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
-                                self.alertView!.showDoneIconWithoutClose()
-                                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                    
+                  
+                    
+                    
+                    self.invokeGetPromotionsService(self.picker.textboxValues!, discountAssociateItems:self.picker.itemsToShow , endCallPromotions: { (finish:Bool) -> Void in
+                        print("invokeGetPromotionsService:::promo")
+                        if  let selectedAddressHasStoreVal = option["isAddressOk"] as? String {
+                            if selectedAddressHasStoreVal == "False" {
+                                self.selectedAddressHasStore  = false
+                                self.picker!.newItemForm()
+                                self.picker!.stopRemoveView = true
+                                let delay = 0.5 * Double(NSEC_PER_SEC)
+                                let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+                                dispatch_after(time, dispatch_get_main_queue()) {
+                                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                                    self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+                                    self.alertView!.showDoneIconWithoutClose()
+                                    self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+                                }
+                                return
+                            }else{
+                                self.validateMercuryDelivery()
                             }
-                            return
                         }else{
                             self.validateMercuryDelivery()
-                      }
-                    }else{
-                        self.validateMercuryDelivery()
-                    }
+                        }//--
+                    })
+                  
                 }
                 
                 self.selectedAddressIx = indexPath

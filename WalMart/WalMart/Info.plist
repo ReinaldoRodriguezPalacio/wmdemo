@@ -165,7 +165,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -522,7 +522,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
+			<string>http://192.168.43.192:8085/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -579,7 +579,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/getCarrusel</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -591,7 +591,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/list/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
@@ -625,7 +625,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -1039,7 +1039,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
+			<string>http://192.168.43.192:8085/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -1098,7 +1098,7 @@
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/getCarrusel</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1108,7 +1108,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
@@ -1142,7 +1142,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
