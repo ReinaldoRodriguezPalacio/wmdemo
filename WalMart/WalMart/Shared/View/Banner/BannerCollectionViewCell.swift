@@ -24,6 +24,9 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     var timmerBanner : NSTimer!
     var buttonTerms : UIButton!
     var viewTerms : BannerTermsView!
+    //ale
+    var plecaEnd : (() -> Void)? = nil
+
     
     var pageViewController : UIPageViewController!
     var nextController : HomeBannerImageViewController! = HomeBannerImageViewController()
@@ -208,6 +211,10 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
     
     func pageViewController(pageViewController: UIPageViewController, willTransitionToViewControllers pendingViewControllers: [UIViewController]){
         stopTimmer()
+        if plecaEnd != nil {
+            plecaEnd!()
+        }
+
         self.visibleItem = pendingViewControllers[0].view!.tag
         UIView.animateWithDuration(0.1, animations: { () -> Void in
             self.buttonTerms.alpha =  0
@@ -315,6 +322,8 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         currentItem = sender.tag == dataSource?.count ? dataSource?.count : (sender.tag - 1)
         changebanner()
     }
+    
+    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        }
+
 }
-
-
