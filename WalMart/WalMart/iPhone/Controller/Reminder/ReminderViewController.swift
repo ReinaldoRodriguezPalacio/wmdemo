@@ -73,7 +73,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.deleteButton!.titleLabel?.font =  WMFont.fontMyriadProRegularOfSize(12)
         self.deleteButton!.addTarget(self, action: "deleteReminder", forControlEvents: UIControlEvents.TouchUpInside)
         self.deleteButton!.backgroundColor = WMColor.red
-        self.deleteButton!.layer.cornerRadius = 8.0
+        self.deleteButton!.layer.cornerRadius = 11.0
         self.header!.addSubview(deleteButton!)
         
         self.frequencyLabel = UILabel()
@@ -306,8 +306,8 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         let hour = Int(timeArray.first!)
         let min = Int(timeArray.last!)
         let minInterval = abs((min! % 15) - min!)
-
-        self.hourField!.text = "\(hour!):\(minInterval)"
+        let minString = minInterval == 0 ? "00" : "\(minInterval)"
+        self.hourField!.text = "\(hour!):\(minString)"
         //self.selectedDate = date
     }
     
