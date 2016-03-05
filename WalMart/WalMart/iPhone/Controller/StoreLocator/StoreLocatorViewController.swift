@@ -401,6 +401,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.searchField.resignFirstResponder()
     }
 
     //MARK: - Actions
@@ -771,6 +772,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.clearButton?.hidden = true
             self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         }
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
         var result: [Store]? =  nil
         do{
             result =  try context.executeFetchRequest(fetchRequest) as? [Store]

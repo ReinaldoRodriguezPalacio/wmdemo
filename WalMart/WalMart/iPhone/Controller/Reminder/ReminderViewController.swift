@@ -125,6 +125,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.hourField!.nameField = "Horario"
         self.hourField!.minLength = 3
         self.hourField!.maxLength = 25
+        self.hourField!.disablePaste = true
         self.content!.addSubview(self.hourField!)
         
         self.cancelButton = UIButton()
@@ -216,16 +217,41 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
     }
     
+    override func shouldAutomaticallyForwardAppearanceMethods() -> Bool {
+        return !IS_IPAD
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if IS_IPAD{
+            self.beginAppearanceTransition(true, animated: true)
+        }
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
         self.hourField!.setImageTypeField()
         self.dateField!.setImageTypeField()
         self.frequencyField!.setImageTypeField()
+        
+        if IS_IPAD{
+            self.endAppearanceTransition()
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        if IS_IPAD{
+            self.beginAppearanceTransition(false, animated: true)
+        }
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        if IS_IPAD{
+            self.endAppearanceTransition()
+        }
     }
     
     override func back() {
@@ -275,7 +301,13 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             self.errorView = nil
         }
         let date = self.timePicker!.date
-        self.hourField!.text = self.timeDisplay!.stringFromDate(date)
+        let dateString = self.timeDisplay!.stringFromDate(date)
+        let timeArray = dateString.componentsSeparatedByString(":")
+        let hour = Int(timeArray.first!)
+        let min = Int(timeArray.last!)
+        let minInterval = abs((min! % 15) - min!)
+
+        self.hourField!.text = "\(hour!):\(minInterval)"
         //self.selectedDate = date
     }
     

@@ -75,6 +75,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     }
 
     override func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
+        self.searchField!.resignFirstResponder()
         let latResult = view.annotation!.coordinate.latitude + 0.01
         let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation!.coordinate.longitude)
         let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, 10000, 10000)
