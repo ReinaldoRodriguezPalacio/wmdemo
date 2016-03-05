@@ -18,6 +18,8 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var countAfterBefore : Int = 0
     var ctrlToShow : UIViewController!
     var isForSeach:Bool = false
+    var idListSeleted : String? = ""
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
     }

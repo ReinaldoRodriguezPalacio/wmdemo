@@ -149,10 +149,11 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     }
     
     override func closeCategory() {
+        self.loading?.stopAnnimating()
         self.navigationController?.popToRootViewControllerAnimated(true)
         self.actionClose?()
-        self.removeFromParentViewController()
-        self.view.removeFromSuperview()
+        //self.removeFromParentViewController()
+        //self.view.removeFromSuperview()
     }
     
     override func showFamilyController() {

@@ -265,7 +265,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if self.titleLabel != nil {
                 self.titleLabel?.removeFromSuperview()
             }
+            if self.idListFromSearch == ""{
                 self.titleLabel = self.setTitleWithEdit()
+            }else{
+                 self.titleLabel?.text = titleHeader
+            }
             //self.titleLabel?.frame =  CGRectMake(self.titleLabel!.frame.origin.x,self.titleLabel!.frame.origin.y,102 ,self.titleLabel!.frame.size.height)
             self.titleLabel?.numberOfLines = 2
                 self.header?.addSubview(self.titleLabel!)
@@ -642,6 +646,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
+            controller.idListSeleted =  self.idListFromSearch!
             self.navigationController!.pushViewController(controller, animated: true)
         }
        
