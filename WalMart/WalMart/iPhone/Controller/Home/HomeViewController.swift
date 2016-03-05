@@ -216,6 +216,10 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 bannerCell!.delegate = self
                 bannerCell!.dataSource = self.bannerItems
                 bannerCell!.setup()
+                bannerCell!.plecaEnd = {() in
+                    self.removePleca()
+                }
+
                 cell = bannerCell!
                 break;
             case (0,1):
