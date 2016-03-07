@@ -163,7 +163,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         self.isSharing = false
         buildEditNameSection()
-        self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp()
+        self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp() && self.listId != nil && self.listName != nil
         self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : 46.0)
         self.addProductsView = AddProductTolistView()
         self.addProductsView!.delegate =  self
