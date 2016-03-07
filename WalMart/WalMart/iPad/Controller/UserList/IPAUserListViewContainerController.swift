@@ -127,14 +127,12 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
            
         }
         else {
-            if idList !=  nil {
             let oldDetailContainer = self.detailController
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
             self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
             self.view.bringSubviewToFront(self.separatorView!)
             oldDetailContainer?.view.removeFromSuperview()
-            }
-            
+
         }
 
     }
