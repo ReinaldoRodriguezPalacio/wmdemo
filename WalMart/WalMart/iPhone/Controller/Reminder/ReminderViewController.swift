@@ -271,38 +271,48 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     }
     
     func deleteReminder(){
-        self.reminderService!.removeNotificationsFromCurrentList()
-        self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
         self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "reminder_alert"), imageError: UIImage(named: "reminder_alert"))
-        self.alertController!.setMessage("Recordatorio eliminado")
-        self.alertController!.showDoneIcon()
-        if IS_IPAD{
-            self.willMoveToParentViewController(nil)
-            self.view.removeFromSuperview()
-            self.removeFromParentViewController()
-            return
-        }
-        self.navigationController?.popViewControllerAnimated(true)
-    }
-    
-    func save(){
-        if self.validateReminderForm(){
-            if self.reminderService!.existNotificationForCurrentList(){
-                self.reminderService!.removeNotificationsFromCurrentList()
-            }
-            self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
-            self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
-            self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "reminder_alert"), imageError: UIImage(named: "reminder_alert"))
-            self.alertController!.setMessage("Recordatorio creado")
+        self.alertController!.setMessage("Eliminando recordatorio.....")
+        let delaySec:Double = IS_IPAD ? 2.0 : 1.0
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            self.reminderService!.removeNotificationsFromCurrentList()
+            self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+            self.alertController!.setMessage("Recordatorio eliminado")
             self.alertController!.showDoneIcon()
-            
             if IS_IPAD{
                 self.willMoveToParentViewController(nil)
                 self.view.removeFromSuperview()
                 self.removeFromParentViewController()
-                return
+            }else{
+                self.navigationController?.popViewControllerAnimated(true)
             }
-            self.navigationController?.popViewControllerAnimated(true)
+        }
+        
+    }
+    
+    func save(){
+        if self.validateReminderForm(){
+            self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "reminder_alert"), imageError: UIImage(named: "reminder_alert"))
+            self.alertController!.setMessage("Creando recordatorio...")
+            let delaySec:Double = IS_IPAD ? 2.0 : 1.0
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                if self.reminderService!.existNotificationForCurrentList(){
+                    self.reminderService!.removeNotificationsFromCurrentList()
+                }
+                self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
+                self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
+                self.alertController!.setMessage("Recordatorio creado")
+                self.alertController!.showDoneIcon()
+                if IS_IPAD{
+                    self.willMoveToParentViewController(nil)
+                    self.view.removeFromSuperview()
+                    self.removeFromParentViewController()
+                }else{
+                    self.navigationController?.popViewControllerAnimated(true)
+                }
+            }
         }
     }
     
