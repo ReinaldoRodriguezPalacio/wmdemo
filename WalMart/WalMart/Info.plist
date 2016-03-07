@@ -579,7 +579,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getCarrusel</string>
+			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>

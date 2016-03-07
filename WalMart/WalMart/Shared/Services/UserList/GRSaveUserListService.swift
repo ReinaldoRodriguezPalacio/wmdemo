@@ -212,7 +212,11 @@ class GRSaveUserListService : GRBaseService {
     func retrieveListNotSync(name name:String, inContext context:NSManagedObjectContext) -> List? {
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: context)
-        fetchRequest.predicate = NSPredicate(format: "name == %@ && idList == nil", name)
+        if UserCurrentSession.hasLoggedUser() {
+            fetchRequest.predicate = NSPredicate(format: "name == %@ ", name)
+        }else{
+            fetchRequest.predicate = NSPredicate(format: "name == %@ && idList == nil", name)
+        }
         var list: List? = nil
         do{
             let result: [List]? = try context.executeFetchRequest(fetchRequest) as? [List]
