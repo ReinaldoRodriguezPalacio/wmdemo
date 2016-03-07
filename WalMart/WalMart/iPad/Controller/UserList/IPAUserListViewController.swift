@@ -359,6 +359,51 @@ class IPAUserListViewController: UserListViewController {
     func indexPathForPreferredFocusedViewInTableView(tableView: UITableView) -> NSIndexPath? {
         return self.selectedItem
     }
+    
+    override func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
+        switch index {
+        case 0://Duplicate list
+            if let cellList = cell as? ListTableViewCell {
+                cellList.duplicate()
+            }
+        case 1://Delete list
+            if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
+                if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
+                    if let listId = listItem["id"] as? String {
+                        self.deleteListInDB(listId)
+                        
+                        self.invokeDeleteListService(listId)
+                        self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+                        self.selectRowIfNeeded()
+                    }
+                }
+                    //Si existe como entidad solo debe eliminarse de la BD
+                else if let listEntity = self.itemsUserList![indexPath.row] as? List {
+                    self.managedContext!.deleteObject(listEntity)
+                    self.saveContext()
+                    //No hay que generar acciones adicionales para este caso
+                    //                    self.reloadList(success: nil, failure: nil)
+                    self.reloadWithoutTableReload(success: nil, failure: nil)
+                    self.tableuserlist!.beginUpdates()
+                    self.tableuserlist!.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Left)
+                    self.tableuserlist!.endUpdates()
+                    
+                    //EXTRA SI NO HAY MAS LISTAS
+                    if self.itemsUserList!.count == 0 && self.isEditingUserList {
+                        self.showEditionMode()
+                    }
+                    self.checkEditBtn()
+                    self.reloadList(success: { () -> Void in
+                        
+                        }, failure: { (error) -> Void in
+                            
+                    })
+                }
+            }
+        default:
+            print("other pressed")
+        }
+    }
 
     
 }
