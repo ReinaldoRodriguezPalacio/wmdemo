@@ -38,6 +38,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     var content:TPKeyboardAvoidingScrollView?
     var errorView : FormFieldErrorView? = nil
     var picker : AlertPickerView!
+    var alertController: IPOWMAlertViewController?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_REMINDER.rawValue
@@ -257,9 +258,13 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     override func back() {
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
         if IS_IPAD{
-            self.willMoveToParentViewController(nil)
-            self.view.removeFromSuperview()
-            self.removeFromParentViewController()
+            UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+                self.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
+                }, completion: {(finish) in
+                    self.willMoveToParentViewController(nil)
+                    self.view.removeFromSuperview()
+                    self.removeFromParentViewController()
+            })
             return
         }
         super.back()
@@ -268,6 +273,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     func deleteReminder(){
         self.reminderService!.removeNotificationsFromCurrentList()
         self.delegate?.notifyReminderWillClose(forceValidation: true, value: false)
+        self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "reminder_alert"), imageError: UIImage(named: "reminder_alert"))
+        self.alertController!.setMessage("Recordatorio eliminado")
+        self.alertController!.showDoneIcon()
         if IS_IPAD{
             self.willMoveToParentViewController(nil)
             self.view.removeFromSuperview()
@@ -284,6 +292,10 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             }
             self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
             self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
+            self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "reminder_alert"), imageError: UIImage(named: "reminder_alert"))
+            self.alertController!.setMessage("Recordatorio creado")
+            self.alertController!.showDoneIcon()
+            
             if IS_IPAD{
                 self.willMoveToParentViewController(nil)
                 self.view.removeFromSuperview()

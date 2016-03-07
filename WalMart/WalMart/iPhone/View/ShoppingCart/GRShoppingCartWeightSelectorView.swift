@@ -559,7 +559,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     
     func btnMoreAction() {
       
-        if (currentValGr + 50.0) < CONS_MAXVAL {
+        if (currentValGr + 50.0) <= CONS_MAXVAL {
               BaseController.sendAnalytics(WMGAIUtils.CATEGORY_KEYBOARD_GRAMS.rawValue, action:WMGAIUtils.ACTION_ADD_GRAMS.rawValue , label:"" )
             currentValGr = currentValGr + 50
             self.updateShoppButton()

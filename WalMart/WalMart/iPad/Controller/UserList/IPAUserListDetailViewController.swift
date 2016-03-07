@@ -440,10 +440,15 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
             reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
         }
-        reminderViewController.view.frame = self.view.bounds
+        reminderViewController.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
         self.addChildViewController(reminderViewController)
         self.view.addSubview(reminderViewController.view)
-        reminderViewController.didMoveToParentViewController(self)
+        UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+            reminderViewController.view.frame = self.view.bounds
+            }, completion: {(finish) in
+                reminderViewController.didMoveToParentViewController(self)
+        })
+        
     }
 
     
