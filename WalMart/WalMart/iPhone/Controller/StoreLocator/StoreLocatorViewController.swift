@@ -790,6 +790,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clearButton?.hidden = true
         self.items = self.searchForItems("")
         self.clubCollection!.reloadData()
+        self.clubCollection!.contentInset = UIEdgeInsetsZero
         self.clubCollection?.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
     }
     

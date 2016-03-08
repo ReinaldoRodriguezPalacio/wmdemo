@@ -132,9 +132,14 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
         
         let store = self.items![indexPath.row]
+        if indexPath.row == self.items!.count - 1 || indexPath.row == self.items!.count - 2 {
+            collectionView.contentInset = UIEdgeInsetsMake(0, 0, 250, 0)
+        }else{
+           collectionView.contentInset = UIEdgeInsetsZero
+        }
+         collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
         
