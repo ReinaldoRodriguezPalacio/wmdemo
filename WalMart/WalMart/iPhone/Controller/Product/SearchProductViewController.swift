@@ -103,6 +103,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var findUpcsMg: NSArray? = []
     
     var idListFromSearch : String? = ""
+    var invokeServiceInError = false
 
     
     override func getScreenGAIName() -> String {
@@ -314,7 +315,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //        }
 //        self.hasEmptyView = true
         if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
+            if finsihService {
             self.showEmptyMGGRView()
+            }
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
             self.showEmptyView()
         }
@@ -461,6 +464,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
             let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
+            self.invokeServiceInError =  true
             self.getServiceProduct(resetTable: false) //Invoke service
             return loadCell
         }
@@ -707,7 +711,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                                
                             },
                             actionError: { () -> Void in
-                                self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                                if self.invokeServiceInError {
+                                    self.invokeSearchproductsInMG(actionSuccess: sucessBlock, actionError: errorBlock)
+                                }
                             }
                         )
                     }
@@ -1092,7 +1098,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
         var maxY = self.collection!.frame.minY
-        if self.idListFromSearch != ""{
+        
+        if self.idListFromSearch != "" && !IS_IPAD {
           maxY =   maxY + 64
         }
         if self.emptyMGGR == nil {
