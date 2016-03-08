@@ -385,6 +385,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                 cell.textField!.text = cell.listName!.text
                                 cell.setEditing(true, animated: false)
                                 cell.enableEditListAnimated(true)
+                                cell.setSelected(false, animated: false)
                                 cell.showLeftUtilityButtonsAnimated(false)
                             }
                         }
