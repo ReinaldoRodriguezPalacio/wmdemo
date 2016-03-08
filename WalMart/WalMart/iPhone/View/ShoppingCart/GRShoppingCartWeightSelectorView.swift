@@ -799,13 +799,17 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
            
         } else {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.lblQuantityW.alpha = 0
-            self.btnLess.alpha = 0
-            self.btnMore.alpha = 0
-            self.btnLess.alpha = 0
-            self.keyboard.alpha = 0
-            self.updateShoppButtonN()
-            self.lblQuantityP.alpha = 1
+                //ale
+                self.currentValPzs = 1
+                self.updateLabelP()
+                self.updateShoppButton()
+                self.lblQuantityW.alpha = 0
+                self.btnLess.alpha = 0
+                self.btnMore.alpha = 0
+                self.btnLess.alpha = 0
+                self.keyboard.alpha = 0
+                self.updateShoppButtonN()
+                self.lblQuantityP.alpha = 1
             self.keyboardP.alpha = 1
                 }, completion: { (Bool) -> Void in
                     self.btnChankePices.enabled = true
