@@ -41,7 +41,7 @@ class IPOLineTableViewCell : UITableViewCell {
         
         
         label = UILabel()
-        label!.font = WMFont.fontMyriadProLightOfSize(16)
+        label!.font = WMFont.fontMyriadProLightOfSize(15)
         label!.textColor = WMColor.empty_gray
         label!.text = "desde"
         label!.hidden =  true
@@ -65,7 +65,7 @@ class IPOLineTableViewCell : UITableViewCell {
         super.layoutSubviews()
         self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
 
-        titleLabel.frame = self.newFrame ? CGRectMake(16, 0, 195, self.bounds.height) : CGRectMake(40, 0, self.bounds.width - 40, self.bounds.height)
+        titleLabel.frame = self.newFrame ? CGRectMake(16, 0, 182, self.bounds.height) : CGRectMake(40, 0, self.bounds.width - 40, self.bounds.height)
         label.frame = CGRectMake(titleLabel.frame.maxX + 5, 0, 40, self.bounds.height)
         priceLabel?.frame =  CGRectMake(label.frame.maxX + 5, 0, 50, self.bounds.height)
 
@@ -88,7 +88,8 @@ class IPOLineTableViewCell : UITableViewCell {
         self.newFrame  =  true
         label!.hidden =  false
         priceLabel?.hidden =  false
-        priceLabel?.updateMount(price, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
+        let fmtTotal = CurrencyCustomLabel.formatString(price)
+        priceLabel?.updateMount(fmtTotal, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     }
     
     override func setSelected(selected: Bool, animated: Bool) {

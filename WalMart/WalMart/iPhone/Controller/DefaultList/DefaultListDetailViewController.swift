@@ -550,9 +550,26 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         }
     
     
-        let idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        
+        if self.findListindb("\(listName) \(idxTxt)") {
+            idxTxt = "copia \(lastIdx + 1)"
+        }
+        
         return "\(listName) \(idxTxt)"
         
+        
+    }
+    
+    func findListindb(newNameList:String) -> Bool{
+        
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        let service =  GRSaveUserListService()
+        let localList =  service.retrieveListNotSync(name: newNameList, inContext:context)
+        
+        return localList != nil//true no exsite
         
     }
 

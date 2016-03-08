@@ -63,16 +63,20 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         self.currentEntity = entity
         
         if self.detailController == nil {
+            if idList != nil {
             self.createDetailInstance(idList: idList, listName: name, entity: entity)
             self.view.bringSubviewToFront(self.separatorView!)
             self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+            }
         }
         else {
-            let oldDetailContainer = self.detailController
-            oldDetailContainer?.view.removeFromSuperview()
-            self.createDetailInstance(idList: idList, listName: name, entity: entity)
-            self.view.bringSubviewToFront(self.separatorView!)
-            self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+            if idList != nil {
+                let oldDetailContainer = self.detailController
+                oldDetailContainer?.view.removeFromSuperview()
+                self.createDetailInstance(idList: idList, listName: name, entity: entity)
+                self.view.bringSubviewToFront(self.separatorView!)
+                self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+            }
         }
     }
     
@@ -128,7 +132,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             self.detailController!.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
             self.view.bringSubviewToFront(self.separatorView!)
             oldDetailContainer?.view.removeFromSuperview()
-            
+
         }
 
     }

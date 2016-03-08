@@ -579,7 +579,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/list/getCarrusel</string>
+			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -625,7 +625,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesByFamily</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
