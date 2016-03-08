@@ -1098,7 +1098,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
         var maxY = self.collection!.frame.minY
-        if self.idListFromSearch != ""{
+        
+        if self.idListFromSearch != "" && !IS_IPAD {
           maxY =   maxY + 64
         }
         if self.emptyMGGR == nil {
