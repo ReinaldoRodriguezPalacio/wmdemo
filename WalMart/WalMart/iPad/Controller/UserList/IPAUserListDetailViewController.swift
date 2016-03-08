@@ -22,7 +22,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     var widthView : CGFloat = 682
     var addGestureLeft = false
     var isShared =  false
-    
+    var showReminderController = true
 
    
     override func viewDidLoad() {
@@ -431,24 +431,26 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
     
     override func addReminder(){
-        let selected = self.reminderButton!.selected
-        let reminderViewController = ReminderViewController()
-        reminderViewController.listId = self.listId!
-        reminderViewController.listName = self.listName!
-        reminderViewController.delegate = self
-        if  selected {
-            reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
-            reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+        if self.showReminderController{
+            self.showReminderController = false
+            let selected = self.reminderButton!.selected
+            let reminderViewController = ReminderViewController()
+            reminderViewController.listId = self.listId!
+            reminderViewController.listName = self.listName!
+            reminderViewController.delegate = self
+            if  selected {
+                reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
+                reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+            }
+            reminderViewController.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
+            self.addChildViewController(reminderViewController)
+            self.view.addSubview(reminderViewController.view)
+            UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+                reminderViewController.view.frame = self.view.bounds
+                }, completion: {(finish) in
+                    reminderViewController.didMoveToParentViewController(self)
+            })
         }
-        reminderViewController.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
-        self.addChildViewController(reminderViewController)
-        self.view.addSubview(reminderViewController.view)
-        UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
-            reminderViewController.view.frame = self.view.bounds
-            }, completion: {(finish) in
-                reminderViewController.didMoveToParentViewController(self)
-        })
-        
     }
 
     
@@ -482,6 +484,16 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.reloadTableListUser()
         }
         
+    }
+    
+    
+    override func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
+        self.showReminderController = true
+        if self.reminderService!.existNotificationForCurrentList() || value{
+            setReminderSelected(true)
+        }else{
+            setReminderSelected(false)
+        }
     }
 
 }
