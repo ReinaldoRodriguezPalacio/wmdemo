@@ -79,8 +79,8 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
             self.camButtom.hidden =  true
             self.scannerButton.hidden =  true
             self.closeSearch.hidden =  false
-            self.closeSearch.frame  = CGRectMake(16.0,24 ,12, 12)
-            self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX + 16.0,12 ,self.frame.width - 60, 40.0)
+            self.closeSearch.frame  = CGRectMake(0.0,8.0,44, 44)
+            self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX,12 ,self.frame.width - 60, 40.0)
         }else{
             self.closeSearch.hidden =  true
             self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
