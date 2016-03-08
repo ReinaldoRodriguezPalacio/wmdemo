@@ -1075,8 +1075,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-        
-        self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
+        if  self.empty == nil {
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height-self.header!.frame.maxY))
+        }
         
         self.empty.returnAction = { () in
             self.returnBack()
@@ -1090,7 +1091,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
-        let maxY = self.collection!.frame.minY
+        var maxY = self.collection!.frame.minY
+        if self.idListFromSearch != ""{
+          maxY =   maxY + 64
+        }
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
             self.emptyMGGR.returnAction = { () in
