@@ -1339,6 +1339,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     let service = GRUpdateListService()
                     service.callService(name!,
                         successBlock: { (result:NSDictionary) -> Void in
+                            let reminderService = ReminderNotificationService()
+                            reminderService.listId = firstKey!
+                            reminderService.updateListName(name!)
                             self.listToUpdate!.removeValueForKey(firstKey!)
                             if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
                                 self.invokeUpdateListService()

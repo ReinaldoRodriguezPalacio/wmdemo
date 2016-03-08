@@ -173,8 +173,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.dateField?.onBecomeFirstResponder = { () in
             let calendarView = CalendarView(frame: CGRectMake(0, 0,  288, 444))
             calendarView.delegate = self
-            if !self.reminderService!.existNotificationForCurrentList(){
+            if self.reminderService!.existNotificationForCurrentList(){
                calendarView.originalDate = self.currentOriginalFireDate
+               calendarView.notificationType = self.selectedPeriodicity
             }
             self.modalView = AlertModalView.initModalWithView("Fecha de inicio",innerView: calendarView)
             self.modalView!.showPicker()

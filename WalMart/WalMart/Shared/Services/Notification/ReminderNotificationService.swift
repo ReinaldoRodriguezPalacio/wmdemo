@@ -203,4 +203,21 @@ class ReminderNotificationService {
         self.findNotificationForCurrentList()
         return self.options[self.currentNotificationConfig!["type"] as! Int]
     }
+    
+    
+    func updateListName(newName:String){
+        if self.existNotificationForCurrentList(){
+            self.findNotificationForCurrentList()
+            self.listName = newName
+            let period = self.currentNotificationConfig!["type"] as! Int
+            let date = self.currentNotificationConfig!["originalFireDate"] as! NSDate
+            let timeFormat = NSDateFormatter()
+            timeFormat.dateFormat = "HH:mm"
+            timeFormat.locale = NSLocale(localeIdentifier: "da_DK")
+            let time = timeFormat.stringFromDate(date)
+            self.removeNotificationsFromCurrentList()
+            self.scheduleNotifications(forOption: period, withDate: date, forTime: time)
+        }
+    }
+    
 }

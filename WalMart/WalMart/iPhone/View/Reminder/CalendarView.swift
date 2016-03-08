@@ -21,6 +21,7 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      var saveButton: UIButton?
      var cancelButton: UIButton?
      var layerLine: CALayer!
+     var notificationType: Int?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,12 +71,66 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     
     // MARK: - ABCalendarPickerDataSourceProtocol
     func calendarPicker(calendarPicker: ABCalendarPicker!, numberOfEventsForDate date: NSDate!, onState state: ABCalendarPickerState) -> Int {
-        
-        //let closedDate = self.createDateFrom(date, forHour: 12, andMinute: 00)
-        //let compareResult = closedDate!.compare(self.selectedDate!)
-        //if compareResult == NSComparisonResult.OrderedSame {
-         //   return 1
-        //}
+        if self.originalDate != nil {
+            let timeDisplay = NSDateFormatter()
+            timeDisplay.dateFormat = "HH:mm"
+            let originalDateHour = timeDisplay.stringFromDate(self.originalDate!)
+            let hourArray = originalDateHour.componentsSeparatedByString(":")
+            let closedDate = self.createDateFrom(date, forHour: Int(hourArray.first!)!, andMinute: Int(hourArray.last!)!)
+            let compareResult = closedDate!.compare(self.originalDate!)
+            if compareResult == NSComparisonResult.OrderedSame {
+                return 1
+            }
+            else if compareResult == NSComparisonResult.OrderedDescending {
+                switch(self.notificationType!) {
+                    case 1 :
+                        if self.isDate(closedDate!, partOfIntervalOfDays: 7, fromDate: self.originalDate!) {
+                            return 1
+                        }
+                    case 2 :
+                        if self.isDate(closedDate!, partOfIntervalOfDays: 14, fromDate: self.originalDate!) {
+                            return 1
+                        }
+                    case 3 :
+                        if self.isDate(closedDate!, partOfIntervalOfDays: 21, fromDate: self.originalDate!) {
+                            return 1
+                        }
+                    case 4 :
+                        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+                        //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
+                        calendar!.timeZone = NSTimeZone.localTimeZone()
+                        let closedDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: closedDate!)
+                        let dayRangeClosedDate = calendar!.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: closedDate!)
+                        //print("month:\(closedDateComponents.month) days:\(dayRangeClosedDate.length)")
+                        
+                        let originalDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: self.originalDate!)
+                        let originalRangeClosedDate = calendar!.rangeOfUnit(NSCalendarUnit.Day, inUnit: NSCalendarUnit.Month, forDate: self.originalDate!)
+                        //this day is last of month
+                        
+                        if closedDateComponents.day == originalDateComponents.day {
+                            return 1
+                        }
+                        
+                        if closedDateComponents.day == dayRangeClosedDate.length && originalDateComponents.day == originalRangeClosedDate.length {
+                            return 1
+                        }
+                        
+                        if originalDateComponents.day == originalRangeClosedDate.length && originalDateComponents.day < dayRangeClosedDate.length {
+                            return 1
+                        }
+                        
+                        if closedDateComponents.day == dayRangeClosedDate.length && originalDateComponents.day > dayRangeClosedDate.length {
+                            return 1
+                        }
+                        
+                        return 0
+                    default :
+                        
+                        break
+                        
+                }
+            }
+        }
         return 0
     }
     

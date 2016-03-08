@@ -197,8 +197,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubCollection!.delegate = self
         self.clubCollection!.dataSource = self
         self.clubCollection!.hidden = true
-        self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 44.0, 0.0)
-        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 44.0, 0.0)
+        self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
+        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
         self.view.addSubview(self.clubCollection!)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRunning", name: UIApplicationWillEnterForegroundNotification, object: nil)
@@ -790,7 +790,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clearButton?.hidden = true
         self.items = self.searchForItems("")
         self.clubCollection!.reloadData()
-        self.clubCollection!.contentInset = UIEdgeInsetsZero
+        self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 46, 0)
+        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
         self.clubCollection?.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
     }
     
