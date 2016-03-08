@@ -25,6 +25,7 @@ class IPAUserListViewController: UserListViewController {
     var selectedId : String?
     var delegate: IPAUserListDelegate?
     var rowSelected : NSIndexPath?
+    var isTableNewFrame  =  false
     
     
     override func viewDidLoad() {
@@ -34,7 +35,7 @@ class IPAUserListViewController: UserListViewController {
         tableuserlist?.multipleTouchEnabled = true
         
         self.tableuserlist!.registerClass(IPAListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
-
+        
         self.showWishlistBtn?.removeFromSuperview()
         self.showWishlistBtn = nil
         
@@ -46,28 +47,30 @@ class IPAUserListViewController: UserListViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        
         self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-        self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
+        self.tableuserlist!.frame = CGRectMake(0.0, isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning() 
+        super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
     
     /*
     // MARK: - Navigation
-
+    
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // Get the new view controller using segue.destinationViewController.
+    // Pass the selected object to the new view controller.
     }
     */
-
+    
     // MARK: - Actions
-
+    
     override func showSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?, animated:Bool) {
         self.isToggleBarEnabled = false
         self.searchContainer!.hidden = false
@@ -96,6 +99,7 @@ class IPAUserListViewController: UserListViewController {
     
     override func hideSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
         self.isToggleBarEnabled = false
+        isTableNewFrame =  true
         //self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
         UIView.animateWithDuration(0.5,
             animations: { () -> Void in
