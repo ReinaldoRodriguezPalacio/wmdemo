@@ -1170,6 +1170,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK: - IPOBaseController
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
+        self.addProductsView?.textFindProduct?.resignFirstResponder()
         
         if !self.enableScrollUpdateByTabBar {
             return
