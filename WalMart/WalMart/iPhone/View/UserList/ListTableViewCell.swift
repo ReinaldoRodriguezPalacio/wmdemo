@@ -37,6 +37,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     var canDelete = true
     
     var selectedCell = false
+    var lenghtNameList = 0
     
     var viewBgSel : UIView?
     
@@ -164,6 +165,10 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         }
         self.iconView!.image = UIImage(named: "list")
         self.listId = object["id"] as! String
+        
+        
+        let editLenghtList : String = self.listName!.text!
+        self.lenghtNameList = editLenghtList.length()
     }
     
     func setValues(listEntity list:List) {
@@ -262,6 +267,12 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        
+        if lenghtNameList > 26 {
+            if (keyword.characters.count <= lenghtNameList + 1) {
+                return true
+            }
+        }
 
         if (keyword.characters.count > 25) {
             return false
