@@ -165,7 +165,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -1163,6 +1163,6 @@
 	<key>cpwrUEM_logging.level</key>
 	<string>ALL</string>
 	<key>useSignalsServices</key>
-	<true/>
+	<false/>
 </dict>
 </plist>
