@@ -191,7 +191,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             let leftRightPadding  : CGFloat = CGFloat(15)
       
             if self.imageblur == nil {
-                self.generateBlurImage()
+                //self.generateBlurImage()
             }
         
             self.viewCenter!.frame = CGRectMake((self.view.bounds.width / 2) - (456 / 2) ,0, 456, self.view.bounds.height)
@@ -236,7 +236,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         newAlert.view.frame = vc!.view.bounds
         vc!.view.addSubview(newAlert.view)
         newAlert.didMoveToParentViewController(vc)
-        vc!.addChildViewController(newAlert)
+        //vc!.addChildViewController(newAlert)
         newAlert.view.tag = 5000
         return newAlert
     }
@@ -339,7 +339,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.okCancelCallBack  = nil
                 self.view.removeFromSuperview()
         }*/
-        self.imageblur!.image = nil
+        self.imageblur?.image = nil
         self.removeFromParentViewController()
         self.successCallBack = nil
         self.okCancelCallBack  = nil
