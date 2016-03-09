@@ -188,6 +188,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             loadServiceItems(nil)
         }
+        
+        if TabBarHidden.isTabBarHidden {
+            self.willHideTabbar()
+        }else{
+            self.willShowTabbar()
+        }
     }
     
     override func viewWillLayoutSubviews() {

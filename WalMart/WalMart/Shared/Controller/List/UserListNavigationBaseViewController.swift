@@ -64,6 +64,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     func buildDuplicateNameList(theName:String, forListId listId:String?) -> String {
         var listName = "\(theName)" //Se crea una nueva instancia
         let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
+        var arrayOfIndex: [Int] = []
         if let range = listName.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
             listName = listName.substringToIndex(range.startIndex)
         }
@@ -73,6 +74,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         if itemsUserList!.count > 0 {
             for var idx = 0; idx < itemsUserList!.count; idx++ {
                 var name:String? = nil
+                var stringIndex: String? = nil
                 if let innerList = itemsUserList![idx] as? [String:AnyObject] {
                     //let innerListId = innerList["id"] as! String
                     //if innerListId == listId! {
@@ -86,15 +88,21 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 
                 if name != nil {
                     if let range = name!.rangeOfString("copia", options: .LiteralSearch, range: nil, locale: nil) {
+                        stringIndex = name!.substringFromIndex(range.endIndex)
                         name = name!.substringToIndex(range.startIndex)
                     }
                     name = name!.stringByTrimmingCharactersInSet(whitespaceset)
-                    
+                    stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
                     if name!.hasPrefix(listName) {
                         lastIdx++
+                        stringIndex = stringIndex! == "" ? "1" : stringIndex
+                        arrayOfIndex.append(Int(stringIndex!)!)
                     }
                 }
             }
+        }
+        if arrayOfIndex.contains(lastIdx){
+            lastIdx++
         }
         
         let idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
