@@ -357,7 +357,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func showEditionMode() {
         
-
+//ale
         self.cellEditing = nil
         self.newListBtn?.enabled = false
         self.editBtn?.enabled = false
@@ -398,6 +398,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             )
         }
         else {
+            //ale
+            self.view.endEditing(true)
             self.showSearchField({
                 self.changeFrameEditBtn(true, side: "left")
                 }, atFinished: { () -> Void in
@@ -1331,7 +1333,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             
             
-            
+            self.view.endEditing(true)
             let detailService = GRUserListDetailService()
             detailService.buildParams(firstKey!)
             detailService.callService([:],
@@ -1344,6 +1346,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             reminderService.updateListName(name!)
                             self.listToUpdate!.removeValueForKey(firstKey!)
                             if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
+                              
                                 self.invokeUpdateListService()
                             }
                             else {

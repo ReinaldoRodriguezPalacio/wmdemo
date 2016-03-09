@@ -284,10 +284,10 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     }
     
     func textFieldDidEndEditing(textField: UITextField) {
-        let originalName = textField.text//self.listName!.text
+        let originalName = self.listName!.text
         if textField.text != nil && originalName != textField.text! {
             if NewListTableViewCell.isValidName(textField) {
-                self.listDelegate?.didListChangeName(self, text:originalName)
+                self.listDelegate?.didListChangeName(self, text:textField.text!)
             }
         }
     }
