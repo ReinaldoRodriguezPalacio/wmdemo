@@ -165,7 +165,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMGroceriesURLServices</key>
 	<dict>
 		<key>DEVELOPMENT</key>
@@ -403,7 +403,7 @@
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/2/getItemsBySearching</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
-			<key>WalmartMG.ProductDetailService</key>
+			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
 		</dict>
 	</dict>
