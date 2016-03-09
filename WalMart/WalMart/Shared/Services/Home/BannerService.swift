@@ -121,6 +121,9 @@ class BannerService : BaseService {
             return nil
         }
         if let landingItem = values![JSON_BANNER_PLECA] as? [[String:String]] {
+            if landingItem.count == 0{
+                return [:]
+            }
             return landingItem[0] as NSDictionary
         }
         return nil

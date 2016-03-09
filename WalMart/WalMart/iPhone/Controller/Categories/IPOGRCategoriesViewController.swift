@@ -72,8 +72,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
 
         
         let svcConfig = ConfigService()
-        let svcExclusive = GRExclusiveItemsService()
-        itemsExclusive = svcExclusive.getGrExclusiveContent()
+        //let svcExclusive = GRExclusiveItemsService()
+        //itemsExclusive = svcExclusive.getGrExclusiveContent()
         canfigData = svcConfig.getConfoigContent()
     }
     

@@ -34,6 +34,7 @@ class DetailListViewCell: ProductTableViewCell {
     var upcVal: String? = ""
     
     var defaultList = true
+    var isDisabledItem =  false
     
     
     override func setup() {
@@ -272,6 +273,7 @@ class DetailListViewCell: ProductTableViewCell {
 
         self.separator!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
         
+        
     }
     
     func sizeForButton(button:UIButton) -> CGSize {
@@ -328,16 +330,23 @@ class DetailListViewCell: ProductTableViewCell {
         
     }
     
+    func setCheckbtn(isCheck:Bool){
+        
+    
+    }
+    
     
     func checkDisabled(disabled:Bool) {
         self.check!.selected = !disabled
         if disabled {
+            isDisabledItem =  true
             self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
             self.productImage!.image = imageGrayScale
             self.quantityIndicator?.backgroundColor = WMColor.empty_gray_btn
             self.promoDescription?.textColor = WMColor.empty_gray_btn
         } else {
+            isDisabledItem = false
             self.productShortDescriptionLabel!.textColor = WMColor.gray
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.productImage!.image = imageNormal
