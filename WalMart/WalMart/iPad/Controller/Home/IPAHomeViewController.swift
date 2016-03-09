@@ -24,7 +24,7 @@ class IPAHomeViewController : HomeViewController {
     
     override func showPleca(){
         print("::::showPleca:::")
-        if plecaItems !=  nil {
+        if plecaItems !=  nil  && plecaItems!.count > 0{
             if alertBank ==  nil {
                 alertBank = UIView(frame:CGRectMake(0, 0, self.view.frame.width, 0))
                 alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)

@@ -171,12 +171,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if let maxproducts = itemsconfig["maxproducts"] as? Int {
             ShoppingCartParams.maxProducts = maxproducts
         }
-        if let specials = itemsconfig["specials"] as? NSArray {
-           // RecommendedCategory.cagtegories = specials
-        }
-        if let groceriescategory = itemsconfig["groceriescategoryproduct"] as? [String:AnyObject] {
-           // RecommendedCategory.groceriescategory = groceriescategory
-        }
         
         if let serviceapp = itemsconfig["serviceUrl"] as? String {
             if serviceapp == "cluster" {
@@ -253,20 +247,20 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     func callUpdateServices() {
         
-        let recommendedItems = RecommendedItemsService()
-        let paramsRec = Dictionary<String, String>()
-        recommendedItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
-            print("Call service RecommendedItemsService success")
-            }) { (error:NSError) -> Void in
-                print("Call service RecommendedItemsService error \(error)")
-        }
+//        let recommendedItems = RecommendedItemsService()
+//        let paramsRec = Dictionary<String, String>()
+//        recommendedItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
+//            print("Call service RecommendedItemsService success")
+//            }) { (error:NSError) -> Void in
+//                print("Call service RecommendedItemsService error \(error)")
+//        }
         
-        let exclusiveGrItems = GRExclusiveItemsService()
-        exclusiveGrItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
-            print("Call service GRExclusiveItemsService success")
-            }) { (error:NSError) -> Void in
-                print("Call service GRExclusiveItemsService error \(error)")
-        }
+        //let exclusiveGrItems = GRExclusiveItemsService()
+//        exclusiveGrItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
+//            print("Call service GRExclusiveItemsService success")
+//            }) { (error:NSError) -> Void in
+//                print("Call service GRExclusiveItemsService error \(error)")
+//        }
         
         
         let categoryService = CategoryService()
@@ -297,6 +291,15 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                 print("Call StoreLocatorService error \(error)")
             }
         )
+        
+        let caroService = CarouselService()
+        let caroparams = Dictionary<String, String>()
+        caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+            print("Call service BannerService success")
+            }) { (error:NSError) -> Void in
+                print("Call service BannerService error \(error)")
+        }
+
         
         IPOSplashViewController.updateUserData()
     }
