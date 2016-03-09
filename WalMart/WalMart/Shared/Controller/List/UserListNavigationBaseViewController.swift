@@ -70,7 +70,6 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         }
         listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
         
-        var lastIdx = 1
         if itemsUserList!.count > 0 {
             for var idx = 0; idx < itemsUserList!.count; idx++ {
                 var name:String? = nil
@@ -94,18 +93,15 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                     name = name!.stringByTrimmingCharactersInSet(whitespaceset)
                     stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
                     if name!.hasPrefix(listName) {
-                        lastIdx++
                         stringIndex = stringIndex! == "" ? "1" : stringIndex
                         arrayOfIndex.append(Int(stringIndex!)!)
                     }
                 }
             }
         }
-        if arrayOfIndex.contains(lastIdx){
-            lastIdx++
-        }
-        
-        let idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        let listIndexes = Set([1,2,3,4,5,6,7,8,9,10,11,12])
+        let dispinibleIndex = listIndexes.subtract(arrayOfIndex).minElement()
+        let idxTxt = dispinibleIndex! == 1 ? "copia" : "copia \(dispinibleIndex!)"
         
         /*if self.existnameList("\(listName) \(idxTxt)"){
             idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx++)"

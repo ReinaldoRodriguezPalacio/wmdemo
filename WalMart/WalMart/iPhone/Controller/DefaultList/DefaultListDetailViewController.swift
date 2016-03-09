@@ -519,8 +519,6 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             listName = listName.substringToIndex(range.startIndex)
         }
         listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
-        
-        var lastIdx = 1
         if itemsUserList != nil {
             if itemsUserList!.count > 0 {
                 for var idx = 0; idx < itemsUserList!.count; idx++ {
@@ -545,7 +543,6 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                         name = name!.stringByTrimmingCharactersInSet(whitespaceset)
                         stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
                         if name!.hasPrefix(listName) {
-                            lastIdx++
                             stringIndex = stringIndex! == "" ? "1" : stringIndex
                             arrayOfIndex.append(Int(stringIndex!)!)
                         }
@@ -553,14 +550,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                 }
             }
         }
-        if arrayOfIndex.contains(lastIdx){
-            lastIdx++
-        }
-    
-        var idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx)"
+        let listIndexes = Set([1,2,3,4,5,6,7,8,9,10,11,12])
+        let dispinibleIndex = listIndexes.subtract(arrayOfIndex).minElement()
+        var idxTxt = dispinibleIndex == 1 ? "copia" : "copia \(dispinibleIndex!)"
         
         if self.findListindb("\(listName) \(idxTxt)") {
-            idxTxt = "copia \(lastIdx + 1)"
+            idxTxt = "copia \(dispinibleIndex! + 1)"
         }
         
         return "\(listName) \(idxTxt)"
