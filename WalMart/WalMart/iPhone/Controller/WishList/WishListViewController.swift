@@ -672,16 +672,15 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     
                 }
                 
-                
+                if self.items.count > 0 {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                    let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
+                    
+                    alert!.setMessage(aleradyMessage)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+                return
             }
-            if self.items.count > 0 {
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
-
-                alert!.setMessage(aleradyMessage)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-            }
-            return
         }
         
         let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
@@ -689,6 +688,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
             self.sendNewItemsToShoppingCart(params)
+            
+            //
         }else{
             
             if paramsPreorderable.count > 1 && params.count == 0  &&  totArticlesMG == 0{
