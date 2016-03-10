@@ -741,16 +741,18 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
-        let zipcode = strNSString.stringByReplacingCharactersInRange(range, withString: string)
-        if zipcode != currentZipCode {
-            self.suburb!.text = ""
-            self.selectedNeighborhood = nil
+        let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if textField == self.zipcode {
+            if fieldString != currentZipCode {
+                self.suburb!.text = ""
+                self.selectedNeighborhood = nil
             
-            self.store!.text = ""
-            self.selectedStore = nil
+                self.store!.text = ""
+                self.selectedStore = nil
+            }
         }
         if textField == self.phoneHomeNumber{
-            if zipcode.characters.count == 11{
+            if fieldString.characters.count == 11{
                 return false }
             
         }
