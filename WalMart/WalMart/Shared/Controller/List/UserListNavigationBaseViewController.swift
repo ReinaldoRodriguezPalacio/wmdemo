@@ -91,10 +91,12 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                         name = name!.substringToIndex(range.startIndex)
                     }
                     name = name!.stringByTrimmingCharactersInSet(whitespaceset)
-                    stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
-                    if name!.hasPrefix(listName) {
-                        stringIndex = stringIndex! == "" ? "1" : stringIndex
-                        arrayOfIndex.append(Int(stringIndex!)!)
+                    if stringIndex != nil {
+                        stringIndex = stringIndex!.stringByTrimmingCharactersInSet(whitespaceset)
+                        if name!.hasPrefix(listName) {
+                            stringIndex = stringIndex! == "" ? "1" : stringIndex
+                            arrayOfIndex.append(Int(stringIndex!)!)
+                        }
                     }
                 }
             }
