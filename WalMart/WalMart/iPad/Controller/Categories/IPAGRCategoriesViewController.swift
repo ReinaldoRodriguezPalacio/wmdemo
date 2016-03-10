@@ -16,7 +16,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var canfigData : [String:AnyObject]! = [:]
     var animateView : UIView!
     var controllerAnimateView : IPACategoriesResultViewController!
-    var itemsExclusive : [AnyObject]? = []
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SUPER.rawValue
@@ -43,8 +42,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         loadDepartments()
         
         let svcConfig = ConfigService()
-        //let svcExclusive = GRExclusiveItemsService()
-        //itemsExclusive = svcExclusive.getGrExclusiveContent()
         canfigData = svcConfig.getConfoigContent()
         
     }

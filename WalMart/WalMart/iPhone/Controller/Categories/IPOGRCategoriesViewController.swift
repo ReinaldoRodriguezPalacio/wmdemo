@@ -18,7 +18,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var collapsed = false
     var familyController : FamilyViewController!
     var canfigData : [String:AnyObject]! = [:]
-    var itemsExclusive : [AnyObject]? = []
     var newModalView: AlertModalView? = nil
     
     override func getScreenGAIName() -> String {
@@ -33,10 +32,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //self.familyController.categoriesType = .CategoryForGR
-        
-      
-        
+
         self.categoriesTable.registerClass(IPOGRDepartmentSpecialTableViewCell.self, forCellReuseIdentifier: "cellspecials")
         self.categoriesTable.separatorStyle = .None
 
@@ -72,8 +68,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
 
         
         let svcConfig = ConfigService()
-        //let svcExclusive = GRExclusiveItemsService()
-        //itemsExclusive = svcExclusive.getGrExclusiveContent()
         canfigData = svcConfig.getConfoigContent()
     }
     
