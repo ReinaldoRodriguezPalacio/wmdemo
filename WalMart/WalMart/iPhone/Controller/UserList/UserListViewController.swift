@@ -71,12 +71,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         super.viewDidLoad()
         
         tableuserlist?.multipleTouchEnabled = true
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MYLIST.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
 
         self.titleLabel?.text = NSLocalizedString("list.title",comment:"")
         self.titleLabel?.textAlignment = .Left
@@ -1162,7 +1156,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             return
         }
         if indexPath.section != 0  && !self.isShowingWishList {
-           return
+            let cell = tableView.cellForRowAtIndexPath(indexPath)
+            cell?.selected = false
+            return
         }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
