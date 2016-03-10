@@ -20,7 +20,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var bannerItems :  [[String:String]]? = nil
     var recommendCategoryItems :  [String:AnyObject]!
     var recommendItems :  [[String:AnyObject]]? = nil
-    var exclusiveItems :  [[String:AnyObject]]? = nil
+    //var exclusiveItems :  [[String:AnyObject]]? = nil
     var selectedIndexCategory :  Int = 0
     var categories :  [String] = []
     var categoryCell : CategoryCollectionViewCell!
@@ -55,12 +55,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         print("::::PLECA VALOR:::")
         NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
         
-        //let recommendItemsService = RecommendedItemsService()
         self.recommendItems = []
-        
-        //let exclusiveItemsService = GRExclusiveItemsService()
-        self.exclusiveItems = []
-        
         
         self.categories = getCategories()
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatecontent:", name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
@@ -162,7 +157,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.bannerCell?.startTimmer()
         NSTimer.scheduledTimerWithTimeInterval(0.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
-        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(7.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
 
     }
     
@@ -493,37 +488,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         let servicecarousel = CarouselService()
         self.recommendItems = servicecarousel.getCarouselContent()
-
-        
-        
-        print("::::PLECA VALOR:::")
-        //if self.plecaItems !=  nil {
-            //print(plecaItems!["terms"] as! String)
-            //print(plecaItems!["eventUrl"] as! String)
-        //}
-        
-        /*var toReturn :[[String:AnyObject]] = []
-        
-        let recommendItemsService = RecommendedItemsService()
-        self.recommendItems = recommendItemsService.getRecommendedContent()
-        
-        for item in self.recommendItems! {
-            var itemUpdate : [String:AnyObject] = item
-            itemUpdate["type"] = ResultObjectType.Mg.rawValue
-            toReturn.append(itemUpdate)
-        }
-        
-        let exclusiveItemsService = GRExclusiveItemsService()
-        self.exclusiveItems = exclusiveItemsService.getGrExclusiveContent()
-        
-        //Se agregan los especiales de groceries
-        for item in self.exclusiveItems! {
-            var itemUpdate : [String:AnyObject] = item
-            itemUpdate["type"] = ResultObjectType.Groceries.rawValue
-            toReturn.append(itemUpdate)
-        }
-        
-        self.recommendItems = toReturn */
         
         
         self.categories = getCategories()

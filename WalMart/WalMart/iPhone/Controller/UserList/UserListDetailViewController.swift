@@ -240,7 +240,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 self.loading = nil
                 
-                
+                	
                 self.selectedItems = []
                 self.selectedItems = NSMutableArray()
                 if self.products != nil  && self.products!.count > 0  {
@@ -942,10 +942,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {
-                    
-                    self.selectedItems = NSMutableArray()
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.addObject(i)
+                    if self.selectedItems ==  nil  {
+                        self.selectedItems = NSMutableArray()
+                        for i in 0...self.products!.count - 1 {
+                            self.selectedItems?.addObject(i)
+                        }
                     }
                 }
                 

@@ -246,23 +246,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     
     func callUpdateServices() {
-        
-//        let recommendedItems = RecommendedItemsService()
-//        let paramsRec = Dictionary<String, String>()
-//        recommendedItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
-//            print("Call service RecommendedItemsService success")
-//            }) { (error:NSError) -> Void in
-//                print("Call service RecommendedItemsService error \(error)")
-//        }
-        
-        //let exclusiveGrItems = GRExclusiveItemsService()
-//        exclusiveGrItems.callService(paramsRec, successBlock: { (response:NSDictionary) -> Void in
-//            print("Call service GRExclusiveItemsService success")
-//            }) { (error:NSError) -> Void in
-//                print("Call service GRExclusiveItemsService error \(error)")
-//        }
-        
-        
+                
         let categoryService = CategoryService()
         categoryService.callService(Dictionary<String, String>(),
             successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },

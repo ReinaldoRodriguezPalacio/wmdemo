@@ -530,7 +530,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         if !acceptSharePersonal!.selected && !declineSharePersonal!.selected {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"user_error"))
-            let msgInventory = "Para poder continuar, es necesario nos indique si esta, o no, de acuerdo en transferir sus datos personales a terceros"
+            let msgInventory = "Para poder continuar, es necesario nos indique si está, o no, de acuerdo en transferir sus datos personales a terceros"
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("Ok",comment:""))
             return false
