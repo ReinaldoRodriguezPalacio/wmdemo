@@ -644,6 +644,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
+                
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
                     let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
@@ -658,6 +659,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }//For alert
         
         if paramsPreorderable.count == 0 && params.count == 0 {
+
+            //shoppingcart.alreadyincart
+            //shoppingcart.isincart
+            
+        
             if self.items.count == 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
@@ -666,7 +672,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                         alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                        
+                    
                         return
                     }
                     
@@ -687,6 +693,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
+            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+
             self.sendNewItemsToShoppingCart(params)
             
             //

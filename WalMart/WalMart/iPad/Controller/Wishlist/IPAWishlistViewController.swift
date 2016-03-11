@@ -386,6 +386,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
                     
+
+                    
                     let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                     if hasUPC {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
@@ -405,7 +407,6 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                 }
                 return
-                
             }
             
         }
@@ -413,6 +414,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
+            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             self.sendNewItemsToShoppingCart(params)
         }else{
             
