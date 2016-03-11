@@ -57,7 +57,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             gestureSwipeLeft.direction = UISwipeGestureRecognizerDirection.Left
             self.header!.addGestureRecognizer(gestureSwipeLeft)
         }
-        
         self.reminderButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
     }
 
@@ -108,7 +107,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.invokeDetailListService({ () -> Void in
                 self.loading?.stopAnnimating()
                 self.loading = nil
-                
+                self.reminderButton!.hidden = false
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {

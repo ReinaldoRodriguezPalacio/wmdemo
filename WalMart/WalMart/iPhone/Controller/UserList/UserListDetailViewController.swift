@@ -152,6 +152,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 2, right:0 )
+        self.reminderButton!.hidden = true
         
         self.reminderImage = UIImageView(image: UIImage(named: "white_arrow"))
         
@@ -176,9 +177,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
         }
         
-        
-        
-        
+        // self.showLoadingView()
        
     }
     
@@ -239,7 +238,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.loading!.stopAnnimating()
                 }
                 self.loading = nil
-                
+                self.reminderButton!.hidden = false
                 	
                 self.selectedItems = []
                 self.selectedItems = NSMutableArray()
