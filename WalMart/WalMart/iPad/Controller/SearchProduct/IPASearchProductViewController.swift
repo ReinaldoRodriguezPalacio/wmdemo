@@ -388,7 +388,26 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
     }
     
+    override func apply(order:String, upcs: [String]) {
+        super.apply(order, upcs: upcs)
+        if upcs.count == 0 {
+        if self.empty == nil {
+            self.viewBgSelectorBtn.alpha = 0
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
+            self.empty.returnAction = { () in
+                self.viewBgSelectorBtn.alpha = 1
+                self.returnBack()
+            }
+        }
+        
+        self.view.addSubview(self.empty)
+            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
+        }
+        
+    }
+    
     override func back() {
         self.returnBack()
+        
     }
 }

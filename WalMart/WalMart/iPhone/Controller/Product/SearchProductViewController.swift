@@ -319,10 +319,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.showEmptyMGGRView()
             }
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
-            self.showEmptyView()
+            if finsihService {
+                self.showEmptyView()
+            }
         }
         if finsihService || didSelectProduct {
             self.loading?.stopAnnimating()
+        }
+        if self.mgResults!.totalResults == 0 && self.searchContextType == .WithCategoryForMG {
+            self.showEmptyView()
         }
     }
     
@@ -438,12 +443,15 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if let count = self.allProducts?.count {
             var commonTotal = 0
             if self.btnSuper.selected {
-                commonTotal =  (self.grResults!.totalResults == -1 ? 0:(self.grResults!.totalResults == 0 && self.grResults!.resultsInResponse != 0 ? self.grResults!.resultsInResponse : self.grResults!.totalResults))
+                commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
+        
+                commonTotal = commonTotal == 0 ? (self.grResults!.totalResults == -1 ? 0:(self.grResults!.totalResults == 0 && self.grResults!.resultsInResponse != 0 ? self.grResults!.resultsInResponse : self.grResults!.totalResults)) : commonTotal
                 if count == commonTotal {
                     return count
                 }
             } else {
-                commonTotal = (self.mgResults!.totalResults == -1 ? 0:(self.mgResults!.totalResults == 0 && self.mgResults!.resultsInResponse != 0 ? self.mgResults!.resultsInResponse : self.mgResults!.totalResults))
+                commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
+                
                 if count == commonTotal {
                     return count
                 }
@@ -980,6 +988,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                     }
                     self.allProducts?.addObjectsFromArray(filtredProducts)
                 } else {
+                    
                     self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
                 }
             }
@@ -1081,10 +1090,16 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
+
         if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height-self.header!.frame.maxY))
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, !IS_IPAD ? self.header!.frame.maxY : 0, self.view.bounds.width, self.view.bounds.height - 46))
+        }else{
+            self.empty.removeFromSuperview()
+            self.empty =  nil
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, !IS_IPAD ? self.header!.frame.maxY : 0, self.view.bounds.width, self.view.bounds.height - 46))
         }
         
+    
         self.empty.returnAction = { () in
             self.returnBack()
         }
@@ -1102,6 +1117,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if self.idListFromSearch != "" && !IS_IPAD {
           maxY =   maxY + 64
         }
+      
         if self.emptyMGGR == nil {
             self.emptyMGGR = IPOSearchResultEmptyView(frame:CGRectMake(0, maxY, self.view.bounds.width, self.view.bounds.height - maxY))
             self.emptyMGGR.returnAction = { () in
@@ -1254,17 +1270,18 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.mgResults?.totalResults = 0
             self.collection?.reloadData()
             self.collection?.alpha = 0
-            if self.empty == nil {
-                self.viewBgSelectorBtn.alpha = 0
-                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
-                self.empty.returnAction = { () in
-                    self.viewBgSelectorBtn.alpha = 1
-                    self.returnBack()
-                }
-            }
-
-            self.view.addSubview(self.empty)
-            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
+//            if self.empty == nil {
+//                self.viewBgSelectorBtn.alpha = 0
+//                self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
+//                self.empty.returnAction = { () in
+//                    self.viewBgSelectorBtn.alpha = 1
+//                    self.returnBack()
+//                }
+//            }
+//            //self.empty.frame = CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height)
+//
+//            self.view.addSubview(self.empty)
+//            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
             self.finsihService =  true
            
             
