@@ -246,10 +246,10 @@ class IPACustomBarViewController :  CustomBarViewController {
                     
                     contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController
-                    if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
-                        controllernav?.popViewControllerAnimated(false)
-                        self.isEditingSearch = false
-                    }
+                    //if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
+                    //    controllernav?.popViewControllerAnimated(false)
+                    //    self.isEditingSearch = false
+                    //}
 
                     controllernav?.pushViewController(contDetail, animated: true)
             })

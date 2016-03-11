@@ -105,12 +105,12 @@ class SliderTableViewCell: UITableViewCell {
         let oldMin = self.minLabel!.center
         let sizeMin = self.minLabel!.sizeOfLabel()
         self.minLabel!.frame = CGRectMake(15.0, 10.0, sizeMin.width, sizeMin.height)
-        self.minLabel!.center = CGPointMake((self.slider!.lowerCenter.x + self.slider!.frame.origin.x) - 4, oldMin.y)
+        self.minLabel!.center = CGPointMake((self.slider!.lowerCenter.x + self.slider!.frame.origin.x) - 6, oldMin.y)
         
         let oldMax = self.minLabel!.center
         let sizeMax = self.maxLabel!.sizeOfLabel()
         self.maxLabel!.frame = CGRectMake(0.0, 0.0, sizeMax.width, sizeMax.height)
-        self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) + 2, oldMax.y)
+        self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) + 3, oldMax.y)
         
         if CGRectIntersectsRect(self.minLabel!.frame, self.maxLabel!.frame) {
             var diff = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
