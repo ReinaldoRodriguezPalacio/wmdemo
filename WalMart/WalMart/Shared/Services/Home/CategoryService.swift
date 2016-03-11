@@ -39,10 +39,11 @@ class CategoryService : BaseService {
         let values = self.getDataFromFile(fileName)
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
-            response.sort({ (one:[String : AnyObject], second:[String : AnyObject]) -> Bool in
-                let firstString = one["description"] as! String?
-                let secondString = second["description"] as! String?
-                return firstString!.localizedCaseInsensitiveCompare(secondString!) == NSComparisonResult.OrderedAscending
+             response = response.sort({ (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
+                let firstString = obj1["description"] as! String?
+                let secondString = obj2["description"] as! String?
+                return firstString < secondString
+
             })
         }
         return response
