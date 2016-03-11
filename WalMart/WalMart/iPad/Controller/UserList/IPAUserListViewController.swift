@@ -252,6 +252,17 @@ class IPAUserListViewController: UserListViewController {
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
                     self.itemsUserList = result["responseArray"] as? [AnyObject]
+                    self.itemsUserList =  self.itemsUserList?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+                        
+                        let dicFirst = first as! NSDictionary
+                        let dicSecond = second as! NSDictionary
+                        let stringFirst  =  dicFirst["name"] as! String
+                        let stringSecond  =  dicSecond["name"] as! String
+                        
+                        return stringFirst < stringSecond
+                        
+                    })
+                    
                     self.isShowingWishList = false
                     self.isShowingSuperlists = !self.isEditingUserList
                     self.checkEditBtn()
@@ -299,6 +310,12 @@ class IPAUserListViewController: UserListViewController {
             
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
+            self.itemsUserList =  self.itemsUserList?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+                let firstString = first as! List
+                let secondString = second as! List
+                return firstString.name < secondString.name
+                
+            })
             //println(self.itemsUserList)
             self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList

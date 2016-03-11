@@ -331,7 +331,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         }
     }
     
-    //metodo
+    
     func showError (message: String ){
         if !visibleLabel  {
 
@@ -784,12 +784,15 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         if btnChankePices.selected {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
+               //
+                self.currentValGr = 50
+                self.updateLabelN()
+                self.updateShoppButton()
                 self.lblQuantityW.alpha = 1
                 self.btnLess.alpha = 1
                 self.btnMore.alpha = 1
                 self.btnLess.alpha = 1
                 self.keyboard.alpha = 1
-                self.updateShoppButton()
                 self.lblQuantityP.alpha = 0
                 self.keyboardP.alpha = 0
             }, completion: { (Bool) -> Void in
@@ -799,7 +802,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
            
         } else {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                //ale
+                //
                 self.currentValPzs = 1
                 self.updateLabelP()
                 self.updateShoppButton()
@@ -814,8 +817,11 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
                 }, completion: { (Bool) -> Void in
                     self.btnChankePices.enabled = true
                     self.btnChankePices.selected = !self.btnChankePices.selected
+                    
             })
+            
         }
+        
         
     }
     
