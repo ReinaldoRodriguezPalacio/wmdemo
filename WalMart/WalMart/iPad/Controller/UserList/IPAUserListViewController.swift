@@ -187,6 +187,7 @@ class IPAUserListViewController: UserListViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let lastSelected = self.rowSelected
         self.rowSelected = indexPath
+        self.selectedIndex = indexPath
         if indexPath.section == 0 {
             if indexPath.row == 0 && self.newListEnabled {
                 return
@@ -204,8 +205,6 @@ class IPAUserListViewController: UserListViewController {
                 self.selectedId  = nil
                 selectedItem = indexPath
                 delegate?.showPractilistViewController()
-                
-                
                 if (lastSelected != nil){
                     self.tableuserlist?.reloadRowsAtIndexPaths([lastSelected!], withRowAnimation: UITableViewRowAnimation.None)
                 }

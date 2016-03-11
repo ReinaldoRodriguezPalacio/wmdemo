@@ -53,6 +53,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var deleteListServiceInvoked = false
     var needsToShowWishList = true
     var cellEditing: SWTableViewCell? = nil
+    var selectedIndex: NSIndexPath? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -123,8 +124,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         numberOfDefaultLists = defaultListSvc.getDefaultContent().count
         
         self.tableuserlist?.allowsMultipleSelection = false
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -133,6 +132,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
         self.showLoadingView()
         self.reloadList(
             success:{() -> Void in
@@ -200,8 +201,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func duplicateList(){
         
-        let indexpath = self.tableuserlist!.indexPathForSelectedRow // NSIndexPath(forRow: 1, inSection: 1)
-        self.listSelectedDuplicate = self.tableuserlist!.indexPathForSelectedRow
+        let indexpath = self.selectedIndex // NSIndexPath(forRow: 1, inSection: 1)
+        self.listSelectedDuplicate = self.selectedIndex
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
             self.duplicateList(cell!)
@@ -1167,7 +1168,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             if let listId = listItem["id"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
-                
+                self.selectedIndex = indexPath
 
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
@@ -1176,7 +1177,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.selectedEntityList = listEntity
             self.selectedListId = listEntity.idList
             self.selectedListName = listEntity.name
-            
+            self.selectedIndex = indexPath
             
             self.performSegueWithIdentifier("showListDetail", sender: self)
         }
