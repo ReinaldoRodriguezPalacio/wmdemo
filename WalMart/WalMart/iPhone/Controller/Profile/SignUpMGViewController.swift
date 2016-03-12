@@ -48,6 +48,7 @@ class SignUpMGViewController: SignUpViewController {
                     service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                         self.addressMgView.closeAlert()
                         let login = LoginService()
+                        var firstEnter = true
                         login.callService(login.buildParams(self.email!.text!, password: self.password!.text!), successBlock: { (dict:NSDictionary) -> Void in
                             
                             //self.alertView!.setMessage("Registro exitoso")
@@ -61,9 +62,10 @@ class SignUpMGViewController: SignUpViewController {
                                     if finish{
                                         UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.addressMgView.viewAddress!.telephone!.text!, work: "", cellPhone: "")
                                         self.addressMgView.view.removeFromSuperview()
-                                        //self.alertView!.setMessage("Registro exitoso")
-                                        //self.alertView!.showDoneIcon()
-                                        self.successCallBack?()
+                                        if firstEnter{
+                                            self.successCallBack?()
+                                            firstEnter = false
+                                        }
                                         print("Termina registro de direccion")
                                         
                                     }else{
