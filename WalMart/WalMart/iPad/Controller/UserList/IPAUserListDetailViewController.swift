@@ -111,10 +111,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {
-                self.selectedItems = NSMutableArray()
-                for i in 0...self.products!.count - 1 {
-                    self.selectedItems?.addObject(i)
-                }
+                    if self.fromDelete || self.selectedItems == nil {
+                        self.fromDelete =  false
+                        self.selectedItems = NSMutableArray()
+                        for i in 0...self.products!.count - 1 {
+                            self.selectedItems?.addObject(i)
+                        }
+                    }
                 self.updateTotalLabel()
                 }
                 
