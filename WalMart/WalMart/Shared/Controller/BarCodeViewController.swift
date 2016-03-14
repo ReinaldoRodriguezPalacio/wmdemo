@@ -217,10 +217,12 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                                     let cont = LoginController.showLogin()
                                     cont!.closeAlertOnSuccess = true
                                     cont!.okCancelCallBack = {() in
+                                        NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
                                         cont!.closeAlert(true, messageSucesss:false)
                                     }
                                     cont!.successCallBack = {() in
                                         cont!.closeAlert(true, messageSucesss:false)
+                                        NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
                                         self.createList(metaObj)
                                     }
                             },isNewFrame: false)

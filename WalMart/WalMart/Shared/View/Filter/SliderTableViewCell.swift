@@ -91,10 +91,10 @@ class SliderTableViewCell: UITableViewCell {
         if self.slider!.lowerValue == 0 && self.slider!.upperValue == 1.0 {
             var size = self.minLabel!.sizeOfLabel()
             self.minLabel!.frame = CGRectMake(15.0, 20.0, size.width, size.height)
-            self.minLabel!.center = CGPointMake(15.0 + (self.slider!.frame.height/2), self.minLabel!.center.y)
+            self.minLabel!.center = CGPointMake((self.slider!.lowerCenter.x + self.slider!.frame.origin.x), self.minLabel!.center.y)
             size = self.maxLabel!.sizeOfLabel()
             self.maxLabel!.frame = CGRectMake(bounds.width - (15.0 + size.width), 20.0, size.width, size.height)
-            self.maxLabel!.center = CGPointMake(CGRectGetMaxX(self.slider!.frame) - (self.slider!.frame.height/2), self.maxLabel!.center.y)
+            self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) - 6, self.maxLabel!.center.y)
         }
         else {
             self.layoutMounts()
@@ -105,12 +105,17 @@ class SliderTableViewCell: UITableViewCell {
         let oldMin = self.minLabel!.center
         let sizeMin = self.minLabel!.sizeOfLabel()
         self.minLabel!.frame = CGRectMake(15.0, 10.0, sizeMin.width, sizeMin.height)
-        self.minLabel!.center = CGPointMake((self.slider!.lowerCenter.x + self.slider!.frame.origin.x) - 6, oldMin.y)
+        self.minLabel!.center = CGPointMake((self.slider!.lowerCenter.x + self.slider!.frame.origin.x) , oldMin.y)
         
         let oldMax = self.minLabel!.center
         let sizeMax = self.maxLabel!.sizeOfLabel()
         self.maxLabel!.frame = CGRectMake(0.0, 0.0, sizeMax.width, sizeMax.height)
-        self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) + 3, oldMax.y)
+        self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) - 6, oldMax.y)
+        
+        let differenceLabels = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
+        if differenceLabels < 0 {
+           self.minLabel!.center = CGPointMake(self.minLabel!.center.x - 10.0, self.minLabel!.center.y)
+        }
         
         if CGRectIntersectsRect(self.minLabel!.frame, self.maxLabel!.frame) {
             var diff = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
