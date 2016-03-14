@@ -1124,7 +1124,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 //self.reloadTableListUser()
             }
             
-           
+        if self.selectedItems ==  nil  {
             self.selectedItems = []
             self.selectedItems = NSMutableArray()
             if self.products != nil  && self.products!.count > 0  {
@@ -1132,6 +1132,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.selectedItems?.addObject(i)
                 }
                 self.updateTotalLabel()
+            }
             }
             
             self.updateTotalLabel()

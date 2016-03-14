@@ -104,6 +104,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     
     var idListFromSearch : String? = ""
     var invokeServiceInError = false
+    var viewEmptyImage =  false
+
 
     
     override func getScreenGAIName() -> String {
@@ -302,9 +304,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
-    
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+        self.viewEmptyImage =  true
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -314,12 +316,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //            self.showEmptyMGGRView()
 //        }
 //        self.hasEmptyView = true
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
-            if finsihService {
+        
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch  {
+            if finsihService || viewEmptyImage {
             self.showEmptyMGGRView()
             }
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
-            if finsihService {
+            if finsihService || viewEmptyImage {
                 self.showEmptyView()
             }
         }
@@ -330,6 +333,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.showEmptyView()
         }
     }
+    
     
     func reloadUISearch() {
         self.collection!.reloadData()

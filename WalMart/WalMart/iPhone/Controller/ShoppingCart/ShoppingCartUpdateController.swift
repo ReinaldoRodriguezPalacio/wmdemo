@@ -376,6 +376,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.imageProduct.image = UIImage(named:"alert_ups")
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
+                    self.showDoneIcon()
             }
         }
     }
