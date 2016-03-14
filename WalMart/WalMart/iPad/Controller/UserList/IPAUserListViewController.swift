@@ -292,6 +292,7 @@ class IPAUserListViewController: UserListViewController {
                         
                     }
                     else {
+                        self.delegate?.showPractilistViewController()
                         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
                     }
                
