@@ -30,8 +30,11 @@ class IPAHomeViewController : HomeViewController {
                 alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
                 self.view.addSubview(alertBank!)
             }
+            let maxStrCat =  plecaItems?["terms"] as? String
+            let size = maxStrCat!.sizeWithAttributes([NSFontAttributeName:WMFont.fontMyriadProRegularOfSize(12)])
+            
             if titleView ==  nil {
-                titleView =  UILabel(frame: CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, alertBank!.frame.height))
+                titleView =  UILabel(frame: CGRectMake((self.view.frame.width/2) - (size.width / 2), 0, size.width, alertBank!.frame.height))
             }
             titleView!.font = WMFont.fontMyriadProRegularOfSize(12)
             titleView!.textColor = UIColor.whiteColor()
@@ -40,7 +43,7 @@ class IPAHomeViewController : HomeViewController {
             titleView?.alpha = 0
             self.alertBank!.addSubview(titleView!)
             if detailsButton ==  nil{
-                detailsButton = UIButton(frame: CGRectMake(self.view.frame.width / 2+85, 12, 55, 22))
+                detailsButton = UIButton(frame: CGRectMake(titleView!.frame.maxX + 5, 12, 55, 22))
             }
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
@@ -51,17 +54,21 @@ class IPAHomeViewController : HomeViewController {
             detailsButton.alpha = 0
             self.alertBank!.addSubview(detailsButton!)
             if imageNotification ==  nil {
-                self.imageNotification = UIImageView(frame:CGRectMake(self.view.bounds.width / 2-150,alertBank!.frame.midY-6,12,12))
+                self.imageNotification = UIImageView(frame:CGRectMake(self.titleView!.frame.minX - 17 ,alertBank!.frame.midY-6,12,12))
             }
             self.imageNotification?.image = UIImage(named: "notification_icon")
             imageNotification?.alpha =  0
             self.alertBank!.addSubview(imageNotification!)
             
+     
+            
+    
+            
             UIView.animateWithDuration(0.4, animations: {
                 self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
-                self.titleView!.frame = CGRectMake(self.view.frame.width / 2-135, 0, self.view.frame.width - 91, self.alertBank!.frame.height)
-                self.detailsButton.frame = CGRectMake(self.view.frame.width / 2+85, 12, 55, 22)
-                self.imageNotification?.frame = CGRectMake(self.view.bounds.width / 2-150,self.alertBank!.frame.midY-6,12,12)
+                self.titleView!.frame = CGRectMake((self.view.frame.width/2) - (size.width / 2), 0,size.width, self.alertBank!.frame.height)
+                self.detailsButton.frame = CGRectMake(self.titleView!.frame.maxX + 5, 12, 55, 22)
+                self.imageNotification?.frame = CGRectMake(self.titleView!.frame.minX - 17 ,self.alertBank!.frame.midY-6,12,12)
 
                 }, completion: {(bool : Bool) in
                         self.alertBank?.alpha = 1
