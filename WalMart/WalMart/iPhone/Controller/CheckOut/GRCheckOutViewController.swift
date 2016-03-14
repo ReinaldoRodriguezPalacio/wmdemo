@@ -881,6 +881,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 }, errorBlock: {(error: NSError) -> Void in
                     //endCallPromotions()
                     endCallPromotions(false)
+                     self.removeViewLoad()//--
                     //self.removeViewLoad()
                     //self.alertView!.setMessage(error.localizedDescription)
                     //self.alertView!.showErrorIcon("Ok")
