@@ -106,6 +106,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             titleView!.textColor = UIColor.whiteColor()
             titleView!.text = plecaItems?["terms"] as? String
             titleView!.textAlignment = .Left
+            titleView?.numberOfLines = 2
             titleView?.alpha = 0
             self.alertBank!.addSubview(titleView!)
             

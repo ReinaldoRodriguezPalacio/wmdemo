@@ -54,6 +54,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var showReminderButton: Bool = false
     
     var addProductsView : AddProductTolistView?
+    var fromDelete  =  false
     
     
     override func getScreenGAIName() -> String {
@@ -627,6 +628,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
     }
     
+    
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
         if selectedItems != nil {
@@ -790,6 +792,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         if self.selectedItems!.containsObject(indexPath.row) {
                             self.selectedItems?.removeObject(indexPath.row)
                         }
+                         self.fromDelete =  true
                         self.invokeDeleteProductFromListService(upc)
                     }
                 }
@@ -799,6 +802,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     let count:Int = self.listEntity!.products.count
                     self.listEntity!.countItem = NSNumber(integer: count)
                     self.saveContext()
+                    self.fromDelete =  true
                     self.retrieveProductsLocally(true)
                     self.editBtn!.hidden = count == 0
                     self.deleteAllBtn!.hidden = count == 0
@@ -941,7 +945,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {
-                    if self.selectedItems ==  nil  {
+                    if self.fromDelete {
+                        self.fromDelete =  false
                         self.selectedItems = NSMutableArray()
                         for i in 0...self.products!.count - 1 {
                             self.selectedItems?.addObject(i)
@@ -1124,16 +1129,21 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 //self.reloadTableListUser()
             }
             
-        if self.selectedItems ==  nil  {
-            self.selectedItems = []
-            self.selectedItems = NSMutableArray()
-            if self.products != nil  && self.products!.count > 0  {
-                for i in 0...self.products!.count - 1 {
-                    self.selectedItems?.addObject(i)
+        //if self.selectedItems ==  nil  {
+            if fromDelete {
+                fromDelete = false
+                self.selectedItems = []
+                self.selectedItems = NSMutableArray()
+            
+           
+                if self.products != nil  && self.products!.count > 0  {
+                    for i in 0...self.products!.count - 1 {
+                        self.selectedItems?.addObject(i)
+                    }
+                    self.updateTotalLabel()
                 }
-                self.updateTotalLabel()
             }
-            }
+          //  }
             
             self.updateTotalLabel()
         }else
