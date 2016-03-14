@@ -204,7 +204,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                 self.reloadButtonSession()
                 self.selected = NSIndexPath(forRow: 0, inSection: 2)
                 self.tableView?.reloadData()
-                self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
+                let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
+                cell?.selected = true
                 self.delegate.selectedDetail(7)
                 //self.performSegueWithIdentifier("showProfile", sender: self)
                 //TODO: Poner acciones, cambio boton y nombre
