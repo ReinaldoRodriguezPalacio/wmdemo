@@ -64,7 +64,7 @@ class IPAHomeViewController : HomeViewController {
             
     
             
-            UIView.animateWithDuration(0.4, animations: {
+            UIView.animateWithDuration(0.2, animations: {
                 self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
                 self.titleView!.frame = CGRectMake((self.view.frame.width/2) - (size.width / 2), 0,size.width, self.alertBank!.frame.height)
                 self.detailsButton.frame = CGRectMake(self.titleView!.frame.maxX + 5, 12, 55, 22)
@@ -75,7 +75,8 @@ class IPAHomeViewController : HomeViewController {
                         self.titleView?.alpha = 1
                         self.detailsButton?.alpha = 1
                         self.imageNotification?.alpha = 1
-                        
+                        self.startTimmerPleca()
+                    
                     
             })
             

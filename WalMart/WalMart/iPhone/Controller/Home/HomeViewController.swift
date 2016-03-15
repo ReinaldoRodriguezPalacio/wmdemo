@@ -33,6 +33,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var imageNotification : UIImageView?
     var categoryType :  [String:String]!
     //var carouselItems : [[String:String]]
+    var timmerPleca : NSTimer!
+    var itntervalPleca : NSTimeInterval = 5.0
+
+    
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
     }
@@ -71,7 +76,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     
     func removePleca(){
         
-        UIView.animateWithDuration(0.3 , animations: {
+        UIView.animateWithDuration(0.2 , animations: {
             print(":::removePleca::::")
            
             self.titleView?.alpha = 0
@@ -82,8 +87,24 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                     self.alertBank?.alpha = 0
                     self.alertBank?.removeFromSuperview()
                     self.alertBank = nil
+                self.stopTimmerPleca()
 
         })
+    }
+    
+    func startTimmerPleca() {
+        
+            if timmerPleca != nil {
+                timmerPleca.invalidate()
+            }
+            timmerPleca = NSTimer.scheduledTimerWithTimeInterval(itntervalPleca, target: self, selector: "removePleca", userInfo: nil, repeats: true)
+        
+        
+    }
+    func stopTimmerPleca() {
+        if timmerPleca != nil {
+            timmerPleca.invalidate()
+        }
     }
     
     func showPleca (){
@@ -94,9 +115,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 alertBank!.backgroundColor = WMColor.dark_blue.colorWithAlphaComponent(0.9)
                 self.view.addSubview(alertBank!)
             }
-            
-            
-            
             
             if titleView ==  nil {
                 titleView =  UILabel()
@@ -130,7 +148,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             self.alertBank!.addSubview(imageNotification!)
             imageNotification?.alpha = 0
             
-            UIView.animateWithDuration(0.3, animations: {
+            UIView.animateWithDuration(0.2, animations: {
                 self.alertBank?.frame = CGRectMake(0, 0, self.view.frame.width, 46)
                 self.titleView!.frame = CGRectMake(28, 0, self.view.frame.width-91, self.alertBank!.frame.height)
                 self.detailsButton.frame = CGRectMake(self.view.frame.width-60, 12, 55, 22)
@@ -141,7 +159,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                         self.titleView?.alpha = 1
                         self.detailsButton?.alpha = 1
                         self.imageNotification?.alpha = 1
-                        
+                    self.startTimmerPleca()
                     
             })
             
@@ -157,8 +175,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.bannerCell?.startTimmer()
-        NSTimer.scheduledTimerWithTimeInterval(0.0, target: self, selector: "showPleca", userInfo: nil, repeats: false)
-        NSTimer.scheduledTimerWithTimeInterval(7.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
+        self.showPleca()
 
     }
     
