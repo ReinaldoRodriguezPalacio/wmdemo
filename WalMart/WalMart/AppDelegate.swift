@@ -339,6 +339,42 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         //MercuryService.sharedInstance().startMercuryService()
 
     }
+    
+    func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        let name = notification.userInfo!["name"] as! String
+        let value = notification.userInfo!["value"] as! String
+        let bussines = notification.userInfo!["business"] as! String
+        let message = notification.alertBody!
+        
+        if let customBar = self.window?.rootViewController as? CustomBarViewController {
+            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+            {
+                customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+            }else{
+                
+                
+                let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
+                alertNot?.showDoneIconWithoutClose()
+                alertNot?.setMessage(message)
+                alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
+                    
+                    
+                    
+                    
+                    alertNot?.close()
+                    }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
+                        
+                        //Obtiene vista de login
+                        if let viewLogin =  customBar.view.viewWithTag(5000) {
+                            viewLogin.removeFromSuperview()
+                        }
+                        
+                        customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                        alertNot?.close()
+                    },isNewFrame: false)
+            }
+        }
+    }
 
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
         if let notiicationInfo = userInfo["notification"] as? NSDictionary {

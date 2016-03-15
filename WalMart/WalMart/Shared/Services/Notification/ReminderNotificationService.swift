@@ -14,6 +14,9 @@ let REMINDER_PARAM_ORIGINALDATE = "originalFireDate"
 let REMINDER_PARAM_TYPE = "type"
 let REMINDER_PARAM_NOTIFTYPE = "notificationType"
 let REMINDER_NOTIFICATION = "ListReminder"
+let REMINDER_NOTIFICATION_NAME = "name"
+let REMINDER_NOTIFICATION_VALUE = "value"
+let REMINDER_NOTIFICATION_BUSINESS = "business"
 
 class ReminderNotificationService {
     let options = [NSLocalizedString("list.reminder.option.onetime", comment:""),NSLocalizedString("list.reminder.option.weekly", comment:""), NSLocalizedString("list.reminder.option.everyTwoWeek", comment:""), NSLocalizedString("list.reminder.option.everyThreeWeek", comment:""),
@@ -103,7 +106,10 @@ class ReminderNotificationService {
                 REMINDER_PARAM_LISTNAME:self.listName!,
                 REMINDER_PARAM_ORIGINALDATE:originalFireDate,
                 REMINDER_PARAM_TYPE:NSNumber(integer: customType),
-                REMINDER_PARAM_NOTIFTYPE:REMINDER_NOTIFICATION
+                REMINDER_PARAM_NOTIFTYPE:REMINDER_NOTIFICATION,
+                REMINDER_NOTIFICATION_NAME: REMINDER_NOTIFICATION,
+                REMINDER_NOTIFICATION_VALUE: "WF",
+                REMINDER_NOTIFICATION_BUSINESS: "mg"
             ]
             self.currentNotificationConfig = notification.userInfo
         }
