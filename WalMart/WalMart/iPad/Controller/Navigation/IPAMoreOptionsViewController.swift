@@ -206,12 +206,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                 self.tableView?.reloadData()
                 let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
                 cell?.selected = true
-                self.delegate.selectedDetail(7)
+                self.delegate?.selectedDetail(7)
                 //self.performSegueWithIdentifier("showProfile", sender: self)
                 //TODO: Poner acciones, cambio boton y nombre
             }
             self.selected = NSIndexPath(forRow: 0, inSection: 2)
-            self.delegate.selectedDetail(7)
+            self.delegate?.selectedDetail(7)
         }
         else {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
@@ -227,6 +227,15 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         }
         
         return cell
+    }
+    
+    override func reloadProfileData(){
+        self.reloadButtonSession()
+        self.selected = NSIndexPath(forRow: 0, inSection: 2)
+        self.tableView?.reloadData()
+        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
+        cell?.selected = true
+        self.delegate?.selectedDetail(7)
     }
     
 }
