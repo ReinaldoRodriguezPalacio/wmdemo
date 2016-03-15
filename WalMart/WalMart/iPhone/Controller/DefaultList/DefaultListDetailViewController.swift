@@ -496,7 +496,10 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             }
         }
         
-        let copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
+        var copyName = self.buildDuplicateNameList(listName, forListId: "",itemsUserList:itemsUserList)
+        if copyName.length() > 25 {
+            copyName = (copyName as NSString).substringToIndex(24)
+        }
         service.callService(service.buildParams(copyName, items: items),
             successBlock: { (result:NSDictionary) -> Void in
                 successDuplicateList()
@@ -558,6 +561,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         
         if self.findListindb("\(listName) \(idxTxt)") {
             idxTxt = "copia \(dispinibleIndex! + 1)"
+        }
+        
+        var returnName =  "\(listName) \(idxTxt)"
+        if returnName.length() > 25 {
+            returnName = (returnName as NSString).substringToIndex(23)
+            returnName = "\(returnName)\(Character(UnicodeScalar(50 + dispinibleIndex! + 1)))"
         }
         
         return "\(listName) \(idxTxt)"

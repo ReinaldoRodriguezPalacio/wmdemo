@@ -384,13 +384,20 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func duplicate() {
         if UserCurrentSession.hasLoggedUser() {
-            let service = GRUserListService()
-            self.itemsUserList = service.retrieveUserList()
-            self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
-                self.delegate?.reloadTableListUser()
-                self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
-                self.alertView!.showDoneIcon()
-            })
+            if itemsUserList?.count >= 12{
+                alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+            }else{
+                
+                let service = GRUserListService()
+                self.itemsUserList = service.retrieveUserList()
+                self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+                    self.delegate?.reloadTableListUser()
+                    self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
+                    self.alertView!.showDoneIcon()
+                })
+            }
         }else{
             NSNotificationCenter.defaultCenter().postNotificationName("DUPLICATE_LIST", object: nil)
         }
