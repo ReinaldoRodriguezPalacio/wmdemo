@@ -120,11 +120,23 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func loadLocalList() {
         if let user = UserCurrentSession.sharedInstance().userSigned {
             self.list = self.retrieveItems(forUser: user)
+            self.list =  self.list?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+                let firstString = first as! List
+                let secondString = second as! List
+                return firstString.name < secondString.name
+                
+            })
             //self.retrieveItemsFromService()
         }
         else {
             let service = GRUserListService()
             self.list = service.retrieveNotSyncList()
+            self.list =  self.list?.sort({ (first:AnyObject, second:AnyObject) -> Bool in
+                let firstString = first as! List
+                let secondString = second as! List
+                return firstString.name < secondString.name
+                
+            })
         }
         self.tableView!.reloadData()
         self.showLoadingIfNeeded()
