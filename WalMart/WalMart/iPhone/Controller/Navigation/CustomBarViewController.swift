@@ -906,7 +906,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     }
                 }
             )
-            
+            self.closeSearch(false, sender: nil)
             self.searchController!.willMoveToParentViewController(nil)
             self.searchController!.view.removeFromSuperview()
             self.searchController!.removeFromParentViewController()

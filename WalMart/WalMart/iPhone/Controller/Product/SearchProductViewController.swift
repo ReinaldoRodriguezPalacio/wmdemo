@@ -215,7 +215,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self)
-
+        self.selectQuantity?.closeAction()
+        self.selectQuantityGR?.closeAction()
     }
 
     func setTitleWithEdit() -> UILabel {
