@@ -673,6 +673,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     func showMessageProductNotAviable() {
+        
+        self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
         let addedAlertNA = WishlistAddProductStatus(frame: CGRectMake(0, 360, 320, 0))
         addedAlertNA.generateBlurImage(self.view,frame:CGRectMake(0, 312, 320, 360))
         addedAlertNA.clipsToBounds = true
