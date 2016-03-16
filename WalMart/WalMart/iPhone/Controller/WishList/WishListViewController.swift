@@ -106,11 +106,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-      
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if isShowingTabBar {
@@ -122,6 +117,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         }
         self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,selector: "tabBarActions",name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        self.tabBarActions()
     }
     
     override func willShowTabbar() {
@@ -930,6 +932,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     }
     
 
-    
+    func tabBarActions(){
+        if TabBarHidden.isTabBarHidden {
+            self.willHideTabbar()
+        }else{
+            self.willShowTabbar()
+        }
+    }
     
 }
