@@ -275,7 +275,7 @@ NSUInteger DeviceSystemMajorVersion() {
             
             UIImage* image = [self imageFromBundle:@"slider-default7-track"];
             image = [image resizableImageWithCapInsets:UIEdgeInsetsMake(0.0, 2.0, 0.0, 2.0)];
-            image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+            //image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
             _trackImage = image;
         }
     }
@@ -538,12 +538,14 @@ NSUInteger DeviceSystemMajorVersion() {
     
     //------------------------------
     // Lower Handle Handle
-    self.lowerHandle = [[UIImageView alloc] initWithImage:self.lowerHandleImageNormal highlightedImage:self.lowerHandleImageHighlighted];
+    //self.lowerHandle = [[UIImageView alloc] initWithImage:self.lowerHandleImageNormal highlightedImage:self.lowerHandleImageHighlighted];
+    self.lowerHandle = [[UIImageView alloc] initWithImage:self.lowerHandleImageNormal];
     self.lowerHandle.frame = [self thumbRectForValue:_lowerValue image:self.lowerHandleImageNormal];
     
     //------------------------------
     // Upper Handle Handle
-    self.upperHandle = [[UIImageView alloc] initWithImage:self.upperHandleImageNormal highlightedImage:self.upperHandleImageHighlighted];
+    //self.upperHandle = [[UIImageView alloc] initWithImage:self.upperHandleImageNormal highlightedImage:self.upperHandleImageHighlighted];
+    self.upperHandle = [[UIImageView alloc] initWithImage:self.upperHandleImageNormal];
     self.upperHandle.frame = [self thumbRectForValue:_upperValue image:self.upperHandleImageNormal];
     
     //------------------------------
@@ -579,13 +581,13 @@ NSUInteger DeviceSystemMajorVersion() {
     // Layout the lower handle
     self.lowerHandle.frame = [self thumbRectForValue:_lowerValue image:self.lowerHandleImageNormal];
     self.lowerHandle.image = self.lowerHandleImageNormal;
-    self.lowerHandle.highlightedImage = self.lowerHandleImageHighlighted;
+    //self.lowerHandle.highlightedImage = self.lowerHandleImageHighlighted;
     self.lowerHandle.hidden = self.lowerHandleHidden;
     
     // Layoput the upper handle
     self.upperHandle.frame = [self thumbRectForValue:_upperValue image:self.upperHandleImageNormal];
     self.upperHandle.image = self.upperHandleImageNormal;
-    self.upperHandle.highlightedImage = self.upperHandleImageHighlighted;
+    //self.upperHandle.highlightedImage = self.upperHandleImageHighlighted;
     self.upperHandle.hidden= self.upperHandleHidden;
     
 }

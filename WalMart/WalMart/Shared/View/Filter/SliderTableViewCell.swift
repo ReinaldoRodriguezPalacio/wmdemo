@@ -113,7 +113,7 @@ class SliderTableViewCell: UITableViewCell {
         self.maxLabel!.center = CGPointMake((self.slider!.upperCenter.x + self.slider!.frame.origin.x) - 6, oldMax.y)
         
         let differenceLabels = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
-        if differenceLabels < 0 {
+        if differenceLabels < 0 && differenceLabels > -3.0{
            self.minLabel!.center = CGPointMake(self.minLabel!.center.x - 10.0, self.minLabel!.center.y)
         }
         
@@ -144,11 +144,8 @@ class SliderTableViewCell: UITableViewCell {
     }
     
     func report(slide: NMRangeSlider){
-//        println("self.slider!.stepValue: \(self.slider!.stepValue)")
         let lower = Int(roundf(self.slider!.lowerValue/self.slider!.stepValue))
         let upper = Int(roundf(self.slider!.upperValue/self.slider!.stepValue))
-//        println("values: self.slider!.lowerValue:\(self.slider!.lowerValue) -> \(lower)")
-//        println("values: self.slider!.upperValue:\(self.slider!.upperValue) -> \(upper)")
         
         self.setAmountLabels(forMinAmount: self.values![lower] as! Double, andMaxAmount: self.values![upper] as! Double)
         self.layoutMounts()

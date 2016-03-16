@@ -131,6 +131,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
             if let remoteNotifParam = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? [NSObject:AnyObject] {
                 handleNotification(application,userInfo: remoteNotifParam)
             }
+            
+            if let localNotifParam = launchOptions?[UIApplicationLaunchOptionsLocalNotificationKey] as? UILocalNotification {
+                handleLocalNotification(application, localNotification: localNotifParam)
+            }
         }
         
         //PayPal
@@ -341,6 +345,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        self.handleLocalNotification(application, localNotification: notification)
+    }
+    
+    func handleLocalNotification(application: UIApplication, localNotification notification: UILocalNotification){
         let name = notification.userInfo!["name"] as! String
         let value = notification.userInfo!["value"] as! String
         let bussines = notification.userInfo!["business"] as! String
@@ -374,6 +382,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                     },isNewFrame: false)
             }
         }
+
     }
 
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
