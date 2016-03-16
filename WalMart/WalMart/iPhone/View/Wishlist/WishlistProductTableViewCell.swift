@@ -159,9 +159,17 @@ class WishlistProductTableViewCell : ProductTableViewCell {
           
         }
     }
-    
     func moveRightImagePresale(moveRight:Bool){
-        self.imagePresale.frame = CGRectMake(moveRight ? 48 :0, 0, 46, 46)
+        if moveRight {
+            UIView.animateWithDuration( 0.3 , animations: {
+                self.imagePresale.frame = CGRectMake( 48, 0, 46, 46)
+            })
+        }
+        else{
+            UIView.animateWithDuration( 0.0 , animations: {
+                self.imagePresale.frame = CGRectMake( 0, 0, 46, 46)
+                
+            })
+        }
     }
-    
 }

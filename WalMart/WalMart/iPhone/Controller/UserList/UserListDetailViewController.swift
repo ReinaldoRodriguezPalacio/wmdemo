@@ -191,7 +191,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             loadServiceItems(nil)
         }
         
-       self.tabBarActions()
+    }
+    override func viewDidAppear(animated: Bool) {
+        self.tabBarActions()
     }
     
     override func viewWillLayoutSubviews() {
