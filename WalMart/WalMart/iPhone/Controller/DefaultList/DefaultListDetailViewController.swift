@@ -73,7 +73,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
             self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 132 , self.view.frame.width, 72))
         }
         else{
-            self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 177 , self.view.frame.width, 72))
+            self.footerSection = UIView(frame:CGRectMake(0,  self.view.frame.maxY - 180 , self.view.frame.width, 72))
         }
         self.footerSection!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(footerSection!)
