@@ -60,7 +60,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isPesable = false
     var alertView : IPOWMAlertViewController? = nil
     var colorItems : [AnyObject] = []
-    var facets: [String:AnyObject]? = nil
+    var facets: [[String:AnyObject]]? = nil
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     var colorViewCell: ProductDetailColorSizeView? = nil
@@ -961,7 +961,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             
             self.reloadViewWithData(result)
-            if let facets = result["facets"] as? [String:AnyObject] {
+            if let facets = result["facets"] as? [[String:AnyObject]] {
                 self.facets = facets
                 self.facetsDetails = self.getFacetsDetails()
                 if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
@@ -1219,11 +1219,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func getFacetsDetails() -> [String:AnyObject]{
         
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
-        for item in self.facets! {
-            let product = item.1 as! [String:AnyObject]
+        for product in self.facets! {
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
-            itemDetail["upc"] = item.0 as String
+            itemDetail["upc"] = product["upc"] as? String
             for detail in details{
                 let label = detail["label"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
@@ -1284,8 +1283,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func selectDetailItem(selected: String, itemType: String) {
         self.selectedDetailItem = ["selected":selected, "itemType": itemType]
         let upc = self.getUpc(selected,itemType: itemType)
-        let facet = self.facets![upc] as! NSDictionary
-        self.reloadViewWithData(facet)
+        let facet = self.facets!.first //self.facets![upc] as! NSDictionary //TODO: Crear funcion que regrese el facet por upc
+        self.reloadViewWithData(facet!)
     }
    
 

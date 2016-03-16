@@ -19,7 +19,7 @@ class ProductDetailColorSizeView: UIView {
     var items:[AnyObject]! = nil
     var viewToInsert: UIView? = nil
     var scrollView: UIScrollView? = nil
-    var buildforColors: Bool! = true
+    var buildforColors: Bool! = false
     var delegate: ProductDetailColorSizeDelegate?
     
     override init(frame: CGRect) {
