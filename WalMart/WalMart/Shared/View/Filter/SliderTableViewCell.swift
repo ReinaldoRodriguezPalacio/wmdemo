@@ -114,7 +114,7 @@ class SliderTableViewCell: UITableViewCell {
         
         let differenceLabels = CGRectGetMaxX(self.minLabel!.frame) - CGRectGetMinX(self.maxLabel!.frame)
         if differenceLabels < 0 && differenceLabels > -3.0{
-           self.minLabel!.center = CGPointMake(self.minLabel!.center.x - 10.0, self.minLabel!.center.y)
+           self.minLabel!.center = CGPointMake(self.minLabel!.center.x - 11.0, self.minLabel!.center.y)
         }
         
         if CGRectIntersectsRect(self.minLabel!.frame, self.maxLabel!.frame) {
