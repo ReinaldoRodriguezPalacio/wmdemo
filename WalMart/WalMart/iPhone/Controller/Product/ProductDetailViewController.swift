@@ -57,7 +57,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var type : ResultObjectType!
     var cellRelated : UICollectionViewCell? = nil
     var cellCharacteristics : UICollectionViewCell? = nil
-    var facets: [String:AnyObject]? = nil
+    var facets: [[String:AnyObject]]? = nil
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     
@@ -703,11 +703,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
                 
                 self.reloadViewWithData(result)
-                if let facets = result["facets"] as? [String:AnyObject] {
+                if let facets = result["facets"] as? [[String:AnyObject]] {
                     self.facets = facets
                     self.facetsDetails = self.getFacetsDetails()
                     if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
                         self.colorItems = colors
+                    }
+                    if let sizes = self.facetsDetails!["Talla"] as? [AnyObject]{
+                        self.colorItems = sizes
                     }
                 }
                 
@@ -1166,22 +1169,20 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func getFacetsDetails() -> [String:AnyObject]{
         
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
-        for item in self.facets! {
-            let product = item.1 as! [String:AnyObject]
+        for product in self.facets! {
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
-            itemDetail["upc"] = item.0 as String
+            itemDetail["upc"] = product["upc"] as? String
             for detail in details{
-                let label = detail["label"] as! String
+                let label = detail["description"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let valuesKey = label == "Color" ? "value" : "description"
-                let itemToAdd = ["value":detail[valuesKey] as! String, "enabled": (label == "Color"), "type": label]
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (label == "Talla"), "type": label]
                 if !(values! as NSArray).containsObject(itemToAdd) {
                     values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values
-                itemDetail[label] = detail[valuesKey] as? String
+                itemDetail[label] = detail["value"] as? String
             }
             var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
             if detailsValues == nil{ detailsValues = []}
@@ -1220,7 +1221,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func selectDetailItem(selected: String, itemType: String) {
         self.selectedDetailItem = ["selected":selected, "itemType": itemType]
         let upc = self.getUpc(selected,itemType: itemType)
-        let facet = self.facets![upc] as! NSDictionary
-        self.reloadViewWithData(facet)
+        let facet = self.facets!.first //self.facets![upc] as! NSDictionary //TODO: Crear funcion que regrese el facet por upc
+        self.reloadViewWithData(facet!)
     }
 }

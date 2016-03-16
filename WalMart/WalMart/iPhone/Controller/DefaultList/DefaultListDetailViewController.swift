@@ -42,6 +42,12 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,selector: "tabBarActions",name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+         self.tabBarActions()
+    }
     
     override func setup() {
         super.setup()
@@ -586,6 +592,11 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         
     }
 
-    
-
+    func tabBarActions(){
+        if TabBarHidden.isTabBarHidden {
+            self.willHideTabbar()
+        }else{
+            self.willShowTabbar()
+        }
+    }
 }

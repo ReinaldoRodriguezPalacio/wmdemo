@@ -184,16 +184,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,selector: "tabBarActions",name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
         //Solo para presentar los resultados al presentar el controlador sin delay
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             loadServiceItems(nil)
         }
         
-        if TabBarHidden.isTabBarHidden {
-            self.willHideTabbar()
-        }else{
-            self.willShowTabbar()
-        }
+       self.tabBarActions()
     }
     
     override func viewWillLayoutSubviews() {
@@ -1596,6 +1594,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return IPASearchView.validateRegEx(regString,toValidate:toValidate)
     }
     
-    
+    func tabBarActions(){
+        if TabBarHidden.isTabBarHidden {
+            self.willHideTabbar()
+        }else{
+            self.willShowTabbar()
+        }
+    }
     
 }

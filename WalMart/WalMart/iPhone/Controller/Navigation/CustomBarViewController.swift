@@ -34,6 +34,7 @@ enum CustomBarNotification : String {
     case ScanBarCode = "kScanBarcode"
     
     case ShowGRLists = "kShowGRLists"
+    case TapBarFinish = "kTapBarFinish"
     
 }
 
@@ -493,12 +494,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         self.buttonContainer!.frame.width, self.buttonContainer!.frame.height)
                     },
                     completion: {(value: Bool) in
+                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
                 })
             }
             else
             {
                 self.buttonContainer!.frame = CGRectMake(self.buttonContainer!.frame.minX, self.view.frame.maxY,
-                    self.buttonContainer!.frame.width, self.buttonContainer!.frame.height)
+                self.buttonContainer!.frame.width, self.buttonContainer!.frame.height)
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
             }
         }
         else {
@@ -514,6 +517,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                             UIView.animateWithDuration(0.2, delay: 0.0, options: .BeginFromCurrentState, animations: {
                                 },
                                 completion: {(value: Bool) in
+                                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
                             })
                         }
                 })
@@ -521,6 +525,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             else
             {
                 self.buttonContainer!.frame = CGRectMake(self.buttonContainer!.frame.minX, self.view.frame.maxY - self.buttonContainer!.frame.height,self.buttonContainer!.frame.width, self.buttonContainer!.frame.height)
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
             }
         }
         

@@ -29,7 +29,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     var priceStr : NSString = ""
     var listPriceStr : NSString = ""
     var strIsPreorderable : String! = "false"
-    var facets: [String:AnyObject]? = nil
+    var facets: [[String:AnyObject]]? = nil
     var facetsDetails: [String:AnyObject]? = nil
     var detailsOrder: [AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
@@ -348,16 +348,16 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     }
     
     func reloadViewWithUPC(upc:String){
-        var facet = self.facets![upc] as! [String: AnyObject]
-        self.onHandInventory = facet["onHandInventory"] as! String
-        self.strIsPreorderable = facet["isPreorderable"] as! String
-        self.upc = facet["upc"] as! String
-        self.name! = facet["description"] as! String
-        self.imagesToDisplay = facet["imageUrl"] as? [AnyObject]
-        self.collectionView?.reloadData()
-        self.selectFirstPoint()
-        self.buildButtonSection()
-        self.setAdditionalValues(facet["original_listprice"] as! String, price: facet["price"] as! String, saving: facet["saving"] as! String)
+//        var facet = self.facets![upc] as! [String: AnyObject]
+//        self.onHandInventory = facet["onHandInventory"] as! String
+//        self.strIsPreorderable = facet["isPreorderable"] as! String
+//        self.upc = facet["upc"] as! String
+//        self.name! = facet["description"] as! String
+//        self.imagesToDisplay = facet["imageUrl"] as? [AnyObject]
+//        self.collectionView?.reloadData()
+//        self.selectFirstPoint()
+//        self.buildButtonSection()
+//        self.setAdditionalValues(facet["original_listprice"] as! String, price: facet["price"] as! String, saving: facet["saving"] as! String)
     }
     
     func selectDetailButton(selected:String, itemType: String){
