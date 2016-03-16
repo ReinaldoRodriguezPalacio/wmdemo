@@ -21,7 +21,8 @@ class ProductDetailColorSizeView: UIView {
     var scrollView: UIScrollView? = nil
     var buildforColors: Bool! = false
     var delegate: ProductDetailColorSizeDelegate?
-    
+    var bottomBorder: CALayer!
+    var topBorder: CALayer!
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -34,6 +35,9 @@ class ProductDetailColorSizeView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        self.bottomBorder.frame = CGRectMake(0.0, self.frame.height - 1, self.frame.size.width, 1)
+        self.topBorder.frame = CGRectMake(0.0, 0.0, self.frame.size.width, 1)
         buildItemsView()
     }
 
@@ -43,6 +47,12 @@ class ProductDetailColorSizeView: UIView {
         self.scrollView?.scrollEnabled = false
         self.viewToInsert = UIView(frame: self.frame)
         self.viewToInsert! = self
+        self.bottomBorder = CALayer()
+        self.bottomBorder.backgroundColor = WMColor.light_light_gray.CGColor
+        self.layer.insertSublayer(bottomBorder, atIndex: 99)
+        self.topBorder = CALayer()
+        self.topBorder.backgroundColor = WMColor.light_light_gray.CGColor
+        self.layer.insertSublayer(topBorder, atIndex: 100)
         buildItemsView()
     }
     

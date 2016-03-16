@@ -89,10 +89,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
-        
-        
-        
-
     
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
@@ -205,8 +201,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        
-
 
         var widthNew = self.bounds.width + self.bounds.height - 314
         if widthNew <= self.bounds.width {
@@ -293,8 +287,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.sizesView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
                 self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
                 self.sizesView.buildItemsView()
-                
             }else if colors?.count != 0 && sizes?.count == 0{
+                self.sizesView.alpha = 0
                 self.colorsView.items = self.colors
                 self.colorsView.buildforColors = true
                 self.colorsView.alpha = 1.0
@@ -304,6 +298,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
+                self.colorsView.alpha = 0
                 self.sizesView.items = self.sizes
                 self.sizesView.buildforColors = false
                 self.sizesView.alpha = 1.0
@@ -315,6 +310,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             }
         }else{
             self.colorsView.alpha = 0
+            self.sizesView.alpha = 0
             self.pointSection.frame = CGRectMake(0, self.bounds.height - 74   , self.bounds.width, 20)
         }
     }
