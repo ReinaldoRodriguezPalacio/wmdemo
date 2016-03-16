@@ -14,8 +14,10 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var colorsViewDelegate: ProductDetailColorSizeDelegate?
     var collection: UICollectionView!
     var colorsView: ProductDetailColorSizeView!
+    var sizesView: ProductDetailColorSizeView!
     var items: [AnyObject]! = []
     var colors: [AnyObject]? = []
+    var sizes: [AnyObject]? = []
     var imagesRef: [UIImage]! = []
     var pointSection: UIView! = nil
     var pointContainer: UIView? = nil
@@ -76,6 +78,11 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.colorsView.delegate = self
         self.colorsView.alpha = 0
         self.addSubview(colorsView)
+        
+        self.sizesView = ProductDetailColorSizeView(frame: CGRectMake(0, self.pointSection!.frame.maxY,  self.frame.width, 60))
+        self.sizesView.delegate = self
+        self.sizesView.alpha = 0
+        self.addSubview(sizesView)
         
         //presale
         
@@ -228,7 +235,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             }
         }
         
-        self.buildColorsView()
+        self.buildColorsAndSizesView()
         
         self.priceBefore.frame = CGRectMake(0,  self.bounds.height - 54   , self.frame.width, 15.0)
         self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
@@ -237,7 +244,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         self.buildButtonSection()
-        self.buildColorsView()
+        self.buildColorsAndSizesView()
         return items.count
     }
     
@@ -270,15 +277,43 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         return 0
     }
     
-    func buildColorsView(){
-        if colors?.count != 0{
-            self.colorsView.items = self.colors
-            self.colorsView.alpha = 1.0
-            let frame = collection.frame
-            self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-            self.pointSection.frame = CGRectMake(0, self.bounds.height - 134   , self.bounds.width, 20)
-            self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
-            self.colorsView.buildItemsView()
+    func buildColorsAndSizesView(){
+        if colors?.count != 0 || sizes?.count != 0{
+            if colors?.count != 0 && sizes?.count != 0{
+                self.colorsView.items = self.colors
+                self.colorsView.buildforColors = true
+                self.colorsView.alpha = 1.0
+                let frame = collection.frame
+                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
+                self.pointSection.frame = CGRectMake(0, self.bounds.height - 154   , self.bounds.width, 20)
+                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 134   , self.frame.width, 60.0)
+                self.colorsView.buildItemsView()
+                self.sizesView.items = self.sizes
+                self.sizesView.buildforColors = false
+                self.sizesView.alpha = 1.0
+                self.sizesView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
+                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+                self.sizesView.buildItemsView()
+                
+            }else if colors?.count != 0 && sizes?.count == 0{
+                self.colorsView.items = self.colors
+                self.colorsView.buildforColors = true
+                self.colorsView.alpha = 1.0
+                let frame = collection.frame
+                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
+                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134   , self.bounds.width, 20)
+                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+                self.colorsView.buildItemsView()
+            }else if colors?.count == 0 && sizes?.count != 0{
+                self.sizesView.items = self.sizes
+                self.sizesView.buildforColors = false
+                self.sizesView.alpha = 1.0
+                let frame = collection.frame
+                self.sizesView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
+                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134   , self.bounds.width, 20)
+                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+                self.sizesView.buildItemsView()
+            }
         }else{
             self.colorsView.alpha = 0
             self.pointSection.frame = CGRectMake(0, self.bounds.height - 74   , self.bounds.width, 20)
