@@ -400,6 +400,10 @@ class IPAUserListViewController: UserListViewController {
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
                 else if let listEntity = self.itemsUserList![indexPath.row] as? List {
+                    
+                    self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+                    self.alertView!.setMessage(NSLocalizedString("list.message.deletingList", comment:""))
+                    
                     self.managedContext!.deleteObject(listEntity)
                     self.saveContext()
                     //No hay que generar acciones adicionales para este caso
@@ -419,6 +423,7 @@ class IPAUserListViewController: UserListViewController {
                         }, failure: { (error) -> Void in
                             
                     })
+                    
                 }
             }
         default:

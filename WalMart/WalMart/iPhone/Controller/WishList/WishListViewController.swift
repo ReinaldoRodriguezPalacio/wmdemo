@@ -203,7 +203,12 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
 
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
-        
+        if isPreorderable {
+             cell.moveRightImagePresale(true)
+        }else{
+             cell.moveRightImagePresale(false)
+        }
+        cell.moveRightImagePresale(isPreorderable)
         cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
        
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
@@ -213,9 +218,13 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         if isEdditing {
             cell.setEditing(true, animated: false)
             cell.showLeftUtilityButtonsAnimated(false)
+            cell.moveRightImagePresale(true)
+
         }else {
             cell.setEditing(false, animated: false)
             cell.hideUtilityButtonsAnimated(false)
+            cell.moveRightImagePresale(false)
+
         }
         
         
@@ -432,6 +441,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             for cell in currentCells {
                 cell.setEditing(true, animated: false)
                 cell.showLeftUtilityButtonsAnimated(true)
+                cell.moveRightImagePresale(true)
                 //cell.shouldChangeState = !isEdditing
             }
             edit.selected = true
@@ -448,6 +458,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             for cell in currentCells {
                 cell.hideUtilityButtonsAnimated(false)
                 cell.setEditing(false, animated: false)
+                cell.moveRightImagePresale(false)
             }
             edit.hidden = self.items.count == 0
             edit.selected = false

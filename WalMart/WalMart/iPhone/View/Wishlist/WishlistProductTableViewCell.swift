@@ -34,7 +34,6 @@ class WishlistProductTableViewCell : ProductTableViewCell {
     let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
     var presale : UILabel!
     
-    
     override func setup() {
         super.setup()
         
@@ -160,6 +159,9 @@ class WishlistProductTableViewCell : ProductTableViewCell {
           
         }
     }
-
+    
+    func moveRightImagePresale(moveRight:Bool){
+        self.imagePresale.frame = CGRectMake(moveRight ? 48 :0, 0, 46, 46)
+    }
     
 }
