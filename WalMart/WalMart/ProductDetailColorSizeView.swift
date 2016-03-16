@@ -99,7 +99,8 @@ class ProductDetailColorSizeView: UIView {
             let buttonPosition = (CGFloat(backViewWidth) - CGFloat(buttonWidth)) / 2
             colorButton.frame = CGRectMake(CGFloat(buttonPosition), CGFloat(buttonPosition), CGFloat(buttonWidth), CGFloat(buttonWidth))
             colorButton.layer.cornerRadius = 2
-            let intColor = UInt(item["value"] as! String, radix: 16)
+            let stringColor: String = item["value"]!.substringFromIndex(1)
+            let intColor = UInt(stringColor, radix: 16)
             colorButton.backgroundColor = WMColor.UIColorFromRGB(intColor!, alpha: 1.0)
             colorButton.addTarget(self, action: "selectColor:", forControlEvents: UIControlEvents.TouchUpInside)
             colorButton.tag = count

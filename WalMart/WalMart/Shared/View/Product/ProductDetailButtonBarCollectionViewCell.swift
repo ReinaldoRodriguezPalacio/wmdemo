@@ -16,7 +16,7 @@ protocol ProductDetailButtonBarCollectionViewCellDelegate {
     func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void)
     func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String)
     func showMessageProductNotAviable()
-    func showProductDetailOptions()
+    //func showProductDetailOptions()
 }
 
 
@@ -192,10 +192,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         
     }
     func addProductToShoppingCart() {
-        if hasDetailOptions{
-            delegate.showProductDetailOptions()
-        }
-        else if isAviableToShoppingCart {
+        if isAviableToShoppingCart {
             delegate.addProductToShoppingCart(self.upc, desc: desc,price:price, imageURL: image, comments:self.comments)
         } else {
             delegate.showMessageProductNotAviable()
