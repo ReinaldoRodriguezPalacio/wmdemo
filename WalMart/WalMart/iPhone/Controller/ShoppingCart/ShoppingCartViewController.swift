@@ -64,6 +64,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var emptyView : IPOShoppingCartEmptyView!
     
+
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MGSHOPPINGCART.rawValue
     }
@@ -368,7 +370,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
         }
         return 1
-
+        
     }
 
     
@@ -413,15 +415,20 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             //updateItemSavingForUPC(indexPath,upc:upc)
             
             cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable)
-            
+            //
             cellProduct.priceSelector.closeBand()
             cellProduct.endEdditingQuantity()
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)
                 cellProduct.showLeftUtilityButtonsAnimated(false)
+                cellProduct.moveRightImagePresale(false)
             }else{
+                
+                
                 cellProduct.setEditing(false, animated: false)
                 cellProduct.hideUtilityButtonsAnimated(false)
+                cellProduct.moveRightImagePresale(false)
+                
             }
             
             cell = cellProduct
@@ -456,8 +463,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 cellPromotion!.itemsUPC = itemsUPC
                 cellPromotion!.collection.reloadData()
                 cell = cellPromotion
-                
             }
+
         }
         
         cell?.selectionStyle = UITableViewCellSelectionStyle.None
@@ -479,6 +486,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             if self.navigationController != nil {
                 self.navigationController!.pushViewController(controller, animated: true)
+                
             }
         }
         /*if isSelectingProducts {
@@ -487,7 +495,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
         }*/
     }
-    
+
     
     func getRightButtonDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
@@ -564,6 +572,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     let productCell = cell as! ProductShoppingCartTableViewCell
                     productCell.setEditing(true, animated: false)
                     productCell.showLeftUtilityButtonsAnimated(true)
+                    productCell.moveRightImagePresale(true)
                 }
             }
             editButton.selected = true
@@ -586,6 +595,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     let productCell = cell as! ProductShoppingCartTableViewCell
                     productCell.setEditing(false, animated: false)
                     productCell.hideUtilityButtonsAnimated(false)
+                    productCell.moveRightImagePresale(false)
+                    
                 }
             }
             editButton.selected = false

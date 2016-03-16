@@ -166,10 +166,9 @@ class WishlistProductTableViewCell : ProductTableViewCell {
             })
         }
         else{
-            UIView.animateWithDuration( 0.0 , animations: {
-                self.imagePresale.frame = CGRectMake( 0, 0, 46, 46)
-                
-            })
+            self.imagePresale.frame = CGRectMake( 0, 0, 46, 46)
+            
+            
         }
     }
 }
