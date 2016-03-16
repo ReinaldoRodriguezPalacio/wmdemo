@@ -278,15 +278,14 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.buildforColors = true
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
-                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-                self.pointSection.frame = CGRectMake(0, self.bounds.height - 154   , self.bounds.width, 20)
-                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 134   , self.frame.width, 60.0)
+                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 160)
+                self.pointSection.frame = CGRectMake(0, self.bounds.height - 174, self.bounds.width, 20)
+                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 154, self.frame.width, 40.0)
                 self.colorsView.buildItemsView()
                 self.sizesView.items = self.sizes
                 self.sizesView.buildforColors = false
                 self.sizesView.alpha = 1.0
-                self.sizesView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
                 self.sizesView.buildItemsView()
             }else if colors?.count != 0 && sizes?.count == 0{
                 self.sizesView.alpha = 0
@@ -295,8 +294,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134   , self.bounds.width, 20)
-                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134, self.bounds.width, 20)
+                self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
                 self.colorsView.alpha = 0
@@ -304,9 +303,9 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.sizesView.buildforColors = false
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
-                self.sizesView.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
-                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134   , self.bounds.width, 20)
-                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114   , self.frame.width, 60.0)
+                self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
+                self.pointSection.frame = CGRectMake(0, self.bounds.height - 134, self.bounds.width, 20)
+                self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
                 self.sizesView.buildItemsView()
             }
         }else{
