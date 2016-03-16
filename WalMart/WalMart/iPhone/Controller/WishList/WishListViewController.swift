@@ -439,9 +439,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
             for cell in currentCells {
-                cell.setEditing(true, animated: false)
                 cell.showLeftUtilityButtonsAnimated(true)
                 cell.moveRightImagePresale(true)
+                cell.setEditing(true, animated: false)
+
                 //cell.shouldChangeState = !isEdditing
             }
             edit.selected = true
