@@ -207,14 +207,14 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             widthNew = self.bounds.width
         }
         
-        if self.currentItem! > 0 {
+     
             if widthNew > 320 {
                 let heightNew = widthNew  - 320
                 self.collection.alpha = 0
                 
                 let cellImg = self.collection.cellForItemAtIndexPath(NSIndexPath(forItem: self.currentItem!, inSection: 0)) as? ProductDetailBannerMediaCollectionViewCell
+            if cellImg != nil {
                 let originRect = cellImg!.imageView!.frame
-                
                 let rectTransform = CGRectMake(originRect.minX - (heightNew / 2), originRect.minY, originRect.width + heightNew, originRect.height + heightNew)
                 
                 self.imageZoom.image = cellImg!.imageView.image
@@ -222,12 +222,13 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                     self.imageZoom.frame = rectTransform
                     self.imageZoom.alpha = 1
                 })
+            }
             } else {
                 self.collection.alpha = 1
                 self.imageZoom.alpha = 0
                 self.imageZoom.frame = collection.frame
             }
-        }
+        
         
         self.buildColorsAndSizesView()
         
