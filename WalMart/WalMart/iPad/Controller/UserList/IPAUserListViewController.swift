@@ -421,7 +421,7 @@ class IPAUserListViewController: UserListViewController {
                         }
                         self.checkEditBtn()
                         self.reloadList(success: { () -> Void in
-                            let delaySec:Double = 1.5
+                            let delaySec:Double = 2.0
                             let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
                             dispatch_after(delayTime, dispatch_get_main_queue(), {
                              self.alertView?.close()
