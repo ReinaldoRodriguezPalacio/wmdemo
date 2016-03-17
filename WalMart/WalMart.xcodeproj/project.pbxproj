@@ -411,6 +411,8 @@
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
 		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
 		6C716A321C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */; };
+		6C747C301C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */; };
+		6C747C321C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */; };
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
 		6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */; };
@@ -1070,6 +1072,8 @@
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGShoppingCartQuantitySelectorView.swift; path = iPhone/View/ShoppingCart/MGShoppingCartQuantitySelectorView.swift; sourceTree = "<group>"; };
+		6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutDeliveryViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutDeliveryViewController.swift; sourceTree = "<group>"; };
+		6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutCommentsViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutCommentsViewController.swift; sourceTree = "<group>"; };
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
 		6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Shared/Library/Facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
@@ -2616,6 +2620,8 @@
 				569733E31A71765600C9A09F /* GRCheckOutViewController.swift */,
 				5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */,
 				4AEBFBB31C9B082C00A47C5B /* GRCheckOutPymentViewController.swift */,
+				6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */,
+				6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */,
 			);
 			name = CheckOut;
 			sourceTree = "<group>";
@@ -3657,6 +3663,7 @@
 				56C211851A24E278002D1C91 /* IPASearchLastViewTableViewController.swift in Sources */,
 				56527DF319B007C2008032C6 /* CategoryView.swift in Sources */,
 				56527DAD19AFA26B008032C6 /* ProductHomeCollectionViewCell.swift in Sources */,
+				6C747C301C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift in Sources */,
 				562EB36A1A5CC58400B0C176 /* WeightKeyboardView.swift in Sources */,
 				AC59117219DE0AA700EB095C /* WMGAIUtils.swift in Sources */,
 				56940AC71A643E3E00BAFF78 /* GRShoppingCartQuantitySelectorView.swift in Sources */,
@@ -3982,6 +3989,7 @@
 				AC37F6B819B90932000BB80D /* UpdateUserProfileService.swift in Sources */,
 				562CAAF61A5C6D85007F8584 /* NumericKeyboardView.swift in Sources */,
 				56CCEA0319DB33840071D990 /* LoginWithEmailService.swift in Sources */,
+				6C747C321C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift in Sources */,
 				56CDE17919C9E5A700CB2738 /* LoginController.swift in Sources */,
 				5681998419E35F1300362D3C /* IPOGenericEmptyView.swift in Sources */,
 				04D15BCD1A96593600860919 /* FilterCategoryViewCell.swift in Sources */,
