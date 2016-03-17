@@ -403,9 +403,10 @@ class IPAUserListViewController: UserListViewController {
                     
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.deletingList", comment:""))
-                    
                     self.managedContext!.deleteObject(listEntity)
                     self.saveContext()
+                    //                        let delay = 15.7 * Double(NSEC_PER_SEC)
+                    //                        let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
                     //No hay que generar acciones adicionales para este caso
                     //                    self.reloadList(success: nil, failure: nil)
                     self.reloadWithoutTableReload(success: nil, failure: nil)
@@ -419,13 +420,19 @@ class IPAUserListViewController: UserListViewController {
                     }
                     self.checkEditBtn()
                     self.reloadList(success: { () -> Void in
-                        
+                        let delaySec:Double = 2.0
+                        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(delaySec * Double(NSEC_PER_SEC)))
+                        dispatch_after(delayTime, dispatch_get_main_queue(), {
+                            self.alertView?.close()
+                        })
                         }, failure: { (error) -> Void in
                             
                     })
-                    
                 }
             }
+            
+
+            
         default:
             print("other pressed")
         }
