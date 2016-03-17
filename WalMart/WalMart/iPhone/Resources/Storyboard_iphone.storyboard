@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Custom Bar View Controller-->
@@ -116,10 +116,10 @@
             </objects>
             <point key="canvasLocation" x="1695" y="-1442"/>
         </scene>
-        <!--Check Out View Controller-->
+        <!--Check Out Delivery View Controller-->
         <scene sceneID="lSc-9l-AcZ">
             <objects>
-                <viewController id="MEq-cR-YbO" customClass="GRCheckOutViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="MEq-cR-YbO" customClass="GRCheckOutDeliveryViewController" customModule="WalmartMG" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Ojc-oF-TTD"/>
                         <viewControllerLayoutGuide type="bottom" id="Za5-ls-gcJ"/>
