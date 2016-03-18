@@ -29,6 +29,16 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     let itemsPayments = [NSLocalizedString("En linea", comment:""), NSLocalizedString("Contra entrega", comment:"")]
     
+    //Services
+    var paymentOptionsItems: [AnyObject]?
+    var paymentOptions: FormFieldView?
+    var selectedPaymentType : NSIndexPath!
+    var showPayPalFuturePayment : Bool = false
+    var promotionsDesc: [[String:String]]! = []
+    var showDiscountAsociate : Bool = false
+    var promotionButtons: [UIView]! = []
+    var discountAssociateAply:Double = 0.0 //descuento del Asociado
+    
     
     
     override func getScreenGAIName() -> String {
@@ -111,7 +121,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     override func viewDidLayoutSubviews() {
         let width = self.view.frame.width - (2 * margin)
         let bounds = self.view.frame.size
-        let footerHeight:CGFloat = 60.0
+        let footerHeight : CGFloat = 60.0
         
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
         
@@ -127,6 +137,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //paymens taps
         self.paymentLine?.frame = CGRectMake(0 ,self.tapPayments.frame.maxY, self.tapPayments.frame.width, self.contenPayments.frame.height - 40)
         self.paymentDelivery?.frame = CGRectMake(0 ,self.tapPayments.frame.maxY, self.tapPayments.frame.width, self.contenPayments.frame.height - 40)
+        
+        self.invokePaymentService { () -> Void in
+            print("End")
+        }
     }
     
     
@@ -149,6 +163,113 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func continuePurche (){
     
     }
+    
+    
+    
+    //MARK : InvokeServices
+    
+    
+    //valida si se presenta el descuento de asociado
+    
+    func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
+        let discountActive  = GRDiscountActiveService()
+        discountActive.callService({ (result:NSDictionary) -> Void in
+            
+            if let res = result["discountsAssociated"] as? Bool {
+                self.showDiscountAsociate = res
+            }
+            if let listPromotions = result["listPromotions"] as? [AnyObject]{
+                for promotionln in listPromotions {
+                    let promotionDiscount = promotionln["promotionDiscount"] as! Int
+                    self.discountAssociateAply = Double(promotionDiscount) / 100.0
+                    print("promotionDiscount: \(self.discountAssociateAply)")
+                }
+            }
+            
+            endCallDiscountActive()
+            }, errorBlock: { (error:NSError) -> Void in
+                endCallDiscountActive()
+        })
+    }
+    
+    
+    
+    func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
+        
+        let service = GRPaymentTypeService()
+        service.callService("2",
+            successBlock: { (result:NSArray) -> Void in
+                self.paymentOptionsItems = result as [AnyObject]
+                if result.count > 0 {
+                    let option = result[0] as! NSDictionary
+                    if let text = option["paymentType"] as? String {
+                        self.paymentOptions!.text = text
+                        self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
+                    }
+                    if let id = option["id"] as? String {
+                        if id == "-1"{
+                            self.showPayPalFuturePayment = true
+                            //self.buildSubViews()
+                        }
+                    }
+                }
+                //self.removeViewLoad()
+                endCallPaymentOptions()
+            },
+            errorBlock: { (error:NSError) -> Void in
+                print("Error at invoke payment type service")
+                //self.removeViewLoad()
+                endCallPaymentOptions()
+            }
+        )
+    }
+    
+    
+    //MARK : Actions
+    func buildPromotionButtons() -> CGFloat{
+        let bounds = self.view.frame.size
+        var width = bounds.width - 32.0
+        width = (width/2) - 75.0
+        let margin: CGFloat = 15.0
+        let widthField = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        
+        var posY = sectionTitleDiscount.frame.maxY + 10.0//self.showDiscountAsociate ? discountAssociate!.frame.maxY : sectionTitleDiscount.frame.maxY + 10.0
+        var count =  0
+        if promotionsDesc.count > 0 {
+            posY -= 10
+            for promotion in self.promotionsDesc{
+                posY += CGFloat(40 * count)
+                
+                let titleLabel = UILabel(frame:CGRectMake(22, 0, widthField-22,fheight))
+                titleLabel.font = WMFont.fontMyriadProRegularOfSize(13)
+                titleLabel.text = promotion["promotion"]
+                titleLabel.numberOfLines = 2
+                titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+                titleLabel.textColor = WMColor.dark_gray
+                
+                let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
+                promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+                promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+                promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+                promSelect.addSubview(titleLabel)
+                promSelect.selected = false
+                promSelect.tag = count
+                promSelect.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,widthField - 20)
+                self.content.addSubview(promSelect)
+                self.promotionButtons.append(promSelect)
+                count++
+            }
+            posY += 50
+            // self.hasPromotionsButtons = true
+        }
+        else{
+            posY += CGFloat(40 * self.promotionsDesc.count)
+        }
+        return posY
+    }
+    
+    
     
     
     //MARK: SegmentedViewDelegate
