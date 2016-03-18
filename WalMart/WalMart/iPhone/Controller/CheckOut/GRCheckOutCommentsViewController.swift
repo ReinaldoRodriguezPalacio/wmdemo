@@ -55,13 +55,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44),
-            inputViewStyle: .Keyboard,
-            titleSave: "Ok",
-            save: { (field:UITextField?) -> Void in
-                field?.resignFirstResponder()
-                })
-        
         let sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(sectionTitle)
         
@@ -120,11 +113,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.autocapitalizationType = .None
         self.comments!.autocorrectionType = .No
         self.comments!.enablesReturnKeyAutomatically = true
-        self.comments!.font = WMFont.fontMyriadProItOfSize(14)
+        self.comments!.font = WMFont.fontMyriadProItOfSize(12)
         self.comments!.text = NSLocalizedString("checkout.field.comments", comment:"")
         self.comments!.textColor = UIColor.grayColor()
-        self.comments!.backgroundColor = WMColor.light_gray
-        self.comments!.inputAccessoryView = viewAccess
+        self.comments!.backgroundColor = WMColor.light_light_gray
         self.comments!.delegate = self
         self.content.addSubview(self.comments!)
         
@@ -216,7 +208,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     {
         if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
-            textView.text = "Agrega tu nota aqui"
+            textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
             textView.resignFirstResponder()
             textView.textColor = UIColor.grayColor()
         }
@@ -225,7 +217,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        if textView.text == "Agrega tu nota aqui" {
+        if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") {
             textView.text = ""
             textView.textColor = WMColor.dark_gray
         }
@@ -235,7 +227,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text == "" {
-            textView.text = "Agrega tu nota aqui"
+            textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
             textView.textColor = UIColor.grayColor()
         }
     }
