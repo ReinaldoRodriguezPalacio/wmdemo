@@ -479,6 +479,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         alertAddress.alertClose = {() in
         }
         alertAddress.cancelPress = {() in
+            alertAddress.removeFromSuperview()
             if alertViewService != nil {
                 alertViewService!.setMessage("Es necesario capturar una dirección")
                 alertViewService!.showErrorIcon("Ok")
