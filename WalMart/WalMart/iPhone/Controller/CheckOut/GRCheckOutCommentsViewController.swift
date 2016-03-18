@@ -9,7 +9,7 @@
 import Foundation
 import Tune
 
-class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate {
+class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate,UITextViewDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -21,6 +21,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var cancelButton: UIButton?
     var layerLine: CALayer!
     var stepLabel: UILabel!
+    var comments: UITextView?
+    var phoneField: FormFieldView?
+    var confirmCallButton: UIButton?
+    var notConfirmCallButton: UIButton?
+    var confirmCallOptionButton: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -39,10 +44,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.content)
         
-        let margin: CGFloat = 15.0
+        let margin: CGFloat = 16.0
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
-        let lheight: CGFloat = 25.0
+        let lheight: CGFloat = 15.0
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -50,8 +55,70 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         
-        let sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, 18.0, width, lheight))
+        let sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(sectionTitle)
+        
+        self.confirmCallButton = UIButton(frame: CGRectMake(margin,sectionTitle.frame.maxY + margin,width,20))
+        self.confirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+        self.confirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.confirmCallButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
+        self.confirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
+        self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        self.content.addSubview(self.confirmCallButton!)
+
+        
+        self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
+        self.phoneField!.setCustomPlaceholder("Telefono: 5529004117")
+        self.phoneField!.isRequired = true
+        self.phoneField!.typeField = TypeField.Phone
+        self.phoneField!.nameField = "phone"
+        self.phoneField!.maxLength = 100
+        self.content.addSubview(self.phoneField!)
+        
+        self.confirmCallOptionButton = UIButton(frame: CGRectMake(margin,phoneField!.frame.maxY + margin,width,30))
+        self.confirmCallOptionButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+        self.confirmCallOptionButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.confirmCallOptionButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
+        self.confirmCallOptionButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
+        self.confirmCallOptionButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.confirmCallOptionButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.confirmCallOptionButton!.titleLabel?.numberOfLines = 2
+        self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 14, right:0 )
+        self.content.addSubview(self.confirmCallOptionButton!)
+        
+        self.notConfirmCallButton = UIButton(frame: CGRectMake(margin,confirmCallOptionButton!.frame.maxY + margin,width,30))
+        self.notConfirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+        self.notConfirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.notConfirmCallButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
+        self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
+        self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
+        self.notConfirmCallButton!.titleLabel?.numberOfLines = 2
+        self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 14, right:0 )
+        self.content.addSubview(self.notConfirmCallButton!)
+        
+        let sectionTitleComments = self.buildSectionTitle("¿Alguna intruccióno nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        self.content.addSubview(sectionTitleComments)
+        
+        self.comments = UITextView(frame:CGRectMake(margin,sectionTitleComments.frame.maxY + margin,width,70))
+        self.comments!.layer.cornerRadius = 5.0
+        self.comments!.returnKeyType = .Default
+        self.comments!.autocapitalizationType = .None
+        self.comments!.autocorrectionType = .No
+        self.comments!.enablesReturnKeyAutomatically = true
+        self.comments!.font = WMFont.fontMyriadProItOfSize(12)
+        self.comments!.text = NSLocalizedString("checkout.field.comments", comment:"")
+        self.comments!.textColor = UIColor.grayColor()
+        self.comments!.backgroundColor = WMColor.light_light_gray
+        self.comments!.delegate = self
+        self.content.addSubview(self.comments!)
         
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.light_light_gray.CGColor
@@ -115,11 +182,59 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
     }
     
+    func optionsConfirmOrder ()  -> [[String:String]] {
+        //GroceriesCheckout descriptions
+        var result : [[String:String]] = []
+        
+        let confirmCall = NSLocalizedString("gr.confirmacall", comment: "")
+        var dictConfirm = ["name":confirmCall,"desc":confirmCall,"key":"3"]
+        result.append(dictConfirm)
+        
+        let notConfirmCallOptions = NSLocalizedString("gr.not.confirmacall.option", comment: "")
+        let notConfirmCallOptionsDetail = NSLocalizedString("gr.not.confirmacall.option.detail", comment: "")
+        dictConfirm = ["name":notConfirmCallOptions,"desc":notConfirmCallOptionsDetail,"key":"1"]
+        result.append(dictConfirm)
+        
+        let notConfirmCall = NSLocalizedString("gr.not.confirmacall", comment: "")
+        let notConfirmCallDetail = NSLocalizedString("gr.not.confirmacall.detal", comment: "")
+        dictConfirm = ["name":notConfirmCall,"desc":notConfirmCallDetail,"key":"2"]
+        result.append(dictConfirm)
+        
+        return result
+    }
+    
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
         return CGSizeMake(self.view.frame.width, self.content.contentSize.height)
     }
-
+    
+    //MARK: -TextViewDelegate
+    func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
+    {
+        if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
+            textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
+            textView.resignFirstResponder()
+            textView.textColor = UIColor.grayColor()
+        }
+        
+        return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
+    }
+    
+    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+        if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") {
+            textView.text = ""
+            textView.textColor = WMColor.dark_gray
+        }
+        return true
+    }
+    
+    
+    func textViewDidEndEditing(textView: UITextView) {
+        if textView.text == "" {
+            textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
+            textView.textColor = UIColor.grayColor()
+        }
+    }
 
 }

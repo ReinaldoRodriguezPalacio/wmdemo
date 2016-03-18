@@ -59,10 +59,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.content.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.content)
         
-        let margin: CGFloat = 15.0
+        let margin: CGFloat = 16.0
         let width = self.view.frame.width - (2*margin)
-        let fheight: CGFloat = 44.0
-        let lheight: CGFloat = 25.0
+        let fheight: CGFloat = 40.0
+        let lheight: CGFloat = 15.0
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -70,10 +70,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         
-        let sectionTitle = self.buildSectionTitle("Direccion de envio", frame: CGRectMake(margin, 20.0, width, lheight))
+        self.dateFmt = NSDateFormatter()
+        self.dateFmt!.dateFormat =  "d MMMM yyyy"
+        
+        let sectionTitle = self.buildSectionTitle("Dirección de envío", frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(sectionTitle)
         
-        self.address = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + 10.0, width, fheight))
+        self.address = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + margin, width, fheight))
         self.address!.setCustomPlaceholder(NSLocalizedString("checkout.field.address", comment:""))
         self.address!.isRequired = true
         self.address!.typeField = TypeField.List
@@ -81,7 +84,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.address!.nameField = NSLocalizedString("checkout.field.address", comment:"")
         self.content.addSubview(self.address!)
         
-        self.shipmentType = FormFieldView(frame: CGRectMake(margin, self.address!.frame.maxY + 5.0, width, fheight))
+        let sectionTitleShipment = self.buildSectionTitle("Tipo de envío", frame: CGRectMake(margin, self.address!.frame.maxY + 28, width, lheight))
+        self.content.addSubview(sectionTitleShipment)
+        
+        self.shipmentType = FormFieldView(frame: CGRectMake(margin, sectionTitleShipment.frame.maxY + margin, width, fheight))
         self.shipmentType!.setCustomPlaceholder(NSLocalizedString("checkout.field.shipmentType", comment:""))
         self.shipmentType!.isRequired = true
         self.shipmentType!.typeField = TypeField.List
@@ -89,8 +95,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.shipmentType!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
         self.content.addSubview(self.shipmentType!)
         
+        let sectionTitleDate = self.buildSectionTitle("Fecha y Hora", frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight))
+        self.content.addSubview(sectionTitleDate)
         
-        self.deliveryDate = FormFieldView(frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, width, fheight))
+        
+        self.deliveryDate = FormFieldView(frame: CGRectMake(margin, sectionTitleDate.frame.maxY + margin, width, fheight))
         self.deliveryDate!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliveryDate", comment:""))
         self.deliveryDate!.isRequired = true
         self.deliveryDate!.typeField = TypeField.List
@@ -258,18 +267,17 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
      //MARK: AlertPickerViewDelegate
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
-            
             if formFieldObj ==  self.address! {
-                self.addViewLoad()//--ok
+                //self.addViewLoad()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
-                    
                 }
                 self.selectedAddressIx = indexPath
+                self.buildAndConfigureDeliveryType()
             }
             if formFieldObj ==  self.shipmentType! {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
@@ -287,6 +295,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func didDeSelectOption(picker:AlertPickerView) {
+        self.removeViewLoad()
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
                 self.address!.text = ""
@@ -398,8 +407,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             //TODO
             let date = NSDate()
             self.selectedDate = date
-            //self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
-            //self.buildAndConfigureDeliveryType()
+            self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
+            self.buildAndConfigureDeliveryType()
             //self.validateMercuryDelivery()
             self.removeViewLoad()
             
@@ -506,7 +515,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         self.shipmentItems!.append(["name":fixedDelivery, "key":"3","cost":fixedDeliveryCostVal])
                     }
                     
-                    
                     if let pickUpInStore = result["pickUpInStore"] as? String {
                         var pickUpInStoreCostVal = 0.0
                         if let pickUpInStoreCost = result["pickUpInStoreCost"] as? NSString {
@@ -590,8 +598,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.picker!.cellType = TypeField.Check
                 self.picker!.showPicker()
             }
-            self.removeViewLoad()//ok
-            
             self.removeViewLoad()//ok
             
         })
