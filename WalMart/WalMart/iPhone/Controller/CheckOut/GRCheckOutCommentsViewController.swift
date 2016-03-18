@@ -71,11 +71,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
 
         
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
-        self.phoneField!.setCustomPlaceholder("Telefono: 5529004117")
-        self.phoneField!.isRequired = true
+        self.phoneField!.setCustomPlaceholder("Telefono: 5529000117")
+        self.phoneField!.isRequired = false
         self.phoneField!.typeField = TypeField.Phone
         self.phoneField!.nameField = "phone"
-        self.phoneField!.maxLength = 100
+        self.phoneField!.maxLength = 10
+        self.phoneField!.minLength = 10
+        self.phoneField!.text = (UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as? String)
         self.content.addSubview(self.phoneField!)
         
         self.confirmCallOptionButton = UIButton(frame: CGRectMake(margin,phoneField!.frame.maxY + margin,width,30))
@@ -201,6 +203,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         result.append(dictConfirm)
         
         return result
+    }
+    
+    func confirmCallSelected(button:UIButton){
+        self.confirmCallButton?.selected = (self.confirmCallButton == button)
+        self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
+        self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
