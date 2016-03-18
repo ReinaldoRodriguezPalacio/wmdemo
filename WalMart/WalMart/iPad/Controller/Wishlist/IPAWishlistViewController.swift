@@ -328,6 +328,8 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     func senditemsToShoppingCart() {
         var params : [AnyObject] =  []
         var paramsPreorderable : [AnyObject] =  []
+        var hasItemsNotAviable = false
+
 
         for itemWishList in self.items {
             
@@ -375,18 +377,40 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                     }
 
                 }
+                
 
                 
+            } else{
+                
+            hasItemsNotAviable = true
             }
         }//for
         //condiciones
         
+        
+        
         if paramsPreorderable.count == 0 && params.count == 0{
-            if self.items.count == 1 {
+            
+            if self.items.count > 0 && hasItemsNotAviable {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
+                
+                alert!.setMessage(aleradyMessage)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                return
+            }
+            
+            
+            
+            
+            
+            if self.items.count > 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
                     
-
+                    
+                    
+                    
                     
                     let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                     if hasUPC {
@@ -399,24 +423,17 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 }
                 
                 
-                if self.items.count > 0 {
-                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                    let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
-                    
-                    alert!.setMessage(aleradyMessage)
-                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                }
-                return
+                
             }
-            
+
         }
         let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
-            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
-            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
-            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+//            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+//            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
+//            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             self.sendNewItemsToShoppingCart(params)
         }else{
             
