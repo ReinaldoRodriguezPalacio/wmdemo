@@ -379,7 +379,7 @@
 "checkout.field.shipmentType" = "Tipo de envío";
 "checkout.field.deliverySchedule" = "Horario de Entrega";
 "checkout.field.deliveryDate" = "Fecha de Entrega";
-"checkout.field.comments" = "Comentarios";
+"checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guaria que es el edificio Sur... ¡Cuidado con el perro!";
 "checkout.title.confirmation" = "Confirmación";
 "checkout.field.confirmation" = "Confirmación";
 "checkout.title.discounts" = "Descuentos";
@@ -440,11 +440,11 @@
 
 
 //GroceriesCheckout descriptions
-"gr.confirmacall" = "Deseo recibir llamada de confirmación.";
+"gr.confirmacall" = "Llamarme para revisar alternativas.";
 "gr.not.confirmacall.option" = "No deseo recibir llamada de confirmación";
-"gr.not.confirmacall.option.detail" = "No deseo recibir la llamada de confirmación , envíenme solamente los productos de mi pedido que están disponibles.";
+"gr.not.confirmacall.option.detail" = "No es necesario llamarme, traer sólo lo que esté disponible sin sustituir artículos.";
 "gr.not.confirmacall" = "No deseo recibir llamada de confirmación";
-"gr.not.confirmacall.detal" = "No deseo recibir llamada de confirmación , envíenme el sustituto disponible en calidad y precio similar.";
+"gr.not.confirmacall.detal" = "No es necesario llamarme, sustituir con artículos de precio y calidad similar.";
 
 //Checkout
 "gr.confirma.title" = "Tu pedido se realizó con éxito";
