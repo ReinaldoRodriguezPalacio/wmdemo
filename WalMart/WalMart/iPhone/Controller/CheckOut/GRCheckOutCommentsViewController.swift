@@ -93,6 +93,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         sectionTitle.backgroundColor = UIColor.whiteColor()
         return sectionTitle
     }
+    
+    func next(){
+        let nextController = GRCheckOutPymentViewController()
+        self.navigationController?.pushViewController(nextController, animated: true)
+    }
 
     func addViewLoad(){
         if viewLoad == nil {
