@@ -72,6 +72,7 @@
 		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
 		4AA0EBFB1C9B21D400CB3C82 /* SegmentedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA0EBFA1C9B21D400CB3C82 /* SegmentedView.swift */; };
+		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
 		4AE7FA941C802805007C43B3 /* IPALinesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */; };
@@ -692,6 +693,7 @@
 		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
 		4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductTolistView.swift; sourceTree = "<group>"; };
 		4AA0EBFA1C9B21D400CB3C82 /* SegmentedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentedView.swift; sourceTree = "<group>"; };
+		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
 		4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesListViewController.swift; sourceTree = "<group>"; };
@@ -2260,6 +2262,7 @@
 			children = (
 				5673D1211A9D3F8700DCD20B /* OrderConfirmDetailView.swift */,
 				4AA0EBFA1C9B21D400CB3C82 /* SegmentedView.swift */,
+				4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */,
 			);
 			name = OrderDetailView;
 			sourceTree = "<group>";
@@ -3738,6 +3741,7 @@
 				56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */,
 				5674E08D1A672B3A00249017 /* IPAGRProductDetailViewController.swift in Sources */,
 				AC37F6B019B902AF000BB80D /* ShoppingCartProductsService.swift in Sources */,
+				4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */,
 				85A40B971C223AE40036C78A /* Validation.swift in Sources */,
 				04D7C0411AA63BD300A780D8 /* IPAStoreView.swift in Sources */,
 				561657DD19B143C300DA056A /* IPOFamilyTableViewCell.swift in Sources */,
