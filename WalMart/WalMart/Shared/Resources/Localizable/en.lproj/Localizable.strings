@@ -628,3 +628,23 @@
 "list.delete.edit" = "Editar";
 "list.delete.deleteAll" = "Eliminar todo";
 "list.delete.delete" = "Eliminar";
+
+//GenerateOrderView
+
+"gr.generate.title" = "Genera tu Pedido";
+"gr.generate.paymenttype" = "Forma de pago";
+"gr.generate.deliveryhour" = "horario";
+"gr.generate.deliveryAmount" = "Envío";
+"gr.generate.discountAssociate" = "Descuentos";
+"gr.generate.deliverydate" = "Fecha";
+"gr.generate.subtotal" = "Subtotal";
+
+
+
+
+
+
+
+
+
+

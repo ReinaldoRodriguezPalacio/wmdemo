@@ -388,6 +388,7 @@
 		56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */; };
 		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
 		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
+		5A3AA78D1C9C74A3002F2886 /* GenerateOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
 		5A5E5EE51C8773E100E519AD /* CarouselService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5E5EE41C8773E100E519AD /* CarouselService.swift */; };
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
@@ -1045,6 +1046,7 @@
 		56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishListViewController.swift; path = iPhone/Controller/WishList/WishListViewController.swift; sourceTree = "<group>"; };
 		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
+		5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateOrderView.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
 		5A5E5EE41C8773E100E519AD /* CarouselService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CarouselService.swift; sourceTree = "<group>"; };
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
@@ -2251,6 +2253,7 @@
 			isa = PBXGroup;
 			children = (
 				5673D1211A9D3F8700DCD20B /* OrderConfirmDetailView.swift */,
+				5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */,
 			);
 			name = OrderDetailView;
 			sourceTree = "<group>";
@@ -3722,6 +3725,7 @@
 				0477EA911A707094008142D7 /* List.swift in Sources */,
 				6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */,
 				56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */,
+				5A3AA78D1C9C74A3002F2886 /* GenerateOrderView.swift in Sources */,
 				5674E08D1A672B3A00249017 /* IPAGRProductDetailViewController.swift in Sources */,
 				AC37F6B019B902AF000BB80D /* ShoppingCartProductsService.swift in Sources */,
 				85A40B971C223AE40036C78A /* Validation.swift in Sources */,
