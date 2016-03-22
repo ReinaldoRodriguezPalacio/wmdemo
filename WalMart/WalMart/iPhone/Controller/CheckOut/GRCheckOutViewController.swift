@@ -1781,43 +1781,43 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     //MARK: - PayPal
     func showPayPalPaymentController()
     {
-        let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
-        var payPalItems: [PayPalItem] = []
-        for item in items {
-            var itemPrice = item["price"] as! Double
-            var quantity = item["quantity"] as! UInt
-            if item["type"] as! String == "1"
-            {
-                //(prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
-                itemPrice = (Double(quantity) / 1000.0) * itemPrice
-                quantity = 1
-            }
-            let payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
-            payPalItems.append(payPalItem)
-        }
-        // Los cupones y descuentos se agregan como item negativo.
-        let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
-        if discounts < 0
-        {
-            payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(double:discounts), withCurrency: "MXN", withSku: "0000000000001"))
-        }
-        let subtotal = PayPalItem.totalPriceForItems(payPalItems)
-        // Optional: include payment details
-        let shipping = NSDecimalNumber(double: self.shipmentAmount)
-        let tax = NSDecimalNumber(double: 0.0)
-        let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
-        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
-        
-        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Authorize)
-        
-        payment.items = payPalItems
-        payment.paymentDetails = paymentDetails
-        
-        if (payment.processable) {
-            let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
-            paymentViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            self.presentViewController(paymentViewController, animated: true, completion: nil)
-        }
+//        let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+//        var payPalItems: [PayPalItem] = []
+//        for item in items {
+//            var itemPrice = item["price"] as! Double
+//            var quantity = item["quantity"] as! UInt
+//            if item["type"] as! String == "1"
+//            {
+//                //(prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
+//                itemPrice = (Double(quantity) / 1000.0) * itemPrice
+//                quantity = 1
+//            }
+//            let payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
+//            payPalItems.append(payPalItem)
+//        }
+//        // Los cupones y descuentos se agregan como item negativo.
+//        let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
+//        if discounts < 0
+//        {
+//            payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(double:discounts), withCurrency: "MXN", withSku: "0000000000001"))
+//        }
+//        let subtotal = PayPalItem.totalPriceForItems(payPalItems)
+//        // Optional: include payment details
+//        let shipping = NSDecimalNumber(double: self.shipmentAmount)
+//        let tax = NSDecimalNumber(double: 0.0)
+//        let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
+//        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+//        
+//        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Authorize)
+//        
+//        payment.items = payPalItems
+//        payment.paymentDetails = paymentDetails
+//        
+//        if (payment.processable) {
+//            let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
+//            paymentViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+//            self.presentViewController(paymentViewController, animated: true, completion: nil)
+//        }
     }
     
     func showPayPalFuturePaymentController(){
