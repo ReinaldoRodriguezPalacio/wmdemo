@@ -280,6 +280,13 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     func continuePurche (){
+        let deliverySchedule = self.paramsToOrder!["hour"] as? String//"11:00 - 12:00"
+        let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String
+        
+        let view  = GenerateOrderView()
+        view.showDetail()
+        view.showConfirmOrder("", deliveryDate: "01 Enero 2016", deliveryHour: deliverySchedule!, paymentType: "efectivo", subtotal: "100.00", total: "110.00", deliveryAmount: deliveryTypeString!, discountsAssociated: "20", numArticles: "4")
+
 
     }
     
