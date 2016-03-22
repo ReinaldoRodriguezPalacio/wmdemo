@@ -54,23 +54,23 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var selectedConfirmation : NSIndexPath!
     var idFreeShepping : Int! = 0
     var idReferido : Int! = 0
+    var shipmentAmount: Double!
     
     var paymentOptionsView : PaymentOptionsView!
     var paymentId = "0"
     var paymentString = ""
     var paramsToOrder : NSDictionary?
     
-    //Purche array
-    
+    var viewLoad : WMLoadingView!    
     
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
     }
     
-    func paramsFromOrder(month:String, year:String, day:String, comments:String, addressID:String, deliveryType:String,hour:String, pickingInstruction:String, deliveryTypeString:String,slotId:Int){
-    
-        self.paramsToOrder = ["month":month, "year":year, "day":day, "comments":comments, "AddressID":addressID,  "slotId":slotId, "deliveryType":deliveryType, "hour":hour, "pickingInstruction":pickingInstruction, "deliveryTypeString":deliveryTypeString]
+    func paramsFromOrder(month:String, year:String, day:String, comments:String, addressID:String, deliveryType:String,hour:String, pickingInstruction:String, deliveryTypeString:String,slotId:Int,shipmentAmount:Double!){
+        self.shipmentAmount = shipmentAmount
+        self.paramsToOrder = ["month":month, "year":year, "day":day, "comments":comments, "AddressID":addressID,  "slotId":slotId, "deliveryType":deliveryType, "hour":hour, "pickingInstruction":pickingInstruction, "deliveryTypeString":deliveryTypeString,"shipmentAmount":shipmentAmount]
     }
     
     
@@ -84,6 +84,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text = NSLocalizedString("Método de Pago", comment:"")
+        
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -183,11 +184,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.paymentString = stringselected
                 self.paymentId = selected
             }
-            //self.paymentOptionsView.delegate =  self
+            
             self.contenPayments?.addSubview(self.paymentOptionsView)
-        
+            self.removeViewLoad()
         }
         
+        self.addViewLoad()
         
     }
     override func viewWillLayoutSubviews() {
@@ -231,8 +233,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     func continuePurche (){
-        print("::::Informacion para la compra:::::")
-        print(":::::::::::::::::::::::::::::::::::")
+
         let serviceCheck = GRSendOrderService()
         let total = UserCurrentSession.sharedInstance().estimateTotalGR()
         
@@ -263,6 +264,22 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     }
     
+    func addViewLoad(){
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.startAnnimating(true)
+            self.view.addSubview(viewLoad)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+    
     //Keyboart
     func keyBoardWillShow() {
         self.picker!.viewContent.center = CGPointMake(self.picker!.center.x, self.picker!.center.y - 100)
@@ -291,9 +308,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
         
         var paramsDic: [String:String] = pickerValues
-        paramsDic["isAssociated"] = "0"
+        paramsDic["isAssociated"] =  self.isAssociateSend ? "1":"0"
         paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
-        paramsDic["addressId"] = ""
+        paramsDic["addressId"] = self.paramsToOrder!["AddressID"] as? String
         let promotionsService = GRGetPromotionsService()
 
         //        self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
@@ -319,7 +336,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 if let listSamples = resultCall["listSamples"] as? [AnyObject]{
                     for promotionln in listSamples {
                         let isAsociate = promotionln["isAssociated"] as! Bool
-                        //self.isAssociateSend = isAsociate
+                        self.isAssociateSend = isAsociate
                         let idPromotion = promotionln["idPromotion"] as! Int
                         let promotion = (promotionln["promotion"] as! String).stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                         self.promotionsDesc.append(["promotion":promotion,"idPromotion":"\(idPromotion)","selected":"false"])
@@ -490,6 +507,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     print("\(resultCall["saving"] as? Double)")
                     
                     UserCurrentSession.sharedInstance().itemsGR = items as NSDictionary
+                    print("# de productos:: \(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
+                    print("Subtotal:: \(UserCurrentSession.sharedInstance().estimateTotalGR())")
+                    print("Saving:: \( UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")")
+                    print("Comprar:: \(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
+                    
                     
 //                    self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
 //                        subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
@@ -690,7 +712,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     self.promotionsDesc[afterButton!.tag]["selected"] = "false"
                 }
             }
-            
             
             sender.selected = true
             afterButton = sender
