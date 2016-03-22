@@ -67,6 +67,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
+        self.confirmCallButton!.selected = true
         self.content.addSubview(self.confirmCallButton!)
 
         
@@ -226,7 +227,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             textView.resignFirstResponder()
             textView.textColor = UIColor.grayColor()
         }
-        
         return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
     }
     
@@ -238,12 +238,16 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         return true
     }
     
+    func textViewDidBeginEditing(textView: UITextView) {
+        self.content!.contentOffset = CGPointMake(0, 100)
+    }
     
     func textViewDidEndEditing(textView: UITextView) {
         if textView.text == "" {
             textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
             textView.textColor = UIColor.grayColor()
         }
+        self.content!.contentOffset = CGPointZero
     }
 
 }

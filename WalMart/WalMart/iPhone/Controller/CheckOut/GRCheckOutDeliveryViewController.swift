@@ -9,7 +9,7 @@
 import Foundation
 import Tune
 
-class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate, SegmentedViewDelegate {
+class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -26,8 +26,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var shipmentType: FormFieldView?
     var deliveryDate: FormFieldView?
     var deliverySchedule: FormFieldView?
-    var tapDeliveryDate:  SegmentedView?
-    var contenDelivery: UIView!
     var addressItems: [AnyObject]?
     var shipmentItems: [AnyObject]?
     var slotsItems: [AnyObject]?
@@ -107,20 +105,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
 
         self.sectionTitleDate = self.buildSectionTitle("Fecha y Hora", frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight))
         self.content!.addSubview(sectionTitleDate)
-
-        self.contenDelivery =  UIView(frame:CGRectMake(16,self.shipmentType!.frame.maxY + 54, self.view.frame.width  - 32, 100))
-        self.contenDelivery.backgroundColor = UIColor.whiteColor()
-        self.contenDelivery.layer.cornerRadius =  11.0
-        self.contenDelivery!.layer.borderWidth = 1.0
-        self.contenDelivery!.layer.borderColor = WMColor.light_gray.CGColor
-        self.contenDelivery!.clipsToBounds = true
-        self.content.addSubview(self.contenDelivery!)
         
-        self.tapDeliveryDate =  SegmentedView(frame:CGRectMake(0, 0,width,30) , items:["Hoy","Mañana","Programar"])
-        self.tapDeliveryDate!.delegate =  self
-        self.contenDelivery!.addSubview(self.tapDeliveryDate!)
-        
-        self.deliveryDate = FormFieldView(frame: CGRectMake(32, self.contenDelivery!.frame.maxY + 5.0, width - 32, fheight))
+        self.deliveryDate = FormFieldView(frame: CGRectMake(margin, self.sectionTitleDate!.frame.maxY + 5.0, width, fheight))
         self.deliveryDate!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliveryDate", comment:""))
         self.deliveryDate!.isRequired = true
         self.deliveryDate!.typeField = TypeField.List
@@ -129,7 +115,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.deliveryDate!.disablePaste = true
         self.content.addSubview(self.deliveryDate!)
         
-        self.deliverySchedule = FormFieldView(frame: CGRectMake(32, self.deliveryDate!.frame.maxY + 5.0, width - 32, fheight))
+        self.deliverySchedule = FormFieldView(frame: CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, width, fheight))
         self.deliverySchedule!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliverySchedule", comment:""))
         self.deliverySchedule!.isRequired = true
         self.deliverySchedule!.typeField = TypeField.List
@@ -173,29 +159,39 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.viewContents = UIView()
         self.viewContents!.layer.cornerRadius = 5.0
         self.viewContents!.backgroundColor = WMColor.light_blue
-        self.viewContents!.alpha = 0.0
-        self.viewContents!.alpha = 0.0
-        self.imageView!.addSubview(viewContents!)
-        self.content.addSubview(imageView!)
         
         self.lblInfo = UILabel()
         self.lblInfo!.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.lblInfo!.alpha = 0.0
         
         self.lblInfo!.textColor = UIColor.whiteColor()
         self.lblInfo!.backgroundColor = UIColor.clearColor()
         self.lblInfo!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.lblInfo!.textAlignment = NSTextAlignment.Left
         self.lblInfo!.numberOfLines = 10
-        self.viewContents!.addSubview(lblInfo!)
     
         self.imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
-        self.imageIco!.alpha = 0.0
-        self.viewContents!.addSubview(imageIco!)
         
         self.picker = AlertPickerView.initPickerWithDefault()
         self.addViewLoad()
         self.reloadUserAddresses()
+        
+        self.deliveryDate!.onBecomeFirstResponder = {() in
+            var itemsShipment : [String] = []
+            if self.shipmentItems?.count > 1{
+                for option in self.shipmentItems! {
+                    if let text = option["name"] as? String {
+                        itemsShipment.append(text)
+                    }
+                }
+                self.picker!.selected = self.selectedShipmentTypeIx
+                self.picker!.sender = self.deliveryDate!
+                self.picker!.delegate = self
+                self.picker!.setValues(self.deliveryDate!.nameField, values: ["Hoy","Mañana","Pasado","Nunca"])
+                self.picker!.hiddenRigthActionButton(true)
+                self.picker!.cellType = TypeField.Check
+                self.picker!.showPicker()
+            }
+        }
     }
     
     override func viewWillLayoutSubviews() {
@@ -211,9 +207,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.sectionTitleShipment.frame = CGRectMake(margin, self.address!.frame.maxY + 28, width, lheight)
         self.shipmentType!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + margin, width, fheight)
         self.sectionTitleDate.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight)
-        self.contenDelivery!.frame = CGRectMake(margin,self.shipmentType!.frame.maxY + 54, self.view.frame.width  - 32, 200)
-        self.tapDeliveryDate!.frame =  CGRectMake(0, 0,width,30)
-        self.toolTipLabel!.frame =  CGRectMake(margin,self.contenDelivery!.frame.maxY,width,34)
+        self.deliveryDate!.frame = CGRectMake(margin, self.sectionTitleDate!.frame.maxY + margin, width, fheight)
+        self.deliverySchedule!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + margin, width, fheight)
+        self.toolTipLabel!.frame =  CGRectMake(margin,self.deliverySchedule!.frame.maxY + 20,width,34)
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
@@ -349,6 +345,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.deliverySchedule!.text = selectedStr
                 self.selectedTimeSlotTypeIx = indexPath
             }
+            if formFieldObj ==  self.deliveryDate! {
+                self.buildSlotsPicker(NSDate())
+            }
         }
     }
     
@@ -370,6 +369,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             }
             if formFieldObj ==  self.deliverySchedule! {
                 self.deliverySchedule!.text = ""
+            }
+            if formFieldObj ==  self.deliveryDate! {
+                self.deliveryDate!.text = ""
             }
         }
     }
@@ -594,15 +596,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         }
                         self.shipmentItems!.append(["name":expressDelivery, "key":"2","cost":expressDeliveryCostVal])
                     }
-                    
-                    
                     if self.shipmentItems!.count > 0 {
                         let shipName = self.shipmentItems![0] as! NSDictionary
                         self.selectedShipmentTypeIx = NSIndexPath(forRow: 0, inSection: 0)
                         self.shipmentType!.text = shipName["name"] as? String
                     }
                     //--self.removeViewLoad()//ok
-                    
                     endCallTypeService()
                 },
                 errorBlock: { (error:NSError) -> Void in
@@ -721,16 +720,16 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             })
         }*/
     }
-    //MARK: SegmentedViewDelegate
-    func tapSelected(index: Int) {
-    
-    }
     
     func showTooltip(){
         self.viewContents!.alpha = 1.0
         self.imageIco!.alpha = 1.0
         self.lblInfo!.alpha = 1.0
         self.viewContents!.alpha = 1.0
+        self.imageView!.addSubview(viewContents!)
+        self.content.addSubview(imageView!)
+        self.viewContents!.addSubview(lblInfo!)
+        self.viewContents!.addSubview(imageIco!)
         let message = "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\n Para ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido."
         self.lblInfo!.text = message
         NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "animationClose", userInfo: nil, repeats: false)
@@ -743,7 +742,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.imageIco!.alpha = 0.0
                 self.lblInfo!.alpha = 0.0
                 self.viewContents!.alpha = 0.0
-            }, completion:nil)
-        
+            }, completion: { (finished:Bool) -> Void in
+                if finished {
+                    self.viewContents!.removeFromSuperview()
+                    self.imageView!.removeFromSuperview()
+                    self.lblInfo!.removeFromSuperview()
+                    self.imageIco!.removeFromSuperview()
+                }
+        })
     }
 }
