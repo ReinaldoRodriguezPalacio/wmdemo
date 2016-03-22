@@ -170,12 +170,12 @@ class FollowViewController : UIViewController, MKMapViewDelegate, UIAlertViewDel
     func move (sender:AnyObject) {
         let panGesture = sender as! UIPanGestureRecognizer
         let senderView = sender.view!
-        var translatedPoint = panGesture.translationInView(senderView!.superview!)
+        var translatedPoint = panGesture.translationInView(senderView.superview!)
         
         
         if panGesture.state == UIGestureRecognizerState.Began {
             timmerSleep?.invalidate()
-            self.firstPoint = senderView!.center
+            self.firstPoint = senderView.center
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.view.alpha = 1
                 self.view.transform = CGAffineTransformMakeScale(1.3, 1.3)
@@ -188,18 +188,18 @@ class FollowViewController : UIViewController, MKMapViewDelegate, UIAlertViewDel
             
             let space : CGFloat = 5.0
             let currentX = self.firstPoint.x + translatedPoint.x
-            if currentX > senderView!.superview!.center.x {
-                translatedPoint = CGPointMake(senderView!.superview!.frame.width - ((senderView!.frame.width / 2) + space)  , self.firstPoint.y + translatedPoint.y)
+            if currentX > senderView.superview!.center.x {
+                translatedPoint = CGPointMake(senderView.superview!.frame.width - ((senderView.frame.width / 2) + space)  , self.firstPoint.y + translatedPoint.y)
             } else {
-                translatedPoint = CGPointMake((senderView!.frame.width / 2) + space, self.firstPoint.y + translatedPoint.y)
+                translatedPoint = CGPointMake((senderView.frame.width / 2) + space, self.firstPoint.y + translatedPoint.y)
             }
             UIView.animateWithDuration(0.2, animations: { () -> Void in
-                senderView?.center = translatedPoint
+                senderView.center = translatedPoint
                 self.view.transform = CGAffineTransformIdentity
             })
         } else {
             translatedPoint = CGPointMake(self.firstPoint.x + translatedPoint.x, self.firstPoint.y + translatedPoint.y)
-            senderView?.center = translatedPoint
+            senderView.center = translatedPoint
         }
         
     }
