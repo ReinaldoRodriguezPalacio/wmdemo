@@ -170,7 +170,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func next(){
-        self.paramsToOrder!["comments"] = self.comments!.text
+        self.comments!.resignFirstResponder()
+        let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
+        self.paramsToOrder!["comments"] = commentsText
         self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
         let nextController = GRCheckOutPymentViewController()
         nextController.paramsToOrder = self.paramsToOrder

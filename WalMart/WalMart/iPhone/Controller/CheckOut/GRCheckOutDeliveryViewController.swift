@@ -301,7 +301,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.datesItems = []
         self.datesToShow = []
         self.selectedDateTypeIx = NSIndexPath(forItem: 0, inSection: 0)
-        for index in 0...6{
+        for index in 0...5{
             let date = NSDate()
             let newDate = date.dateByAddingTimeInterval(60 * 60 * 24 * Double(index))
             let dateFmt = NSDateFormatter()
@@ -318,6 +318,27 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.datesItems!.append(dateItem)
             self.datesToShow!.append(stringDate)
         }
+    }
+    
+    func returnAviableDate(date:NSDate) -> [String: AnyObject]{
+        var aviableDate = self.datesItems!.last!
+        for item in self.datesItems! {
+            let itemDate = item["date"] as! NSDate
+            if #available(iOS 8.0, *) {
+                if NSCalendar.currentCalendar().compareDate(itemDate, toDate: date,
+                    toUnitGranularity: .Day) == NSComparisonResult.OrderedSame {
+                    aviableDate = item
+                    break
+                }
+            } else {
+                let dateFmt = NSDateFormatter()
+                dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+                dateFmt.dateFormat = "EEEE dd, MMMM"
+                aviableDate =  ["dateString":dateFmt.stringFromDate(date),"date":date]
+                break
+            }
+        }
+        return aviableDate as! [String : AnyObject]
     }
     
     func next(){
@@ -349,11 +370,16 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
         return CGSizeMake(self.view.frame.width, self.content.contentSize.height)
     }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+        self.animationClose()
+    }
      //MARK: AlertPickerViewDelegate
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
-                //self.addViewLoad()
+                self.addViewLoad()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_ADDRES_DELIVERY.rawValue , label: "")
                 self.address!.text = selectedStr
                 var option = self.addressItems![indexPath.row] as! [String:AnyObject]
@@ -372,6 +398,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.shipmentAmount = shipment["cost"] as! Double
             }
             if formFieldObj ==  self.deliveryDate! {
+                self.addViewLoad()
                 self.selectedDateTypeIx = indexPath
                 let selectedItem = self.datesItems![indexPath.row] as! [String:AnyObject]
                 self.selectedDate = selectedItem["date"] as! NSDate
@@ -381,7 +408,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func didDeSelectOption(picker:AlertPickerView) {
-        self.removeViewLoad()
+        //self.removeViewLoad()
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
                 self.address!.text = ""
@@ -495,9 +522,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.selectedDate = self.datesItems!.first!["date"] as! NSDate
             self.deliveryDate!.text = self.datesToShow!.first!
             self.buildAndConfigureDeliveryType()
-            //self.validateMercuryDelivery()
-            self.removeViewLoad()
-            
         })
     }
     
@@ -669,9 +693,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             if let month = result["month"] as? String {
                 if let year = result["year"] as? String {
                     let dateSlot = "\(day)/\(month)/\(year)"
-                    let date = self.parseDateString(dateSlot)
-                    self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
-                    self.selectedDate = date
+                    let aviableDate = self.returnAviableDate(self.parseDateString(dateSlot))
+                    self.deliveryDate!.text = aviableDate["dateString"] as? String
+                    self.selectedDate = aviableDate["date"] as! NSDate
                 }
             }
         }
@@ -726,6 +750,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
         cell.textLabel?.text = self.slotsItems![indexPath.row]["displayText"] as? String
+        cell.checkSelected.frame = CGRectMake(0, 0, 33, 40)
         if self.selectedTimeSlotTypeIx != nil {
             cell.setSelected(indexPath.row == self.selectedTimeSlotTypeIx.row, animated: false)
         }

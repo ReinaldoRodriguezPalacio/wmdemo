@@ -24,8 +24,6 @@ class SelectItemTableViewCell : UITableViewCell {
     }
     
     func setup() {
-        
-        
         checkSelected = UIImageView(frame: CGRectMake(8, 0, 33, 46))
         checkSelected.image = UIImage(named: "checkTermOff")
         checkSelected.contentMode = UIViewContentMode.Center
