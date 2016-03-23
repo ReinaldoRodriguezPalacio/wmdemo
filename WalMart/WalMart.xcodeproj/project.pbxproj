@@ -4177,11 +4177,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DT_ENABLED = DynatraceUEM;
-				DT_ENABLED_UPLOAD = YES;
-				DT_HEADER_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
-				DT_LDFLAGS = "-lsqlite3 -lstdc++ -lz -framework CoreTelephony -framework MessageUI -framework Security -framework SystemConfiguration -framework CoreLocation -framework QuartzCore -framework UIKit -framework Foundation -framework CoreGraphics -force_load \"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk/libDynatraceUEM.a\"";
-				DT_LIBRARY_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
-				DT_VERSION = 6.3.0.1289;
+				DT_ENABLED_UPLOAD = NO;
+				DT_HEADER_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1305/iOS/adk\"";
+				DT_LDFLAGS = "-lsqlite3 -lstdc++ -lz -framework CoreTelephony -framework MessageUI -framework Security -framework SystemConfiguration -framework CoreLocation -framework QuartzCore -framework UIKit -framework Foundation -framework CoreGraphics -force_load \"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1305/iOS/adk/libDynatraceUEM.a\"";
+				DT_LIBRARY_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1305/iOS/adk\"";
+				DT_VERSION = 6.3.0.1305;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4233,11 +4233,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DT_ENABLED = DynatraceUEM;
-				DT_ENABLED_UPLOAD = YES;
-				DT_HEADER_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
-				DT_LDFLAGS = "-lsqlite3 -lstdc++ -lz -framework CoreTelephony -framework MessageUI -framework Security -framework SystemConfiguration -framework CoreLocation -framework QuartzCore -framework UIKit -framework Foundation -framework CoreGraphics -force_load \"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk/libDynatraceUEM.a\"";
-				DT_LIBRARY_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1289/iOS/adk\"";
-				DT_VERSION = 6.3.0.1289;
+				DT_ENABLED_UPLOAD = NO;
+				DT_HEADER_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1305/iOS/adk\"";
+				DT_LDFLAGS = "-lsqlite3 -lstdc++ -lz -framework CoreTelephony -framework MessageUI -framework Security -framework SystemConfiguration -framework CoreLocation -framework QuartzCore -framework UIKit -framework Foundation -framework CoreGraphics -force_load \"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1305/iOS/adk/libDynatraceUEM.a\"";
+				DT_LIBRARY_PATH = "\"$(PROJECT_DIR)/../../.dynaTrace/Dynatrace Mobile Agent/6.3.0.1305/iOS/adk\"";
+				DT_VERSION = 6.3.0.1305;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

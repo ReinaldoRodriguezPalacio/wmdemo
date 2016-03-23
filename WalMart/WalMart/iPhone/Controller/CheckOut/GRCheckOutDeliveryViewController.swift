@@ -764,6 +764,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let lastSelected =  self.selectedTimeSlotTypeIx
         self.selectedTimeSlotTypeIx = indexPath
         tableView.reloadRowsAtIndexPaths([ self.selectedTimeSlotTypeIx ,lastSelected], withRowAnimation: UITableViewRowAnimation.None)
+        self.animationClose()
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
