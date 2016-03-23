@@ -52,7 +52,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var viewContents : UIView?
     var lblInfo : UILabel?
     var imageIco : UIImageView?
-    var paramsToOrder : NSDictionary?
+    var paramsToOrder : NSMutableDictionary?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -123,6 +123,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.timeSlotsTable!.delegate = self
         self.timeSlotsTable!.dataSource = self
         self.timeSlotsTable!.backgroundColor = UIColor.whiteColor()
+        self.timeSlotsTable!.separatorStyle = .None
         self.timeSlotsTable!.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
         self.content.addSubview(self.timeSlotsTable!)
         
