@@ -57,9 +57,11 @@ class SelectItemTableViewCell : UITableViewCell {
     
     override func setSelected(selected: Bool, animated: Bool) {
         if self.selected {
-            checkSelected.image = UIImage(named: "checkAddressOn")
+            self.checkSelected.image = UIImage(named: "checkAddressOn")
+            self.textLabel?.textColor = WMColor.light_blue
         } else {
-            checkSelected.image = UIImage(named: "checkTermOff")
+            self.checkSelected.image = UIImage(named: "checkTermOff")
+            self.textLabel?.textColor = WMColor.gray
         }
         super.setSelected(selected,animated:animated)
         
