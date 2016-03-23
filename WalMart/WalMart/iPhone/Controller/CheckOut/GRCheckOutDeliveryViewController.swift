@@ -223,6 +223,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.imageView!.frame = CGRectMake(16 , self.toolTipLabel.frame.minY - 124, self.toolTipLabel.frame.width, 124)
         self.viewContents!.frame = imageView!.bounds
         self.imageIco!.frame = CGRectMake(self.toolTipLabel.frame.width - 24 , viewContents!.frame.maxY - 1, 8, 6)
+        
+        if IS_IPAD{
+            self.cancelButton!.hidden = true
+            self.saveButton!.frame = CGRectMake((self.view.frame.width/2) - 70 , self.content!.frame.maxY + 16, 140, 34)
+        }
     }
     
     func addViewLoad(){
