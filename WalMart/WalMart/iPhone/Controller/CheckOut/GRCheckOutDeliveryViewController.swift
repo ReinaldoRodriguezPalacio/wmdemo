@@ -66,6 +66,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.titleLabel?.text = "Detalles de Entrega"
         self.view.backgroundColor = UIColor.whiteColor()
         
+        if IS_IPAD {
+            self.backButton?.hidden = true
+        }
+        
         self.content = TPKeyboardAvoidingScrollView()
         self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
@@ -127,6 +131,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.timeSlotsTable!.backgroundColor = UIColor.whiteColor()
         self.timeSlotsTable!.separatorStyle = .None
         self.timeSlotsTable!.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        self.timeSlotsTable!.scrollEnabled = false
         self.content.addSubview(self.timeSlotsTable!)
         
         self.toolTipLabel = UILabel()
@@ -198,7 +203,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
-        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 46.0 : 552
+        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 46 : (46 * 12)
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle.frame = CGRectMake(margin, margin, width, lheight)
@@ -222,7 +227,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
+            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            viewLoad = WMLoadingView(frame: bounds)
             viewLoad.backgroundColor = UIColor.whiteColor()
             viewLoad.startAnnimating(true)
             self.view.addSubview(viewLoad)

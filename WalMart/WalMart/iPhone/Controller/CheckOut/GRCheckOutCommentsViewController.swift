@@ -43,6 +43,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.titleLabel?.text = "Instrucciones especiales"
         self.view.backgroundColor = UIColor.whiteColor()
         
+        if IS_IPAD {
+            self.backButton?.hidden = true
+        }
+        
         self.content = TPKeyboardAvoidingScrollView()
         self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
