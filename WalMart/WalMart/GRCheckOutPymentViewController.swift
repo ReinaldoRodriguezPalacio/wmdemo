@@ -286,8 +286,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     func continuePurche (){
-        let deliverySchedule = self.paramsToOrder!["hour"] as? String
-        let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String
         
         self.confirmOrderView  = GenerateOrderView.initDetail()
         self.confirmOrderView!.delegate  =  self
