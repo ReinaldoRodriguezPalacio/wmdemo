@@ -78,7 +78,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.header?.addSubview(self.stepLabel)
         
         self.dateFmt = NSDateFormatter()
-        self.dateFmt!.dateFormat =  "d MMMM yyyy"
+        self.dateFmt!.dateFormat =  "EEEE dd, MMMM"
         
         let margin: CGFloat = 16.0
         let width = self.view.frame.width - (2*margin)
@@ -183,7 +183,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.picker!.selected = self.selectedDateTypeIx
             self.picker!.sender = self.deliveryDate!
             self.picker!.delegate = self
-            self.picker!.setValues(self.deliveryDate!.nameField, values: self.datesToShow!)
+            self.picker!.setValues("Fechas de entrega disponibles", values: self.datesToShow!)
             self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
@@ -196,7 +196,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
-        let tableHeight: CGFloat = CGFloat(self.slotsItems!.count) * 40.0
+        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 40.0 : 480
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle.frame = CGRectMake(margin, margin, width, lheight)
@@ -216,7 +216,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.imageView!.frame = CGRectMake(16 , self.toolTipLabel.frame.minY - 124, self.toolTipLabel.frame.width, 124)
         self.viewContents!.frame = imageView!.bounds
         self.imageIco!.frame = CGRectMake(self.toolTipLabel.frame.width - 24 , viewContents!.frame.maxY - 1, 8, 6)
-
     }
     
     func addViewLoad(){
@@ -307,7 +306,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             let newDate = date.dateByAddingTimeInterval(60 * 60 * 24 * Double(index))
             let dateFmt = NSDateFormatter()
             dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-            dateFmt.dateFormat = "d MMMM yyyy"
+            dateFmt.dateFormat = "EEEE dd, MMMM"
             var stringDate = dateFmt.stringFromDate(newDate)
             if index == 0{
                 stringDate = "Hoy \(dateFmt.stringFromDate(newDate))"
@@ -334,6 +333,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
         self.paramsToOrder = ["month":dateMonth, "year":dateYear, "day":dateDay, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
+        nextController.paramsToOrder = paramsToOrder
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 
@@ -726,14 +726,19 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
         cell.textLabel?.text = self.slotsItems![indexPath.row]["displayText"] as? String
+        if self.selectedTimeSlotTypeIx != nil {
+            cell.setSelected(indexPath.row == self.selectedTimeSlotTypeIx.row, animated: false)
+        }
         return cell
     }
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-       let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectItemTableViewCell!
-        cell.setSelected(true, animated: false)
+        let cell = tableView.cellForRowAtIndexPath(indexPath)
+        cell?.selected = false
+        let lastSelected =  self.selectedTimeSlotTypeIx
         self.selectedTimeSlotTypeIx = indexPath
+        tableView.reloadRowsAtIndexPaths([ self.selectedTimeSlotTypeIx ,lastSelected], withRowAnimation: UITableViewRowAnimation.None)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

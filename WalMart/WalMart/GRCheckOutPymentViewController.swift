@@ -281,7 +281,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     
     func cancelPurche (){
-        self.navigationController?.popToRootViewControllerAnimated(true)
+        self.back()
     }
     
     func continuePurche (){
