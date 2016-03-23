@@ -67,7 +67,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     //Paypal
     var payPalFuturePaymentField: FormFieldView?
     var payPalFuturePayment : Bool = false
-    var showPayPalFuturePayment : Bool = true //iniciar en false
+    var showPayPalFuturePayment : Bool = false //iniciar en false
     
     var confirmOrderDictionary: [String:AnyObject]! = [:]
     var cancelOrderDictionary:  [String:AnyObject]! = [:]
@@ -186,14 +186,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         confirmShop?.addTarget(self, action: "continuePurche", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(confirmShop!)
         
-        //Services
-        self.invokeDiscountActiveService { () -> Void in
-            self.invokeGetPromotionsService([:], discountAssociateItems: []) { (finish:Bool) -> Void in
-                self.buildPromotionButtons()
-                self.buildSubViews()
-            }
-            
-        }
+        
         
         self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,paymentOptions!.frame.maxY + 10.0,width,fheight))
         self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
@@ -203,17 +196,28 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
         self.content.addSubview(self.payPalFuturePaymentField!)
         
-        
-        self.invokePaymentService { () -> Void in print("End")
-            self.paymentOptionsView =  PaymentOptionsView(frame: CGRectMake(0, 0,self.view!.frame.width,self.view!.frame.height) , items:self.paymentOptionsItems!)
-            self.paymentOptionsView.selectedOption  = {(selected :String, stringselected:String) -> Void in
-                self.paymentString = stringselected
-                self.paymentId = selected
+        //Services
+        self.invokeDiscountActiveService { () -> Void in
+            self.invokeGetPromotionsService([:], discountAssociateItems: []) { (finish:Bool) -> Void in
+                self.buildPromotionButtons()
+                self.buildSubViews()
+                //--
+                self.invokePaymentService { () -> Void in
+                    print("End")
+                    self.paymentOptionsView =  PaymentOptionsView(frame: CGRectMake(0, 0,self.view!.frame.width,self.view!.frame.height) , items:self.paymentOptionsItems!)
+                    self.paymentOptionsView.selectedOption  = {(selected :String, stringselected:String) -> Void in
+                        self.paymentString = stringselected
+                        self.paymentId = selected
+                    }
+                    
+                    self.contenPayments?.addSubview(self.paymentOptionsView)
+                    self.removeViewLoad()
+                }
             }
             
-            self.contenPayments?.addSubview(self.paymentOptionsView)
-            self.removeViewLoad()
         }
+    
+
         
         self.payPalFuturePaymentField!.onBecomeFirstResponder = { () in
             self.payPalFuturePayment = !self.payPalFuturePayment
@@ -298,7 +302,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let serviceCheck = GRSendOrderService()
         
         serviceDetail = OrderConfirmDetailView.initDetail()
-        //serviceDetail?.delegate = self
+        serviceDetail?.delegate = self
         serviceDetail!.showDetail()
         
         let total = UserCurrentSession.sharedInstance().estimateTotalGR()
@@ -328,100 +332,100 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         serviceCheck.jsonFromObject(paramsOrder)
         
         
-        // para no generar pedidos
-//        serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
-//            
-//            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
-//            // deliveryAmount
-//            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-//            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
-//            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-//            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
-//            
-//            
-//            
-//            let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
-//            let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
-//            
-//            let trakingNumber = purchaseOrder["trackingNumber"] as! String
-//            let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
-//            let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
-//            let hour = purchaseOrder["hour"] as! String
-//            let subTotal = purchaseOrder["subTotal"] as! NSNumber
-//            let total = purchaseOrder["total"] as! NSNumber
-//            var authorizationId = ""
-//            var correlationId = ""
-//            var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
-//            
-//            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
-//            
-//            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
-//            
-//            
-//            if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
-//                authorizationId = authorizationIdVal
-//            }
-//            if let correlationIdVal = purchaseOrder["correlationId"] as? String {
-//                correlationId = correlationIdVal
-//            }
-//            
-//            if self.idFreeShepping != 0 || self.idReferido != 0{
-//                deliveryAmount =  0.0
-//            }
-//            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
-//            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
-//            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
-//            let formattedDate = deliveryDate.substringToIndex(10)
-//            let slot = purchaseOrder["slot"] as! NSDictionary
-//            
-//            self.confirmOrderDictionary = ["paymentType": self.paymentId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
-//            self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": self.paymentId,"deliveryType": deliveryType!,"trackingNumber": trakingNumber]
-//            self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(formattedDeliveryAmount)","discountsAssociated" : "\(discountsAssociated)"]
-//            
-//            
-//            
-//            
-//            //PayPal
-//            if self.paymentId == "-1"{
-//                self.showPayPalPaymentController()
-//                return
-//            }
-//            //
-//            //                if paymentSelectedId == "-3"{
-//            //                    self.invokePaypalUpdateOrderService()
-//            //                }
-//            
-//            if !self.asociateDiscount {
-//                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "0.0")
-//            }else{
-//                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
-//                
-//            }
-//            
-//            
-//            //self.buttonShop?.enabled = false
-//            
-//            
-//            //self.performSegueWithIdentifier("showOrderDetail", sender: self)
-//            
-//            }) { (error:NSError) -> Void in
-//                
-//                
-//                //  self.buttonShop?.enabled = true
-//                // println("Error \(error)")
-//                
-//                if error.code == -400 {
-//                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
-//                }
-//                else {
-//                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
-//                }
-//          }
+        serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+            // deliveryAmount
+            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
+            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+            
+            
+            
+            let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+            let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
+            
+            let trakingNumber = purchaseOrder["trackingNumber"] as! String
+            let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
+            let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
+            let hour = purchaseOrder["hour"] as! String
+            let subTotal = purchaseOrder["subTotal"] as! NSNumber
+            let total = purchaseOrder["total"] as! NSNumber
+            var authorizationId = ""
+            var correlationId = ""
+            var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+            
+            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
+            
+            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
+            
+            
+            if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
+                authorizationId = authorizationIdVal
+            }
+            if let correlationIdVal = purchaseOrder["correlationId"] as? String {
+                correlationId = correlationIdVal
+            }
+            
+            if self.idFreeShepping != 0 || self.idReferido != 0{
+                deliveryAmount =  0.0
+            }
+            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
+            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
+            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
+            let formattedDate = deliveryDate.substringToIndex(10)
+            let slot = purchaseOrder["slot"] as! NSDictionary
+            
+            self.confirmOrderDictionary = ["paymentType": self.paymentId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
+            self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": self.paymentId,"deliveryType": deliveryType!,"trackingNumber": trakingNumber]
+            self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(formattedDeliveryAmount)","discountsAssociated" : "\(discountsAssociated)"]
+            
+            
+            
+            
+            //PayPal
+            if self.paymentId == "-1"{
+                self.showPayPalPaymentController()
+                return
+            }
+            //
+            //                if paymentSelectedId == "-3"{
+            //                    self.invokePaypalUpdateOrderService()
+            //                }
+            
+            if !self.asociateDiscount {
+                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "0.0")
+            }else{
+                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
+                
+            }
+            
+            
+            //self.buttonShop?.enabled = false
+            
+            
+            //self.performSegueWithIdentifier("showOrderDetail", sender: self)
+            
+            }) { (error:NSError) -> Void in
+                
+                
+                //  self.buttonShop?.enabled = true
+                // println("Error \(error)")
+                
+                if error.code == -400 {
+                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                }
+                else {
+                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+                }
+          }
         
     }
     
     //MARK : OrderConfirmDetailViewDelegate
     func didFinishConfirm() {
+        self.navigationController?.popToRootViewControllerAnimated(true)
           //self.dateChanged()
     }
     
@@ -661,7 +665,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         discountActive.callService({ (result:NSDictionary) -> Void in
             
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = true //res
+                self.showDiscountAsociate = res
             }
             if let listPromotions = result["listPromotions"] as? [AnyObject]{
                 for promotionln in listPromotions {
@@ -915,11 +919,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //let lheight: CGFloat = 25.0
         
         self.payPalFuturePaymentField!.alpha = 0
-        //var referenceFrame = self.paymentOptions!.frame
         
         if showPayPalFuturePayment{
             self.payPalFuturePaymentField!.alpha = 1
-            //referenceFrame = self.payPalFuturePaymentField!.frame
         }
         
         
