@@ -26,6 +26,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var confirmCallButton: UIButton?
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
+    var paramsToOrder : NSMutableDictionary?
+    var confirmSelected: Int! = 3
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -68,6 +70,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.confirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         self.confirmCallButton!.selected = true
+        self.confirmCallButton!.tag = 3
         self.content.addSubview(self.confirmCallButton!)
 
         
@@ -92,6 +95,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.titleLabel?.numberOfLines = 2
         self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 14, right:0 )
+        self.confirmCallOptionButton!.tag = 1
         self.content.addSubview(self.confirmCallOptionButton!)
         
         self.notConfirmCallButton = UIButton(frame: CGRectMake(margin,confirmCallOptionButton!.frame.maxY + margin,width,30))
@@ -105,6 +109,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.titleLabel?.numberOfLines = 2
         self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
         self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 14, right:0 )
+        self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
         let sectionTitleComments = self.buildSectionTitle("¿Alguna intruccióno nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
@@ -165,8 +170,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func next(){
+        self.paramsToOrder!["comments"] = self.comments!.text
+        self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
         let nextController = GRCheckOutPymentViewController()
-        nextController.paramsFromOrder("3", year: "2016", day: "20", comments: "Comentarios para envio de pedido", addressID: "c96-cef3-485a-b340-54e5e62673f1", deliveryType: "3", hour: "Martes - (14:00 - 15:00)", pickingInstruction: "3", deliveryTypeString: "Entrega Programada - $44", slotId: 1,shipmentAmount: 12.9)
+        nextController.paramsToOrder = self.paramsToOrder
+        //nextController.paramsFromOrder("3", year: "2016", day: "20", comments: "Comentarios para envio de pedido", addressID: "c96-cef3-485a-b340-54e5e62673f1", deliveryType: "3", hour: "Martes - (14:00 - 15:00)", pickingInstruction: "3", deliveryTypeString: "Entrega Programada - $44", slotId: 1,shipmentAmount: 12.9)
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 
@@ -186,31 +194,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
     }
     
-    func optionsConfirmOrder ()  -> [[String:String]] {
-        //GroceriesCheckout descriptions
-        var result : [[String:String]] = []
-        
-        let confirmCall = NSLocalizedString("gr.confirmacall", comment: "")
-        var dictConfirm = ["name":confirmCall,"desc":confirmCall,"key":"3"]
-        result.append(dictConfirm)
-        
-        let notConfirmCallOptions = NSLocalizedString("gr.not.confirmacall.option", comment: "")
-        let notConfirmCallOptionsDetail = NSLocalizedString("gr.not.confirmacall.option.detail", comment: "")
-        dictConfirm = ["name":notConfirmCallOptions,"desc":notConfirmCallOptionsDetail,"key":"1"]
-        result.append(dictConfirm)
-        
-        let notConfirmCall = NSLocalizedString("gr.not.confirmacall", comment: "")
-        let notConfirmCallDetail = NSLocalizedString("gr.not.confirmacall.detal", comment: "")
-        dictConfirm = ["name":notConfirmCall,"desc":notConfirmCallDetail,"key":"2"]
-        result.append(dictConfirm)
-        
-        return result
-    }
-    
     func confirmCallSelected(button:UIButton){
         self.confirmCallButton?.selected = (self.confirmCallButton == button)
         self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
         self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
+        self.confirmSelected = button.tag
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
