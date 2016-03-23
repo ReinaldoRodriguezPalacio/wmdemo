@@ -26,7 +26,7 @@ protocol GenerateOrderViewDelegate {
     var bgView : UIView!
     var buttonOk : UIButton!
     var buttonEdit : UIButton!
-
+    var deliveryAddress : String!
 
     
     var viewLoadingDoneAnimate : UIView!
