@@ -27,7 +27,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
     var paramsToOrder : NSMutableDictionary?
+    var paramsToConfirm : NSMutableDictionary?
     var confirmSelected: Int! = 3
+    var confirmText: String! = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -72,7 +74,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton!.selected = true
         self.confirmCallButton!.tag = 3
         self.content.addSubview(self.confirmCallButton!)
-
         
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
         self.phoneField!.setCustomPlaceholder("Telefono: 5529000117")
@@ -81,7 +82,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.nameField = "phone"
         self.phoneField!.maxLength = 10
         self.phoneField!.minLength = 10
-        self.phoneField!.text = (UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as? String)
+        self.phoneField!.disablePaste = true
+        self.phoneField!.enabled = false
+        self.phoneField!.text = "Telefono: \(UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String)"
         self.content.addSubview(self.phoneField!)
         
         self.confirmCallOptionButton = UIButton(frame: CGRectMake(margin,phoneField!.frame.maxY + margin,width,30))
@@ -112,7 +115,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
-        let sectionTitleComments = self.buildSectionTitle("¿Alguna intruccióno nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        let sectionTitleComments = self.buildSectionTitle("¿Alguna intrucción o nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
         self.content.addSubview(sectionTitleComments)
         
         self.comments = UITextView(frame:CGRectMake(margin,sectionTitleComments.frame.maxY + margin,width,70))
@@ -149,6 +152,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.saveButton!.layer.cornerRadius = 17
         self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(saveButton!)
+
+        self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"
     }
     
     override func viewWillLayoutSubviews() {
@@ -174,9 +179,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
         self.paramsToOrder!["comments"] = commentsText
         self.paramsToOrder!["pickingInstruction"] = self.confirmSelected
+        self.paramsToConfirm!["pickingInstruction"] = self.confirmText
         let nextController = GRCheckOutPymentViewController()
         nextController.paramsToOrder = self.paramsToOrder
-        //nextController.paramsFromOrder("3", year: "2016", day: "20", comments: "Comentarios para envio de pedido", addressID: "c96-cef3-485a-b340-54e5e62673f1", deliveryType: "3", hour: "Martes - (14:00 - 15:00)", pickingInstruction: "3", deliveryTypeString: "Entrega Programada - $44", slotId: 1,shipmentAmount: 12.9)
+        nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 
@@ -201,6 +207,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
         self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
         self.confirmSelected = button.tag
+        self.confirmText = button.titleLabel!.text!
+        
+        if confirmSelected == 3{
+             self.confirmText = "\(self.confirmText)\n\(self.phoneField!.text!)"
+        }
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate

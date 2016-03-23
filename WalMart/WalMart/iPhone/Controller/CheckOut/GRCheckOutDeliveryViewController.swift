@@ -32,6 +32,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var datesItems: [AnyObject]?
     var datesToShow: [String]?
     var dateFmt: NSDateFormatter?
+    var addressDesccription: String? = nil
     var selectedAddress: String? = nil
     var selectedAddressHasStore: Bool = true
     var selectedDate : NSDate!
@@ -53,6 +54,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var lblInfo : UILabel?
     var imageIco : UIImageView?
     var paramsToOrder : NSMutableDictionary?
+    var paramsToConfirm : NSMutableDictionary?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -196,7 +198,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
-        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 40.0 : 480
+        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 46.0 : 552
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle.frame = CGRectMake(margin, margin, width, lheight)
@@ -205,8 +207,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.shipmentType!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + margin, width, fheight)
         self.sectionTitleDate.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight)
         self.deliveryDate!.frame = CGRectMake(margin, self.sectionTitleDate!.frame.maxY + margin, width, fheight)
-        self.timeSlotsTable!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + margin, width, tableHeight)
-        self.toolTipLabel!.frame =  CGRectMake(margin,self.timeSlotsTable!.frame.maxY + 20,width,34)
+        self.timeSlotsTable!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY, width, tableHeight)
+        self.toolTipLabel!.frame =  CGRectMake(margin,self.timeSlotsTable!.frame.maxY,width,34)
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
@@ -307,11 +309,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             let dateFmt = NSDateFormatter()
             dateFmt.timeZone = NSTimeZone.defaultTimeZone()
             dateFmt.dateFormat = "EEEE dd, MMMM"
-            var stringDate = dateFmt.stringFromDate(newDate)
+            var stringDate = dateFmt.stringFromDate(newDate).capitalizedString
             if index == 0{
-                stringDate = "Hoy \(dateFmt.stringFromDate(newDate))"
+                stringDate = "Hoy \(stringDate)"
             }else if index == 1{
-                stringDate = "Mañana \(dateFmt.stringFromDate(newDate))"
+                stringDate = "Mañana \(stringDate)"
             }
             
             let dateItem = ["dateString":stringDate,"date":newDate]
@@ -335,13 +337,33 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 let dateFmt = NSDateFormatter()
                 dateFmt.timeZone = NSTimeZone.defaultTimeZone()
                 dateFmt.dateFormat = "EEEE dd, MMMM"
-                aviableDate =  ["dateString":dateFmt.stringFromDate(date),"date":date]
+                aviableDate =  ["dateString":dateFmt.stringFromDate(date).capitalizedString,"date":date]
                 break
             }
             row += 1
         }
         self.selectedDateTypeIx = NSIndexPath(forRow: row, inSection: 0)
         return aviableDate as! [String : AnyObject]
+    }
+    
+    func getHourToShow(hour:String) -> String{
+        var cellText = hour
+        let firstRange = cellText.rangeOfString("(")
+        cellText = cellText.substringFromIndex(firstRange!.startIndex.advancedBy(1))
+        cellText = cellText.stringByReplacingOccurrencesOfString(")", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        cellText = cellText.stringByReplacingOccurrencesOfString("-", withString: "y", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        return "Entre \(cellText)"
+    }
+    
+    func getAddressDescription(addressId: String){
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = self.selectedAddress!
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            self.addressDesccription = "\(result["street"] as! String!) \(result["outerNumber"] as! String!) \n\(result["county"] as! String!) \(result["city"] as! String!)"
+            }) { (error:NSError) -> Void in
+            self.addressDesccription = ""
+            }
+        
     }
     
     func next(){
@@ -357,7 +379,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
         self.paramsToOrder = ["month":dateMonth, "year":dateYear, "day":dateDay, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
-        nextController.paramsToOrder = paramsToOrder
+        self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"pickingInstruction":""]
+        nextController.paramsToOrder = self.paramsToOrder
+        nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 
@@ -389,9 +413,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 if let addressId = option["id"] as? String {
                     print("Asigned AddresID :::\(addressId) ---")
                     self.selectedAddress = addressId
+                    self.getAddressDescription(addressId)
                 }
                 self.selectedAddressIx = indexPath
                 self.buildAndConfigureDeliveryType()
+ 
             }
             if formFieldObj ==  self.shipmentType! {
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_OK.rawValue , label: "")
@@ -415,16 +441,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.address! {
                 self.address!.text = ""
-                //var option = self.addressItems![indexPath.row] as [String:AnyObject]
-                //if let addressId = option["id"] as? String {
                 self.selectedAddress = ""
-                //}
                 buildAndConfigureDeliveryType()
-                //self.selectedAddressIx = indexPath
             }
             if formFieldObj ==  self.shipmentType! {
                 self.shipmentType!.text = ""
-                // self.selectedShipmentTypeIx = indexPath
             }
             if formFieldObj ==  self.deliveryDate! {
                 self.deliveryDate!.text = ""
@@ -517,6 +538,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
             self.getItemsTOSelectAddres()
+            self.getAddressDescription(self.selectedAddress!)
             self.address!.onBecomeFirstResponder = {() in
                 self.showAddressPicker()
             }
@@ -752,19 +774,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
-        var cellText = self.slotsItems![indexPath.row]["displayText"] as! String
-        let firstRange = cellText.rangeOfString("(")
-        cellText = cellText.substringFromIndex(firstRange!.startIndex.advancedBy(1))
-        cellText = cellText.stringByReplacingOccurrencesOfString(")", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cellText = cellText.stringByReplacingOccurrencesOfString("-", withString: "y", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        cell.textLabel?.text = "Entre \(cellText)"
-        cell.checkSelected.frame = CGRectMake(0, 0, 33, 40)
+        cell.textLabel?.text = self.getHourToShow(self.slotsItems![indexPath.row]["displayText"] as! String)
+        cell.checkSelected.frame = CGRectMake(0, 0, 33, 46)
         if self.selectedTimeSlotTypeIx != nil {
             cell.setSelected(indexPath.row == self.selectedTimeSlotTypeIx.row, animated: false)
         }
         return cell
     }
-    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
@@ -776,6 +792,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return  40.0
+        return  46.0
     }
 }

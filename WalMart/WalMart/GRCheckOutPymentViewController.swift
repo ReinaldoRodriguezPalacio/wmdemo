@@ -63,6 +63,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentId = "0"
     var paymentString = ""
     var paramsToOrder : NSMutableDictionary?
+    var paramsToConfirm : NSMutableDictionary?
     
     //Paypal
     var payPalFuturePaymentField: FormFieldView?
