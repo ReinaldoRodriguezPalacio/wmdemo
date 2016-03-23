@@ -322,6 +322,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func returnAviableDate(date:NSDate) -> [String: AnyObject]{
         var aviableDate = self.datesItems!.last!
+        var row = 0
         for item in self.datesItems! {
             let itemDate = item["date"] as! NSDate
             if #available(iOS 8.0, *) {
@@ -337,7 +338,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 aviableDate =  ["dateString":dateFmt.stringFromDate(date),"date":date]
                 break
             }
+            row += 1
         }
+        self.selectedDateTypeIx = NSIndexPath(forRow: row, inSection: 0)
         return aviableDate as! [String : AnyObject]
     }
     
@@ -749,7 +752,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
         let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
-        cell.textLabel?.text = self.slotsItems![indexPath.row]["displayText"] as? String
+        var cellText = self.slotsItems![indexPath.row]["displayText"] as! String
+        let firstRange = cellText.rangeOfString("(")
+        cellText = cellText.substringFromIndex(firstRange!.startIndex.advancedBy(1))
+        cellText = cellText.stringByReplacingOccurrencesOfString(")", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        cellText = cellText.stringByReplacingOccurrencesOfString("-", withString: "y", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        cell.textLabel?.text = "Entre \(cellText)"
         cell.checkSelected.frame = CGRectMake(0, 0, 33, 40)
         if self.selectedTimeSlotTypeIx != nil {
             cell.setSelected(indexPath.row == self.selectedTimeSlotTypeIx.row, animated: false)
