@@ -638,6 +638,10 @@
 "gr.generate.discountAssociate" = "Descuentos";
 "gr.generate.deliverydate" = "Fecha";
 "gr.generate.subtotal" = "Subtotal";
+"gr.generate.shipping" = "Dirección de Envío";
+
+
+
 
 
 

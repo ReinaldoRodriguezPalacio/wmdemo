@@ -21,24 +21,25 @@ protocol GenerateOrderViewDelegate {
     
     
     var viewContent : UIView!
-    var viewHeader: UIView!
     var titleLabel : UILabel!
     var bgView : UIView!
+    
     var buttonOk : UIButton!
     var buttonEdit : UIButton!
-    var deliveryAddress : String!
 
     
     var viewLoadingDoneAnimate : UIView!
     var viewLoadingDoneAnimateAux : UIView!
     
-    var deliveryDate = ""
-    var deliveryHour = ""
-    var paymentType = ""
-    var subtotal = ""
-    var total = ""
-    var numArticles = ""
-    
+//    var deliveryAddress = ""
+//    var deliveryDate = ""
+//    var deliveryHour = ""
+//    var paymentType = ""
+//    var subtotal = ""
+//    var total = ""
+//    var numArticles = ""
+
+    var lbldeliveryAddress : UILabel!
     var lblValueDeliveryDate : UILabel!
     var lblValueDeliveryHour : UILabel!
     var lblValuePaymentType : UILabel!
@@ -118,7 +119,8 @@ protocol GenerateOrderViewDelegate {
         
         
         
-        
+        let lbldeliveryAddress = labelTitle(CGRectMake(48, 190, 80, 12))
+        lbldeliveryAddress.text = NSLocalizedString("gr.generate.shipping", comment: "")
 
         //let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
         
@@ -147,6 +149,7 @@ protocol GenerateOrderViewDelegate {
         lblTitledeliveryAmount.text = NSLocalizedString("gr.generate.deliveryAmount", comment: "")
         
         
+        //lblValueDeliveryAddress = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
         lblValueDeliveryDate = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
         
 //        lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
@@ -166,10 +169,14 @@ protocol GenerateOrderViewDelegate {
         
         
         viewContent.addSubview(titleLabel)
+        viewContent.addSubview(lbldeliveryAddress)
         viewContent.addSubview(lblTitleDeliveryDate)
         viewContent.addSubview(lblTitledeliveryAmount)
         viewContent.addSubview(lbldiscountsAssociated)
         
+        
+        
+        //viewContent.addSubview(lblValueDeliveryAddress)
         viewContent.addSubview(lblTitleDeliveryHour)
         viewContent.addSubview(lblTitlePaymentType)
         viewContent.addSubview(lblTitleSubtotal)
@@ -228,7 +235,7 @@ protocol GenerateOrderViewDelegate {
         
 
         
-        
+        //lblValueDeliveryAddress.text = deliveryAddress
         lblValueDeliveryDate.text = deliveryDate
         lblValueDeliveryHour.text = deliveryHour
         lblValuePaymentType.text = paymentType
@@ -243,9 +250,7 @@ protocol GenerateOrderViewDelegate {
             
         }
         
-        
-        
-        
+
         
         self.viewContent.frame = CGRectMake(0, 0, 288, 494)
         self.viewContent.center = self.center

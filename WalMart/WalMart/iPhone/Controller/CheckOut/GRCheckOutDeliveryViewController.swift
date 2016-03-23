@@ -9,7 +9,7 @@
 import Foundation
 import Tune
 
-class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate {
+class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate,UITableViewDataSource, UITableViewDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -25,10 +25,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var address: FormFieldView?
     var shipmentType: FormFieldView?
     var deliveryDate: FormFieldView?
-    var deliverySchedule: FormFieldView?
+    var timeSlotsTable: UITableView?
     var addressItems: [AnyObject]?
     var shipmentItems: [AnyObject]?
-    var slotsItems: [AnyObject]?
+    var slotsItems: [AnyObject]? = []
+    var datesItems: [AnyObject]?
+    var datesToShow: [String]?
     var dateFmt: NSDateFormatter?
     var selectedAddress: String? = nil
     var selectedAddressHasStore: Bool = true
@@ -36,6 +38,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var selectedAddressIx : NSIndexPath!
     var selectedShipmentTypeIx : NSIndexPath!
     var selectedTimeSlotTypeIx : NSIndexPath!
+    var selectedDateTypeIx : NSIndexPath!
     var shipmentAmount: Double!
     var saveButton: UIButton?
     var cancelButton: UIButton?
@@ -49,6 +52,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     var viewContents : UIView?
     var lblInfo : UILabel?
     var imageIco : UIImageView?
+    var paramsToOrder : NSMutableDictionary?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -115,13 +119,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.deliveryDate!.disablePaste = true
         self.content.addSubview(self.deliveryDate!)
         
-        self.deliverySchedule = FormFieldView(frame: CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, width, fheight))
-        self.deliverySchedule!.setCustomPlaceholder(NSLocalizedString("checkout.field.deliverySchedule", comment:""))
-        self.deliverySchedule!.isRequired = true
-        self.deliverySchedule!.typeField = TypeField.List
-        self.deliverySchedule!.setImageTypeField()
-        self.deliverySchedule!.nameField = NSLocalizedString("checkout.field.deliverySchedule", comment:"")
-        self.content.addSubview(self.deliverySchedule!)
+        self.timeSlotsTable = UITableView()
+        self.timeSlotsTable!.delegate = self
+        self.timeSlotsTable!.dataSource = self
+        self.timeSlotsTable!.backgroundColor = UIColor.whiteColor()
+        self.timeSlotsTable!.separatorStyle = .None
+        self.timeSlotsTable!.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
+        self.content.addSubview(self.timeSlotsTable!)
         
         self.toolTipLabel = UILabel()
         self.toolTipLabel!.text = "¿Por qué no hay más horarios disponibles?"
@@ -176,21 +180,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.reloadUserAddresses()
         
         self.deliveryDate!.onBecomeFirstResponder = {() in
-            var itemsShipment : [String] = []
-            if self.shipmentItems?.count > 1{
-                for option in self.shipmentItems! {
-                    if let text = option["name"] as? String {
-                        itemsShipment.append(text)
-                    }
-                }
-                self.picker!.selected = self.selectedShipmentTypeIx
-                self.picker!.sender = self.deliveryDate!
-                self.picker!.delegate = self
-                self.picker!.setValues(self.deliveryDate!.nameField, values: ["Hoy","Mañana","Pasado","Nunca"])
-                self.picker!.hiddenRigthActionButton(true)
-                self.picker!.cellType = TypeField.Check
-                self.picker!.showPicker()
-            }
+            self.picker!.selected = self.selectedDateTypeIx
+            self.picker!.sender = self.deliveryDate!
+            self.picker!.delegate = self
+            self.picker!.setValues(self.deliveryDate!.nameField, values: self.datesToShow!)
+            self.picker!.hiddenRigthActionButton(true)
+            self.picker!.cellType = TypeField.Check
+            self.picker!.showPicker()
         }
     }
     
@@ -200,6 +196,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
+        let tableHeight: CGFloat = CGFloat(self.slotsItems!.count) * 40.0
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle.frame = CGRectMake(margin, margin, width, lheight)
@@ -208,8 +205,8 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.shipmentType!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + margin, width, fheight)
         self.sectionTitleDate.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight)
         self.deliveryDate!.frame = CGRectMake(margin, self.sectionTitleDate!.frame.maxY + margin, width, fheight)
-        self.deliverySchedule!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + margin, width, fheight)
-        self.toolTipLabel!.frame =  CGRectMake(margin,self.deliverySchedule!.frame.maxY + 20,width,34)
+        self.timeSlotsTable!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + margin, width, tableHeight)
+        self.toolTipLabel!.frame =  CGRectMake(margin,self.timeSlotsTable!.frame.maxY + 20,width,34)
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
@@ -288,7 +285,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         }
                     }
                 }
-                ixSelected++
+                ixSelected += 1
             }
         }
         return itemsAddress
@@ -301,8 +298,42 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         return dateFmt.dateFromString(dateStr)!
     }
     
+    func getAviableDates(){
+        self.datesItems = []
+        self.datesToShow = []
+        self.selectedDateTypeIx = NSIndexPath(forItem: 0, inSection: 0)
+        for index in 0...6{
+            let date = NSDate()
+            let newDate = date.dateByAddingTimeInterval(60 * 60 * 24 * Double(index))
+            let dateFmt = NSDateFormatter()
+            dateFmt.timeZone = NSTimeZone.defaultTimeZone()
+            dateFmt.dateFormat = "d MMMM yyyy"
+            var stringDate = dateFmt.stringFromDate(newDate)
+            if index == 0{
+                stringDate = "Hoy \(dateFmt.stringFromDate(newDate))"
+            }else if index == 1{
+                stringDate = "Mañana \(dateFmt.stringFromDate(newDate))"
+            }
+            
+            let dateItem = ["dateString":stringDate,"date":newDate]
+            self.datesItems!.append(dateItem)
+            self.datesToShow!.append(stringDate)
+        }
+    }
+    
     func next(){
         let nextController = GRCheckOutCommentsViewController()
+        let components : NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.NSYearCalendarUnit, NSCalendarUnit.NSMonthCalendarUnit, NSCalendarUnit.NSDayCalendarUnit], fromDate: self.selectedDate)
+        let dateMonth = components.month
+        let dateYear = components.year
+        let dateDay = components.day
+        let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! NSDictionary
+        let slotSelectedId = slotSel["id"] as! Int
+        let slotHour = slotSel["displayText"] as! String
+        let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! NSDictionary
+        let shipmentType = shipmentTypeSel["key"] as! String
+        self.shipmentAmount = shipmentTypeSel["cost"] as! Double
+        self.paramsToOrder = ["month":dateMonth, "year":dateYear, "day":dateDay, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 
@@ -340,13 +371,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 let shipment: AnyObject = self.shipmentItems![indexPath.row]
                 self.shipmentAmount = shipment["cost"] as! Double
             }
-            if formFieldObj ==  self.deliverySchedule! {
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_CHANGE_TIME_DELIVERY.rawValue , label: "")
-                self.deliverySchedule!.text = selectedStr
-                self.selectedTimeSlotTypeIx = indexPath
-            }
             if formFieldObj ==  self.deliveryDate! {
-                self.buildSlotsPicker(NSDate())
+                self.selectedDateTypeIx = indexPath
+                let selectedItem = self.datesItems![indexPath.row] as! [String:AnyObject]
+                self.selectedDate = selectedItem["date"] as! NSDate
+                self.buildSlotsPicker(self.selectedDate)
             }
         }
     }
@@ -366,9 +395,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             if formFieldObj ==  self.shipmentType! {
                 self.shipmentType!.text = ""
                 // self.selectedShipmentTypeIx = indexPath
-            }
-            if formFieldObj ==  self.deliverySchedule! {
-                self.deliverySchedule!.text = ""
             }
             if formFieldObj ==  self.deliveryDate! {
                 self.deliveryDate!.text = ""
@@ -465,9 +491,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 self.showAddressPicker()
             }
             //TODO
-            let date = NSDate()
-            self.selectedDate = date
-            self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
+            self.getAviableDates()
+            self.selectedDate = self.datesItems!.first!["date"] as! NSDate
+            self.deliveryDate!.text = self.datesToShow!.first!
             self.buildAndConfigureDeliveryType()
             //self.validateMercuryDelivery()
             self.removeViewLoad()
@@ -627,98 +653,36 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.errorView!.removeFromSuperview()
                     self.errorView!.focusError = nil
                     self.errorView = nil
-                    self.deliverySchedule!.layer.borderColor = self.deliverySchedule!.textBorderOff
                 }
-                let selectedSlot = self.slotsItems![0] as! NSDictionary
                 self.selectedTimeSlotTypeIx = NSIndexPath(forRow: 0, inSection: 0)
-                self.deliverySchedule!.text = selectedSlot["displayText"] as? String
             }
-            else {
-                self.deliverySchedule!.text = ""
-            }
-            self.deliverySchedule!.onBecomeFirstResponder = {() in
-                var itemsSlots : [String] = []
-                for option in self.slotsItems! {
-                    if let _ = option["isVisible"] as? NSNumber {
-                        //if visible.boolValue {
-                        if let text = option["displayText"] as? String {
-                            itemsSlots.append(text)
-                        }
-                        //}
-                    }
-                }
-                self.picker!.selected = self.selectedTimeSlotTypeIx
-                self.picker!.sender = self.deliverySchedule!
-                self.picker!.delegate = self
-                self.picker!.setValues(self.deliverySchedule!.nameField, values: itemsSlots)
-                self.picker!.hiddenRigthActionButton(true)
-                self.picker!.cellType = TypeField.Check
-                self.picker!.showPicker()
-            }
+            self.timeSlotsTable!.reloadData()
             self.removeViewLoad()//ok
-            
         })
     }
     
     func invokeTimeBandsService(date:String,endCallTypeService:(() -> Void)) {
-        //if !self.mercury {
-            let service = GRTimeBands()
-            let params = service.buildParams(date, addressId: self.selectedAddress!)
-            service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
-                // var date = self.deliveryDatePicker!.date
-                if let day = result["day"] as? String {
-                    if let month = result["month"] as? String {
-                        if let year = result["year"] as? String {
-                            let dateSlot = "\(day)/\(month)/\(year)"
-                            let date = self.parseDateString(dateSlot)
-                            self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
-                            self.selectedDate = date
-                            //self.deliveryDatePicker!.date = date
-                        }
-                    }
+        let service = GRTimeBands()
+        let params = service.buildParams(date, addressId: self.selectedAddress!)
+        service.callService(requestParams: params, successBlock: { (result:NSDictionary) -> Void in
+            if let day = result["day"] as? String {
+            if let month = result["month"] as? String {
+                if let year = result["year"] as? String {
+                    let dateSlot = "\(day)/\(month)/\(year)"
+                    let date = self.parseDateString(dateSlot)
+                    self.deliveryDate!.text = self.dateFmt!.stringFromDate(date)
+                    self.selectedDate = date
                 }
-                self.slotsItems = result["slots"] as! NSArray as [AnyObject]
-                //--self.addViewLoad()
-                endCallTypeService()
-                }) { (error:NSError) -> Void in
-                    self.removeViewLoad()
-                    self.slotsItems = []
-                    endCallTypeService()
             }
-        /*}else {
-            let deliveryService = PostDelivery()
-            deliveryService.validateMercurySlots(self.selectedDate, idShopper: "1", idStore: storeID, onSuccess: { (resultSuccess:AnyObject) -> Void in
-                let allSlotsCustomObj = resultSuccess["custom"] as! [String:AnyObject]
-                let allSlots = allSlotsCustomObj["slots"] as! [AnyObject]
-                var allSlotsCustom : [AnyObject] = []
-                if allSlots.count > 0 {
-                    for slot in allSlots  {
-                        if let strtDate = slot["beginDateRange"] as? String {
-                            if let endDate = slot["endDateRange"] as? String  {
-                                if let idSlot = slot["slotId"] as? Int  {
-                                    allSlotsCustom.append(["displayText":"\(strtDate) - \(endDate)","id":idSlot,"isVisible":true])
-                                }else {
-                                    allSlotsCustom.append(["displayText":"No time","id":0,"isVisible":true])
-                                }
-                            } else {
-                                allSlotsCustom.append(["displayText":"No time","id":0,"isVisible":true])
-                            }
-                        }else {
-                            allSlotsCustom.append(["displayText":"No time","id":0,"isVisible":true])
-                        }
-                    }
-                    self.slotsItems = allSlotsCustom
-                    self.addViewLoad()
-                    endCallTypeService()
-                } else {
-                    self.mercury = false
-                    self.buildAndConfigureDeliveryType()
-                }
-                },onError: {(error:NSError) -> Void in
-                    self.mercury = false
-                    self.buildAndConfigureDeliveryType()
-            })
-        }*/
+        }
+        self.slotsItems = result["slots"] as! NSArray as [AnyObject]
+        //--self.addViewLoad()
+        endCallTypeService()
+        }) { (error:NSError) -> Void in
+            self.removeViewLoad()
+            self.slotsItems = []
+            endCallTypeService()
+        }
     }
     
     func showTooltip(){
@@ -750,5 +714,29 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.imageIco!.removeFromSuperview()
                 }
         })
+    }
+    
+    //MARK: -TableView Delegates
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return self.slotsItems!.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
+        cell.textLabel?.text = self.slotsItems![indexPath.row]["displayText"] as? String
+        return cell
+    }
+    
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+       let cell = tableView.cellForRowAtIndexPath(indexPath) as! SelectItemTableViewCell!
+        cell.setSelected(true, animated: false)
+        self.selectedTimeSlotTypeIx = indexPath
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return  40.0
     }
 }
