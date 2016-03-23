@@ -17,45 +17,32 @@ protocol GenerateOrderViewDelegate {
  class GenerateOrderView : UIView {
 
     var delegate : GenerateOrderViewDelegate!
-    let maxAnimationSize : CGFloat = 30
-    
     
     var viewContent : UIView!
     var titleLabel : UILabel!
     var bgView : UIView!
     
-    var buttonOk : UIButton!
-    var buttonEdit : UIButton!
+    var buttonClose : UIButton!
+    var buttonCreateOrder : UIButton!
+    var buttonEditOrder : UIButton!
 
-    
-    var viewLoadingDoneAnimate : UIView!
-    var viewLoadingDoneAnimateAux : UIView!
-    
-//    var deliveryAddress = ""
-//    var deliveryDate = ""
-//    var deliveryHour = ""
-//    var paymentType = ""
-//    var subtotal = ""
-//    var total = ""
-//    var numArticles = ""
 
-    var lbldeliveryAddress : UILabel!
-    var lblValueDeliveryDate : UILabel!
-    var lblValueDeliveryHour : UILabel!
-    var lblValuePaymentType : UILabel!
     var lblValueSubtotal : UILabel!
     var lblValueTotal : UILabel!
     var lblValueDeliveryAmount : UILabel!
-    var lblValueDiscountsAssociated : UILabel!
+    var lblValueDiscounts : UILabel!
     var lbldiscountsAssociated : UILabel!
     
     
-    var deliveryAmount : Double!
-    var discountsAssociated : Double!
+    var lblValueAddress : UILabel!
+    var lblValueDeliveryDate : UILabel!
+    var lblValueDeliveryHour : UILabel!
+    var lblValuePaymentType : UILabel!
+    var lblValueCommenst : UILabel!
+    
     var imgBgView : UIImageView!
+    let marginViews : CGFloat = 16.0
 
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -73,45 +60,16 @@ protocol GenerateOrderViewDelegate {
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
         
-        viewContent = UIView(frame: CGRectMake(0, 0, 288, 264))
+        viewContent = UIView(frame: CGRectMake(0, 0, 288, 464))
         viewContent.layer.cornerRadius = 8.0
         viewContent.clipsToBounds = true
-        viewContent.backgroundColor = UIColor.clearColor()
-        viewContent.clipsToBounds = true
-        
-
-        
-        let imgGenerateorder = UIImageView(frame: CGRectMake(0, 0, 288, 464))
-        imgGenerateorder.backgroundColor = UIColor.whiteColor()
-        imgGenerateorder.image = UIImage(named: "generateorderimage")
-        viewContent.addSubview(imgGenerateorder)
+        viewContent.backgroundColor = UIColor.whiteColor()
+        let backgroundImage = UIImageView(frame: viewContent.frame)
+        backgroundImage.image = UIImage(named: "generateorderimage")
+        self.viewContent.insertSubview(backgroundImage, atIndex: 0)
         
         
-        buttonEdit = UIButton(frame: CGRectMake(16, 418, 120, 34))
-        buttonEdit.backgroundColor = WMColor.light_blue
-        buttonEdit.layer.cornerRadius = 17
-        buttonEdit.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonEdit.setTitle("Editar", forState: UIControlState.Normal)
-        buttonEdit.addTarget(self, action: "noOkAction", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
-        
-        
-        buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) + 4, 418, 120, 34))
-        buttonOk.backgroundColor = WMColor.green
-        buttonOk.layer.cornerRadius = 17
-        buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonOk.setTitle("Generar Pedido", forState: UIControlState.Normal)
-        buttonOk.addTarget(self, action: "okAction", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        
-
-        
-        
-        
-        
-        
-        titleLabel = UILabel(frame: CGRectMake(0, 24, viewContent.frame.width, 18))
+        titleLabel = UILabel(frame: CGRectMake(0, marginViews, viewContent.frame.width, 18))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
         titleLabel.text = NSLocalizedString("gr.generate.title",comment: "")
         titleLabel.textAlignment = .Center
@@ -119,71 +77,118 @@ protocol GenerateOrderViewDelegate {
         
         
         
-        let lbldeliveryAddress = labelTitle(CGRectMake(48, 190, 80, 12))
-        lbldeliveryAddress.text = NSLocalizedString("gr.generate.shipping", comment: "")
-
-        //let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
+        let lblNumberItems = labelTitle(CGRectMake(marginViews, titleLabel.frame.maxY + 14, self.viewContent.frame.width - 32, 14))
+        lblNumberItems.textColor = WMColor.light_blue
+        lblNumberItems.text = "12 \(NSLocalizedString("artículos", comment: ""))"
         
-        let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 232, 80, 12))
-        lblTitleDeliveryDate.text = NSLocalizedString("gr.generate.deliverydate", comment: "")
         
-//        let lblTitleDeliveryHour = labelTitle(CGRectMake(48, lblTitleDeliveryDate.frame.minY, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
-        let lblTitleDeliveryHour = labelTitle(CGRectMake(48, 272, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
-
-        lblTitleDeliveryHour.text = NSLocalizedString("gr.generate.deliveryhour", comment: "")
-        
-        let lblTitlePaymentType = labelTitle(CGRectMake(48, 306, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
-        lblTitlePaymentType.text = NSLocalizedString("gr.generate.paymenttype", comment: "")
-        
-        let lblTitleSubtotal = labelTitle(CGRectMake(48, 86, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        //right
+        let lblTitleSubtotal = labelTitle(CGRectMake(marginViews, lblNumberItems.frame.maxY + 16, self.viewContent.frame.width - (32 + 75) , 14))
         lblTitleSubtotal.text = NSLocalizedString("gr.generate.subtotal", comment: "")
         
-        lbldiscountsAssociated = labelTitle(CGRectMake(160, 338, lblTitleDeliveryHour.frame.maxX, lblTitleDeliveryHour.frame.height))
-        lbldiscountsAssociated.text = NSLocalizedString("gr.generate.discountAssociate", comment: "")
-        
-        
-        let lblTitleTotal = labelTitle(CGRectMake(160, 370, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
-        lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
-        
-        let lblTitledeliveryAmount = labelTitle(CGRectMake(48, 338, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitledeliveryAmount = labelTitle(CGRectMake(marginViews, lblTitleSubtotal.frame.maxY + 8,lblTitleSubtotal.frame.width,15))
         lblTitledeliveryAmount.text = NSLocalizedString("gr.generate.deliveryAmount", comment: "")
         
+        let lbldiscountsAssociated = labelTitle(CGRectMake(marginViews, lblTitledeliveryAmount.frame.maxY + 8, lblTitleSubtotal.frame.width, 14))
+        lbldiscountsAssociated.text = NSLocalizedString("gr.generate.discountAssociate", comment: "")
         
-        //lblValueDeliveryAddress = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
-        lblValueDeliveryDate = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
+        let lblTitleTotal = labelTitle(CGRectMake(marginViews, lbldiscountsAssociated.frame.maxY + 8, lblTitleSubtotal.frame.width , 14))
+        lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
         
-//        lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueDeliveryHour = labelValue(CGRectMake(48, lblTitleDeliveryHour.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValuePaymentType = labelValue(CGRectMake(48, lblTitlePaymentType.frame.maxY, self.viewContent.frame.width - 48, lblValueDeliveryDate.frame.height))
-        lblValueDeliveryAmount = labelValue(CGRectMake(48, lblTitledeliveryAmount.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueSubtotal = labelValue(CGRectMake(48, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueDiscountsAssociated = labelValue(CGRectMake(160, lbldiscountsAssociated.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        //        lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
+        
+        
+        
+        //left
+        let lbldeliveryAddress = labelTitleBlue(CGRectMake(marginViews, lblTitleTotal.frame.maxY + 40, self.viewContent.frame.width - 32, 10))
+        lbldeliveryAddress.text = NSLocalizedString("gr.generate.shipping", comment: "")
+        
+        lblValueAddress = labelValue(CGRectMake(marginViews, lbldeliveryAddress.frame.maxY + 6, (self.viewContent.frame.width / 3 ) * 2, 28))
+        lblValueAddress.numberOfLines = 2
 
+        let lblTitleDeliveryDate = labelTitleBlue(CGRectMake(marginViews, lblValueAddress.frame.maxY + 6, self.viewContent.frame.width - 32, 10))
+        lblTitleDeliveryDate.text = NSLocalizedString("gr.generate.deliverydate", comment: "")
+        
+        lblValueDeliveryDate = labelValue(CGRectMake(marginViews, lblTitleDeliveryDate.frame.maxY + 6, 80, 14))
         
         
+        let lblTitleDeliveryHour = labelTitleBlue(CGRectMake(marginViews, lblValueDeliveryDate.frame.maxY + 6,self.viewContent.frame.width - 32,10))
+        lblTitleDeliveryHour.text = NSLocalizedString("gr.generate.deliveryhour", comment: "")
+        
+        lblValueDeliveryHour = labelValue(CGRectMake(marginViews, lblTitleDeliveryHour.frame.maxY + 6, 80, lblValueDeliveryDate.frame.height))
+        
+        
+        let lblTitlePaymentType = labelTitleBlue(CGRectMake(marginViews, lblValueDeliveryHour.frame.maxY + 6,self.viewContent.frame.width - 32, 10))
+        lblTitlePaymentType.text = NSLocalizedString("gr.generate.paymenttype", comment: "")
+        
+        lblValuePaymentType = labelValue(CGRectMake(marginViews, lblTitlePaymentType.frame.maxY + 6, self.viewContent.frame.width - 48, lblValueDeliveryDate.frame.height))
         
 
+        let lblTitleCommens = labelTitleBlue(CGRectMake(marginViews, lblValuePaymentType.frame.maxY + 6,self.viewContent.frame.width - 32, 10))
+        lblTitleCommens.text = NSLocalizedString("Si algun artículo no esta disponble", comment: "")
+        
+        lblValueCommenst = labelValue(CGRectMake(marginViews, lblTitleCommens.frame.maxY + 6, self.viewContent.frame.width - 48, lblValueDeliveryDate.frame.height))
+        
+        
+        
+        
+        //
+        lblValueSubtotal = labelValue(CGRectMake(lblTitleSubtotal.frame.maxX + 10, lblTitleSubtotal.frame.minY , lblNumberItems.frame.maxX - (lblTitleSubtotal.frame.width + 26 ) , lblTitleSubtotal.frame.height))//subtotal
+        lblValueSubtotal.textAlignment = .Right
+        
+        lblValueDeliveryAmount = labelValue(CGRectMake(lblValueSubtotal.frame.origin.x, lblTitledeliveryAmount.frame.minY, lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//envio
+        lblValueDeliveryAmount.textAlignment = .Right
+        
+        lblValueDiscounts = labelValue(CGRectMake(lblValueSubtotal.frame.origin.x, lbldiscountsAssociated.frame.minY,lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//descuentos
+        lblValueDiscounts.textAlignment =  .Right
+        lblValueTotal = labelValue(CGRectMake(lblValueSubtotal.frame.origin.x, lblTitleTotal.frame.minY,  lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//total
+        lblValueTotal.textAlignment =  .Right
+      
+        
+        
+        
+       
+       
+        
+        
+   
+        buttonEditOrder = UIButton(frame: CGRectMake(marginViews, 418, 120, 34))
+        buttonEditOrder.backgroundColor = WMColor.light_blue
+        buttonEditOrder.layer.cornerRadius = 17
+        buttonEditOrder.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        buttonEditOrder.setTitle("Editar", forState: UIControlState.Normal)
+        buttonEditOrder.addTarget(self, action: "editAction", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        buttonCreateOrder = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) + 4, 418, 120, 34))
+        buttonCreateOrder.backgroundColor = WMColor.green
+        buttonCreateOrder.layer.cornerRadius = 17
+        buttonCreateOrder.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        buttonCreateOrder.setTitle("Generar Pedido", forState: UIControlState.Normal)
+        buttonCreateOrder.addTarget(self, action: "createOrderAction", forControlEvents: UIControlEvents.TouchUpInside)
         
         
         
         viewContent.addSubview(titleLabel)
-        viewContent.addSubview(lbldeliveryAddress)
-        viewContent.addSubview(lblTitleDeliveryDate)
+        viewContent.addSubview(lblNumberItems)
+        viewContent.addSubview(lblTitleSubtotal)
         viewContent.addSubview(lblTitledeliveryAmount)
         viewContent.addSubview(lbldiscountsAssociated)
+        viewContent.addSubview(lblTitleTotal)
         
         
         
-        //viewContent.addSubview(lblValueDeliveryAddress)
+        viewContent.addSubview(lbldeliveryAddress)
+        viewContent.addSubview(lblTitleDeliveryDate)
         viewContent.addSubview(lblTitleDeliveryHour)
         viewContent.addSubview(lblTitlePaymentType)
-        viewContent.addSubview(lblTitleSubtotal)
-        viewContent.addSubview(lblTitleTotal)
+        viewContent.addSubview(lblTitleCommens)
+        
+       
+       
+        viewContent.addSubview(lblValueAddress)
         viewContent.addSubview(lblValueDeliveryDate)
         viewContent.addSubview(lblValueDeliveryAmount)
-        viewContent.addSubview(lblValueDiscountsAssociated)
+        viewContent.addSubview(lblValueDiscounts)
+        viewContent.addSubview(lblValueCommenst)
         
         
         viewContent.addSubview(lblValueDeliveryHour)
@@ -192,8 +197,8 @@ protocol GenerateOrderViewDelegate {
         viewContent.addSubview(lblValueTotal)
 
         
-        viewContent.addSubview(buttonOk)
-        viewContent.addSubview(buttonEdit)
+        viewContent.addSubview(buttonEditOrder)
+        viewContent.addSubview(buttonCreateOrder)
         self.addSubview(viewContent)
         
         imgBgView = UIImageView(frame: self.bgView.bounds)
@@ -231,31 +236,23 @@ protocol GenerateOrderViewDelegate {
     }
     
     
-    func showConfirmOrder(deliveryAddress:String,deliveryDate:String,deliveryHour:String,paymentType:String,subtotal:String,total:String,deliveryAmount:String,discountsAssociated:String,numArticles:String) {
+    func showConfirmOrder(paramsOrder:NSDictionary) {
         
+        //right
+        lblValueSubtotal.text = "$1,400.10"
+        lblValueTotal.text = "$1,230.00"
+        lblValueDeliveryAmount.text = "$56.10"
+        lblValueDiscounts.text = "-$80.10"
+        
+        //left
+        lblValueAddress.text = "Av. insurgentes sur 1277 San Jose Insurgentes"
+        lblValueDeliveryDate.text = "fecha"
+        lblValueDeliveryHour.text = "12:22"
+        lblValuePaymentType.text = "Tarjeta de Credito bancos walmart"
+        lblValueCommenst.text = "LLamar para revisar alternativas"
 
-        
-        //lblValueDeliveryAddress.text = deliveryAddress
-        lblValueDeliveryDate.text = deliveryDate
-        lblValueDeliveryHour.text = deliveryHour
-        lblValuePaymentType.text = paymentType
-        lblValueSubtotal.text = subtotal
-        lblValueTotal.text = total
-        lblValueDeliveryAmount.text = deliveryAmount
-        lblValueDiscountsAssociated.text = "$\(discountsAssociated)"
-        
-        if discountsAssociated == "0.0"{
-            lblValueDiscountsAssociated.hidden = true
-            lbldiscountsAssociated.hidden = true
-            
-        }
-        
-
-        
-        self.viewContent.frame = CGRectMake(0, 0, 288, 494)
         self.viewContent.center = self.center
         
-
         
     }
     
@@ -264,24 +261,30 @@ protocol GenerateOrderViewDelegate {
         super.layoutSubviews()
         bgView.frame =  self.bounds
         viewContent.center = self.center
-        
     }
     
-    func okAction() {
+    func createOrderAction() {
         self.delegate.sendOrderConfirm()
         self.removeFromSuperview()
     }
     
-    func noOkAction() {
+    func editAction() {
         self.removeFromSuperview()
     }
     
-
-    
     func labelTitle(frame:CGRect) -> UILabel {
+        let labelTitleItem = UILabel(frame: frame)
+        labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(14)
+        labelTitleItem.textColor = WMColor.dark_gray
+        labelTitleItem.textAlignment = .Right
+        return labelTitleItem
+    }
+    
+    func labelTitleBlue(frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(10)
         labelTitleItem.textColor = WMColor.light_blue
+        labelTitleItem.textAlignment = .Left
         return labelTitleItem
     }
     

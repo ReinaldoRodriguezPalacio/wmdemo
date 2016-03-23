@@ -62,7 +62,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentOptionsView : PaymentOptionsView!
     var paymentId = "0"
     var paymentString = ""
-    var paramsToOrder : NSDictionary?
+    var paramsToOrder : NSMutableDictionary?
     
     //Paypal
     var payPalFuturePaymentField: FormFieldView?
@@ -83,11 +83,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
     }
-    
-    func paramsFromOrder(month:String, year:String, day:String, comments:String, addressID:String, deliveryType:String,hour:String, pickingInstruction:String, deliveryTypeString:String,slotId:Int,shipmentAmount:Double!){
-        self.shipmentAmount = shipmentAmount
-        self.paramsToOrder = ["month":month, "year":year, "day":day, "comments":comments, "AddressID":addressID,  "slotId":slotId, "deliveryType":deliveryType, "hour":hour, "pickingInstruction":pickingInstruction, "deliveryTypeString":deliveryTypeString,"shipmentAmount":shipmentAmount]
-    }
+//    
+//    func paramsFromOrder(month:String, year:String, day:String, comments:String, addressID:String, deliveryType:String,hour:String, pickingInstruction:String, deliveryTypeString:String,slotId:Int,shipmentAmount:Double!){
+//        self.shipmentAmount = shipmentAmount
+//        self.paramsToOrder = ["month":month, "year":year, "day":day, "comments":comments, "AddressID":addressID,  "slotId":slotId, "deliveryType":deliveryType, "hour":hour, "pickingInstruction":pickingInstruction, "deliveryTypeString":deliveryTypeString,"shipmentAmount":shipmentAmount]
+//    }
     
     
     
@@ -285,14 +285,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     func continuePurche (){
-        let deliverySchedule = self.paramsToOrder!["hour"] as? String//"11:00 - 12:00"
+        let deliverySchedule = self.paramsToOrder!["hour"] as? String
         let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String
         
         self.confirmOrderView  = GenerateOrderView.initDetail()
         self.confirmOrderView!.delegate  =  self
         self.confirmOrderView?.showDetail()
         
-        self.confirmOrderView?.showConfirmOrder("", deliveryDate: "01 Enero 2016", deliveryHour: deliverySchedule!, paymentType: "efectivo", subtotal: "100.00", total: "110.00", deliveryAmount: deliveryTypeString!, discountsAssociated: "20", numArticles: "4")
+        self.confirmOrderView?.showConfirmOrder(self.paramsToOrder!)
 
 
     }
@@ -315,18 +315,18 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         
         //Recibir por parametros
-        let dateMonth = self.paramsToOrder!["month"] as! String//03
-        let dateYear = self.paramsToOrder!["year"] as! String//2016
-        let dateDay = self.paramsToOrder!["day"] as! String//20
+        let dateMonth = self.paramsToOrder!["month"] as! Int//03
+        let dateYear = self.paramsToOrder!["year"] as! Int//2016
+        let dateDay = self.paramsToOrder!["day"] as! Int//20
         let commensOrder = self.paramsToOrder!["comments"] as? String//"Recibios por parametros"
         let addresId =  self.paramsToOrder!["AddressID"]  as?  String //"4567890cuytrcts"
         let slotId = self.paramsToOrder!["slotId"] as? Int//1
         let deliveryType = self.paramsToOrder!["deliveryType"] as? String//"3"
         let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String//"Entrega Programada - $44"
         let deliverySchedule = self.paramsToOrder!["hour"] as? String//"11:00 - 12:00"
-        let pickingInstruction = self.paramsToOrder!["pickingInstruction"] as? String//"3"
+        let pickingInstruction = self.paramsToOrder!["pickingInstruction"] as! Int//"3"
         
-        let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: commensOrder!, paymentType: self.paymentId, addressID: addresId!, device: getDeviceNum(), slotId: slotId!, deliveryType: deliveryType!, correlationId: "", hour: deliverySchedule!, pickingInstruction: pickingInstruction!, deliveryTypeString: deliveryTypeString!, authorizationId: "", paymentTypeString:
+        let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: commensOrder!, paymentType: self.paymentId, addressID: addresId!, device: getDeviceNum(), slotId: slotId!, deliveryType: deliveryType!, correlationId: "", hour: deliverySchedule!, pickingInstruction:"\(pickingInstruction)" , deliveryTypeString: deliveryTypeString!, authorizationId: "", paymentTypeString:
             self.paymentString,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
         
         serviceCheck.jsonFromObject(paramsOrder)
