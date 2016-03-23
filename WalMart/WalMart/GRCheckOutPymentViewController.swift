@@ -10,7 +10,7 @@ import Foundation
 import Tune
 
 
-class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegate,TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate  {
+class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegate,TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate,GenerateOrderViewDelegate{
     
     var content: TPKeyboardAvoidingScrollView!
     
@@ -76,6 +76,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     //Confirmation view
     var serviceDetail : OrderConfirmDetailView? = nil
     
+    var confirmOrderView : GenerateOrderView? = nil
     
     var viewLoad : WMLoadingView!
     
@@ -283,9 +284,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let deliverySchedule = self.paramsToOrder!["hour"] as? String//"11:00 - 12:00"
         let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String
         
-        let view  = GenerateOrderView()
-        view.showDetail()
-        view.showConfirmOrder("", deliveryDate: "01 Enero 2016", deliveryHour: deliverySchedule!, paymentType: "efectivo", subtotal: "100.00", total: "110.00", deliveryAmount: deliveryTypeString!, discountsAssociated: "20", numArticles: "4")
+        self.confirmOrderView  = GenerateOrderView.initDetail()
+        self.confirmOrderView!.delegate  =  self
+        self.confirmOrderView?.showDetail()
+        
+        self.confirmOrderView?.showConfirmOrder("", deliveryDate: "01 Enero 2016", deliveryHour: deliverySchedule!, paymentType: "efectivo", subtotal: "100.00", total: "110.00", deliveryAmount: deliveryTypeString!, discountsAssociated: "20", numArticles: "4")
 
 
     }
@@ -1098,6 +1101,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func paymentSelected(index: String, paymentString: String) {
         self.paymentString = paymentString
         self.paymentId = index
+    }
+    
+    //MARK: GenerateOrderViewDelegate
+    func sendOrderConfirm() {
+        print("Creando su orden")
+        self.sendOrder()
     }
     
     

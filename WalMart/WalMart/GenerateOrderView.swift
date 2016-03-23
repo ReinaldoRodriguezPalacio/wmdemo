@@ -27,10 +27,6 @@ protocol GenerateOrderViewDelegate {
     var buttonOk : UIButton!
     var buttonEdit : UIButton!
 
-
-    
-    var viewLoadingDoneAnimate : UIView!
-    var viewLoadingDoneAnimateAux : UIView!
     
     var deliveryDate = ""
     var deliveryHour = ""
@@ -51,7 +47,7 @@ protocol GenerateOrderViewDelegate {
     
     var deliveryAmount : Double!
     var discountsAssociated : Double!
-//    var imgBgView : UIImageView!
+    var imgBgView : UIImageView!
 
     
     
@@ -69,6 +65,8 @@ protocol GenerateOrderViewDelegate {
     func setup() {
         
         self.backgroundColor = UIColor.clearColor()
+        bgView = UIView(frame: self.bounds)
+        self.addSubview(bgView)
         
         viewContent = UIView(frame: CGRectMake(0, 0, 288, 264))
         viewContent.layer.cornerRadius = 8.0
@@ -159,12 +157,6 @@ protocol GenerateOrderViewDelegate {
         
         
         
-        viewLoadingDoneAnimate = UIView()
-        viewLoadingDoneAnimate.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
-
-        
-        viewLoadingDoneAnimateAux = UIView()
-        viewLoadingDoneAnimateAux.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
 
         
         
@@ -187,26 +179,21 @@ protocol GenerateOrderViewDelegate {
         viewContent.addSubview(lblValuePaymentType)
         viewContent.addSubview(lblValueSubtotal)
         viewContent.addSubview(lblValueTotal)
-        viewContent.addSubview(viewLoadingDoneAnimate)
-        viewContent.addSubview(viewLoadingDoneAnimateAux)
+
         
         viewContent.addSubview(buttonOk)
         viewContent.addSubview(buttonEdit)
         self.addSubview(viewContent)
         
-//        bgView = UIView(frame: self.bounds)
-//        self.addSubview(bgView)
-        
-//        imgBgView = UIImageView(frame: self.bgView.bounds)
-//        self.bgView.addSubview(imgBgView)
+        imgBgView = UIImageView(frame: self.bgView.bounds)
+        self.bgView.addSubview(imgBgView)
 
-        
     }
     
     
     
     
-    class func initDetail()  -> OrderConfirmDetailView? {
+    class func initDetail()  -> GenerateOrderView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         //var frame = vc!.view.bounds
         if vc != nil {
@@ -215,8 +202,8 @@ protocol GenerateOrderViewDelegate {
         return nil
     }
     
-    class func initDetail(controller:UIViewController) -> OrderConfirmDetailView? {
-        let newConfirm = OrderConfirmDetailView(frame:controller.view.bounds)
+    class func initDetail(controller:UIViewController) -> GenerateOrderView? {
+        let newConfirm = GenerateOrderView(frame:controller.view.bounds)
         return newConfirm
     }
     
@@ -224,13 +211,12 @@ protocol GenerateOrderViewDelegate {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         self.frame = vc!.view.bounds
         vc!.view.addSubview(self)
-//       let imgBack =  UIImage(fromView:vc!.view,size:self.bgView.bounds.size)
-//       let imgBackBlur = imgBack.applyLightEffect()
-//        imgBgView.image = imgBackBlur
+        
+        let bgViewAlpha = UIView(frame: self.bgView.bounds)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        self.bgView.addSubview(bgViewAlpha)
+        
 
-//        let imgBack =  UIImage(fromView:vc!.view,size:self.bgView.bounds.size)
-//        let imgBackBlur = imgBack.applyLightEffect()
-//        imgBgView.image = imgBackBlur
     }
     
     
@@ -257,59 +243,17 @@ protocol GenerateOrderViewDelegate {
         
         
         
-        viewLoadingDoneAnimate.layer.removeAllAnimations()
-        viewLoadingDoneAnimateAux.layer.removeAllAnimations()
+        self.viewContent.frame = CGRectMake(0, 0, 288, 494)
+        self.viewContent.center = self.center
         
-        viewLoadingDoneAnimateAux.alpha = 0.0
-        
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 288, 494)
-            self.viewContent.center = self.center
-            }) { (complete) -> Void in
-                
-                self.viewLoadingDoneAnimate.transform = CGAffineTransformMakeScale(1.2,1.2)
-                
-                
-                self.viewLoadingDoneAnimate.backgroundColor = WMColor.green.colorWithAlphaComponent(0.5)
-                
-                let animation = CAKeyframeAnimation()
-                animation.keyPath = "transform.scale"
-                animation.duration = 0.6
-                animation.removedOnCompletion = false
-                animation.fillMode = kCAFillModeForwards
-                animation.repeatCount = 1
-                animation.values = [0, 1.3,1]
-                
-                
-        }
-        
-    }
-    
-    func errorOrder(descError:String) {
-        
-        viewLoadingDoneAnimate.layer.removeAllAnimations()
-        viewLoadingDoneAnimateAux.layer.removeAllAnimations()
-        
-        self.titleLabel.text = descError
-        
-        let buttonNOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, viewLoadingDoneAnimate.frame.maxY + 32, 98, 34))
-        buttonNOk.backgroundColor = WMColor.light_blue
-        buttonNOk.layer.cornerRadius = 17
-        buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonNOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonNOk.addTarget(self, action: "noOkAction", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        self.viewContent.addSubview(buttonNOk)
-        
-        self.titleLabel.frame = CGRectMake(0, 24, viewContent.frame.width, 36)
-        self.titleLabel.numberOfLines = 2
+
         
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        bgView.frame =  self.bounds
+        bgView.frame =  self.bounds
         viewContent.center = self.center
         
     }
@@ -319,7 +263,7 @@ protocol GenerateOrderViewDelegate {
         self.removeFromSuperview()
     }
     
-    func editAction() {
+    func noOkAction() {
         self.removeFromSuperview()
     }
     
