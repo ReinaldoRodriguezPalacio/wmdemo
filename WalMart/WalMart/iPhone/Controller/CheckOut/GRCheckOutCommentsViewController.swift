@@ -26,6 +26,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var confirmCallButton: UIButton?
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
+    var paramsToOrder : NSDictionary?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -165,8 +166,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func next(){
+        
         let nextController = GRCheckOutPymentViewController()
-        nextController.paramsFromOrder("3", year: "2016", day: "20", comments: "Comentarios para envio de pedido", addressID: "c96-cef3-485a-b340-54e5e62673f1", deliveryType: "3", hour: "Martes - (14:00 - 15:00)", pickingInstruction: "3", deliveryTypeString: "Entrega Programada - $44", slotId: 1,shipmentAmount: 12.9)
+        nextController.paramsToOrder = self.paramsToOrder
+        //nextController.paramsFromOrder("3", year: "2016", day: "20", comments: "Comentarios para envio de pedido", addressID: "c96-cef3-485a-b340-54e5e62673f1", deliveryType: "3", hour: "Martes - (14:00 - 15:00)", pickingInstruction: "3", deliveryTypeString: "Entrega Programada - $44", slotId: 1,shipmentAmount: 12.9)
         self.navigationController?.pushViewController(nextController, animated: true)
     }
 

@@ -401,10 +401,10 @@
 		<dict>
 			<key>WalmartMG.GRProductBySearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/2/getItemsBySearching</string>
-			<key>WalmartMG.GRShoppingCartAddProductsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 			<key>WalmartMG.GRProductDetailService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/2/getItemByUpc</string>
+			<key>WalmartMG.GRShoppingCartAddProductsService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/2/addItemToShoppingCartByUpcWithCommentsNew</string>
 		</dict>
 	</dict>
 	<key>WMGroceriesURLSignalsServicesSession</key>
@@ -444,8 +444,6 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
-			<key>WalmartMG.CarouselService</key>
-			<string>http://192.168.43.192:8085/walmartmg/login/getCarrusel</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>http://192.168.43.192:8085/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -460,6 +458,8 @@
 			<string>http://192.168.43.192:8085/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
+			<key>WalmartMG.CarouselService</key>
+			<string>http://192.168.43.192:8085/walmartmg/login/getCarrusel</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -547,8 +547,6 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
-			<key>WalmartMG.CarouselService</key>
-			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
@@ -563,6 +561,8 @@
 			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
+			<key>WalmartMG.CarouselService</key>
+			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -1035,8 +1035,6 @@
 		<dict>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
-			<key>WalmartMG.CarouselService</key>
-			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
 			<key>WalmartMG.AddItemWishlistService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addItemToWishlist</string>
 			<key>WalmartMG.AddPreferedAddress</key>
@@ -1049,6 +1047,8 @@
 			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
+			<key>WalmartMG.CarouselService</key>
+			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
