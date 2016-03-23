@@ -7,17 +7,19 @@
 //
 
 import Foundation
+import Tune
 
 
-
-class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegate,TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,UIPickerViewDelegate,AlertPickerViewDelegate {
-
+class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegate,TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate,GenerateOrderViewDelegate{
+    
     var content: TPKeyboardAvoidingScrollView!
     
     var cancelShop : UIButton?
     var confirmShop : UIButton?
     var sectionTitleDiscount : UILabel!
     var sectionTitlePayments : UILabel!
+    
+    var sectionPaypalTitle : UILabel!
     
     var contenPayments  : UIView!
     var stepLabel: UILabel!
@@ -33,6 +35,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var isAssociateSend : Bool =  false
     var discountsFreeShippingAssociated : Bool = false
     var totalDiscountsOrder : Double! = 0
+    var newTotal : Double!
     
     let margin:  CGFloat = 15.0
     let fheight: CGFloat = 44.0
@@ -44,7 +47,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentOptionsItems: [AnyObject]?
     var paymentOptions: FormFieldView?
     var selectedPaymentType : NSIndexPath!
-    var showPayPalFuturePayment : Bool = false
+   
     var promotionsDesc: [[String:String]]! = []
     var showDiscountAsociate : Bool = false
     var promotionButtons: [UIView]! = []
@@ -61,8 +64,21 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paymentString = ""
     var paramsToOrder : NSDictionary?
     
-    var viewLoad : WMLoadingView!    
+    //Paypal
+    var payPalFuturePaymentField: FormFieldView?
+    var payPalFuturePayment : Bool = false
+    var showPayPalFuturePayment : Bool = true //iniciar en false
     
+    var confirmOrderDictionary: [String:AnyObject]! = [:]
+    var cancelOrderDictionary:  [String:AnyObject]! = [:]
+    var completeOrderDictionary: [String:AnyObject]! = [:]
+    
+    //Confirmation view
+    var serviceDetail : OrderConfirmDetailView? = nil
+    
+    var confirmOrderView : GenerateOrderView? = nil
+    
+    var viewLoad : WMLoadingView!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
@@ -96,14 +112,17 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.content.frame = CGRectMake(0.0, 46, self.view.bounds.width, self.view.bounds.height - (46 + 120))
         self.content.delegate = self
         self.content.scrollDelegate = self
-        self.content.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.content)
         
+        sectionPaypalTitle = self.buildSectionTitle(NSLocalizedString("Pago en linea", comment:""), frame: CGRectMake(16,16.0, self.view.frame.width, lheight))
+        sectionPaypalTitle.hidden =  true
+        
+        self.content.addSubview(sectionPaypalTitle)
         
         sectionTitlePayments = self.buildSectionTitle(NSLocalizedString("Pago contra entrega", comment:""), frame: CGRectMake(16,16.0, self.view.frame.width, lheight))
         self.content.addSubview(sectionTitlePayments)
         
-
+        
         self.contenPayments =  UIView()
         self.content.addSubview(self.contenPayments)
         
@@ -112,7 +131,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         picker = AlertPickerView.initPickerWithDefault()
         
-        self.discountAssociate = FormFieldView(frame: CGRectMake(margin,sectionTitleDiscount.frame.maxY + 10.0,width,fheight))
+        self.discountAssociate = FormFieldView(frame: CGRectMake(margin,sectionTitleDiscount.frame.maxY ,width,fheight))
         self.discountAssociate!.setCustomPlaceholder(NSLocalizedString("checkout.field.discountAssociate", comment:""))
         self.discountAssociate!.isRequired = false
         self.discountAssociate!.typeField = TypeField.Check
@@ -138,7 +157,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
         
         //views
-
+        
         self.content.contentSize = CGSizeMake(self.view.frame.width, self.view.frame.maxY + 20.0)
         
         self.paymentOptions = FormFieldView(frame: CGRectMake(margin, 10.0, width, fheight))
@@ -166,7 +185,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         confirmShop?.layer.cornerRadius = 16
         confirmShop?.addTarget(self, action: "continuePurche", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(confirmShop!)
-       
+        
         //Services
         self.invokeDiscountActiveService { () -> Void in
             self.invokeGetPromotionsService([:], discountAssociateItems: []) { (finish:Bool) -> Void in
@@ -176,7 +195,14 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
         }
         
-       
+        self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,paymentOptions!.frame.maxY + 10.0,width,fheight))
+        self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
+        self.payPalFuturePaymentField!.isRequired = true
+        self.payPalFuturePaymentField!.typeField = TypeField.Check
+        self.payPalFuturePaymentField!.setImageTypeField()
+        self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
+        self.content.addSubview(self.payPalFuturePaymentField!)
+        
         
         self.invokePaymentService { () -> Void in print("End")
             self.paymentOptionsView =  PaymentOptionsView(frame: CGRectMake(0, 0,self.view!.frame.width,self.view!.frame.height) , items:self.paymentOptionsItems!)
@@ -187,6 +213,18 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             self.contenPayments?.addSubview(self.paymentOptionsView)
             self.removeViewLoad()
+        }
+        
+        self.payPalFuturePaymentField!.onBecomeFirstResponder = { () in
+            self.payPalFuturePayment = !self.payPalFuturePayment
+            if self.payPalFuturePayment
+            {
+                self.payPalFuturePaymentField!.setSelectedCheck(true)
+            }
+            else{
+                self.payPalFuturePaymentField!.setSelectedCheck(false)
+                
+            }
         }
         
         self.addViewLoad()
@@ -204,7 +242,17 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
-        self.sectionTitlePayments.frame =  CGRectMake(16,16.0, self.view.frame.width, lheight)
+        if self.showPayPalFuturePayment {
+            self.sectionPaypalTitle.frame = CGRectMake(16,16.0, self.view.frame.width, lheight)
+            self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalFuturePaymentField!.frame.maxY, self.view.frame.width, lheight)
+            sectionPaypalTitle.hidden =  false
+        }else{
+            sectionPaypalTitle.hidden =  true
+            self.sectionTitlePayments.frame =  CGRectMake(16,16.0, self.view.frame.width, lheight)
+        }
+        
+        
+        
         self.contenPayments.frame = CGRectMake(16,self.sectionTitlePayments.frame.maxY ,self.view.frame.width - 32 , 320)
         sectionTitleDiscount.frame = CGRectMake(16, self.contenPayments!.frame.maxY + 16, width, lheight)
         
@@ -233,8 +281,26 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     func continuePurche (){
+        let deliverySchedule = self.paramsToOrder!["hour"] as? String//"11:00 - 12:00"
+        let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String
+        
+        self.confirmOrderView  = GenerateOrderView.initDetail()
+        self.confirmOrderView!.delegate  =  self
+        self.confirmOrderView?.showDetail()
+        
+        self.confirmOrderView?.showConfirmOrder("", deliveryDate: "01 Enero 2016", deliveryHour: deliverySchedule!, paymentType: "efectivo", subtotal: "100.00", total: "110.00", deliveryAmount: deliveryTypeString!, discountsAssociated: "20", numArticles: "4")
 
+
+    }
+    
+    func sendOrder(){
+        
         let serviceCheck = GRSendOrderService()
+        
+        serviceDetail = OrderConfirmDetailView.initDetail()
+        //serviceDetail?.delegate = self
+        serviceDetail!.showDetail()
+        
         let total = UserCurrentSession.sharedInstance().estimateTotalGR()
         
         let freeShipping = discountsFreeShippingAssociated
@@ -243,7 +309,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         formatter.maximumFractionDigits = 2
         let totalDis = formatter.stringFromNumber(NSNumber(double:discount))!
         
-       
+        
         //Recibir por parametros
         let dateMonth = self.paramsToOrder!["month"] as! String//03
         let dateYear = self.paramsToOrder!["year"] as! String//2016
@@ -261,7 +327,106 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         serviceCheck.jsonFromObject(paramsOrder)
         
+        
+        // para no generar pedidos
+//        serviceCheck.callService(requestParams: paramsOrder, successBlock: { (resultCall:NSDictionary) -> Void in
+//            
+//            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
+//            // deliveryAmount
+//            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+//            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+//            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
+//            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+//            
+//            
+//            
+//            let purchaseOrderArray = resultCall["purchaseOrder"] as! NSArray
+//            let purchaseOrder = purchaseOrderArray[0] as! NSDictionary
+//            
+//            let trakingNumber = purchaseOrder["trackingNumber"] as! String
+//            let deliveryDate = purchaseOrder["deliveryDate"] as! NSString
+//            let paymentTypeString = purchaseOrder["paymentTypeString"] as! String
+//            let hour = purchaseOrder["hour"] as! String
+//            let subTotal = purchaseOrder["subTotal"] as! NSNumber
+//            let total = purchaseOrder["total"] as! NSNumber
+//            var authorizationId = ""
+//            var correlationId = ""
+//            var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
+//            
+//            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
+//            
+//            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
+//            
+//            
+//            if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
+//                authorizationId = authorizationIdVal
+//            }
+//            if let correlationIdVal = purchaseOrder["correlationId"] as? String {
+//                correlationId = correlationIdVal
+//            }
+//            
+//            if self.idFreeShepping != 0 || self.idReferido != 0{
+//                deliveryAmount =  0.0
+//            }
+//            let formattedSubtotal = CurrencyCustomLabel.formatString(subTotal.stringValue)
+//            let formattedTotal = CurrencyCustomLabel.formatString(total.stringValue)
+//            let formattedDeliveryAmount = CurrencyCustomLabel.formatString("\(deliveryAmount)")
+//            let formattedDate = deliveryDate.substringToIndex(10)
+//            let slot = purchaseOrder["slot"] as! NSDictionary
+//            
+//            self.confirmOrderDictionary = ["paymentType": self.paymentId,"trackingNumber": trakingNumber,"authorizationId": authorizationId,"correlationId": correlationId,"device":self.getDeviceNum()]
+//            self.cancelOrderDictionary = ["slot": slot,"device": self.getDeviceNum(),"paymentType": self.paymentId,"deliveryType": deliveryType!,"trackingNumber": trakingNumber]
+//            self.completeOrderDictionary = ["trakingNumber":trakingNumber, "deliveryDate": formattedDate, "deliveryHour": hour, "paymentType": paymentTypeString, "subtotal": formattedSubtotal, "total": formattedTotal, "deliveryAmount" : "\(formattedDeliveryAmount)","discountsAssociated" : "\(discountsAssociated)"]
+//            
+//            
+//            
+//            
+//            //PayPal
+//            if self.paymentId == "-1"{
+//                self.showPayPalPaymentController()
+//                return
+//            }
+//            //
+//            //                if paymentSelectedId == "-3"{
+//            //                    self.invokePaypalUpdateOrderService()
+//            //                }
+//            
+//            if !self.asociateDiscount {
+//                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated : "0.0")
+//            }else{
+//                self.serviceDetail?.completeOrder(trakingNumber, deliveryDate: formattedDate, deliveryHour: hour, paymentType: paymentTypeString, subtotal: formattedSubtotal, total: formattedTotal, deliveryAmount : formattedDeliveryAmount ,discountsAssociated :self.showDiscountAsociate ? "\(discountsAssociated)" :"0.0")
+//                
+//            }
+//            
+//            
+//            //self.buttonShop?.enabled = false
+//            
+//            
+//            //self.performSegueWithIdentifier("showOrderDetail", sender: self)
+//            
+//            }) { (error:NSError) -> Void in
+//                
+//                
+//                //  self.buttonShop?.enabled = true
+//                // println("Error \(error)")
+//                
+//                if error.code == -400 {
+//                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+//                }
+//                else {
+//                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+//                }
+//          }
+        
+    }
     
+    //MARK : OrderConfirmDetailViewDelegate
+    func didFinishConfirm() {
+          //self.dateChanged()
+    }
+    
+    func didErrorConfirm() {
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func addViewLoad(){
@@ -271,6 +436,81 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             viewLoad.startAnnimating(true)
             self.view.addSubview(viewLoad)
         }
+    }
+    
+    //MARK: - PayPal
+    func showPayPalPaymentController()
+    {
+        let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+        var payPalItems: [PayPalItem] = []
+        for item in items {
+            var itemPrice = item["price"] as! Double
+            var quantity = item["quantity"] as! UInt
+            if item["type"] as! String == "1"
+            {
+                //(prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue
+                itemPrice = (Double(quantity) / 1000.0) * itemPrice
+                quantity = 1
+            }
+            let payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
+            payPalItems.append(payPalItem)
+        }
+        // Los cupones y descuentos se agregan como item negativo.
+        let discounts = 0.0 - UserCurrentSession.sharedInstance().estimateSavingGR()
+        if discounts < 0
+        {
+            payPalItems.append(PayPalItem(name: "Descuentos", withQuantity:1 , withPrice: NSDecimalNumber(double:discounts), withCurrency: "MXN", withSku: "0000000000001"))
+        }
+        let subtotal = PayPalItem.totalPriceForItems(payPalItems)
+        // Optional: include payment details
+        let shipping = NSDecimalNumber(double: self.shipmentAmount)
+        let tax = NSDecimalNumber(double: 0.0)
+        let paymentDetails = PayPalPaymentDetails(subtotal:subtotal, withShipping: shipping, withTax: tax)
+        let total = subtotal.decimalNumberByAdding(shipping).decimalNumberByAdding(tax)
+        
+        let payment = PayPalPayment(amount: total, currencyCode: "MXN", shortDescription: "Walmart", intent: .Authorize)
+        
+        payment.items = payPalItems
+        payment.paymentDetails = paymentDetails
+        
+        if (payment.processable) {
+            let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
+            paymentViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            self.presentViewController(paymentViewController, animated: true, completion: nil)
+        }
+    }
+    
+    func showPayPalFuturePaymentController(){
+        let futurePaymentController = PayPalFuturePaymentViewController(configuration: self.initPayPalConfig(), delegate: self)
+        futurePaymentController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.presentViewController(futurePaymentController, animated: true, completion: nil)
+    }
+    
+    func initPayPalConfig() -> PayPalConfiguration{
+        // Set up payPalConfig
+        let payPalConfig = PayPalConfiguration()// default
+        payPalConfig.acceptCreditCards = false
+        payPalConfig.merchantName = "Walmart"
+        payPalConfig.merchantPrivacyPolicyURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/privacy-full")
+        payPalConfig.merchantUserAgreementURL = NSURL(string: "https://www.paypal.com/webapps/mpp/ua/useragreement-full")
+        payPalConfig.rememberUser = true
+        payPalConfig.languageOrLocale = NSLocale.preferredLanguages()[0]
+        payPalConfig.payPalShippingAddressOption = .Provided
+        return payPalConfig
+    }
+    
+    func getPayPalEnvironment() -> String{
+        let payPalEnvironment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMPayPalEnvironment") as! NSDictionary
+        let environment = payPalEnvironment.objectForKey("PayPalEnvironment") as! String
+        
+        if environment == "SANDBOX"{
+            return PayPalEnvironmentSandbox
+        }
+        else if  environment == "PRODUCTION"{
+            return PayPalEnvironmentProduction
+        }
+        
+        return PayPalEnvironmentNoNetwork
     }
     
     func removeViewLoad(){
@@ -290,16 +530,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     
-    //MARK : InvokeServices
+    //MARK: InvokeServices
     
     func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:((Bool) -> Void))
     {
-        /*if pickerValues.count == discountAssociateItems.count
-        {*/
-        //self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
-        //self.alertView!.setMessage("Validando Promociones")
-        
-        //self.addViewLoad()
         var savinAply : Double = 0.0
         var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
         if let savingGR = items["saving"] as? NSNumber {
@@ -312,10 +546,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
         paramsDic["addressId"] = self.paramsToOrder!["AddressID"] as? String
         let promotionsService = GRGetPromotionsService()
-
+        
         //        self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
-//        self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
-//        self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+        //        self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+        //        self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
         
         
         //self.promotionIds! = ""
@@ -326,8 +560,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if resultCall["codeMessage"] as! Int == 0
             {
                 
-               // self.newTotal = resultCall["newTotal"] as? Double
-                
+                self.newTotal = resultCall["newTotal"] as? Double
                 
                 let totalDiscounts =  resultCall["totalDiscounts"] as? Double
                 self.totalDiscountsOrder = totalDiscounts!
@@ -365,10 +598,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 
                 if self.idFreeShepping == 0 {
                     if let listReferidos = resultCall["listReferidos"] as? NSDictionary{
-                        
-                        //for promotionln in listReferidos {
-                        
-                        self.idReferido = listReferidos["idReferido"] as! Int//promotionln["idReferido"] as? Int
+                        self.idReferido = listReferidos["idReferido"] as! Int
                         let  addIdRefered =  listReferidos["numEnviosReferidos"] as! Int
                         if addIdRefered > 0 {
                             self.promotionIds! =  self.promotionIds!.stringByReplacingOccurrencesOfString(",\(self.idReferido)", withString: "")
@@ -378,37 +608,43 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                             print("listReferidos: \(self.idReferido)")
                             self.discountsFreeShippingAssociated =  true
                         }
-                        //}
                     }
                 }
                 
-                //self.discountAssociate!.setSelectedCheck(true)
-                //TODO: Validar si se recargara servicio
-//                self.invokeDeliveryTypesService({ () -> Void in
-//                    //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
-//                    //self.alertView!.showDoneIcon()
-//                    self.removeViewLoad()//--
-//                })
+                //                self.invokeDeliveryTypesService({ () -> Void in
+                //                    //self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
+                //                    //self.alertView!.showDoneIcon()
+                //                    self.removeViewLoad()//--
+                //                })
                 
-//                if self.newTotal != nil {
-//                    //self.updateShopButton("\(self.newTotal)")
-//                    var savinAply : Double = 0.0
-//                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
-//                    if let savingGR = items["saving"] as? NSNumber {
-//                        savinAply =  savingGR.doubleValue
-//                    }
-//                    
-//                    //NSDecimalNumber(string: String(format: "%.2f", itemPrice)
-//                   // let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
-//                   // let subTotal = String(format: "%.2f", self.newTotal)//"\(self.newTotal)"
-//                   // let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)//"\(self.totalDiscountsOrder + savinAply)"
-//                    
-////                    self.totalView.setTotalValues(total,
-////                        subtotal: subTotal,
-////                        saving: saving)
-//                    
-//                }
-               // self.buildSubViews()
+                if self.newTotal != nil {
+                    print("Boton Comprar :: \(self.newTotal)")
+                    //self.updateShopButton("\(self.newTotal)")
+                    var savinAply : Double = 0.0
+                    var items = UserCurrentSession.sharedInstance().itemsGR as! [String:AnyObject]
+                    if let savingGR = items["saving"] as? NSNumber {
+                        savinAply =  savingGR.doubleValue
+                    }
+                    let total = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR())"
+                    let subTotal = String(format: "%.2f", self.newTotal)
+                    let saving = String(format: "%.2f", self.totalDiscountsOrder + savinAply)
+                    
+                    let dSaving = NSNumberFormatter().numberFromString(saving)
+                    let dSubtotal = NSNumberFormatter().numberFromString(subTotal)
+                    let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
+                    
+                    print("Total de artiulos \(total)")
+                    print("subTotal :: \(subTotal)")
+                    print("saving::\(saving)")
+                    print("subNewTotal :: \(subNewTotal)")
+                    
+                    //                    self.totalView.setTotalValues(total,
+                    //                        subtotal: subTotal,
+                    //                        saving: saving)
+                    
+                }
+                self.buildSubViews()
+                
                 endCallPromotions(true)
             }
             }, errorBlock: {(error: NSError) -> Void in
@@ -507,17 +743,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     print("\(resultCall["saving"] as? Double)")
                     
                     UserCurrentSession.sharedInstance().itemsGR = items as NSDictionary
+                    
                     print("# de productos:: \(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
                     print("Subtotal:: \(UserCurrentSession.sharedInstance().estimateTotalGR())")
                     print("Saving:: \( UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")")
                     print("Comprar:: \(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
-                    
-                    
-//                    self.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
-//                        subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-//                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
-//                    self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
-                    
                     
                     
                     self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
@@ -534,9 +764,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                             self.isAssociateSend =  false
                         }
                         //TODO invocar servico para actualizar cosntos de envio
-//                        self.invokeDeliveryTypesService({ () -> Void in
-//                           
-//                        })
+                        //                        self.invokeDeliveryTypesService({ () -> Void in
+                        //
+                        //                        })
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
                         
@@ -565,8 +795,46 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
     }
     
+    //MARK: InvokeServices - Paypal
     
-    //MARK : Actions
+    func invokePayPalCancelService(message: String){
+        let cancelPayPalService = GRPaypalUpdateOrderService()
+        cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
+            self.serviceDetail?.errorOrder(message)
+            }, errorBlock: { (error:NSError) -> Void in
+                if error.code == -400 {
+                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                }
+                else {
+                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+                }
+        })
+        
+    }
+    
+    func invokePaypalUpdateOrderService(authorizationId:String,paymentType:String,idAuthorization:String){
+        let updatePaypalService = GRPaypalUpdateOrderService()
+        self.confirmOrderDictionary["authorizationId"] = authorizationId
+        self.confirmOrderDictionary["correlationId"] = PayPalMobile.clientMetadataID()
+        self.confirmOrderDictionary["paymentType"] = paymentType
+        self.confirmOrderDictionary["authorization"] = idAuthorization
+        print("idAuthorization::::\(idAuthorization)::::")
+        
+        updatePaypalService.callServiceConfirmOrder(requestParams: self.confirmOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
+            self.serviceDetail?.completeOrder(self.completeOrderDictionary["trakingNumber"] as! String, deliveryDate: self.completeOrderDictionary["deliveryDate"] as! String, deliveryHour: self.completeOrderDictionary["deliveryHour"] as! String, paymentType: self.completeOrderDictionary["paymentType"] as! String, subtotal: self.completeOrderDictionary["subtotal"] as! String, total: self.completeOrderDictionary["total"] as! String, deliveryAmount : self.completeOrderDictionary["deliveryAmount"] as! String, discountsAssociated: self.completeOrderDictionary["discountsAssociated"] as! String)
+            
+            }, errorBlock: { (error:NSError) -> Void in
+                if error.code == -400 {
+                    self.serviceDetail?.errorOrder("Hubo un error \(error.localizedDescription)")
+                }
+                else {
+                    self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
+                }
+        })
+    }
+    
+
+    //MARK: Actions
     
     func validateAssociate(pickerValues: [String:String], completion: (result:String) -> Void) {
         var message = ""
@@ -599,7 +867,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         if promotionsDesc.count > 0 {
             posY -= 10
             for promotion in self.promotionsDesc{
-                posY += CGFloat(40 * count)
+                //posY += CGFloat(40 * count)
                 
                 let titleLabel = UILabel(frame:CGRectMake(22, 0, widthField-22,fheight))
                 titleLabel.font = WMFont.fontMyriadProRegularOfSize(13)
@@ -619,8 +887,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.content.addSubview(promSelect)
                 self.promotionButtons.append(promSelect)
                 count++
+                posY += 50
             }
-            posY += 50
+            
             // self.hasPromotionsButtons = true
         }
         else{
@@ -643,50 +912,45 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let margin: CGFloat = 15.0
         let widthField = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
-        let lheight: CGFloat = 25.0
+        //let lheight: CGFloat = 25.0
         
-//        self.payPalFuturePaymentField!.alpha = 0
-//        var referenceFrame = self.paymentOptions!.frame
-//        
-//        if showPayPalFuturePayment{
-//            self.payPalFuturePaymentField!.alpha = 1
-//            referenceFrame = self.payPalFuturePaymentField!.frame
-//        }
+        self.payPalFuturePaymentField!.alpha = 0
+        //var referenceFrame = self.paymentOptions!.frame
+        
+        if showPayPalFuturePayment{
+            self.payPalFuturePaymentField!.alpha = 1
+            //referenceFrame = self.payPalFuturePaymentField!.frame
+        }
         
         
         self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
         
+        var posY  = self.view.frame.maxY
         if showDiscountAsociate
         {
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
-           // self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
-           // self.sectionTitleDiscount.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
-            self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,widthField,fheight)
             
-            let posY = self.buildPromotionButtons()
-           // self.sectionTitleShipment.frame =  CGRectMake(margin, posY, widthField, lheight)
-         //   self.address!.frame =  CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY , widthField, fheight)
+            self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,widthField,fheight)
+            posY = self.buildPromotionButtons()
+            print("posY ::: posY \(posY)")
             
         } else {
             if self.promotionsDesc.count > 0 {
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 1
-               // self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
-                let posY = self.buildPromotionButtons()
+                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 10.0, widthField, fheight)
+                posY = self.buildPromotionButtons()
                 print("posY ::: posY \(posY)")
-               // self.sectionTitleShipment.frame = CGRectMake(margin, posY, widthField, lheight)
-               // self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
             }else{
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 0
-               // self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.paymentOptions!.frame.maxY + 10.0, widthField, fheight)
-               // self.sectionTitleShipment.frame = CGRectMake(margin, referenceFrame.maxY + 20.0, widthField, lheight)
-               // self.address!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + 10.0, widthField, fheight)
+                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 10.0, widthField, fheight)
             }
         }
-
-        self.content.contentSize = CGSizeMake(self.view.frame.width, self.view.frame.maxY + 20.0)
+        
+        self.content.contentSize = CGSizeMake(self.view.frame.width, posY + 10.0)
         
     }
     
@@ -739,16 +1003,17 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     
+    
     //MARK: AlertPickerViewDelegate
     
     func didSelectOption(picker:AlertPickerView,indexPath: NSIndexPath,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
-        
+            
             if formFieldObj == self.discountAssociate!{
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_DISCOUT_ASOCIATE.rawValue , label: "")
                 if self.showDiscountAsociate {
                     //self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
-    
+                    
                 }
             }
         }
@@ -756,7 +1021,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     func didDeSelectOption(picker:AlertPickerView) {
         if let formFieldObj = picker.sender as? FormFieldView {
-        
+            
             if formFieldObj == self.discountAssociate!{
                 self.invokeDiscountAssociateService(picker.textboxValues!,discountAssociateItems: picker.itemsToShow)
             }
@@ -776,14 +1041,75 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
     }
     
-    //MARK :PaymentOptionsViewDelegate
+    
+    //MARK: PayPalPaymentDelegate
+    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
+        let message = "Tu pago ha sido cancelado"
+        self.invokePayPalCancelService(message)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
+        print("PayPal Payment Success !")
+        print(completedPayment!.description)
+        
+        
+        if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
+            if let idPayPal = completeDict["id"] as? String {
+                if let idAuthorization = completeDict["authorization_id"] as? String {
+                    self.invokePaypalUpdateOrderService(idPayPal,paymentType:"-1",idAuthorization:idAuthorization)
+                }
+            }
+        }
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    //MARK: PayPalFuturePaymentDelegate
+    func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
+        print("PayPal Future Payment Authorization Canceled")
+        //buttonShop?.enabled = true
+        //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
+        //self.invokePayPalCancelService(message)
+        self.sendOrder()
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func payPalFuturePaymentViewController(futurePaymentViewController: PayPalFuturePaymentViewController!, didAuthorizeFuturePayment futurePaymentAuthorization: [NSObject : AnyObject]!) {
+        
+        // send authorization to your server to get refresh token.
+        print(futurePaymentAuthorization!.description)
+        let futurePaymentService = GRPayPalFuturePaymentService()
+        let responce = futurePaymentAuthorization["response"] as! [NSObject : AnyObject]
+        futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
+            //self.invokePaypalUpdateOrderService("",paymentType:"-3")
+            //self.showPayPalPaymentController()
+            self.sendOrder()
+            }, errorBlock: { (error:NSError) -> Void in
+                //Mandar alerta
+                //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
+                //self.invokePayPalCancelService(message)
+                self.sendOrder()
+        })
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    //MARK: PaymentOptionsViewDelegate
     
     func paymentSelected(index: String, paymentString: String) {
         self.paymentString = paymentString
         self.paymentId = index
     }
     
+    //MARK: GenerateOrderViewDelegate
+    func sendOrderConfirm() {
+        print("Creando su orden")
+        self.sendOrder()
+    }
     
     
-
+    
+    
 }

@@ -10,13 +10,13 @@ import Foundation
 import AVFoundation
 
 protocol GenerateOrderViewDelegate {
-    func didFinishConfirm()
-    func didErrorConfirm()
+    func sendOrderConfirm()
+
 }
 
  class GenerateOrderView : UIView {
 
-    var delegate : OrderConfirmDetailViewDelegate!
+    var delegate : GenerateOrderViewDelegate!
     let maxAnimationSize : CGFloat = 30
     
     
@@ -25,9 +25,8 @@ protocol GenerateOrderViewDelegate {
     var titleLabel : UILabel!
     var bgView : UIView!
     var buttonOk : UIButton!
-    
-    var viewLoadingDoneAnimate : UIView!
-    var viewLoadingDoneAnimateAux : UIView!
+    var buttonEdit : UIButton!
+
     
     var deliveryDate = ""
     var deliveryHour = ""
@@ -48,12 +47,8 @@ protocol GenerateOrderViewDelegate {
     
     var deliveryAmount : Double!
     var discountsAssociated : Double!
-    
-    var timmerAnimation : NSTimer!
-    let animating : Bool = true
-    
-//var imgBgView : UIImageView!
-    
+    var imgBgView : UIImageView!
+
     
     
     
@@ -70,10 +65,8 @@ protocol GenerateOrderViewDelegate {
     func setup() {
         
         self.backgroundColor = UIColor.clearColor()
-        
-//        bgView = UIView(frame: self.bounds)
-//        self.addSubview(bgView)
-        
+        bgView = UIView(frame: self.bounds)
+        self.addSubview(bgView)
         
         viewContent = UIView(frame: CGRectMake(0, 0, 288, 264))
         viewContent.layer.cornerRadius = 8.0
@@ -88,12 +81,30 @@ protocol GenerateOrderViewDelegate {
         imgGenerateorder.image = UIImage(named: "generateorderimage")
         viewContent.addSubview(imgGenerateorder)
         
-        buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, 418, 98, 34))
-        buttonOk.backgroundColor = WMColor.light_blue
+        
+        buttonEdit = UIButton(frame: CGRectMake(16, 418, 120, 34))
+        buttonEdit.backgroundColor = WMColor.light_blue
+        buttonEdit.layer.cornerRadius = 17
+        buttonEdit.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        buttonEdit.setTitle("Editar", forState: UIControlState.Normal)
+        buttonEdit.addTarget(self, action: "noOkAction", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+        
+        
+        buttonOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) + 4, 418, 120, 34))
+        buttonOk.backgroundColor = WMColor.green
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonOk.setTitle("Ok", forState: UIControlState.Normal)
+        buttonOk.setTitle("Generar Pedido", forState: UIControlState.Normal)
         buttonOk.addTarget(self, action: "okAction", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
+
+        
+        
+        
+        
         
         titleLabel = UILabel(frame: CGRectMake(0, 24, viewContent.frame.width, 18))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
@@ -105,17 +116,20 @@ protocol GenerateOrderViewDelegate {
         
         
 
+        //let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
         
-        let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 274, 80, 12))
+        let lblTitleDeliveryDate = labelTitle(CGRectMake(48, 232, 80, 12))
         lblTitleDeliveryDate.text = NSLocalizedString("gr.generate.deliverydate", comment: "")
         
-        let lblTitleDeliveryHour = labelTitle(CGRectMake(160, lblTitleDeliveryDate.frame.minY, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
+//        let lblTitleDeliveryHour = labelTitle(CGRectMake(48, lblTitleDeliveryDate.frame.minY, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
+        let lblTitleDeliveryHour = labelTitle(CGRectMake(48, 272, lblTitleDeliveryDate.frame.width, lblTitleDeliveryDate.frame.height))
+
         lblTitleDeliveryHour.text = NSLocalizedString("gr.generate.deliveryhour", comment: "")
         
         let lblTitlePaymentType = labelTitle(CGRectMake(48, 306, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
         lblTitlePaymentType.text = NSLocalizedString("gr.generate.paymenttype", comment: "")
         
-        let lblTitleSubtotal = labelTitle(CGRectMake(48, 370, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
+        let lblTitleSubtotal = labelTitle(CGRectMake(48, 86, lblTitleDeliveryHour.frame.width, lblTitleDeliveryHour.frame.height))
         lblTitleSubtotal.text = NSLocalizedString("gr.generate.subtotal", comment: "")
         
         lbldiscountsAssociated = labelTitle(CGRectMake(160, 338, lblTitleDeliveryHour.frame.maxX, lblTitleDeliveryHour.frame.height))
@@ -129,22 +143,20 @@ protocol GenerateOrderViewDelegate {
         lblTitledeliveryAmount.text = NSLocalizedString("gr.generate.deliveryAmount", comment: "")
         
         
-        lblValueDeliveryDate = labelValue(CGRectMake(5, lblTitleDeliveryDate.frame.maxY, 80, 14))
-        lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
+        lblValueDeliveryDate = labelValue(CGRectMake(48, lblTitleDeliveryDate.frame.maxY, 80, 14))
+        
+//        lblValueDeliveryHour = labelValue(CGRectMake(160, lblTitleDeliveryDate.frame.maxY, 80, lblValueDeliveryDate.frame.height))
+        lblValueDeliveryHour = labelValue(CGRectMake(48, lblTitleDeliveryHour.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValuePaymentType = labelValue(CGRectMake(48, lblTitlePaymentType.frame.maxY, self.viewContent.frame.width - 48, lblValueDeliveryDate.frame.height))
         lblValueDeliveryAmount = labelValue(CGRectMake(48, lblTitledeliveryAmount.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValueSubtotal = labelValue(CGRectMake(48, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValueDiscountsAssociated = labelValue(CGRectMake(160, lbldiscountsAssociated.frame.maxY, 80, lblValueDeliveryDate.frame.height))
         lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
-        
-        
-        
-        viewLoadingDoneAnimate = UIView()
-        viewLoadingDoneAnimate.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
+        //        lblValueTotal = labelValue(CGRectMake(160, lblTitleSubtotal.frame.maxY, 80, lblValueDeliveryDate.frame.height))
 
         
-        viewLoadingDoneAnimateAux = UIView()
-        viewLoadingDoneAnimateAux.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.5)
+        
+        
 
         
         
@@ -167,19 +179,21 @@ protocol GenerateOrderViewDelegate {
         viewContent.addSubview(lblValuePaymentType)
         viewContent.addSubview(lblValueSubtotal)
         viewContent.addSubview(lblValueTotal)
-        viewContent.addSubview(viewLoadingDoneAnimate)
-        viewContent.addSubview(viewLoadingDoneAnimateAux)
-        
-        viewContent.addSubview(buttonOk)
-        self.addSubview(viewContent)
 
         
+        viewContent.addSubview(buttonOk)
+        viewContent.addSubview(buttonEdit)
+        self.addSubview(viewContent)
+        
+        imgBgView = UIImageView(frame: self.bgView.bounds)
+        self.bgView.addSubview(imgBgView)
+
     }
     
     
     
     
-    class func initDetail()  -> OrderConfirmDetailView? {
+    class func initDetail()  -> GenerateOrderView? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         //var frame = vc!.view.bounds
         if vc != nil {
@@ -188,8 +202,8 @@ protocol GenerateOrderViewDelegate {
         return nil
     }
     
-    class func initDetail(controller:UIViewController) -> OrderConfirmDetailView? {
-        let newConfirm = OrderConfirmDetailView(frame:controller.view.bounds)
+    class func initDetail(controller:UIViewController) -> GenerateOrderView? {
+        let newConfirm = GenerateOrderView(frame:controller.view.bounds)
         return newConfirm
     }
     
@@ -197,11 +211,12 @@ protocol GenerateOrderViewDelegate {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         self.frame = vc!.view.bounds
         vc!.view.addSubview(self)
-//        let imgBack =  UIImage(fromView:vc!.view,size:self.bgView.bounds.size)
-//        let imgBackBlur = imgBack.applyLightEffect()
-        //imgBgView.image = imgBackBlur
         
-        //self.startAnimating()
+        let bgViewAlpha = UIView(frame: self.bgView.bounds)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        self.bgView.addSubview(bgViewAlpha)
+        
+
     }
     
     
@@ -228,73 +243,31 @@ protocol GenerateOrderViewDelegate {
         
         
         
-        viewLoadingDoneAnimate.layer.removeAllAnimations()
-        viewLoadingDoneAnimateAux.layer.removeAllAnimations()
+        self.viewContent.frame = CGRectMake(0, 0, 288, 494)
+        self.viewContent.center = self.center
         
-        viewLoadingDoneAnimateAux.alpha = 0.0
-        
-        UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 288, 494)
-            self.viewContent.center = self.center
-            }) { (complete) -> Void in
-                
-                self.viewLoadingDoneAnimate.transform = CGAffineTransformMakeScale(1.2,1.2)
-                
-                
-                self.viewLoadingDoneAnimate.backgroundColor = WMColor.green.colorWithAlphaComponent(0.5)
-                
-                let animation = CAKeyframeAnimation()
-                animation.keyPath = "transform.scale"
-                animation.duration = 0.6
-                animation.removedOnCompletion = false
-                animation.fillMode = kCAFillModeForwards
-                animation.repeatCount = 1
-                animation.values = [0, 1.3,1]
-                
-                
-        }
-        
-    }
-    
-    func errorOrder(descError:String) {
-        
-        viewLoadingDoneAnimate.layer.removeAllAnimations()
-        viewLoadingDoneAnimateAux.layer.removeAllAnimations()
-        
-        self.titleLabel.text = descError
-        
-        let buttonNOk = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) - 49, viewLoadingDoneAnimate.frame.maxY + 32, 98, 34))
-        buttonNOk.backgroundColor = WMColor.light_blue
-        buttonNOk.layer.cornerRadius = 17
-        buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonNOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonNOk.addTarget(self, action: "noOkAction", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        self.viewContent.addSubview(buttonNOk)
-        
-        self.titleLabel.frame = CGRectMake(0, 24, viewContent.frame.width, 36)
-        self.titleLabel.numberOfLines = 2
+
         
     }
     
     
     override func layoutSubviews() {
         super.layoutSubviews()
-//        bgView.frame =  self.bounds
+        bgView.frame =  self.bounds
         viewContent.center = self.center
         
     }
     
     func okAction() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
-        self.delegate.didFinishConfirm()
+        self.delegate.sendOrderConfirm()
         self.removeFromSuperview()
     }
     
     func noOkAction() {
-        self.delegate.didErrorConfirm()
         self.removeFromSuperview()
     }
+    
+
     
     func labelTitle(frame:CGRect) -> UILabel {
         let labelTitleItem = UILabel(frame: frame)
@@ -308,51 +281,6 @@ protocol GenerateOrderViewDelegate {
         labelTitleItem.font = WMFont.fontMyriadProRegularOfSize(14)
         labelTitleItem.textColor = WMColor.dark_gray
         return labelTitleItem
-    }
-    
-    
-    
-    func animate() {
-        
-        var animation = CAKeyframeAnimation()
-        animation.keyPath = "transform.scale"
-        animation.duration = 1
-        animation.removedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
-        animation.repeatCount = Float.infinity
-        animation.values = [1, 1.5]
-        viewLoadingDoneAnimate.layer.addAnimation(animation, forKey: "grow")
-        
-        var animationOp = CAKeyframeAnimation()
-        animationOp.keyPath = "opacity"
-        animationOp.duration = 1
-        animationOp.removedOnCompletion = false
-        animationOp.fillMode = kCAFillModeForwards
-        animationOp.repeatCount = Float.infinity
-        animationOp.values = [1, 0]
-        viewLoadingDoneAnimate.layer.addAnimation(animationOp, forKey: "alpha0")
-        
-        animation = CAKeyframeAnimation()
-        animation.keyPath = "transform.scale"
-        animation.beginTime = CACurrentMediaTime() + 0.5
-        animation.duration = 1
-        animation.removedOnCompletion = false
-        animation.fillMode = kCAFillModeForwards
-        animation.repeatCount = Float.infinity
-        animation.values = [1, 1.5]
-        viewLoadingDoneAnimateAux.layer.addAnimation(animation, forKey: "grow")
-        
-        animationOp = CAKeyframeAnimation()
-        animationOp.keyPath = "opacity"
-        animationOp.beginTime = CACurrentMediaTime() + 0.5
-        animationOp.duration = 1
-        animationOp.removedOnCompletion = false
-        animationOp.fillMode = kCAFillModeForwards
-        animationOp.repeatCount = Float.infinity
-        animationOp.values = [1, 0]
-        viewLoadingDoneAnimateAux.layer.addAnimation(animationOp, forKey: "alpha0")
-        
-        
     }
     
 }
