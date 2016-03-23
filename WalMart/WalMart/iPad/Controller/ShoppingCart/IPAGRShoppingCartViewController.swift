@@ -15,7 +15,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     @IBOutlet var containerGROrder : UIView!
     var viewShowLogin : IPAGRLoginUserOrderView? = nil
-    var ctrlCheckOut : IPAGRCheckOutViewController? = nil
+    var ctrlCheckOut : UINavigationController? = nil
     var popup : UIPopoverController?
     var viewSeparator : UIView!
     var viewTitleCheckout : UILabel!
@@ -44,9 +44,14 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
                 saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
         } else {
-            ctrlCheckOut = IPAGRCheckOutViewController()
-            ctrlCheckOut?.itemsInCart = itemsInCart
-            ctrlCheckOut?.delegateCheckOut = self
+            self.viewTitleCheckout.hidden = true
+            let checkoutVC = GRCheckOutDeliveryViewController()
+            checkoutVC.view.frame = containerGROrder.bounds
+            ctrlCheckOut = UINavigationController(rootViewController: checkoutVC)
+            ctrlCheckOut!.navigationBarHidden = true
+            checkoutVC.hiddenBack = true
+            //ctrlCheckOut?.itemsInCart = itemsInCart
+            //ctrlCheckOut?.delegateCheckOut = self
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
@@ -116,12 +121,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         
                     }
                     
-                    self.ctrlCheckOut?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+                    /*self.ctrlCheckOut?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
                         subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")*/
                     
-                    self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
-                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
+                    /*self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)*/
                     
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
                 } else {
@@ -167,7 +172,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
-                self.ctrlCheckOut?.addViewLoad()
+                //self.ctrlCheckOut?.addViewLoad()
                 if cell.onHandInventory.integerValue >= Int(quantity) {
                     self.selectQuantityGR?.closeAction()
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
@@ -287,11 +292,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     cont = nil
                     
                     self.loadGRShoppingCart()
-                    self.ctrlCheckOut = IPAGRCheckOutViewController()
-                    self.ctrlCheckOut?.view.frame = self.containerGROrder.bounds
-                    self.ctrlCheckOut?.itemsInCart = self.itemsInCart
-                    self.ctrlCheckOut?.delegateCheckOut = self
-                    self.addChildViewController(self.ctrlCheckOut!)
+//                    self.ctrlCheckOut = IPAGRCheckOutViewController()
+//                    self.ctrlCheckOut?.view.frame = self.containerGROrder.bounds
+//                    self.ctrlCheckOut?.itemsInCart = self.itemsInCart
+//                    self.ctrlCheckOut?.delegateCheckOut = self
+//                    self.addChildViewController(self.ctrlCheckOut!)
                     self.containerGROrder.addSubview(self.ctrlCheckOut!.view)
                     self.viewShowLogin?.alpha = 0
                     self.viewShowLogin?.removeFromSuperview()
@@ -325,7 +330,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
         }
         
-        self.ctrlCheckOut?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+        /*self.ctrlCheckOut?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
             saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
         
@@ -335,7 +340,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.ctrlCheckOut?.invokeGetPromotionsService(self.ctrlCheckOut!.picker.textboxValues!, discountAssociateItems: self.ctrlCheckOut!.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
                 print("End form Ipa Shpping cart")
             })
-        }
+        }*/
 
     }
     

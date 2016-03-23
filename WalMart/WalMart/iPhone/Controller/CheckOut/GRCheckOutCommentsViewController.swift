@@ -23,6 +23,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var stepLabel: UILabel!
     var comments: UITextView?
     var phoneField: FormFieldView?
+    var sectionTitle: UILabel?
+    var sectionTitleComments: UILabel?
     var confirmCallButton: UIButton?
     var notConfirmCallButton: UIButton?
     var confirmCallOptionButton: UIButton?
@@ -59,10 +61,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         
-        let sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, margin, width, lheight))
-        self.content.addSubview(sectionTitle)
+        self.sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, margin, width, lheight))
+        self.content.addSubview(self.sectionTitle!)
         
-        self.confirmCallButton = UIButton(frame: CGRectMake(margin,sectionTitle.frame.maxY + margin,width,20))
+        self.confirmCallButton = UIButton()
         self.confirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.confirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
         self.confirmCallButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -87,7 +89,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.text = "Telefono: \(UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String)"
         self.content.addSubview(self.phoneField!)
         
-        self.confirmCallOptionButton = UIButton(frame: CGRectMake(margin,phoneField!.frame.maxY + margin,width,30))
+        self.confirmCallOptionButton = UIButton()
         self.confirmCallOptionButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.confirmCallOptionButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
         self.confirmCallOptionButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -101,7 +103,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.tag = 1
         self.content.addSubview(self.confirmCallOptionButton!)
         
-        self.notConfirmCallButton = UIButton(frame: CGRectMake(margin,confirmCallOptionButton!.frame.maxY + margin,width,30))
+        self.notConfirmCallButton = UIButton()
         self.notConfirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.notConfirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
         self.notConfirmCallButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -115,10 +117,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
-        let sectionTitleComments = self.buildSectionTitle("¿Alguna intrucción o nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
-        self.content.addSubview(sectionTitleComments)
+        self.sectionTitleComments = self.buildSectionTitle("¿Alguna intrucción o nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        self.content.addSubview(self.sectionTitleComments!)
         
-        self.comments = UITextView(frame:CGRectMake(margin,sectionTitleComments.frame.maxY + margin,width,70))
+        self.comments = UITextView()
         self.comments!.layer.cornerRadius = 5.0
         self.comments!.returnKeyType = .Default
         self.comments!.autocapitalizationType = .None
@@ -158,7 +160,18 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let margin: CGFloat = 16.0
+        let width = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        let lheight: CGFloat = 15.0
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
+        self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
+        self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
+        self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
+        self.confirmCallOptionButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,30)
+        self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallOptionButton!.frame.maxY + margin,width,30)
+        self.sectionTitleComments!.frame = CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight)
+        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,70)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 65)
         self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 65,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)

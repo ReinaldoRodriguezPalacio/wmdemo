@@ -776,6 +776,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
         cell.textLabel?.text = self.getHourToShow(self.slotsItems![indexPath.row]["displayText"] as! String)
         cell.checkSelected.frame = CGRectMake(0, 0, 33, 46)
+        cell.selectionStyle = .None
         if self.selectedTimeSlotTypeIx != nil {
             cell.setSelected(indexPath.row == self.selectedTimeSlotTypeIx.row, animated: false)
         }

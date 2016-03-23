@@ -221,6 +221,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         {
             self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
+            cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]
             if self.selected != nil {
                 cell.setSelected(indexPath.row == self.selected.row, animated: true)
