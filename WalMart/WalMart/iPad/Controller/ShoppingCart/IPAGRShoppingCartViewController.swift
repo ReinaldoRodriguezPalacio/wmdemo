@@ -16,6 +16,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     @IBOutlet var containerGROrder : UIView!
     var viewShowLogin : IPAGRLoginUserOrderView? = nil
     var ctrlCheckOut : UINavigationController? = nil
+    var checkoutVC : IPAGRCheckOutViewController? = nil
     var popup : UIPopoverController?
     var viewSeparator : UIView!
     var viewTitleCheckout : UILabel!
@@ -45,13 +46,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                 saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
         } else {
             self.viewTitleCheckout.hidden = true
-            let checkoutVC = GRCheckOutDeliveryViewController()
-            checkoutVC.view.frame = containerGROrder.bounds
-            ctrlCheckOut = UINavigationController(rootViewController: checkoutVC)
+            self.checkoutVC = IPAGRCheckOutViewController()
+            checkoutVC!.view.frame = containerGROrder.bounds
+            ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
+            //checkoutVC!.hiddenBack = true
             ctrlCheckOut!.navigationBarHidden = true
-            checkoutVC.hiddenBack = true
-            //ctrlCheckOut?.itemsInCart = itemsInCart
-            //ctrlCheckOut?.delegateCheckOut = self
+            checkoutVC?.itemsInCart = itemsInCart
+            checkoutVC?.delegateCheckOut = self
             self.addChildViewController(ctrlCheckOut!)
             containerGROrder.addSubview(ctrlCheckOut!.view)
         }
@@ -121,12 +122,12 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                         
                     }
                     
-                    /*self.ctrlCheckOut?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+                    self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
                         subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")*/
+                        saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
                     
-                    /*self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
-                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)*/
+                    self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: self, userInfo: nil)
                     
                     //self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR())")
                 } else {
@@ -292,11 +293,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     cont = nil
                     
                     self.loadGRShoppingCart()
-//                    self.ctrlCheckOut = IPAGRCheckOutViewController()
-//                    self.ctrlCheckOut?.view.frame = self.containerGROrder.bounds
-//                    self.ctrlCheckOut?.itemsInCart = self.itemsInCart
-//                    self.ctrlCheckOut?.delegateCheckOut = self
-//                    self.addChildViewController(self.ctrlCheckOut!)
+                    self.checkoutVC = IPAGRCheckOutViewController()
+                    self.checkoutVC?.view.frame = self.containerGROrder.bounds
+                    self.ctrlCheckOut = UINavigationController(rootViewController: self.checkoutVC!)
+                    self.checkoutVC?.itemsInCart = self.itemsInCart
+                    self.checkoutVC?.delegateCheckOut = self
+                    self.ctrlCheckOut!.navigationBarHidden = true
+                    self.addChildViewController(self.ctrlCheckOut!)
                     self.containerGROrder.addSubview(self.ctrlCheckOut!.view)
                     self.viewShowLogin?.alpha = 0
                     self.viewShowLogin?.removeFromSuperview()
