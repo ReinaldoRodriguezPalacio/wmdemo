@@ -637,7 +637,7 @@
 "gr.generate.paymenttype" = "Forma de pago";
 "gr.generate.deliveryhour" = "horario";
 "gr.generate.deliveryAmount" = "Envío";
-"gr.generate.discountAssociate" = "Descuentos";
+"gr.generate.discount" = "Descuentos";
 "gr.generate.deliverydate" = "Fecha";
 "gr.generate.subtotal" = "Subtotal";
 "gr.generate.shipping" = "Dirección de Envío";
