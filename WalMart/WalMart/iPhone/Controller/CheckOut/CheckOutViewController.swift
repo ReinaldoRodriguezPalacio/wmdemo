@@ -31,6 +31,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     var itemsMG : NSArray!
     var total : String?
     var stopTune =  true
+    
+    let DOMAIN_CHECKOUT = "www.walmart.com.mx/m_Mi-Cuenta.aspx" //--pilot.walmartdirecto.mx/m_Mi-Cuenta.aspx //"www.walmart.com.mx/m_Mi-Cuenta.aspx"-pilot.walmartdirecto.mx
 
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
@@ -49,7 +51,10 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         webCheckOut.delegate = self
         
-        let request = NSURLRequest(URL: NSURL(string: "https://www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
+        var urlLogin = "https://www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)"
+        urlLogin = "https://www.walmart.com.mx/m_Ingresar.aspx?goto=/CheckOut"
+        
+        let request = NSURLRequest(URL: NSURL(string: urlLogin)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalAndRemoteCacheData, timeoutInterval: timeInterval)
         webCheckOut.loadRequest(request)
         self.view.addSubview(webCheckOut)
         
@@ -66,12 +71,22 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        self.removeAllCookies()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBadge.rawValue, object: nil)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
           webCheckOut.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height)
+    }
+    
+    func removeAllCookies() {
+        let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        var cookies = storage.cookiesForURL(NSURL(string: "https://www.walmart.com.mx")!)
+        for var idx = 0; idx < cookies!.count; idx++ {
+            let cookie = cookies![idx] as NSHTTPCookie
+            storage.deleteCookie(cookie)
+        }
     }
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
@@ -81,8 +96,11 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             if range.location != NSNotFound {
                 
             }
+        
+            var urlPrivacy = "www.walmart.com.mx/Politicas-de-privacidad.aspx"
+            urlPrivacy = "http://www.walmart.com.mx/Politicas-de-privacidad.aspx"
             
-            range = string.rangeOfString("www.walmart.com.mx/Politicas-de-privacidad.aspx")
+            range = string.rangeOfString(urlPrivacy)
             if range.location != NSNotFound {
                 let previewHelp = PreviewHelpViewController()
                 previewHelp.titleText = NSLocalizedString("help.item.privacy.notice", comment: "")
@@ -92,59 +110,88 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 return false
             }
             
-            range = string.rangeOfString("www.walmart.com.mx/CheckOut.aspx")
+            range = string.rangeOfString("https://www.walmart.com.mx/CheckOut")//("www.walmart.com.mx/CheckOut.aspx")
             if range.location != NSNotFound {
-                back()
+                //back()
             }
             
-            range = string.rangeOfString("/app_Revisar-Carrito.aspx")
+            range = string.rangeOfString("/Revisar-Carrito")//("/app_Revisar-Carrito.aspx")
             if range.location != NSNotFound {
                 back()
             }
+        
+            range = string.rangeOfString("https://www.walmart.com.mx/")//https://pilot.walmartdirecto.mx
+        
+        
             
             let rangeMobile = string.rangeOfString("/m_")
-            let rangeMobilePayment = string.rangeOfString("/m_CreditCardPayment.aspx")
-            let rangePayment = string.rangeOfString("/CreditCardPayment.aspx")
+            let rangeMobilePayment = string.rangeOfString("/mg/CreditCardPayment.aspx?")//("/m_CreditCardPayment.aspx")
+            let rangePayment = string.rangeOfString("/CreditCardPayment.aspx?")
             range = string.rangeOfString("/m_Mi-Cuenta.aspx")
             let rangeMobileIngresa = string.rangeOfString("/m_Ingresar.aspx")
             if range.location == NSNotFound && rangeMobileIngresa.location == NSNotFound && rangeMobile.location != NSNotFound && rangeMobilePayment.location ==  NSNotFound && rangePayment.location ==  NSNotFound {
                 back()
             }
             
-            range = string.rangeOfString("www.walmart.com.mx/m_Mi-Cuenta.aspx")
+            range = string.rangeOfString(DOMAIN_CHECKOUT)
             if range.location != NSNotFound {
-                let request = NSURLRequest(URL: NSURL(string: "https://www.walmart.com.mx/\(checkResponsive)")!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: timeInterval)
+                var urlRequest = "https://www.walmart.com.mx/\(checkResponsive)"
+                urlRequest =  "https://www.walmart.com.mx/CheckOut"//"https://pilot.walmartdirecto.mx/CheckOut"
+                
+                let request = NSURLRequest(URL: NSURL(string: urlRequest)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: timeInterval)
                 webCheckOut.loadRequest(request)
                 return false
+            }else{
+                print("NSNotFound ::: \(DOMAIN_CHECKOUT)")
             }
+        
+            let len = "https://www.walmart.com.mx/"
+            len.length()
+            if range.location != NSNotFound &&  len.length() == string.length {
+                print("cerrando ::: https://www.walmart.com.mx/")
+                back()
+            }
+        
         return true
     }
     
     func webViewDidFinishLoad(webView: UIWebView) {
         print("URL::: FinishLoad --\(webView.request?.URL!.absoluteString)")
         let string = webView.request!.URL!.absoluteString as NSString
-        var range = string.rangeOfString("www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)")
+        
+        var urlLogin = "https://www.walmart.com.mx/m_Ingresar.aspx?goto=\(checkResponsive)"
+        urlLogin = "https://www.walmart.com.mx/m_Ingresar.aspx?goto=/CheckOut"//"https://pilot.walmartdirecto.mx/m_Ingresar.aspx?goto=/CheckOut"
+        
+        var range = string.rangeOfString(urlLogin)
+        
         if range.location != NSNotFound {
             //CheckoutiPad
             self.writeDeviceInfo(webView)
             
             webView.stringByEvaluatingJavaScriptFromString("document.getElementById('UserName').value='\(self.username.lowercaseString)';")
             webView.stringByEvaluatingJavaScriptFromString("document.getElementById('Password').value='\(self.password)';")
-            webView.stringByEvaluatingJavaScriptFromString("WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"btnLogin\", \"\", true, \"loginControl\", \"\", false, true))")
+            webView.stringByEvaluatingJavaScriptFromString("document.getElementById(\"btnLogin\").click()")
+            
+            //webView.stringByEvaluatingJavaScriptFromString("WebForm_DoPostBackWithOptions(new WebForm_PostBackOptions(\"btnLogin\", \"\", true, \"loginControl\", \"\", false, true))")
             
             
             
             return
         } else {
-            range = string.rangeOfString("www.walmart.com.mx/m_Mi-Cuenta.aspx")
+            range = string.rangeOfString(DOMAIN_CHECKOUT)
             if range.location != NSNotFound {
-                let request = NSURLRequest(URL: NSURL(string: "https://www.walmart.com.mx/\(checkResponsive)")!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: timeInterval)
+                var urlRequest = "https://www.walmart.com.mx/\(checkResponsive)"
+                urlRequest =  "https://www.walmart.com.mx/CheckOut"//"https://pilot.walmartdirecto.mx/CheckOut"
+                
+                let request = NSURLRequest(URL: NSURL(string: urlRequest)!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: timeInterval)
                 webCheckOut.loadRequest(request)
                 return
+            }else{
+                print("NSNotFound:::: https://www.walmart.com.mx/CheckOut")
             }
         }
         
-        let rangeEnd = string.rangeOfString("/app_Confirmacion-Pedido.aspx")
+        let rangeEnd = string.rangeOfString("/Confirmacion-Pedido?")//("/app_Confirmacion-Pedido.aspx")
         if rangeEnd.location != NSNotFound && !didLoginWithEmail {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_MG.rawValue , label: "")
             didLoginWithEmail = true
@@ -217,7 +264,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     func screenShotMethod() {
         //Create the UIImage
-        UIGraphicsBeginImageContext(CGSizeMake(self.webCheckOut.frame.width, self.webCheckOut.frame.height - 60))
+        UIGraphicsBeginImageContext(CGSizeMake(self.webCheckOut.frame.width, self.webCheckOut.frame.height))
         
         self.webCheckOut.layer.renderInContext(UIGraphicsGetCurrentContext()!)
         let image = UIGraphicsGetImageFromCurrentImageContext()
