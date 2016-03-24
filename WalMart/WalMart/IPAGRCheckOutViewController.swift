@@ -14,66 +14,74 @@ protocol IPAGRCheckOutViewControllerDelegate {
     func closeIPAGRCheckOutViewController()
 }
 
-class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegate {
+class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelectorDelegate {
     
     var addToListButton: UIButton!
     var buttonShare: UIButton!
     var itemsInCart: NSArray!
     var listSelectorController: ListsSelectorViewController?
     var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
+    var backgroundView: UIView?
+    var footer: UIView?
+    var buttonShop: UIButton?
+    var totalView : IPOCheckOutTotalView!
+    var customlabel : CurrencyCustomLabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.header!.hidden = true
+        self.timeSlotsTable?.hidden = true
+        self.backgroundView = UIView()
+        self.backgroundView!.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
+        self.view.addSubview(backgroundView!)
+        
+        self.footer = UIView()
+        self.footer!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.footer!)
+        let bounds = self.view.frame.size
+        let footerHeight:CGFloat = 60.0
+        self.buttonShop = UIButton(type: .Custom) as UIButton
+        self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
+        self.buttonShop!.backgroundColor = WMColor.green
+        self.buttonShop!.layer.cornerRadius = 17
+        self.buttonShop!.addTarget(self, action: "shopButtonTaped", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
+        self.footer!.addSubview(self.buttonShop!)
         
         self.addToListButton = UIButton(frame: CGRectMake(8 ,0, 50, footer!.frame.height))
         self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
         self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
         self.addToListButton!.addTarget(self, action: "addCartToList", forControlEvents: .TouchUpInside)
         
-        buttonShare = UIButton(frame: CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height))
-        buttonShare.setImage(UIImage(named: "detail_shareOff"), forState: UIControlState.Normal)
-        buttonShare.addTarget(self, action: "shareShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShare = UIButton(frame: CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height))
+        self.buttonShare.setImage(UIImage(named: "detail_shareOff"), forState: UIControlState.Normal)
+        self.buttonShare.addTarget(self, action: "shareShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        self.footer!.addSubview(self.addToListButton!)
+        self.footer!.addSubview(self.buttonShare)
         
-        footer!.addSubview(self.addToListButton!)
-        footer!.addSubview(self.buttonShare)
+        totalView = IPOCheckOutTotalView(frame:CGRectMake(0, self.toolTipLabel!.frame.maxY + 10, self.view.frame.width, 60))
+        totalView.backgroundColor = WMColor.light_light_gray
+        totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+            subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
+            saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
+        self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
+        self.backgroundView!.addSubview(totalView)
+        self.backgroundView!.addSubview(footer!)
         
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.frame.size
-        //var resumeHeight:CGFloat = 75.0
-        let footerHeight:CGFloat = 60.0
+        let footerHeight:CGFloat = 65.0
         
-        //self.viewLoad.frame = self.view.bounds
-        self.totalView.frame = CGRectMake(0, self.confirmation!.frame.maxY + 10, self.view.bounds.width, 60)
-        self.content!.frame = CGRectMake(0.0, 0.0, bounds.width, bounds.height - footerHeight)
-        self.content.contentSize = CGSizeMake(self.view.bounds.width, totalView.frame.maxY + 20.0)
-        
-        
+        self.backgroundView!.frame = CGRectMake(0,46,self.view.bounds.width,self.view.bounds.height - 46)
+        self.totalView.frame = CGRectMake(0, self.backgroundView!.frame.height - 160, self.view.bounds.width, 95)
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
-        
-        
-        self.footer!.frame = CGRectMake(0.0, self.view.bounds.height - footerHeight, bounds.width, footerHeight)
-        
-        let margin: CGFloat = 15.0
-        let widthField = self.view.bounds.width - (2*margin)
-        let fheight: CGFloat = 44.0
-        //var lheight: CGFloat = 25.0
-        
-        self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
-        self.address!.frame = CGRectMake(margin, self.address!.frame.minY, widthField, fheight)
-        self.shipmentType!.frame = CGRectMake(margin, self.address!.frame.maxY + 5.0, widthField, fheight)
-        self.deliveryDate!.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 5.0, widthField, fheight)
-        self.deliverySchedule!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, widthField, fheight)
-        self.comments!.frame = CGRectMake(margin, self.deliverySchedule!.frame.maxY + 5.0, widthField, fheight)
-        self.confirmation!.frame = CGRectMake(margin, self.confirmation!.frame.minY , widthField, fheight)
-        
+        self.footer!.frame = CGRectMake(0.0, self.backgroundView!.bounds.height - footerHeight, bounds.width, footerHeight)
         self.addToListButton.frame = CGRectMake(8 ,0, 50, footer!.frame.height)
-        buttonShare.frame = CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height)
+        self.buttonShare.frame = CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height)
         self.buttonShop!.frame = CGRectMake(buttonShare.frame.maxX + 8, (footer!.frame.height / 2) - 17, self.view.frame.width - buttonShare.frame.maxX - 24, 34)
         
         self.customlabel.frame = self.buttonShop!.bounds
@@ -352,19 +360,37 @@ class IPAGRCheckOutViewController : GRCheckOutViewController,ListSelectorDelegat
         )
     }
     
+    func shopButtonTaped(){
+        self.backgroundView?.removeFromSuperview()
+        self.timeSlotsTable?.hidden = false
+    }
+    
+    override func back() {
+        self.view.addSubview(self.backgroundView!)
+        self.timeSlotsTable?.hidden = true
+    }
+    
     //Share 
     func shareShoppingCart() {
         self.delegateCheckOut.shareShoppingCart()
     }
     
  
-    override func didFinishConfirm() {
+    func updateShopButton(total:String) {
+        if customlabel == nil {
+            customlabel = CurrencyCustomLabel(frame: self.buttonShop!.bounds)
+            customlabel.backgroundColor = UIColor.clearColor()
+            customlabel.setCurrencyUserInteractionEnabled(true)
+            buttonShop!.addSubview(customlabel)
+            buttonShop!.sendSubviewToBack(customlabel)
+        }
+        let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
+        let fmtTotal = CurrencyCustomLabel.formatString(total)
+        let shopStrComplete = "\(shopStr) \(fmtTotal)"
+        customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+    }
+    
+    func didFinishConfirm() {
         self.delegateCheckOut.closeIPAGRCheckOutViewController()
     }
-    
-    override func getDeviceNum() -> String {
-        return "25"
-    }
-    
-    
 }

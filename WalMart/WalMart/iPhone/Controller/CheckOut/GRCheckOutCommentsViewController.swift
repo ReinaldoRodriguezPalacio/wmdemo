@@ -43,6 +43,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.titleLabel?.text = "Instrucciones especiales"
         self.view.backgroundColor = UIColor.whiteColor()
         
+        if IS_IPAD {
+            self.backButton?.hidden = true
+        }
+        
         self.content = TPKeyboardAvoidingScrollView()
         self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
@@ -54,6 +58,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
+        let checkImageBottom: CGFloat = IS_IPAD ? 28 : 14
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -97,9 +102,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.confirmCallOptionButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.confirmCallOptionButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.confirmCallOptionButton!.titleLabel?.numberOfLines = 2
+        self.confirmCallOptionButton!.titleLabel?.numberOfLines = 3
         self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 14, right:0 )
+        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.confirmCallOptionButton!.tag = 1
         self.content.addSubview(self.confirmCallOptionButton!)
         
@@ -111,9 +116,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.notConfirmCallButton!.titleLabel?.numberOfLines = 2
+        self.notConfirmCallButton!.titleLabel?.numberOfLines = 3
         self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 14, right:0 )
+        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
@@ -164,12 +169,13 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
+        let checkButtonHeight: CGFloat = IS_IPAD ? 45 : 30
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
         self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
-        self.confirmCallOptionButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,30)
-        self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallOptionButton!.frame.maxY + margin,width,30)
+        self.confirmCallOptionButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,checkButtonHeight)
+        self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallOptionButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight)
         self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,70)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 65)

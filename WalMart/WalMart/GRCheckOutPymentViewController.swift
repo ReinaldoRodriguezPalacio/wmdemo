@@ -102,6 +102,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.view.backgroundColor =  UIColor.whiteColor()
         self.titleLabel?.text = NSLocalizedString("Método de Pago", comment:"")
         
+        if IS_IPAD {
+            self.backButton?.hidden = true
+        }
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -447,7 +450,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
+            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            viewLoad = WMLoadingView(frame: bounds)
             viewLoad.backgroundColor = UIColor.whiteColor()
             viewLoad.startAnnimating(true)
             self.view.addSubview(viewLoad)
