@@ -76,8 +76,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     //Confirmation view
     var serviceDetail : OrderConfirmDetailView? = nil
-    
     var confirmOrderView : GenerateOrderView? = nil
+    
+    var generateOrderTotal = ""
+    var generateOrderSubtotal = ""
+    var generateOrderDiscounts = ""
+    var generateOrderPaymentType = ""
     
     var viewLoad : WMLoadingView!
     
@@ -288,16 +292,19 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.back()
     }
     
+    
     func continuePurche (){
         
         self.confirmOrderView  = GenerateOrderView.initDetail()
         self.confirmOrderView!.delegate  =  self
         self.confirmOrderView?.showDetail()
+        self.generateOrderPaymentType =  self.paymentString
         
-        self.paramsToConfirm!["total"] = "1500"
-        self.paramsToConfirm!["subtotal"] = "1300"
-        self.paramsToConfirm!["Discounts"] = "200"
-        self.paramsToConfirm!["PaymentType"] = "Efectivo"
+        self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" :self.paramsToConfirm!["shipmentAmount"]
+        self.paramsToConfirm!["total"] = generateOrderTotal
+        self.paramsToConfirm!["subtotal"] = generateOrderSubtotal
+        self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
+        self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
         self.confirmOrderView?.showConfirmOrder(self.paramsToConfirm!)
     }
     
@@ -641,6 +648,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     let dSaving = NSNumberFormatter().numberFromString(saving)
                     let dSubtotal = NSNumberFormatter().numberFromString(subTotal)
                     let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
+                    
+                    self.generateOrderTotal = "\(total)"
+                    self.generateOrderSubtotal = "\(subNewTotal)"
+                    self.generateOrderDiscounts = "\(saving)"
+                    self.generateOrderPaymentType =  self.paymentString
                     
                     print("Total de artiulos \(total)")
                     print("subTotal :: \(subTotal)")
