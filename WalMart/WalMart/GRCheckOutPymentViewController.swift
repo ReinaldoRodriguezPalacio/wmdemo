@@ -297,19 +297,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.paramsToConfirm!["total"] = "1500"
         self.paramsToConfirm!["subtotal"] = "1300"
         self.paramsToConfirm!["Discounts"] = "200"
-        self.paramsToConfirm!["PaymentType"] = "efectivo"
-        self.paramsToConfirm!["DeliveryAmount"] = "1"
-
-
-        
-       
-
-
-
-
+        self.paramsToConfirm!["PaymentType"] = "Efectivo"
         self.confirmOrderView?.showConfirmOrder(self.paramsToConfirm!)
-
-
     }
     
     func sendOrder(){

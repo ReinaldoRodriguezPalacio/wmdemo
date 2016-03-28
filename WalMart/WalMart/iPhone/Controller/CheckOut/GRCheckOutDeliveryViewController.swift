@@ -385,7 +385,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
         self.paramsToOrder = ["month":dateMonth, "year":dateYear, "day":dateDay, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
-        self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"pickingInstruction":""]
+        self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"shipmentAmount":"$\(self.shipmentAmount)","pickingInstruction":""]
         nextController.paramsToOrder = self.paramsToOrder
         nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)

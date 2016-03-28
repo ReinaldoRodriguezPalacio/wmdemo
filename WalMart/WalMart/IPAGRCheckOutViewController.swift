@@ -372,7 +372,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     //Share 
     func shareShoppingCart() {
-        self.delegateCheckOut.shareShoppingCart()
+        self.delegateCheckOut?.shareShoppingCart()
     }
     
  
