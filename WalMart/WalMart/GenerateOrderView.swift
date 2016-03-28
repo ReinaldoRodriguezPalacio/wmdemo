@@ -266,7 +266,7 @@ protocol GenerateOrderViewDelegate {
         stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String)
         lblValueDeliveryAmount.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["Discounts"] as! String)
         lblValueDiscounts.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
 
         //left

@@ -300,18 +300,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.confirmOrderView?.showDetail()
         self.generateOrderPaymentType =  self.paymentString
         
-        self.paramsToConfirm!["total"] = "1500"
-        self.paramsToConfirm!["total"] = "1339"
-        self.paramsToConfirm!["subtotal"] = "1300"
-        self.paramsToConfirm!["Discounts"] = "200"
-        self.paramsToConfirm!["PaymentType"] = "Efectivo"
-        self.confirmOrderView?.showGenerateOrder(self.paramsToConfirm!)
         self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" :self.paramsToConfirm!["shipmentAmount"]
         self.paramsToConfirm!["total"] = generateOrderTotal
         self.paramsToConfirm!["subtotal"] = generateOrderSubtotal
         self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
         self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
-        self.confirmOrderView?.showConfirmOrder(self.paramsToConfirm!)
+        self.confirmOrderView?.showGenerateOrder(self.paramsToConfirm!)
     }
     
     func sendOrder(){
@@ -655,8 +649,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     let dSubtotal = NSNumberFormatter().numberFromString(subTotal)
                     let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
                     
-                    self.generateOrderTotal = "\(total)"
-                    self.generateOrderSubtotal = "\(subNewTotal)"
+                    self.generateOrderTotal = "\(subNewTotal)"
+                    self.generateOrderSubtotal = "\(subTotal)"
                     self.generateOrderDiscounts = "\(saving)"
                     self.generateOrderPaymentType =  self.paymentString
                     
