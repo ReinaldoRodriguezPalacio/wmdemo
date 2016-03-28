@@ -640,6 +640,11 @@
 "gr.generate.subtotal" = "Subtotal";
 "gr.generate.shipping" = "Dirección de Envío";
 
+//payment options
+"payment.options.wm.optios" = "Te devolvemos el 3% en efectivo al entregarte";
+"payment.options.isnecessary.id" = "Es necesario mostrar identificación";
+"payment.options.cash" = "Llevamos cambio hasta de 500 pesos";
+
 
 
 
