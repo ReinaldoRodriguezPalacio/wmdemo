@@ -213,11 +213,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
         
-        if UserCurrentSession.hasLoggedUser() {
-            self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
-            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
-            self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
-        }
         
         if UserCurrentSession.hasLoggedUser() {
             self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
