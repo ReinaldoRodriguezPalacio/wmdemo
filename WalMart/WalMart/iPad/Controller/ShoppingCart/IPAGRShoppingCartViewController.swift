@@ -60,17 +60,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeGRShoppingCart:", name: "CLOSE_GRSHOPPING_CART", object: nil)
-        
     }
     
-    func closeGRShoppingCart(notification:NSNotification){
-        if onSuccessOrder != nil {
-            onSuccessOrder?()
-        }
+    func openclose(){
+        self.closeShoppingCart()
     }
-    
- 
     
     
     override func viewWillLayoutSubviews() {
@@ -84,7 +78,16 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.viewTitleCheckout.frame = CGRectMake(self.viewSeparator.frame.maxX , 0, self.view.frame.width - self.viewSeparator.frame.maxX, self.viewHerader.frame.height )
         self.deleteall.frame = CGRectMake(self.editButton.frame.minX - 80, 12, 75, 22)
         self.titleView.frame = CGRectMake(0, 0, self.viewSeparator.frame.maxX,self.viewHerader.frame.height)
-        
+
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+         super.viewDidAppear(animated)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openclose", name: "CLOSE_GRSHOPPING_CART", object: nil)
+
+    }
+    override func viewDidDisappear(animated: Bool) {
+         NSNotificationCenter.defaultCenter().removeObserver(self, name: "CLOSE_GRSHOPPING_CART", object: nil)
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
