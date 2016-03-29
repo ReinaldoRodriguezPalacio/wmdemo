@@ -37,7 +37,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         self.clearButton!.frame = CGRectMake(self.searchField.frame.width - 40 , 0, 48, 40)
         self.searchView!.frame = CGRectMake(0.0, self.header!.frame.maxY, 342.0, 72)
         self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, 342.0, 1)
-        self.clubCollection!.frame = CGRectMake(0.0, self.searchView!.frame.maxY, 342.0, height - 72)
+        self.clubCollection?.frame = CGRectMake(0.0, self.searchView!.frame.maxY, 342.0, height - 72)
         self.clubMap!.frame = CGRectMake(342.0, self.header!.frame.maxY, bounds.width - 342.0, height)
         
         self.segmentedView!.frame = CGRectMake(self.clubCollection!.frame.maxX + 30.0, bounds.height - 38.0, 150.0, 22.0)
@@ -75,14 +75,13 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     }
 
     override func mapView(mapView: MKMapView, didSelectAnnotationView view: MKAnnotationView) {
-        self.searchField!.resignFirstResponder()
+        self.searchField.resignFirstResponder()
         let latResult = view.annotation!.coordinate.latitude + 0.01
         let coordinateMap =  CLLocationCoordinate2DMake(latResult, view.annotation!.coordinate.longitude)
         let pointRect = MKCoordinateRegionMakeWithDistance(coordinateMap, 10000, 10000)
         let isSameCenter = self.currentSelected === view
         self.clubMap!.setRegion(pointRect, animated: true)
         if let annotation = view.annotation as? StoreAnnotation {
-            
             if self.viewBgDetailView == nil {
                 self.viewBgDetailView = UIView(frame:CGRectMake(342.0, 0.0, self.clubMap!.bounds.width, self.view.bounds.height))
                 self.viewBgDetailView!.backgroundColor = UIColor.clearColor()
@@ -118,7 +117,6 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                 let indexPath = NSIndexPath(forRow: index, inSection: 0)
                 self.clubCollection!.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
             }
-
         }
     }
 
@@ -132,7 +130,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
+        self.searchField.resignFirstResponder()
         let store = self.items![indexPath.row]
         if indexPath.row == self.items!.count - 1 || indexPath.row == self.items!.count - 2 {
             collectionView.contentInset = UIEdgeInsetsMake(0, 0, 250, 0)
@@ -277,5 +275,9 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         self.currentSelected = nil
     }
     
-   
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView){
+        if self.searchField.isFirstResponder() {
+        self.searchField.resignFirstResponder()
+        }
+    }
 }
