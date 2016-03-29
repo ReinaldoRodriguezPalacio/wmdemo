@@ -61,6 +61,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var isNewAddres: Bool  =  false
     var selectDelegate: Bool = false
     var showCancelButton: Bool = false
+    var layerLine: CALayer!
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -128,7 +129,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewFooter = UIView(frame: CGRectMake(0, self.viewContentOptions.frame.height - 64, self.frame.width, 64))
         buttonOk = UIButton(frame: CGRectMake(0, 0, 98, 34))
 
-        buttonOk.backgroundColor = WMColor.light_blue
+        buttonOk.backgroundColor = WMColor.green
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
@@ -144,7 +145,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         buttonCancel.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
         
         if self.showCancelButton{
-            buttonOk.backgroundColor = WMColor.green
             buttonOk.frame = CGRectMake(0, 0, 120, 34)
             buttonOk.center = CGPointMake((self.viewContent.frame.width / 2) + 68 , 32)
             viewFooter.addSubview(buttonCancel)
@@ -153,6 +153,10 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewFooter.backgroundColor = UIColor.whiteColor()
         viewFooter.addSubview(buttonOk)
         
+        layerLine = CALayer()
+        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
+        viewFooter.layer.insertSublayer(layerLine, atIndex: 1000)
+    
         self.viewContentOptions.addSubview(viewFooter)
         self.viewContent.addSubview(self.viewContentOptions)
         self.stopRemoveView! = false
@@ -164,6 +168,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     override func layoutSubviews() {
         viewContent.center = self.center
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
+        closeButton.frame = CGRectMake(2, 0, 28,  self.headerView.frame.height)
+        layerLine.frame = CGRectMake(0, 1, viewContent.frame.width, 1)
         if !isNewAddres {
             titleLabel.frame = headerView.bounds
         }
@@ -219,7 +225,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]

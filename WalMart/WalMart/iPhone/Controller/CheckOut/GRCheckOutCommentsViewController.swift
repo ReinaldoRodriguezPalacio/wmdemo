@@ -40,7 +40,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.titleLabel?.text = "Instrucciones especiales"
+        self.titleLabel?.text = NSLocalizedString("checkout.title.commentsview", comment: "")
         self.view.backgroundColor = UIColor.whiteColor()
         
         if IS_IPAD {
@@ -66,7 +66,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         
-        self.sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, margin, width, lheight))
+        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.title.confirm", comment: ""), frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(self.sectionTitle!)
         
         self.confirmCallButton = UIButton()
@@ -122,7 +122,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
-        self.sectionTitleComments = self.buildSectionTitle("¿Alguna intrucción o nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        self.sectionTitleComments = self.buildSectionTitle(NSLocalizedString("checkout.title.comments", comment: ""), frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
         self.content.addSubview(self.sectionTitleComments!)
         
         self.comments = UITextView()
@@ -143,7 +143,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.view.layer.insertSublayer(layerLine, atIndex: 1000)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
+        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
@@ -152,7 +152,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Continuar", forState:.Normal)
+        self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.light_blue
