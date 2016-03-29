@@ -43,6 +43,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var isPreorderable : Bool = false
     var onHandInventory : NSString = "0"
     var isGift: Bool = false
+    var isLowStock : Bool = false
     
     var strisActive : String! = "true"
     var strisPreorderable : String! = "false"
@@ -810,6 +811,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.bundleItems = bndl
         }
         
+        if let lowStock = result["lowStock"] as? Bool{
+           self.isLowStock = lowStock
+        }
+        
         self.isLoading = false
         
         self.detailCollectionView.reloadData()
@@ -908,6 +913,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let view = detailCollectionView.dequeueReusableSupplementaryViewOfKind(CSStickyHeaderParallaxHeader, withReuseIdentifier: "headerimage", forIndexPath: indexPath) as! ProductDetailBannerCollectionViewCell
             if self.isPreorderable {
                 view.imagePresale.hidden = false
+            }
+            if self.isLowStock {
+                view.imageLowStock.hidden = false
             }
             
             view.items = self.imageUrl

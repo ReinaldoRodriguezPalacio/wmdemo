@@ -431,14 +431,25 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     self.serviceDetail?.errorOrder("Hubo un error al momento de generar la orden, intenta más tarde")
                 }
           }
+
         
     }
     
     //MARK : OrderConfirmDetailViewDelegate
     func didFinishConfirm() {
-        self.navigationController?.popToRootViewControllerAnimated(true)
-          //self.dateChanged()
+
+        if IS_IPAD {
+             let notificationCenter = NSNotificationCenter.defaultCenter()
+            
+            notificationCenter.postNotificationName("CLOSE_GRSHOPPING_CART", object: nil)
+        }else{
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+
     }
+    
+   
+    
     
     func didErrorConfirm() {
         self.navigationController?.popToRootViewControllerAnimated(true)

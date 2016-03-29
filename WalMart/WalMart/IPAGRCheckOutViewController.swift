@@ -366,6 +366,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     override func back() {
+        self.content.setContentOffset(CGPointZero, animated: true)
         self.view.addSubview(self.backgroundView!)
         self.timeSlotsTable?.hidden = true
     }

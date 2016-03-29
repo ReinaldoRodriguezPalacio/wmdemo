@@ -380,7 +380,7 @@
 "checkout.field.deliverySchedule" = "Horario de Entrega";
 "checkout.title.deliverySchedule" = "Horario de Entrega disponibles";
 "checkout.field.deliveryDate" = "Fecha de Entrega";
-"checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guaria que es el edificio Sur... ¡Cuidado con el perro!";
+"checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guardia que es el edificio Sur... ¡Cuidado con el perro!";
 "checkout.title.confirmation" = "Confirmación";
 "checkout.field.confirmation" = "Confirmación";
 "checkout.title.discounts" = "Descuentos";
@@ -391,10 +391,10 @@
 "checkout.discount.total" = "Total";
 "checkout.title.date" = "Fecha y Hora";
 "checkout.title.tooltip" = "¿Por qué no hay más horarios disponibles?";
-"checkout.tooltip.text" =  "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\n Para ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido.";
+"checkout.tooltip.text" =  "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\nPara ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido.";
 "checkout.title.commentsview" = "Instrucciones especiales";
 "checkout.title.confirm" = "Si alguno de los articulos no esta disponible";
-"checkout.title.comments" = "¿Alguna intrucción o nota adicional?";
+"checkout.title.comments" = "¿Alguna instrucción o nota adicional?";
 
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";
@@ -640,7 +640,7 @@
 
 "gr.generate.title" = "Genera tu Pedido";
 "gr.generate.paymenttype" = "Forma de pago";
-"gr.generate.deliveryhour" = "horario";
+"gr.generate.deliveryhour" = "Horario";
 "gr.generate.deliveryAmount" = "Envío";
 "gr.generate.discount" = "Descuentos";
 "gr.generate.deliverydate" = "Fecha";
