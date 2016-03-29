@@ -27,10 +27,10 @@ protocol GenerateOrderViewDelegate {
     var buttonEditOrder : UIButton!
 
 
-    var lblValueSubtotal : CurrencyCustomLabel!
-    var lblValueTotal : CurrencyCustomLabel!
-    var lblValueDeliveryAmount : CurrencyCustomLabel!
-    var lblValueDiscounts : CurrencyCustomLabel!
+    var lblValueSubtotal : UILabel!
+    var lblValueTotal : UILabel!
+    var lblValueDeliveryAmount : UILabel!
+    var lblValueDiscounts : UILabel!
     var lbldiscount : UILabel!
     
     
@@ -84,7 +84,7 @@ protocol GenerateOrderViewDelegate {
         
         let lblNumberItems = labelTitle(CGRectMake(marginViews, titleLabel.frame.maxY + 14, self.viewContent.frame.width - 32, 14))
         lblNumberItems.textColor = WMColor.blue
-        lblNumberItems.font = WMFont.fontMyriadProRegularOfSize(14)
+        lblNumberItems.font = WMFont.fontMyriadProSemiboldOfSize(14)
         lblNumberItems.text = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR()) \(NSLocalizedString("artículos", comment: ""))"
         
         
@@ -109,7 +109,7 @@ protocol GenerateOrderViewDelegate {
         let lblTitleTotal = labelTitle(CGRectMake(marginViews, lbldiscounts.frame.maxY + 8, lblTitleSubtotal.frame.width , 14))
         lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
         lblTitleTotal.textColor = WMColor.blue
-        lblTitleTotal.font = WMFont.fontMyriadProRegularOfSize(14)
+        lblTitleTotal.font = WMFont.fontMyriadProSemiboldOfSize(14)
         
         //left
         let lbldeliveryAddress = labelTitleBlue(CGRectMake(marginViews, lblTitleTotal.frame.maxY + 40, self.viewContent.frame.width - 32, 10))
@@ -152,7 +152,7 @@ protocol GenerateOrderViewDelegate {
         
 
         let lblTitleCommens = labelTitleBlue(CGRectMake(marginViews, lblValuePaymentType.frame.maxY + 6,self.viewContent.frame.width - 32, 10))
-        lblTitleCommens.text = NSLocalizedString("Si algun artículo no esta disponble", comment: "")
+        lblTitleCommens.text = NSLocalizedString("checkout.title.confirm", comment: "")
         
         lblValueCommenst = labelValue(CGRectMake(marginViews, lblTitleCommens.frame.maxY, self.viewContent.frame.width - 32, 28))
         lblValueCommenst.textColor = WMColor.gray
@@ -161,7 +161,7 @@ protocol GenerateOrderViewDelegate {
         //
         lblValueSubtotal = labelValueCurrency(CGRectMake(lblTitleSubtotal.frame.maxX + 10, lblTitleSubtotal.frame.minY , lblNumberItems.frame.maxX - (lblTitleSubtotal.frame.width + 26 ) , lblTitleSubtotal.frame.height))//subtotal
         lblValueDeliveryAmount = labelValueCurrency(CGRectMake(lblValueSubtotal.frame.origin.x, lblTitledeliveryAmount.frame.minY, lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//envio
-        lblValueDiscounts = labelValueCurrency(CGRectMake(lblValueSubtotal.frame.origin.x, lbldiscounts.frame.minY,lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//descuentos
+        lblValueDiscounts = UILabel(frame:CGRectMake(lblValueSubtotal.frame.origin.x, lbldiscounts.frame.minY,lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//descuentos
         lblValueTotal = labelValueCurrency(CGRectMake(lblValueSubtotal.frame.origin.x, lblTitleTotal.frame.minY,  lblValueSubtotal.frame.width, lblTitleSubtotal.frame.height))//total
 
 
@@ -259,16 +259,31 @@ protocol GenerateOrderViewDelegate {
         
         //right
         var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String)
-        lblValueSubtotal.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
+        lblValueSubtotal.text = stringValue
+        lblValueSubtotal.font = WMFont.fontMyriadProRegularOfSize(14)
+        lblValueSubtotal.textColor = WMColor.dark_gray
+        lblValueSubtotal.text = stringValue
+        
         stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String)
-        lblValueTotal.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.blue, interLine: false)
+        lblValueTotal.text = stringValue
+        lblValueTotal.text = stringValue
+        lblValueTotal.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        lblValueTotal.textColor = WMColor.blue
+        lblValueTotal.text = stringValue
         
         stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String)
-        lblValueDeliveryAmount.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
-        
-        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["Discounts"] as! String)
-        lblValueDiscounts.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
+        lblValueDeliveryAmount.text = stringValue
+        lblValueDeliveryAmount.font = WMFont.fontMyriadProRegularOfSize(14)
+        lblValueDeliveryAmount.textColor = WMColor.dark_gray
+        lblValueDeliveryAmount.text = stringValue
 
+        
+        stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! String)
+        lblValueDiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
+        lblValueDiscounts.textAlignment = .Right
+        lblValueDiscounts.textColor = WMColor.dark_gray
+        lblValueDiscounts.text = stringValue
+        
         //left
         lblValueAddress.text = paramsToOrder["address"] as? String
         lblValueDeliveryDate.text = paramsToOrder["date"] as? String
@@ -323,8 +338,8 @@ protocol GenerateOrderViewDelegate {
         return labelTitleItem
     }
     
-    func labelValueCurrency(frame:CGRect) -> CurrencyCustomLabel {
-        let labelTitleItem = CurrencyCustomLabel(frame: frame)
+    func labelValueCurrency(frame:CGRect) -> UILabel {
+        let labelTitleItem = UILabel(frame: frame)
         labelTitleItem.textAlignment = .Right
         return labelTitleItem
     }

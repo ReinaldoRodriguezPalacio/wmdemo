@@ -174,6 +174,14 @@ class CurrencyCustomLabel : UIView  {
        
     }
     
+    class func formatNegativeString (value:NSString) -> String {
+        let result = formatString(value)
+        if value.doubleValue > 0 {
+            return "- \(result)"
+        }
+        return result
+    }
+    
     class func formatStringLabel(value:NSString) -> String {
         
         let setNumeric = NSCharacterSet(charactersInString: "0123456789.")
