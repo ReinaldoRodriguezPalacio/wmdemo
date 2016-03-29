@@ -59,8 +59,18 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         viewSeparator = UIView(frame: CGRectZero)
         viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeGRShoppingCart:", name: "CLOSE_GRSHOPPING_CART", object: nil)
+        
     }
     
+    func closeGRShoppingCart(notification:NSNotification){
+        if onSuccessOrder != nil {
+            onSuccessOrder?()
+        }
+    }
+    
+ 
     
     
     override func viewWillLayoutSubviews() {

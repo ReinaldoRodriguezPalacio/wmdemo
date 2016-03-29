@@ -66,7 +66,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.stepLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.header?.addSubview(self.stepLabel)
         
-        self.sectionTitle = self.buildSectionTitle("Si alguno de los articulos no esta disponible", frame: CGRectMake(margin, margin, width, lheight))
+        self.sectionTitle = self.buildSectionTitle("Si alguno de los artículos no está disponible", frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(self.sectionTitle!)
         
         self.confirmCallButton = UIButton()
@@ -83,7 +83,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.confirmCallButton!)
         
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
-        self.phoneField!.setCustomPlaceholder("Telefono: 5529000117")
+        self.phoneField!.setCustomPlaceholder("Teléfono: 5529000117")
         self.phoneField!.isRequired = false
         self.phoneField!.typeField = TypeField.Phone
         self.phoneField!.nameField = "phone"
@@ -91,7 +91,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.minLength = 10
         self.phoneField!.disablePaste = true
         self.phoneField!.enabled = false
-        self.phoneField!.text = "Telefono: \(UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String)"
+        self.phoneField!.text = "Teléfono: \(UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone == "" ? UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String : UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String)"
         self.content.addSubview(self.phoneField!)
         
         self.confirmCallOptionButton = UIButton()
@@ -122,7 +122,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
-        self.sectionTitleComments = self.buildSectionTitle("¿Alguna intrucción o nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
+        self.sectionTitleComments = self.buildSectionTitle("¿Alguna instrucción o nota adicional?", frame: CGRectMake(margin, notConfirmCallButton!.frame.maxY + 28.0, width, lheight))
         self.content.addSubview(self.sectionTitleComments!)
         
         self.comments = UITextView()

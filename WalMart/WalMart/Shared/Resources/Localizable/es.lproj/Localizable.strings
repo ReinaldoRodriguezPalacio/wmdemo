@@ -379,7 +379,7 @@
 "checkout.field.shipmentType" = "Tipo de envío";
 "checkout.field.deliverySchedule" = "Horario de Entrega";
 "checkout.field.deliveryDate" = "Fecha de Entrega";
-"checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guaria que es el edificio Sur... ¡Cuidado con el perro!";
+"checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guardia que es el edificio Sur... ¡Cuidado con el perro!";
 "checkout.title.confirmation" = "Confirmación";
 "checkout.field.confirmation" = "Confirmación";
 "checkout.title.discounts" = "Descuentos";
@@ -635,7 +635,7 @@
 
 "gr.generate.title" = "Genera tu Pedido";
 "gr.generate.paymenttype" = "Forma de pago";
-"gr.generate.deliveryhour" = "horario";
+"gr.generate.deliveryhour" = "Horario";
 "gr.generate.deliveryAmount" = "Envío";
 "gr.generate.discount" = "Descuentos";
 "gr.generate.deliverydate" = "Fecha";

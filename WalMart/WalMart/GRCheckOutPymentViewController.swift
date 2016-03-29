@@ -436,7 +436,13 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     //MARK : OrderConfirmDetailViewDelegate
     func didFinishConfirm() {
+        
+        if IS_IPAD {
+            NSNotificationCenter.defaultCenter().postNotificationName("CLOSE_GRSHOPPING_CART", object: nil)
+        }
+
         self.navigationController?.popToRootViewControllerAnimated(true)
+       
           //self.dateChanged()
     }
     

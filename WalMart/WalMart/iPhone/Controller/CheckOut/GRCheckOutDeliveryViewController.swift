@@ -749,7 +749,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(imageView!)
         self.viewContents!.addSubview(lblInfo!)
         self.viewContents!.addSubview(imageIco!)
-        let message = "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\n Para ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido."
+        let message = "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestro personal.\n\n\nPara ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido."
         self.lblInfo!.text = message
         NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "animationClose", userInfo: nil, repeats: false)
     }

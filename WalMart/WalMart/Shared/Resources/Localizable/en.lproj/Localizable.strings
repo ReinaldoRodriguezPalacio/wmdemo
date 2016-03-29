@@ -633,7 +633,7 @@
 
 "gr.generate.title" = "Genera tu Pedido";
 "gr.generate.paymenttype" = "Forma de pago";
-"gr.generate.deliveryhour" = "horario";
+"gr.generate.deliveryhour" = "Horario";
 "gr.generate.deliveryAmount" = "Envío";
 "gr.generate.discount" = "Descuentos";
 "gr.generate.deliverydate" = "Fecha";
