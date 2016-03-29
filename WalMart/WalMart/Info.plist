@@ -296,7 +296,7 @@
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
@@ -558,11 +558,11 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCarrusel</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
@@ -594,7 +594,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getLines.txt</string>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesByFamily</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -1044,11 +1044,11 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>
-			<string>https://dl.dropboxusercontent.com/s/e5n107oe096dai4/getCarrucell.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCarrusel</string>
 			<key>WalmartMG.CartPromo</key>
 			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
