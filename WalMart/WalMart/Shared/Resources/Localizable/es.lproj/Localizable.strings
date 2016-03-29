@@ -95,7 +95,7 @@
 "shoppingcart.note" = "Nota";
 "shoppingcart.addNote" = "Agregar Nota para Envío";
 "shoppingcart.updateNote" = "Editar Nota para Envío";
-"shoppingcart.saveNote" = "Guardando Nota...";
+"shoppingcart.saveNoteLoading" = "Guardando Nota...";
 "shoppingcart.deleteNote" = "Eliminando Nota...";
 "shoppingcart.noteTile" = "Nota de Envío";
 "shoppingcart.selectpices" = "Ordenar por Pieza";

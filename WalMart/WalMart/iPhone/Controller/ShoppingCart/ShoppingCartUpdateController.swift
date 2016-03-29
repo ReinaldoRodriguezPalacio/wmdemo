@@ -580,7 +580,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     }
                     else {
                         self.comments = self.commentTextView!.field!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-                        self.titleLabel.text = NSLocalizedString("shoppingcart.saveNote",comment:"")
+                        self.titleLabel.text = NSLocalizedString("shoppingcart.saveNoteLoading",comment:"")
                     }
                     if let type = self.params["type"] as?  String {
                         if type == ResultObjectType.Groceries.rawValue {
