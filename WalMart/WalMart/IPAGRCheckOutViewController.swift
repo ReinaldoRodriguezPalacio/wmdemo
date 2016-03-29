@@ -69,10 +69,9 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.backgroundView!.addSubview(footer!)
         
     }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        let bounds = self.view.frame.size
+        let bounds = self.view.bounds.size
         let footerHeight:CGFloat = 65.0
         
         self.backgroundView!.frame = CGRectMake(0,46,self.view.bounds.width,self.view.bounds.height - 46)

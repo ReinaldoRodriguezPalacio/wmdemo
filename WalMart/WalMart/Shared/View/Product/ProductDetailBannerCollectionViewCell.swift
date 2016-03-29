@@ -91,7 +91,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
         
-        imageLowStock =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imageLowStock =  UIImageView(image: UIImage(named: "ultimas_detail"))
         imageLowStock.hidden =  true
         self.addSubview(imageLowStock)
     
