@@ -60,7 +60,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         self.addSubview(imagePresale)
         
         //ultimas piezas
-        self.imageLastPieces =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        self.imageLastPieces =  UIImageView(image: UIImage(named: "ultimas_detail"))
         self.imageLastPieces.hidden =  true
         self.addSubview(self.imageLastPieces)
 
