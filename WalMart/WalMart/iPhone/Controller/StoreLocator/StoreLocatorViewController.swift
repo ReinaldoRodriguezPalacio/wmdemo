@@ -400,7 +400,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         return ClubLocatorTableViewCell.calculateCellHeight(forStore: store, width: collectionView.frame.width)
     }
     
-    override func scrollViewDidScroll(scrollView: UIScrollView) {
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView){
         self.searchField.resignFirstResponder()
     }
 
