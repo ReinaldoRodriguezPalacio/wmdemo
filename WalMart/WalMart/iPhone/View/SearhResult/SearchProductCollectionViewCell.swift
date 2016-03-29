@@ -42,7 +42,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.addSubview(imagePresale)
         
         //Ultimas piezas
-        imageLowStock =  UIImageView(image: UIImage(named: "preventa_home"))
+        imageLowStock =  UIImageView(image: UIImage(named: "ultimas_home"))
         imageLowStock.hidden =  true
         self.addSubview(imageLowStock)
 
