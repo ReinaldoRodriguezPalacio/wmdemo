@@ -1171,7 +1171,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     // MARK Color Size Functions
     func getFacetsDetails() -> [String:AnyObject]{
-        
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
         for product in self.facets! {
             let details = product["details"] as! [AnyObject]
@@ -1181,7 +1180,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let label = detail["description"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let itemToAdd = ["value":detail["unit"] as! String, "enabled": 1, "type": label]
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label]
                 if !(values! as NSArray).containsObject(itemToAdd) {
                     values!.append(itemToAdd)
                 }
@@ -1196,17 +1195,19 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return facetsDetails
     }
     
-    func getUpc(selected: String, itemType: String) -> String
+    func getUpc(itemsSelected: [String:String]) -> String
     {
         var upc = ""
         var isSelected = false
         let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
         for item in details! {
-            if item[itemType] as! String == selected{
-                isSelected = true
-            }
-            else{
-                isSelected = false
+            for selectItem in itemsSelected{
+                if item[selectItem.0] as! String == selectItem.1{
+                    isSelected = true
+                }
+                else{
+                    isSelected = false
+                }
             }
             if isSelected{
                 upc = item["upc"] as! String
@@ -1226,17 +1227,53 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return facet!
     }
     
-    func clearView(view: UIView){
-        for subview in view.subviews{
-            subview.removeFromSuperview()
+    func getDetailsWithKey(key: String, value: String, keyToFind: String) -> [String]{
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        var findObj: [String] = []
+        for item in itemDetails!{
+            if(item[key] as! String == value)
+            {
+                findObj.append(item[keyToFind] as! String)
+            }
         }
+        return findObj
     }
     
     //MARK: ProductDetailColorSizeDelegate
     func selectDetailItem(selected: String, itemType: String) {
-        self.selectedDetailItem = ["selected":selected, "itemType": itemType]
-        let upc = self.getUpc(selected,itemType: itemType)
-        let facet = self.getFacetWithUpc(upc)
-        self.reloadViewWithData(facet)
+        var detailOrderCount = 0
+        if self.colorItems.count != 0 && self.sizesItems.count != 0 {
+             detailOrderCount = 2
+        }else if self.colorItems.count != 0 && self.sizesItems.count == 0 {
+             detailOrderCount = 1
+        }else if self.colorItems.count == 0 && self.sizesItems.count != 0 {
+            detailOrderCount = 1
+        }
+        if self.selectedDetailItem == nil{
+            self.selectedDetailItem = [:]
+        }
+        if itemType == "Color"{
+            self.selectedDetailItem = [:]
+            if detailOrderCount > 1 {
+                //MARCAR desmarcar las posibles tallas
+                let sizes = self.getDetailsWithKey(itemType, value: selected, keyToFind: "Talla")
+                let headerView = self.currentHeaderView as! ProductDetailBannerCollectionViewCell
+                for view in headerView.sizesView!.viewToInsert!.subviews {
+                    if let button = view.subviews.first! as? UIButton {
+                     button.enabled = sizes.contains(button.titleLabel!.text!)
+                    if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
+                            button.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+                    }
+                    }
+                }
+            }
+        }
+        self.selectedDetailItem![itemType] = selected
+        if self.selectedDetailItem!.count == detailOrderCount
+        {
+            let upc = self.getUpc(self.selectedDetailItem!)
+            let facet = self.getFacetWithUpc(upc)
+            self.reloadViewWithData(facet)
+        }
     }
 }

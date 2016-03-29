@@ -91,7 +91,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
         
-        self.sectionTitle = self.buildSectionTitle("Dirección de envío", frame: CGRectMake(margin, margin, width, lheight))
+        self.sectionTitle = self.buildSectionTitle(NSLocalizedString("checkout.field.address", comment:""), frame: CGRectMake(margin, margin, width, lheight))
         self.content.addSubview(sectionTitle)
         
         self.address = FormFieldView(frame: CGRectMake(margin, sectionTitle.frame.maxY + margin, width, fheight))
@@ -102,7 +102,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.address!.nameField = NSLocalizedString("checkout.field.address", comment:"")
         self.content.addSubview(self.address!)
         
-        self.sectionTitleShipment = self.buildSectionTitle("Tipo de envío", frame: CGRectMake(margin, self.address!.frame.maxY + 28, width, lheight))
+        self.sectionTitleShipment = self.buildSectionTitle(NSLocalizedString("checkout.field.shipmentType", comment:""), frame: CGRectMake(margin, self.address!.frame.maxY + 28, width, lheight))
         self.content.addSubview(sectionTitleShipment)
 
         self.shipmentType = FormFieldView(frame: CGRectMake(margin, sectionTitleShipment.frame.maxY + margin, width, fheight))
@@ -113,7 +113,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.shipmentType!.nameField = NSLocalizedString("checkout.field.shipmentType", comment:"")
         self.content.addSubview(self.shipmentType!)
 
-        self.sectionTitleDate = self.buildSectionTitle("Fecha y Hora", frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight))
+        self.sectionTitleDate = self.buildSectionTitle(NSLocalizedString("checkout.title.date", comment:""), frame: CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight))
         self.content!.addSubview(sectionTitleDate)
         
         self.deliveryDate = FormFieldView(frame: CGRectMake(margin, self.sectionTitleDate!.frame.maxY + 5.0, width, fheight))
@@ -135,7 +135,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.timeSlotsTable!)
         
         self.toolTipLabel = UILabel()
-        self.toolTipLabel!.text = "¿Por qué no hay más horarios disponibles?"
+        self.toolTipLabel!.text = NSLocalizedString("checkout.title.tooltip", comment:"")
         self.toolTipLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.toolTipLabel!.textColor = WMColor.empty_gray
         self.toolTipLabel!.textAlignment = .Right
@@ -149,7 +149,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.view!.layer.insertSublayer(layerLine, atIndex: 1000)
         
         self.cancelButton = UIButton()
-        self.cancelButton!.setTitle("Cancelar", forState:.Normal)
+        self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
@@ -158,7 +158,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle("Continuar", forState:.Normal)
+        self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.light_blue
@@ -190,7 +190,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.picker!.selected = self.selectedDateTypeIx
             self.picker!.sender = self.deliveryDate!
             self.picker!.delegate = self
-            self.picker!.setValues("Fechas de entrega disponibles", values: self.datesToShow!)
+            self.picker!.setValues(NSLocalizedString("checkout.title.deliverySchedule", comment:""), values: self.datesToShow!)
             self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
@@ -385,7 +385,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
         self.paramsToOrder = ["month":dateMonth, "year":dateYear, "day":dateDay, "comments":"", "AddressID":self.selectedAddress!,  "slotId":slotSelectedId, "deliveryType":shipmentType, "hour":slotHour, "pickingInstruction":"", "deliveryTypeString":self.shipmentType!.text!,"shipmentAmount":self.shipmentAmount]
-        self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"shipmentAmount":"$\(self.shipmentAmount)","pickingInstruction":""]
+        self.paramsToConfirm = ["address":self.addressDesccription!.capitalizedString,"date":self.deliveryDate!.text!,"hour":self.getHourToShow(slotHour),"shipmentAmount":"\(self.shipmentAmount)","pickingInstruction":""]
         nextController.paramsToOrder = self.paramsToOrder
         nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)
@@ -749,7 +749,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(imageView!)
         self.viewContents!.addSubview(lblInfo!)
         self.viewContents!.addSubview(imageIco!)
-        let message = "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestro personal.\n\n\nPara ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido."
+        let message = NSLocalizedString("checkout.tooltip.text", comment:"")
         self.lblInfo!.text = message
         NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "animationClose", userInfo: nil, repeats: false)
     }

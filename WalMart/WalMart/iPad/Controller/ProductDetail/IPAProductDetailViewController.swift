@@ -60,10 +60,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isPesable = false
     var alertView : IPOWMAlertViewController? = nil
     var colorItems : [AnyObject] = []
+    var sizeItems : [AnyObject] = []
     var facets: [[String:AnyObject]]? = nil
     var facetsDetails: [String:AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
-    var colorViewCell: ProductDetailColorSizeView? = nil
+    var colorsView: ProductDetailColorSizeView? = nil
+    var sizesView: ProductDetailColorSizeView? = nil
+    var colorSizeViewCell: UIView? = nil
     var isGift: Bool = false
     var fromSearch =  false
     var isEmpty: Bool = false
@@ -288,20 +291,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
             cell = cellSpace
         case (0,1) :
-            if self.colorItems.count > 0{
+            if self.colorItems.count > 0 || self.sizeItems.count > 0{
                 let cellColors = tabledetail.dequeueReusableCellWithIdentifier("colorsCell", forIndexPath: indexPath)
-                if(colorViewCell == nil){
-                    colorViewCell = ProductDetailColorSizeView(frame: CGRectMake(0, 0, cellColors.frame.width, 40))
-                    colorViewCell?.delegate = self
-                    colorViewCell!.items = self.colorItems
-                    let line: CALayer = CALayer()
-                    line.frame = CGRectMake(0.0, 45.0, cellColors.frame.width, 1.0);
-                    line.backgroundColor = WMColor.light_light_gray.CGColor
-                    colorViewCell!.layer.insertSublayer(line, atIndex: 0)
-                    
+                if colorSizeViewCell == nil {
+                    self.buildColorSizeCell(cellColors.frame.width)
+                    self.clearView(cellColors)
+                    cellColors.addSubview(self.colorSizeViewCell!)
                 }
-                self.clearView(cellColors)
-                cellColors.addSubview(colorViewCell!)
                 cell = cellColors
             }else{
                 let cellSpace = tabledetail.dequeueReusableCellWithIdentifier("emptyCell", forIndexPath: indexPath)
@@ -472,7 +468,15 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (0,0) :
             return 15.0
         case (0,1) :
-            return self.colorItems.count > 0 ? 60.0 : 5.0
+            var colorSizeHeight:CGFloat = 5.0
+            if self.colorItems.count != 0 && self.sizeItems.count != 0 {
+                colorSizeHeight = 80.0
+            }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {
+                colorSizeHeight = 40.0
+            }else if self.colorItems.count == 0 && self.sizeItems.count != 0 {
+                colorSizeHeight = 40.0
+            }
+            return colorSizeHeight
         case (0,3) :
             return 36.0
         case (0,2),(0,4) :
@@ -536,7 +540,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton!.isActive = self.strisActive as String
             productDetailButton!.isPreorderable = self.strisPreorderable as String
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButton!.hasDetailOptions = (self.facets?.count > 0)
             productDetailButton!.reloadButton()
             productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             productDetailButton!.listButton.enabled = !self.isGift
@@ -967,6 +970,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
                     self.colorItems = colors
                 }
+                if let sizes = self.facetsDetails!["Talla"] as? [AnyObject]{
+                    self.sizeItems = sizes
+                }
             }
             
             }) { (error:NSError) -> Void in
@@ -1217,23 +1223,21 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     // MARK Color Size Functions
     func getFacetsDetails() -> [String:AnyObject]{
-        
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
         for product in self.facets! {
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
             for detail in details{
-                let label = detail["label"] as! String
+                let label = detail["description"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let valuesKey = label == "Color" ? "value" : "description"
-                let itemToAdd = ["value":detail[valuesKey] as! String, "enabled": (label == "Color"), "type": label]
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label]
                 if !(values! as NSArray).containsObject(itemToAdd) {
                     values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values
-                itemDetail[label] = detail[valuesKey] as? String
+                itemDetail[label] = detail["unit"] as? String
             }
             var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
             if detailsValues == nil{ detailsValues = []}
@@ -1243,23 +1247,48 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         return facetsDetails
     }
     
-    func getUpc(selected: String, itemType: String) -> String
+    func getUpc(itemsSelected: [String:String]) -> String
     {
         var upc = ""
         var isSelected = false
         let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
         for item in details! {
-            if item[itemType] as! String == selected{
-                isSelected = true
-            }
-            else{
-                isSelected = false
+            for selectItem in itemsSelected{
+                if item[selectItem.0] as! String == selectItem.1{
+                    isSelected = true
+                }
+                else{
+                    isSelected = false
+                }
             }
             if isSelected{
                 upc = item["upc"] as! String
             }
         }
         return upc
+    }
+    
+    func getFacetWithUpc(upc:String) -> [String:AnyObject] {
+        var facet = self.facets!.first
+        for product in self.facets! {
+            if (product["upc"] as! String) == upc {
+                facet = product
+                break
+            }
+        }
+        return facet!
+    }
+    
+    func getDetailsWithKey(key: String, value: String, keyToFind: String) -> [String]{
+        let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
+        var findObj: [String] = []
+        for item in itemDetails!{
+            if(item[key] as! String == value)
+            {
+                findObj.append(item[keyToFind] as! String)
+            }
+        }
+        return findObj
     }
     
     func sleectedImage(indexPath:NSIndexPath){
@@ -1281,13 +1310,97 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     //MARK: ProductDetailColorSizeDelegate
     func selectDetailItem(selected: String, itemType: String) {
-        self.selectedDetailItem = ["selected":selected, "itemType": itemType]
-        let upc = self.getUpc(selected,itemType: itemType)
-        let facet = self.facets!.first //self.facets![upc] as! NSDictionary //TODO: Crear funcion que regrese el facet por upc
-        self.reloadViewWithData(facet!)
+        var detailOrderCount = 0
+        if self.colorItems.count != 0 && self.sizeItems.count != 0 {
+            detailOrderCount = 2
+        }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {
+            detailOrderCount = 1
+        }else if self.colorItems.count == 0 && self.sizeItems.count != 0 {
+            detailOrderCount = 1
+        }
+        if self.selectedDetailItem == nil{
+            self.selectedDetailItem = [:]
+        }
+        if itemType == "Color"{
+            self.selectedDetailItem = [:]
+            if detailOrderCount > 1 {
+                //MARCAR desmarcar las posibles tallas
+                let sizes = self.getDetailsWithKey(itemType, value: selected, keyToFind: "Talla")
+                for view in self.sizesView!.viewToInsert!.subviews {
+                    if let button = view.subviews.first! as? UIButton {
+                        button.enabled = sizes.contains(button.titleLabel!.text!)
+                        if sizes.count > 0 && button.titleLabel!.text! == sizes.first {
+                            button.sendActionsForControlEvents(UIControlEvents.TouchUpInside)
+                        }
+                    }
+                }
+            }
+        }
+        self.selectedDetailItem![itemType] = selected
+        if self.selectedDetailItem!.count == detailOrderCount
+        {
+            let upc = self.getUpc(self.selectedDetailItem!)
+            let facet = self.getFacetWithUpc(upc)
+            self.reloadViewWithData(facet)
+        }
     }
-   
-
     
+    func buildColorSizeCell(width: CGFloat){
+        if self.colorSizeViewCell != nil {
+            self.clearView(self.colorSizeViewCell!)
+        }else{
+            self.colorSizeViewCell = UIView()
+        }
+        if colorItems.count != 0 || sizeItems.count != 0{
+            if colorItems.count != 0 && sizeItems.count != 0{
+                self.colorsView = ProductDetailColorSizeView()
+                self.colorsView?.items = self.colorItems
+                self.colorsView!.buildforColors = true
+                self.colorsView!.alpha = 1.0
+                self.colorsView!.frame =  CGRectMake(0,0, width, 40.0)
+                self.colorsView!.buildItemsView()
+                self.colorsView?.delegate = self
+                self.sizesView = ProductDetailColorSizeView()
+                self.sizesView!.items = self.sizeItems
+                self.sizesView!.buildforColors = false
+                self.sizesView!.alpha = 1.0
+                self.sizesView!.frame =  CGRectMake(0,40,width, 40.0)
+                self.sizesView!.buildItemsView()
+                self.sizesView?.delegate = self
+                self.colorsView!.deleteTopBorder()
+                self.sizesView!.deleteTopBorder()
+                self.colorSizeViewCell?.frame = CGRectMake(0,0, width, 80.0)
+                self.colorSizeViewCell?.addSubview(colorsView!)
+                self.colorSizeViewCell?.addSubview(sizesView!)
+            }else if colorItems.count != 0 && sizeItems.count == 0{
+                self.sizesView?.alpha = 0
+                self.colorsView = ProductDetailColorSizeView()
+                self.colorsView!.items = self.colorItems
+                self.colorsView!.buildforColors = true
+                self.colorsView!.alpha = 1.0
+                self.colorsView!.frame =  CGRectMake(0,0, width, 40.0)
+                self.colorsView!.buildItemsView()
+                self.colorsView?.delegate = self
+                self.colorsView!.deleteTopBorder()
+                self.colorSizeViewCell?.frame = CGRectMake(0,0, width, 40.0)
+                self.colorSizeViewCell?.addSubview(colorsView!)
+            }else if colorItems.count == 0 && sizeItems.count != 0{
+                self.colorsView?.alpha = 0
+                self.sizesView = ProductDetailColorSizeView()
+                self.sizesView!.items = self.sizeItems
+                self.sizesView!.buildforColors = false
+                self.sizesView!.alpha = 1.0
+                self.sizesView!.frame =  CGRectMake(0,0,width, 40.0)
+                self.sizesView!.buildItemsView()
+                self.sizesView?.delegate = self
+                self.sizesView!.deleteTopBorder()
+                self.colorSizeViewCell?.frame = CGRectMake(0,0, width, 40.0)
+                self.colorSizeViewCell?.addSubview(sizesView!)
+            }
+        }else{
+            self.colorsView?.alpha = 0
+            self.sizesView?.alpha = 0
+        }
+    }
 }
 

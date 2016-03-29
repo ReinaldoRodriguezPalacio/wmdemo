@@ -373,11 +373,12 @@
 "checkout.gr.subtotalCost" = "Subtotal";
 "checkout.title.paymentOptions" = "Opciones de Pago";
 "checkout.field.paymentOptions" = "Opciones de Pago";
-"checkout.title.shipmentOptions" = "Opciones de Envío";
-"checkout.field.address" = "Dirección";
+"checkout.title.shipmentOptions" = "Opciones de envío";
+"checkout.field.address" = "Dirección de envío";
 "checkout.field.new.address" = "Agregar Nueva Dirección";
 "checkout.field.shipmentType" = "Tipo de envío";
 "checkout.field.deliverySchedule" = "Horario de Entrega";
+"checkout.title.deliverySchedule" = "Horario de Entrega disponibles";
 "checkout.field.deliveryDate" = "Fecha de Entrega";
 "checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guardia que es el edificio Sur... ¡Cuidado con el perro!";
 "checkout.title.confirmation" = "Confirmación";
@@ -388,8 +389,12 @@
 "checkout.discount.dateAdmission" = "Fecha Ingreso";
 "checkout.discount.determinant" = "Determinante";
 "checkout.discount.total" = "Total";
-
-
+"checkout.title.date" = "Fecha y Hora";
+"checkout.title.tooltip" = "¿Por qué no hay más horarios disponibles?";
+"checkout.tooltip.text" =  "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\n Para ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido.";
+"checkout.title.commentsview" = "Instrucciones especiales";
+"checkout.title.confirm" = "Si alguno de los articulos no esta disponible";
+"checkout.title.comments" = "¿Alguna instrucción o nota adicional?";
 
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";

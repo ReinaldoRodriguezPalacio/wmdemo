@@ -23,6 +23,8 @@ class ProductDetailColorSizeView: UIView {
     var delegate: ProductDetailColorSizeDelegate?
     var bottomBorder: CALayer!
     var topBorder: CALayer!
+    var showTopBorder: Bool = true
+    
     override init(frame: CGRect) {
         super.init(frame:frame)
         setup()
@@ -52,7 +54,9 @@ class ProductDetailColorSizeView: UIView {
         self.layer.insertSublayer(bottomBorder, atIndex: 99)
         self.topBorder = CALayer()
         self.topBorder.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(topBorder, atIndex: 100)
+        if self.showTopBorder {
+          self.layer.insertSublayer(topBorder, atIndex: 100)
+        }
         buildItemsView()
     }
     
@@ -227,6 +231,10 @@ class ProductDetailColorSizeView: UIView {
             view.layer.borderWidth = 0
             view.layer.borderColor = UIColor.whiteColor().CGColor
         }
+    }
+    
+    func deleteTopBorder(){
+        self.topBorder.removeFromSuperlayer()
     }
     
     func clearView(){

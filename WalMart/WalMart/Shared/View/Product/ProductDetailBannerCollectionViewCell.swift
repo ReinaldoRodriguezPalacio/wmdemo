@@ -288,6 +288,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.sizesView.alpha = 1.0
                 self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
                 self.sizesView.buildItemsView()
+                self.sizesView.deleteTopBorder()
             }else if colors?.count != 0 && sizes?.count == 0{
                 self.sizesView.alpha = 0
                 self.colorsView.items = self.colors
