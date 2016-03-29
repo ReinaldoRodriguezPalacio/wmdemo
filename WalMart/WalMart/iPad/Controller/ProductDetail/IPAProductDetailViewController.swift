@@ -1056,6 +1056,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             bannerImagesProducts.imagePresale.hidden = false
         }
         
+        if let lowStock = result["lowStock"] as? Bool{
+            bannerImagesProducts.imageLastPieces.hidden = !lowStock
+        }
+        
+        
         self.bundleItems = [AnyObject]()
         if let bndl = result["bundleItems"] as?  [AnyObject] {
             self.bundleItems = bndl

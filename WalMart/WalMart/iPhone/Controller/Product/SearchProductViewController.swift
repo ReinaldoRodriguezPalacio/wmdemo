@@ -552,6 +552,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isPesable = pesable.intValue == 1
         }
         
+        var isLowStock = false
+        if let lowStock = item["lowStock"] as?  Bool {
+            isLowStock = lowStock
+        }
+        
         
         cell.setValues(upc,
             productImageURL: imageUrl!,
@@ -565,7 +570,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             type:type as String,
             pesable : isPesable,
             isFormList: idListFromSearch != "" ?  true :  false,
-            productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! )
+            productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! ),
+            isLowStock:isLowStock
         )
         cell.delegate = self
         return cell

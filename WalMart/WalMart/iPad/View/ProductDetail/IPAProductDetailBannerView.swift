@@ -25,6 +25,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     var widthPresale : CGFloat = 56
     
     var imagePresale : UIImageView!
+    var imageLastPieces : UIImageView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -57,6 +58,11 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
+        
+        //ultimas piezas
+        self.imageLastPieces =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        self.imageLastPieces.hidden =  true
+        self.addSubview(self.imageLastPieces)
 
     }
     

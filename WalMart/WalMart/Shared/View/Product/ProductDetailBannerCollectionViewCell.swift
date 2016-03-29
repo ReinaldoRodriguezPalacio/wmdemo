@@ -33,6 +33,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     var presale : UILabel!
     var imagePresale : UIImageView!
+    var imageLowStock : UIImageView!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -89,6 +90,10 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
+        
+        imageLowStock =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imageLowStock.hidden =  true
+        self.addSubview(imageLowStock)
     
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)

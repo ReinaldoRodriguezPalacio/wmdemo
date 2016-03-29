@@ -28,6 +28,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var isPreorderable: String!
     var presale : UILabel!
     var imagePresale : UIImageView!
+    var imageLowStock : UIImageView!
+    
     var delegate: SearchProductCollectionViewCellDelegate?
 
     
@@ -38,6 +40,11 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
+        
+        //Ultimas piezas
+        imageLowStock =  UIImageView(image: UIImage(named: "preventa_home"))
+        imageLowStock.hidden =  true
+        self.addSubview(imageLowStock)
 
     
         
@@ -77,13 +84,14 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.addProductToShopingCart!.bringSubviewToFront(self.contentView)
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         imagePresale.hidden = !isPreorderable
+        imageLowStock.hidden = !isLowStock
         
-        if isPreorderable {
+        if isPreorderable || isLowStock {
             if IS_IPHONE {
                 self.productShortDescriptionLabel?.textAlignment = .Right
             }
