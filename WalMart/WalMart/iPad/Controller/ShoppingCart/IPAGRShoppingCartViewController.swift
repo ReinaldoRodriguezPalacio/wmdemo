@@ -350,6 +350,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         
         
         self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+        
+        let notificationCenter = NSNotificationCenter.defaultCenter()
+        notificationCenter.postNotificationName("INVOKE_RELOAD_PROMOTION", object: nil)
         /*if UserCurrentSession.hasLoggedUser() {
             self.ctrlCheckOut?.invokeGetPromotionsService(self.ctrlCheckOut!.picker.textboxValues!, discountAssociateItems: self.ctrlCheckOut!.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
                 print("End form Ipa Shpping cart")

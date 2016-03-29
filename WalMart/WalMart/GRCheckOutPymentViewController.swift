@@ -241,7 +241,23 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.addViewLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPromotios", name: "INVOKE_RELOAD_PROMOTION", object: nil)
     }
+    
+    func reloadPromotios(){
+        self.addViewLoad()
+        self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow,endCallPromotions: { (finish) -> Void in
+            self.removeViewLoad()
+            print("finish")
+        })
+    
+    }
+    
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "INVOKE_RELOAD_PROMOTION", object: nil)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
@@ -440,7 +456,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 
         if IS_IPAD {
              let notificationCenter = NSNotificationCenter.defaultCenter()
-            
             notificationCenter.postNotificationName("CLOSE_GRSHOPPING_CART", object: nil)
         }else{
             self.navigationController?.popToRootViewControllerAnimated(true)
@@ -572,11 +587,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         paramsDic["isAssociated"] =  self.isAssociateSend ? "1":"0"
         paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
         paramsDic["addressId"] = self.paramsToOrder!["AddressID"] as? String
+        
         let promotionsService = GRGetPromotionsService()
         
-        //        self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
-        //        self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
-        //        self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+                self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
+                self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+                self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
         
         
         //self.promotionIds! = ""
