@@ -47,7 +47,7 @@ class PaymentOptionsView : UIView {
                 let paymentTupeItem = payment as! NSDictionary
                 
                 let titleLabel = UILabel(frame:CGRectMake(22, 0, widthField - 22,22))
-                titleLabel.font = WMFont.fontMyriadProRegularOfSize(13)
+                titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
                 titleLabel.text = paymentTupeItem["paymentType"] as? String
                 titleLabel.numberOfLines = 2
                 titleLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
@@ -68,7 +68,7 @@ class PaymentOptionsView : UIView {
                 descriptionLabel.font = WMFont.fontMyriadProRegularOfSize(12)
                 descriptionLabel.text = self.assingDescription(titleLabel.text!)
                 descriptionLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-                descriptionLabel.textColor = WMColor.dark_gray
+                descriptionLabel.textColor = WMColor.light_gray
                 descriptionLabel.tag = count
                 self.addSubview(descriptionLabel)
                 
@@ -155,7 +155,7 @@ class PaymentOptionsView : UIView {
                 if sender.tag  ==  labelFont.tag{
                     labelFont.textColor = WMColor.light_blue
                 }else{
-                     labelFont.textColor = WMColor.dark_gray
+                     labelFont.textColor = WMColor.empty_gray
                 }
             }
             if viewF.isKindOfClass(UIButton) {

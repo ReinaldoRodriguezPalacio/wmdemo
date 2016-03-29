@@ -391,7 +391,7 @@
 "checkout.discount.total" = "Total";
 "checkout.title.date" = "Fecha y Hora";
 "checkout.title.tooltip" = "¿Por qué no hay más horarios disponibles?";
-"checkout.tooltip.text" =  "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\n Para ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido.";
+"checkout.tooltip.text" =  "Los horarios están determinados por la cantidad de pedidos que recibimos y la disponibilidad de nuestrompersonal.\n\n\nPara ofrecerte el mejor servicio, sólo te mostraremos los horarios en los que nos podemos comprometer a entregar tu pedido.";
 "checkout.title.commentsview" = "Instrucciones especiales";
 "checkout.title.confirm" = "Si alguno de los articulos no esta disponible";
 "checkout.title.comments" = "¿Alguna instrucción o nota adicional?";
