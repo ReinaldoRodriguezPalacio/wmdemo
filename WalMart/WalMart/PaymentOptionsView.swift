@@ -66,7 +66,7 @@ class PaymentOptionsView : UIView {
                 
                 let descriptionLabel = UILabel(frame:CGRectMake(22,promSelect.frame.maxY , widthField - 22,14))
                 descriptionLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-                descriptionLabel.text = "Description label"
+                descriptionLabel.text = self.assingDescription(titleLabel.text!)
                 descriptionLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
                 descriptionLabel.textColor = WMColor.dark_gray
                 descriptionLabel.tag = count
@@ -80,6 +80,42 @@ class PaymentOptionsView : UIView {
             
             
         }
+    }
+    
+    //Las descripciones cambiaran de acuerdo a lo que el usuario indique,
+    //hasta que el servivicio regrese esas descripciones
+    
+    func assingDescription(value:String) -> String{
+        
+        var descripcion = ""
+        
+        switch(value){
+            
+        case "Efectivo":
+            descripcion =  NSLocalizedString("payment.options.cash", comment:"")
+            break
+        case "Vales de Despensa y Electrónicos":
+            descripcion = NSLocalizedString("payment.options.isnecessary.id", comment:"")
+            break
+        case "Tarjeta de crédito":
+            descripcion = NSLocalizedString("payment.options.isnecessary.id", comment:"")
+            break
+        case "Tarjeta de débito":
+            descripcion = NSLocalizedString("payment.options.isnecessary.id", comment:"")
+            break
+        case "Tarjeta de Crédito Banco Walmart":
+            descripcion = NSLocalizedString("payment.options.wm.optios", comment:"")
+            break
+        case "Tarjeta de Débito Banco Walmart":
+            descripcion = NSLocalizedString("payment.options.wm.optios", comment:"")
+            break
+            
+        default:
+            descripcion = ""
+            break
+        }
+        return descripcion
+        
     }
     
     override func layoutSubviews() {

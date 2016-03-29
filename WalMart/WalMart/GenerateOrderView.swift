@@ -85,7 +85,7 @@ protocol GenerateOrderViewDelegate {
         let lblNumberItems = labelTitle(CGRectMake(marginViews, titleLabel.frame.maxY + 14, self.viewContent.frame.width - 32, 14))
         lblNumberItems.textColor = WMColor.blue
         lblNumberItems.font = WMFont.fontMyriadProRegularOfSize(14)
-        lblNumberItems.text = "12 \(NSLocalizedString("artículos", comment: ""))"
+        lblNumberItems.text = "\(UserCurrentSession.sharedInstance().numberOfArticlesGR()) \(NSLocalizedString("artículos", comment: ""))"
         
         
         //right
@@ -255,26 +255,26 @@ protocol GenerateOrderViewDelegate {
     }
     
     
-    func showConfirmOrder(paramsOrder:NSDictionary) {
+    func showGenerateOrder(paramsToOrder:NSDictionary) {
         
         //right
-        var stringValue =  CurrencyCustomLabel.formatString(paramsOrder["subtotal"] as! String)
+        var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String)
         lblValueSubtotal.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
-        stringValue =  CurrencyCustomLabel.formatString(paramsOrder["subtotal"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String)
         lblValueTotal.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.blue, interLine: false)
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsOrder["shipmentAmount"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String)
         lblValueDeliveryAmount.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
         
-        stringValue =  CurrencyCustomLabel.formatString(paramsOrder["total"] as! String)
+        stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["Discounts"] as! String)
         lblValueDiscounts.updateMount(stringValue, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.dark_gray, interLine: false)
 
         //left
-        lblValueAddress.text = paramsOrder["address"] as? String
-        lblValueDeliveryDate.text = paramsOrder["date"] as? String
-        lblValueDeliveryHour.text = paramsOrder["hour"] as? String
-        lblValuePaymentType.text = paramsOrder["PaymentType"] as? String
-        lblValueCommenst.text = paramsOrder["pickingInstruction"] as? String
+        lblValueAddress.text = paramsToOrder["address"] as? String
+        lblValueDeliveryDate.text = paramsToOrder["date"] as? String
+        lblValueDeliveryHour.text = paramsToOrder["hour"] as? String
+        lblValuePaymentType.text = paramsToOrder["PaymentType"] as? String
+        lblValueCommenst.text = paramsToOrder["pickingInstruction"] as? String
 
         self.viewContent.center = self.center
         
