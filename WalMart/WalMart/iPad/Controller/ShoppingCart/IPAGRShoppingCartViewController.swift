@@ -49,6 +49,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             self.checkoutVC = IPAGRCheckOutViewController()
             checkoutVC!.view.frame = containerGROrder.bounds
             ctrlCheckOut = UINavigationController(rootViewController: checkoutVC!)
+            ctrlCheckOut?.view.frame = containerGROrder.bounds
             //checkoutVC!.hiddenBack = true
             ctrlCheckOut!.navigationBarHidden = true
             checkoutVC?.itemsInCart = itemsInCart
@@ -73,6 +74,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.tableShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.view.bounds.width - 341 +  AppDelegate.separatorHeigth(), self.view.frame.height  - self.viewHerader.frame.maxY)
         viewSeparator!.frame = CGRectMake(self.tableShoppingCart.frame.maxX, 0, AppDelegate.separatorHeigth(), self.tableShoppingCart.frame.height)
         viewShowLogin?.frame = containerGROrder.bounds
+        checkoutVC?.view.frame = containerGROrder.bounds
         ctrlCheckOut?.view.frame = containerGROrder.bounds
         self.editButton.frame = CGRectMake(self.viewSeparator.frame.maxX - 71, 12, 55, 22)
         self.viewTitleCheckout.frame = CGRectMake(self.viewSeparator.frame.maxX , 0, self.view.frame.width - self.viewSeparator.frame.maxX, self.viewHerader.frame.height )
@@ -293,8 +295,6 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         var cont = IPALoginController.showLogin()
         cont!.closeAlertOnSuccess = false
         cont!.successCallBack = {() in
-           
-           
                 NSNotificationCenter.defaultCenter().postNotificationName(ProfileNotification.updateProfile.rawValue, object: nil)
                 UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                     
@@ -309,6 +309,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.checkoutVC = IPAGRCheckOutViewController()
                     self.checkoutVC?.view.frame = self.containerGROrder.bounds
                     self.ctrlCheckOut = UINavigationController(rootViewController: self.checkoutVC!)
+                    self.ctrlCheckOut?.view.frame = self.containerGROrder.bounds
                     self.checkoutVC?.itemsInCart = self.itemsInCart
                     self.checkoutVC?.delegateCheckOut = self
                     self.ctrlCheckOut!.navigationBarHidden = true
@@ -317,10 +318,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
                     self.viewShowLogin?.alpha = 0
                     self.viewShowLogin?.removeFromSuperview()
                     self.viewShowLogin = nil
-                    
                 }
-            
-            
         }
         return
     }
@@ -346,13 +344,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
         }
         
-        /*self.ctrlCheckOut?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
+        self.checkoutVC?.totalView.setValues("\(UserCurrentSession.sharedInstance().numberOfArticlesGR())",
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
             saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
         
         
-        //self.ctrlCheckOut?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
-        if UserCurrentSession.hasLoggedUser() {
+        self.checkoutVC?.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR() -  UserCurrentSession.sharedInstance().estimateSavingGR())")
+        /*if UserCurrentSession.hasLoggedUser() {
             self.ctrlCheckOut?.invokeGetPromotionsService(self.ctrlCheckOut!.picker.textboxValues!, discountAssociateItems: self.ctrlCheckOut!.picker.itemsToShow, endCallPromotions: { (finish) -> Void in
                 print("End form Ipa Shpping cart")
             })

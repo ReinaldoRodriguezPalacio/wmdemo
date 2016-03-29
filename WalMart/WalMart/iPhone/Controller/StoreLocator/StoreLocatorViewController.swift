@@ -748,6 +748,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
         var txtAfterUpdate : NSString = textField.text! as String
         txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
+        if txtAfterUpdate.length >= 25 {
+            return false
+        }
         
         self.items = self.searchForItems(txtAfterUpdate as String)
         self.clubCollection!.reloadData()
