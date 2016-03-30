@@ -45,7 +45,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     //Services
     var paymentOptionsItems: [AnyObject]?
-    var paymentOptions: FormFieldView?
+    //var paymentOptions: FormFieldView?
     var selectedPaymentType : NSIndexPath!
    
     var promotionsDesc: [[String:String]]! = []
@@ -134,7 +134,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.contenPayments =  UIView()
         self.content.addSubview(self.contenPayments)
         
-        sectionTitleDiscount = self.buildSectionTitle(NSLocalizedString("checkout.title.discounts", comment:""), frame: CGRectMake(16, self.contenPayments!.frame.maxY + 20.0, self.view.frame.width, lheight))
+        sectionTitleDiscount = self.buildSectionTitle(NSLocalizedString("checkout.title.discounts", comment:""), frame: CGRectMake(16, self.contenPayments!.frame.maxY + 10.0, self.view.frame.width, lheight))
         self.content.addSubview(self.sectionTitleDiscount)
         
         picker = AlertPickerView.initPickerWithDefault()
@@ -168,12 +168,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.content.contentSize = CGSizeMake(self.view.frame.width, self.view.frame.maxY + 20.0)
         
-        self.paymentOptions = FormFieldView(frame: CGRectMake(margin, 10.0, width, fheight))
-        self.paymentOptions!.setCustomPlaceholder(NSLocalizedString("checkout.field.paymentOptions", comment:""))
-        self.paymentOptions!.isRequired = true
-        self.paymentOptions!.typeField = TypeField.List
-        self.paymentOptions!.setImageTypeField()
-        self.paymentOptions!.nameField = NSLocalizedString("checkout.field.paymentOptions", comment:"")
+        //self.paymentOptions = FormFieldView(frame: CGRectMake(margin, 10.0, width, fheight))
+//        self.paymentOptions!.setCustomPlaceholder(NSLocalizedString("checkout.field.paymentOptions", comment:""))
+//        self.paymentOptions!.isRequired = true
+//        self.paymentOptions!.typeField = TypeField.List
+//        self.paymentOptions!.setImageTypeField()
+//        self.paymentOptions!.nameField = NSLocalizedString("checkout.field.paymentOptions", comment:"")
         
         //Buttons
         self.cancelShop =  UIButton()
@@ -196,7 +196,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         
         
-        self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,paymentOptions!.frame.maxY + 10.0,width,fheight))
+        self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,sectionTitlePayments!.frame.maxY + 5,width,fheight))
         self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
         self.payPalFuturePaymentField!.isRequired = true
         self.payPalFuturePaymentField!.typeField = TypeField.Check
@@ -207,8 +207,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //Services
         self.invokeDiscountActiveService { () -> Void in
             self.invokeGetPromotionsService([:], discountAssociateItems: []) { (finish:Bool) -> Void in
-                self.buildPromotionButtons()
-                self.buildSubViews()
+               
+                //self.buildSubViews()
                 //--
                 self.invokePaymentService { () -> Void in
                     print("End")
@@ -220,6 +220,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     
                     self.contenPayments?.addSubview(self.paymentOptionsView)
                     self.removeViewLoad()
+                    self.buildSubViews()
+                    
                 }
             }
             
@@ -241,7 +243,23 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.addViewLoad()
         
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPromotios", name: "INVOKE_RELOAD_PROMOTION", object: nil)
     }
+    
+    func reloadPromotios(){
+        self.addViewLoad()
+        self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow,endCallPromotions: { (finish) -> Void in
+            self.removeViewLoad()
+            print("finish")
+        })
+    
+    }
+    
+    
+    override func viewDidDisappear(animated: Bool) {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: "INVOKE_RELOAD_PROMOTION", object: nil)
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
     }
@@ -266,13 +284,15 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         
         self.contenPayments.frame = CGRectMake(16,self.sectionTitlePayments.frame.maxY ,self.view.frame.width - 32 , 320)
-        sectionTitleDiscount.frame = CGRectMake(16, self.contenPayments!.frame.maxY + 16, width, lheight)
         
-        self.paymentOptions!.frame = CGRectMake(16, self.sectionTitleDiscount!.frame.minY,  self.paymentOptions!.frame.width , fheight)
+        sectionTitleDiscount.frame = CGRectMake(16, self.paymentOptionsView == nil ? self.contenPayments!.frame.maxY: self.paymentOptionsView!.frame.maxY, width, lheight)
+        self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,width,fheight)
+        
+       // self.paymentOptions!.frame = CGRectMake(16, self.sectionTitleDiscount!.frame.minY,  self.paymentOptions!.frame.width , fheight)
         
         self.cancelShop!.frame = CGRectMake((self.view.frame.width/2) - 148,self.view.bounds.height - 65 + 16, 140, 34)
         self.confirmShop!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.bounds.height - 65 + 16, 140, 34)
-        
+        self.buildPromotionButtons()
     }
     
     
@@ -440,7 +460,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 
         if IS_IPAD {
              let notificationCenter = NSNotificationCenter.defaultCenter()
-            
             notificationCenter.postNotificationName("CLOSE_GRSHOPPING_CART", object: nil)
         }else{
             self.navigationController?.popToRootViewControllerAnimated(true)
@@ -572,11 +591,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         paramsDic["isAssociated"] =  self.isAssociateSend ? "1":"0"
         paramsDic[NSLocalizedString("checkout.discount.total", comment:"")] = "\(UserCurrentSession.sharedInstance().estimateTotalGR() - savinAply)"
         paramsDic["addressId"] = self.paramsToOrder!["AddressID"] as? String
+        
         let promotionsService = GRGetPromotionsService()
         
-        //        self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
-        //        self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
-        //        self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
+                self.associateNumber = paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")] ==  nil ? "" : paramsDic[NSLocalizedString("checkout.discount.associateNumber", comment:"")]
+                self.dateAdmission = paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")] == nil ? "" : paramsDic[NSLocalizedString("checkout.discount.dateAdmission", comment:"")]
+                self.determinant = paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")] ==  nil ? "" :  paramsDic[NSLocalizedString("checkout.discount.determinant", comment:"")]
         
         
         //self.promotionIds! = ""
@@ -693,7 +713,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         discountActive.callService({ (result:NSDictionary) -> Void in
             
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = res
+                self.showDiscountAsociate = true//res // TODO
             }
             if let listPromotions = result["listPromotions"] as? [AnyObject]{
                 for promotionln in listPromotions {
@@ -720,7 +740,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 if result.count > 0 {
                     let option = result[0] as! NSDictionary
                     if let text = option["paymentType"] as? String {
-                        self.paymentOptions!.text = text
+                        print(text)
+                        //self.paymentOptions!.text = text
                         self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
                     }
                     if let id = option["id"] as? String {
@@ -779,6 +800,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     print("# de productos:: \(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
                     print("Subtotal:: \(UserCurrentSession.sharedInstance().estimateTotalGR())")
                     print("Saving:: \( UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")")
+                    self.shipmentAmount = self.paramsToOrder!["shipmentAmount"] as! Double
                     print("Comprar:: \(UserCurrentSession.sharedInstance().estimateTotalGR() - UserCurrentSession.sharedInstance().estimateSavingGR() + self.shipmentAmount)")
                     
                     
@@ -801,6 +823,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         //                        })
                         self.alertView!.setMessage(NSLocalizedString("gr.checkout.discount",comment:""))
                         self.alertView!.showDoneIcon()
+                        self.buildPromotionButtons()
                         
                     })
                     
@@ -893,7 +916,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         let widthField = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         
-        var posY = self.showDiscountAsociate ? discountAssociate!.frame.maxY : sectionTitleDiscount.frame.maxY + 10.0
+        var posY = self.showDiscountAsociate ? discountAssociate!.frame.maxY : sectionTitleDiscount.frame.maxY + 5.0
         
         var count =  0
         if promotionsDesc.count > 0 {
@@ -927,6 +950,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         else{
             posY += CGFloat(40 * self.promotionsDesc.count)
         }
+        self.content.contentSize = CGSizeMake(self.view.frame.width, posY + 10.0)
+        
         return posY
     }
     
@@ -953,7 +978,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
         
         
-        self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
+        //self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
         
         var posY  = self.view.frame.maxY
         if showDiscountAsociate
@@ -963,20 +988,20 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY , widthField, fheight)
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,widthField,fheight)
-            posY = self.buildPromotionButtons()
+            //posY = self.buildPromotionButtons()
             print("posY ::: posY \(posY)")
             
         } else {
             if self.promotionsDesc.count > 0 {
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 1
-                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 10.0, widthField, fheight)
-                posY = self.buildPromotionButtons()
+                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, fheight)
+                //posY = self.buildPromotionButtons()
                 print("posY ::: posY \(posY)")
             }else{
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 0
-                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 10.0, widthField, fheight)
+                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, fheight)
             }
         }
         

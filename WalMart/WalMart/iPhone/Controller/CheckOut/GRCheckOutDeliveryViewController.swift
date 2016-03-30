@@ -381,6 +381,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! NSDictionary
         let slotSelectedId = slotSel["id"] as! Int
         let slotHour = slotSel["displayText"] as! String
+        if self.shipmentItems ==  nil {
+            print("Mostar alertas de validacion?")
+            return
+        }
         let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! NSDictionary
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
@@ -390,7 +394,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         nextController.paramsToConfirm = self.paramsToConfirm
         self.navigationController?.pushViewController(nextController, animated: true)
     }
-
+ 
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
