@@ -1154,7 +1154,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     //MARK: GenerateOrderViewDelegate
     func sendOrderConfirm() {
         print("Creando su orden")
-        self.sendOrder()
+        if self.payPalFuturePayment{
+            self.showPayPalFuturePaymentController()
+        }else{
+            sendOrder()
+        }
     }
     
     
