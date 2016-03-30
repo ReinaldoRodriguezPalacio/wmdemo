@@ -395,6 +395,9 @@
 "checkout.title.commentsview" = "Instrucciones Especiales";
 "checkout.title.confirm" = "Si alguno de los artículos no está disponible";
 "checkout.title.comments" = "¿Alguna instrucción o nota adicional?";
+"checkout.error.shipment" = "Selecciona tipo de envio";
+"checkout.error.slots" = "Selecciona fecha de entrega para mostrar horarios disponibles";
+
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";
 "home.gotosuper" = "Ir al Súper";

@@ -203,7 +203,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
-        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 46 : (46 * 12)
+        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 46 : (46 * 2)
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle.frame = CGRectMake(margin, margin, width, lheight)
@@ -381,8 +381,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! NSDictionary
         let slotSelectedId = slotSel["id"] as! Int
         let slotHour = slotSel["displayText"] as! String
-        if self.shipmentItems ==  nil {
-            print("Mostar alertas de validacion?")
+        if !self.validate() {
             return
         }
         let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! NSDictionary
@@ -774,6 +773,32 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.imageIco!.removeFromSuperview()
                 }
         })
+    }
+    
+    func validate() -> Bool{
+        if self.shipmentItems ==  nil {
+            return self.viewError(self.shipmentType!,message: NSLocalizedString("checkout.error.shipment", comment:""))
+        }
+        if self.slotsItems!.count == 0{
+           return self.viewError(self.deliveryDate!,message: NSLocalizedString("checkout.error.slots", comment:""))
+        }
+        return true
+    }
+    
+    func viewError(field: FormFieldView)-> Bool{
+        let message = field.validate()
+        return self.viewError(field,message: message)
+    }
+    
+    func viewError(field: FormFieldView,message:String?)-> Bool{
+        if message != nil {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field, nameField:field.nameField, message: message! ,errorView:self.errorView!,  becomeFirstResponder: false)
+            return false
+        }
+        return true
     }
     
     //MARK: -TableView Delegates

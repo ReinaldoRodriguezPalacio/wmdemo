@@ -967,11 +967,16 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if let facets = result["facets"] as? [[String:AnyObject]] {
                 self.facets = facets
                 self.facetsDetails = self.getFacetsDetails()
-                if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
-                    self.colorItems = colors
+                let keys = Array(self.facetsDetails!.keys)
+                if self.facetsDetails?.count > 1 {
+                    if let colors = self.facetsDetails![keys.first!] as? [AnyObject]{
+                        self.colorItems = colors
+                    }
                 }
-                if let sizes = self.facetsDetails!["Talla"] as? [AnyObject]{
-                    self.sizeItems = sizes
+                if self.facetsDetails?.count > 2 {
+                    if let sizes = self.facetsDetails![keys[1]] as? [AnyObject]{
+                        self.sizeItems = sizes
+                    }
                 }
             }
             
@@ -1360,14 +1365,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if colorItems.count != 0 && sizeItems.count != 0{
                 self.colorsView = ProductDetailColorSizeView()
                 self.colorsView?.items = self.colorItems
-                self.colorsView!.buildforColors = true
+                self.colorsView!.buildViewForColors(self.colorItems as! [[String:AnyObject]])
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRectMake(0,0, width, 40.0)
                 self.colorsView!.buildItemsView()
                 self.colorsView?.delegate = self
                 self.sizesView = ProductDetailColorSizeView()
                 self.sizesView!.items = self.sizeItems
-                self.sizesView!.buildforColors = false
+                self.sizesView!.buildViewForColors(self.sizeItems as! [[String:AnyObject]])
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRectMake(0,40,width, 40.0)
                 self.sizesView!.buildItemsView()
@@ -1381,7 +1386,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.sizesView?.alpha = 0
                 self.colorsView = ProductDetailColorSizeView()
                 self.colorsView!.items = self.colorItems
-                self.colorsView!.buildforColors = true
+                self.colorsView!.buildViewForColors(self.colorItems as! [[String:AnyObject]])
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRectMake(0,0, width, 40.0)
                 self.colorsView!.buildItemsView()
@@ -1393,7 +1398,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.colorsView?.alpha = 0
                 self.sizesView = ProductDetailColorSizeView()
                 self.sizesView!.items = self.sizeItems
-                self.sizesView!.buildforColors = false
+                self.sizesView!.buildViewForColors(self.sizeItems as! [[String:AnyObject]])
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRectMake(0,0,width, 40.0)
                 self.sizesView!.buildItemsView()

@@ -705,17 +705,22 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
             let params = productService.buildParams(upc as String,eventtype:eventType)
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
-                
                 self.reloadViewWithData(result)
                 if let facets = result["facets"] as? [[String:AnyObject]] {
                     self.facets = facets
                     self.facetsDetails = self.getFacetsDetails()
-                    if let colors = self.facetsDetails!["Color"] as? [AnyObject]{
-                        self.colorItems = colors
+                    let keys = Array(self.facetsDetails!.keys)
+                    if self.facetsDetails?.count > 1 {
+                        if let colors = self.facetsDetails![keys.first!] as? [AnyObject]{
+                            self.colorItems = colors
+                        }
+                     }
+                    if self.facetsDetails?.count > 2 {
+                        if let sizes = self.facetsDetails![keys[1]] as? [AnyObject]{
+                            self.sizesItems = sizes
+                        }
                     }
-                    if let sizes = self.facetsDetails!["Talla"] as? [AnyObject]{
-                        self.sizesItems = sizes
-                    }
+                   
                 }
                 
                 }) { (error:NSError) -> Void in

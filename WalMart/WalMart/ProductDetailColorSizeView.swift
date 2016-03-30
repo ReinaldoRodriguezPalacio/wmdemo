@@ -246,4 +246,15 @@ class ProductDetailColorSizeView: UIView {
             view.removeFromSuperview()
         }
     }
+    
+    func buildViewForColors(items:[[String:AnyObject]]){
+        if items.count > 0 {
+            var unit = items.first!["value"] as! String
+            if unit.contains("#"){
+                unit = unit.substringFromIndex(unit.startIndex.advancedBy(1))
+            }
+            let intColor = UInt(unit, radix: 16)
+            self.buildforColors = (intColor != nil)
+        }
+    }
 }
