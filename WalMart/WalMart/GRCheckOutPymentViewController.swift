@@ -88,13 +88,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_CHECKOUT.rawValue
     }
-//    
-//    func paramsFromOrder(month:String, year:String, day:String, comments:String, addressID:String, deliveryType:String,hour:String, pickingInstruction:String, deliveryTypeString:String,slotId:Int,shipmentAmount:Double!){
-//        self.shipmentAmount = shipmentAmount
-//        self.paramsToOrder = ["month":month, "year":year, "day":day, "comments":comments, "AddressID":addressID,  "slotId":slotId, "deliveryType":deliveryType, "hour":hour, "pickingInstruction":pickingInstruction, "deliveryTypeString":deliveryTypeString,"shipmentAmount":shipmentAmount]
-//    }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -206,6 +199,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         //Services
         self.invokeDiscountActiveService { () -> Void in
+            self.shipmentAmount = self.paramsToOrder!["shipmentAmount"] as! Double
             self.invokeGetPromotionsService([:], discountAssociateItems: []) { (finish:Bool) -> Void in
                
                 //self.buildSubViews()
@@ -335,7 +329,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         serviceDetail = OrderConfirmDetailView.initDetail()
         serviceDetail?.delegate = self
         serviceDetail!.showDetail()
-        
         let total = UserCurrentSession.sharedInstance().estimateTotalGR()
         
         let freeShipping = discountsFreeShippingAssociated
@@ -713,7 +706,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         discountActive.callService({ (result:NSDictionary) -> Void in
             
             if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = true//res // TODO
+                self.showDiscountAsociate = res // TODO
             }
             if let listPromotions = result["listPromotions"] as? [AnyObject]{
                 for promotionln in listPromotions {
