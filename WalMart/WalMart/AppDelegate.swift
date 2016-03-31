@@ -352,23 +352,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         let name = notification.userInfo!["name"] as! String
         let value = notification.userInfo!["value"] as! String
         let bussines = notification.userInfo!["business"] as! String
-        let message = notification.alertBody!
+        let listName =  notification.userInfo![REMINDER_PARAM_LISTNAME] as! String
         
         if let customBar = self.window?.rootViewController as? CustomBarViewController {
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
             {
                 customBar.handleNotification(value,name:name,value:value,bussines:bussines)
             }else{
-                
-                
-                let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
+                let alertNot = IPOWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
                 alertNot?.showDoneIconWithoutClose()
-                alertNot?.setMessage(message)
+                alertNot?.setMessage(String(format: NSLocalizedString("list.reminder.alert.content", comment:""), listName))
                 alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
-                    
-                    
-                    
-                    
                     alertNot?.close()
                     }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
                         

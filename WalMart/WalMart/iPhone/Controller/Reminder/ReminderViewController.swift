@@ -17,6 +17,8 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     var listId: String?
     var listName: String?
     var currentOriginalFireDate: NSDate?
+    var currentOriginalFireHour:Int! = 0
+    var currentOriginalFireMin:Int! = 0
     var selectedPeriodicity: Int?
     var reminderService: ReminderNotificationService?
     var fmtDisplay: NSDateFormatter?
@@ -326,11 +328,13 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         let date = self.timePicker!.date
         let dateString = self.timeDisplay!.stringFromDate(date)
         let timeArray = dateString.componentsSeparatedByString(":")
-        let hour = Int(timeArray.first!)
-        let min = Int(timeArray.last!)
-        let minInterval = abs((min! % 15) - min!)
+        self.currentOriginalFireHour = Int(timeArray.first!)
+        self.currentOriginalFireMin = Int(timeArray.last!)
+        let minInterval = abs((self.currentOriginalFireMin % 15) - self.currentOriginalFireMin)
         let minString = minInterval == 0 ? "00" : "\(minInterval)"
-        self.hourField!.text = "\(hour!):\(minString)"
+        self.hourField!.text = "\(self.currentOriginalFireHour):\(minString)"
+        let fireDate = self.currentOriginalFireDate ?? NSDate()
+        self.currentOriginalFireDate = self.reminderService!.createDateFrom(fireDate, forHour: self.currentOriginalFireHour, andMinute: self.currentOriginalFireMin)
         //self.selectedDate = date
     }
     
@@ -339,6 +343,19 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         var message = ""
         let frequencyMessage = self.frequencyField!.validate()
         let timeMessage = self.hourField!.validate()
+        if #available(iOS 8.0, *) {
+            let compare = NSCalendar.currentCalendar().compareDate(NSDate(), toDate: self.currentOriginalFireDate!,
+                toUnitGranularity: .Second)
+            if  compare != NSComparisonResult.OrderedAscending {
+                field = hourField!
+                message = "Selecciona una hora superior a la actual"
+            }
+        } else {
+            if NSDate().compare(self.currentOriginalFireDate!) != NSComparisonResult.OrderedAscending {
+                    field = hourField!
+                    message = "Selecciona una hora superior a la actual"
+            }
+        }
         if !hourField!.isValid
         {
             field = hourField!
@@ -374,7 +391,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         }
        self.modalView?.closePicker()
         if date != nil{
-            self.currentOriginalFireDate = date
+            self.currentOriginalFireDate = self.reminderService!.createDateFrom(date!, forHour: self.currentOriginalFireHour, andMinute: self.currentOriginalFireMin)
             self.dateField?.text = self.fmtDisplay!.stringFromDate(self.currentOriginalFireDate!).capitalizedString
             self.dateField?.layer.borderWidth = 0
         }

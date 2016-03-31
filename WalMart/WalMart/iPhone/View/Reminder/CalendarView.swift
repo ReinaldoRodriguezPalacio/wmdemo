@@ -165,11 +165,11 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     func calendarPicker(calendarPicker: ABCalendarPicker!, dateSelected date: NSDate!, withState state: ABCalendarPickerState) {
-        
         let theDate = self.createDateFrom(date, forHour: 0, andMinute: 0)
         let today = self.createDateFrom(NSDate(), forHour: 0, andMinute: 0)
        
-       if theDate!.compare(today!) != NSComparisonResult.OrderedDescending {
+       
+       if theDate!.compare(today!) == NSComparisonResult.OrderedAscending {
             let text = NSLocalizedString("list.reminder.notification.validationDate",comment:"")
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(text)

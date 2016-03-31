@@ -626,8 +626,8 @@
 "list.reminder.confirm.delete" = "¿Estas seguro de querer eliminar este recordatorio?";
 "list.reminder.confirm.ok" = "Aceptar";
 "list.reminder.confirm.cancel" = "Cancelar";
-"list.reminder.alert.content" = "Recordatorio: %@. Toca el botón para iniciar compra";
-"list.reminder.notification.content" = "Recordatorio: %@. Toca aquí para iniciar compra";
+"list.reminder.alert.content" = "Recordatorio: %@.";
+"list.reminder.notification.content" = "Recordatorio: %@. Toca aquí para ver tus Listas";
 "list.reminder.notification.validationDate" = "La fecha de inicio debe ser\n posterior a la fecha actual.";
 "list.reminder.notification.validation" = "Es necesario habilitar las notificaciones para la aplicación desde ajustes del dispositivo";
 "list.reminder.notification.settings" = "Configurar";
