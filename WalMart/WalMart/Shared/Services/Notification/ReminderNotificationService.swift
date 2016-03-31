@@ -51,7 +51,7 @@ class ReminderNotificationService {
             }
         case 1 : //Semanal
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
-                self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendarUnit.Weekday, customType:1)
+                self.createLocalNotification(title: title, fireDate: date, originalFireDate:date, frequency: NSCalendarUnit.WeekOfYear, customType:1)
             }
         case 2 : //Cada 2 semanas
             //Generate all notifications for a year (52 weaks; 26 for every 2 weeks at year)
