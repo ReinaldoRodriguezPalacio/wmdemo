@@ -188,7 +188,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                 
                 var numOnHandInventory : NSString = "0"
-                if let numberOf = itemToShop["onHandInventory"] as? NSString{
+                if let numberOf = itemToShop["o nHandInventory"] as? NSString{
                     numOnHandInventory  = numberOf
                 }
                 
@@ -196,6 +196,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if let wishObj = itemToShop["wishlist"] as? Bool {
                     wishlistObj = wishObj
                 }
+                
+                var isPreorderable = "false"
+                if let lpreoObj = itemToShop["isPreorderable"] as? String {
+                    isPreorderable = lpreoObj
+                }
+
                 
                 if let commentsParams = itemToShop["comments"] as? NSString{
                     self.comments = commentsParams as String
@@ -210,7 +216,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 }
                 
                 
-                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable)
+                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable,isPreorderable:isPreorderable)
                 
                 paramsitems.append(param)
             }

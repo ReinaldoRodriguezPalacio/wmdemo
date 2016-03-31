@@ -680,14 +680,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             //shoppingcart.alreadyincart
             //shoppingcart.isincart
             
-            if self.items.count > 0 && hasItemsNotAviable {
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
-                
-                alert!.setMessage(aleradyMessage)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                
-            }
             
         
             if self.items.count == 1 {
@@ -701,10 +693,27 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     
                         return
                     }
-                    
+                    //
+                    if self.items.count > 0 {
+                        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                        let aleradyMessage = NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:"")
+                        alert!.setMessage(aleradyMessage)
+                        alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""))
+                    }
+                    return
                 }
+                
 
             }
+            if self.items.count > 0 && hasItemsNotAviable {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
+                
+                alert!.setMessage(aleradyMessage)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                
+            }
+
            
         }
     
