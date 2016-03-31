@@ -577,6 +577,49 @@ class IPACustomBarViewController :  CustomBarViewController {
         NSNotificationCenter.defaultCenter().postNotificationName("ReloadListFormUpdate", object: self)
     }
    
+    override func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
+        
+        
+        let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        
+        if type != "CF" {
+            if btnShopping!.selected {
+                closeShoppingCart()
+                btnShopping!.selected = !btnShopping!.selected
+            }
+        }
+        
+        
+        
+        //TODO: Es necesario ver el manejo de groceries para las notificaciones.
+        switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
+        case "": self.buttonSelected(self.buttonList[0])
+        case "UPC": self.selectKeyWord("", upc:trimValue, truncate:true,upcs:nil)
+        case "TXT": self.selectKeyWord(trimValue, upc:nil, truncate:true,upcs:nil)
+        case "LIN": self.showProducts(forDepartmentId: nil, andFamilyId: nil,andLineId: trimValue, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG )
+        case "FAM": self.showProducts(forDepartmentId: nil, andFamilyId:trimValue, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
+        case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
+        case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
+        case "WF": self.buttonSelected(self.buttonList[4])
+        case "SH":
+            if self.splashVC == nil {
+                self.openSearchProduct()
+            } else {
+                self.waitToSplash = true
+            }
+        default:
+            print("No value type for notification")
+            return false
+        }
+        
+        if splashVC != nil {
+            self.view.bringSubviewToFront(splashVC.view)
+        }
+        
+        
+        
+        return true
+    }
     
 
 }
