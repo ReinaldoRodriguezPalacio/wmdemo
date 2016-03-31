@@ -222,7 +222,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.image = imageUrl
             productDetailButton!.delegate = self
 
-            return productDetailButton
+            return productDetailButton!
         }
         return headerView
     }
