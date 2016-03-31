@@ -188,7 +188,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                 
                 var numOnHandInventory : NSString = "0"
-                if let numberOf = itemToShop["o nHandInventory"] as? NSString{
+                if let numberOf = itemToShop["onHandInventory"] as? NSString{
                     numOnHandInventory  = numberOf
                 }
                 
@@ -292,7 +292,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             if let numberOf = params["onHandInventory"] as? NSString{
                 numOnHandInventory  = numberOf
             }
-            
             var isPreorderable = "false"
             if let isPreorderableVal = params["isPreorderable"] as? String{
                 isPreorderable = isPreorderableVal

@@ -431,9 +431,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
-//            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
-//            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
-//            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
+            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             self.sendNewItemsToShoppingCart(params)
         }else{
             
