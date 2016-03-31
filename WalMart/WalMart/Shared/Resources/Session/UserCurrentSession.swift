@@ -211,6 +211,8 @@ class UserCurrentSession : NSObject {
             profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
             profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
             profile.profession = resultProfileJSONGR!["profession"] as! String
+
+            
             if let genderVal = resultProfileJSONMG["gender"] as? String{
                 profile.sex = genderVal
             } else {
@@ -227,8 +229,12 @@ class UserCurrentSession : NSObject {
 
         self.userSigned = usr
         
-        updatePhoneProfile()
+        updatePhoneProfile(true)
         self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
+        
+        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
+        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
+        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
         
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)
@@ -767,7 +773,7 @@ class UserCurrentSession : NSObject {
         self.cellPhone = cellPhone
         
         if userSigned != nil {
-            self.updatePhoneProfile()
+            self.updatePhoneProfile(false)
         }
         
     }
@@ -802,20 +808,15 @@ class UserCurrentSession : NSObject {
     }
     
     
-    func updatePhoneProfile() {
+    func updatePhoneProfile(newProfile:Bool) {
         if self.mustUpdatePhone {
-            if UserCurrentSession.hasLoggedUser() {
-                UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone
-                UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = self.workNumber
-                UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber
-            }
             
             let svcProfile = GRUpdateUserProfileService()
             let profileParams = svcProfile.buildParams(
                 UserCurrentSession.sharedInstance().userSigned!.profile.name as String,
                 lastName: UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String,
                 sex: "",
-                birthDate: "",
+                birthDate: UserCurrentSession.sharedInstance().userSigned!.profile.birthDate as String,
                 maritalStatus: "",
                 profession: "",
                 phoneWorkNumber:  self.workNumber,
@@ -831,6 +832,13 @@ class UserCurrentSession : NSObject {
             
             svcProfile.callService(requestParams: profileParams, successBlock: { (result:NSDictionary) -> Void in
                 print("Se actualizo el perfil")
+                if !newProfile {
+                    if UserCurrentSession.hasLoggedUser() {
+                        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone
+                        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = self.workNumber
+                        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber
+                    }
+                }
                 }, errorBlock: { (error:NSError) -> Void in
                     print("Se actualizo el perfil")
             })

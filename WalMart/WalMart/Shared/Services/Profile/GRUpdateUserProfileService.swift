@@ -12,11 +12,12 @@ class GRUpdateUserProfileService : GRBaseService {
     
     
     func buildParams(name:String,lastName:String,sex:String,birthDate:String,maritalStatus:String,profession:String,phoneWorkNumber:String,workNumberExtension:String,phoneHomeNumber:String,homeNumberExtension:String,cellPhone:String,allowMarketingEmail:String,user:String,password:String,newPassword:String,maximumAmount:Int,device:String) -> NSDictionary {
-        return ["name":name, "lastName":lastName, "sex":sex, "birthDate":"01/01/0001", "maritalStatus":maritalStatus, "profession":profession,"phoneWorkNumber":phoneWorkNumber,"workNumberExtension":workNumberExtension,"phoneHomeNumber":phoneHomeNumber,"homeNumberExtension":homeNumberExtension,"cellPhone":cellPhone,"allowMarketingEmail":allowMarketingEmail, "isReply": "1","device":device,"user":["password":password,"newPassword":newPassword,"maximumAmount":maximumAmount]]
+        return ["name":name, "lastName":lastName, "sex":sex, "birthDate":birthDate, "maritalStatus":maritalStatus, "profession":profession,"phoneWorkNumber":phoneWorkNumber,"workNumberExtension":workNumberExtension,"phoneHomeNumber":phoneHomeNumber,"homeNumberExtension":homeNumberExtension,"cellPhone":cellPhone,"allowMarketingEmail":allowMarketingEmail, "isReply": "1","device":device,"user":["password":password,"newPassword":newPassword,"maximumAmount":maximumAmount]]
     }
     
     
     func callService(requestParams params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+        //jsonFromObject(params)
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
             }) { (error:NSError) -> Void in
