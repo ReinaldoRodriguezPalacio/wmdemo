@@ -494,7 +494,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-        self.picker!.closeButton.hidden =  false
+        self.picker!.closeButton.hidden =  true
         return scrollForm
         
         
@@ -712,6 +712,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                     self.errorView!.removeFromSuperview()
                     self.errorView!.focusError = nil
                     self.errorView = nil
+                    self.deliveryDate?.layer.borderColor =   UIColor.whiteColor().CGColor
                 }
                 self.selectedTimeSlotTypeIx = NSIndexPath(forRow: 0, inSection: 0)
             }
@@ -821,6 +822,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
+        if  self.selectedTimeSlotTypeIx == indexPath {
+            cell?.setSelected(indexPath.row == self.selectedTimeSlotTypeIx.row, animated: false)
+            return
+        }
+    
         cell?.selected = false
         let lastSelected =  self.selectedTimeSlotTypeIx
         self.selectedTimeSlotTypeIx = indexPath

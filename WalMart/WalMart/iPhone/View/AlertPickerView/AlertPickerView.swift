@@ -225,7 +225,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLineEtched
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]
