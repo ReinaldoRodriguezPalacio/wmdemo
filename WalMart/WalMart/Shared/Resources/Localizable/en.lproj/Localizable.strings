@@ -393,8 +393,8 @@
 "checkout.title.commentsview" = "Instrucciones Especiales";
 "checkout.title.confirm" = "Si alguno de los artículos no está disponible";
 "checkout.title.comments" = "¿Alguna instrucción o nota adicional?";
-"checkout.error.shipment" = "Selecciona tipo de envio";
-"checkout.error.slots" = "Selecciona fecha de entrega para mostrar horarios disponibles";
+"checkout.error.shipment" = "Esta dirección cuenta con un solo Tipo de Envío.";
+"checkout.error.slots" = "No hay horarios disponibles, intenta con otra fecha.";
 
 //Home super
 "home.youarein" = "Estás en Tecnología, Hogar y más";

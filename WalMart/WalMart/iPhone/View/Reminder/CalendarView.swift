@@ -63,7 +63,7 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     override func layoutSubviews() {
-        self.calendar!.frame = CGRectMake(0.0, 46.0,288, 300)
+        self.calendar!.frame = CGRectMake(0.0, 46.0,288, 327)
         self.layerLine.frame = CGRectMake(0,  self.calendar!.frame.maxY + 24,  self.frame.width, 1)
         self.cancelButton!.frame = CGRectMake(16, self.calendar!.frame.maxY + 43, 125, 34)
         self.saveButton!.frame = CGRectMake(  self.frame.width - 141 , self.calendar!.frame.maxY + 43, 125, 34)
@@ -156,7 +156,6 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     func calendarPicker(calendarPicker: ABCalendarPicker!, shouldSetState state: ABCalendarPickerState, fromState: ABCalendarPickerState) -> Bool {
-        
         return state.rawValue == ABCalendarPickerStateDays.rawValue
     }
     
@@ -174,6 +173,7 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(text)
             self.alertView!.showErrorIcon("Aceptar")
+            calendarPicker.setHighlightedAndSectedDate(NSDate(), animated: true)
             return
         }
         

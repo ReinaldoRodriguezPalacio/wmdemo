@@ -373,6 +373,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func next(){
+        if !self.validate() {
+            return
+        }
         let nextController = GRCheckOutCommentsViewController()
         let components : NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.NSYearCalendarUnit, NSCalendarUnit.NSMonthCalendarUnit, NSCalendarUnit.NSDayCalendarUnit], fromDate: self.selectedDate)
         let dateMonth = components.month
@@ -381,9 +384,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let slotSel = self.slotsItems![selectedTimeSlotTypeIx.row]  as! NSDictionary
         let slotSelectedId = slotSel["id"] as! Int
         let slotHour = slotSel["displayText"] as! String
-        if !self.validate() {
-            return
-        }
         let shipmentTypeSel = self.shipmentItems![selectedShipmentTypeIx.row] as! NSDictionary
         let shipmentType = shipmentTypeSel["key"] as! String
         self.shipmentAmount = shipmentTypeSel["cost"] as! Double
