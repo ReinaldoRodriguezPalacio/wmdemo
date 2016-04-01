@@ -178,7 +178,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
         self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,70)
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 65)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
+        self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
         self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 65,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
@@ -236,7 +237,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.view.frame.width, self.content.contentSize.height)
+        return CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
     }
     
     //MARK: -TextViewDelegate
@@ -259,7 +260,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        self.content!.contentOffset = CGPointMake(0, 100)
+        let offset = self.content!.contentOffset.y + 150
+        self.content!.contentOffset = CGPointMake(0, offset)
     }
     
     func textViewDidEndEditing(textView: UITextView) {
