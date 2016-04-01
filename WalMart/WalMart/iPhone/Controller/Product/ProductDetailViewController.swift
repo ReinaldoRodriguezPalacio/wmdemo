@@ -222,7 +222,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.image = imageUrl
             productDetailButton!.delegate = self
 
-            return productDetailButton
+            return productDetailButton!
         }
         return headerView
     }
@@ -919,9 +919,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if self.isPreorderable {
                 view.imagePresale.hidden = false
             }
-            if self.isLowStock {
+           
+//            if self.isLowStock {
+//                view.imageLowStock.hidden = false
+//            }
+            if self.isPreorderable && self.isLowStock {
+                view.imageLowStock.hidden = true
+            }else {
                 view.imageLowStock.hidden = false
             }
+            
+
             
             view.items = self.imageUrl
             view.delegate = self

@@ -625,7 +625,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func senditemsToShoppingCart() {
         var params : [AnyObject] =  []
         var paramsPreorderable : [AnyObject] =  []
-
+        var hasItemsNotAviable = false
         for itemWishList in self.items {
             
             let upc = itemWishList["upc"] as! NSString
@@ -657,6 +657,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
+            
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
@@ -669,6 +670,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                         params.append(paramsItem)
                     }
                 }
+            } else {
+                hasItemsNotAviable = true
             }
         }//For alert
         
@@ -676,6 +679,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
             //shoppingcart.alreadyincart
             //shoppingcart.isincart
+            
             
         
             if self.items.count == 1 {
@@ -689,27 +693,38 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                     
                         return
                     }
-                    
+                    //
+                    if self.items.count > 0 {
+                        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                        let aleradyMessage = NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:"")
+                        alert!.setMessage(aleradyMessage)
+                        alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""))
+                    }
+                    return
                 }
                 
-                if self.items.count > 0 {
-                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                    let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
-                    
-                    alert!.setMessage(aleradyMessage)
-                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                }
-                return
+
             }
+            if self.items.count > 0 && hasItemsNotAviable {
+                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+                let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
+                
+                alert!.setMessage(aleradyMessage)
+                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                
+            }
+
+           
         }
-        
+    
         let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
-            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
-            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
-            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+//            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+//            //shoppingcart.alreadyincart
+//            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
+//            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
 
             self.sendNewItemsToShoppingCart(params)
             

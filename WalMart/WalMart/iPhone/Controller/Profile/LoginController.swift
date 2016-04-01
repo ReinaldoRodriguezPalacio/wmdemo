@@ -210,7 +210,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }else{
                 self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
                 //self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }
             
             self.bgView!.frame = self.view.bounds
@@ -437,6 +437,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                                     }
                                     alertAddress.removeFromSuperview()
                                 }
+                                
                                 alertAddress.cancelPress = {() in
                                     alertAddress.removeFromSuperview()
                                     if alertViewService != nil {
@@ -478,6 +479,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
 
         alertAddress.alertClose = {() in
+            print("Close")
         }
         alertAddress.cancelPress = {() in
             alertAddress.removeFromSuperview()

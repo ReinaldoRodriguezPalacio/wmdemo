@@ -85,15 +85,17 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.sizesView.alpha = 0
         self.addSubview(sizesView)
         
-        //presale
-        
-        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
-        imagePresale.hidden =  true
-        self.addSubview(imagePresale)
         
         imageLowStock =  UIImageView(image: UIImage(named: "ultimas_detail"))
         imageLowStock.hidden =  true
         self.addSubview(imageLowStock)
+        
+        //presale
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
+        
+       
     
         priceBefore = CurrencyCustomLabel(frame: CGRectMake(0, self.pointSection!.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(priceBefore)
@@ -212,28 +214,28 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             widthNew = self.bounds.width
         }
         
-        
+     
             if widthNew > 320 {
                 let heightNew = widthNew  - 320
                 self.collection.alpha = 0
                 
                 let cellImg = self.collection.cellForItemAtIndexPath(NSIndexPath(forItem: self.currentItem!, inSection: 0)) as? ProductDetailBannerMediaCollectionViewCell
-                if cellImg != nil {
-                    let originRect = cellImg!.imageView!.frame
-                    let rectTransform = CGRectMake(originRect.minX - (heightNew / 2), originRect.minY, originRect.width + heightNew, originRect.height + heightNew)
-                    
-                    self.imageZoom.image = cellImg!.imageView.image
-                    UIView.animateWithDuration(0, animations: { () -> Void in
-                        self.imageZoom.frame = rectTransform
-                        self.imageZoom.alpha = 1
-                    })
-                }
+            if cellImg != nil {
+                let originRect = cellImg!.imageView!.frame
+                let rectTransform = CGRectMake(originRect.minX - (heightNew / 2), originRect.minY, originRect.width + heightNew, originRect.height + heightNew)
+                
+                self.imageZoom.image = cellImg!.imageView.image
+                UIView.animateWithDuration(0, animations: { () -> Void in
+                    self.imageZoom.frame = rectTransform
+                    self.imageZoom.alpha = 1
+                })
+            }
             } else {
                 self.collection.alpha = 1
                 self.imageZoom.alpha = 0
                 self.imageZoom.frame = collection.frame
-            
-        }
+            }
+        
         
         self.buildColorsAndSizesView()
         

@@ -211,6 +211,8 @@ class UserCurrentSession : NSObject {
             profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
             profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
             profile.profession = resultProfileJSONGR!["profession"] as! String
+
+            
             if let genderVal = resultProfileJSONMG["gender"] as? String{
                 profile.sex = genderVal
             } else {
@@ -233,6 +235,10 @@ class UserCurrentSession : NSObject {
         UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
         UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
 
+        
+        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
+        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
+        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
         
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)
@@ -808,7 +814,7 @@ class UserCurrentSession : NSObject {
     
     func updatePhoneProfile(newProfile:Bool) {
         if self.mustUpdatePhone {
-       
+            
             let svcProfile = GRUpdateUserProfileService()
             let profileParams = svcProfile.buildParams(
                 UserCurrentSession.sharedInstance().userSigned!.profile.name as String,
@@ -837,8 +843,6 @@ class UserCurrentSession : NSObject {
                         UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber
                     }
                 }
-                
-                
                 }, errorBlock: { (error:NSError) -> Void in
                     print("Se actualizo el perfil")
             })

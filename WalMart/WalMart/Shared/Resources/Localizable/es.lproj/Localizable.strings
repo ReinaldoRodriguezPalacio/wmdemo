@@ -95,7 +95,7 @@
 "shoppingcart.note" = "Nota";
 "shoppingcart.addNote" = "Agregar Nota para Envío";
 "shoppingcart.updateNote" = "Editar Nota para Envío";
-"shoppingcart.saveNote" = "Guardando Nota...";
+"shoppingcart.saveNoteLoading" = "Guardando Nota...";
 "shoppingcart.deleteNote" = "Eliminando Nota...";
 "shoppingcart.noteTile" = "Nota de Envío";
 "shoppingcart.selectpices" = "Ordenar por Pieza";
@@ -189,7 +189,7 @@
 "shoppingcart.addquantitytitle" = "Número de Artículos";
 "shoppingcart.addweighttitle" = "Cantidad";
 "shoppingcart.edit" = "editar";
-"shoppingcart.keepshoppinginsidecart" = "seguir comprando";
+"shoppingcart.keepshoppinginsidecart" = "Seguir comprando";
 "shoppingcart.endedit" = "ok";
 "shoppingcart.isincart" = "El artículo ya se encuentra en\n tu carrito";
 "shoppingcart.wishlist.ready" = "¡Artículos añadidos a tu Wishlist!";
