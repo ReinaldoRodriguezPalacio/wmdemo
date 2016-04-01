@@ -36,15 +36,16 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     override func setup() {
         super.setup()
         
-        //presale
-        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
-        imagePresale.hidden =  true
-        self.addSubview(imagePresale)
-        
         //Ultimas piezas
         imageLowStock =  UIImageView(image: UIImage(named: "ultimas_home"))
         imageLowStock.hidden =  true
         self.addSubview(imageLowStock)
+
+        
+        //presale
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
 
     
         
@@ -89,7 +90,12 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         imagePresale.hidden = !isPreorderable
-        imageLowStock.hidden = !isLowStock
+
+        if isPreorderable && isLowStock {
+         imageLowStock.hidden =  true
+        }else{
+         imageLowStock.hidden = !isLowStock
+        }
         
         if isPreorderable || isLowStock {
             if IS_IPHONE {
