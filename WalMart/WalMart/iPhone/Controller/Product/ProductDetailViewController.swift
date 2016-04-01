@@ -925,7 +925,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 //            }
             if self.isPreorderable && self.isLowStock {
                 view.imageLowStock.hidden = true
-            }else {
+            }else if self.isLowStock {
                 view.imageLowStock.hidden = false
             }
             

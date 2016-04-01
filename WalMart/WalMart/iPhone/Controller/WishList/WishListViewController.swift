@@ -168,7 +168,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         if let pesables = itemWishlist["type"] as?  NSString {
             pesable = pesables as String
         }else{
-            pesable == "false"
+            pesable = "false"
         }
         
         
@@ -726,6 +726,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 //            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
 //            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
 
+            
             self.sendNewItemsToShoppingCart(params)
             
             //

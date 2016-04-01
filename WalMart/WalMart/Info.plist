@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>FacebookAppID</key>
@@ -296,7 +296,7 @@
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getFacets</string>
 			<key>WalmartMG.GRGetPromotionsService</key>
-			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/list/getPromotions</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getPromotions.txt</string>
 			<key>WalmartMG.GRItemByTicketService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/walmartgroceries/login/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
