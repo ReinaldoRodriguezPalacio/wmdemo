@@ -161,6 +161,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.view.addSubview(saveButton!)
 
         self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"
+        self.content?.contentOffset = CGPointZero
     }
     
     override func viewWillLayoutSubviews() {
@@ -260,7 +261,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     func textViewDidBeginEditing(textView: UITextView) {
-        let offset = self.content!.contentOffset.y + 150
+        //let offset = self.content!.contentOffset.y + 150
+        let offset = (self.content.contentSize.height - self.content.frame.height) + 150
         self.content!.contentOffset = CGPointMake(0, offset)
     }
     

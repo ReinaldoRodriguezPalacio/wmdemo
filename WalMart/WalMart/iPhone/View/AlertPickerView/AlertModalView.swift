@@ -74,7 +74,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
-        viewContent.center = CGPoint(x: self.center.x, y: self.center.y - paddingTop )
+        viewContent.center = CGPoint(x: self.center.x, y: self.center.y)
     }
     
     func closePicker() {

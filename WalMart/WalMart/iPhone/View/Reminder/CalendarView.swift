@@ -63,10 +63,10 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     override func layoutSubviews() {
-        self.calendar!.frame = CGRectMake(0.0, 46.0,288, 327)
+        self.calendar!.frame = CGRectMake(0.0, 46.0,288, 300)
         self.layerLine.frame = CGRectMake(0,  self.calendar!.frame.maxY + 24,  self.frame.width, 1)
-        self.cancelButton!.frame = CGRectMake(16, self.calendar!.frame.maxY + 43, 125, 34)
-        self.saveButton!.frame = CGRectMake(  self.frame.width - 141 , self.calendar!.frame.maxY + 43, 125, 34)
+        self.cancelButton!.frame = CGRectMake(16, self.layerLine.frame.maxY + 16, 125, 34)
+        self.saveButton!.frame = CGRectMake(  self.frame.width - 141 , self.layerLine.frame.maxY + 16, 125, 34)
     }
     
     // MARK: - ABCalendarPickerDataSourceProtocol
@@ -144,11 +144,11 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     
     // MARK: - ABCalendarPickerDelegateProtocol
     func calendarPickerHeightForHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
-        return 50
+        return 37
     }
     
     func calendarPickerHeightForColumnHeader(calendarPicker: ABCalendarPicker!) -> CGFloat {
-        return 50
+        return 37
     }
     
     func calendarPicker(calendarPicker: ABCalendarPicker!, animateNewHeight height: CGFloat) {

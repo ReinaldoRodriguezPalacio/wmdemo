@@ -173,7 +173,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         }
         
         self.dateField?.onBecomeFirstResponder = { () in
-            let calendarView = CalendarView(frame: CGRectMake(0, 0,  288, 470))
+            let calendarView = CalendarView(frame: CGRectMake(0, 0,  288, 434))
             calendarView.delegate = self
             if self.reminderService!.existNotificationForCurrentList(){
                calendarView.originalDate = self.currentOriginalFireDate
