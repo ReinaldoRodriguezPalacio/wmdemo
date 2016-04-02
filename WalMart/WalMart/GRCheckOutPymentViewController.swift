@@ -278,8 +278,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         
         self.contenPayments.frame = CGRectMake(16,self.sectionTitlePayments.frame.maxY ,self.view.frame.width - 32 , 320)
-        
-        sectionTitleDiscount.frame = CGRectMake(16, self.paymentOptionsView == nil ? self.contenPayments!.frame.maxY: self.paymentOptionsView!.frame.maxY, width, lheight)
+        sectionTitleDiscount.frame = CGRectMake(16, self.contenPayments!.frame.maxY, width, lheight)
         self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,width,fheight)
         
        // self.paymentOptions!.frame = CGRectMake(16, self.sectionTitleDiscount!.frame.minY,  self.paymentOptions!.frame.width , fheight)
@@ -299,7 +298,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         sectionTitle.backgroundColor = UIColor.whiteColor()
         return sectionTitle
     }
-    
     
     
     func cancelPurche (){
@@ -339,16 +337,16 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         
         //Recibir por parametros
-        let dateMonth = self.paramsToOrder!["month"] as! Int//03
-        let dateYear = self.paramsToOrder!["year"] as! Int//2016
-        let dateDay = self.paramsToOrder!["day"] as! Int//20
-        let commensOrder = self.paramsToOrder!["comments"] as? String//"Recibios por parametros"
-        let addresId =  self.paramsToOrder!["AddressID"]  as?  String //"4567890cuytrcts"
-        let slotId = self.paramsToOrder!["slotId"] as? Int//1
-        let deliveryType = self.paramsToOrder!["deliveryType"] as? String//"3"
-        let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String//"Entrega Programada - $44"
-        let deliverySchedule = self.paramsToOrder!["hour"] as? String//"11:00 - 12:00"
-        let pickingInstruction = self.paramsToOrder!["pickingInstruction"] as! Int//"3"
+        let dateMonth = self.paramsToOrder!["month"] as! Int
+        let dateYear = self.paramsToOrder!["year"] as! Int
+        let dateDay = self.paramsToOrder!["day"] as! Int
+        let commensOrder = self.paramsToOrder!["comments"] as? String
+        let addresId =  self.paramsToOrder!["AddressID"]  as?  String
+        let slotId = self.paramsToOrder!["slotId"] as? Int
+        let deliveryType = self.paramsToOrder!["deliveryType"] as? String
+        let deliveryTypeString = self.paramsToOrder!["deliveryTypeString"] as? String
+        let deliverySchedule = self.paramsToOrder!["hour"] as? String
+        let pickingInstruction = self.paramsToOrder!["pickingInstruction"] as! Int
         
         let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: commensOrder!, paymentType: self.paymentId, addressID: addresId!, device: getDeviceNum(), slotId: slotId!, deliveryType: deliveryType!, correlationId: "", hour: deliverySchedule!, pickingInstruction:"\(pickingInstruction)" , deliveryTypeString: deliveryTypeString!, authorizationId: "", paymentTypeString:
             self.paymentString,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)
@@ -428,9 +426,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             //self.buttonShop?.enabled = false
             
-            
-            //self.performSegueWithIdentifier("showOrderDetail", sender: self)
-            
+        
             }) { (error:NSError) -> Void in
                 
                 
@@ -730,21 +726,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
                 self.paymentOptionsItems = result as [AnyObject]
-                if result.count > 0 {
-                    let option = result[0] as! NSDictionary
-                    if let text = option["paymentType"] as? String {
-                        print(text)
-                        //self.paymentOptions!.text = text
-                        self.selectedPaymentType = NSIndexPath(forRow: 0, inSection: 0)
-                    }
-                    if let id = option["id"] as? String {
-                        if id == "-1"{
-                            self.showPayPalFuturePayment = true
-                            //self.buildSubViews()
-                        }
-                    }
-                }
-                //self.removeViewLoad()
+
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
