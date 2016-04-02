@@ -262,7 +262,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     func textViewDidBeginEditing(textView: UITextView) {
         //let offset = self.content!.contentOffset.y + 150
-        let offset = (self.content.contentSize.height - self.content.frame.height) + 150
+        var offset = abs((self.content.contentSize.height - self.content.frame.height) + 150)
+        if IS_IPAD {
+            offset = 120
+        }
         self.content!.contentOffset = CGPointMake(0, offset)
     }
     
