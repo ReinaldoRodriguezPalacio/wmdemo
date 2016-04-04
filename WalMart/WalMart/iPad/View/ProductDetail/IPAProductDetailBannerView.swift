@@ -25,7 +25,8 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     var widthPresale : CGFloat = 56
     
     var imagePresale : UIImageView!
-    var imageLastPieces : UIImageView!
+    //var imageLastPieces : UIImageView!
+    var lowStock : UILabel?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -56,15 +57,23 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         
         
         //ultimas piezas
-        self.imageLastPieces =  UIImageView(image: UIImage(named: "ultimas_detail"))
-        self.imageLastPieces.hidden =  true
-        self.addSubview(self.imageLastPieces)
+        //self.imageLastPieces =  UIImageView(image: UIImage(named: "ultimas_detail"))
+        //self.imageLastPieces.hidden =  true
+        //self.addSubview(self.imageLastPieces)
         
         //presale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
         imagePresale.hidden =  true
         self.addSubview(imagePresale)
         
+        lowStock = UILabel()
+        lowStock!.font = WMFont.fontMyriadProRegularOfSize(12)
+        lowStock!.numberOfLines = 1
+        lowStock!.textColor =  WMColor.light_red
+        lowStock!.hidden = true
+        lowStock!.text = "Últimas piezas"
+        lowStock!.textAlignment = .Center
+        self.addSubview(self.lowStock!)
        
 
     }
@@ -141,8 +150,10 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.collection.frame  = self.bounds
+        self.collection.frame  = CGRectMake(self.bounds.origin.x + 14,self.bounds.origin.y,self.bounds.size.width,self.bounds.size.height - 24 )//self.bounds
         self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
+        self.lowStock?.frame =  CGRectMake(16, 8 , self.frame.width - 32, 14)
+
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

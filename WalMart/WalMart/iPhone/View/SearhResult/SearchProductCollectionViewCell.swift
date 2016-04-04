@@ -28,7 +28,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var isPreorderable: String!
     var presale : UILabel!
     var imagePresale : UIImageView!
-    var imageLowStock : UIImageView!
     
     var delegate: SearchProductCollectionViewCellDelegate?
 
@@ -36,11 +35,6 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     override func setup() {
         super.setup()
         
-        //Ultimas piezas
-        imageLowStock =  UIImageView(image: UIImage(named: "ultimas_home"))
-        imageLowStock.hidden =  true
-        self.addSubview(imageLowStock)
-
         
         //presale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
@@ -91,21 +85,28 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         imagePresale.hidden = !isPreorderable
 
-        if isPreorderable && isLowStock {
-         imageLowStock.hidden =  true
-        }else{
-         imageLowStock.hidden = !isLowStock
-        }
         
-        if isPreorderable || isLowStock {
+        if isPreorderable {
             if IS_IPHONE {
                 self.productShortDescriptionLabel?.textAlignment = .Right
             }
+           
             self.productShortDescriptionLabel?.frame = CGRectMake(38, 0,self.frame.width - 42 , 46)
             self.productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
+    
         }else{
             self.productShortDescriptionLabel?.textAlignment = .Center
             self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
+        }
+        
+        
+        if isLowStock {
+            self.lowStock?.frame = CGRectMake(16, self.productShortDescriptionLabel!.frame.maxY ,self.frame.width - 32 , 14)
+            self.lowStock?.textAlignment =  .Center
+            self.lowStock?.hidden =  false
+            self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2), self.lowStock!.frame.maxY , 95, 95)
+        }else{
+            self.lowStock?.hidden = true
         }
         
         
