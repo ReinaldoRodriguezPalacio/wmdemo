@@ -87,7 +87,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.dateFmt!.dateFormat =  "EEEE dd, MMMM"
         
         let margin: CGFloat = 16.0
-        let width = self.view.frame.width - (2*margin)
+        let width =  IS_IPAD ? 301.0 : self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
         

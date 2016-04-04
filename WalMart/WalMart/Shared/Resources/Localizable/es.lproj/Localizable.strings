@@ -378,7 +378,7 @@
 "checkout.field.new.address" = "Agregar Nueva Dirección";
 "checkout.field.shipmentType" = "Tipo de envío";
 "checkout.field.deliverySchedule" = "Horario de Entrega";
-"checkout.title.deliverySchedule" = "Horario de Entrega disponibles";
+"checkout.title.deliverySchedule" = "Fechas de entrega disponiblesFechas de entrega disponibles";
 "checkout.field.deliveryDate" = "Fecha de Entrega";
 "checkout.field.comments" = "Ejemplos: Tocar fuerte la puerta negra... Decirle al guardia que es el edificio Sur... ¡Cuidado con el perro!";
 "checkout.title.confirmation" = "Confirmación";

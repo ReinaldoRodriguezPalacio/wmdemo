@@ -276,5 +276,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
         self.content!.contentOffset = CGPointZero
     }
+    
+    //MARK: -Scroll
 
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        super.scrollViewWillBeginDragging(scrollView)
+        self.comments!.resignFirstResponder()
+    }
 }
