@@ -121,6 +121,13 @@ class ProductDetailColorSizeView: UIView {
             colorButton.backgroundColor = WMColor.UIColorFromRGB(intColor!, alpha: 1.0)
             colorButton.addTarget(self, action: "selectColor:", forControlEvents: UIControlEvents.TouchUpInside)
             colorButton.tag = count
+            if intColor >= 16700000 {
+                colorButton.layer.borderWidth = 0.5
+                colorButton.layer.borderColor = WMColor.dark_gray.CGColor
+            }else{
+                colorButton.layer.borderColor = UIColor.whiteColor().CGColor
+                colorButton.layer.borderWidth = 0.0
+            }
         
             backView.addSubview(colorButton)
             self.viewToInsert!.addSubview(backView)
