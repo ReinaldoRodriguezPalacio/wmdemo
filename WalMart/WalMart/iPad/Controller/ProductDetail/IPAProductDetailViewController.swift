@@ -464,18 +464,17 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func sizeForIndexPath (point:(Int,Int),indexPath: NSIndexPath!)  -> CGFloat {
+        var colorSizeHeight:CGFloat = 40.0
+        if self.colorItems.count == 0 && self.sizeItems.count == 0 {
+            //colorSizeHeight = 5.0
+        }
+        else if self.colorItems.count > 0 && self.sizeItems.count != 0 {
+            colorSizeHeight = 80.0
+        }
         switch point {
         case (0,0) :
             return 15.0
         case (0,1) :
-            var colorSizeHeight:CGFloat = 5.0
-            if self.colorItems.count != 0 && self.sizeItems.count != 0 {
-                colorSizeHeight = 80.0
-            }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {
-                colorSizeHeight = 40.0
-            }else if self.colorItems.count == 0 && self.sizeItems.count != 0 {
-                colorSizeHeight = 40.0
-            }
             return colorSizeHeight
         case (0,3) :
             return 36.0
@@ -962,7 +961,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
         let params = productService.buildParams(upc as String,eventtype: eventType)
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
-            
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [[String:AnyObject]] {
                 self.facets = facets

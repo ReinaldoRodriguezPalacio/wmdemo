@@ -58,7 +58,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
-        let checkImageBottom: CGFloat = IS_IPAD ? 28 : 14
         
         self.stepLabel = UILabel()
         self.stepLabel.textColor = WMColor.gray
@@ -104,7 +103,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.confirmCallOptionButton!.titleLabel?.numberOfLines = 3
         self.confirmCallOptionButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.confirmCallOptionButton!.tag = 1
         self.content.addSubview(self.confirmCallOptionButton!)
         
@@ -118,7 +116,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.notConfirmCallButton!.titleLabel?.numberOfLines = 3
         self.notConfirmCallButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 8, bottom: 0, right: 0)
-        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.tag = 2
         self.content.addSubview(self.notConfirmCallButton!)
         
@@ -170,7 +167,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
-        let checkButtonHeight: CGFloat = IS_IPAD ? 45 : 30
+        let checkImageBottom: CGFloat = IS_IPAD && !IS_IPAD_MINI ? 28 : 14
+        let checkButtonHeight: CGFloat = IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
@@ -184,6 +182,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 65,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
+        self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
+        self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
     }
     
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {

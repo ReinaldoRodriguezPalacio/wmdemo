@@ -124,6 +124,7 @@ class ProductDetailColorSizeView: UIView {
             if intColor >= 16700000 {
                 colorButton.layer.borderWidth = 0.5
                 colorButton.layer.borderColor = WMColor.dark_gray.CGColor
+                colorButton.layer.cornerRadius = 2
             }else{
                 colorButton.layer.borderColor = UIColor.whiteColor().CGColor
                 colorButton.layer.borderWidth = 0.0
