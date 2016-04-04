@@ -919,17 +919,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if self.isPreorderable {
                 view.imagePresale.hidden = false
             }
-           
-//            if self.isLowStock {
-//                view.imageLowStock.hidden = false
-//            }
-            if self.isPreorderable && self.isLowStock {
-                view.imageLowStock.hidden = true
-            }else if self.isLowStock {
-                view.imageLowStock.hidden = false
+
+            
+            if self.isLowStock {
+                view.lowStock?.hidden = false
             }
             
-
             
             view.items = self.imageUrl
             view.delegate = self

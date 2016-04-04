@@ -23,7 +23,7 @@ class ProductDetailBannerMediaCollectionViewCell : UICollectionViewCell {
     
     func setup() {
         imageView = UIImageView()
-        imageView.frame =  CGRectMake(0, 12 ,self.bounds.width, self.bounds.height - 24 )
+        imageView.frame =  CGRectMake(0, 24 ,self.bounds.width, self.bounds.height - 48 )
         //imageView.frame = self.bounds
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
         self.addSubview(imageView)
@@ -31,7 +31,7 @@ class ProductDetailBannerMediaCollectionViewCell : UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.imageView.frame =  CGRectMake(0, 12 ,self.bounds.width, self.bounds.height - 24 )
+        self.imageView.frame =  CGRectMake(0, 24 ,self.bounds.width, self.bounds.height - 48 )
     }
 
     

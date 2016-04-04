@@ -33,7 +33,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     
     var presale : UILabel!
     var imagePresale : UIImageView!
-    var imageLowStock : UIImageView!
+    //var imageLowStock : UIImageView!
+    var lowStock : UILabel?
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -84,11 +85,17 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.sizesView.delegate = self
         self.sizesView.alpha = 0
         self.addSubview(sizesView)
+
         
+        lowStock = UILabel()
+        lowStock!.font = WMFont.fontMyriadProRegularOfSize(12)
+        lowStock!.numberOfLines = 1
+        lowStock!.textColor =  WMColor.light_red
+        lowStock!.hidden = true
+        lowStock!.textAlignment = .Center
+        lowStock!.text = "Últimas piezas"
+        self.addSubview(lowStock!)
         
-        imageLowStock =  UIImageView(image: UIImage(named: "ultimas_detail"))
-        imageLowStock.hidden =  true
-        self.addSubview(imageLowStock)
         
         //presale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_product_detail"))
@@ -242,6 +249,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.priceBefore.frame = CGRectMake(0,  self.bounds.height - 54   , self.frame.width, 15.0)
         self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
         self.saving.frame = CGRectMake(0, self.bounds.height - 15  , self.frame.width, 15.0)
+        self.lowStock?.frame = CGRectMake(16, 8, self.frame.width - 32, 14.0)
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
