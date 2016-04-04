@@ -183,7 +183,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
                             }
                             
                             var selected = self.clubCollection!.indexPathsForSelectedItems()
-                            for var idx = 0; idx < selected!.count; idx++ {
+                            for idx in 0 ..< selected!.count {
                                 let indexPath = selected![idx]
                                 self.clubCollection!.deselectItemAtIndexPath(indexPath, animated: true)
                             }

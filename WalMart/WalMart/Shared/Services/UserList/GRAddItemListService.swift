@@ -113,7 +113,7 @@ class GRAddItemListService: GRBaseService {
             if let items = list["items"] as? [AnyObject] {
                 entity!.countItem = NSNumber(integer: items.count)
                 
-                for var idx = 0; idx < items.count; idx++ {
+                for idx in 0 ..< items.count {
                     var item = items[idx] as! [String:AnyObject]
                     let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
                     detail!.upc = item["upc"] as! String

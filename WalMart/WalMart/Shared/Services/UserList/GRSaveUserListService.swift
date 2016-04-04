@@ -60,7 +60,7 @@ class GRSaveUserListService : GRBaseService {
             //Se remueven atributos de los productos que sean innecesarios
             if let items = params["items"] as? [AnyObject] {
                 var cleanedItems:[AnyObject] = []
-                for var idx = 0; idx < items.count; idx++ {
+                for idx in 0 ..< items.count {
                     var item = items[idx] as! [String:AnyObject]
                     item.removeValueForKey("imageUrl")
                     item.removeValueForKey("description")
@@ -117,7 +117,7 @@ class GRSaveUserListService : GRBaseService {
         
         if let items = list["items"] as? [AnyObject] {
             entity!.countItem = NSNumber(integer: items.count)
-            for var idx = 0; idx < items.count; idx++ {
+            for idx in 0 ..< items.count {
                 var item = items[idx] as! [String:AnyObject]
                 let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
                 detail!.upc = item["upc"] as! String
@@ -168,7 +168,7 @@ class GRSaveUserListService : GRBaseService {
         var countItem: Int = 0
         if items != nil && items!.count > 0 {
             countItem = items!.count
-            for var idx = 0; idx < items!.count; idx++ {
+            for idx in 0 ..< items!.count {
                 var item = items![idx] as! [String:AnyObject]
                 let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: context) as? Product
                 detail!.upc = item["upc"] as! String

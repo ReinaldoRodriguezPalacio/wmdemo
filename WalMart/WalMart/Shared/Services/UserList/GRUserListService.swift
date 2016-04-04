@@ -57,7 +57,7 @@ class GRUserListService : GRBaseService {
 
             let currentLists = response["responseArray"] as? [AnyObject]
             if currentLists != nil && currentLists!.count > 0 {
-                for var idx = 0; idx < currentLists!.count; idx++ {
+                for idx in 0 ..< currentLists!.count {
                     var innerList = currentLists![idx] as! [String:AnyObject]
                     if let name = innerList["name"] as? String {
                         if name == list!.name {
@@ -237,7 +237,7 @@ class GRUserListService : GRBaseService {
                                 return
                             }
                             
-                            for var idx = 0; idx < items.count; idx++ {
+                            for idx in 0 ..< items.count {
                                 var item = items[idx] as! [String:AnyObject]
                                 let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
                                 detail!.upc = item["upc"] as! String

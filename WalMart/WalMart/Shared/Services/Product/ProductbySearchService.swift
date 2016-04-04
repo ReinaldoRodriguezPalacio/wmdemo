@@ -67,7 +67,7 @@ class ProductbySearchService : BaseService {
                 if let items = itemObjectResult["items"] as? NSArray {
                     //println(items)
                     self.saveKeywords(items) //Creating keywords
-                    for var idx = 0; idx < items.count; idx++ {
+                    for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:AnyObject]
                         item["type"] = ResultObjectType.Mg.rawValue
                         newItemsArray.append(item)

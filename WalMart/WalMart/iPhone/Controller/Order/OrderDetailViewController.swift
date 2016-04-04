@@ -705,7 +705,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         
         let service = GRAddItemListService()
         var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemDetailProducts.count; idx++ {
+        for idx in 0 ..< self.itemDetailProducts.count {
             let item = self.itemDetailProducts[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
@@ -787,7 +787,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         let service = GRSaveUserListService()
         
         var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemDetailProducts.count; idx++ {
+        for idx in 0 ..< self.itemDetailProducts.count {
             let item = self.itemDetailProducts[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String

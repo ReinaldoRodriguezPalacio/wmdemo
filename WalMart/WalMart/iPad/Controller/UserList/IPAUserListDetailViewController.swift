@@ -166,7 +166,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 self.deleteAllBtn!.alpha = 1.0
             })
             var cells = self.tableView!.visibleCells
-            for var idx = 0; idx < cells.count; idx++ {
+            for idx in 0 ..< cells.count {
                 if let cell = cells[idx] as? DetailListViewCell {
                     cell.setEditing(true, animated: false)
                     cell.showLeftUtilityButtonsAnimated(true)
@@ -195,7 +195,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 }
             )
             var cells = self.tableView!.visibleCells
-            for var idx = 0; idx < cells.count; idx++ {
+            for idx in 0 ..< cells.count {
                 if let cell = cells[idx] as? DetailListViewCell {
                     cell.hideUtilityButtonsAnimated(false)
                     cell.setEditing(false, animated: false)
@@ -277,7 +277,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         var productsToShow:[AnyObject] = []
         if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(GRShoppingCartTotalsTableViewCell){
             for product  in self.products! {
-                for var idx = 0; idx < self.products!.count; idx++ {
+                for idx in 0 ..< self.products!.count {
                     if let product = self.products![idx] as? [String:AnyObject] {
                         let upc = product["upc"] as! String
                         let description = product["description"] as! String

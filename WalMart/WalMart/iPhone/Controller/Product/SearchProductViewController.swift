@@ -871,7 +871,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         print("Invoking Groceries Search")
         var startOffSet = self.grResults!.resultsInResponse
         if startOffSet > 0 {
-            startOffSet++
+            startOffSet += 1
         }
         //TODO: Signals
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])

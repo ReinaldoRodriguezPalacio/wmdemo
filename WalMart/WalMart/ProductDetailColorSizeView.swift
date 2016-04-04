@@ -133,7 +133,7 @@ class ProductDetailColorSizeView: UIView {
             backView.addSubview(colorButton)
             self.viewToInsert!.addSubview(backView)
             position += CGFloat(backViewWidth)
-            count++
+            count += 1
         }
     }
     
@@ -162,7 +162,7 @@ class ProductDetailColorSizeView: UIView {
             backView.addSubview(sizeButton)
             self.viewToInsert!.addSubview(backView)
             position += CGFloat(backViewSizeWidth)
-            count++
+            count += 1
         }
     }
     
@@ -223,7 +223,7 @@ class ProductDetailColorSizeView: UIView {
             if item["value"] as! String == selected{
                 break
             }
-            count++
+            count += 1
         }
         
         for view in self.viewToInsert!.subviews {

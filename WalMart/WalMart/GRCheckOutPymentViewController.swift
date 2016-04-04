@@ -916,7 +916,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 promSelect.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,widthField - 20)
                 self.content.addSubview(promSelect)
                 self.promotionButtons.append(promSelect)
-                count++
+                count += 1
                 posY += 50
             }
             
@@ -955,7 +955,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         //self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
         
-        var posY  = self.view.frame.maxY
+        let posY  = self.view.frame.maxY
         if showDiscountAsociate
         {
             self.discountAssociate!.alpha = 1

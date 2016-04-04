@@ -90,7 +90,7 @@ class BannerService : BaseService {
             }
         }
         //LANDINGCAMPANA
-        if var moreBanner = values![JSON_BANNER_LANDINGCAMPANA] as? [[String:String]] {
+        if let moreBanner = values![JSON_BANNER_LANDINGCAMPANA] as? [[String:String]] {
             for banner in moreBanner {
                 bannerItems.append(banner)
             }

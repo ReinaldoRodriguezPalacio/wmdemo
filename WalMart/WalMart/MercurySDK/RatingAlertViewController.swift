@@ -200,7 +200,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
     func loadCards() -> Void {
         if kpiDelivery!.count > 0 {
             let numLoadedCardsCap = kpiDelivery!.count > MAX_BUFFER_SIZE ? MAX_BUFFER_SIZE : kpiDelivery!.count
-            for var i = 0; i < kpiDelivery!.count; i++ {
+            for i in 0 ..< kpiDelivery!.count {
                 let newCard: DraggableView = self.createDraggableViewWithDataAtIndex(i)
                 allCards.append(newCard)
                 if i < numLoadedCardsCap {
@@ -208,7 +208,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
                 }
             }
             
-            for var i = 0; i < loadedCards.count; i++ {
+            for i in 0 ..< loadedCards.count {
                 if i > 0 {
                     self.containerView!.insertSubview(loadedCards[i], belowSubview: loadedCards[i - 1])
                 } else {

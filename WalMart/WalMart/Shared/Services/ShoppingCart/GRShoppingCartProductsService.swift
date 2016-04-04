@@ -190,7 +190,7 @@ class GRShoppingCartProductsService : GRBaseService {
             let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
             let context: NSManagedObjectContext = appDelegate.managedObjectContext!
             for itemDeleted in deteted {
-                currentItem++
+                currentItem += 1
                 
                 itemDeleted.status = CartStatus.Synchronized.rawValue
                 do {

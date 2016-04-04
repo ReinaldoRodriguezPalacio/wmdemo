@@ -341,7 +341,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                             animation.removeFromSuperview()
                     })
                 }
-                ixCount++
+                ixCount += 1
                 
             }
         }

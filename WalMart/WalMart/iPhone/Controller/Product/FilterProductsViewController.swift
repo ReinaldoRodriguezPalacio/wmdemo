@@ -169,9 +169,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         var lastSelected:Int? = nil
         if self.selectedElements != nil && self.selectedElements!.count > 0 {
-            for var idx = self.selectedElements!.count - 1; idx >= 0; idx-- {
-                if self.selectedElements![idx] {
-                    lastSelected = idx
+            for idx in 1 ..< self.selectedElements!.count {
+                if self.selectedElements![self.selectedElements!.count - idx] {
+                    lastSelected = self.selectedElements!.count - idx
                     break
                 }
             }
@@ -470,7 +470,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if let itemsFacet = fitem[JSON_KEY_FACET_ITEMS] as? NSArray {
             var array = Array<Double>()
             var mirror = Array<NSArray>()
-            for var idx = 0; idx < itemsFacet.count; idx++ {
+            for idx in 0 ..< itemsFacet.count {
                 let item = itemsFacet[idx] as! NSDictionary
                 if let value = item[JSON_KEY_FACET_ITEMNAME] as? NSString {
                     var values = value.componentsSeparatedByString("-")
@@ -526,7 +526,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
             let item = self.facetGr![indexPath.row - 1] as? String
             var currentVal = true
-            for var items in self.selectedFacetGr! {
+            for items in self.selectedFacetGr! {
                 if items.1 == true{
                     self.selectedFacetGr!.updateValue(false, forKey: items.0)
                     break
@@ -558,7 +558,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             var ixSelected : NSIndexPath? = nil
             for var items in self.selectedElementsFacet! {
                 if items.1 == true{
-                    countselected++
+                    countselected += 1
                     ixSelected  = items.0
                 }
             }
@@ -593,7 +593,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         }
         
         var visibleCells = tableView.visibleCells
-        for var idx = 0; idx < visibleCells.count; idx++ {
+        for idx in 0 ..< visibleCells.count {
             if let cell = visibleCells[idx] as? FilterCategoryViewCell {
                 cell.check!.highlighted = false
             }
@@ -607,7 +607,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         if itemLevel != 2 {
             var indexes:[NSIndexPath] = []
             var filteredElements:[AnyObject] = []
-            for var idx = 0; idx < self.tableElements!.count; idx++ {
+            for idx in 0 ..< self.tableElements!.count {
                 var element = self.tableElements![idx] as! [String:AnyObject]
                 let elementId = element["id"] as! String
                 let elementParentId = element["parentId"] as! String
@@ -631,7 +631,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             tableView.deleteRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
             
             var updatedIndex:NSIndexPath? = nil
-            for var idx = 0; idx < self.tableElements!.count; idx++ {
+            for idx in 0 ..< self.tableElements!.count {
                 var element = self.tableElements![idx] as! [String:AnyObject]
                 let elementId = element["id"] as! String
                 if self.itemIsContained(item, node: element) {
@@ -660,7 +660,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             
         }
 
-        for var idx = 0; idx < self.selectedElements!.count; idx++ {
+        for idx in 0 ..< self.selectedElements!.count {
             if self.selectedElements![idx] {
                 if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: idx, inSection: 1)) as? FilterCategoryViewCell {
                     cell.check!.highlighted = true
@@ -715,7 +715,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
                 indexes.append(NSIndexPath(forRow: index, inSection: 1))
                 self.tableElements!.insert(inner, atIndex: index)
                 self.selectedElements!.insert(false, atIndex: index)
-                idx++
+                idx += 1
             }
             self.tableView!.insertRowsAtIndexPaths(indexes, withRowAnimation: .Automatic)
         }
@@ -724,10 +724,10 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
     func deleteItems(items:[AnyObject], atIndexPath indexPath:NSIndexPath) {
         if items.count > 0 {
             var indexes:[AnyObject] = []
-            for var idx = 0; idx < items.count; idx++ {
+            for idx in 0 ..< items.count {
                 var itemToDelete = items[idx] as! [String:AnyObject]
                 let id = itemToDelete["id"] as! String
-                for var idxe = 0; idxe < self.tableElements!.count; idxe++ {
+                for idxe in 0 ..< self.tableElements!.count {
                     let innerElement:AnyObject = self.tableElements![idxe]
                     let innerId = innerElement["id"] as! String
                     if id == innerId {
@@ -749,7 +749,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             //Find as family
             if nodeLevel == 0 {
                 let families = node["families"] as! [String:AnyObject]
-                for var idx = 0; idx < families.keys.count; idx++ {
+                for idx in 0 ..< families.keys.count {
                     var family = families[Array(families.keys)[idx]] as! [String:AnyObject]
                     if itemLevel == 1 {
                         let familyId = family["id"] as! String
@@ -766,7 +766,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             }
             else if nodeLevel == 1 {
                 let lines = node["lines"] as! [String:AnyObject]
-                for var idx = 0; idx < Array(lines.keys).count; idx++ {
+                for idx in 0 ..< Array(lines.keys).count {
                     var line = lines[Array(lines.keys)[idx]] as! [String:AnyObject]
                     let lineId = line["id"] as! String
                     if itemId == lineId {
@@ -927,7 +927,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             return
         }
         var array = Array<String>()
-        for var idx = low; idx < high; idx++ {
+        for idx in low ..< high {
             if let upcs = self.upcPrices![idx] as? NSArray {
                 for upc in upcs {
                     if let string = upc as? String {

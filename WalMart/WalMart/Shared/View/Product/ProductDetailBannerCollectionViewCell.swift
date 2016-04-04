@@ -171,7 +171,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             let bsize: CGFloat = 8.0
             var x: CGFloat = 0.0
             let sep: CGFloat = 2.0
-            for var idx = 0; idx < size; idx += 1 {
+            for idx in 0 ..< size! {
                 let point = UIButton(type: .Custom)
                 point.frame = CGRectMake(x, 5, bsize, bsize)
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)

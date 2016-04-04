@@ -84,7 +84,7 @@ class LinesForSearchService: BaseService {
         //var tmpArray : [[String:AnyObject]] = []
         
         var strInLines : String = ""
-        for var i = 0; i < response.count; i++ {
+        for i in 0 ..< response.count {
             var responseObject = response[i] as! [String:AnyObject]
             let id = responseObject["id"] as? String
             if id == nil {

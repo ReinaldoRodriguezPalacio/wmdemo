@@ -73,7 +73,7 @@ class PaymentOptionsView : UIView {
                 self.addSubview(descriptionLabel)
                 
                 posY +=  54
-                count++
+                count += 1
             }
             
             

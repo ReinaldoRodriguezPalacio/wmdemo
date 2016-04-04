@@ -174,7 +174,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         let service = GRAddItemListService()
         var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemsInCart.count; idx++ {
+        for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
@@ -222,7 +222,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         //var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemsInCart.count; idx++ {
+        for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             var quantity: Int = 0
@@ -318,7 +318,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let service = GRSaveUserListService()
         
         var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemsInCart.count; idx++ {
+        for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String

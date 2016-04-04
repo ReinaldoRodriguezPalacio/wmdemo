@@ -908,7 +908,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         let service = GRAddItemListService()
         var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemsInCart.count; idx++ {
+        for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
@@ -952,7 +952,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
 
-        for var idx = 0; idx < self.itemsInCart.count; idx++ {
+        for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             var quantity: Int = 0
@@ -1039,7 +1039,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let service = GRSaveUserListService()
         
         var products: [AnyObject] = []
-        for var idx = 0; idx < self.itemsInCart.count; idx++ {
+        for idx in 0 ..< self.itemsInCart.count {
             let item = self.itemsInCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String

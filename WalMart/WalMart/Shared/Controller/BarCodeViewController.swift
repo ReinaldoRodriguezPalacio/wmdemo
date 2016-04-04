@@ -337,7 +337,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                     alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
                     var products:[AnyObject] = []
-                    for var idx = 0; idx < items.count; idx++ {
+                    for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:AnyObject]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber

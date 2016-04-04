@@ -861,14 +861,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         var inCountRows = 1
         if bundleItems.count != 0
         {
-            inCountRows++
+            inCountRows += 1
         }
         if msi.count != 0
         {
-            inCountRows++
+            inCountRows += 1
         }
         if !isHideCrossSell {
-            inCountRows++
+            inCountRows += 1
         }
         return inCountRows
     }
