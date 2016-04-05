@@ -295,7 +295,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellColors = tabledetail.dequeueReusableCellWithIdentifier("colorsCell", forIndexPath: indexPath)
                 if colorSizeViewCell == nil {
                     self.buildColorSizeCell(cellColors.frame.width)
-                    self.clearView(cellColors)
+                    //self.clearView(cellColors)
                     cellColors.addSubview(self.colorSizeViewCell!)
                 }
                 cell = cellColors
@@ -390,7 +390,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,4) :
             if characteristics.count != 0 {
                 let cellCharacteristicsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
-                self.clearView(cellCharacteristicsTitle!)
+                //self.clearView(cellCharacteristicsTitle!)
                 let charText = NSLocalizedString("productdetail.characteristics",comment:"")
                 cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
@@ -969,11 +969,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 if self.facetsDetails?.count > 1 {
                     if let colors = self.facetsDetails![keys.first!] as? [AnyObject]{
                         self.colorItems = colors
+                        self.tabledetail.reloadData()
                     }
                 }
                 if self.facetsDetails?.count > 2 {
                     if let sizes = self.facetsDetails![keys[1]] as? [AnyObject]{
                         self.sizeItems = sizes
+                        self.tabledetail.reloadData()
                     }
                 }
             }

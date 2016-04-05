@@ -114,7 +114,7 @@ class ProductDetailColorSizeView: UIView {
             colorButton.frame = CGRectMake(CGFloat(buttonPosition), CGFloat(buttonPosition), CGFloat(buttonWidth), CGFloat(buttonWidth))
             colorButton.layer.cornerRadius = 2
             var stringColor: String = item["value"]! as! String
-            if stringColor.contains("#"){
+            if stringColor.containsString("#"){
                 stringColor = stringColor.substringFromIndex(stringColor.startIndex.advancedBy(1))
             }
             let intColor = UInt(stringColor, radix: 16)
@@ -258,7 +258,7 @@ class ProductDetailColorSizeView: UIView {
     func buildViewForColors(items:[[String:AnyObject]]){
         if items.count > 0 {
             var unit = items.first!["value"] as! String
-            if unit.contains("#"){
+            if unit.containsString("#"){
                 unit = unit.substringFromIndex(unit.startIndex.advancedBy(1))
             }
             let intColor = UInt(unit, radix: 16)
