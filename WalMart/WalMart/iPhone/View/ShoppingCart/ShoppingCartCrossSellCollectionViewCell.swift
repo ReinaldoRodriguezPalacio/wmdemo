@@ -13,7 +13,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
     
     
     var labelTitle : UILabel!
-
+    var buttonClose : UIButton!
     
     override func setup() {
         super.setup()
@@ -27,6 +27,8 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         labelTitle.text = NSLocalizedString("shoppingcart.beforeleave",comment:"")
         
         self.addSubview(labelTitle)
+        
+
         
     }
 
@@ -49,12 +51,42 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
         return cell
     }
-    
-    
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         let itemUPC = itemsUPC[indexPath.row] as! NSDictionary
         let upc = itemUPC["upc"] as! String
+        
+        let shoppingCartItems  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
+        for itemInCart in shoppingCartItems! {
+            if let dictItem = itemInCart as? [String:AnyObject] {
+                if let preorderable = dictItem["isPreorderable"] {
+                    if(preorderable as! String == "true"){
+                        let array = dictItem["imageUrl"] as! [String]
+                        let alert = IPOWMAlertViewController.showAlert(WishListViewController.createImage(array[0]),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                        alert!.spinImage.hidden =  true
+                        alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
+                        var messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
+                        //messagePreorderable =  NSLocalizedString("alert.presaleindependent",comment:"")
+                        alert!.setMessage(messagePreorderable)
+                        
+                        let buttonClose = UIButton(frame: CGRectMake(0, 20, 44, 44))
+                        buttonClose.setImage(UIImage(named:"tutorial_close"), forState: UIControlState.Normal)
+                        buttonClose.addTarget(alert!, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+                        alert!.view.addSubview(buttonClose)
+
+                        
+                        //
+                        return
+                    }
+                }
+            }
+        }
+        
+        
+        
+        
+        //
+        
         
         if (!UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)) {
             //let itemUPC = itemsUPC[indexPath.row] as NSDictionary
