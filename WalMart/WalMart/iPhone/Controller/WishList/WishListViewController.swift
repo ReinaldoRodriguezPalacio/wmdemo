@@ -304,8 +304,8 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     func reloadWishlist() {
         if WishlistService.shouldupdate {
-             WishlistService.shouldupdate = false
-            
+            WishlistService.shouldupdate = false
+            self.buttonShop.enabled = true
             if viewLoad != nil {
                 viewLoad.removeFromSuperview()
                 viewLoad = nil
@@ -679,8 +679,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
             //shoppingcart.alreadyincart
             //shoppingcart.isincart
-            
-            
         
             if self.items.count == 1 {
                 for itemWishList in self.items {
@@ -705,25 +703,26 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 
 
             }
-            if self.items.count > 0 && hasItemsNotAviable {
-                let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
-                let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
-                
-                alert!.setMessage(aleradyMessage)
-                alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                
-            }
-
-           
+        }
+        if self.items.count > 0 && hasItemsNotAviable {
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
+            let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
+            
+            alert!.setMessage(aleradyMessage)
+            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            return
         }
     
         let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
-        if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
+        if paramsPreorderable.count == 0 && params.count == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
             alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            return
+        }
+        if params.count  > 0 && paramsPreorderable.count == 0 && (totArticlesMG == 0 || !identicalMG) {
             self.sendNewItemsToShoppingCart(params)
         
         }else{
@@ -790,7 +789,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                                     }
                                 }
                             })
-                            
+                            self.buttonShop.enabled = true
                             alert!.close()
                             
                         },isNewFrame: true)//Close - addActionButtonsWithCustomText

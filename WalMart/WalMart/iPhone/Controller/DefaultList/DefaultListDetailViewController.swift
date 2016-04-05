@@ -571,11 +571,11 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         
         var returnName =  "\(listName) \(idxTxt)"
         if returnName.length() > 25 {
-            returnName = (returnName as NSString).substringToIndex(23)
-            returnName = "\(returnName)\(Character(UnicodeScalar(50 + dispinibleIndex! + 1)))"
+            returnName = (returnName as NSString).substringToIndex(24)
+            returnName = "\(returnName)\(dispinibleIndex!)"
         }
         
-        return "\(listName) \(idxTxt)"
+        return returnName
         
         
     }
