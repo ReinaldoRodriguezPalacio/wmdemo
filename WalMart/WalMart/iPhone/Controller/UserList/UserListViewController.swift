@@ -431,7 +431,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     CATransaction.begin()
                     CATransaction.setCompletionBlock({ () -> Void in
                         var cells = self.tableuserlist!.visibleCells
-                        for var idx = 0; idx < cells.count; idx++ {
+                        for idx in 0 ..< cells.count {
                             if let cell = cells[idx] as? ListTableViewCell {
                                 cell.listName!.text = cell.textField!.text
                                 cell.hideUtilityButtonsAnimated(false)
@@ -497,7 +497,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                     CATransaction.begin()
                                     CATransaction.setCompletionBlock({ () -> Void in
                                         var cells = self.tableuserlist!.visibleCells
-                                        for var idx = 0; idx < cells.count; idx++ {
+                                        for idx in 0 ..< cells.count {
                                             if let cell = cells[idx] as? ListTableViewCell {
                                                 cell.enableDuplicateList(true)
                                                 cell.canDelete = false
@@ -536,7 +536,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         CATransaction.begin()
                         CATransaction.setCompletionBlock({ () -> Void in
                             var cells = self.tableuserlist!.visibleCells
-                            for var idx = 0; idx < cells.count; idx++ {
+                            for idx in 0 ..< cells.count {
                                 if let cell = cells[idx] as? ListTableViewCell {
                                     cell.enableDuplicateList(false)
                                     cell.canDelete = true
@@ -672,7 +672,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }
                     if result != nil && result!.count > 0 {
                         clist!.countItem = NSNumber(integer: result!.count)
-                        for var idx = 0; idx < result!.count; idx++ {
+                        for idx in 0 ..< result!.count {
                             let item = result![idx]
                             let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
                             detail!.upc = item.upc
@@ -1228,11 +1228,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func changeEntityNames() {
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
             let array = Array(self.listToUpdate!.keys)
-            for var idx = 0; idx < array.count; idx++ {
+            for idx in 0 ..< array.count {
                 let idList = array[idx]
                 
                 var list:List? = nil
-                for var idxl = 0; idxl < self.itemsUserList!.count; idxl++ {
+                for idxl in 0 ..< self.itemsUserList!.count {
                     if let entity = self.itemsUserList![idxl] as? List {
                         if entity.objectID.URIRepresentation().absoluteString == idList {
                             list = entity
@@ -1454,7 +1454,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingListFromTicket", comment:""))
                     
                     var products:[AnyObject] = []
-                    for var idx = 0; idx < items.count; idx++ {
+                    for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:AnyObject]
                         let upc = item["upc"] as! String
                         let quantity = item["quantity"] as! NSNumber

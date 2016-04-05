@@ -169,7 +169,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             let bsize: CGFloat = 8.0
             var x: CGFloat = 0.0
             let sep: CGFloat = 5.0
-            for var idx = 0; idx < size; ++idx {
+            for idx in 0 ..< size {
                 let point = UIButton(type: .Custom)
                 point.frame = CGRectMake(x, 0, bsize, bsize)
                 point.setImage(UIImage(named: "control_help_inactivo"), forState: .Normal)

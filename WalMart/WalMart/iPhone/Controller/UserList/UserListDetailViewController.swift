@@ -315,7 +315,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 )
                 var cells = self.tableView!.visibleCells
-                for var idx = 0; idx < cells.count; idx++ {
+                for idx in 0 ..< cells.count {
                     if let cell = cells[idx] as? DetailListViewCell {
                         cell.setEditing(true, animated: false)
                         cell.showLeftUtilityButtonsAnimated(true)
@@ -343,7 +343,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
        
                 )
                 var cells = self.tableView!.visibleCells
-                for var idx = 0; idx < cells.count; idx++ {
+                for idx in 0 ..< cells.count {
                     if let cell = cells[idx] as? DetailListViewCell {
                         cell.hideUtilityButtonsAnimated(false)
                         cell.setEditing(false, animated: false)
@@ -517,7 +517,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             var upcs: [String] = []
             var entities: [Product] = []
-            for var idx = 0; idx < self.products!.count; idx++ {
+            for idx in 0 ..< self.products!.count {
                 if let item = self.products![idx] as? [String:AnyObject] {
                     if let upc = item["upc"] as? String {
                         upcs.append(upc)
@@ -675,7 +675,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         count += quantity.integerValue
                     }
                     else {
-                        count++
+                        count += 1
                     }
                 }
             }
@@ -685,7 +685,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     count += quantity.integerValue
                 }
                 else {
-                    count++
+                    count += 1
                 }
             }
         }
@@ -709,7 +709,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.products != nil {
             size = self.products!.count
             if size > 0 {
-                size++
+                size += 1
             }
         }
         return size
@@ -753,7 +753,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
-            for var idx = 0; idx < self.products!.count; idx++ {
+            for idx in 0 ..< self.products!.count {
                 if let product = self.products![idx] as? [String:AnyObject] {
                     let upc = product["upc"] as! String
                     let description = product["description"] as! String
@@ -1537,7 +1537,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     
                     let service = GRAddItemListService()
                     var products: [AnyObject] = []
-                    for var idx = 0; idx < items.count; idx++ {
+                    for idx in 0 ..< items.count {
                         let item = items[idx] as! [String:AnyObject]
                         let upc = item["upc"] as! String
                         var quantity: Int = 0

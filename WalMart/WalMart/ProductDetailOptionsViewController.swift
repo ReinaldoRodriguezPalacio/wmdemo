@@ -262,7 +262,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
                     self.otherItems = detail.1 as? [AnyObject]
                      self.detailsOrder!.append(["itemsView":self.otherOptionsView!,"position":3,"itemType": detail.0])
                 }
-                count++
+                count += 1
             }
         }
     }

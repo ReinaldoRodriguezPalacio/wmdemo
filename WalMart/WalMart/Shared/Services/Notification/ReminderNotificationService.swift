@@ -57,7 +57,7 @@ class ReminderNotificationService {
             //Generate all notifications for a year (52 weaks; 26 for every 2 weeks at year)
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 var nextDate = date
-                for var i = 0; i < 26; i++ {
+                for i in 0 ..< 26 {
                     self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:2)
                     nextDate = nextDate.dateByAddingTimeInterval(self.SECS_IN_DAY * 14.0)
                 }
@@ -66,7 +66,7 @@ class ReminderNotificationService {
             //Generate all notifications for a year (52 weaks; 18 for every 3 weeks at year, more or less)
             if let date = self.createDateFrom(fireDate, forHour: hour!, andMinute: min!) {
                 var nextDate = date
-                for var i = 0; i < 18; i++ {
+                for i in 0 ..< 18 {
                     self.createLocalNotification(title: title, fireDate: nextDate, originalFireDate: date, frequency: nil, customType:3)
                     nextDate = nextDate.dateByAddingTimeInterval(self.SECS_IN_DAY * 21.0)
                 }
@@ -120,7 +120,7 @@ class ReminderNotificationService {
     func removeNotificationsFromCurrentList() {
         var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
-            for var idx = 0; idx < notifications!.count; idx++ {
+            for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
                     let values = notification.userInfo as NSDictionary?
@@ -137,7 +137,7 @@ class ReminderNotificationService {
     func findNotificationForCurrentList() {
         var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
-            for var idx = 0; idx < notifications!.count; idx++ {
+            for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
                     let values = notification.userInfo as NSDictionary?
@@ -156,7 +156,7 @@ class ReminderNotificationService {
         var exist = false
         var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
-            for var idx = 0; idx < notifications!.count; idx++ {
+            for idx in 0 ..< notifications!.count {
                 let notification:UILocalNotification = notifications![idx] as UILocalNotification
                 if notification.userInfo != nil {
                     let values = notification.userInfo as NSDictionary?

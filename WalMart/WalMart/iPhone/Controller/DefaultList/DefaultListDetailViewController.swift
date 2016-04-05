@@ -153,7 +153,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let controller = ProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
-        for var idx = 0; idx < self.detailItems!.count; idx++ {
+        for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString
@@ -414,7 +414,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
                     count += quantity.integerValue
                 }
                 else {
-                    count++
+                    count += 1
                 }
             }
         }
@@ -487,7 +487,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         let service = GRSaveUserListService()
         var items: [AnyObject] = []
         if self.detailItems != nil {
-            for var idx = 0; idx < self.detailItems!.count; idx++ {
+            for idx in 0 ..< self.detailItems!.count {
                 var product = self.detailItems![idx]
                 let quantity = product["quantity"] as! NSNumber
                 let imageUrl = product["imageUrl"] as! String
@@ -530,7 +530,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
         if itemsUserList != nil {
             if itemsUserList!.count > 0 {
-                for var idx = 0; idx < itemsUserList!.count; idx++ {
+                for idx in 0 ..< itemsUserList!.count {
                     var name:String? = nil
                     var stringIndex: String? = nil
                     if let innerList = itemsUserList![idx] as? [String:AnyObject] {

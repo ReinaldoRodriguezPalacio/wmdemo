@@ -18,7 +18,7 @@ class StoreLocatorService: BaseService {
         self.callGETService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
                 if let values = resultCall["responseArray"] as? NSArray {
-                    for var idx = 0; idx < values.count; idx++ {
+                    for idx in 0 ..< values.count {
                         if let item = values[idx] as? NSDictionary {
                             let storeID = item["storeID"] as? String
                             if storeID == nil {

@@ -30,7 +30,7 @@ class IPADefaultListDetailViewController :  DefaultListDetailViewController,UIPo
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let controller = IPAProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
-        for var idx = 0; idx < self.detailItems!.count; idx++ {
+        for idx in 0 ..< self.detailItems!.count {
             let product = self.detailItems![idx]
             let upc = product["upc"] as! NSString
             let description = product["description"] as! NSString

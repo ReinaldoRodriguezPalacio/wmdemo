@@ -27,7 +27,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
                 let service = GRSaveUserListService()
                 var items: [AnyObject] = []
                 if let products = result["items"] as? NSArray {
-                    for var idx = 0; idx < products.count; idx++ {
+                    for idx in 0 ..< products.count {
                         var product = products[idx] as! [String:AnyObject]
                         let quantity = product["quantity"] as! NSNumber
                         if let upc = product["upc"] as? String {
@@ -71,7 +71,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         listName = listName.stringByTrimmingCharactersInSet(whitespaceset)
         
         if itemsUserList!.count > 0 {
-            for var idx = 0; idx < itemsUserList!.count; idx++ {
+            for idx in 0 ..< itemsUserList!.count {
                 var name:String? = nil
                 var stringIndex: String? = nil
                 if let innerList = itemsUserList![idx] as? [String:AnyObject] {

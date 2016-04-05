@@ -73,7 +73,7 @@ class GRProductBySearchService: GRBaseService {
                     
                     //El atributo type en el JSON de producto ya existe. Por el momento se sobreescribe el valor para manejar la procedencia del mensaje.
                     var newItemsArray = Array<AnyObject>()
-                    for var idx = 0; idx < items.count; idx++ {
+                    for idx in 0 ..< items.count {
                         var item = items[idx] as! [String:AnyObject]
                         if let promodesc = item["promoDescription"] as? String{
                             if promodesc != "null" {

@@ -418,7 +418,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             let serviceAddProduct = ShoppingCartAddProductsService()
             serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
-                self.currentIndex++
+                self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
             }

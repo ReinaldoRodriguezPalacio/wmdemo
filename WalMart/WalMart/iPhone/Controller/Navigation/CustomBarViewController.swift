@@ -1134,12 +1134,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func removeAllCookies() {
         let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         var cookies = storage.cookiesForURL(NSURL(string: "https://www.walmart.com.mx")!)
-        for var idx = 0; idx < cookies!.count; idx++ {
+        for idx in 0 ..< cookies!.count {
             let cookie = cookies![idx] 
             storage.deleteCookie(cookie)
         }
         cookies =   storage.cookiesForURL(NSURL(string: "https://www.aclaraciones.com.mx")!)
-        for var idx = 0; idx < cookies!.count; idx++ {
+        for idx in 0 ..< cookies!.count {
             let cookie = cookies![idx] 
             storage.deleteCookie(cookie)
         }

@@ -543,7 +543,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 promSelect.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,widthField - 20)
                 self.content.addSubview(promSelect)
                 self.promotionButtons.append(promSelect)
-                count++
+                count += 1
             }
             posY += 50
            // self.hasPromotionsButtons = true
@@ -1192,7 +1192,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         }
                     }
                 }
-                ixSelected++
+                ixSelected += 1
             }
         }
         return itemsAddress

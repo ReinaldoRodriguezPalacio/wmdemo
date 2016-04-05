@@ -340,7 +340,7 @@ class BaseService : NSObject {
         //Creating keywords
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), { ()->() in
             WalMartSqliteDB.instance.dataBase.inDatabase { (db:FMDatabase!) -> Void in
-                for var idx = 0; idx < items.count; idx++ {
+                for idx in 0 ..< items.count {
                     if let item = items[idx] as? NSDictionary {
                         if let desc = item[JSON_KEY_DESCRIPTION] as? String {
                             let description = desc.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())

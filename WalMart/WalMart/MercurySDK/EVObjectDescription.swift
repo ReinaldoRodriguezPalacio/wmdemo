@@ -100,7 +100,7 @@ public class EVObjectDescription {
         var index = 0
         while Int(String(characters[index])) != nil {
             numForName = "\(numForName)\(characters[index])"
-            index++
+            index += 1
         }
         let range = Range<String.Index>(start:classString.startIndex.advancedBy(index), end:classString.startIndex.advancedBy((Int(numForName) ?? 0) + index))
         let name = classString.substringWithRange(range)
