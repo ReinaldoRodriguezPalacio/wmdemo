@@ -454,6 +454,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.tableDetailOrder.reloadData()
                 self.viewLoad.stopAnnimating()
                 }) { (error:NSError) -> Void in
+                    //
+                    self.back()
                     self.viewLoad.stopAnnimating()
             }
         }else {
