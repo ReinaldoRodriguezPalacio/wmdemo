@@ -203,7 +203,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 40.0
         let lheight: CGFloat = 15.0
-        let tableHeight: CGFloat = self.slotsItems!.count > 0 ? CGFloat(self.slotsItems!.count) * 46 : (46 * 2)
         
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle.frame = CGRectMake(margin, margin, width, lheight)
@@ -212,10 +211,15 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.shipmentType!.frame = CGRectMake(margin, sectionTitleShipment.frame.maxY + margin, width, fheight)
         self.sectionTitleDate.frame = CGRectMake(margin, self.shipmentType!.frame.maxY + 28, width, lheight)
         self.deliveryDate!.frame = CGRectMake(margin, self.sectionTitleDate!.frame.maxY + margin, width, fheight)
+        
+        let tableMinHeight = self.view.frame.height - self.deliveryDate!.frame.maxY - 145
+        let tableMaxHeight: CGFloat = CGFloat(self.slotsItems!.count) * 46
+        let tableHeight: CGFloat = tableMinHeight > tableMaxHeight ? tableMinHeight : tableMaxHeight
         self.timeSlotsTable!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY, width, tableHeight)
+        
         self.toolTipLabel!.frame =  CGRectMake(margin,self.timeSlotsTable!.frame.maxY,width,34)
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 110)
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.content!.frame.maxY + 16, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.content!.frame.maxY + 16, 140, 34)
