@@ -214,7 +214,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         let tableMinHeight = self.view.frame.height - self.deliveryDate!.frame.maxY - 145
         let tableMaxHeight: CGFloat = CGFloat(self.slotsItems!.count) * 46
-        let tableHeight: CGFloat = tableMinHeight > tableMaxHeight ? tableMinHeight : tableMaxHeight
+        let tableHeight: CGFloat =  max(tableMinHeight, tableMaxHeight)
         self.timeSlotsTable!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY, width, tableHeight)
         
         self.toolTipLabel!.frame =  CGRectMake(margin,self.timeSlotsTable!.frame.maxY,width,34)
