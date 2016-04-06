@@ -292,7 +292,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             if let numberOf = params["onHandInventory"] as? NSString{
                 numOnHandInventory  = numberOf
             }
-            
             var isPreorderable = "false"
             if let isPreorderableVal = params["isPreorderable"] as? String{
                 isPreorderable = isPreorderableVal

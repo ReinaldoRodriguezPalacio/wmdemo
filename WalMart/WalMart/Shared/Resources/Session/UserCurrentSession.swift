@@ -615,7 +615,6 @@ class UserCurrentSession : NSObject {
         let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)
         if arrayCart != nil {
             for product in arrayCart!{
-                
                 if product.product.isPreorderable == "true"{
                     countItems = true
                     break

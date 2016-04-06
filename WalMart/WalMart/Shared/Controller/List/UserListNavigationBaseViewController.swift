@@ -109,8 +109,13 @@ class UserListNavigationBaseViewController :  NavigationViewController {
             idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx++)"
         }*/
         
+        var returnName =  "\(listName) \(idxTxt)"
+        if returnName.length() > 25 {
+            returnName = (returnName as NSString).substringToIndex(24)
+            returnName = "\(returnName)\(dispinibleIndex!)"
+        }
         
-        return "\(listName) \(idxTxt)"
+        return returnName
     }
     
     /*func existnameList(nameList:String)->Bool{

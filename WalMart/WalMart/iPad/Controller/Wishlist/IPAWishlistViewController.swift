@@ -431,9 +431,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
         if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
-//            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
-//            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
-//            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
+            alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
+            alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             self.sendNewItemsToShoppingCart(params)
         }else{
             
@@ -472,8 +472,11 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                     self.sendNewItemsToShoppingCart(paramsPreorderable)
                 }else{
                     
-                    let alert = IPAWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    let itemImage =  paramsPreorderable[0] as! NSDictionary
+                    let alert = IPAWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     alert!.spinImage.hidden =  true
+                    alert!.viewBgImage.backgroundColor = UIColor.whiteColor()
+
                     var messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
                     messagePreorderable =  NSLocalizedString("alert.presaleindependent",comment:"")
                     alert!.setMessage(messagePreorderable)

@@ -66,7 +66,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var paramsToConfirm : NSMutableDictionary?
     
     //Paypal
-    var payPalFuturePaymentField: FormFieldView?
+    var showOnilePayments: Bool = false
+    var payPalPaymentField: UIButton?
+    var payPalFuturePaymentField: UIButton?
     var payPalFuturePayment : Bool = false
     var showPayPalFuturePayment : Bool = false //iniciar en false
     
@@ -187,15 +189,43 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         confirmShop?.addTarget(self, action: "continuePurche", forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(confirmShop!)
         
+        let titleLabelPayPal = UILabel(frame:CGRectMake(22, 0, width - 22,22))
+        titleLabelPayPal.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabelPayPal.text = "PayPal"
+        titleLabelPayPal.numberOfLines = 2
+        titleLabelPayPal.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        titleLabelPayPal.textColor = WMColor.dark_gray
+        titleLabelPayPal.tag = -1
         
+        self.payPalPaymentField = UIButton()
+        self.payPalPaymentField!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+        self.payPalPaymentField!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.payPalPaymentField!.addTarget(self, action: "paypalCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.payPalPaymentField!.addSubview(titleLabelPayPal)
+        self.payPalPaymentField!.selected = false
+        self.payPalPaymentField!.tag = -1
+        self.payPalPaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0, 0,width - 20)
+        self.content.addSubview(payPalPaymentField!)
         
-        self.payPalFuturePaymentField = FormFieldView(frame: CGRectMake(margin,sectionTitlePayments!.frame.maxY + 5,width,fheight))
-        self.payPalFuturePaymentField!.setCustomPlaceholder("PayPal pagos futuros")
-        self.payPalFuturePaymentField!.isRequired = true
-        self.payPalFuturePaymentField!.typeField = TypeField.Check
-        self.payPalFuturePaymentField!.setImageTypeField()
-        self.payPalFuturePaymentField!.nameField = "PayPal pagos futuros"
-        self.content.addSubview(self.payPalFuturePaymentField!)
+        let titleLabelPayPalFuture = UILabel(frame:CGRectMake(22, 0, width - 38,22))
+        titleLabelPayPalFuture.font = WMFont.fontMyriadProRegularOfSize(14)
+        titleLabelPayPalFuture.text = "PayPal pagos futuros"
+        titleLabelPayPalFuture.numberOfLines = 2
+        titleLabelPayPalFuture.lineBreakMode = NSLineBreakMode.ByTruncatingTail
+        titleLabelPayPalFuture.textColor = WMColor.dark_gray
+        titleLabelPayPal.tag = -3
+        
+        self.payPalFuturePaymentField = UIButton()
+        self.payPalFuturePaymentField!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
+        self.payPalFuturePaymentField!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
+        self.payPalFuturePaymentField!.addTarget(self, action: "paypalCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.payPalFuturePaymentField!.addSubview(titleLabelPayPalFuture)
+        self.payPalFuturePaymentField!.selected = false
+        self.payPalFuturePaymentField!.tag = -3
+        self.payPalFuturePaymentField!.imageEdgeInsets = UIEdgeInsetsMake(0,0,0,width - 36)
+        self.payPalFuturePaymentField!.selected = false
+
+        self.content.addSubview(payPalFuturePaymentField!)
         
         //Services
         self.invokeDiscountActiveService { () -> Void in
@@ -210,6 +240,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     self.paymentOptionsView.selectedOption  = {(selected :String, stringselected:String) -> Void in
                         self.paymentString = stringselected
                         self.paymentId = selected
+                        self.payPalPaymentField!.selected = false
+                        self.payPalFuturePaymentField!.selected = false
                     }
                     
                     self.contenPayments?.addSubview(self.paymentOptionsView)
@@ -219,20 +251,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 }
             }
             
-        }
-    
-
-        
-        self.payPalFuturePaymentField!.onBecomeFirstResponder = { () in
-            self.payPalFuturePayment = !self.payPalFuturePayment
-            if self.payPalFuturePayment
-            {
-                self.payPalFuturePaymentField!.setSelectedCheck(true)
-            }
-            else{
-                self.payPalFuturePaymentField!.setSelectedCheck(false)
-                
-            }
         }
         
         self.addViewLoad()
@@ -266,7 +284,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
-        if self.showPayPalFuturePayment {
+        if self.showOnilePayments {
             self.sectionPaypalTitle.frame = CGRectMake(16,16.0, self.view.frame.width, lheight)
             self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalFuturePaymentField!.frame.maxY, self.view.frame.width, lheight)
             sectionPaypalTitle.hidden =  false
@@ -726,7 +744,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         service.callService("2",
             successBlock: { (result:NSArray) -> Void in
                 self.paymentOptionsItems = result as [AnyObject]
-
+                //TODO: Borrar despues de validar paypal
+                self.paymentOptionsItems?.append(["id":-1,"paymentType":"Paypal"])
+                self.showPayPalFuturePayment = true
+                self.showOnilePayments = true
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
@@ -947,9 +968,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         //let lheight: CGFloat = 25.0
         
         self.payPalFuturePaymentField!.alpha = 0
+        self.payPalPaymentField!.alpha = 0
         
-        if showPayPalFuturePayment{
-            self.payPalFuturePaymentField!.alpha = 1
+        if showOnilePayments{
+            self.payPalFuturePaymentField!.alpha = self.showPayPalFuturePayment ? 1 : 0
+            self.payPalPaymentField!.alpha = 1
         }
         
         
@@ -960,8 +983,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         {
             self.discountAssociate!.alpha = 1
             self.sectionTitleDiscount!.alpha = 1
-            
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY , widthField, fheight)
+            self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY , widthField, 22)
             self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,widthField,fheight)
             //posY = self.buildPromotionButtons()
             print("posY ::: posY \(posY)")
@@ -970,18 +992,19 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if self.promotionsDesc.count > 0 {
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 1
-                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, fheight)
+                self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, 22)
                 //posY = self.buildPromotionButtons()
                 print("posY ::: posY \(posY)")
             }else{
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 0
-                self.payPalFuturePaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, fheight)
+                self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, fheight)
             }
         }
-        
-        self.content.contentSize = CGSizeMake(self.view.frame.width, posY + 10.0)
-        
+        if showPayPalFuturePayment{
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin + 16, self.payPalPaymentField!.frame.maxY , widthField - 16, 22)
+        }
+        self.payPalFuturePaymentField!.frame = CGRectMake(margin + 16, self.payPalPaymentField!.frame.maxY , widthField - 16, 22)
     }
     
     var afterButton :UIButton?
@@ -1125,12 +1148,23 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
-    //MARK: PaymentOptionsViewDelegate
-    
-    func paymentSelected(index: String, paymentString: String) {
-        self.paymentString = paymentString
-        self.paymentId = index
+    func paypalCheckSelected(sender:UIButton){
+       self.paymentOptionsView!.deselectOptions()
+        if sender == self.payPalPaymentField {
+            self.paymentString = "Paypal"
+            self.paymentId = "-1"
+        }
+        if sender == self.payPalFuturePaymentField {
+            if !sender.selected {
+                self.paymentString = "Paypal"
+                self.paymentId = "-3"
+                self.payPalPaymentField!.selected = true
+            }else{
+                self.paymentString = "Paypal"
+                self.paymentId = "-1"
+            }
+        }
+        sender.selected = (sender == self.payPalPaymentField) ? true : !sender.selected
     }
     
     //MARK: GenerateOrderViewDelegate
