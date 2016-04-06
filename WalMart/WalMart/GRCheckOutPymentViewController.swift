@@ -242,6 +242,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         self.paymentId = selected
                         self.payPalPaymentField!.selected = false
                         self.payPalFuturePaymentField!.selected = false
+                        self.payPalFuturePayment = false
+                        self.changeButonTitleColor(self.payPalPaymentField!)
+                        self.changeButonTitleColor(self.payPalFuturePaymentField!)
                     }
                     
                     self.contenPayments?.addSubview(self.paymentOptionsView)
@@ -286,7 +289,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
         if self.showOnilePayments {
             self.sectionPaypalTitle.frame = CGRectMake(16,16.0, self.view.frame.width, lheight)
-            self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalFuturePaymentField!.frame.maxY, self.view.frame.width, lheight)
+            self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalFuturePaymentField!.frame.maxY + 10, self.view.frame.width, lheight)
             sectionPaypalTitle.hidden =  false
         }else{
             sectionPaypalTitle.hidden =  true
@@ -992,19 +995,19 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             if self.promotionsDesc.count > 0 {
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 1
-                self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, 22)
+                self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 10.0, widthField, 22)
                 //posY = self.buildPromotionButtons()
                 print("posY ::: posY \(posY)")
             }else{
                 self.discountAssociate!.alpha = 0
                 self.sectionTitleDiscount!.alpha = 0
-                self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 5.0, widthField, fheight)
+                self.payPalPaymentField!.frame = CGRectMake(margin, self.sectionPaypalTitle!.frame.maxY + 10.0, widthField, 22)
             }
         }
         if showPayPalFuturePayment{
-            self.payPalFuturePaymentField!.frame = CGRectMake(margin + 16, self.payPalPaymentField!.frame.maxY , widthField - 16, 22)
+            self.payPalFuturePaymentField!.frame = CGRectMake(margin + 16, self.payPalPaymentField!.frame.maxY + 10 , widthField - 16, 22)
         }
-        self.payPalFuturePaymentField!.frame = CGRectMake(margin + 16, self.payPalPaymentField!.frame.maxY , widthField - 16, 22)
+        self.content.contentSize = CGSizeMake(self.view.frame.width, posY + 10.0)
     }
     
     var afterButton :UIButton?
@@ -1159,12 +1162,28 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 self.paymentString = "Paypal"
                 self.paymentId = "-3"
                 self.payPalPaymentField!.selected = true
+                self.payPalFuturePayment = true
             }else{
                 self.paymentString = "Paypal"
                 self.paymentId = "-1"
+                self.payPalFuturePayment = false
             }
         }
         sender.selected = (sender == self.payPalPaymentField) ? true : !sender.selected
+        self.changeButonTitleColor(sender)
+    }
+    
+    func changeButonTitleColor(sender:UIButton){
+        for btnView in sender.subviews {
+            if  btnView.isKindOfClass(UILabel) {
+                let view : UILabel  = btnView as! UILabel
+                if sender.selected{
+                    view.textColor = WMColor.light_blue
+                }else{
+                    view.textColor = WMColor.dark_gray
+                }
+            }
+        }
     }
     
     //MARK: GenerateOrderViewDelegate
