@@ -22,6 +22,7 @@ class AddressViewCell: SWTableViewCell {
     
     var imageDisclousure : UIImageView!
     var imageErrorField: UIImageView!
+    var showPreferedButton: Bool = true
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -66,8 +67,14 @@ class AddressViewCell: SWTableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        preferedButton.frame =  CGRectMake(0 , 1, 48, self.bounds.height - 2)
-        titleLabel.frame = CGRectMake(preferedButton.frame.maxX , 1, self.bounds.width - 85  , self.bounds.height - 1)
+        if(self.showPreferedButton) {
+            preferedButton.alpha = 1
+            preferedButton.frame =  CGRectMake(0 , 1, 48, self.bounds.height - 2)
+            titleLabel.frame = CGRectMake(preferedButton.frame.maxX , 1, self.bounds.width - 85  , self.bounds.height - 1)
+        }else{
+            preferedButton.alpha = 0
+            titleLabel.frame = CGRectMake(0 , 1, self.bounds.width - 85  , self.bounds.height - 1)
+        }
         imageDisclousure.frame = CGRectMake(self.frame.width - 48 , 1, 48, self.frame.height)
         imageErrorField.frame = CGRectMake(self.frame.width - 72 , 1, 48, self.frame.height)
         

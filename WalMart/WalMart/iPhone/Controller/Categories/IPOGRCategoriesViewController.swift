@@ -355,14 +355,17 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        let myAddress = GRMyAddressViewController()
-        myAddress.addCloseButton()
-        myAddress.delegate = self
-        myAddress.onClosePicker = { () in   self.newModalView?.removeFromSuperview()}
-        let navController = UINavigationController(rootViewController: myAddress)
-        navController.navigationBarHidden = true
-        navController.view.frame = CGRectMake(0, 0, self.view.frame.width - 26, self.view.frame.height - 26)
-        newModalView = AlertModalView.initModalWithNavController(navController,paddingTop: -5)
+//        let myAddress = GRMyAddressViewController()
+//        myAddress.addCloseButton()
+//        myAddress.delegate = self
+//        myAddress.onClosePicker = { () in   self.newModalView?.removeFromSuperview()}
+//        let navController = UINavigationController(rootViewController: myAddress)
+//        navController.navigationBarHidden = true
+//        navController.view.frame = CGRectMake(0, 0, self.view.frame.width - 26, self.view.frame.height - 26)
+//        newModalView = AlertModalView.initModalWithNavController(navController,paddingTop: -5)
+//        newModalView!.showPicker()
+        let addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
+        newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView)
         newModalView!.showPicker()
     }
     

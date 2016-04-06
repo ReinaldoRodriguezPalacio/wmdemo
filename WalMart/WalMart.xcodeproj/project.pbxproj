@@ -406,6 +406,7 @@
 		6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180961B87C9FC0015FC2E /* CoreMedia.framework */; };
 		6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180981B87CA150015FC2E /* MessageUI.framework */; };
 		6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */; };
+		6C31B4171CB59DD900AB7670 /* GRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31B4161CB59DD900AB7670 /* GRAddressView.swift */; };
 		6C3448931BDED9AB00092965 /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448921BDED9AB00092965 /* InvoiceViewController.swift */; };
 		6C3448951BDEE29700092965 /* IPOWMAlertInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */; };
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
@@ -1069,6 +1070,7 @@
 		6C3180961B87C9FC0015FC2E /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		6C3180981B87CA150015FC2E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		6C31B4161CB59DD900AB7670 /* GRAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressView.swift; path = iPhone/View/Categories/GRAddressView.swift; sourceTree = "<group>"; };
 		6C3448921BDED9AB00092965 /* InvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceViewController.swift; path = iPhone/Controller/Invoice/InvoiceViewController.swift; sourceTree = "<group>"; };
 		6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertInfoViewController.swift; path = iPhone/Controller/Common/IPOWMAlertInfoViewController.swift; sourceTree = "<group>"; };
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
@@ -2138,6 +2140,7 @@
 				566A2CBC19B149FB00E3291E /* IPOLineTableViewCell.swift */,
 				5670FFF21A532BD000C29A5E /* IPOGRDepartmentSpecialTableViewCell.swift */,
 				56D157A91B31E38C00E26955 /* GRDepartmentTableViewCell.swift */,
+				6C31B4161CB59DD900AB7670 /* GRAddressView.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3622,6 +3625,7 @@
 				56DFE4D719D0AAFC001811F5 /* ShoppingCartCrossSellItemCollectionViewCell.swift in Sources */,
 				AC0918CA19D1DA7700BF48CA /* FiscalAddressPersonM.swift in Sources */,
 				56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */,
+				6C31B4171CB59DD900AB7670 /* GRAddressView.swift in Sources */,
 				04D7C03D1AA62A7000A780D8 /* IPAStoreLocatorViewController.swift in Sources */,
 				85A40B6B1C223AE40036C78A /* CommentView.swift in Sources */,
 				AC59118019DE0D2400EB095C /* FMDatabase.m in Sources */,
