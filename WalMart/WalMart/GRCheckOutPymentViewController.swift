@@ -289,7 +289,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.content!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, bounds.height - (self.header!.frame.height + footerHeight))
         if self.showOnilePayments {
             self.sectionPaypalTitle.frame = CGRectMake(16,16.0, self.view.frame.width, lheight)
-            self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalFuturePaymentField!.frame.maxY + 10, self.view.frame.width, lheight)
+            if self.showPayPalFuturePayment {
+                self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalFuturePaymentField!.frame.maxY + 10, self.view.frame.width, lheight)
+            }else{
+                self.sectionTitlePayments.frame =  CGRectMake(16,self.payPalPaymentField!.frame.maxY + 10, self.view.frame.width, lheight)
+            }
             sectionPaypalTitle.hidden =  false
         }else{
             sectionPaypalTitle.hidden =  true
@@ -748,9 +752,24 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             successBlock: { (result:NSArray) -> Void in
                 self.paymentOptionsItems = result as [AnyObject]
                 //TODO: Borrar despues de validar paypal
-                self.paymentOptionsItems?.append(["id":-1,"paymentType":"Paypal"])
-                self.showPayPalFuturePayment = true
-                self.showOnilePayments = true
+                //self.paymentOptionsItems?.append(["id":"-1","paymentType":"Paypal"])
+                
+                for paymentOption in self.paymentOptionsItems!{
+                    if let payment = paymentOption as? [String:AnyObject] {
+                        if let option = payment["id"] as? String {
+                            if option == "-1"{
+                               self.showOnilePayments = true
+                               self.showPayPalFuturePayment = true
+                               break
+                            }
+                            if option == "-3"{
+                                self.showOnilePayments = true
+                                self.showPayPalFuturePayment = false
+                                break
+                            }
+                        }
+                    }
+                }
                 endCallPaymentOptions()
             },
             errorBlock: { (error:NSError) -> Void in
