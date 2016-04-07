@@ -98,7 +98,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             }
         
             var urlPrivacy = "www.walmart.com.mx/Politicas-de-privacidad.aspx"
-            urlPrivacy = "http://www.walmart.com.mx/Politicas-de-privacidad.aspx"
+            urlPrivacy = "seguridad-y-privacidad/politicas-de-privacidad"
             
             range = string.rangeOfString(urlPrivacy)
             if range.location != NSNotFound {
@@ -114,23 +114,36 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             if range.location != NSNotFound {
                 //back()
             }
-            
-            range = string.rangeOfString("/Revisar-Carrito")//("/app_Revisar-Carrito.aspx")
+        
+            var stringcase: NSString = string.lowercaseString
+            range = stringcase.rangeOfString("/revisar-carrito")//("/app_Revisar-Carrito.aspx")
             if range.location != NSNotFound {
                 back()
             }
         
+            stringcase.lowercaseString
+            range = stringcase.rangeOfString("https://www.walmart.com.mx/inicio")
+            if range.location != NSNotFound {
+                back()
+            }
+        
+        
             range = string.rangeOfString("https://www.walmart.com.mx/")//https://pilot.walmartdirecto.mx
         
         
-            
-            let rangeMobile = string.rangeOfString("/m_")
-            let rangeMobilePayment = string.rangeOfString("/mg/CreditCardPayment.aspx?")//("/m_CreditCardPayment.aspx")
-            let rangePayment = string.rangeOfString("/CreditCardPayment.aspx?")
-            range = string.rangeOfString("/m_Mi-Cuenta.aspx")
-            let rangeMobileIngresa = string.rangeOfString("/m_Ingresar.aspx")
+             stringcase = string.lowercaseString
+        
+            let rangeMobile = stringcase.rangeOfString("/m_")
+            let rangeMobilePayment = stringcase.rangeOfString("/mg/CreditCardPayment.aspx?")//("/m_CreditCardPayment.aspx")
+            let rangePayment = stringcase.rangeOfString("/CreditCardPayment.aspx?")
+        
+        
+        
+            range = stringcase.rangeOfString("/m_Mi-Cuenta.aspx")
+            let rangeMobileIngresa = stringcase.rangeOfString("/m_Ingresar.aspx")
+        
             if range.location == NSNotFound && rangeMobileIngresa.location == NSNotFound && rangeMobile.location != NSNotFound && rangeMobilePayment.location ==  NSNotFound && rangePayment.location ==  NSNotFound {
-                back()
+                //back()
             }
             
             range = string.rangeOfString(DOMAIN_CHECKOUT)

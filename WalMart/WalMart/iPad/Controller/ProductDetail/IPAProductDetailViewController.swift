@@ -1154,7 +1154,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         print(screen.size)
         
         
-        let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
         
         let imgResult = UIImage.verticalImageFromArrayProdDetail([imageHead!,imageHeader,product.imageView!.image!,screen])
         //let imgResult = UIImage.verticalImageFromArray([imageHead!,product.imageView!.image!,screen],andWidth:320)
