@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate, GRMyAddressViewControllerDelegate {
+class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate, GRMyAddressViewControllerDelegate, GRAddressViewDelegate, TPKeyboardAvoidingScrollViewDelegate {
 
     let CELL_HEIGHT : CGFloat = 98
     var viewFamily: UIView!
@@ -19,6 +19,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var familyController : FamilyViewController!
     var canfigData : [String:AnyObject]! = [:]
     var newModalView: AlertModalView? = nil
+    var addressView: GRAddressView?
+    var scrollForm: TPKeyboardAvoidingScrollView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
@@ -355,18 +357,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-//        let myAddress = GRMyAddressViewController()
-//        myAddress.addCloseButton()
-//        myAddress.delegate = self
-//        myAddress.onClosePicker = { () in   self.newModalView?.removeFromSuperview()}
-//        let navController = UINavigationController(rootViewController: myAddress)
-//        navController.navigationBarHidden = true
-//        navController.view.frame = CGRectMake(0, 0, self.view.frame.width - 26, self.view.frame.height - 26)
-//        newModalView = AlertModalView.initModalWithNavController(navController,paddingTop: -5)
-//        newModalView!.showPicker()
-        let addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
-        newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView)
-        newModalView!.showPicker()
+        self.addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
+        self.addressView?.delegate = self
+        self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+        self.newModalView!.showPicker()
     }
     
     func setStoreName(){
@@ -395,6 +389,32 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     func okAction() {
         self.setStoreName()
+    }
+    
+    //MARK: -GRAddressViewDelegate
+    
+    func newAdressForm() {
+        self.scrollForm = TPKeyboardAvoidingScrollView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
+        self.scrollForm!.scrollDelegate = self
+        self.scrollForm!.contentSize = CGSizeMake(288, 720)
+        let sAddredssForm = GRFormSuperAddressView(frame: CGRectMake(scrollForm!.frame.minX, 0, scrollForm!.frame.width, 700))
+        sAddredssForm.allAddress = self.addressView!.addressArray
+        sAddredssForm.idAddress = ""
+        self.scrollForm!.addSubview(sAddredssForm)
+        self.newModalView!.resizeViewContent("Nueva Dirección",view: scrollForm!)
+    }
+    
+    func addressSelected(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) {
+        self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: UIView(frame: CGRectMake(0,49,288,270)))
+    }
+    
+    func closeAddressView() {
+        self.newModalView!.closePicker()
+    }
+
+    //MARK: - TPKeyboardAvoidingScrollViewDelegate
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
+        return CGSizeMake(self.scrollForm!.frame.width, self.scrollForm!.contentSize.height)
     }
 
 }

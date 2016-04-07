@@ -13,9 +13,14 @@ class AlertModalView : UIView, UITextFieldDelegate {
     var viewContent : UIView!
     var headerView: UIView!
     var bgView : UIView!
+    var initView: UIView?
     var onClosePicker : (() -> Void)?
     var viewButtonClose : UIButton!
+    var closeButton : UIButton!
     var stopRemoveView: Bool? = false
+    var viewReplace : UIView!
+    var titleLabel: UILabel!
+    var lastTitle: String! = ""
     
     var paddingTop: CGFloat = 30
     
@@ -41,6 +46,9 @@ class AlertModalView : UIView, UITextFieldDelegate {
         viewContent = UIView(frame: CGRectMake(0, 0, 200, 200))
         viewContent.layer.cornerRadius = 8.0
         viewContent.backgroundColor = UIColor.whiteColor()
+        initView = UIView(frame: CGRectMake(0, 0, 200, 200))
+        initView!.layer.cornerRadius = 8.0
+        initView!.backgroundColor = UIColor.whiteColor()
         self.stopRemoveView! = false
         self.addSubview(viewContent)
     }
@@ -58,18 +66,18 @@ class AlertModalView : UIView, UITextFieldDelegate {
         headerView.backgroundColor = WMColor.light_light_gray
         viewContent.addSubview(headerView)
         
-        let titleLabel = UILabel(frame: headerView.bounds)
-        titleLabel.textColor =  WMColor.light_blue
-        titleLabel.textAlignment = .Center
-        titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
-        titleLabel.numberOfLines = 2
-        titleLabel.text = title
-        titleLabel.textAlignment = .Center
+        self.titleLabel = UILabel(frame: headerView.bounds)
+        self.titleLabel.textColor =  WMColor.light_blue
+        self.titleLabel.textAlignment = .Center
+        self.titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.titleLabel.numberOfLines = 2
+        self.titleLabel.text = title
+        self.titleLabel.textAlignment = .Center
         
-        let viewButton = UIButton(frame: CGRectMake(6, 3, 40, 40))
-        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
-        viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
-        headerView.addSubview(viewButton)
+        self.viewButtonClose = UIButton(frame: CGRectMake(6, 3, 40, 40))
+        self.viewButtonClose.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        self.viewButtonClose.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        headerView.addSubview(viewButtonClose)
         headerView.addSubview(titleLabel)
     }
     
@@ -85,8 +93,9 @@ class AlertModalView : UIView, UITextFieldDelegate {
     func setContentView(view:UIView){
         let width = view.frame.size.width + 6
         let height = view.frame.size.height + 6
+        self.initView = view
         self.viewContent.frame.size = CGSize(width: width, height: height)  //controllerShow.view.frame.size
-        self.viewContent.addSubview(view)
+        self.viewContent.addSubview(self.initView!)
         view.center =  self.viewContent.center
     }
     //MARK TextField delegate
@@ -235,5 +244,46 @@ class AlertModalView : UIView, UITextFieldDelegate {
     
     func removeComplete(){
         super.removeFromSuperview()
+    }
+    
+    
+    func resizeViewContent(title:String, view:UIView) {
+        self.lastTitle = self.titleLabel!.text!
+        self.titleLabel!.text = title
+        closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
+        closeButton!.addTarget(self, action: "closeNew", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton!.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
+        closeButton!.alpha = 0
+        self.headerView.addSubview(closeButton!)
+        self.viewButtonClose?.hidden = true
+        let finalContentFrame = CGRectMake(0, 0, self.viewContent.frame.width, view.frame.height + 49)
+        self.viewReplace = view
+        self.viewReplace?.alpha = 0
+        self.viewContent.addSubview(viewReplace!)
+        self.initView?.alpha = 0
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.viewContent.frame = finalContentFrame
+                self.viewContent.center = self.center
+                self.viewButtonClose?.alpha = 1
+                self.closeButton!.alpha = 1
+                }) { (completed:Bool) -> Void in
+                    self.viewReplace?.alpha = 1
+        }
+    }
+    
+    func closeNew() {
+        //onClosePicker?()
+        self.viewReplace?.alpha = 0
+        self.titleLabel!.text = self.lastTitle
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            self.viewContent.frame = CGRectMake(0, 0, 294,371)
+            self.viewContent.center = self.center
+            self.viewButtonClose.hidden = false
+            self.closeButton.hidden = true
+            }) { (complete:Bool) -> Void in
+                self.initView?.alpha = 1
+                self.viewReplace?.removeFromSuperview()
+                self.closeButton?.removeFromSuperview()
+        }
     }
 }

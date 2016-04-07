@@ -8,6 +8,13 @@
 
 import Foundation
 
+
+protocol GRAddressViewDelegate {
+    func newAdressForm()
+    func addressSelected(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary])
+    func closeAddressView()
+}
+
 class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var cancelButton: UIButton?
     var newButton: UIButton?
@@ -16,6 +23,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var layerLine: CALayer!
     var addressArray: [AnyObject]! = []
     var viewLoad : WMLoadingView!
+    var delegate: GRAddressViewDelegate?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -45,7 +53,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(cancelButton!)
         
         self.newButton = UIButton()
@@ -60,7 +68,6 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.tableAddress = UITableView()
         self.tableAddress!.delegate = self
         self.tableAddress!.dataSource = self
-        self.tableAddress!.separatorStyle = .None
         self.tableAddress!.registerClass(AddressViewCell.self, forCellReuseIdentifier: "labelCell")
         self.addSubview(tableAddress!)
         self.callServiceAddressGR()
@@ -73,6 +80,14 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.layerLine.frame = CGRectMake(0,self.tableAddress!.frame.maxY,self.frame.width, 1)
         self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 129,self.layerLine.frame.maxY + 16, 125, 34)
         self.newButton?.frame = CGRectMake((self.frame.width/2) + 4 , self.layerLine.frame.maxY + 16, 125, 34)
+    }
+    
+    func close(){
+        self.delegate?.closeAddressView()
+    }
+    
+    func new(){
+        self.delegate?.newAdressForm()
     }
     
     //MARK: TableViewDelegate
@@ -117,18 +132,43 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-        //
+        self.addViewLoad()
+        let item = self.addressArray[indexPath.row] as! NSDictionary
+        let serviceAddress = GRAddressesByIDService()
+        serviceAddress.addressId = item["id"] as? String
+        serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            let zipCode = result["zipCode"] as! String!
+            let storeID = result["storeID"] as! String!
+            let idAddress = result["addressID"] as! String!
+            let addressName = result["name"] as! String!
+            let serviceZip = GRZipCodeService()
+            serviceZip.buildParams(zipCode)
+            serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                var stores = []
+                stores = result["stores"] as! [NSDictionary]
+                self.delegate?.addressSelected(idAddress,addressName: addressName, selectedStore: storeID, stores: stores as! [NSDictionary])
+                self.viewLoad.stopAnnimating()
+                }, errorBlock: { (error:NSError) -> Void in
+                    print("error:: \(error)")
+                    self.viewLoad.stopAnnimating()
+            })
+            }) { (error:NSError) -> Void in
+                self.viewLoad.stopAnnimating()
+        }
     }
     
-    //MARK: -Service
-    func callServiceAddressGR(){
+    func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.bounds.width, self.bounds.height - 46))
             viewLoad.backgroundColor = UIColor.whiteColor()
             self.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
         }
-        
+    }
+    
+    //MARK: -Service
+    func callServiceAddressGR(){
+        self.addViewLoad()
         let addressService = GRAddressByUserService()
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
@@ -148,5 +188,4 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
                 print("errorBlock")
         })
     }
-
 }
