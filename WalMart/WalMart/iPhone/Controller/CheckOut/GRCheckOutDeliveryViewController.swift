@@ -216,10 +216,10 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         let tableMaxHeight: CGFloat = CGFloat(self.slotsItems!.count) * 46
         let tableHeight: CGFloat =  max(tableMinHeight, tableMaxHeight)
         self.timeSlotsTable!.frame = CGRectMake(margin, self.deliveryDate!.frame.maxY, width, tableHeight)
-
+        
         self.toolTipLabel!.frame =  CGRectMake(margin,self.timeSlotsTable!.frame.maxY,width,34)
         self.content!.contentSize = CGSize(width: width, height: self.toolTipLabel!.frame.maxY)
-        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 110)
         self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.content!.frame.maxY + 16, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.content!.frame.maxY + 16, 140, 34)

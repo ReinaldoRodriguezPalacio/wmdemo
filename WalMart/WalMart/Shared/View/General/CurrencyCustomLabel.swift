@@ -69,7 +69,7 @@ class CurrencyCustomLabel : UIView  {
     
     func updateMount (value: String,interLine:Bool) {
 
-         self.interLine = interLine
+        self.interLine = interLine
         let values = value.componentsSeparatedByString(".")
         
         if  intFont == nil {
@@ -91,6 +91,11 @@ class CurrencyCustomLabel : UIView  {
         }
         
         if value.rangeOfString("X") != nil{
+            self.label1!.text = value
+            self.label2!.text = ""
+        }
+        
+        if value.rangeOfString("Ahorras") != nil{
             self.label1!.text = value
             self.label2!.text = ""
         }

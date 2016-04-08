@@ -820,9 +820,8 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
                 var savingSend = self.saving
                 let doubleVaule = self.saving.doubleValue
                 if doubleVaule > 0 {
-                    let savingStr = NSLocalizedString("price.saving",comment:"")
                     let formated = CurrencyCustomLabel.formatString("\(savingSend)")
-                    savingSend = "\(savingStr) \(formated)"
+                    savingSend = "\(formated)"
                 }
                 
                 cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)

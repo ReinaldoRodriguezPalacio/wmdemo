@@ -73,7 +73,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.name!.isRequired = true
         self.name!.setCustomPlaceholder(NSLocalizedString("profile.name",comment:""))
         self.name!.typeField = TypeField.Name
-        self.name!.minLength = 2
+        self.name!.minLength = 3
         self.name!.maxLength = 25
         self.name!.nameField = NSLocalizedString("profile.name",comment:"")
         
@@ -81,7 +81,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.lastName!.isRequired = true
         self.lastName!.setCustomPlaceholder(NSLocalizedString("profile.lastname",comment:""))
         self.lastName!.typeField = TypeField.String
-        self.lastName!.minLength = 2
+        self.lastName!.minLength = 3
         self.lastName!.maxLength = 25
         self.lastName!.nameField = NSLocalizedString("profile.lastname",comment:"")
         
