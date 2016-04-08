@@ -114,7 +114,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         }
         
         selectedView.animateToOpenDepartment(self.view.frame.width, endAnumating: { () -> Void in
-            
             self.viewFamily.alpha = 0
             self.familyController.familyTable.reloadData()
             self.view.addSubview(self.viewFamily)

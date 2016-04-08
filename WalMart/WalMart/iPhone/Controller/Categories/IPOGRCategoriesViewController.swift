@@ -392,7 +392,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     //MARK: -GRAddressViewDelegate
-    
     func newAdressForm() {
         self.scrollForm = TPKeyboardAvoidingScrollView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
         self.scrollForm!.scrollDelegate = self
@@ -405,7 +404,19 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func addressSelected(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) {
-        self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: UIView(frame: CGRectMake(0,49,288,270)))
+        let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
+        var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
+        storeViewHeight = max(minViewHeigth,storeViewHeight)
+        let storeView = GRAddressStoreView(frame: CGRectMake(0,49,288,min(storeViewHeight,270)))
+        storeView.selectedstoreId = selectedStore
+        storeView.storeArray = stores
+        storeView.addressId = addressId
+        storeView.onClose = {void in
+            self.newModalView!.closePicker()
+            self.setStoreName()
+        }
+        storeView.onReturn = {void in self.newModalView!.closeNew()}
+        self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
     }
     
     func closeAddressView() {

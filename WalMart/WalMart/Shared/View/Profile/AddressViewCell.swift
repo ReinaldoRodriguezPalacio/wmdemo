@@ -73,7 +73,7 @@ class AddressViewCell: SWTableViewCell {
             titleLabel.frame = CGRectMake(preferedButton.frame.maxX , 1, self.bounds.width - 85  , self.bounds.height - 1)
         }else{
             preferedButton.alpha = 0
-            titleLabel.frame = CGRectMake(0 , 1, self.bounds.width - 85  , self.bounds.height - 1)
+            titleLabel.frame = CGRectMake(0 , 1, self.bounds.width - 41  , self.bounds.height - 1)
         }
         imageDisclousure.frame = CGRectMake(self.frame.width - 48 , 1, 48, self.frame.height)
         imageErrorField.frame = CGRectMake(self.frame.width - 72 , 1, 48, self.frame.height)

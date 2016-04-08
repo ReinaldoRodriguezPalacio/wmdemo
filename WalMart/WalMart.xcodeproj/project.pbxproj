@@ -407,6 +407,8 @@
 		6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C3180981B87CA150015FC2E /* MessageUI.framework */; };
 		6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */; };
 		6C31B4171CB59DD900AB7670 /* GRAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31B4161CB59DD900AB7670 /* GRAddressView.swift */; };
+		6C31B4191CB6FFE000AB7670 /* GRAddressStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31B4181CB6FFE000AB7670 /* GRAddressStoreView.swift */; };
+		6C31B41B1CB70EEB00AB7670 /* GRAddressViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31B41A1CB70EEB00AB7670 /* GRAddressViewCell.swift */; };
 		6C3448931BDED9AB00092965 /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448921BDED9AB00092965 /* InvoiceViewController.swift */; };
 		6C3448951BDEE29700092965 /* IPOWMAlertInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */; };
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
@@ -1071,6 +1073,8 @@
 		6C3180981B87CA150015FC2E /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		6C31809A1B87CA320015FC2E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		6C31B4161CB59DD900AB7670 /* GRAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressView.swift; path = iPhone/View/Categories/GRAddressView.swift; sourceTree = "<group>"; };
+		6C31B4181CB6FFE000AB7670 /* GRAddressStoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressStoreView.swift; path = iPhone/View/Categories/GRAddressStoreView.swift; sourceTree = "<group>"; };
+		6C31B41A1CB70EEB00AB7670 /* GRAddressViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressViewCell.swift; path = iPhone/View/Categories/GRAddressViewCell.swift; sourceTree = "<group>"; };
 		6C3448921BDED9AB00092965 /* InvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceViewController.swift; path = iPhone/Controller/Invoice/InvoiceViewController.swift; sourceTree = "<group>"; };
 		6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertInfoViewController.swift; path = iPhone/Controller/Common/IPOWMAlertInfoViewController.swift; sourceTree = "<group>"; };
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
@@ -2141,6 +2145,8 @@
 				5670FFF21A532BD000C29A5E /* IPOGRDepartmentSpecialTableViewCell.swift */,
 				56D157A91B31E38C00E26955 /* GRDepartmentTableViewCell.swift */,
 				6C31B4161CB59DD900AB7670 /* GRAddressView.swift */,
+				6C31B4181CB6FFE000AB7670 /* GRAddressStoreView.swift */,
+				6C31B41A1CB70EEB00AB7670 /* GRAddressViewCell.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3709,6 +3715,7 @@
 				567AB65B1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift in Sources */,
 				04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */,
 				56C5B22019AE871800BB81DE /* WMFont.swift in Sources */,
+				6C31B41B1CB70EEB00AB7670 /* GRAddressViewCell.swift in Sources */,
 				569E004B19BE2DB700756B88 /* ShoppingCartViewController.swift in Sources */,
 				AC88FA6919C9FAD6003BD859 /* FormFieldView.swift in Sources */,
 				85A40BA21C223AE40036C78A /* DDDispatchQueueLogFormatter.m in Sources */,
@@ -4024,6 +4031,7 @@
 				56253D8919D211A5002E128A /* OrderDetailViewController.swift in Sources */,
 				565E5A7219C0BD8300444DF7 /* User.swift in Sources */,
 				04D7C03F1AA6329F00A780D8 /* IPAClubLocatorTableViewCell.swift in Sources */,
+				6C31B4191CB6FFE000AB7670 /* GRAddressStoreView.swift in Sources */,
 				569607AF19B53619005D20DC /* ProductDetailCrossSellTableViewCell.swift in Sources */,
 				85A40B891C223AE40036C78A /* Alamofire.swift in Sources */,
 				85A40B691C223AE40036C78A /* Address.swift in Sources */,

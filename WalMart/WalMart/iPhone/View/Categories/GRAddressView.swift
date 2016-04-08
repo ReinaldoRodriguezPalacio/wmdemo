@@ -68,7 +68,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.tableAddress = UITableView()
         self.tableAddress!.delegate = self
         self.tableAddress!.dataSource = self
-        self.tableAddress!.registerClass(AddressViewCell.self, forCellReuseIdentifier: "labelCell")
+        self.tableAddress!.registerClass(GRAddressViewCell.self, forCellReuseIdentifier: "labelCell")
         self.addSubview(tableAddress!)
         self.callServiceAddressGR()
     }
@@ -76,7 +76,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.titleLabel?.frame = CGRectMake(16, 62,self.frame.width, 14)
-        self.tableAddress?.frame = CGRectMake(16, self.titleLabel!.frame.maxY + 16 ,self.frame.width - 32, 210)
+        self.tableAddress?.frame = CGRectMake(16, self.titleLabel!.frame.maxY + 16 ,self.frame.width - 16, 210)
         self.layerLine.frame = CGRectMake(0,self.tableAddress!.frame.maxY,self.frame.width, 1)
         self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 129,self.layerLine.frame.maxY + 16, 125, 34)
         self.newButton?.frame = CGRectMake((self.frame.width/2) + 4 , self.layerLine.frame.maxY + 16, 125, 34)
@@ -100,10 +100,10 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? AddressViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? GRAddressViewCell
         var prefered = false
         
-        let item = self.addressArray[indexPath.item] as! NSDictionary
+        let item = self.addressArray[indexPath.row] as! NSDictionary
         let name = item["name"] as! String
         if let pref = item["preferred"] as? NSNumber{
             if pref.integerValue == 1 {
@@ -119,10 +119,9 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         if let addId =  item["id"] as? String {
             addressId = addId
         }
-        cell!.showPreferedButton = false
-        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray, padding: 12,align:NSTextAlignment.Left, isViewLine:false, isPrefered:prefered, addressID: addressId)
-        //cell!.delegateAddres = self
-        //cell!.delegate = self
+        cell!.selectionStyle = .None
+        let textColor = prefered ? WMColor.light_blue : WMColor.gray
+        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: textColor,align:NSTextAlignment.Left,addressID: addressId)
         if let isAddressOK = item["isAddressOk"] as? String {
             cell!.showErrorFieldImage(isAddressOK == "False")
         }else{
@@ -131,7 +130,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         return cell!
     }
     
-    func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.addViewLoad()
         let item = self.addressArray[indexPath.row] as! NSDictionary
         let serviceAddress = GRAddressesByIDService()
