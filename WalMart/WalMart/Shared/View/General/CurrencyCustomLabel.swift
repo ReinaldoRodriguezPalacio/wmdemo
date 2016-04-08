@@ -95,7 +95,7 @@ class CurrencyCustomLabel : UIView  {
             self.label2!.text = ""
         }
         
-        if value.rangeOfString("Ahorras") != nil{
+        if value.rangeOfString("costo") != nil{
             self.label1!.text = value
             self.label2!.text = ""
         }
