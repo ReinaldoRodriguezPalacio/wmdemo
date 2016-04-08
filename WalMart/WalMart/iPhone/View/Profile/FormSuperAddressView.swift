@@ -472,11 +472,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
     }
     
-    func getAddressDictionary(addressId:String , delete:Bool) -> NSDictionary? {
+    func getAddressDictionary(addressId:String , delete:Bool) -> NSMutableDictionary? {
         return getAddressDictionary(addressId , delete:delete,preferred:false)
     }
     
-    func getAddressDictionary(addressId:String , delete:Bool,preferred:Bool) -> NSDictionary? {
+    func getAddressDictionary(addressId:String , delete:Bool,preferred:Bool) -> NSMutableDictionary? {
         endEditing(true)
         let service = GRAddressAddService()
         
@@ -602,9 +602,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let referenceTwo =  self.betweenSecond!.text
         
         var  storeId = ""
+        var  storeName = ""
         if self.storesDic.count > 0 {
             let storeDict =  self.storesDic[selectedStore.row]
             storeId = storeDict["id"] as! String!
+            storeName = storeDict["name"] as! String!
         }
         
         var action = "A"
@@ -614,7 +616,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             if addressId != "" {
                 action = "C"
         }
-        return  service.buildParams(strCity, addressID: addressId, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state, county: county, neighborhoodID: neightId, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: referenceOne!, reference2: referenceTwo!, storeID: storeId, operationType: action, preferred: preferred)
+        return  service.buildParams(strCity, addressID: addressId, zipCode: zipCode!, street: street!, innerNumber: innerNumber!, state: state, county: county, neighborhoodID: neightId, phoneNumber: "", outerNumber: outerNumber!, adName: name!, reference1: referenceOne!, reference2: referenceTwo!, storeID: storeId,storeName: storeName, operationType: action, preferred: preferred)
     }
     
     func validateShortName(addressId:String)-> Bool {

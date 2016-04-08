@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPAGRCategoriesViewController :  NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAGRCategoryCollectionViewCellDelegate, GRMyAddressViewControllerDelegate
+class IPAGRCategoriesViewController :  NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegate,IPAGRCategoryCollectionViewCellDelegate
 {
     
     var items : [AnyObject]? = []
@@ -244,7 +244,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     func changeStore(){
         let myAddress = GRMyAddressViewController()
         myAddress.addCloseButton()
-        myAddress.delegate = self
+        myAddress.onOkAction = { () in self.setStoreName() }
         myAddress.onClosePicker = { () in   self.navigationController?.dismissViewControllerAnimated(true, completion: nil)}
         let navController = UINavigationController(rootViewController: myAddress)
         navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -272,8 +272,5 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         }
 
     }
-    
-    func okAction() {
-        self.setStoreName()
-    }
+
 }

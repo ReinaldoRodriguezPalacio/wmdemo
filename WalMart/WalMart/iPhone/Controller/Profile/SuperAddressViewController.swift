@@ -161,8 +161,6 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
     func save(sender:UIButton) {
         
         self.view.endEditing(true)
-        
-              
         let service = GRAddressAddService()
         let dictSend = sAddredssForm.getAddressDictionary(self.addressId, delete:false)
         if dictSend != nil {

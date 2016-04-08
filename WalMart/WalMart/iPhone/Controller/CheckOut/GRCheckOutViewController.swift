@@ -1583,7 +1583,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             let discount : Double = self.totalDiscountsOrder
             let formatter = NSNumberFormatter()
             formatter.maximumFractionDigits = 2
-           var totalDis = formatter.stringFromNumber(NSNumber(double:discount))!
+           let totalDis = formatter.stringFromNumber(NSNumber(double:discount))!
 
             
             let paramsOrder = serviceCheck.buildParams(total, month: "\(dateMonth)", year: "\(dateYear)", day: "\(dateDay)", comments: self.comments!.text!, paymentType: paymentSelectedId, addressID: self.selectedAddress!, device: getDeviceNum(), slotId: slotSelectedId, deliveryType: shipmentType, correlationId: "", hour: self.deliverySchedule!.text!, pickingInstruction: confirmation, deliveryTypeString: self.shipmentType!.text!, authorizationId: "", paymentTypeString: self.paymentOptions!.text!,isAssociated:self.asociateDiscount,idAssociated:associateNumber,dateAdmission:dateAdmission,determinant:determinant,isFreeShipping:freeShipping,promotionIds:promotionIds,appId:self.getAppId(),totalDiscounts: Double(totalDis)!)

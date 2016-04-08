@@ -8,16 +8,12 @@
 
 import UIKit
 
-protocol GRMyAddressViewControllerDelegate{
-    func okAction()
-}
-
 class GRMyAddressViewController: MyAddressViewController {
     
-    var delegate: GRMyAddressViewControllerDelegate?
     var okButton: UIButton? = nil
     var hasCloseButton: Bool! = false
     var onClosePicker : (() -> Void)?
+    var onOkAction: (() -> Void)?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -143,7 +139,7 @@ class GRMyAddressViewController: MyAddressViewController {
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
             
-            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID, operationType: "B", preferred: false)
+            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "B", preferred: false)
             
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                 
@@ -186,12 +182,11 @@ class GRMyAddressViewController: MyAddressViewController {
     
     func closeAddressView(){
         self.onClosePicker?()
-        delegate?.okAction()
+        self.onOkAction?()
     }
     
     func okAction() {
-        
        self.onClosePicker?()
-       delegate?.okAction()
+       self.onOkAction?()
     }
 }

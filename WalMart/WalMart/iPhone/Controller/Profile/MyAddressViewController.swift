@@ -507,7 +507,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 let neighborhoodID = result["neighborhoodID"] as! String!
                 let storeID = result["storeID"] as! String!
                 
-                let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID, operationType: "C", preferred: true)
+                let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "C", preferred: true)
                 
                 service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                     self.callServiceAddressGR()
@@ -559,7 +559,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             let neighborhoodID = result["neighborhoodID"] as! String!
             let storeID = result["storeID"] as! String!
             
-            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID, operationType: "B", preferred: false)
+            let dictSend = service.buildParams(city, addressID: idAddress, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: storeID,storeName: "", operationType: "B", preferred: false)
             
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
 

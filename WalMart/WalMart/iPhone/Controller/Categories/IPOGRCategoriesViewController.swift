@@ -8,7 +8,7 @@
 
 import UIKit
 
-class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate, GRMyAddressViewControllerDelegate, GRAddressViewDelegate, TPKeyboardAvoidingScrollViewDelegate {
+class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSource,UITableViewDelegate,IPOGRDepartmentSpecialTableViewCellDelegate {
 
     let CELL_HEIGHT : CGFloat = 98
     var viewFamily: UIView!
@@ -20,7 +20,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     var canfigData : [String:AnyObject]! = [:]
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
-    var scrollForm: TPKeyboardAvoidingScrollView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRESHOPPINGCART.rawValue
@@ -358,7 +357,32 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     //MARK changeStore
     func changeStore(){
         self.addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
-        self.addressView?.delegate = self
+        self.addressView?.onCloseAddressView = {void in self.newModalView!.closePicker()}
+        self.addressView?.newAdressForm = { void in
+            let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
+            addAddress.addressArray = self.addressView!.addressArray
+            addAddress.onClose = {void in
+                self.newModalView!.closePicker()
+                self.setStoreName()
+            }
+            self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+        }
+        
+        self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
+            let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
+            var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
+            storeViewHeight = max(minViewHeigth,storeViewHeight)
+            let storeView = GRAddressStoreView(frame: CGRectMake(0,49,288,min(storeViewHeight,270)))
+            storeView.selectedstoreId = selectedStore
+            storeView.storeArray = stores
+            storeView.addressId = addressId
+            storeView.onClose = {void in
+                self.newModalView!.closePicker()
+                self.setStoreName()
+            }
+            storeView.onReturn = {void in self.newModalView!.closeNew()}
+            self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
+        }
         self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
         self.newModalView!.showPicker()
     }
@@ -386,46 +410,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         }
         
     }
-    
-    func okAction() {
-        self.setStoreName()
-    }
-    
-    //MARK: -GRAddressViewDelegate
-    func newAdressForm() {
-        self.scrollForm = TPKeyboardAvoidingScrollView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
-        self.scrollForm!.scrollDelegate = self
-        self.scrollForm!.contentSize = CGSizeMake(288, 720)
-        let sAddredssForm = GRFormSuperAddressView(frame: CGRectMake(scrollForm!.frame.minX, 0, scrollForm!.frame.width, 700))
-        sAddredssForm.allAddress = self.addressView!.addressArray
-        sAddredssForm.idAddress = ""
-        self.scrollForm!.addSubview(sAddredssForm)
-        self.newModalView!.resizeViewContent("Nueva Dirección",view: scrollForm!)
-    }
-    
-    func addressSelected(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) {
-        let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
-        var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
-        storeViewHeight = max(minViewHeigth,storeViewHeight)
-        let storeView = GRAddressStoreView(frame: CGRectMake(0,49,288,min(storeViewHeight,270)))
-        storeView.selectedstoreId = selectedStore
-        storeView.storeArray = stores
-        storeView.addressId = addressId
-        storeView.onClose = {void in
-            self.newModalView!.closePicker()
-            self.setStoreName()
-        }
-        storeView.onReturn = {void in self.newModalView!.closeNew()}
-        self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
-    }
-    
-    func closeAddressView() {
-        self.newModalView!.closePicker()
-    }
 
-    //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.scrollForm!.frame.width, self.scrollForm!.contentSize.height)
-    }
+    
 
 }

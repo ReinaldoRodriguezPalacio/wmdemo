@@ -9,12 +9,6 @@
 import Foundation
 
 
-protocol GRAddressViewDelegate {
-    func newAdressForm()
-    func addressSelected(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary])
-    func closeAddressView()
-}
-
 class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var cancelButton: UIButton?
     var newButton: UIButton?
@@ -23,7 +17,9 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var layerLine: CALayer!
     var addressArray: [AnyObject]! = []
     var viewLoad : WMLoadingView!
-    var delegate: GRAddressViewDelegate?
+    var onCloseAddressView: (() -> Void)?
+    var newAdressForm: (() -> Void)?
+    var addressSelected: ((addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,11 +79,12 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func close(){
-        self.delegate?.closeAddressView()
+        self.onCloseAddressView?()
     }
     
     func new(){
-        self.delegate?.newAdressForm()
+        
+        self.newAdressForm?()
     }
     
     //MARK: TableViewDelegate
@@ -145,7 +142,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
             serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
                 var stores = []
                 stores = result["stores"] as! [NSDictionary]
-                self.delegate?.addressSelected(idAddress,addressName: addressName, selectedStore: storeID, stores: stores as! [NSDictionary])
+                self.addressSelected?(addressId: idAddress,addressName: addressName, selectedStore: storeID, stores: stores as! [NSDictionary])
                 self.viewLoad.stopAnnimating()
                 }, errorBlock: { (error:NSError) -> Void in
                     print("error:: \(error)")

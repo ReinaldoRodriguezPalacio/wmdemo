@@ -124,7 +124,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func addViewLoad(){
         if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.bounds.width, self.bounds.height - 46))
+            viewLoad = WMLoadingView(frame: CGRectMake(3, 13, self.frame.width, self.frame.height - 13))
             viewLoad.backgroundColor = UIColor.whiteColor()
             self.addSubview(viewLoad)
             viewLoad.startAnnimating(true)
@@ -151,13 +151,13 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let neighborhoodID = result["neighborhoodID"] as! String!
             let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode] as NSDictionary
             
-            let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, operationType: "C", preferred: true)
+            let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             
-            let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, operationType: "C", preferred: false)
+            let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
                 
-            service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
-                service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
-                    self.onClose?()
+            service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+                service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
+                     self.onClose?()
                     }, errorBlock: { (error:NSError) -> Void in
                         print("error")
                 })
