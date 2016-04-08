@@ -55,9 +55,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             }
             self.detail = result["longDescription"] as! String
             self.saving = ""
-            if let savingResult = result["promoDescription"] as? String {
-                self.saving = savingResult
+            
+            if let savingResult = result["promoDescription"] as? NSString {
+                if savingResult != "" {
+                    self.saving = result["promoDescription"] as! NSString
+                }
             }
+            
             self.characteristics = []
             var allCharacteristics : [AnyObject] = []
             
@@ -817,13 +821,7 @@ func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         case (0,4) :
             if self.saving != ""{
                 let cellAhorro = tabledetail.dequeueReusableCellWithIdentifier("priceCell", forIndexPath: indexPath) as? ProductDetailCurrencyCollectionView
-                var savingSend = self.saving
-                let doubleVaule = self.saving.doubleValue
-                if doubleVaule > 0 {
-                    let formated = CurrencyCustomLabel.formatString("\(savingSend)")
-                    savingSend = "\(formated)"
-                }
-                
+                let savingSend = self.saving
                 cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
                 cell = cellAhorro
                

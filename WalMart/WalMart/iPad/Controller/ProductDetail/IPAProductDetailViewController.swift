@@ -326,8 +326,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     var savingSend = self.saving
                     let doubleVaule = self.saving.doubleValue
                     if doubleVaule > 0 {
+                        let savingStr = NSLocalizedString("price.saving",comment:"")
                         let formated = CurrencyCustomLabel.formatString("\(savingSend)")
-                        savingSend = "\(formated)"
+                        savingSend = "\(savingStr) \(formated)"
                     }
                     
                     cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
@@ -350,7 +351,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if  msi.count != 0 {
                 let cellPromotion = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 let msiText = NSLocalizedString("productdetail.msitext",comment:"")
-                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 12,align:NSTextAlignment.Left)
+                cellPromotion!.setValues(msiText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.orange, padding: 16,align:NSTextAlignment.Left)
                 cell = cellPromotion
             }else {
                 return cellForPoint((indexPath.section,2),indexPath: indexPath)
@@ -370,7 +371,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             if bundleItems.count != 0 {
                 let cellBundleItemsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 let charText = NSLocalizedString("productdetail.bundleitems",comment:"")
-                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
+                cellBundleItemsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.Left)
                 cell = cellBundleItemsTitle
             } else {
                 return cellForPoint((indexPath.section,4),indexPath: indexPath)
@@ -1003,7 +1004,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.detail = self.detail.stringByReplacingOccurrencesOfString("^", withString: "\n")
         
         self.saving = ""
-        if let savingResult = result["saving"] as? String {
+        if let savingResult = result["saving"] as? NSString {
             self.saving = savingResult
         }
         self.listPrice = result["original_listprice"] as! String
