@@ -356,35 +356,50 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        self.addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
-        self.addressView?.onCloseAddressView = {void in self.newModalView!.closePicker()}
-        self.addressView?.newAdressForm = { void in
-            let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
-            addAddress.addressArray = self.addressView!.addressArray
-            addAddress.onClose = {void in
-                self.newModalView!.closePicker()
-                self.setStoreName()
+        if titleLabel!.text! == "Sin tienda ￼"{
+            let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,288,210))
+            noAddressView.newAdressForm = { void in
+                let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
+                addAddress.addressArray = []
+                addAddress.onClose = {void in
+                    self.newModalView!.closePicker()
+                    self.setStoreName()
+                }
+               self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
             }
-            self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
-        }
+            self.newModalView = AlertModalView.initModalWithView("Ver inventario de tienda", innerView: noAddressView)
+            self.newModalView!.showPicker()
+        }else{
+            self.addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
+            self.addressView?.onCloseAddressView = {void in self.newModalView!.closePicker()}
+            self.addressView?.newAdressForm = { void in
+                let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
+                addAddress.addressArray = self.addressView!.addressArray
+                addAddress.onClose = {void in
+                    self.newModalView!.closePicker()
+                    self.setStoreName()
+                }
+                self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+            }
         
-        self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
-            let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
-            var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
-            storeViewHeight = max(minViewHeigth,storeViewHeight)
-            let storeView = GRAddressStoreView(frame: CGRectMake(0,49,288,min(storeViewHeight,270)))
-            storeView.selectedstoreId = selectedStore
-            storeView.storeArray = stores
-            storeView.addressId = addressId
-            storeView.onClose = {void in
-                self.newModalView!.closePicker()
-                self.setStoreName()
+            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
+                let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
+                var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
+                storeViewHeight = max(minViewHeigth,storeViewHeight)
+                let storeView = GRAddressStoreView(frame: CGRectMake(0,49,288,min(storeViewHeight,270)))
+                storeView.selectedstoreId = selectedStore
+                storeView.storeArray = stores
+                storeView.addressId = addressId
+                storeView.onClose = {void in
+                    self.newModalView!.closePicker()
+                    self.setStoreName()
+                }
+                storeView.onReturn = {void in self.newModalView!.closeNew()}
+                self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
             }
-            storeView.onReturn = {void in self.newModalView!.closeNew()}
-            self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
-        }
-        self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
-        self.newModalView!.showPicker()
+            self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+            self.newModalView!.showPicker()
+            }
     }
     
     func setStoreName(){
@@ -410,7 +425,4 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         }
         
     }
-
-    
-
 }

@@ -21,6 +21,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     var viewReplace : UIView!
     var titleLabel: UILabel!
     var lastTitle: String! = ""
+    var lastFrame: CGRect?
     
     var paddingTop: CGFloat = 30
     
@@ -249,6 +250,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     
     func resizeViewContent(title:String, view:UIView) {
         self.lastTitle = self.titleLabel!.text!
+        self.lastFrame = self.viewContent.frame
         self.titleLabel!.text = title
         closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
         closeButton!.addTarget(self, action: "closeNew", forControlEvents: UIControlEvents.TouchUpInside)
@@ -276,7 +278,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         self.viewReplace?.alpha = 0
         self.titleLabel!.text = self.lastTitle
         UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.viewContent.frame = CGRectMake(0, 0, 294,371)
+            self.viewContent.frame = self.lastFrame!
             self.viewContent.center = self.center
             self.viewButtonClose.hidden = false
             self.closeButton.hidden = true

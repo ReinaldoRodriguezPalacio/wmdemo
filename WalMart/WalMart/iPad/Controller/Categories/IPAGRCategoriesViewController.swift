@@ -16,6 +16,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var canfigData : [String:AnyObject]! = [:]
     var animateView : UIView!
     var controllerAnimateView : IPACategoriesResultViewController!
+    var newModalView: AlertModalView? = nil
+    var addressView: GRAddressView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SUPER.rawValue
@@ -241,24 +243,60 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     //MARK changeStore
+    //MARK changeStore
     func changeStore(){
-        let myAddress = GRMyAddressViewController()
-        myAddress.addCloseButton()
-        myAddress.onOkAction = { () in self.setStoreName() }
-        myAddress.onClosePicker = { () in   self.navigationController?.dismissViewControllerAnimated(true, completion: nil)}
-        let navController = UINavigationController(rootViewController: myAddress)
-        navController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        navController.navigationBarHidden = true
-        navController.view.layer.cornerRadius = 8.0
-        self.navigationController?.presentViewController(navController, animated: true, completion: nil)
+        if titleLabel!.text! == "Sin tienda ￼"{
+            let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,338,210))
+            noAddressView.newAdressForm = { void in
+                let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
+                addAddress.addressArray = []
+                addAddress.onClose = {void in
+                    self.newModalView!.closePicker()
+                    self.setStoreName()
+                }
+                self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+            }
+            self.newModalView = AlertModalView.initModalWithView("Ver inventario de tienda", innerView: noAddressView)
+            self.newModalView!.showPicker()
+        }else{
+            self.addressView = GRAddressView(frame: CGRectMake(0,0,338,365))
+            self.addressView?.onCloseAddressView = {void in self.newModalView!.closePicker()}
+            self.addressView?.newAdressForm = { void in
+                let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
+                addAddress.addressArray = self.addressView!.addressArray
+                addAddress.onClose = {void in
+                    self.newModalView!.closePicker()
+                    self.setStoreName()
+                }
+                self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+            }
+            
+            self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
+                let minViewHeigth : CGFloat = (1.5 * 46.0) + 67.0
+                var storeViewHeight: CGFloat = (CGFloat(stores.count) * 46.0) + 67.0
+                storeViewHeight = max(minViewHeigth,storeViewHeight)
+                let storeView = GRAddressStoreView(frame: CGRectMake(0,49,338,min(storeViewHeight,270)))
+                storeView.selectedstoreId = selectedStore
+                storeView.storeArray = stores
+                storeView.addressId = addressId
+                storeView.onClose = {void in
+                    self.newModalView!.closePicker()
+                    self.setStoreName()
+                }
+                storeView.onReturn = {void in self.newModalView!.closeNew()}
+                self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
+            }
+            self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+            self.newModalView!.showPicker()
+        }
     }
     
     func setStoreName(){
-        if UserCurrentSession.sharedInstance().storeName != nil{
+        if UserCurrentSession.sharedInstance().storeName != nil {
             let attachment = NSTextAttachment()
             attachment.image = UIImage(named: "arrow")
             let attachmentString = NSAttributedString(attachment: attachment)
-            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(16)]
+            let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
             var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance().storeName == "" {
                 boldString = NSMutableAttributedString(string:"Sin tienda ", attributes:attrs)
@@ -266,11 +304,16 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;
+            self.titleLabel?.textAlignment = .Left
             self.titleLabel?.userInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
             self.titleLabel?.addGestureRecognizer(tapGesture)
+            self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
+        }else{
+            self.titleLabel?.text = "Súper"
         }
-
+        
     }
+
 
 }
