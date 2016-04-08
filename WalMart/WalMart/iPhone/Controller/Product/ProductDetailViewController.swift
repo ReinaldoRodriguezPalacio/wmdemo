@@ -1104,7 +1104,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         //let screen = self.detailCollectionView.screenshotOfHeadersAtSections( NSSet(array:headers), footersAtSections: nil, rowsAtIndexPaths: NSSet(array: items))
         
-        let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
         let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,imagen])
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")
