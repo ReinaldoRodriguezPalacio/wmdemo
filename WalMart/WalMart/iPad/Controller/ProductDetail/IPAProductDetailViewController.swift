@@ -326,9 +326,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     var savingSend = self.saving
                     let doubleVaule = self.saving.doubleValue
                     if doubleVaule > 0 {
-                        let savingStr = NSLocalizedString("price.saving",comment:"")
                         let formated = CurrencyCustomLabel.formatString("\(savingSend)")
-                        savingSend = "\(savingStr) \(formated)"
+                        savingSend = "\(formated)"
                     }
                     
                     cellAhorro!.setValues(savingSend as String, font: WMFont.fontMyriadProSemiboldOfSize(14), textColor: WMColor.green, interLine: false)
@@ -392,7 +391,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let cellCharacteristicsTitle = tabledetail.dequeueReusableCellWithIdentifier("labelCell", forIndexPath: indexPath) as? ProductDetailLabelCollectionView
                 //self.clearView(cellCharacteristicsTitle!)
                 let charText = NSLocalizedString("productdetail.characteristics",comment:"")
-                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 12,align:NSTextAlignment.Left)
+                cellCharacteristicsTitle!.setValues(charText, font: WMFont.fontMyriadProLightOfSize(14), numberOfLines: 1, textColor: WMColor.light_blue, padding: 16,align:NSTextAlignment.Left)
                 cell = cellCharacteristicsTitle
             }else{
                 return nil
