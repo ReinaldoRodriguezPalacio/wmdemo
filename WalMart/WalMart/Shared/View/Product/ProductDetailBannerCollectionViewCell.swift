@@ -212,15 +212,18 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             self.collection.alpha = 0
             
             let cellImg = self.collection.cellForItemAtIndexPath(NSIndexPath(forItem: self.currentItem!, inSection: 0)) as? ProductDetailBannerMediaCollectionViewCell
-            let originRect = cellImg!.imageView!.frame
-            
-            let rectTransform = CGRectMake(originRect.minX - (heightNew / 2), originRect.minY, originRect.width + heightNew, originRect.height + heightNew)
-            
-            self.imageZoom.image = cellImg!.imageView.image
-            UIView.animateWithDuration(0, animations: { () -> Void in
-                self.imageZoom.frame = rectTransform
-                self.imageZoom.alpha = 1
-            })
+            if cellImg != nil {
+                let originRect = cellImg?.imageView!.frame
+                
+                
+                let rectTransform = CGRectMake(originRect!.minX - (heightNew / 2), originRect!.minY, originRect!.width + heightNew, originRect!.height + heightNew)
+                
+                self.imageZoom.image = cellImg!.imageView.image
+                UIView.animateWithDuration(0, animations: { () -> Void in
+                    self.imageZoom.frame = rectTransform
+                    self.imageZoom.alpha = 1
+                })
+            }
         } else {
             self.collection.alpha = 1
             self.imageZoom.alpha = 0

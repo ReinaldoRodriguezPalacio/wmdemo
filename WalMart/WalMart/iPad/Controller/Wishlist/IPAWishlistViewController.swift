@@ -500,7 +500,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             }
         }
         let upcList = "\(strAllUPCs)"
-        let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imgResult], applicationActivities: nil)
         popup = UIPopoverController(contentViewController: controller)

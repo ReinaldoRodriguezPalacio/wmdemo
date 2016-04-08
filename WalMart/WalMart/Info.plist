@@ -519,9 +519,9 @@
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
 			<key>WalmartMG.CategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
@@ -535,17 +535,17 @@
 			<key>WalmartMG.ForgotPasswordService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/passwordRecovery</string>
 			<key>WalmartMG.GRCategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRHeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
 			<key>WalmartMG.GRHeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.HeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -616,15 +616,15 @@
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
-			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
 			<key>WalmartMG.CategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -634,17 +634,17 @@
 			<key>WalmartMG.ForgotPasswordService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/passwordRecovery</string>
 			<key>WalmartMG.GRCategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRHeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
 			<key>WalmartMG.GRHeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.HeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -682,7 +682,7 @@
 			<key>WalmartMG.SignUpService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/2/userRegistry</string>
 			<key>WalmartMG.Splash</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>
@@ -1026,9 +1026,9 @@
 			<key>WalmartMG.CartPromo</key>
 			<string>https://dl.dropboxusercontent.com/u/10098759/cart_promo.png</string>
 			<key>WalmartMG.CategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
 			<key>WalmartMG.CategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
@@ -1042,17 +1042,17 @@
 			<key>WalmartMG.ForgotPasswordService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/passwordRecovery</string>
 			<key>WalmartMG.GRCategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRHeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
 			<key>WalmartMG.GRHeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.HeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>http://192.168.43.192:8085/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -1123,15 +1123,15 @@
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CartPromo</key>
-			<string>http://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/app_g/normal/Banner-Checkout.png</string>
 			<key>WalmartMG.CategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/category/</string>
 			<key>WalmartMG.CategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/category/</string>
 			<key>WalmartMG.CategoryService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>http://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -1141,17 +1141,17 @@
 			<key>WalmartMG.ForgotPasswordService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/passwordRecovery</string>
 			<key>WalmartMG.GRCategoryIcon</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/category/</string>
 			<key>WalmartMG.GRCategoryIconIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/category/</string>
 			<key>WalmartMG.GRHeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/iphone/header/</string>
 			<key>WalmartMG.GRHeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartgr/ipad/header/</string>
 			<key>WalmartMG.HeaderCategory</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/header/</string>
 			<key>WalmartMG.HeaderCategoryIpad</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
@@ -1189,7 +1189,7 @@
 			<key>WalmartMG.SignUpService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/2/userRegistry</string>
 			<key>WalmartMG.Splash</key>
-			<string>http://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
+			<string>https://www.walmart.com.mx/images/walmartmg/iphone/splash/splashV2.html</string>
 			<key>WalmartMG.StoreLocatorService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getStoreLocatorCoordinates</string>
 			<key>WalmartMG.UpdateFiscalAddressService</key>

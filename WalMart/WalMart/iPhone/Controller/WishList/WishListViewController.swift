@@ -11,7 +11,7 @@ import CoreData
 
 class WishListViewController : NavigationViewController, UITableViewDataSource,UITableViewDelegate, WishlistProductTableViewCellDelegate, SWTableViewCellDelegate,UIActivityItemSource {
     
-    var startUrlUPCWalmart = "http://www.walmart.com.mx/Busqueda.aspx?Text="
+    var startUrlUPCWalmart = "https://www.walmart.com.mx/Busqueda.aspx?Text="
     
     var idexesPath : [NSIndexPath]! = []
     var items : [AnyObject]! = []
@@ -574,7 +574,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             }
         }
         let upcList = "\(strAllUPCs)"
-        let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(upcList)")
         
         let controller = UIActivityViewController(activityItems: [self,urlWmart!,imageWHeader], applicationActivities: nil)
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
