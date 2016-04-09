@@ -498,7 +498,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-        self.picker!.closeButton.hidden =  true
+        self.picker!.closeButton!.hidden =  true
         return scrollForm
         
         

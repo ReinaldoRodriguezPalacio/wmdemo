@@ -153,7 +153,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             var itemBannerPhone = landingItem!["bannerUrlPhone"]
             itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString("@2x.jpg", withString: ".jpg" )
             itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
-            categoryCell.setValuesLanding("http://\(itemBannerPhone!)")
+            categoryCell.setValuesLanding("https://\(itemBannerPhone!)")
             return categoryCell
             
         }// if indexPath.item == 0 {
