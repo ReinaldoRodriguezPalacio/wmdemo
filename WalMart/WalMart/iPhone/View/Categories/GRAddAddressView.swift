@@ -70,7 +70,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
             self.saveButton!.hidden = true
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             dictSend!["preferred"] = true
-            let address = ["storeID":dictSend!["StoreID"]!,"storeName":dictSend!["storeName"]!,"zipCode":dictSend!["ZipCode"]!] as NSDictionary
+            let address = ["storeID":dictSend!["StoreID"]!,"storeName":dictSend!["storeName"]!,"zipCode":dictSend!["ZipCode"]!,"addressID":dictSend!["AddressID"]!] as NSDictionary
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(requestParams: dictSend!, successBlock: { (resultCall:NSDictionary) -> Void  in
                 if let message = resultCall["message"] as? String {

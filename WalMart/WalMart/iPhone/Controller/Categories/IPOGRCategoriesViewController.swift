@@ -54,7 +54,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
         self.header?.addSubview(buttonCollapse)
         
-        self.titleLabel?.text = "Súper"
+        self.titleLabel?.text = "Walmart Buenavista"
+        self.titleLabel?.textAlignment = .Left
         
         self.viewFamily = UIView()
         self.viewFamily.backgroundColor = UIColor.whiteColor()
@@ -81,6 +82,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
         familyController.view.frame = viewFamily.bounds
+        self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
     }
     
     func loadDepartments() -> [AnyObject]? {
@@ -356,7 +358,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Sin tienda ￼"{
+        if titleLabel!.text! == "Sin tienda ￼" && UserCurrentSession.sharedInstance().addressId == nil {
             let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,288,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
@@ -415,13 +417,11 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;
-            self.titleLabel?.textAlignment = .Left
             self.titleLabel?.userInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
             self.titleLabel?.addGestureRecognizer(tapGesture)
-            self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
         }else{
-            self.titleLabel?.text = "Súper"
+            self.titleLabel?.text = "Walmart Buenavista"
         }
         
     }
