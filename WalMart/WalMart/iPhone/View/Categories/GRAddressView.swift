@@ -21,6 +21,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var newAdressForm: (() -> Void)?
     var addressSelected: ((addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) -> Void)?
     var blockRows:Bool = false
+    var alertView: IPOWMAlertViewController?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -135,6 +136,14 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.blockRows = true
         self.addViewLoad()
         let item = self.addressArray[indexPath.row] as! NSDictionary
+        let validStore = item["isAddressOk"] as! String!
+        if validStore == "False"{
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView?.setMessage("No hay tiendas cercanas a esta dirección, intenta con otra o crea una nueva.")
+            self.alertView?.showErrorIcon("Ok")
+            self.blockRows = false
+            return
+        }
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = item["id"] as? String
         serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
