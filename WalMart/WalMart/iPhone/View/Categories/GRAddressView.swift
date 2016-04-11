@@ -20,6 +20,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var onCloseAddressView: (() -> Void)?
     var newAdressForm: (() -> Void)?
     var addressSelected: ((addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) -> Void)?
+    var blockRows:Bool = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -128,6 +129,10 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if self.blockRows {
+            return
+        }
+        self.blockRows = true
         self.addViewLoad()
         let item = self.addressArray[indexPath.row] as! NSDictionary
         let serviceAddress = GRAddressesByIDService()
@@ -144,12 +149,15 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
                 stores = result["stores"] as! [NSDictionary]
                 self.addressSelected?(addressId: idAddress,addressName: addressName, selectedStore: storeID, stores: stores as! [NSDictionary])
                 self.viewLoad.stopAnnimating()
+                self.blockRows = false
                 }, errorBlock: { (error:NSError) -> Void in
                     print("error:: \(error)")
                     self.viewLoad.stopAnnimating()
+                    self.blockRows = false
             })
             }) { (error:NSError) -> Void in
                 self.viewLoad.stopAnnimating()
+                self.blockRows = false
         }
     }
     

@@ -29,6 +29,7 @@ class UserCurrentSession : NSObject {
     var version : String! = ""
     var storeName: String? = nil
     var storeId: String? = nil
+    var addressId: String? = nil
     
     var isAssociated : Int! = 0
     var porcentageAssociate : Double! =  0.0
@@ -887,6 +888,7 @@ class UserCurrentSession : NSObject {
     func getStoreByAddress(address: NSDictionary){
         self.storeId = address["storeID"] as? String
         self.storeName = address["storeName"] as? String
+        self.addressId = address["addressID"] as? String
         if self.storeId != nil && (self.storeName == nil || self.storeName!.isEmpty) {
             let serviceZip = GRZipCodeService()
             serviceZip.buildParams(address["zipCode"] as! String)

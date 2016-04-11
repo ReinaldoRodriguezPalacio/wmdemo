@@ -37,7 +37,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         super.viewDidLoad()
         self.backButton?.hidden = true
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.titleLabel?.text = "Súper"
+        self.titleLabel?.text = "Walmart Buenavista"
+        self.titleLabel?.textAlignment = .Left
         
         colCategories.backgroundColor = WMColor.light_light_gray
         
@@ -243,7 +244,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     //MARK changeStore
-    //MARK changeStore
     func changeStore(){
         if titleLabel!.text! == "Sin tienda ￼"{
             let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,338,210))
@@ -310,7 +310,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.titleLabel?.addGestureRecognizer(tapGesture)
             self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
         }else{
-            self.titleLabel?.text = "Súper"
+            self.titleLabel?.text = "Walmart Buenavista"
         }
         
     }

@@ -20,6 +20,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     var addressId: String! = ""
     var onClose: (() -> Void)?
     var onReturn: (() -> Void)?
+    var alertView: IPOWMAlertViewController?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -132,6 +133,8 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func applyPrefered (addressID: String){
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+        self.alertView?.setMessage("Cambiando tienda ...")
         addViewLoad()
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
         let service = GRAddressAddService()
@@ -149,7 +152,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let state = result["state"] as! String!
             let county = result["county"] as! String!
             let neighborhoodID = result["neighborhoodID"] as! String!
-            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode] as NSDictionary
+            let address = ["storeID":self.selectedstoreId,"storeName":"","zipCode":zipCode,"addressID":addressID] as NSDictionary
             
             let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             
@@ -157,7 +160,10 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
                 
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                 service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
-                     self.onClose?()
+                    self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.")
+                    self.alertView?.showDoneIconWithoutClose()
+                    self.alertView?.showOkButton("Ok", colorButton: WMColor.green)
+                    self.onClose?()
                     }, errorBlock: { (error:NSError) -> Void in
                         print("error")
                 })
