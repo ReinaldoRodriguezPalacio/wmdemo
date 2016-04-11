@@ -966,14 +966,18 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.facets = facets
                 self.facetsDetails = self.getFacetsDetails()
                 let keys = Array(self.facetsDetails!.keys)
+                var filteredKeys = keys.filter(){
+                    return ($0 as String) != "itemDetails"
+                }
+                filteredKeys = filteredKeys.sort()
                 if self.facetsDetails?.count > 1 {
-                    if let colors = self.facetsDetails![keys.first!] as? [AnyObject]{
+                    if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
                         self.colorItems = colors
                         self.tabledetail.reloadData()
                     }
                 }
                 if self.facetsDetails?.count > 2 {
-                    if let sizes = self.facetsDetails![keys[1]] as? [AnyObject]{
+                    if let sizes = self.facetsDetails![filteredKeys[1]] as? [AnyObject]{
                         self.sizeItems = sizes
                         self.tabledetail.reloadData()
                     }

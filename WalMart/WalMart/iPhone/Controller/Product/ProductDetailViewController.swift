@@ -710,13 +710,17 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.facets = facets
                     self.facetsDetails = self.getFacetsDetails()
                     let keys = Array(self.facetsDetails!.keys)
+                    var filteredKeys = keys.filter(){
+                        return ($0 as String) != "itemDetails"
+                    }
+                    filteredKeys = filteredKeys.sort()
                     if self.facetsDetails?.count > 1 {
-                        if let colors = self.facetsDetails![keys.first!] as? [AnyObject]{
+                        if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
                             self.colorItems = colors
                         }
                      }
                     if self.facetsDetails?.count > 2 {
-                        if let sizes = self.facetsDetails![keys[1]] as? [AnyObject]{
+                        if let sizes = self.facetsDetails![filteredKeys[1]] as? [AnyObject]{
                             self.sizesItems = sizes
                         }
                     }
