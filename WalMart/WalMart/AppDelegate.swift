@@ -67,6 +67,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         
         GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
         
+        let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: NSURL?, error: NSError?) in
+            if (error != nil) {
+                print("Received error while fetching deferred app link %@", error);
+            }
+            if (url != nil) {
+                UIApplication.sharedApplication().openURL(url!)
+            }
+        }
+        
+        FBSDKAppLinkUtility.fetchDeferredAppLink(fbDeferredAppLink)
       
 
         //Set url image cache to application
