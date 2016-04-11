@@ -62,7 +62,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         if indexPath.item == 0 && landingItem != nil  {
             
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
-            categoryCell.setValuesLanding("http://\(itemBannerPhone!)")
+            categoryCell.setValuesLanding("https://\(itemBannerPhone!)")
             return categoryCell
             
         }// if indexPath.item == 0 {

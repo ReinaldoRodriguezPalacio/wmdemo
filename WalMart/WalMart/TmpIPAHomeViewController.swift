@@ -23,7 +23,7 @@ class TmpIPAHomeViewController : BaseController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        webview.loadRequest(NSURLRequest(URL: NSURL(string: "http://www.walmart.com.mx/")!))
+        webview.loadRequest(NSURLRequest(URL: NSURL(string: "https://www.walmart.com.mx/")!))
         
         viewSuper = IPOGroceriesView(frame: CGRectMake(0, self.headerView.frame.maxY, 1024, 48))
         self.view.addSubview(viewSuper)
