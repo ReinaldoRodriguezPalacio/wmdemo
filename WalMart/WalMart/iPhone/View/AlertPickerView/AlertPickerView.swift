@@ -49,7 +49,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var buttonOk : UIButton!
     var buttonCancel : UIButton!
     
-    var closeButton : UIButton!
+    var closeButton : UIButton?
     var viewButtonClose : UIButton!
     var viewReplace : UIView!
     
@@ -61,7 +61,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var isNewAddres: Bool  =  false
     var selectDelegate: Bool = false
     var showCancelButton: Bool = false
-    var layerLine: CALayer!
+    var layerLine: CALayer?
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -104,9 +104,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewContent.addSubview(headerView)
         
         closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-        closeButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
-        closeButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
-        headerView.addSubview(closeButton)
+        closeButton!.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton!.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
+        headerView.addSubview(closeButton!)
 
         titleLabel = UILabel(frame: headerView.bounds)
         titleLabel.textColor =  WMColor.light_blue
@@ -154,8 +154,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewFooter.addSubview(buttonOk)
         
         layerLine = CALayer()
-        layerLine.backgroundColor = WMColor.light_light_gray.CGColor
-        viewFooter.layer.insertSublayer(layerLine, atIndex: 1000)
+        layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
+        viewFooter.layer.insertSublayer(layerLine!, atIndex: 1000)
     
         self.viewContentOptions.addSubview(viewFooter)
         self.viewContent.addSubview(self.viewContentOptions)
@@ -168,8 +168,8 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     override func layoutSubviews() {
         viewContent.center = self.center
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
-        closeButton.frame = CGRectMake(2, 0, 28,  self.headerView.frame.height)
-        layerLine.frame = CGRectMake(0, 1, viewContent.frame.width, 1)
+        closeButton?.frame = CGRectMake(2, 0, 28,  self.headerView.frame.height)
+        layerLine?.frame = CGRectMake(0, 1, viewContent.frame.width, 1)
         if !isNewAddres {
             titleLabel.frame = headerView.bounds
         }
@@ -471,7 +471,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
             viewButtonClose.alpha = 0
             self.headerView.addSubview(viewButtonClose)
-            self.closeButton.hidden = true
+            self.closeButton!.hidden = true
             
             self.buttonRight.selected = true
             let finalContentFrame = CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80)
@@ -512,7 +512,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             self.viewContentOptions.alpha = 1
             self.viewReplace?.alpha = 0
             self.viewButtonClose.hidden = true
-            self.closeButton.hidden = false
+            self.closeButton!.hidden = false
             }) { (complete:Bool) -> Void in
                 self.viewReplace?.removeFromSuperview()
                 self.viewButtonClose.removeFromSuperview()
