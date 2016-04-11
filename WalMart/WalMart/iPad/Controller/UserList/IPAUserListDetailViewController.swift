@@ -90,7 +90,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             if showReminderButton{
                 self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
                 self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
-				self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                
+                self.addProductsView!.frame = CGRectMake(0,self.openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                
                 self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
             }else{
                 self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
@@ -236,12 +238,27 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
 
     override func showEmptyView() {
-        self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY, self.view.bounds.width, 612))
+         self.openEmpty = true
+        
+        if self.emptyView == nil {
+            self.emptyView = UIView()
+        }
+        
+        if UserCurrentSession.hasLoggedUser() {
+           self.emptyView!.frame = CGRectMake(0.0, self.header!.frame.maxY + 64, self.view.bounds.width, 612 - 64 )
+        }else{
+            self.emptyView!.frame = CGRectMake(0.0, self.header!.frame.maxY, self.view.bounds.width, 612)
+        }
+        
+        self.emptyView!.backgroundColor = UIColor.whiteColor()
+       
+        
+        
         self.emptyView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.emptyView!)
         
-        let bg = UIImageView(image: UIImage(named: "empty_list"))
-        bg.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, 612)
+        let bg = UIImageView(image: UIImage(named:UserCurrentSession.hasLoggedUser() ? "empty_list" : "list_empty_no"))
+        bg.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, UserCurrentSession.hasLoggedUser() ?  612 - 64 : 612)
         self.emptyView!.addSubview(bg)
         
         let labelOne = UILabel(frame: CGRectMake(0.0, 28.0, self.view.bounds.width, 16.0))
@@ -434,10 +451,14 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
     }
 
-    override func invokeDeleteProductFromListService(upc: String) {
-        super.invokeDeleteProductFromListService(upc)
-        self.delegate!.reloadTableListUser()
+    override func invokeDeleteProductFromListService(upc: String, succesDelete: (() -> Void)) {
+        super.invokeDeleteProductFromListService(upc) { () -> Void in
+            self.delegate!.reloadTableListUser()
+        }
+        
     }
+    
+ 
     
     override func addReminder(){
         if self.showReminderController{
