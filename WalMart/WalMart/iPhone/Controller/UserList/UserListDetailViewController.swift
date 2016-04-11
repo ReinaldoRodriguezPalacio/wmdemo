@@ -55,6 +55,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     var addProductsView : AddProductTolistView?
     var fromDelete  =  false
+    var openEmpty =  false
     
     
     override func getScreenGAIName() -> String {
@@ -168,6 +169,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp() && self.listId != nil && self.listName != nil
         self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : 46.0)
         self.addProductsView = AddProductTolistView()
+        self.addProductsView!.backgroundColor =  UIColor.whiteColor()
         self.addProductsView!.delegate =  self
         if showReminderButton{
             self.view.addSubview(reminderButton!)
@@ -202,10 +204,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         
         if !self.isSharing {
-            if showReminderButton{
-                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY + 1, self.view.frame.width, 23.0)
+            if showReminderButton {
+                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 23.0)
                 self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-                self.addProductsView!.frame = CGRectMake(0,  self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+             
+                self.addProductsView!.frame = CGRectMake(0,openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                
                 self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
 
             }else{
@@ -548,13 +552,18 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func showEmptyView() {
+        self.openEmpty = true
         let bounds = self.view.bounds
         let height = bounds.size.height - self.header!.frame.height
-        self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height))
+        if UserCurrentSession.hasLoggedUser() {
+            self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY + 64, bounds.width, height))
+        }else{
+            self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height))
+        }
         self.emptyView!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.emptyView!)
         
-        let bg = UIImageView(image: UIImage(named: "empty_list"))
+        let bg = UIImageView(image: UIImage(named:  UserCurrentSession.hasLoggedUser() ? "empty_list":"list_empty_no" ))
         bg.frame = CGRectMake(0.0, 0.0,  bounds.width,  bg.image!.size.height)
         self.emptyView!.addSubview(bg)
         
@@ -591,6 +600,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         button.addTarget(self, action: "backEmpty", forControlEvents: .TouchUpInside)
         button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button.layer.cornerRadius = 20.0
+        button.hidden = UserCurrentSession.hasLoggedUser()
         self.emptyView!.addSubview(button)
     }
     
@@ -793,7 +803,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             self.selectedItems?.removeObject(indexPath.row)
                         }
                          self.fromDelete =  true
-                        self.invokeDeleteProductFromListService(upc)
+                        self.invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
+                            print("succesDelete")
+                        })
                     }
                 }
                 else if let item = self.products![indexPath.row] as? Product {
@@ -952,6 +964,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             self.selectedItems?.addObject(i)
                         }
                     }
+                    self.openEmpty =  false
+                     self.removeEmpyView()
                 }
                 
                 //self.layoutTitleLabel()
@@ -980,7 +994,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         )
     }
     
-    func invokeDeleteProductFromListService(upc:String) {
+    func invokeDeleteProductFromListService(upc:String,succesDelete:(()->Void)) {
         if !self.deleteProductServiceInvoked {
             
             let detailService = GRUserListDetailService()
@@ -1015,6 +1029,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             
                             
                             }, reloadList: true)
+                        succesDelete()
                     },
                     errorBlock:{ (error:NSError) -> Void in
                         print("Error at delete product from user")
@@ -1060,7 +1075,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func invokeUpdateProductFromListService(upc:String, quantity:Int) {
         if quantity == 0 {
-            invokeDeleteProductFromListService(upc)
+            invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
+                print("succesDelete")
+            })
             return
         }
         

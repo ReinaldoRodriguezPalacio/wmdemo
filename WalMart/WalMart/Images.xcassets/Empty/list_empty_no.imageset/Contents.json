@@ -7,7 +7,7 @@
     },
     {
       "idiom" : "iphone",
-      "filename" : "list_bg@2X.png",
+      "filename" : "list_bg@2x.png",
       "scale" : "2x"
     },
     {
@@ -16,12 +16,12 @@
     },
     {
       "idiom" : "ipad",
-      "filename" : "addtolist_empty.png",
+      "filename" : "list_empty.png",
       "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "filename" : "addtolist_empty@2x.png",
+      "filename" : "list_empty@2x.png",
       "scale" : "2x"
     }
   ],
