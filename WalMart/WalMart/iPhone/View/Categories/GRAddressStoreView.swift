@@ -100,7 +100,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         cell.checkSelected.frame = CGRectMake(0, 0, 33, 46)
         cell.selectionStyle = .None
         if selectedstoreId == store["id"] as? String {
-            self.selectedStore = indexPath
+            self.selectedStore = self.selectedStore ?? indexPath
         }
         if self.selectedStore != nil {
             cell.setSelected(indexPath.row == self.selectedStore!.row, animated: false)
@@ -110,11 +110,12 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
-        if self.selectedStore != nil && self.selectedStore == indexPath  {
+        
+        self.selectedStore =  self.selectedStore ?? indexPath
+        
+        if self.selectedStore == indexPath  {
             cell?.setSelected(indexPath.row == self.selectedStore!.row, animated: false)
             return
-        }else{
-            self.selectedStore = indexPath
         }
         
         cell?.selected = false
