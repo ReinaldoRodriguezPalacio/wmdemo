@@ -108,7 +108,10 @@ class StoreView: UIView {
         self.makeCallButton!.setImage(UIImage(named: "call_selected"), forState: .Highlighted)
         self.makeCallButton!.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
         self.footerView!.addSubview(self.makeCallButton!)
-        self.buttons!.append(self.makeCallButton!)
+        
+        if IS_IPHONE && !IS_IPOD {
+            self.buttons!.append(self.makeCallButton!)
+        }
         
         self.shareStoreButton = UIButton()
         self.shareStoreButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
