@@ -454,7 +454,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
    
     func getCategories() -> [String]{
         
-        let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
+        //let specialsCat : [AnyObject] = RecommendedCategory.cagtegories as [AnyObject]
         self.categoryType = [:]
         var categories : [String] = []
         self.recommendCategoryItems = [:]

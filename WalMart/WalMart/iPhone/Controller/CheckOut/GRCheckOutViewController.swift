@@ -1792,7 +1792,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 itemPrice = (Double(quantity) / 1000.0) * itemPrice
                 quantity = 1
             }
-            let payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as! String)
+            let payPalItem = PayPalItem(name: item["description"] as! String, withQuantity:quantity , withPrice: NSDecimalNumber(string: String(format: "%.2f", itemPrice)), withCurrency: "MXN", withSku: item["upc"] as? String)
             payPalItems.append(payPalItem)
         }
         // Los cupones y descuentos se agregan como item negativo.
@@ -1815,15 +1815,15 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         if (payment.processable) {
             let paymentViewController = PayPalPaymentViewController(payment: payment, configuration: self.initPayPalConfig(), delegate: self)
-            paymentViewController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-            self.presentViewController(paymentViewController, animated: true, completion: nil)
+            paymentViewController!.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+            self.presentViewController(paymentViewController!, animated: true, completion: nil)
         }
     }
     
     func showPayPalFuturePaymentController(){
         let futurePaymentController = PayPalFuturePaymentViewController(configuration: self.initPayPalConfig(), delegate: self)
-        futurePaymentController.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        self.presentViewController(futurePaymentController, animated: true, completion: nil)
+        futurePaymentController!.modalPresentationStyle = UIModalPresentationStyle.FormSheet
+        self.presentViewController(futurePaymentController!, animated: true, completion: nil)
     }
     
     func initPayPalConfig() -> PayPalConfiguration{
@@ -1892,16 +1892,16 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     // PayPalPaymentDelegate
-    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController!) {
+    func payPalPaymentDidCancel(paymentViewController: PayPalPaymentViewController) {
         buttonShop?.enabled = true
         let message = "Tu pago ha sido cancelado"
         self.invokePayPalCancelService(message)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController!, didCompletePayment completedPayment: PayPalPayment!) {
+    func payPalPaymentViewController(paymentViewController: PayPalPaymentViewController, didCompletePayment completedPayment: PayPalPayment) {
         print("PayPal Payment Success !")
-        print(completedPayment!.description)
+        print(completedPayment.description)
         
        
         if let completeDict = completedPayment.confirmation["response"] as? [String:AnyObject] {
@@ -1919,7 +1919,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
      // PayPalFuturePaymentDelegate
-    func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController!) {
+    func payPalFuturePaymentDidCancel(futurePaymentViewController: PayPalFuturePaymentViewController) {
         print("PayPal Future Payment Authorization Canceled")
         buttonShop?.enabled = true
         //let message = "Hubo un error al momento de generar la orden, intenta más tarde"
@@ -1928,10 +1928,10 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    func payPalFuturePaymentViewController(futurePaymentViewController: PayPalFuturePaymentViewController!, didAuthorizeFuturePayment futurePaymentAuthorization: [NSObject : AnyObject]!) {
+    func payPalFuturePaymentViewController(futurePaymentViewController: PayPalFuturePaymentViewController, didAuthorizeFuturePayment futurePaymentAuthorization: [NSObject : AnyObject]) {
         
         // send authorization to your server to get refresh token.
-        print(futurePaymentAuthorization!.description)
+        print(futurePaymentAuthorization.description)
         let futurePaymentService = GRPayPalFuturePaymentService()
         let responce = futurePaymentAuthorization["response"] as! [NSObject : AnyObject]
         futurePaymentService.callService(responce["code"] as! String, succesBlock: {(result:NSDictionary) -> Void in
