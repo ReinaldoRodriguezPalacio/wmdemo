@@ -383,6 +383,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     }
     
     func registryUser() {
+        self.view.endEditing(true)
         if validateTerms() {
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SIGNUP.rawValue,action: WMGAIUtils.ACTION_SAVE_SIGNUP.rawValue, label: "")
