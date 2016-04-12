@@ -449,10 +449,10 @@
 
 //GroceriesCheckout descriptions
 "gr.confirmacall" = "Deseo recibir llamada de confirmación.";
-"gr.not.confirmacall.option" = "No deseo recibir llamada de confirmación";
-"gr.not.confirmacall.option.detail" = "No deseo recibir la llamada de confirmación , envíenme solamente los productos de mi pedido que están disponibles.";
-"gr.not.confirmacall" = "No deseo recibir llamada de confirmación";
-"gr.not.confirmacall.detal" = "No deseo recibir llamada de confirmación , envíenme el sustituto disponible en calidad y precio similar.";
+"gr.not.confirmacall.option" = "No deseo recibir llamada de confirmación.";
+"gr.not.confirmacall.option.detail" = "No deseo recibir la llamada de confirmación, envíenme solamente los productos de mi pedido que están disponibles.";
+"gr.not.confirmacall" = "No deseo recibir llamada de confirmación.";
+"gr.not.confirmacall.detal" = "No deseo recibir llamada de confirmación, envíenme el sustituto disponible en calidad y precio similar.";
 
 //Checkout
 "gr.confirma.title" = "Tu pedido se realizó con éxito";
@@ -561,7 +561,7 @@
 
 
 //Alert login
-"password.incorrect" = "Tu contraseña es incorrecta Recuerda que tienes 3 intentos antes de bloquear tu cuenta por 5 minutos";
+"password.incorrect" = "Tu contraseña es incorrecta. Recuerda que tienes 3 intentos antes de bloquear tu cuenta por 5 minutos.";
 
 //Invoice
 "invoice.section.actionToDo" = "¿Qué deseas hacer?";
