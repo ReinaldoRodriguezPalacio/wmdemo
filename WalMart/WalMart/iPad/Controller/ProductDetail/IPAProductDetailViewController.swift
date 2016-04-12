@@ -466,7 +466,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func sizeForIndexPath (point:(Int,Int),indexPath: NSIndexPath!)  -> CGFloat {
         var colorSizeHeight:CGFloat = 40.0
         if self.colorItems.count == 0 && self.sizeItems.count == 0 {
-            //colorSizeHeight = 5.0
+            colorSizeHeight = 5.0
         }
         else if self.colorItems.count > 0 && self.sizeItems.count != 0 {
             colorSizeHeight = 80.0
