@@ -70,6 +70,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isGift: Bool = false
     var fromSearch =  false
     var isEmpty: Bool = false
+    var idListSelected = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -75,6 +75,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             if indexPath.row < self.allProducts!.count {
 
                 let paginatedProductDetail = IPAProductDetailPageViewController()
+                paginatedProductDetail.idListSeleted = self.idListFromSearch
                 paginatedProductDetail.ixSelected = indexPath.row
                 paginatedProductDetail.itemsToShow = []
                 for product in self.allProducts! {

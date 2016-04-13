@@ -223,6 +223,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             productDetailButtonGR.isPreorderable = self.strisPreorderable
             productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButtonGR.validateIsInList(self.upc as String)
+            productDetailButtonGR.idListSelect =  self.idListFromlistFind
             productDetailButton = productDetailButtonGR
             
             //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)

@@ -223,6 +223,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             productDetailButtonGR.isPreorderable = self.strisPreorderable as String
             productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButtonGR.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButtonGR.idListSelect =  self.idListSelected
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String

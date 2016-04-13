@@ -492,6 +492,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if text.isNumeric() && text.length() == 13 ||  text.length() == 14 {
             let window = UIApplication.sharedApplication().keyWindow
             if let customBar = window!.rootViewController as? IPACustomBarViewController {
+                customBar.idListSelected =  self.listId!
                 customBar.handleNotification("UPC",name:"",value:text,bussines:"gr")
             }
         }else{
