@@ -488,13 +488,24 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
     }
     
+    override func searchByText(text: String) {
+        if text.isNumeric() && text.length() == 13 ||  text.length() == 14 {
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? IPACustomBarViewController {
+                customBar.handleNotification("UPC",name:"",value:text,bussines:"gr")
+            }
+        }else{
+            super.searchByText(text)
+        }
+      
+    }
+    
     override func invokeAddproductTolist(response:NSDictionary?,products:[AnyObject]?,succesBlock:(() -> Void)){
         super.invokeAddproductTolist(response, products: products) { () -> Void in
             self.reloadTableListUser()
         }
         
     }
-    
     
     override func notifyReminderWillClose(forceValidation flag: Bool, value: Bool) {
         self.showReminderController = true
