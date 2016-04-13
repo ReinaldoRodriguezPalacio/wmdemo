@@ -225,7 +225,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
-        if keyword.length() > 3 {
+        if keyword.length() >= 3 {
             setPopOver()
         }
         if !camfine{

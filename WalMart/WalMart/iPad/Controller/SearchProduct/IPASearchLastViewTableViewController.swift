@@ -351,7 +351,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
     
     func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         if endEditing != nil {
-            endEditing!()
+           // endEditing!()
         }
     }
 }
