@@ -1400,17 +1400,29 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         cameraController.delegate = self
         self.presentViewController(cameraController, animated: true, completion: nil)
     }
+    
     func searchByText(text: String) {
-        let message = self.validateText(text)
-        if message != ""{
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
-                UIImage(named:"noAvaliable"))
-            self.alertView!.setMessage(message)
-            self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-             self.addProductsView?.changeFrame = false
-        return
+        if text.isNumeric() && (text.length() == 13 || text.length() == 14) {
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                customBar.idListSelected = self.listId!
+                customBar.handleNotification("UPC",name:"",value:text,bussines:"gr")
+            }
+            
+        }else{
+            
+            let message = self.validateText(text)
+            if message != ""{
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"), imageDone: nil, imageError:
+                    UIImage(named:"noAvaliable"))
+                self.alertView!.setMessage(message)
+                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                self.addProductsView?.changeFrame = false
+                return
+            }
+            self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .WithText,searchServiceFromContext:.FromSearchText )
         }
-        self.searchByTextAndCamfind(text, upcs: nil, searchContextType: .WithText,searchServiceFromContext:.FromSearchText )
         
     }
     

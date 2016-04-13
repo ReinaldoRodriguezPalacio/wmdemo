@@ -64,6 +64,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var selectedDetailItem: [String:String]? = nil
     
     var fromSearch =  false
+    var idListFromlistFind = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
