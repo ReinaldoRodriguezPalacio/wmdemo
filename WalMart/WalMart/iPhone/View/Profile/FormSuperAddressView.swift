@@ -753,9 +753,6 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 return false }
             
         }
-        
-        
-        
         return true
     }
 }

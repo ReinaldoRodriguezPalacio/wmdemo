@@ -15,6 +15,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     var bgView : UIView!
     var initView: UIView?
     var onClosePicker : (() -> Void)?
+    var onReturnPicker : (() -> Void)?
     var viewButtonClose : UIButton!
     var closeButton : UIButton!
     var stopRemoveView: Bool? = false
@@ -22,6 +23,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     var titleLabel: UILabel!
     var lastTitle: String! = ""
     var lastFrame: CGRect?
+    
     
     var paddingTop: CGFloat = 30
     
@@ -258,7 +260,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         closeButton!.alpha = 0
         self.headerView.addSubview(closeButton!)
         self.viewButtonClose?.hidden = true
-        let finalContentFrame = CGRectMake(0, 0, self.viewContent.frame.width, view.frame.height + 49)
+        let finalContentFrame = CGRectMake(self.viewContent.frame.minX, self.viewContent.frame.minY, self.viewContent.frame.width, view.frame.height + 49)
         self.viewReplace = view
         self.viewReplace?.alpha = 0
         self.viewContent.addSubview(viewReplace!)
@@ -274,7 +276,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     }
     
     func closeNew() {
-        //onClosePicker?()
+        self.onReturnPicker?()
         self.viewReplace?.alpha = 0
         self.titleLabel!.text = self.lastTitle
         UIView.animateWithDuration(0.3, animations: { () -> Void in

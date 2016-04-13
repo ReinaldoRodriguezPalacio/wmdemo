@@ -57,7 +57,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         super.layoutSubviews()
         self.scrollForm?.frame = CGRectMake(0,0,self.frame.width,self.frame.height - 66)
         self.sAddredssForm?.frame = CGRectMake(self.scrollForm!.frame.minX, 0, self.scrollForm!.frame.width, 700)
-        self.layerLine.frame = CGRectMake(0,self.scrollForm!.frame.maxY,self.frame.width, 1)
+        self.layerLine.frame = CGRectMake(0,self.frame.height - 66,self.frame.width, 1)
         self.saveButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
     }
     
@@ -67,7 +67,6 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         let service = GRAddressAddService()
         let dictSend = sAddredssForm!.getAddressDictionary("", delete:false)
         if dictSend != nil {
-            self.saveButton!.hidden = true
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
             dictSend!["preferred"] = true
             let address = ["storeID":dictSend!["StoreID"]!,"storeName":dictSend!["storeName"]!,"zipCode":dictSend!["ZipCode"]!,"addressID":dictSend!["AddressID"]!] as NSDictionary
@@ -86,8 +85,30 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         }
     }
     
+    func textFieldDidEndEditing(sender: UITextField!) {
+        if let zipCode = sender as? FormFieldView{
+            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{
+                self.sAddredssForm!.store.becomeFirstResponder()
+            }
+        }
+    }
+    
+    func textModify(sender: UITextField!) {
+        self.sAddredssForm!.removeErrorLog()
+        if let zipCode = sender as? FormFieldView{
+            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode {
+                self.sAddredssForm!.suburb!.text = ""
+                self.sAddredssForm!.selectedNeighborhood = nil
+                self.sAddredssForm!.store!.text = ""
+                self.sAddredssForm!.selectedStore = nil
+            }
+            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{
+                self.sAddredssForm!.store.becomeFirstResponder()
+            }
+        }
+    }
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return CGSizeMake(self.scrollForm!.frame.width, self.scrollForm!.contentSize.height)
+        return CGSizeMake(self.scrollForm!.frame.width, 700)
     }
 }

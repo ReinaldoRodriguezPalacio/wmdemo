@@ -37,7 +37,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     }
     
     override func setup() {
-        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 if field! == self.zipcode {
                     if self.zipcode.text!.utf16.count > 0 {
@@ -161,6 +161,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.phoneHomeNumber!.maxLength = 10
         self.phoneHomeNumber!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHomeNumber!.inputAccessoryView = viewAccess
+        self.phoneHomeNumber!.delegate =  self
         
         self.phoneWorkNumber = FormFieldView()
         self.phoneWorkNumber!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
@@ -382,6 +383,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.popupTable!.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
         let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
         cell.textLabel?.text = itemsToShow[indexPath.row]
+        self.popupTableSelected = self.popupTableSelected ?? indexPath
         if self.popupTable != nil {
             cell.setSelected(indexPath.row == self.popupTableSelected!.row, animated: true)
             cell.backgroundColor = WMColor.light_light_gray
@@ -416,5 +418,25 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let textCell = itemsToShow[indexPath.row]
         return  SelectItemTableViewCell.sizeText(textCell, width: 247.0)
+    }
+    
+    override func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text!
+        let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if textField == self.zipcode {
+            if fieldString != currentZipCode {
+                self.suburb!.text = ""
+                self.selectedNeighborhood = nil
+                
+                self.store!.text = ""
+                self.selectedStore = nil
+            }
+        }
+        if textField == self.phoneHomeNumber{
+            if fieldString.characters.count == 11{
+                return false }
+            
+        }
+        return true
     }
 }

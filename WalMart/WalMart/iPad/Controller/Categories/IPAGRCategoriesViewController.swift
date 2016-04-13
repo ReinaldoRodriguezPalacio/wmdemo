@@ -245,7 +245,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Sin tienda ￼"{
+        if titleLabel!.text! == "Sin tienda ￼" && UserCurrentSession.sharedInstance().addressId == nil{
             let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,338,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
@@ -287,6 +287,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                 self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
             }
             self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+            self.newModalView!.onReturnPicker = { void in
+                self.addressView!.blockRows = false
+            }
             self.newModalView!.showPicker()
         }
     }

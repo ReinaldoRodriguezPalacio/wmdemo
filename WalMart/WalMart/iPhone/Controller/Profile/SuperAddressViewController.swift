@@ -106,34 +106,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         
     }
     
-    func textFieldDidEndEditing(sender: UITextField!) {
-        if let zipCode = sender as? FormFieldView{
-            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
-                self.sAddredssForm.store.becomeFirstResponder()
-            }
-        }
-    }
     
-    func textModify(sender: UITextField!) {
-        if self.saveButton!.hidden {
-            self.saveButton!.hidden = false
-            self.sAddredssForm.removeErrorLog()
-            if !self.showGRAddressForm {
-                self.changeTitleLabel()
-            }
-        }
-        if let zipCode = sender as? FormFieldView{
-            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode {
-                self.sAddredssForm.suburb!.text = ""
-                self.sAddredssForm.selectedNeighborhood = nil
-                self.sAddredssForm.store!.text = ""
-                self.sAddredssForm.selectedStore = nil
-            }
-            if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm.currentZipCode &&  zipCode.text!.characters.count == 5{
-                self.sAddredssForm.store.becomeFirstResponder()
-            }
-        }
-    }
     
     func changeTitleLabel(){
         UIView.animateWithDuration(0.4, animations: {

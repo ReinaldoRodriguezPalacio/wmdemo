@@ -85,7 +85,12 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func new(){
-        
+        if self.addressArray!.count >= 12 {
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(NSLocalizedString("profile.address.error.max",comment:""))
+            self.alertView!.showErrorIcon("Ok")
+            return
+        }
         self.newAdressForm?()
     }
     
@@ -158,7 +163,6 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
                 stores = result["stores"] as! [NSDictionary]
                 self.addressSelected?(addressId: idAddress,addressName: addressName, selectedStore: storeID, stores: stores as! [NSDictionary])
                 self.viewLoad.stopAnnimating()
-                self.blockRows = false
                 }, errorBlock: { (error:NSError) -> Void in
                     print("error:: \(error)")
                     self.viewLoad.stopAnnimating()

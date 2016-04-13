@@ -400,6 +400,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                 self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
             }
             self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+            self.newModalView!.onReturnPicker = { void in
+               self.addressView!.blockRows = false
+            }
             self.newModalView!.showPicker()
             }
     }
