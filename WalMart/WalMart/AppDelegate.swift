@@ -472,6 +472,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
        
         Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
+        
+        //let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
+        
+        
+        
         handleURL(url)
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         //return true
