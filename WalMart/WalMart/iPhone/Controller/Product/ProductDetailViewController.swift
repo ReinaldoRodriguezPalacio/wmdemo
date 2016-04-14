@@ -252,7 +252,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
 
     // MARK: - Collection view config
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect) {
+    
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
@@ -1037,6 +1038,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if cellRelated == nil {
                 let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("crossSellCell", forIndexPath: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
+                cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
                 cellPromotion!.itemsUPC = itemsCrossSellUPC
                 self.cellRelated = cellPromotion
             }

@@ -942,9 +942,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     // MARK: - Collection view config
-   override func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect) {
+    override func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         let controller = ProductDetailPageViewController()
         controller.ixSelected = index
+        controller.idListSeleted = idList
         controller.itemsToShow = []
         for product  in items {
             let upc : NSString = product["upc"]!

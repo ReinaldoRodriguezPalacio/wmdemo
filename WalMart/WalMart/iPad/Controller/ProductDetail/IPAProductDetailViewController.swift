@@ -137,6 +137,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        productCrossSell.setIdList(self.idListSelected) //
        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "backButton", name: CustomBarNotification.finishUserLogOut.rawValue, object: nil)
     }
     
@@ -583,10 +584,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
   
     // MARK: Product crosssell delegate
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect){
+
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         
         let paginatedProductDetail = IPAProductDetailPageViewController()
         paginatedProductDetail.ixSelected = index
+        paginatedProductDetail.idListSeleted = idList //TODO List
         paginatedProductDetail.itemsToShow = []
         for product  in items {
             let upc : NSString = product["upc"]!
