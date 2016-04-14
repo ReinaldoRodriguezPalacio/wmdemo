@@ -807,7 +807,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         return upcItems
     }
 
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect){
+    
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         let controller = ProductDetailPageViewController()
         controller.itemsToShow = items
         controller.ixSelected = index

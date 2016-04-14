@@ -215,6 +215,7 @@ class IPACustomBarViewController :  CustomBarViewController {
            
             
             let contDetail = IPAProductDetailPageViewController()
+            contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
             let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let svcValidate = GRProductDetailService(dictionary: useSignalsService)

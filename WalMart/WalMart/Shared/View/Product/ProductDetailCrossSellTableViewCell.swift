@@ -116,7 +116,7 @@ class ProductDetailCrossSellTableViewCell : UITableViewCell, UICollectionViewDat
         }else{
             pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview)
         }
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView)
+        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: "")
         
     }
     

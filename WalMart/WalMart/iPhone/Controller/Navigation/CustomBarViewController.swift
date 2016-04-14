@@ -58,6 +58,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     var badgeShoppingCart : BadgeView!
     var timmer : NSTimer? = nil
+    var idListSelected = ""
     
     
     var shoppingCartVC : UINavigationController!
@@ -805,6 +806,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 
             
             let controller = ProductDetailPageViewController()
+            controller.idListSeleted  = self.idListSelected
             let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let svcValidate = GRProductDetailService(dictionary: useSignalsService)
             

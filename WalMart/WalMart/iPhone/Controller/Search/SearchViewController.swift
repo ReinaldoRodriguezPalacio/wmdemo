@@ -438,13 +438,18 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
-        let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
-        if keyword.length() > 51{
+        var  keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        if keyword.length() > 51 {
             return false
         }
-       // self.field!.text = keyword;
+        
+        if keyword.length() < 2 {
+            keyword = ""
+        }
+        
         self.searchProductKeywords(keyword)
         self.showClearButtonIfNeeded(forTextValue: keyword)
+            
         return true
     }
     
@@ -463,7 +468,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
     func searchProductKeywords(string:String) {
         self.cancelSearch = true
         
-        if  self.field!.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) <  2 {
+        if  string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
             
             self.elements = nil
             self.elementsCategories = nil
@@ -473,7 +478,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
             return
         }
         
-        let success = { () -> Void in
+        _ = { () -> Void in
             dispatch_async(dispatch_get_main_queue(), {
                 self.table.reloadData()
                 self.showTableIfNeeded()
@@ -659,7 +664,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         return validateRegEx(regString,toValidate:toValidate)
     }
     
-    func validateRegEx (pattern:String,toValidate:String) -> Bool {
+    func validateRegEx(pattern:String,toValidate:String) -> Bool {
         
         var regExVal: NSRegularExpression?
         do {

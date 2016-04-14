@@ -223,6 +223,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             productDetailButtonGR.isPreorderable = self.strisPreorderable
             productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButtonGR.validateIsInList(self.upc as String)
+            productDetailButtonGR.idListSelect =  self.idListFromlistFind
             productDetailButton = productDetailButtonGR
             
             //productDetailButton.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc)
@@ -941,9 +942,10 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     }
     
     // MARK: - Collection view config
-   override func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect) {
+    override func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         let controller = ProductDetailPageViewController()
         controller.ixSelected = index
+        controller.idListSeleted = idList
         controller.itemsToShow = []
         for product  in items {
             let upc : NSString = product["upc"]!

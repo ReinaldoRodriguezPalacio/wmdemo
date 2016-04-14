@@ -17,6 +17,8 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
     var collection: UICollectionView!
     var delegate: ProductDetailCrossSellViewDelegate!
     var upc: String = ""
+    var idListSelectdFromSearch = ""
+    
     var itemsUPC: NSArray = [] {
         didSet {
             collection.reloadData()
@@ -116,6 +118,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
         }
         
         let currentCell = collectionView.cellForItemAtIndexPath(indexPath) as! ProductCollectionViewCell!
+        
         //currentCell.hideImageView()
         var pontInView = CGRectZero
         if self.superview?.superview?.superview != nil {
@@ -124,7 +127,7 @@ class ProductDetailCrossSellCollectionViewCell : UICollectionViewCell, UICollect
             pontInView = currentCell.convertRect(currentCell!.productImage!.frame, toView:  self.superview?.superview)
         }
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView)
+        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: currentCell!.productImage!.image!,point:pontInView,idList: self.idListSelectdFromSearch)
         
     }
     

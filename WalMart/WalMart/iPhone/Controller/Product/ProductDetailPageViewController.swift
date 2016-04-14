@@ -79,6 +79,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
                     vc.name = descr
                     vc.saving = saving == nil ? "" : saving!
                     vc.view.tag = ixSelected
+                    vc.idListFromlistFind = self.idListSeleted! // new
                    
                     return vc
             }

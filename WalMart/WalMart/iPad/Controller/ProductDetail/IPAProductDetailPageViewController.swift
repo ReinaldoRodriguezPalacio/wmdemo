@@ -33,6 +33,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
                 vc.view.tag = ixSelected
                 vc.saving = saving == nil ? "" : saving!
                 vc.pagerController = self
+                vc.idListSelected =  self.idListSeleted!
                 return vc
             }
         default:

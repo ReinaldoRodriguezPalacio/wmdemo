@@ -137,7 +137,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         quantityWAnimate = UIView(frame: CGRectMake(lblQuantityW.bounds.maxX - 3, 0, 1, lblQuantityW.frame.height))
         quantityWAnimate.backgroundColor = UIColor.whiteColor()
         quantityWAnimate.alpha = 0
-        lblQuantityW.addSubview(quantityWAnimate)
+        //lblQuantityW.addSubview(quantityWAnimate)
         
         self.updateLabelW()
         

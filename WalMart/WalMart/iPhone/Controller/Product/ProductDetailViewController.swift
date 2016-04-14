@@ -64,6 +64,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var selectedDetailItem: [String:String]? = nil
     
     var fromSearch =  false
+    var idListFromlistFind = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -251,7 +252,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
 
     // MARK: - Collection view config
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect) {
+    
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
@@ -1036,6 +1038,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if cellRelated == nil {
                 let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("crossSellCell", forIndexPath: indexPath) as? ProductDetailCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
+                cellPromotion!.idListSelectdFromSearch =  self.idListFromlistFind
                 cellPromotion!.itemsUPC = itemsCrossSellUPC
                 self.cellRelated = cellPromotion
             }
@@ -1124,7 +1127,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         //let screen = self.detailCollectionView.screenshotOfHeadersAtSections( NSSet(array:headers), footersAtSections: nil, rowsAtIndexPaths: NSSet(array: items))
         
-        let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
         let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,imagen])
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")

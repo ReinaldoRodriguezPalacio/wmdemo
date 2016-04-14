@@ -155,7 +155,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         layerLine = CALayer()
         layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
-        viewFooter.layer.insertSublayer(layerLine!, atIndex: 1000)
+        viewFooter!.layer.insertSublayer(layerLine!, atIndex: 1000)
     
         self.viewContentOptions.addSubview(viewFooter)
         self.viewContent.addSubview(self.viewContentOptions)
@@ -164,6 +164,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
     
     }
+    
     
     override func layoutSubviews() {
         viewContent.center = self.center

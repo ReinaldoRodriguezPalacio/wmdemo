@@ -197,8 +197,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubCollection!.delegate = self
         self.clubCollection!.dataSource = self
         self.clubCollection!.hidden = true
-        self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
-        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
+        self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
         self.view.addSubview(self.clubCollection!)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRunning", name: UIApplicationWillEnterForegroundNotification, object: nil)
@@ -233,12 +233,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         if self.segmentedView!.frame.origin.y == 16 {
             self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
         }
-//        var space : CGFloat = 0
-//        if bottomSpaceButton != nil  {
-//            space = bottomSpaceButton!.constant
-//        }
-//        self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (space - 16))
-
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame
             height = bounds.height - 20.0
@@ -487,7 +481,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         }
         else {
             //Event
-            
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
             self.toggleViewBtn?.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
             self.clubMap!.hidden = false
             self.clubCollection!.hidden = true
@@ -626,7 +620,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     
     func showInstructions(store:Store, forCar flag:Bool) {
         self.selectedStore = store
-        
         //Event
         
         
@@ -678,6 +671,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
 
     func showInMap(store:Store) {
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.viewBgDetailView?.removeFromSuperview()
         self.viewBgDetailView = nil
         self.detailView?.removeFromSuperview()
@@ -713,7 +707,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.openAppleMaps(forCar: self.instructionsForCar)
         }
     }
-
     
     func showTabBar() {
         bottomSpaceMap?.constant = 44
@@ -734,6 +727,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     
     override func back() {
         super.back()
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         if self.clubMap!.hidden {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LIST_STORELOCATOR_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_LIST_STORELOCATOR_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
         } else {
@@ -793,8 +787,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clearButton?.hidden = true
         self.items = self.searchForItems("")
         self.clubCollection!.reloadData()
-        self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 46, 0)
-        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 46.0, 0.0)
+        self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0)
         self.clubCollection?.scrollToItemAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: true)
     }
     

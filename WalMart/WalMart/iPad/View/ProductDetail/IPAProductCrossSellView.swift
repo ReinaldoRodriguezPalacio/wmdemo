@@ -11,6 +11,7 @@ import Foundation
 class IPAProductCrossSellView : UIView {
     
     var productCrossSell : ProductDetailCrossSellView!
+    
     var delegate : ProductDetailCrossSellViewDelegate! {
         didSet {
             productCrossSell.delegate = delegate
@@ -53,6 +54,10 @@ class IPAProductCrossSellView : UIView {
     
     func reloadWithData() {
         productCrossSell.collection.reloadData()
+    }
+    
+    func setIdList(idList:String){
+        productCrossSell.idListSeletSearch = idList//
     }
 
     

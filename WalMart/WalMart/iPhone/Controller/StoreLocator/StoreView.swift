@@ -109,7 +109,7 @@ class StoreView: UIView {
         self.makeCallButton!.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
         self.footerView!.addSubview(self.makeCallButton!)
         
-        if !(IS_IPHONE && !IS_IPOD) {
+        if IS_IPHONE && !IS_IPOD {
             self.buttons!.append(self.makeCallButton!)
         }
         

@@ -236,7 +236,6 @@
 		567AC2031A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567AC2021A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift */; };
 		567D62DA1A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 567D62D91A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift */; };
 		5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A08F1A48C4ED009C5515 /* GRBaseService.swift */; };
-		5680A0941A48C595009C5515 /* GRExclusiveItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A0931A48C595009C5515 /* GRExclusiveItemsService.swift */; };
 		5680A0971A48CCAE009C5515 /* GRProductDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A0961A48CCAE009C5515 /* GRProductDetailService.swift */; };
 		5680A0991A48CF50009C5515 /* GRProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A0981A48CF50009C5515 /* GRProductDetailViewController.swift */; };
 		5680A09E1A48DD33009C5515 /* GRLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A09D1A48DD33009C5515 /* GRLoginService.swift */; };
@@ -269,7 +268,6 @@
 		56940AC91A644D7000BAFF78 /* GRShoppingCartWeightSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56940AC81A644D7000BAFF78 /* GRShoppingCartWeightSelectorView.swift */; };
 		5696078C19B4C773005D20DC /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696078B19B4C773005D20DC /* LoginService.swift */; };
 		5696078F19B4D955005D20DC /* BannerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696078E19B4D955005D20DC /* BannerService.swift */; };
-		5696079119B4D986005D20DC /* RecommendedItemsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696079019B4D986005D20DC /* RecommendedItemsService.swift */; };
 		5696079319B4E8BC005D20DC /* IPOSplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696079219B4E8BC005D20DC /* IPOSplashViewController.swift */; };
 		5696079519B4EC6B005D20DC /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696079419B4EC6B005D20DC /* ProductDetailViewController.swift */; };
 		5696079B19B4EF2D005D20DC /* ProductDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5696079A19B4EF2D005D20DC /* ProductDetailPageViewController.swift */; };
@@ -888,7 +886,6 @@
 		567AC2021A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailBannerCollectionViewCell.swift; path = Shared/View/Product/ProductDetailBannerCollectionViewCell.swift; sourceTree = "<group>"; };
 		567D62D91A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailBundleTableViewCell.swift; path = iPad/View/ProductDetail/IPAProductDetailBundleTableViewCell.swift; sourceTree = "<group>"; };
 		5680A08F1A48C4ED009C5515 /* GRBaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRBaseService.swift; path = Shared/Services/GRBaseService.swift; sourceTree = "<group>"; };
-		5680A0931A48C595009C5515 /* GRExclusiveItemsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRExclusiveItemsService.swift; path = Shared/Services/Home/GRExclusiveItemsService.swift; sourceTree = "<group>"; };
 		5680A0961A48CCAE009C5515 /* GRProductDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRProductDetailService.swift; path = Shared/Services/Product/GRProductDetailService.swift; sourceTree = "<group>"; };
 		5680A0981A48CF50009C5515 /* GRProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRProductDetailViewController.swift; path = iPhone/Controller/Product/GRProductDetailViewController.swift; sourceTree = "<group>"; };
 		5680A09D1A48DD33009C5515 /* GRLoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRLoginService.swift; path = Shared/Services/LoginSignUp/GRLoginService.swift; sourceTree = "<group>"; };
@@ -923,7 +920,6 @@
 		56940AC81A644D7000BAFF78 /* GRShoppingCartWeightSelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartWeightSelectorView.swift; path = iPhone/View/ShoppingCart/GRShoppingCartWeightSelectorView.swift; sourceTree = "<group>"; };
 		5696078B19B4C773005D20DC /* LoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoginService.swift; path = Shared/Services/LoginSignUp/LoginService.swift; sourceTree = "<group>"; };
 		5696078E19B4D955005D20DC /* BannerService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerService.swift; path = Shared/Services/Home/BannerService.swift; sourceTree = "<group>"; };
-		5696079019B4D986005D20DC /* RecommendedItemsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RecommendedItemsService.swift; path = Shared/Services/Home/RecommendedItemsService.swift; sourceTree = "<group>"; };
 		5696079219B4E8BC005D20DC /* IPOSplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOSplashViewController.swift; path = iPhone/Controller/Home/IPOSplashViewController.swift; sourceTree = "<group>"; };
 		5696079419B4EC6B005D20DC /* ProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailViewController.swift; path = iPhone/Controller/Product/ProductDetailViewController.swift; sourceTree = "<group>"; };
 		5696079A19B4EF2D005D20DC /* ProductDetailPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailPageViewController.swift; path = iPhone/Controller/Product/ProductDetailPageViewController.swift; sourceTree = "<group>"; };
@@ -2343,7 +2339,6 @@
 		5680A0921A48C567009C5515 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				5680A0931A48C595009C5515 /* GRExclusiveItemsService.swift */,
 				04678D021A48D0B900190685 /* GRCategoryService.swift */,
 			);
 			name = Home;
@@ -2497,7 +2492,6 @@
 			children = (
 				5696078E19B4D955005D20DC /* BannerService.swift */,
 				5A5E5EE41C8773E100E519AD /* CarouselService.swift */,
-				5696079019B4D986005D20DC /* RecommendedItemsService.swift */,
 				56AED5E919C36F69004CAECA /* CategoryService.swift */,
 				4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */,
 			);
@@ -3673,7 +3667,6 @@
 				AC6AAEA019CCF3A5004081C4 /* AddressViewController.swift in Sources */,
 				85A40B7E1C223AE40036C78A /* OrderItem.swift in Sources */,
 				85A40B781C223AE40036C78A /* GCDAsyncSocket.m in Sources */,
-				5680A0941A48C595009C5515 /* GRExclusiveItemsService.swift in Sources */,
 				04C2342E1A70125100AEFC09 /* ListSelectorViewCell.swift in Sources */,
 				568A42B319ED8F8D00608297 /* ProductDetailCrossSellView.swift in Sources */,
 				5612FC991A8BD2DA007CA2FD /* RecentProductsViewController.swift in Sources */,
@@ -4075,7 +4068,6 @@
 				AC0918C419D1D59900BF48CA /* AddressView.swift in Sources */,
 				5662252B1B5EBBA1000DE420 /* ChangePasswordViewController.swift in Sources */,
 				56AAFF971A92584B007B8D91 /* FormSuperAddressView.swift in Sources */,
-				5696079119B4D986005D20DC /* RecommendedItemsService.swift in Sources */,
 				56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */,
 				56E54E4919EC6B570004161C /* IPASearchProductViewController.swift in Sources */,
 				85A40B6C1C223AE40036C78A /* Consumer.swift in Sources */,

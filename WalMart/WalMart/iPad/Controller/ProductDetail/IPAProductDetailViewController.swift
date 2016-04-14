@@ -70,6 +70,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isGift: Bool = false
     var fromSearch =  false
     var isEmpty: Bool = false
+    var idListSelected = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -136,6 +137,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        productCrossSell.setIdList(self.idListSelected) //
        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "backButton", name: CustomBarNotification.finishUserLogOut.rawValue, object: nil)
     }
     
@@ -466,7 +468,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func sizeForIndexPath (point:(Int,Int),indexPath: NSIndexPath!)  -> CGFloat {
         var colorSizeHeight:CGFloat = 40.0
         if self.colorItems.count == 0 && self.sizeItems.count == 0 {
-            //colorSizeHeight = 5.0
+            colorSizeHeight = 5.0
         }
         else if self.colorItems.count > 0 && self.sizeItems.count != 0 {
             colorSizeHeight = 80.0
@@ -582,10 +584,12 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
   
     // MARK: Product crosssell delegate
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect){
+
+    func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         
         let paginatedProductDetail = IPAProductDetailPageViewController()
         paginatedProductDetail.ixSelected = index
+        paginatedProductDetail.idListSeleted = idList //TODO List
         paginatedProductDetail.itemsToShow = []
         for product  in items {
             let upc : NSString = product["upc"]!
@@ -1176,7 +1180,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         print(screen.size)
         
         
-        let urlWmart = UserCurrentSession.urlWithRootPath("http://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
+        let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
         
         let imgResult = UIImage.verticalImageFromArrayProdDetail([imageHead!,imageHeader,product.imageView!.image!,screen])
         //let imgResult = UIImage.verticalImageFromArray([imageHead!,product.imageView!.image!,screen],andWidth:320)

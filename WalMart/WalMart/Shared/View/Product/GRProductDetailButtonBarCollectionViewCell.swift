@@ -17,6 +17,7 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         // Drawing code
     }
     */
+    var idListSelect =  ""
 
     override func setup() {
         super.setup()
@@ -24,8 +25,6 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         self.listButton.setImage(UIImage(named:"detail_list"), forState: .Normal)
         self.listButton.setImage(UIImage(named:"detail_list_selected"), forState: .Selected)
         self.listButton.setImage(UIImage(named:"detail_list_selected"), forState: .Highlighted)
-
-        
         
         
     }
@@ -39,9 +38,42 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         //event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_WISHLIST.rawValue, label: "\(desc) - \(upc)")
         
-        self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable, added: { (addedTWL:Bool) -> Void in
-            self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
-        })
+        if idListSelect !=  ""{
+            print("cambio de funcionalidad")
+            self.addDirectToListId()
+        }else{
+            
+            self.delegate.addOrRemoveToWishList(upc,desc:desc,imageurl:image,price:price,addItem:!self.listButton.selected,isActive:self.isActive,onHandInventory:self.onHandInventory,isPreorderable:self.isPreorderable, added: { (addedTWL:Bool) -> Void in
+                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+            })
+        }
+    }
+    
+    func addDirectToListId(){
+        
+        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
+        alertView!.setMessage(NSLocalizedString("list.message.addingProductToList", comment:""))
+        
+        let service = GRAddItemListService()
+        
+        self.isActive =  self.isActive == "" ?  "true" : self.isActive
+        let productObject = [service.buildProductObject(upc:self.upc, quantity:1,pesable:"\(self.isPesable)",active:self.isActive == "true" ? true : false)]//isActive
+        
+        service.callService(service.buildParams(idList: idListSelect, upcs: productObject),
+            successBlock: { (result:NSDictionary) -> Void in
+                self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(self.upc)
+                alertView!.setMessage(NSLocalizedString("list.message.addProductToListDone", comment:""))
+                alertView!.showDoneIcon()
+              
+                
+            }, errorBlock: { (error:NSError) -> Void in
+                print("Error at add product to list: \(error.localizedDescription)")
+                alertView!.setMessage(error.localizedDescription)
+                alertView!.showErrorIcon("Ok")
+                
+            }
+        )
+    
     }
 
 }

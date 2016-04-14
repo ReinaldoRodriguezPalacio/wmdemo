@@ -10,7 +10,7 @@ import Foundation
 
 protocol ProductDetailCrossSellViewDelegate {
     
-    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect)
+    func goTODetailProduct(upc:String,items:[[String:String]],index:Int,imageProduct:UIImage?,point:CGRect,idList:String)
     
 }
 
@@ -24,6 +24,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
     var cellClass: AnyClass? = nil
     
     var cellReuseid: String = ""
+    var idListSeletSearch = ""
     
     
     required init?(coder aDecoder: NSCoder) {
@@ -142,7 +143,7 @@ class ProductDetailCrossSellView :UIView,UICollectionViewDataSource,UICollection
         
         
         
-        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRectZero)
+        delegate.goTODetailProduct(upc, items: upcItems,index:indexPath.row,imageProduct: cell.productImage!.image!,point:CGRectZero,idList: self.idListSeletSearch)
     }
     
     
