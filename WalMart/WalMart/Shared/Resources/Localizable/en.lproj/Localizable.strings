@@ -299,7 +299,7 @@
 //field
 "field.validate.required" = " Es requerido";
 "field.validate.text.invalid" = " Texto no válido";
-"field.validate.text.invalid.rfc" = " Formato invalido";
+"field.validate.text.invalid.rfc" = "Formato inválido";
 "field.validate.password" = " La contraseña debería tener al menos 8 caracteres";
 "field.validate.password.empty" = " La contraseña es requerida";
 "field.validate.confirm.password" = " Debe ser idéntico a la contraseña";

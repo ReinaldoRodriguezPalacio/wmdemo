@@ -160,8 +160,8 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             let dictSendpreferred = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId, storeName: "",operationType: "C", preferred: true)
             
             let dictSend = service.buildParams(city, addressID: addressID, zipCode: zipCode, street: street, innerNumber: innerNumber, state: state, county: county, neighborhoodID: neighborhoodID, phoneNumber: "", outerNumber: outerNumber, adName: name, reference1: reference1, reference2: reference2, storeID: self.selectedstoreId,storeName: "", operationType: "C", preferred: false)
-                
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
+                UserCurrentSession.sharedInstance().getStoreByAddress(address)  
                 service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
                     self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.")
                     self.alertView?.showDoneIconWithoutClose()
@@ -173,7 +173,6 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
                 }, errorBlock: { (error:NSError) -> Void in
                     print("error")
             })
-            UserCurrentSession.sharedInstance().getStoreByAddress(address)
             }, errorBlock: { (error:NSError) -> Void in
             })
     }
