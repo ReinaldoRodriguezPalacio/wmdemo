@@ -38,7 +38,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.backButton?.hidden = true
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel?.text = "Walmart Buenavista"
-        self.titleLabel?.textAlignment = .Left
+        self.titleLabel?.textAlignment = .Center
         
         colCategories.backgroundColor = WMColor.light_light_gray
         
@@ -310,13 +310,13 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;
-            self.titleLabel?.textAlignment = .Left
             self.titleLabel?.userInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
             self.titleLabel?.addGestureRecognizer(tapGesture)
-            self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
+            self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
         }else{
             self.titleLabel?.text = "Walmart Buenavista"
+            self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
         }
         
     }

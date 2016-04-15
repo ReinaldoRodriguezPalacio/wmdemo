@@ -256,6 +256,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.selectedStore = nil
                 
                 var padding : String = ""
+                
                 if zipCode.characters.count < 5 {
                     padding =  padding.stringByPaddingToLength( 5 - zipCode.characters.count , withString: "0", startingAtIndex: 0)
                 }

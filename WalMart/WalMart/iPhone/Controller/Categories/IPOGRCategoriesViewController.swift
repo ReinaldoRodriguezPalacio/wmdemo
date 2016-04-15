@@ -421,7 +421,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                  boldString = NSMutableAttributedString(string:"Sin tienda ", attributes:attrs)
             }
             boldString.appendAttributedString(attachmentString)
-            self.titleLabel?.numberOfLines = 2;
+            self.titleLabel?.adjustsFontSizeToFitWidth = true
+            self.titleLabel?.minimumScaleFactor = 0.2
+            self.titleLabel?.numberOfLines = 1
             self.titleLabel?.attributedText = boldString;
             self.titleLabel?.userInteractionEnabled = true;
             let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")

@@ -343,6 +343,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         var message = ""
         let frequencyMessage = self.frequencyField!.validate()
         let timeMessage = self.hourField!.validate()
+        self.currentOriginalFireDate = self.currentOriginalFireDate ?? NSDate()
         if #available(iOS 8.0, *) {
             let compare = NSCalendar.currentCalendar().compareDate(NSDate(), toDate: self.currentOriginalFireDate!,
                 toUnitGranularity: .Second)

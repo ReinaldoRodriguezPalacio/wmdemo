@@ -103,7 +103,11 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
                 self.sAddredssForm!.selectedStore = nil
             }
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{
-                self.sAddredssForm!.store.becomeFirstResponder()
+                if self.sAddredssForm!.zipcode.text!.utf16.count > 0 {
+                    let xipStr = self.sAddredssForm!.zipcode.text! as NSString
+                    self.sAddredssForm!.zipcode.text = String(format: "%05d",xipStr.integerValue)
+                    self.sAddredssForm!.store.becomeFirstResponder()
+                }
             }
         }
     }
