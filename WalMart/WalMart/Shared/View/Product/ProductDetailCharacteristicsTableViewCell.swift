@@ -40,7 +40,7 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
     func setValues(values:NSArray){
         var currentY = 0.0 as CGFloat
         var index = 0
-        
+        self.clearView(descLabel)
         for dicValue in values {
             //var valuesValues = NSMutableDictionary()
             if let dicVal = dicValue as? NSDictionary {
@@ -69,6 +69,11 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
 
     }
     
+    func clearView(view: UIView){
+        for subview in view.subviews{
+            subview.removeFromSuperview()
+        }
+    }
     
     class func sizeForCell(width:CGFloat,values:NSArray) -> CGFloat {
         var heigth = 0.0 as CGFloat

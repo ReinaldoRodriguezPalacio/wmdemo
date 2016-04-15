@@ -178,7 +178,6 @@ class BaseService : NSObject {
                 url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
             }
         }
-
         let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
             if let errorResult = self.validateCodeMessage(resultJSON) {

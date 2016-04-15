@@ -34,11 +34,16 @@ class ProductDetailLabelCollectionView  : UITableViewCell {
         titleLabel.numberOfLines = numberOfLines
         titleLabel.textAlignment = align
         titleLabel.textColor = textColor
+        self.clearView(titleLabel)
         self.addSubview(titleLabel)
         
     }
     
-    
+    func clearView(view: UIView){
+        for subview in view.subviews{
+            subview.removeFromSuperview()
+        }
+    }
     
     
 }
