@@ -1273,12 +1273,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         var isSelected = false
         let details = self.facetsDetails!["itemDetails"] as? [AnyObject]
         for item in details! {
+            isSelected = false
             for selectItem in itemsSelected{
                 if item[selectItem.0] as! String == selectItem.1{
                     isSelected = true
                 }
                 else{
                     isSelected = false
+                    break
                 }
             }
             if isSelected{
