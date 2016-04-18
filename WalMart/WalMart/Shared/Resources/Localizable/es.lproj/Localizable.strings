@@ -134,7 +134,7 @@
 "list.new.keyboard.cancel" = "Cancelar";
 "list.new.keyboard.save" = "Crear";
 "list.articles" = "%@ artículos";
-"list.empty" = "Aún no has creado una Lista de Súper";
+"list.empty" = "Aún no haz creado una Lista de Súper";
 "list.search.placeholder" = "Buscar en Listas";
 "list.selector.title" = "Añadir a Lista de Súper";
 "list.selector.openDetail" = "Abrir";
@@ -173,6 +173,8 @@
 "list.message.creatingListFromTicket" = "Generando lista con productos del ticket";
 "list.message.creatingListFromTicketDone" = "Lista creada";
 "list.message.help.barcode" = "Para escanear enfoca el código de barras del ticket";
+"list.message.help.barcode.error" = "¡Ups!\n Hubo un error, \nVuelve a intentarlo más tarde.";
+
 
 "list.new.validation.name" = "El nombre de la lista no puede estar vacío.";
 "list.new.validation.name.tiny" = "El nombre de la lista es muy corto";
@@ -353,7 +355,7 @@
 //Empty
 "empty.shoppingcart" = "Tu carrito está vacío.";
 "empty.return" = "Regresar";
-"empty.orders" = "No has realizado pedidos online.";
+"empty.orders" = "No se encontraron pedidos anteriores.";
 "empty.wishlist.title" = "Tu Wishlist está vacía";
 "empty.wishlist.text" = "Toca el ícono       de cada artículo para agregarlo.";
 "empty.address" = "No hay direcciones en tu perfil.";
