@@ -179,7 +179,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
             if range.location == NSNotFound && rangeMobileIngresa.location == NSNotFound && rangeMobile.location != NSNotFound && rangeMobilePayment.location ==  NSNotFound && rangePayment.location ==  NSNotFound {
                 if !useLancaster {
-                    back()
+                    //back()
                 }
             }
             

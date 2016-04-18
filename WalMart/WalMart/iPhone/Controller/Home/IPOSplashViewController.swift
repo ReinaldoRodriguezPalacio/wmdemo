@@ -279,18 +279,18 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let caroService = CarouselService()
         let caroparams = Dictionary<String, String>()
         caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
-            print("Call service BannerService success")
+            print("Call service caroService success")
             }) { (error:NSError) -> Void in
-                print("Call service BannerService error \(error)")
+                print("Call service caroService error \(error)")
         }
 
         
-        IPOSplashViewController.updateUserData()
+        IPOSplashViewController.updateUserData(false)
     }
     
-    class func updateUserData() {
+    class func updateUserData(invokeService:Bool) {
         
-              
+        
         /*let shoppingCartUpdateBg = ShoppingCartProductsService()
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
         println("Call service ShoppingCartProductsService start")
@@ -311,20 +311,21 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         let banService = BannerService()
         let params = Dictionary<String, String>()
         banService.callService(params, successBlock: { (result:NSDictionary) -> Void in
-
+            
             }) { (error:NSError) -> Void in
                 print("Call service BannerService error \(error)")
         }
         
-        
-        let caroService = CarouselService()
-        let caroparams = Dictionary<String, String>()
-        caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
-            print("Call service BannerService success")
-            }) { (error:NSError) -> Void in
-                print("Call service BannerService error \(error)")
+        if invokeService {
+            let caroService = CarouselService()
+            let caroparams = Dictionary<String, String>()
+            caroService.callService(caroparams, successBlock: { (result:NSDictionary) -> Void in
+                print("Call service BannerService success")
+                }) { (error:NSError) -> Void in
+                    print("Call service BannerService error \(error)")
+            }
         }
-
+        
     }
     
     deinit{
