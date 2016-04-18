@@ -268,7 +268,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             let controllernav = self.currentController as? UINavigationController
             if (controllernav?.topViewController as? IPASearchProductViewController != nil){
                 controllernav?.popViewControllerAnimated(false)
-                
+
                 isEditingSearch = false
             }
             if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
@@ -293,6 +293,30 @@ class IPACustomBarViewController :  CustomBarViewController {
             }
         }
         self.btnSearch!.selected = false
+    }
+    
+    override func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
+        let controller = IPASearchProductViewController()
+        controller.searchContextType = searchContextType
+        controller.idFamily  = family == nil ? "_" :  family
+        controller.idDepartment = depto == nil ? "_" :  depto
+        controller.idLine = line == nil ? "_" :  line
+        controller.titleHeader = title
+        controller.searchFromContextType = SearchServiceFromContext.FromSearchTextSelect
+        let controllernav = self.currentController as? UINavigationController
+        if (controllernav?.topViewController as? IPASearchProductViewController != nil){
+            controllernav?.popViewControllerAnimated(false)
+            
+            isEditingSearch = false
+        }
+        if controllernav != nil {
+            if controllernav!.delegate != nil {
+                controllernav!.delegate = nil
+            }
+            controllernav?.pushViewController(controller, animated: true)
+        }
+        self.btnSearch!.selected = true
+        self.closeSearch(false, sender: nil)
     }
     
     
@@ -478,24 +502,6 @@ class IPACustomBarViewController :  CustomBarViewController {
             
         }
 
-    }
-    
-
-    
-    override func showProducts(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
-        let controller = IPASearchProductViewController()
-        controller.searchContextType = searchContextType
-        controller.idFamily  = family == nil ? "_" :  family
-        controller.idDepartment = depto == nil ? "_" :  depto
-        controller.idLine = line == nil ? "_" :  line
-        controller.titleHeader = title
-        controller.searchFromContextType = SearchServiceFromContext.FromSearchTextSelect
-        let controllernav = self.currentController as? UINavigationController
-        if (controllernav?.topViewController as? IPASearchProductViewController != nil){
-            controllernav?.popViewControllerAnimated(false)
-        }
-        controllernav?.pushViewController(controller, animated: true)
-        self.btnSearch!.selected = false
     }
 
 
