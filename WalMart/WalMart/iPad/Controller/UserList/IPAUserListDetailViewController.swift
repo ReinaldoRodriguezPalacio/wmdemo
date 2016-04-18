@@ -406,7 +406,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
                 self.alertView!.showErrorIcon("Ok")
             }else{
-                
                 let service = GRUserListService()
                 self.itemsUserList = service.retrieveUserList()
                 self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in

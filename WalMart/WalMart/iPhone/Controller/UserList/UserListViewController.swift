@@ -202,6 +202,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func duplicateList(){
         
         let indexpath = self.selectedIndex // NSIndexPath(forRow: 1, inSection: 1)
+        if self.listSelectedDuplicate == self.selectedIndex {
+            return
+        }
         self.listSelectedDuplicate = self.selectedIndex
         if indexpath != nil {
             let cell =  self.tableuserlist!.cellForRowAtIndexPath(indexpath!) as? ListTableViewCell
@@ -703,6 +706,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     )
                 }
             }
+        self.listSelectedDuplicate = NSIndexPath(forRow: 0, inSection: 0)
     }
     
     func didListChangeName(cell:ListTableViewCell, text:String?) {
@@ -1147,7 +1151,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             listCell.showLeftUtilityButtonsAnimated(false)
         }
         listCell.accessoryView = nil
-        
+        listCell.selectionStyle = .None
         return listCell
     }
     

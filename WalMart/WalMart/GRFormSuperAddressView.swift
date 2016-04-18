@@ -107,6 +107,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.zipcode!.nameField = NSLocalizedString("gr.address.field.zipcode",comment:"")
         self.zipcode!.keyboardType = UIKeyboardType.NumberPad
         self.zipcode!.inputAccessoryView = viewAccess
+        self.zipcode!.disablePaste = true
         
         self.titleLabelStore = UILabel()
         self.titleLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)

@@ -595,7 +595,6 @@
 		AC87A4091AA8CC7700165CE1 /* IPARecentProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC87A4081AA8CC7700165CE1 /* IPARecentProductsViewController.swift */; };
 		AC87F45819F6CA2C00E66D47 /* IPASignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC87F45719F6CA2C00E66D47 /* IPASignUpViewController.swift */; };
 		AC880A1919EC341A00C01920 /* FormFieldSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC880A1819EC341A00C01920 /* FormFieldSearch.swift */; };
-		AC880A1C19EC793C00C01920 /* IPANavigationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC880A1B19EC793C00C01920 /* IPANavigationViewController.swift */; };
 		AC88FA6919C9FAD6003BD859 /* FormFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA6819C9FAD6003BD859 /* FormFieldView.swift */; };
 		AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */; };
 		AC88FA7419CA3FCD003BD859 /* UIEdgeTextFieldImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */; };
@@ -1295,7 +1294,6 @@
 		AC87A4081AA8CC7700165CE1 /* IPARecentProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPARecentProductsViewController.swift; path = iPad/Controller/RecentProducts/IPARecentProductsViewController.swift; sourceTree = "<group>"; };
 		AC87F45719F6CA2C00E66D47 /* IPASignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASignUpViewController.swift; path = iPad/Controller/Profile/IPASignUpViewController.swift; sourceTree = "<group>"; };
 		AC880A1819EC341A00C01920 /* FormFieldSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormFieldSearch.swift; path = Shared/View/Field/FormFieldSearch.swift; sourceTree = "<group>"; };
-		AC880A1B19EC793C00C01920 /* IPANavigationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPANavigationViewController.swift; path = iPad/Controller/Navigation/IPANavigationViewController.swift; sourceTree = "<group>"; };
 		AC88FA6819C9FAD6003BD859 /* FormFieldView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormFieldView.swift; path = Shared/View/Field/FormFieldView.swift; sourceTree = "<group>"; };
 		AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextField.swift; path = Shared/View/Field/UIEdgeTextField.swift; sourceTree = "<group>"; };
 		AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextFieldImage.swift; path = Shared/View/Field/UIEdgeTextFieldImage.swift; sourceTree = "<group>"; };
@@ -2422,7 +2420,6 @@
 			isa = PBXGroup;
 			children = (
 				5688470619E8775A00D5C45D /* IPACustomBarViewController.swift */,
-				AC880A1B19EC793C00C01920 /* IPANavigationViewController.swift */,
 				8B2F2F7B1AA7C3F7003B1336 /* IPAMoreOptionsViewController.swift */,
 			);
 			name = Navigation;
@@ -4025,7 +4022,6 @@
 				04678D031A48D0B900190685 /* GRCategoryService.swift in Sources */,
 				5670FFF31A532BD000C29A5E /* IPOGRDepartmentSpecialTableViewCell.swift in Sources */,
 				85A40B931C223AE40036C78A /* Result.swift in Sources */,
-				AC880A1C19EC793C00C01920 /* IPANavigationViewController.swift in Sources */,
 				5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */,
 				56253D8919D211A5002E128A /* OrderDetailViewController.swift in Sources */,
 				565E5A7219C0BD8300444DF7 /* User.swift in Sources */,
