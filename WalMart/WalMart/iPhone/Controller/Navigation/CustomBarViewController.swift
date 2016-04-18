@@ -35,6 +35,7 @@ enum CustomBarNotification : String {
     
     case ShowGRLists = "kShowGRLists"
     case TapBarFinish = "kTapBarFinish"
+    case ShowHomeSelected = "kShowHomeSelected"
     
 }
 

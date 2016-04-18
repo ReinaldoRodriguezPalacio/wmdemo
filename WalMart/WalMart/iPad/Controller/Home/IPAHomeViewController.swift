@@ -18,8 +18,8 @@ class IPAHomeViewController : HomeViewController {
         collection.registerClass(IPABannerCollectionViewCell.self, forCellWithReuseIdentifier: "iPABannerHome")
         collection.registerClass(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: "iPACategoryHome")
         collection.registerClass(IPAProductHomeCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductHome")
-
-
+        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHomeSelected.rawValue, object: nil)
     }
     
     override func showPleca(){
