@@ -157,10 +157,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     func backButton () {
         if  self.navigationController != nil {
-            if self.pagerController != nil && self.pagerController!.pageController!.viewControllers!.count > 1{
-                self.navigationController!.delegate = self.pagerController
-            }else{//Se agrega para no dejar la pagina de atras en blanco
-                self.navigationController!.delegate = self.pagerController
+            let viewControllers = self.navigationController!.viewControllers.count
+            if !(viewControllers > 1 &&  self.navigationController!.viewControllers[viewControllers - 2].isKindOfClass(IPAProductDetailPageViewController)){
+               self.navigationController!.delegate = self.pagerController
             }
             self.navigationController!.popViewControllerAnimated(true)
         }

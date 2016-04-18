@@ -358,7 +358,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Sin tienda ￼" && UserCurrentSession.sharedInstance().addressId == nil {
+        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance().addressId == nil {
             let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,288,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
@@ -418,7 +418,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
             var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance().storeName == "" {
-                 boldString = NSMutableAttributedString(string:"Sin tienda ", attributes:attrs)
+                 boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
             }
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.adjustsFontSizeToFitWidth = true

@@ -51,15 +51,15 @@ class ProductDetailNavigatinAnimationController : NSObject, UIViewControllerAnim
             //Add 'to' view to the hierarchy with 0.0 scale
             if let productViewController = toViewController as? IPAProductDetailPageViewController {
                 imageTranslate.frame = originPoint
-                self.imageTranslate.alpha = 1.0
-                productViewController.view.alpha = 0.0
+                self.imageTranslate.alpha = 0.0
+                productViewController.view.alpha = 1.0
                 //toViewController!.view.frame = originPoint
                 //toViewController!.view.transform = CGAffineTransformMakeScale(0.2, 0.2);
                 containerView!.insertSubview(productViewController.view, aboveSubview:fromViewController!.view)
                 UIView.animateWithDuration(transitionDuration(transitionContext), animations: { () -> Void in
                     fromViewController!.view.alpha = 0.0
                     //toViewController!.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                    self.imageTranslate.frame = CGRectMake(0, 58, 682, 354)
+                    self.imageTranslate.frame = CGRectMake(0, 60, 682, 340)
                     //toViewController!.view.frame = containerView.frame
                     }, completion: { (complete:Bool) -> Void in
                         UIView.animateWithDuration(0.3, animations: { () -> Void in

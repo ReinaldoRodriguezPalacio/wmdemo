@@ -56,6 +56,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
     }*/
     
     func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
         if animationController != nil {
         switch (operation) {
         case UINavigationControllerOperation.Push:

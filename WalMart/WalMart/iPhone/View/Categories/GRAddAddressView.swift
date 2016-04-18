@@ -94,7 +94,6 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     }
     
     func textModify(sender: UITextField!) {
-        self.sAddredssForm!.removeErrorLog()
         if let zipCode = sender as? FormFieldView{
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode {
                 self.sAddredssForm!.suburb!.text = ""
