@@ -14,7 +14,7 @@ class NotificationTableViewCell : UITableViewCell {
     var dateLabel : UILabel? = nil
     var hourLabel : UILabel? = nil
     var descLabel : UILabel? = nil
-    
+    var line: CALayer!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -39,17 +39,23 @@ class NotificationTableViewCell : UITableViewCell {
         hourLabel?.textAlignment = .Right
         self.addSubview(hourLabel!)
         
-        descLabel = UILabel (frame: CGRectMake(16, hourLabel!.frame.maxY + 8, 300, 40))
+        descLabel = UILabel (frame: CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40))
         descLabel?.textColor = WMColor.gray
         descLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         descLabel?.numberOfLines = 3
         self.addSubview(descLabel!)
+        
+        line = CALayer()
+        line.backgroundColor = WMColor.light_light_gray.CGColor
+        self.layer.insertSublayer(line, atIndex: 0)
         
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         hourLabel?.frame =  CGRectMake(self.frame.width - 51, 16, 35, 16)
+        line.frame = CGRectMake(0,self.frame.maxY - 1,self.frame.width, 1)
+
     }
     
 }

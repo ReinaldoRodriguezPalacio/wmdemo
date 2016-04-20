@@ -481,18 +481,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         //return true
     }
     func handleURLFacebook(url: NSURL,sourceApplication:String){
-         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
+        let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
+        let stringCompare = parsedUrl.targetURL.absoluteString as NSString
+        let rangeEnd = stringCompare.rangeOfString("walmartmexicoapp://")
         
-        if (parsedUrl.appLinkData != nil) {
-            // this is an applink url, handle it here
-        var targetUrl:NSURL =  parsedUrl.targetURL
-           UIAlertView(title: "Received link:",
-                message:targetUrl.absoluteString, delegate: nil,
-                cancelButtonTitle: "ok").show()
-            
-      
+        if rangeEnd.location != NSNotFound {
+            if (parsedUrl.appLinkData != nil) {
+                
+               
+                let targetUrl:NSURL =  parsedUrl.targetURL
+                NSLog("targetUrl::\(targetUrl)")
+                
+                let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
+                var components = strAction.componentsSeparatedByString("_")
+                
+                if let customBar = self.window!.rootViewController as? CustomBarViewController {
+                    let cmpStr  = components[0]
+                    let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                    //TODO validar como llegara los links
+                    customBar.handleNotification("UPC",name:"",value:strValue,bussines:"mg")
+                }
+                //TODO quitar en produccion 
+                UIAlertView(title: "Received link:",
+                    message:targetUrl.absoluteString, delegate: nil,
+                    cancelButtonTitle: "ok").show()
+                
+                
+            }
         }
-    
+        
     }
     
     

@@ -52,6 +52,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 self.notification.dataSource = self
                 self.notification.delegate = self
                 self.notification.reloadData()
+                self.notification.separatorStyle = .None
                 self.view.addSubview(self.notification)
             }
 
@@ -88,7 +89,6 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         cell.descLabel?.text = message
         cell.dateLabel?.text = date
         cell.hourLabel?.text = hour
-        
         
         return cell
     }
