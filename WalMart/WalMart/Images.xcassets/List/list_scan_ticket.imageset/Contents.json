@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "list_scan_ticket.png"
+      "filename" : "ticket_scan.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "list_scan_ticket@2x.png"
+      "filename" : "ticket_scan@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

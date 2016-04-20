@@ -84,7 +84,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
         imagePresale.hidden = !isPreorderable
-
+        imagePresale.frame = CGRectMake(-1, 0, imagePresale.frame.width, imagePresale.frame.height)
         
         if isPreorderable {
             if IS_IPHONE {

@@ -75,10 +75,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.view.backgroundColor = WMColor.light_light_gray
         
-        viewShoppingCart = UITableView(frame:CGRectMake(0, 46 , self.viewContent.frame.width, viewContent.frame.height - 0 - 46))
+        viewShoppingCart = UITableView(frame:CGRectMake(0, 46 , self.viewContent.frame.width, viewContent.frame.height - 46))
         viewShoppingCart.clipsToBounds = false
         viewShoppingCart.backgroundColor =  WMColor.light_light_gray
-        self.navigationController?.view.clipsToBounds = true
+        //self.navigationController?.view.clipsToBounds = true
         self.view.backgroundColor = UIColor.clearColor()
         self.view.clipsToBounds = true
         
@@ -238,7 +238,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         self.viewContent.frame = self.view.bounds
         self.viewFooter.frame = CGRectMake(0, viewContent.frame.height - 72 , self.viewContent.frame.width, 72)
-        self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.viewContent.frame.width, viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
+        self.viewShoppingCart.frame =  CGRectMake(0, self.viewHerader.frame.maxY , self.view.bounds.width, viewContent.frame.height - self.viewFooter.frame.height - self.viewHerader.frame.maxY)
 
         self.titleView.frame = CGRectMake((self.viewHerader.bounds.width / 2) - ((self.view.bounds.width - 32)/2), self.viewHerader.bounds.minY, self.view.bounds.width - 32, self.viewHerader.bounds.height)
 
@@ -381,7 +381,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             cellProduct.delegateProduct = self
             cellProduct.delegate = self
             cellProduct.rightUtilityButtons = getRightButtonDelete()
-            cellProduct.leftUtilityButtons = getLeftDelete()
+            cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
             let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
@@ -500,7 +500,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func getRightButtonDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
+        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 80, 109))
         buttonDelete.setTitle(NSLocalizedString("wishlist.delete",comment:""), forState: UIControlState.Normal)
         buttonDelete.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         buttonDelete.backgroundColor = WMColor.red
@@ -512,7 +512,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func getLeftDelete() -> [UIButton] {
         var toReturn : [UIButton] = []
         
-        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 64, 109))
+        let buttonDelete = UIButton(frame: CGRectMake(0, 0, 36, 109))
         buttonDelete.setImage(UIImage(named:"myList_delete"), forState: UIControlState.Normal)
         buttonDelete.backgroundColor = WMColor.light_gray
         toReturn.append(buttonDelete)

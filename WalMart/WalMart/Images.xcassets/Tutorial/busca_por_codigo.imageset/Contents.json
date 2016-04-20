@@ -6,8 +6,8 @@
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "busca_por_codigo@2x-1.png"
+      "filename" : "busca_por_codigo@2x-1.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -21,13 +21,13 @@
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "busca_por_codigo.png"
+      "filename" : "busca_por_codigo.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "busca_por_codigo@2x-2.png"
+      "filename" : "busca_por_codigo@2x-2.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

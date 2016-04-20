@@ -6,8 +6,8 @@
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "consulta_pedidos_articulos@2x.png"
+      "filename" : "consulta_pedidos_articulos@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -21,13 +21,13 @@
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "consultar_articulos_pedidos.png"
+      "filename" : "consultar_articulos_pedidos.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "consulta_articulos_pedidos@2x.png"
+      "filename" : "consulta_articulos_pedidos@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
