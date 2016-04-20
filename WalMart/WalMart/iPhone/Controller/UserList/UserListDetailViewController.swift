@@ -552,6 +552,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.openEmpty = true
         let bounds = self.view.bounds
         let height = bounds.size.height - self.header!.frame.height
+        self.emptyView?.removeFromSuperview()
         if UserCurrentSession.hasLoggedUser() {
             self.emptyView = UIView(frame: CGRectMake(0.0, self.header!.frame.maxY + 64, bounds.width, height))
         }else{
@@ -608,7 +609,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.emptyView!.alpha = 0.0
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
-                        self.emptyView!.removeFromSuperview()
+                        self.emptyView?.hidden = true
+                        self.emptyView?.removeFromSuperview()
                         self.emptyView = nil
                     }
                 }
@@ -974,6 +976,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 if self.products == nil || self.products!.count == 0 {
                     self.editBtn!.hidden = true
                     self.deleteAllBtn!.hidden = true
+                    self.isEdditing = true
+                    self.showEditionMode()
                     self.showEmptyView()
                 }
                 else {
@@ -1018,6 +1022,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             if self.products == nil || self.products!.count == 0 {
                                 self.editBtn!.hidden = true
                                 self.deleteAllBtn!.hidden = true
+                                self.isEdditing = true
+                                self.showEditionMode()
                                 self.showEmptyView()
                             } else {
                                 self.editBtn!.hidden = false
@@ -1174,7 +1180,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.products == nil || self.products!.count == 0 {
             self.editBtn!.hidden = true
             self.deleteAllBtn!.hidden = true
+            self.isEdditing = true
+            self.showEditionMode()
             self.showEmptyView()
+            
         } else {
             self.editBtn!.hidden = false
             self.deleteAllBtn!.hidden = false

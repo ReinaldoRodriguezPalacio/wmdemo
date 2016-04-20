@@ -473,14 +473,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
        
         Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         
-        let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
-        
+        handleURLFacebook(url,sourceApplication:sourceApplication!)
         
         
         handleURL(url)
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         //return true
     }
+    func handleURLFacebook(url: NSURL,sourceApplication:String){
+         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
+        
+        if (parsedUrl.appLinkData != nil) {
+            // this is an applink url, handle it here
+        var targetUrl:NSURL =  parsedUrl.targetURL
+           UIAlertView(title: "Received link:",
+                message:targetUrl.absoluteString, delegate: nil,
+                cancelButtonTitle: "ok").show()
+            
+      
+        }
+    
+    }
+    
     
     
     func handleURL(url: NSURL){
