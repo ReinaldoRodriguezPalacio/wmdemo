@@ -215,23 +215,14 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             return
         }
         isShared = true
-
-        if let image = self.buildImageToShare() {
             
-            
-            //Event
-            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_SHARELIST.rawValue,
-//                    label: self.listName,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
-            
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+        if let image = self.tableView!.screenshot() {
+            let imageHead = UIImage(named:"detail_HeaderMail")
+            let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
-            //self.sharePopover!.backgroundColor = UIColor.greenColor()
+                //self.sharePopover!.backgroundColor = UIColor.greenColor()
             let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
             self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
         }

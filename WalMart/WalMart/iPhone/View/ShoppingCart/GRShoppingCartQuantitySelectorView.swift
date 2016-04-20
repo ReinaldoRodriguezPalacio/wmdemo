@@ -126,8 +126,6 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnNoteComplete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         btnNoteComplete.alpha = 0
         
-
-        
         self.addSubview(self.backgroundView!)
         self.addSubview(lblTitle)
         self.addSubview(lblQuantity)
@@ -136,10 +134,6 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         self.addSubview(keyboard)
         self.addSubview(btnNote)
         self.addSubview(btnNoteComplete)
-        
-        
-        
-        
     }
     
     func updateOrAddNote() {
@@ -223,7 +217,8 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         var resultText : NSString = ""
         
         if first {
-            let tmpResult : NSString = "0\(value)"
+            var tmpResult : NSString = value
+            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" : value
             if tmpResult != "00"{
             lblQuantity.text = tmpResult as String
                 first = false
