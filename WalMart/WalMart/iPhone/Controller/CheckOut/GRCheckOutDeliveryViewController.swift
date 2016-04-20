@@ -477,7 +477,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         sAddredssForm = FormSuperAddressView(frame: CGRectMake(scrollForm.frame.minX, 0, scrollForm.frame.width, 700))
         sAddredssForm.allAddress = self.addressItems
         sAddredssForm.idAddress = ""
+        self.picker!.closeButton!.hidden =  true
         if !self.selectedAddressHasStore{
+            self.picker!.closeButton!.hidden =  false
             let serviceAddress = GRAddressesByIDService()
             serviceAddress.addressId = self.selectedAddress!
             serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
@@ -498,7 +500,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-        self.picker!.closeButton!.hidden =  true
+       
         return scrollForm
         
         

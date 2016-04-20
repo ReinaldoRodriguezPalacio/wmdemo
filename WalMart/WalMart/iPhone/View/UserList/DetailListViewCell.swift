@@ -34,6 +34,7 @@ class DetailListViewCell: ProductTableViewCell {
     var upcVal: String? = ""
     
     var defaultList = true
+    var hasStock:Bool = true
     
     
     override func setup() {
@@ -59,7 +60,6 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator = UIButton(type: .Custom)
         self.quantityIndicator!.setTitle("", forState: .Normal)
         self.quantityIndicator!.setTitle(NSLocalizedString("productdetail.shopna",comment:""), forState: UIControlState.Disabled)
-        self.quantityIndicator!.setTitleColor(WMColor.light_blue, forState: UIControlState.Disabled)
         self.quantityIndicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.quantityIndicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14.0)
         self.quantityIndicator!.backgroundColor = WMColor.yellow
@@ -165,14 +165,17 @@ class DetailListViewCell: ProductTableViewCell {
         
         
        
+        checkDisabled(disabled)
         
         if let stock = product["stock"] as? NSString {
             if stock.integerValue == 0 {
                 self.quantityIndicator!.enabled = false
                 self.quantityIndicator!.backgroundColor = WMColor.light_gray
+                self.hasStock = false
             } else {
                 self.quantityIndicator!.enabled = true
                 self.quantityIndicator!.backgroundColor = WMColor.yellow
+                self.hasStock = true
             }
         }
         
@@ -180,15 +183,13 @@ class DetailListViewCell: ProductTableViewCell {
             if stock {
                 self.quantityIndicator!.enabled = true
                 self.quantityIndicator!.backgroundColor = WMColor.yellow
+                self.hasStock = true
             } else {
                 self.quantityIndicator!.enabled = false
                 self.quantityIndicator!.backgroundColor = WMColor.light_gray
+                self.hasStock = false
             }
         }
-         checkDisabled(disabled)
-        
-
-        
     }
     
     func setValues(product:Product,disabled:Bool) {
@@ -336,15 +337,25 @@ class DetailListViewCell: ProductTableViewCell {
             self.productShortDescriptionLabel?.textColor = WMColor.empty_gray_btn
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color:WMColor.empty_gray_btn, interLine: false)
             self.productImage!.image = imageGrayScale
-            self.quantityIndicator?.backgroundColor = WMColor.empty_gray_btn
+            self.quantityIndicator?.backgroundColor = WMColor.light_gray
             self.promoDescription?.textColor = WMColor.empty_gray_btn
         } else {
             self.productShortDescriptionLabel!.textColor = WMColor.gray
             self.productPriceLabel!.updateMount(self.total!, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
             self.productImage!.image = imageNormal
-            self.quantityIndicator!.backgroundColor = WMColor.yellow
+            self.quantityIndicator!.backgroundColor = self.hasStock ? WMColor.yellow : WMColor.light_gray
             self.promoDescription?.textColor = WMColor.green
         }
+    }
+    
+    override func showLeftUtilityButtonsAnimated(animated: Bool) {
+        super.showLeftUtilityButtonsAnimated(animated)
+        self.check?.alpha = 0.0
+    }
+    
+    override func hideUtilityButtonsAnimated(animated: Bool) {
+        super.hideUtilityButtonsAnimated(animated)
+        self.check?.alpha = 1.0
     }
 
 }

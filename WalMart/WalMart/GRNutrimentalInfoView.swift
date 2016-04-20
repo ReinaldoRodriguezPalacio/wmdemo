@@ -76,20 +76,25 @@ class GRNutrimentalInfoView : UIView {
                     viewItem.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.1)
                 }
                 white = !white
+                
+                let nutArray = nutItem.componentsSeparatedByString(":")
 
                 let leftLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
                 leftLabel.textAlignment = .Left
                 leftLabel.textColor = UIColor.whiteColor()
                 leftLabel.font = WMFont.fontMyriadProSemiboldOfSize(14)
-                leftLabel.text = nutItem
+                leftLabel.text = "\(nutArray[0]):"
                 
-//                let rigthLabel = UILabel(frame: CGRectMake(0, 0, self.frame.width, 20))
-//                rigthLabel.textAlignment = .Left
-//                rigthLabel.textColor = UIColor.whiteColor()
-//                rigthLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+                if nutArray.count > 1 {
+                    let rigthLabel = UILabel(frame: CGRectMake(16, 0, self.frame.width - 32, 20))
+                    rigthLabel.textAlignment = .Right
+                    rigthLabel.textColor = UIColor.whiteColor()
+                    rigthLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+                    rigthLabel.text = nutArray[1]
+                    viewItem.addSubview(rigthLabel)
+                }
                 
                 viewItem.addSubview(leftLabel)
-//                viewItem.addSubview(rigthLabel)
                 startPointY = startPointY + 20
                 
                 self.scrollView.addSubview(viewItem)

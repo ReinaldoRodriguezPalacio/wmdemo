@@ -12,7 +12,7 @@ struct WMColor {
     //Color palette
     static var dark_gray: UIColor{return UIColorFromRGB(0x525A66)}
     static var gray: UIColor{return UIColorFromRGB(0x787F88)}
-    static var empty_gray: UIColor{return UIColorFromRGB(0x787F88)}
+    static var empty_gray: UIColor{return UIColorFromRGB(0xB8B8C0)}
     static var empty_gray_btn: UIColor{return UIColorFromRGB(0xDCDCDF)}
     static var light_gray: UIColor{return UIColorFromRGB(0xEDEDEE)}
     static var light_light_gray: UIColor{return UIColorFromRGB(0xF8F7F7)}

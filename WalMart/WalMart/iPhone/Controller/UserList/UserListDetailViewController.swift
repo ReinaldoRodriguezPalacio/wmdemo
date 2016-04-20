@@ -291,9 +291,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK: - Actions
     
     func showEditionMode() {
-        
-        
-        
         if !self.isEdditing {
             
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
