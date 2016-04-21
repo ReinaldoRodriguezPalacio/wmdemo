@@ -88,6 +88,9 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     func textFieldDidEndEditing(sender: UITextField!) {
         if let zipCode = sender as? FormFieldView{
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{
+                let xipStr = self.sAddredssForm!.zipcode.text! as NSString
+                let textZipcode = String(format: "%05d",xipStr.integerValue)
+                self.sAddredssForm!.zipcode.text = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
                 self.sAddredssForm!.store.becomeFirstResponder()
             }
         }
@@ -104,7 +107,8 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{
                 if self.sAddredssForm!.zipcode.text!.utf16.count > 0 {
                     let xipStr = self.sAddredssForm!.zipcode.text! as NSString
-                    self.sAddredssForm!.zipcode.text = String(format: "%05d",xipStr.integerValue)
+                    let textZipcode = String(format: "%05d",xipStr.integerValue)
+                    self.sAddredssForm!.zipcode.text = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
                     self.sAddredssForm!.store.becomeFirstResponder()
                 }
             }

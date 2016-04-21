@@ -374,12 +374,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             return
         }
         
-      
-            self.tableView!.setContentOffset(CGPoint.zero , animated: false)
+        self.tableView!.setContentOffset(CGPoint.zero , animated: false)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_SHARE.rawValue , label: "")
         
         if let image = self.tableView!.screenshot() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let imageHead = UIImage(named:"detail_HeaderMail")
+            let imgResult = UIImage.verticalImageFromArray([imageHead!,image])
+            let controller = UIActivityViewController(activityItems: [imgResult], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
         }
         
