@@ -350,9 +350,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.navigationController?.pushViewController(vc, animated: true)
                 }
             }else{*/
-                
-                let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(0, 360, 320, 0))
-                addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(0, 312, 320, 360))
+                let frameWishListbtn = self.view.convertRect(self.view.frame, fromView:self.productDetailButton?.listButton)
+                let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(0, frameWishListbtn.origin.y - 48, 320, 0))
+                addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(0, frameWishListbtn.origin.y, 320, 360))
                 
                 addedAlertWL.clipsToBounds = true
                 addedAlertWL.imageBlurView.frame = CGRectMake(0, -312, 320, 360)
@@ -368,11 +368,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.view.addSubview(addedAlertWL)
                         self.isWishListProcess = false
                         UIView.animateWithDuration(0.3, animations: { () -> Void in
-                            addedAlertWL.frame = CGRectMake(0, 312, 320, 48)
+                            
+                            addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48 , 320, 48)
                             addedAlertWL.prepareToClose()
                             self.gestureCloseDetail.enabled = false
                             self.detailCollectionView.scrollEnabled = true
                         })
+                        
                         
                         }) { (error:NSError) -> Void in
                             self.isWishListProcess = false
@@ -381,7 +383,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
                                 UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRectMake(0, 312, 320, 48)
+                                    addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48, 320 , 48)
                                     addedAlertWL.prepareToClose()
                                     self.gestureCloseDetail.enabled = false
                                     self.detailCollectionView.scrollEnabled = true
@@ -396,7 +398,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                         self.view.addSubview(addedAlertWL)
                         self.isWishListProcess = false
                         UIView.animateWithDuration(0.3, animations: { () -> Void in
-                            addedAlertWL.frame = CGRectMake(0, 312, 320, 48)
+                            addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48, 320, 48)
                             addedAlertWL.prepareToClose()
                             self.gestureCloseDetail.enabled = false
                             self.detailCollectionView.scrollEnabled = true
@@ -413,7 +415,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                                 addedAlertWL.textView.text = NSLocalizedString("conection.error",comment:"")
                                 self.view.addSubview(addedAlertWL)
                                 UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                    addedAlertWL.frame = CGRectMake(0, 312, 320, 48)
+                                    addedAlertWL.frame = CGRectMake(0, frameWishListbtn.origin.y - 48, 320, 48)
                                     addedAlertWL.prepareToClose()
                                     self.gestureCloseDetail.enabled = false
                                     self.detailCollectionView.scrollEnabled = true
@@ -444,12 +446,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.detailCollectionView.scrollEnabled = false
         gestureCloseDetail.enabled = true
-        if  self.detailCollectionView.contentOffset.y != 0.0 {
+        //if  self.detailCollectionView.contentOffset.y != 0.0 {
             //self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.tabledetail.frame.width,  self.tabledetail.frame.height ), animated: true)
-        } else {
-            if addOrRemoveToWishListBlock != nil {
-                addOrRemoveToWishListBlock!()
-            }
+        //}
+        if addOrRemoveToWishListBlock != nil {
+            addOrRemoveToWishListBlock!()
         }
     }
     

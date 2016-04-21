@@ -44,7 +44,7 @@ class WishlistAddProductStatus : UIView {
     
     func closeStatus() {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.frame = CGRectMake(self.frame.minX, 360, self.frame.width, 0)
+            self.frame = CGRectMake(self.frame.minX, self.frame.origin.y, self.frame.width, 0)
             }) { (complete:Bool) -> Void in
             self.removeFromSuperview()
         }

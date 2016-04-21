@@ -157,9 +157,15 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_HIDE_HIGHLIGHTS.rawValue, label: "")
         }
         self.categoriesTable.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
-        
+      
     }
 
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        categoriesTable.contentInset = UIEdgeInsets(top: 0, left: 0, bottom:0 , right:0 )
+    }
+ 
+    
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         

@@ -115,7 +115,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             let formatedSaving = CurrencyCustomLabel.formatString(totalSavings)
             let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
             let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
-            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.gray, interLine: false)
+            productPriceSavingLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
             productPriceSavingLabel.hidden = false
         }else{
             self.savingProduct = 0

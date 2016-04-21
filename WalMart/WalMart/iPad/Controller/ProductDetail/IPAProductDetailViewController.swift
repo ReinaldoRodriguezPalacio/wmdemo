@@ -923,10 +923,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         //gestureCloseDetail.enabled = true
         if  self.tabledetail.contentOffset.y != 0.0 {
             self.tabledetail.scrollRectToVisible(CGRectMake(0, 0, self.tabledetail.frame.width,  self.tabledetail.frame.height ), animated: true)
-        } else {
-            if addOrRemoveToWishListBlock != nil {
-                addOrRemoveToWishListBlock!()
-            }
+        }
+        if addOrRemoveToWishListBlock != nil {
+            addOrRemoveToWishListBlock!()
         }
         
         
