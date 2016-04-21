@@ -187,6 +187,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             self.btnSearch!.alpha = 1.0
             self.btnSearch!.frame = CGRectMake(0,self.btnSearch!.frame.minY,self.btnSearch!.frame.width,self.btnSearch!.frame.height)
             self.searchView = nil
+            self.btnSearch!.selected = false
         }
         
         UIView.animateWithDuration(0.2, animations: { () -> Void in

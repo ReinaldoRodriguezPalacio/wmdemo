@@ -54,6 +54,7 @@ class NotificationTableViewCell : UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         hourLabel?.frame =  CGRectMake(self.frame.width - 51, 16, 35, 16)
+         descLabel!.frame = CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40)
         line.frame = CGRectMake(0,self.frame.maxY - 1,self.frame.width, 1)
 
     }
