@@ -163,7 +163,7 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             service.callService(requestParams: dictSend, successBlock: { (result:NSDictionary) -> Void in
                 UserCurrentSession.sharedInstance().getStoreByAddress(address)  
                 service.callService(requestParams: dictSendpreferred, successBlock: { (result:NSDictionary) -> Void in
-                    self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.")
+                    self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.\n\n Únicamente se mostrarán los productos disponibles de esta tienda.")
                     self.alertView?.showDoneIconWithoutClose()
                     self.alertView?.showOkButton("Ok", colorButton: WMColor.green)
                     self.onClose?()

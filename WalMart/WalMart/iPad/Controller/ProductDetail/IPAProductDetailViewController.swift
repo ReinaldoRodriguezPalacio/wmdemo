@@ -840,7 +840,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     self.isShowProductDetail = false
                     self.productDetailButton!.deltailButton.selected = false
                     self.tabledetail.scrollEnabled = true
-                    self.productDetailButton!.listButton.selected = false
+                    self.productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
                     self.listSelectorController = nil
                     self.listSelectorBackgroundView = nil
                     
