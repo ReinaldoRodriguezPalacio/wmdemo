@@ -350,7 +350,6 @@ class IPACustomBarViewController :  CustomBarViewController {
         if index == 2 {
             sender.selected = !isOpenWishlist
             if !self.isOpenWishlist {
-                self.isOpenWishlist = true
                 if self.viewBgWishlist == nil {
                     self.viewBgWishlist = UIView(frame: self.currentController!.view.bounds)
                     self.viewBgWishlist.userInteractionEnabled = true
@@ -383,6 +382,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     self.viewBgWishlist.alpha = 1
                     self.currentController?.view.addSubview(self.viewBgWishlist)
                     self.currentController?.view.bringSubviewToFront(self.vcWishlist.view)
+                    self.isOpenWishlist = true
                     self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
                 })
             }
@@ -447,15 +447,13 @@ class IPACustomBarViewController :  CustomBarViewController {
     
    
     func closeWishList() {
-        isOpenWishlist = false
-        self.buttonList[2].selected = isOpenWishlist
+
+        self.buttonList[2].selected = !isOpenWishlist
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             if  self.vcWishlist != nil {
                 self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
                 self.viewBgWishlist.alpha = 0
-                
-                
-                self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
+                self.buttonList[self.selectedBeforeWishlistIx].selected = self.isOpenWishlist
             }
             }, completion: { (complete:Bool) -> Void in
                 if  self.vcWishlist != nil {
@@ -464,6 +462,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     self.vcWishlist.removeFromParentViewController()
                     self.viewBgWishlist.removeFromSuperview()
                     self.vcWishlist = nil
+                    self.isOpenWishlist = false
                 }
         })
     }

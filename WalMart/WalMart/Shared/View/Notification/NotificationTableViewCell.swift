@@ -47,7 +47,7 @@ class NotificationTableViewCell : UITableViewCell {
         
         line = CALayer()
         line.backgroundColor = WMColor.light_light_gray.CGColor
-        self.layer.insertSublayer(line, atIndex: 0)
+        self.layer.insertSublayer(line, atIndex: 1000)
         
     }
     

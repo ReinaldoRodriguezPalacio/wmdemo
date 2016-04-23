@@ -37,6 +37,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         super.setup()
         
         self.productPriceThroughLabel = CurrencyCustomLabel(frame: CGRectZero)
+        self.productPriceThroughLabel?.textAlignment = .Center
         
         self.productShortDescriptionLabel!.textColor = WMColor.gray
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
@@ -62,7 +63,7 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.productShortDescriptionLabel!.frame = CGRectMake(50, 16, self.frame.width - 100 , 28)
         self.productImage!.frame = CGRectMake((self.frame.width / 2) - (162 / 2), self.productShortDescriptionLabel!.frame.maxY + 8 , 162, 114)
         self.productPriceLabel!.frame = CGRectMake(0, self.productImage!.frame.maxY + 8, self.bounds.width , 16)
-        self.productPriceThroughLabel!.frame = CGRectMake(0, self.productPriceThroughLabel!.frame.maxY , self.bounds.width , 16)
+        self.productPriceThroughLabel!.frame = CGRectMake(0, self.productPriceLabel!.frame.maxY , self.bounds.width , 16)
         self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 66,self.productImage!.frame.maxY + 8 , 66 , 34)
         
         //Ale
@@ -75,8 +76,17 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
 
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isEditting:Bool,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool ) {
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
-        //let formatedPrice = CurrencyCustomLabel.formatString(productPriceThrough)
-        //productPriceThroughLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.priceProductTextColor, interLine: false)
+        
+        if (productPriceThrough as NSString).doubleValue > 0 {
+            let formatedSaving = CurrencyCustomLabel.formatString(productPriceThrough)
+            let ahorrasLabel = NSLocalizedString("price.saving",comment:"")
+            let finalSavingLabel = "\(ahorrasLabel) \(formatedSaving)"
+            productPriceThroughLabel!.updateMount(finalSavingLabel, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
+            productPriceThroughLabel!.hidden = false
+        }else{
+            productPriceThroughLabel!.hidden = true
+        }
+        
         imagePresale.hidden = !isPreorderable
 
         self.upc = upc
