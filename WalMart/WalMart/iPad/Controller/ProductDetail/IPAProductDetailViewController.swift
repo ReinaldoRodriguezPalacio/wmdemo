@@ -973,7 +973,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 var filteredKeys = keys.filter(){
                     return ($0 as String) != "itemDetails"
                 }
-                filteredKeys = filteredKeys.sort()
+                filteredKeys = filteredKeys.sort({
+                    if $0 == "Color" {
+                        return true
+                    } else {
+                        return  $0 < $1
+                    }
+                })
                 if self.facetsDetails?.count > 1 {
                     if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
                         self.colorItems = colors
@@ -1337,7 +1343,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         var filteredKeys = keys.filter(){
             return ($0 as String) != "itemDetails"
         }
-        filteredKeys = filteredKeys.sort()
+        filteredKeys = filteredKeys.sort({
+            if $0 == "Color" {
+                return true
+            } else {
+                return  $0 < $1
+            }
+        })
         if self.colorItems.count != 0 && self.sizeItems.count != 0 {
             detailOrderCount = 2
         }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {

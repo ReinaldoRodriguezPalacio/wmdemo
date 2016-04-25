@@ -716,7 +716,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     var filteredKeys = keys.filter(){
                         return ($0 as String) != "itemDetails"
                     }
-                    filteredKeys = filteredKeys.sort()
+                    filteredKeys = filteredKeys.sort({
+                        if $0 == "Color" {
+                            return true
+                        } else {
+                            return  $0 < $1
+                        }
+                    })
                     if self.facetsDetails?.count > 1 {
                         if let colors = self.facetsDetails![filteredKeys.first!] as? [AnyObject]{
                             self.colorItems = colors
@@ -1200,6 +1206,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
+            var count = 0
             for detail in details{
                 let label = detail["description"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
@@ -1210,6 +1217,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 }
                 facetsDetails[label] = values
                 itemDetail[label] = detail["unit"] as? String
+                count += 1
             }
             var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
             if detailsValues == nil{ detailsValues = []}
@@ -1272,7 +1280,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         var filteredKeys = keys.filter(){
             return ($0 as String) != "itemDetails"
         }
-        filteredKeys = filteredKeys.sort()
+        filteredKeys = filteredKeys.sort({
+            if $0 == "Color" {
+              return true
+            } else {
+               return  $0 < $1
+            }
+           
+        })
         if self.colorItems.count != 0 && self.sizesItems.count != 0 {
              detailOrderCount = 2
         }else if self.colorItems.count != 0 && self.sizesItems.count == 0 {
