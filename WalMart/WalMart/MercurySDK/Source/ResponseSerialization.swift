@@ -29,11 +29,10 @@ import Foundation
 */
 public protocol ResponseSerializerType {
     /// The type of serialized object to be created by this `ResponseSerializerType`.
-    associatedtype SerializedObject
+    typealias SerializedObject
 
     /// The type of error to be created by this `ResponseSerializer` if serialization fails.
-    associatedtype ErrorObject: ErrorType
-
+    typealias ErrorObject: ErrorType
     /**
         A closure used by response handlers that takes a request, response, data and error and returns a result.
     */

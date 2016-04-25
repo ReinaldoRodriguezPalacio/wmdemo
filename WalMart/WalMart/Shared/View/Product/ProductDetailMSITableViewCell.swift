@@ -28,6 +28,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
     func setup() {
         
         descLabel = UILabel()
+       
         descLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         descLabel.textColor = WMColor.gray
         descLabel.numberOfLines = 0
@@ -48,6 +49,7 @@ class ProductDetailMSITableViewCell : UITableViewCell {
     
     func setValues(msi:NSArray){
         //var first = true
+        clearView(self)
         var currntY : CGFloat = 5.0
         let lblPagos = NSLocalizedString("productdetail.paiments",comment:"")
         let lblOf = NSLocalizedString("productdetail.of",comment:"")
@@ -62,16 +64,26 @@ class ProductDetailMSITableViewCell : UITableViewCell {
             lblPay.font = WMFont.fontMyriadProSemiboldOfSize(14)
             lblPay.textColor = WMColor.gray
             lblPay.text = "\(msiVal) \(lblPagos)"
+            lblPay.tag = 101
             
             let lblDesc = CurrencyCustomLabel(frame: CGRectMake(lblPay.frame.maxX + 4, currntY, 150, 14))
             lblDesc.textAlignment = NSTextAlignment.Left
             lblDesc.updateMount("\(lblOf) \(formattedStr)", font:  WMFont.fontMyriadProLightOfSize(14), color:  WMColor.dark_gray, interLine: false)
+            lblDesc.tag = 102
             
             self.addSubview(lblPay)
             self.addSubview(lblDesc)
             currntY = currntY + 17
         }
         
+    }
+    
+    func clearView(view: UIView){
+        for subview in view.subviews{
+            if subview.isKindOfClass(CurrencyCustomLabel) {
+                subview.removeFromSuperview()
+            }
+        }
     }
     
 }
