@@ -655,7 +655,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func openSearchProduct(){
-        if let navController = self.currentController! as? UINavigationController {
+        if let _ = self.currentController! as? UINavigationController {
             if self.searchController == nil  {
                 
 
@@ -1157,7 +1157,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             imageLoadingCart.hidden = true
             imageLoadingCart.center = self.btnShopping!.center
             self.headerView.addSubview(imageLoadingCart)
-            runSpinAnimationOnView(imageLoadingCart, duration: 100, rotations: 1, `repeat`: 100)
+            runSpinAnimationOnView(imageLoadingCart, duration: 100, rotations: 1, repeats: 100)
             
         }
     }
@@ -1171,13 +1171,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         if btnShopping?.selected == false {
             let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
             rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
             rotationAnimation.duration = CFTimeInterval(duration)
             rotationAnimation.cumulative = true
-            rotationAnimation.repeatCount = Float(`repeat`)
+            rotationAnimation.repeatCount = Float(repeats)
             
             view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
             

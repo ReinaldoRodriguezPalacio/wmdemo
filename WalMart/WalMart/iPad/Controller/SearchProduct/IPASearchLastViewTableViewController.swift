@@ -148,7 +148,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
         
         sender.selected = !(sender.selected)
         self.all = sender.selected
-        if let count = self.elements?.count {
+        if self.elements?.count > 0 {
             self.table.reloadData()
         }
     }

@@ -77,7 +77,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         spinImage = UIImageView(frame: CGRectMake((self.view.frame.width / 2) - 42, 98, 84, 84))
         spinImage.image = UIImage(named:"waiting_add")
         
-        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, `repeat`: 100)
+        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, repeats: 100)
         
         imageProduct = UIImageView(frame: CGRectMake(viewBgImage.frame.width / 4, viewBgImage.frame.width / 4, viewBgImage.frame.width - (viewBgImage.frame.width / 2), viewBgImage.frame.width - (viewBgImage.frame.width / 2)))
         
@@ -575,7 +575,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.viewBgImage.addSubview(self.imageProduct)
                     self.viewBgImage.hidden = false
                     self.viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-                    self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, `repeat`: 100)
+                    self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, repeats: 100)
                     self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showDoneIcon", userInfo: nil, repeats: false)
                     self.finishCall = false
 
@@ -650,12 +650,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         self.view.removeFromSuperview()
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(`repeat`)
+        rotationAnimation.repeatCount = Float(repeats)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     

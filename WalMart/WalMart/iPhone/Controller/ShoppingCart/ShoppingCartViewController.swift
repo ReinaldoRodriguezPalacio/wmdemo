@@ -301,7 +301,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let animation = UIImageView(frame: CGRectMake(0, 0,36, 36));
             animation.center = self.buttonWishlist.center
             animation.image = UIImage(named:"detail_addToList")
-            runSpinAnimationOnView(animation, duration: 100, rotations: 1, `repeat`: 100)
+            runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeats: 100)
             self.viewFooter.addSubview(animation)
             var ixCount = 1
             
@@ -348,13 +348,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(`repeat`)
+        rotationAnimation.repeatCount = Float(repeats)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
         
     }

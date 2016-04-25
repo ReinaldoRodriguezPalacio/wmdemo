@@ -1333,6 +1333,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     //MARK: ProductDetailColorSizeDelegate
     func selectDetailItem(selected: String, itemType: String) {
         var detailOrderCount = 0
+        let keys = Array(self.facetsDetails!.keys)
+        var filteredKeys = keys.filter(){
+            return ($0 as String) != "itemDetails"
+        }
+        filteredKeys = filteredKeys.sort()
         if self.colorItems.count != 0 && self.sizeItems.count != 0 {
             detailOrderCount = 2
         }else if self.colorItems.count != 0 && self.sizeItems.count == 0 {
@@ -1343,11 +1348,11 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if self.selectedDetailItem == nil{
             self.selectedDetailItem = [:]
         }
-        if itemType == "Color"{
+        if itemType == filteredKeys.first!{
             self.selectedDetailItem = [:]
             if detailOrderCount > 1 {
                 //MARCAR desmarcar las posibles tallas
-                let sizes = self.getDetailsWithKey(itemType, value: selected, keyToFind: "Talla")
+                let sizes = self.getDetailsWithKey(itemType, value: selected, keyToFind: filteredKeys[1])
                 for view in self.sizesView!.viewToInsert!.subviews {
                     if let button = view.subviews.first! as? UIButton {
                         button.enabled = sizes.contains(button.titleLabel!.text!)

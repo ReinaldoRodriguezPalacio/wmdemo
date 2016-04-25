@@ -65,7 +65,7 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
                         let alert = IPOWMAlertViewController.showAlert(WishListViewController.createImage(array[0]),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                         alert!.spinImage.hidden =  true
                         alert!.viewBgImage.backgroundColor =  UIColor.whiteColor()
-                        var messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
+                        let messagePreorderable = NSLocalizedString("alert.presaleindependent",comment:"")
                         //messagePreorderable =  NSLocalizedString("alert.presaleindependent",comment:"")
                         alert!.setMessage(messagePreorderable)
                         

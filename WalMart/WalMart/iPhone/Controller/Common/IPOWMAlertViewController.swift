@@ -61,7 +61,7 @@ class IPOWMAlertViewController : UIViewController {
         
         spinImage = UIImageView()
         spinImage.image = UIImage(named:"waiting")
-        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, `repeat`: 100)
+        runSpinAnimationOnView(spinImage, duration: 100, rotations: 1, repeats: 100)
         
         self.view.addSubview(bgView)
         self.view.addSubview(viewBgImage)
@@ -293,12 +293,12 @@ class IPOWMAlertViewController : UIViewController {
         self.view.sendSubviewToBack(self.imageblur!)
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(`repeat`)
+        rotationAnimation.repeatCount = Float(repeats)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     

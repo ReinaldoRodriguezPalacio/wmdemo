@@ -88,11 +88,6 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
-        var margin : CGFloat = 8
-        
-        if IS_IPAD == true {
-            margin = 40
-        }
         
         viewContent = UIView(frame: CGRectMake(0, 0, 286, 316))
         viewContent.layer.cornerRadius = 6.0

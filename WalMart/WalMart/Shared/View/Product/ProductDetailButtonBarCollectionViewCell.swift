@@ -171,7 +171,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         animation.center = self.listButton.center
         animation.image = UIImage(named:"detail_addToList")
         animation.tag = 99999
-        runSpinAnimationOnView(animation, duration: 100, rotations: 1, `repeat`: 100)
+        runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeats: 100)
         self.addSubview(animation)
         
         //event
@@ -207,12 +207,12 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         delegate.showProductDetail()
     }
     
-    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,`repeat`:CGFloat) {
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
         rotationAnimation.duration = CFTimeInterval(duration)
         rotationAnimation.cumulative = true
-        rotationAnimation.repeatCount = Float(`repeat`)
+        rotationAnimation.repeatCount = Float(repeats)
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     

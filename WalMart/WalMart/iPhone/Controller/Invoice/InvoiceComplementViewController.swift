@@ -427,7 +427,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     
     //MARK: AlertPickerSelectOptionDelegate
     func didSelectOptionAtIndex(indexPath: NSIndexPath) {
-       let address = self.arrayAddressFiscal![indexPath.row] as? NSDictionary
+       //let address = self.arrayAddressFiscal![indexPath.row] as? NSDictionary
     }
     
     func getFisicalPersonForm(frame:CGRect) -> FiscalAddressPersonF{
