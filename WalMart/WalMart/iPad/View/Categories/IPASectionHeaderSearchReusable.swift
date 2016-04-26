@@ -37,7 +37,7 @@ class IPASectionHeaderSearchReusable : UICollectionReusableView {
         
         title = UIButton(frame: CGRectMake((self.frame.width / 2) - 200, (self.frame.height / 2) - 12, 400, 24))
         title.backgroundColor = WMColor.light_blue
-        title.addTarget(self, action: "didTapInTitle", forControlEvents: UIControlEvents.TouchUpInside)
+        title.addTarget(self, action: #selector(IPASectionHeaderSearchReusable.didTapInTitle), forControlEvents: UIControlEvents.TouchUpInside)
         title.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         title.titleLabel!.font =  WMFont.fontMyriadProRegularOfSize(16)
         title.titleLabel!.textAlignment = .Left

@@ -26,7 +26,7 @@ class  IPOWebViewController : UIViewController {
         self.view.backgroundColor = UIColor.whiteColor()
         btnClose = UIButton(frame:CGRectMake(0,20,40,40))
         btnClose.setImage(UIImage(named:"detail_close"), forState: UIControlState.Normal)
-        btnClose.addTarget(self , action: "close", forControlEvents:UIControlEvents.TouchUpInside)
+        btnClose.addTarget(self , action: #selector(IPOWebViewController.close), forControlEvents:UIControlEvents.TouchUpInside)
         self.view.addSubview(btnClose)
         
         

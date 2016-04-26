@@ -52,7 +52,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.dateFmt = NSDateFormatter()
         self.dateFmt!.dateFormat = "d MMMM yyyy"
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "setValues", name: ProfileNotification.updateProfile.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(EditProfileViewController.setValues), name: ProfileNotification.updateProfile.rawValue, object: nil)
         
         if let tracker = GAI.sharedInstance().defaultTracker {
             tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_EDITPROFILE.rawValue)
@@ -123,7 +123,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.inputBirthdateView!.maximumDate = maxDate
         self.inputBirthdateView!.minimumDate = minDate
 
-        self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
+        self.inputBirthdateView!.addTarget(self, action: #selector(EditProfileViewController.dateChanged), forControlEvents: .ValueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
         self.dateChanged()
@@ -135,7 +135,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.maleButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.maleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.maleButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
-        self.maleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.maleButton?.addTarget(self, action: #selector(EditProfileViewController.changeMF(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.maleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         
@@ -144,7 +144,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.femaleButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.femaleButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.femaleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.femaleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.femaleButton?.addTarget(self, action: #selector(EditProfileViewController.changeMF(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.femaleButton!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
@@ -157,7 +157,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         attrString.addAttribute(NSParagraphStyleAttributeName, value:paragraphStyle, range:NSMakeRange(0, attrString.length))
         
         self.saveButton = WMRoundButton()
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(EditProfileViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton?.tintColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
@@ -173,13 +173,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         changePasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.changePasswordButton!.backgroundColor = WMColor.light_blue
         changePasswordButton!.layer.cornerRadius = 20.0
-        changePasswordButton?.addTarget(self, action: "changePassword", forControlEvents: .TouchUpInside)
+        changePasswordButton?.addTarget(self, action: #selector(EditProfileViewController.changePassword), forControlEvents: .TouchUpInside)
         
         
         legalInformation = UIButton()
         legalInformation!.setTitle(NSLocalizedString("profile.change.legalinfo", comment: ""), forState: UIControlState.Normal)
         legalInformation!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        legalInformation!.addTarget(self, action: "infolegal", forControlEvents: .TouchUpInside)
+        legalInformation!.addTarget(self, action: #selector(EditProfileViewController.infolegal), forControlEvents: .TouchUpInside)
         legalInformation!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         
         self.content.backgroundColor = UIColor.whiteColor()

@@ -58,7 +58,7 @@ class GRProductShoppingCartTableViewCell : ProductTableViewCell {
         self.contentView.addSubview(productPriceSavingLabel)
         
         changeQuantity = ShoppingCartButton(frame: CGRectZero)
-        changeQuantity.addTarget(self, action: "choseQuantity", forControlEvents: UIControlEvents.TouchUpInside)
+        changeQuantity.addTarget(self, action: #selector(GRProductShoppingCartTableViewCell.choseQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         self.contentView.addSubview(changeQuantity)
 
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))

@@ -137,7 +137,7 @@ class IPAUserListViewController: UserListViewController {
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, view.bounds.size.width, view.bounds.height))
             self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
-            self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
+            self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("removeHelpTicketView")))
             view.addSubview(self.helpView!)
             
             let icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))

@@ -42,7 +42,7 @@ class GRAddressNoStoreView: UIView {
         self.newButton!.titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.newButton!.backgroundColor = WMColor.light_blue
         self.newButton!.layer.cornerRadius = 17
-        self.newButton!.addTarget(self, action: "new", forControlEvents: UIControlEvents.TouchUpInside)
+        self.newButton!.addTarget(self, action: #selector(GRAddressNoStoreView.new), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(newButton!)
     }
     

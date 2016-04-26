@@ -49,7 +49,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(GRAddAddressView.save), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(saveButton!)
     }
     

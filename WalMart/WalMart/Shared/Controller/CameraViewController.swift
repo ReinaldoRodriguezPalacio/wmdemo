@@ -78,7 +78,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         
         self.camFlashButton = UIButton(type: .Custom)
         self.camFlashButton!.setImage(UIImage(named:"camfind_flash"), forState: .Normal)
-        self.camFlashButton!.addTarget(self, action: "toggleFlash", forControlEvents: UIControlEvents.TouchUpInside)
+        self.camFlashButton!.addTarget(self, action: #selector(CameraViewController.toggleFlash), forControlEvents: UIControlEvents.TouchUpInside)
         self.topBarView!.addSubview(self.camFlashButton!)
         
         self.messageLabel = UILabel()
@@ -91,7 +91,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.camChangeButton = UIButton(type: .Custom)
         self.camChangeButton!.tag = 1;
         self.camChangeButton!.setImage(UIImage(named:"camfind_switchCam"), forState: .Normal)
-        self.camChangeButton!.addTarget(self, action: "changeCamera", forControlEvents: UIControlEvents.TouchUpInside)
+        self.camChangeButton!.addTarget(self, action: #selector(CameraViewController.changeCamera), forControlEvents: UIControlEvents.TouchUpInside)
         self.topBarView!.addSubview(self.camChangeButton!)
         
         self.bottomBarView = UIView()
@@ -109,24 +109,24 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.cancelButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Highlighted)
         self.cancelButton!.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
         self.cancelButton!.setTitle(NSLocalizedString("product.searh.cancel",  comment: ""), forState: UIControlState.Normal)
-        self.cancelButton!.addTarget(self, action: "closeCamera", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(CameraViewController.closeCamera), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.camButton = UIButton(type: .Custom)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto"), forState: .Normal)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto_active"), forState: .Highlighted)
         self.camButton!.setImage(UIImage(named:"camfind_takePhoto_active"), forState: .Selected)
-        self.camButton!.addTarget(self, action: "takePhoto", forControlEvents: UIControlEvents.TouchUpInside)
+        self.camButton!.addTarget(self, action: #selector(CameraViewController.takePhoto), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.getLastImageFromLibrary()
         self.loadImageButton = UIButton(type: .Custom)
         self.loadImageButton!.setImage(self.getImageWithColor(UIColor.blackColor(), size: CGSizeMake(40.0, 40.0)), forState: .Normal)
-        self.loadImageButton!.addTarget(self, action: "loadImageFromLibrary:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.loadImageButton!.addTarget(self, action: #selector(CameraViewController.loadImageFromLibrary(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.repeatButton = UIButton(type: .Custom)
         self.repeatButton!.setTitle("Repetir Foto", forState: UIControlState.Normal)
         self.repeatButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Highlighted)
         self.repeatButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.repeatButton!.addTarget(self, action: "returnCamera", forControlEvents: UIControlEvents.TouchUpInside)
+        self.repeatButton!.addTarget(self, action: #selector(CameraViewController.returnCamera), forControlEvents: UIControlEvents.TouchUpInside)
         self.repeatButton!.backgroundColor = WMColor.light_blue
         self.repeatButton!.layer.cornerRadius = 18.0
         self.repeatButton!.alpha = 0
@@ -136,7 +136,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
         self.okButton!.setTitleColor(WMColor.dark_gray, forState: UIControlState.Highlighted)
         self.okButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.okButton!.addTarget(self, action: "sendPhoto", forControlEvents: UIControlEvents.TouchUpInside)
+        self.okButton!.addTarget(self, action: #selector(CameraViewController.sendPhoto), forControlEvents: UIControlEvents.TouchUpInside)
         self.okButton!.backgroundColor = WMColor.green
         self.okButton!.layer.cornerRadius = 18.0
         self.okButton!.alpha = 0
@@ -167,8 +167,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             self.bottomBarView!.addSubview(self.loadImageButton!)
         }
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRunning", name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "stopRunning", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CameraViewController.startRunning), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CameraViewController.stopRunning), name: UIApplicationDidEnterBackgroundNotification, object: nil)
     }
     
     override func viewWillLayoutSubviews() {
@@ -465,7 +465,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         if alertView == nil {
             self.alertView = IPAWMAlertViewController.showAlertWithCancelButton(self, delegate: self,imageWaiting:self.maskRoundedImage(capturedImage.image!), imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
             self.alertView!.setMessage(arrayImages[currentItem])
-            scheduleTimmer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "changeAlertMessage", userInfo: nil, repeats: true)
+            scheduleTimmer = NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: #selector(CameraViewController.changeAlertMessage), userInfo: nil, repeats: true)
         }
         self.continueSearch = true
         let service = CamFindService()

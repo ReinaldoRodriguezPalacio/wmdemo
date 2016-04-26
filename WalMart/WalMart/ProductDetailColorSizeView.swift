@@ -105,7 +105,7 @@ class ProductDetailColorSizeView: UIView {
             position += CGFloat(buttonSpace)
             let backView = UIView(frame: CGRectMake(position, buttonPositionY, CGFloat(backViewWidth), CGFloat(backViewWidth)))
             backView.layer.cornerRadius = 4
-            let tap = UITapGestureRecognizer(target: self, action: Selector("backViewTap:"))
+            let tap = UITapGestureRecognizer(target: self, action: #selector(ProductDetailColorSizeView.backViewTap(_:)))
             //tap.delegate = self
             backView.addGestureRecognizer(tap)
         
@@ -119,7 +119,7 @@ class ProductDetailColorSizeView: UIView {
             }
             let intColor = UInt(stringColor, radix: 16)
             colorButton.backgroundColor = WMColor.UIColorFromRGB(intColor!, alpha: 1.0)
-            colorButton.addTarget(self, action: "selectColor:", forControlEvents: UIControlEvents.TouchUpInside)
+            colorButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectColor(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             colorButton.tag = count
             if intColor >= 16770000 {
                 colorButton.layer.borderWidth = 0.5
@@ -156,7 +156,7 @@ class ProductDetailColorSizeView: UIView {
             sizeButton.setTitleColor(WMColor.light_gray, forState: UIControlState.Disabled)
             sizeButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
             sizeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
-            sizeButton.addTarget(self, action: "selectSize:", forControlEvents: UIControlEvents.TouchUpInside)
+            sizeButton.addTarget(self, action: #selector(ProductDetailColorSizeView.selectSize(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             sizeButton.enabled = item["enabled"] as! Bool
             sizeButton.tag = count
             backView.addSubview(sizeButton)

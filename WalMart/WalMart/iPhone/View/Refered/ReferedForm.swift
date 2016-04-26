@@ -92,7 +92,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(ReferedForm.save), forControlEvents: UIControlEvents.TouchUpInside)
         self.scrollForm.addSubview(saveButton!)
         
         self.confirmLabel = UILabel()
@@ -174,7 +174,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         titleLabel.textAlignment = .Center
         
         let viewButton = UIButton(frame: CGRectMake(6, 3, 40, 40))
-        viewButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+        viewButton.addTarget(self, action: #selector(ReferedForm.close), forControlEvents: UIControlEvents.TouchUpInside)
         viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
         headerView.addSubview(viewButton)
         headerView.addSubview(titleLabel)

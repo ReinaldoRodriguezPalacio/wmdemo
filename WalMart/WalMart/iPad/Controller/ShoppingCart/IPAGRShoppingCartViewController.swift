@@ -85,7 +85,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func viewDidAppear(animated: Bool) {
          super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "openclose", name: "CLOSE_GRSHOPPING_CART", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAGRShoppingCartViewController.openclose), name: "CLOSE_GRSHOPPING_CART", object: nil)
 
     }
     override func viewDidDisappear(animated: Bool) {

@@ -86,7 +86,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.copyBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.copyBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.copyBtn!.backgroundColor = WMColor.light_blue
-        self.copyBtn!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
+        self.copyBtn!.addTarget(self, action: #selector(ListTableViewCell.duplicate), forControlEvents: .TouchUpInside)
         self.copyBtn!.layer.cornerRadius = 9.0
         self.copyBtn!.alpha = 0.0
         self.copyBtn!.hidden = true

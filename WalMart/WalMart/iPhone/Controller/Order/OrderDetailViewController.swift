@@ -69,7 +69,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.addToListButton = UIButton()
             self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
             self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
-            self.addToListButton!.addTarget(self, action: "addCartToList", forControlEvents: .TouchUpInside)
+            self.addToListButton!.addTarget(self, action: #selector(OrderDetailViewController.addCartToList), forControlEvents: .TouchUpInside)
             self.viewFooter!.addSubview(self.addToListButton!)
         }
 
@@ -77,7 +77,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: "shareList", forControlEvents: .TouchUpInside)
+        self.shareButton!.addTarget(self, action: #selector(OrderDetailViewController.shareList), forControlEvents: .TouchUpInside)
         self.viewFooter!.addSubview(self.shareButton!)
         
         let x = self.shareButton!.frame.maxX + 16.0
@@ -91,7 +91,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.addToCartButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addToCartButton?.titleLabel?.textColor = UIColor.whiteColor()
         //self.addToCartButton?.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
-        self.addToCartButton!.addTarget(self, action: "addListToCart", forControlEvents: .TouchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(OrderDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
         self.viewFooter!.addSubview(self.addToCartButton!)
         
     
@@ -318,7 +318,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 btnGoToGuide.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 btnGoToGuide.layer.cornerRadius = btnGoToGuide.frame.height / 2
                 btnGoToGuide.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-                btnGoToGuide.addTarget(self, action: "didSelectItem:", forControlEvents: UIControlEvents.TouchUpInside)
+                btnGoToGuide.addTarget(self, action: #selector(OrderDetailViewController.didSelectItem(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 btnGoToGuide.tag = section
                 if guide != "No disponible" {
                     viewFedex.addSubview(btnGoToGuide)

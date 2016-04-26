@@ -229,7 +229,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.deliveryDatePicker!.maximumDate = maxDate
         
         
-        self.deliveryDatePicker!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
+        self.deliveryDatePicker!.addTarget(self, action: #selector(GRCheckOutViewController.dateChanged), forControlEvents: .ValueChanged)
         self.deliveryDate!.inputView = self.deliveryDatePicker!
         
         self.deliverySchedule = FormFieldView(frame: CGRectMake(margin, self.deliveryDate!.frame.maxY + 5.0, width, fheight))
@@ -318,8 +318,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                     self.picker!.cellType = TypeField.Alphanumeric
                     self.picker!.showPicker()
                     
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GRCheckOutViewController.keyBoardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GRCheckOutViewController.keyBoardWillHide), name: UIKeyboardWillHideNotification, object: nil)
                     
                     //self.removeViewLoad()
                 }
@@ -496,7 +496,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
-        self.buttonShop!.addTarget(self, action: "shopButtonTaped", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShop!.addTarget(self, action: #selector(GRCheckOutViewController.shopButtonTaped), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         self.footer!.addSubview(self.buttonShop!)
 
@@ -536,7 +536,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
                 promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-                promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+                promSelect.addTarget(self, action: #selector(GRCheckOutViewController.promCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 promSelect.addSubview(titleLabel)
                 promSelect.selected = false
                 promSelect.tag = count

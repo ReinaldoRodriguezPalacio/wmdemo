@@ -64,7 +64,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         
         self.closeBtn = UIButton(type: .Custom)
         self.closeBtn!.setImage(UIImage(named:"close"), forState: .Normal)
-        self.closeBtn!.addTarget(self, action: "closeSelector", forControlEvents: .TouchUpInside)
+        self.closeBtn!.addTarget(self, action: #selector(ListsSelectorViewController.closeSelector), forControlEvents: .TouchUpInside)
         self.view.addSubview(self.closeBtn!)
         
         self.tableView = UITableView(frame: CGRectMake(0, 200, 320, 400))

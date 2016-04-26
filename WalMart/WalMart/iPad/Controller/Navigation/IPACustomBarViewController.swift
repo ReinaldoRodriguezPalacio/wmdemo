@@ -33,7 +33,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "showHomeSelected", name: CustomBarNotification.ShowHomeSelected.rawValue, object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPACustomBarViewController.showHomeSelected), name: CustomBarNotification.ShowHomeSelected.rawValue, object: nil)
         
         self.buttonContainer!.backgroundColor = WMColor.blue
         
@@ -62,7 +62,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.searchBackView = UIView()
         self.searchBackView.backgroundColor = UIColor.blackColor()
         self.searchBackView.alpha = 0.35
-        self.searchBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removePop:"))
+        self.searchBackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.removePop(_:))))
         
     }
     
@@ -356,9 +356,9 @@ class IPACustomBarViewController :  CustomBarViewController {
                     self.viewBgWishlist.alpha = 0
                     self.viewBgWishlist.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
                     
-                    self.viewBgWishlist.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "didTapHideWhishList"))
+                    self.viewBgWishlist.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList)))
                     
-                    let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: "didTapHideWhishList")
+                    let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList))
                     gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
                     self.viewBgWishlist.addGestureRecognizer(gestureSwipeUp)
                 }
@@ -372,7 +372,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     vcWishlist.view.frame = CGRectMake(0, -270, 1024,334)
                     self.currentController?.view.addSubview(vcWishlist.view)
                     vcWishlist.registerNotification()
-                    let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: "didTapHideWhishList")
+                    let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList))
                     gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
                     vcWishlist.view.addGestureRecognizer(gestureSwipeUp)
                 }
@@ -574,7 +574,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.buttonSelected(self.buttonList[0])
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "sendHomeNotification", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CustomBarViewController.sendHomeNotification), userInfo: nil, repeats: false)
     }
     
     override func sendHomeNotification(){

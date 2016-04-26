@@ -107,7 +107,7 @@ class NumericKeyboardView : UIView {
             let buttonFontSize: CGFloat = self.widthButton <= 40 ? 18.0 : 30.0
             btnNumber.titleLabel!.font = WMFont.fontMyriadProSemiboldSize(buttonFontSize)
             btnNumber.titleLabel!.textAlignment = NSTextAlignment.Center
-            btnNumber.addTarget(self, action: "chngequantity:", forControlEvents: UIControlEvents.TouchUpInside)
+            btnNumber.addTarget(self, action: #selector(NumericKeyboardView.chngequantity(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             
             
             
@@ -125,7 +125,7 @@ class NumericKeyboardView : UIView {
         btnDelete.setTitle("Borrar", forState: UIControlState.Normal)
         let buttonFontSize: CGFloat = self.widthButton <= 40 ? 12.0 : 18.0
         btnDelete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(buttonFontSize)
-        btnDelete.addTarget(self, action: "deletequantity:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnDelete.addTarget(self, action: #selector(NumericKeyboardView.deletequantity(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         btnDelete.tag = 999
         self.addSubview(btnDelete)
     

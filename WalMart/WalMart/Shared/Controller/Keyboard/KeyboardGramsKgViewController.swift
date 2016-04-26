@@ -52,7 +52,7 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
         addButton.backgroundColor = WMColor.green
-        addButton.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        addButton.addTarget(self, action: Selector("addtoshoppingcart:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         lblQuantity = UILabel(frame:CGRectMake(0, 0 ,viewContainerQ.frame.width, 40))
@@ -68,13 +68,13 @@ class KeyboardGramsKgViewController : UIViewController, KeyboardViewDelegate  {
         viewContainerQ.addSubview(lblQuantity)
         
         btnNote.setImage(UIImage(named:"notes_keyboard"), forState: UIControlState.Normal)
-        btnNote.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNote.addTarget(self, action: Selector("updateOrAddNote"), forControlEvents: UIControlEvents.TouchUpInside)
         btnNote.alpha =  0
         
         self.updateLabelW()
         self.updateShoppButton()
         
-        closeButton.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(KeyboardGramsKgViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         
     }
     

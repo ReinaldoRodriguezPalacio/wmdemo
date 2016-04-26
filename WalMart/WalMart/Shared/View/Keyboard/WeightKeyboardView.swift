@@ -47,7 +47,7 @@ class WeightKeyboardView : UIView {
         
         btngramos.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         btngramos.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-        btngramos.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
+        btngramos.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         btngramos.titleLabel?.numberOfLines = 2
         btngramos.titleLabel?.textAlignment = .Center
         btngramos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
@@ -63,7 +63,7 @@ class WeightKeyboardView : UIView {
         btncuarto.setImage(imageSelected, forState: UIControlState.Selected)
         btncuarto.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         btncuarto.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-        btncuarto.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
+        btncuarto.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         btncuarto.titleLabel?.numberOfLines = 2
         btncuarto.titleLabel?.textAlignment = .Center
         btncuarto.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
@@ -79,7 +79,7 @@ class WeightKeyboardView : UIView {
         btmediokilo.setImage(imageSelected, forState: UIControlState.Selected)
         btmediokilo.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         btmediokilo.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-        btmediokilo.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
+        btmediokilo.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         btmediokilo.titleLabel?.numberOfLines = 2
         btmediokilo.titleLabel?.textAlignment = .Center
         btmediokilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
@@ -97,7 +97,7 @@ class WeightKeyboardView : UIView {
         bttrescuartos.setImage(imageSelected, forState: UIControlState.Selected)
         bttrescuartos.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         bttrescuartos.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-        bttrescuartos.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
+        bttrescuartos.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         bttrescuartos.titleLabel?.numberOfLines = 2
         bttrescuartos.titleLabel?.textAlignment = .Center
         bttrescuartos.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)
@@ -115,7 +115,7 @@ class WeightKeyboardView : UIView {
         btunkilo.setImage(imageSelected, forState: UIControlState.Selected)
         btunkilo.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         btunkilo.setTitleColor(WMColor.light_blue, forState: UIControlState.Selected)
-        btunkilo.addTarget(self, action: "seleccionboton:", forControlEvents: UIControlEvents.TouchUpInside)
+        btunkilo.addTarget(self, action: #selector(WeightKeyboardView.seleccionboton(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         btunkilo.titleLabel?.numberOfLines = 2
         btunkilo.titleLabel?.textAlignment = .Center
         btunkilo.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(18)

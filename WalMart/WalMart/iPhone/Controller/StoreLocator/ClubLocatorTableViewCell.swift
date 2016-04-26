@@ -78,14 +78,14 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         btnLocation.setImage(UIImage(named: "locateInMap"), forState: .Normal)
         btnLocation.setImage(UIImage(named: "locateInMap_selected"), forState: .Selected)
         btnLocation.setImage(UIImage(named: "locateInMap_selected"), forState: .Highlighted)
-        btnLocation.addTarget(self, action: "showInMap", forControlEvents: .TouchUpInside)
+        btnLocation.addTarget(self, action: #selector(ClubLocatorTableViewCell.showInMap), forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnLocation)
 
         let btnRoute = UIButton(frame: CGRectMake(btnLocation.frame.maxX + 36, y, 34.0, 34.0))
         btnRoute.setImage(UIImage(named: "directions"), forState: .Normal)
         btnRoute.setImage(UIImage(named: "directions_selected"), forState: .Selected)
         btnRoute.setImage(UIImage(named: "directions_selected"), forState: .Highlighted)
-        btnRoute.addTarget(self, action: "showRoute", forControlEvents: .TouchUpInside)
+        btnRoute.addTarget(self, action: #selector(ClubLocatorTableViewCell.showRoute), forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnRoute)
 
         var nexButtonX = btnRoute.frame.maxX
@@ -94,7 +94,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
             btnPhone.setImage(UIImage(named: "call"), forState: .Normal)
             btnPhone.setImage(UIImage(named: "call_selected"), forState: .Selected)
             btnPhone.setImage(UIImage(named: "call_selected"), forState: .Highlighted)
-            btnPhone.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
+            btnPhone.addTarget(self, action: #selector(ClubLocatorTableViewCell.makePhoneCall), forControlEvents: .TouchUpInside)
             self.buttonContainer.addSubview(btnPhone)
             nexButtonX = btnPhone.frame.maxX
         }
@@ -103,7 +103,7 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
         btnShare.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         btnShare.setImage(UIImage(named: "detail_share"), forState: .Selected)
         btnShare.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        btnShare.addTarget(self, action: "shareStore", forControlEvents: .TouchUpInside)
+        btnShare.addTarget(self, action: #selector(ClubLocatorTableViewCell.shareStore), forControlEvents: .TouchUpInside)
         self.buttonContainer.addSubview(btnShare)
     }
     

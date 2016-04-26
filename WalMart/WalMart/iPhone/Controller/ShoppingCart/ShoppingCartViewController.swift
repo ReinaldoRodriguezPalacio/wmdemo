@@ -100,7 +100,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         editButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         editButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editButton.layer.cornerRadius = 11
-        editButton.addTarget(self, action: "editAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        editButton.addTarget(self, action: #selector(ShoppingCartViewController.editAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         editButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 72, 12, 75, 22))
@@ -111,7 +111,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         deleteall.layer.cornerRadius = 11
         deleteall.alpha = 0
         deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
-        deleteall.addTarget(self, action: "deleteAll", forControlEvents: UIControlEvents.TouchUpInside)
+        deleteall.addTarget(self, action: #selector(ShoppingCartViewController.deleteAll), forControlEvents: UIControlEvents.TouchUpInside)
         
         closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
         //closeButton.setTitle(NSLocalizedString("shoppingcart.keepshoppinginsidecart",comment:""), forState: UIControlState.Normal)
@@ -119,7 +119,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         //closeButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         //closeButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         //closeButton.layer.cornerRadius = 3
-        closeButton.addTarget(self, action: "closeShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ShoppingCartViewController.closeShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         viewHerader.addSubview(closeButton)
         viewHerader.addSubview(editButton)
@@ -136,7 +136,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
                 buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
                 buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
-                buttonAsociate.addTarget(self, action: "validateAsociate", forControlEvents: UIControlEvents.TouchUpInside)
+                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), forControlEvents: UIControlEvents.TouchUpInside)
                 viewFooter.addSubview(buttonAsociate)
                 x =  buttonAsociate.frame.maxX + 16
             }
@@ -144,14 +144,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         buttonWishlist = UIButton(frame: CGRectMake(x, 16, 40, 40))
         buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
-        buttonWishlist.addTarget(self, action: "addToWishList", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
         
         buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 40))
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
         buttonShop.layer.cornerRadius = 20
-        buttonShop.addTarget(self, action: "showloginshop", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShop.addTarget(self, action: #selector(ShoppingCartViewController.showloginshop), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonShop)
         
         let viewBorderTop = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 1))
@@ -222,7 +222,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadShoppingCart", name: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.reloadShoppingCart), name: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: nil)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -835,8 +835,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.picker!.cellType = TypeField.Alphanumeric
         self.picker!.showPicker()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.keyBoardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ShoppingCartViewController.keyBoardWillHide), name: UIKeyboardWillHideNotification, object: nil)
         
     }
     
@@ -1361,7 +1361,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
         imageIco!.frame = CGRectMake( 24 , viewContents!.frame.maxY - 1, 8, 6)
         self.viewContents!.addSubview(imageIco!)
-       NSTimer.scheduledTimerWithTimeInterval(1.8, target: self, selector: "animationClose", userInfo: nil, repeats: false)
+       NSTimer.scheduledTimerWithTimeInterval(1.8, target: self, selector: #selector(ShoppingCartViewController.animationClose), userInfo: nil, repeats: false)
          
             
 

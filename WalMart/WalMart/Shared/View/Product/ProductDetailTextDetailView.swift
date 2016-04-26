@@ -44,7 +44,7 @@ class ProductDetailTextDetailView : UIView {
         
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeProductDetail", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ProductDetailTextDetailView.closeProductDetail), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(closeButton)
         
     }

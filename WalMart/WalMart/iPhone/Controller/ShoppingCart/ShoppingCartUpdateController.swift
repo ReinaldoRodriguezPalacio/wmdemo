@@ -67,7 +67,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
         
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeAlert", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ShoppingCartUpdateController.closeAlert), forControlEvents: UIControlEvents.TouchUpInside)
         closeButton.frame = CGRectMake(0, 5, 44, 44)
         
         viewBgImage = UIView(frame: CGRectMake((self.view.frame.width / 2) - 40, 100, 80, 80))
@@ -166,7 +166,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func startAddingToShoppingCart() {
         
-        timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showDoneIcon", userInfo: nil, repeats: false)
+        timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ShoppingCartUpdateController.showDoneIcon), userInfo: nil, repeats: false)
         finishCall = false
         if multipleItems != nil {
             /*if multipleItems?.count > 0 {
@@ -484,7 +484,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 
                 btnAddNote.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 btnAddNote.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-                btnAddNote.addTarget(self, action: "addNoteToProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+                btnAddNote.addTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 self.content.addSubview(btnAddNote)
             }
             
@@ -495,7 +495,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             keepShoppingButton.backgroundColor = WMColor.dark_blue
             keepShoppingButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             keepShoppingButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
-            keepShoppingButton.addTarget(self, action: "keepShopping", forControlEvents: UIControlEvents.TouchUpInside)
+            keepShoppingButton.addTarget(self, action: #selector(ShoppingCartUpdateController.keepShopping), forControlEvents: UIControlEvents.TouchUpInside)
             
             goToShoppingCartButton = UIButton(frame:CGRectMake(keepShoppingButton.frame.maxX + 11, keepShoppingButton.frame.minY,keepShoppingButton.frame.width, keepShoppingButton.frame.height))
             goToShoppingCartButton.layer.cornerRadius = 20
@@ -503,12 +503,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             goToShoppingCartButton.backgroundColor = WMColor.green
             goToShoppingCartButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             goToShoppingCartButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
-            goToShoppingCartButton.addTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+            goToShoppingCartButton.addTarget(self, action: #selector(ShoppingCartUpdateController.goShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
             
             self.content.addSubview(keepShoppingButton)
             self.content.addSubview(goToShoppingCartButton)
         } else{
-            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "close", userInfo: nil, repeats: false)
+            NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ShoppingCartUpdateController.close), userInfo: nil, repeats: false)
         }
     }
     
@@ -576,7 +576,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     self.viewBgImage.hidden = false
                     self.viewBgImage.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
                     self.runSpinAnimationOnView(self.spinImage, duration: 100, rotations: 1, repeats: 100)
-                    self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "showDoneIcon", userInfo: nil, repeats: false)
+                    self.timmer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ShoppingCartUpdateController.showDoneIcon), userInfo: nil, repeats: false)
                     self.finishCall = false
 
                     if (sender == self.keepShoppingButton) {
@@ -688,16 +688,16 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             self.goToShoppingCartButton.setTitle(NSLocalizedString("shoppingcart.saveNote",comment:""), forState: UIControlState.Normal)
-            self.goToShoppingCartButton.removeTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
-            self.goToShoppingCartButton.addTarget(self, action: "saveNote:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.goToShoppingCartButton.removeTarget(self, action: #selector(ShoppingCartUpdateController.goShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+            self.goToShoppingCartButton.addTarget(self, action: #selector(ShoppingCartUpdateController.saveNote(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.noteTile",comment:""), forState: UIControlState.Normal)
             self.goToShoppingCartButton.alpha = 0.0
             
-            self.btnAddNote.removeTarget(self, action: "addNoteToProduct:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.btnAddNote.removeTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             
             if self.comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
-                self.keepShoppingButton.removeTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
-                self.keepShoppingButton.addTarget(self, action: "saveNote:", forControlEvents: UIControlEvents.TouchUpInside)
+                self.keepShoppingButton.removeTarget(self, action: #selector(ShoppingCartUpdateController.close), forControlEvents: UIControlEvents.TouchUpInside)
+                self.keepShoppingButton.addTarget(self, action: #selector(ShoppingCartUpdateController.saveNote(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 self.keepShoppingButton.setTitle(NSLocalizedString("note.delete",comment:""), forState: UIControlState.Normal)
             }else {
                  self.keepShoppingButton.alpha = 0

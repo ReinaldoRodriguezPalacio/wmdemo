@@ -53,7 +53,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         self.moreButton = UIButton()
         self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), forState: UIControlState.Normal)
         self.moreButton!.hidden =  true
-        self.moreButton!.addTarget(self, action: "moreTap", forControlEvents: UIControlEvents.TouchUpInside)
+        self.moreButton!.addTarget(self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.addSubview(self.descLabel!)
         self.addSubview(self.moreLabel!)
@@ -86,7 +86,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
                                 productPrice: "")
             self.contentView.addSubview(product)
             
-            let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
+            let tapOnProdut =  UITapGestureRecognizer(target: self, action: #selector(IPOGRDepartmentSpecialTableViewCell.productTap(_:)))
             product.addGestureRecognizer(tapOnProdut)
             
             currentX = currentX + width
@@ -98,7 +98,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         self.moreLabel!.hidden =  true
         self.descLabel!.hidden =  true
         
-        let tapOnMore =  UITapGestureRecognizer(target: self, action: "moreTap")
+        let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap))
         descLabel!.addGestureRecognizer(tapOnMore)
         
         let separator = UIView()
@@ -110,7 +110,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         self.viewLoadingProduct ()
         
-        NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: #selector(IPOGRDepartmentSpecialTableViewCell.removeViewLoading), userInfo: nil, repeats: false)
         
     }
     

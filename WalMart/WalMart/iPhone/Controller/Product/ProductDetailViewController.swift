@@ -94,14 +94,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             layout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 56.0)
             layout.disableStickyHeaders = false
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeContainerDetail", name: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductDetailViewController.closeContainerDetail), name: CustomBarNotification.SuccessAddUpdateCommentCart.rawValue, object: nil)
         }
         
         headerView = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 46))
         headerView.backgroundColor = WMColor.light_light_gray
         let buttonBk = UIButton(frame: CGRectMake(0, 0, 46, 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), forState: UIControlState.Normal)
-        buttonBk.addTarget(self, action: "backButton", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonBk.addTarget(self, action: #selector(ProductDetailViewController.backButton), forControlEvents: UIControlEvents.TouchUpInside)
         headerView.addSubview(buttonBk)
         
         titlelbl = UILabel(frame: CGRectMake(46, 0, self.view.frame.width - (46 * 2), 46))
@@ -116,7 +116,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         headerView.addSubview(titlelbl)
         self.view.addSubview(headerView)
         
-        gestureCloseDetail = UITapGestureRecognizer(target: self, action: "closeActionView")
+        gestureCloseDetail = UITapGestureRecognizer(target: self, action: #selector(ProductDetailViewController.closeActionView))
         gestureCloseDetail.enabled = false
         
         self.containerinfo = UIView()
@@ -127,7 +127,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProductDetailViewController.endUpdatingShoppingCart(_:)), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
     
     

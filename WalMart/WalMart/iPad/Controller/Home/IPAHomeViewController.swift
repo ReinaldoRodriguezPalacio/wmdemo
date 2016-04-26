@@ -48,7 +48,7 @@ class IPAHomeViewController : HomeViewController {
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", forState:.Normal)
-            detailsButton!.addTarget(self, action: "openUrl", forControlEvents: .TouchUpInside)
+            detailsButton!.addTarget(self, action: Selector("openUrl"), forControlEvents: .TouchUpInside)
             detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton.alpha = 0

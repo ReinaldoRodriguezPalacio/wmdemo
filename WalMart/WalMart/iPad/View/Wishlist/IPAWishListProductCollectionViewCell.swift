@@ -46,11 +46,11 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         
         self.addProductToShopingCart = UIButton()
         self.addProductToShopingCart!.setImage(UIImage(named: "wishlist_cart"), forState: UIControlState.Normal)
-        self.addProductToShopingCart!.addTarget(self, action: "addProductToShoping", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addProductToShopingCart!.addTarget(self, action: #selector(IPAWishListProductCollectionViewCell.addProductToShoping), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.deleteProduct = UIButton()
         self.deleteProduct.setImage(UIImage(named:"wishlist_delete"), forState: UIControlState.Normal)
-        self.deleteProduct.addTarget(self, action: "deleteProductWishList", forControlEvents: UIControlEvents.TouchUpInside)
+        self.deleteProduct.addTarget(self, action: #selector(IPAWishListProductCollectionViewCell.deleteProductWishList), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth(), 0,AppDelegate.separatorHeigth(), self.frame.height ))

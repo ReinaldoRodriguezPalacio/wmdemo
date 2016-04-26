@@ -29,7 +29,7 @@ class GRNutrimentalInfoView : UIView {
         
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeProductDetail", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(GRNutrimentalInfoView.closeProductDetail), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(closeButton)
         
         scrollView = UIScrollView(frame: CGRectMake(0, closeButton.frame.maxY, self.frame.width, self.frame.height -  closeButton.frame.maxY))

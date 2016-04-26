@@ -142,7 +142,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.inputBirthdateView!.date = NSDate()
         self.inputBirthdateView!.maximumDate = maxDate
         self.inputBirthdateView!.minimumDate = minDate
-        self.inputBirthdateView!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
+        self.inputBirthdateView!.addTarget(self, action: #selector(SignUpViewController.dateChanged), forControlEvents: .ValueChanged)
         self.birthDate!.inputView = self.inputBirthdateView!
         self.birthDate!.inputAccessoryView = viewAccess
 //        self.dateChanged()
@@ -154,7 +154,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.maleButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.maleButton!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
         self.maleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.maleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.maleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.maleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.maleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         
@@ -163,7 +163,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.femaleButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.femaleButton!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
         self.femaleButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
-        self.femaleButton?.addTarget(self, action: "changeMF:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.femaleButton?.addTarget(self, action: #selector(SignUpViewController.changeMF(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.femaleButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.femaleButton!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
         
@@ -207,7 +207,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.continueButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.continueButton!.backgroundColor = WMColor.green
         self.continueButton!.layer.cornerRadius = 20.0
-        self.continueButton!.addTarget(self, action: "continueToInfo", forControlEvents: .TouchUpInside)
+        self.continueButton!.addTarget(self, action: #selector(SignUpViewController.continueToInfo), forControlEvents: .TouchUpInside)
         
         self.content.backgroundColor = UIColor.clearColor()
         
@@ -217,7 +217,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.dark_blue
         self.cancelButton!.layer.cornerRadius = 20.0
-        self.cancelButton!.addTarget(self, action: "cancelRegistry:", forControlEvents: .TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(SignUpViewController.cancelRegistry(_:)), forControlEvents: .TouchUpInside)
         
         //labelTerms!.textColor = UIColor.whiteColor()
         
@@ -342,7 +342,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.previewHelp!.view.frame =  CGRectMake(self.name!.frame.minX ,  40, self.content!.frame.width - (self.name!.frame.minX * 2) , self.content!.frame.height - 60 )
             self.close = UIButton(type: .Custom)
             self.close!.setImage(UIImage(named: "termsClose"), forState: .Normal)
-            self.close!.addTarget(self, action: "closeNoticePrivacy", forControlEvents: .TouchUpInside)
+            self.close!.addTarget(self, action: #selector(SignUpViewController.closeNoticePrivacy), forControlEvents: .TouchUpInside)
             self.close!.backgroundColor = UIColor.clearColor()
             self.close!.frame = CGRectMake(self.content!.frame.width - 40.0, 22, 40.0, 40.0)
         
@@ -613,7 +613,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
     class func isValidEmail(email: String ) -> Bool{
 
         let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").invertedSet
-        if let contains = email.rangeOfCharacterFromSet(alphanumericset) {
+        if email.rangeOfCharacterFromSet(alphanumericset) != nil {
             return false
         }
         
@@ -687,7 +687,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-            self.promoAccept!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.promoAccept!.addTarget(self, action: #selector(SignUpViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             
 //            self.acceptTerms = UIButton(frame: CGRectMake(16, self.promoAccept!.frame.maxY + 24.0, frame.width, 27))
 //            self.acceptTerms?.setTitle(NSLocalizedString("signup.info.provacity", comment: ""), forState: UIControlState.Normal)
@@ -704,7 +704,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             acceptTerms!.frame = CGRectMake(10, -4, 30, 30 )
             acceptTerms!.setImage(UIImage(named:"checkTermOn"), forState: UIControlState.Selected)
             acceptTerms!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
-            acceptTerms!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+            acceptTerms!.addTarget(self, action: #selector(SignUpViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             
             labelTerms = UILabel()
             labelTerms?.frame =  CGRectMake(acceptTerms!.frame.maxX + 4, 0 ,  self.content!.frame.width - (acceptTerms!.frame.width + 15 )  , 30 )
@@ -725,7 +725,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             labelTerms!.textColor = UIColor.whiteColor()
             
             //viewTap = UIView()
-            let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:"noticePrivacy:")
+            let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:#selector(SignUpViewController.noticePrivacy(_:)))
             labelTerms?.userInteractionEnabled = true
             labelTerms?.addGestureRecognizer(tapGestureRecognizer)
             
@@ -748,7 +748,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.acceptSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             self.acceptSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-            self.acceptSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.acceptSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             
             self.declineSharePersonal = UIButton(frame: CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16))
             self.declineSharePersonal?.setTitle(NSLocalizedString("signup.info.share.no", comment: ""), forState: UIControlState.Normal)
@@ -757,7 +757,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.declineSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
             self.declineSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-            self.declineSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.declineSharePersonal!.addTarget(self, action: #selector(SignUpViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             
             
             self.backButton = UIButton(frame: CGRectMake(16, declineSharePersonal!.frame.maxY + 102.0, 136, 40))
@@ -766,7 +766,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.backButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.backButton!.backgroundColor = WMColor.dark_blue
             self.backButton!.layer.cornerRadius = 20.0
-            self.backButton!.addTarget(self, action: "backRegistry:", forControlEvents: .TouchUpInside)
+            self.backButton!.addTarget(self, action: #selector(SignUpViewController.backRegistry(_:)), forControlEvents: .TouchUpInside)
             
             self.registryButton = UIButton(frame: CGRectMake(self.backButton!.frame.maxX + 16.0, declineSharePersonal!.frame.maxY + 102.0, 136, 40))
             self.registryButton!.setTitle(NSLocalizedString("signup.info.registry", comment: ""), forState: UIControlState.Normal)
@@ -774,7 +774,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             self.registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.registryButton!.backgroundColor = WMColor.green
             self.registryButton!.layer.cornerRadius = 20.0
-            self.registryButton!.addTarget(self, action: "registryUser", forControlEvents: .TouchUpInside)
+            self.registryButton!.addTarget(self, action: #selector(SignUpViewController.registryUser), forControlEvents: .TouchUpInside)
             
             
             infoContainer?.addSubview(lblTitle)

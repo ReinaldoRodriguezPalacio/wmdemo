@@ -32,7 +32,7 @@ class HelpMercuryView : UIView {
     func setup() {
         
         
-        let tapHelp = UITapGestureRecognizer(target: self, action: "taponhelpview")
+        let tapHelp = UITapGestureRecognizer(target: self, action: #selector(HelpMercuryView.taponhelpview))
         tapHelp.numberOfTapsRequired = 1
         
         self.viewBg = UIView()

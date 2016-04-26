@@ -80,7 +80,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         let buttonBk = UIButton(frame: CGRectMake(0, 0, 46, 46))
         buttonBk.setImage(UIImage(named:"BackProduct"), forState: UIControlState.Normal)
-        buttonBk.addTarget(self, action: "backButton", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonBk.addTarget(self, action: #selector(IPAProductDetailViewController.backButton), forControlEvents: UIControlEvents.TouchUpInside)
         headerView.addSubview(buttonBk)
         
         titlelbl = UILabel(frame: CGRectMake(46, 0, self.view.frame.width - (46 * 2), heigthHeader))
@@ -121,7 +121,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.containerinfo = UIView()
         self.containerinfo.clipsToBounds = true
         
-        let gestureClose = UIPinchGestureRecognizer(target: self, action: "didPinch:")
+        let gestureClose = UIPinchGestureRecognizer(target: self, action: #selector(IPAProductDetailViewController.didPinch(_:)))
         self.view.addGestureRecognizer(gestureClose)
         
         self.view.addSubview(headerView)
@@ -136,7 +136,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAProductDetailViewController.endUpdatingShoppingCart(_:)), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
         productCrossSell.setIdList(self.idListSelected) //
        // NSNotificationCenter.defaultCenter().addObserver(self, selector: "backButton", name: CustomBarNotification.finishUserLogOut.rawValue, object: nil)
     }

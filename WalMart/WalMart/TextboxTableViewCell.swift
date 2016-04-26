@@ -71,7 +71,7 @@ class TextboxTableViewCell: UITableViewCell{
         self.datePicker!.date = NSDate()
         self.datePicker!.maximumDate = NSDate()
         
-        self.datePicker!.addTarget(self, action: "dateChanged", forControlEvents: .ValueChanged)
+        self.datePicker!.addTarget(self, action: #selector(TextboxTableViewCell.dateChanged), forControlEvents: .ValueChanged)
         self.textbox!.inputView = self.datePicker!
         self.useDatePicker = true
         

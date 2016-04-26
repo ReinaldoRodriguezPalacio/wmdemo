@@ -58,7 +58,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         self.addSubview(bgView)
         
         let viewButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
-        viewButton.addTarget(self, action: "closeAlertButton", forControlEvents: UIControlEvents.TouchUpInside)
+        viewButton.addTarget(self, action: #selector(GRFormAddressAlertView.closeAlertButton), forControlEvents: UIControlEvents.TouchUpInside)
         viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
     
         
@@ -88,7 +88,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         self.buttonRight.titleLabel?.textColor = UIColor.whiteColor()
         self.buttonRight!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.buttonRight!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.buttonRight.addTarget(self, action: "newItemForm", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonRight.addTarget(self, action: #selector(GRFormAddressAlertView.newItemForm), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonRight.frame = CGRectMake(self.headerView.frame.width - 80, 12, 64, 22)
 
         

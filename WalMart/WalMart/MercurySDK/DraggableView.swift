@@ -64,7 +64,7 @@ class DraggableView: UIView {
         
         
         
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: "beingDragged:")
+        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(DraggableView.beingDragged(_:)))
         self.addGestureRecognizer(panGestureRecognizer)
         self.addSubview(information)
         self.addSubview(kpiQuestion)

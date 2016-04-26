@@ -77,7 +77,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         
         self.moreButton = UIButton()
         self.moreButton?.setBackgroundImage(UIImage(named: "ver_todo"), forState: UIControlState.Normal)
-        self.moreButton!.addTarget(self, action: "moreTap", forControlEvents: UIControlEvents.TouchUpInside)
+        self.moreButton!.addTarget(self, action: #selector(IPAGRCategoryCollectionViewCell.moreTap), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.addSubview(self.imageBackground!)
         self.addSubview(self.iconCategory!)
@@ -175,7 +175,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
             product.productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
             self.addSubview(product)
             
-            let tapOnProdut =  UITapGestureRecognizer(target: self, action: "productTap:")
+            let tapOnProdut =  UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoryCollectionViewCell.productTap(_:)))
             product.addGestureRecognizer(tapOnProdut)
             
             currentX = currentX + width
@@ -184,7 +184,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         self.moreButton?.frame = CGRect(x: currentX + 51, y: 195, width: 22, height: 22)
         self.moreLabel?.frame = CGRect(x: currentX + 25, y: self.moreButton!.frame.maxY + 66, width: 64, height: 14)
         
-        let tapOnMore =  UITapGestureRecognizer(target: self, action: "moreTap")
+        let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoryCollectionViewCell.moreTap))
         descLabel!.addGestureRecognizer(tapOnMore)
 //        var currentX : CGFloat = 0.0
 //        for  prod in products {

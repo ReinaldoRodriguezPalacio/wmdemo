@@ -27,12 +27,12 @@ class ImageScrollView: UIScrollView, UIScrollViewDelegate {
         self.decelerationRate = UIScrollViewDecelerationRateFast
         self.delegate = self
 
-        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewDoubleTapped:")
+        let doubleTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageScrollView.scrollViewDoubleTapped(_:)))
         doubleTapRecognizer.numberOfTapsRequired = 2
         doubleTapRecognizer.numberOfTouchesRequired = 1
         self.addGestureRecognizer(doubleTapRecognizer)
         
-        let twoFingerTapRecognizer = UITapGestureRecognizer(target: self, action: "scrollViewTwoFingerTapped:")
+        let twoFingerTapRecognizer = UITapGestureRecognizer(target: self, action: #selector(ImageScrollView.scrollViewTwoFingerTapped(_:)))
         twoFingerTapRecognizer.numberOfTapsRequired = 1
         twoFingerTapRecognizer.numberOfTouchesRequired = 2
         self.addGestureRecognizer(twoFingerTapRecognizer)

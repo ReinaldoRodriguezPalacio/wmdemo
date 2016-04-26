@@ -58,7 +58,7 @@ class ListSelectorViewCell: UITableViewCell {
         self.openDetail!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.openDetail!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         self.openDetail!.backgroundColor = UIColor.clearColor()
-        self.openDetail!.addTarget(self, action: "showListDetail", forControlEvents: .TouchUpInside)
+        self.openDetail!.addTarget(self, action: #selector(ListSelectorViewCell.showListDetail), forControlEvents: .TouchUpInside)
         self.openDetail!.hidden = hiddenOpenList
         self.contentView.addSubview(self.openDetail!)
 

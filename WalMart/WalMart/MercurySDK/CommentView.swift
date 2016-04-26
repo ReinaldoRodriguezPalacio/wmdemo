@@ -63,7 +63,7 @@ class CommentView : UIView {
         buttonMessage.setTitle("Mensaje", forState: UIControlState.Normal)
         buttonMessage.backgroundColor = UIColor.whiteColor()
         buttonMessage.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
-        buttonMessage.addTarget(self, action: "comment:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonMessage.addTarget(self, action: #selector(CommentView.comment(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         buttonMessage.layer.cornerRadius = 4
         buttonMessage.titleLabel?.font = MercuryFont.fontSFUIRegularOfSize(14)
         buttonMessage.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 20)
@@ -90,7 +90,7 @@ class CommentView : UIView {
         self.buttonCancel?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         self.buttonCancel?.setTitle("Cancelar", forState: UIControlState.Normal)
         self.buttonCancel?.layer.cornerRadius = 18
-        self.buttonCancel?.addTarget(self, action: "actionCancel", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonCancel?.addTarget(self, action: #selector(CommentView.actionCancel), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonCancel?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonCancel?.alpha = 0
         
@@ -98,7 +98,7 @@ class CommentView : UIView {
         self.buttonOk?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonOk?.setTitle("Enviar", forState: UIControlState.Normal)
         self.buttonOk?.layer.cornerRadius = 18
-        self.buttonOk?.addTarget(self, action: "actionDone", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonOk?.addTarget(self, action: #selector(CommentView.actionDone), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonOk?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonOk?.alpha = 0
         

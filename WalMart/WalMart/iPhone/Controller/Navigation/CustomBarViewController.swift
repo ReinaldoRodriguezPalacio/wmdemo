@@ -112,30 +112,30 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideTabBar:", name: CustomBarNotification.HideBar.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showTabBar:", name: CustomBarNotification.ShowBar.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showCategories", name: CustomBarNotification.ShowCategories.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showCartBadge:", name: CustomBarNotification.ShowCartBadge.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addItemToShoppingCart:", name: CustomBarNotification.AddUPCToShopingCart.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "addItemsToShoppingCart:", name: CustomBarNotification.AddItemsToShopingCart.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "notificaUpdateBadge:", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "userLogOut:", name: CustomBarNotification.UserLogOut.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "startUpdatingShoppingCart:", name: CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "endUpdatingShoppingCart:", name: CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "clearSearch", name: CustomBarNotification.ClearSearch.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.hideTabBar(_:)), name: CustomBarNotification.HideBar.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.showTabBar(_:)), name: CustomBarNotification.ShowBar.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("showCategories"), name: CustomBarNotification.ShowCategories.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("showCartBadge:"), name: CustomBarNotification.ShowCartBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.addItemToShoppingCart(_:)), name: CustomBarNotification.AddUPCToShopingCart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.addItemsToShoppingCart(_:)), name: CustomBarNotification.AddItemsToShopingCart.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.notificaUpdateBadge(_:)), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.userLogOut(_:)), name: CustomBarNotification.UserLogOut.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.startUpdatingShoppingCart(_:)), name: CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.endUpdatingShoppingCart(_:)), name: CustomBarNotification.UpdateShoppingCartEnd.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.clearSearch), name: CustomBarNotification.ClearSearch.rawValue, object: nil)
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hidebadge", name: CustomBarNotification.HideBadge.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showbadge", name: CustomBarNotification.ShowBadge.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showHelp", name: CustomBarNotification.ShowHelp.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.hidebadge), name: CustomBarNotification.HideBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.showbadge), name: CustomBarNotification.ShowBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.showHelp), name: CustomBarNotification.ShowHelp.rawValue, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShoppingCartEmptyGroceries", name: CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "closeShoppingCartEmptyMG", name: CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "editSearch:", name: CustomBarNotification.EditSearch.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCartEmptyGroceries), name: CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.closeShoppingCartEmptyMG), name: CustomBarNotification.ClearShoppingCartMG.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.editSearch(_:)), name: CustomBarNotification.EditSearch.rawValue, object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showListsGR", name: CustomBarNotification.ShowGRLists.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "camFindSearch:", name: CustomBarNotification.CamFindSearch.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "scanBarcode:", name: CustomBarNotification.ScanBarCode.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.showListsGR), name: CustomBarNotification.ShowGRLists.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.camFindSearch(_:)), name: CustomBarNotification.CamFindSearch.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: CustomBarNotification.ScanBarCode.rawValue, object: nil)
         
         
         
@@ -147,7 +147,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         self.headerView.backgroundColor = WMColor.light_blue
         self.buttonContainer!.backgroundColor = WMColor.light_blue
-        self.btnSearch?.addTarget(self, action: "search:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.btnSearch?.addTarget(self, action: #selector(CustomBarViewController.search(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         showBadge()
         
@@ -157,7 +157,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         reviewHelp(false)
         
-        let tapGestureLogo =  UITapGestureRecognizer(target: self, action: "logoTap")
+        let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         
         splashVC = IPOSplashViewController()
@@ -191,7 +191,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         createTabBarButtons()
         
-        gestureCloseShoppingCart = UISwipeGestureRecognizer(target: self, action: "closeShoppingCart")
+        gestureCloseShoppingCart = UISwipeGestureRecognizer(target: self, action: #selector(CustomBarViewController.closeShoppingCart))
         gestureCloseShoppingCart.direction = UISwipeGestureRecognizerDirection.Up
         
         
@@ -335,7 +335,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 button.setImage(UIImage(named: NSString(format: "%@_active", image) as String), forState: .Selected)
                 button.setImage(UIImage(named: NSString(format: "%@_active", image) as String), forState: .Highlighted)
                 button.imageView!.contentMode =  UIViewContentMode.Center
-                button.addTarget(self, action: "buttonSelected:", forControlEvents: .TouchUpInside)
+                button.addTarget(self, action: #selector(CustomBarViewController.buttonSelected(_:)), forControlEvents: .TouchUpInside)
                 button.selected = image == "tabBar_home"
                 button.frame = CGRectMake(x, 2, TABBAR_HEIGHT, TABBAR_HEIGHT)
                 
@@ -719,7 +719,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
             self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
-            self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpForSearchView"))
+            self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.removeHelpForSearchView)))
             controller.view.addSubview(self.helpView!)
             
             let icon = UIImageView(image: UIImage(named: "search_scan_help"))
@@ -1000,7 +1000,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     self.btnCloseShopping = UIButton()
                     self.btnCloseShopping?.frame = self.btnShopping!.frame
                     self.btnCloseShopping?.setImage(UIImage(named:"close"), forState: .Normal)
-                    self.btnCloseShopping?.addTarget(self, action: "showShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+                    self.btnCloseShopping?.addTarget(self, action: #selector(CustomBarViewController.showShoppingCart as (CustomBarViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
                     self.btnShopping?.superview?.addSubview(self.btnCloseShopping!)
                     
                 }
@@ -1124,7 +1124,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
         self.buttonSelected(self.buttonList[0])
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "sendHomeNotification", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CustomBarViewController.sendHomeNotification), userInfo: nil, repeats: false)
     }
     
     func sendHomeNotification(){

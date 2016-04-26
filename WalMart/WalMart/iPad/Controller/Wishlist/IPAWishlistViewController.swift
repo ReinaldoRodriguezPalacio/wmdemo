@@ -43,7 +43,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         self.wishlist.dataSource = self
         self.wishlist.delegate = self
         
-        self.editWishlist.addTarget(self, action: "editWishlist:", forControlEvents: .TouchUpInside)
+        self.editWishlist.addTarget(self, action: #selector(IPAWishlistViewController.editWishlist(_:)), forControlEvents: .TouchUpInside)
         self.view.addSubview(self.editWishlist)
         
         titleWishlist.font = WMFont.fontMyriadProRegularOfSize(24)
@@ -55,7 +55,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         buyWishlist.backgroundColor = WMColor.green
         buyWishlist.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buyWishlist.layer.cornerRadius = self.buyWishlist.frame.height / 2
-        buyWishlist.addTarget(self, action: "senditemsToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        buyWishlist.addTarget(self, action: #selector(IPAWishlistViewController.senditemsToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
        
         
@@ -94,7 +94,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         
         let closeWL = UIButton(frame: CGRectMake(0, 0, self.header.frame.height, self.header.frame.height))
         closeWL.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
-        closeWL.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+        closeWL.addTarget(self, action: #selector(IPAWishlistViewController.close), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(closeWL)
         
         if emptyView  != nil{
@@ -132,7 +132,7 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
     
     
     func registerNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAWishlistViewController.reloadWishlist), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
 
         
     }

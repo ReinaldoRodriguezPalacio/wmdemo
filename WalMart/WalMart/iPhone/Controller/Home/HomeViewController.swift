@@ -58,12 +58,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
     
         print("::::PLECA VALOR:::")
-        NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: "removePleca", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: false)
         
         self.recommendItems = []
         
         self.categories = getCategories()
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatecontent:", name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.updatecontent(_:)), name: UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
         
         self.view.clipsToBounds = true
         collection!.clipsToBounds = true
@@ -97,7 +97,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             if timmerPleca != nil {
                 timmerPleca.invalidate()
             }
-            timmerPleca = NSTimer.scheduledTimerWithTimeInterval(itntervalPleca, target: self, selector: "removePleca", userInfo: nil, repeats: true)
+            timmerPleca = NSTimer.scheduledTimerWithTimeInterval(itntervalPleca, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: true)
         
         
     }
@@ -136,7 +136,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", forState:.Normal)
-            detailsButton!.addTarget(self, action: "openUrl", forControlEvents: .TouchUpInside)
+            detailsButton!.addTarget(self, action: #selector(HomeViewController.openUrl), forControlEvents: .TouchUpInside)
             detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0

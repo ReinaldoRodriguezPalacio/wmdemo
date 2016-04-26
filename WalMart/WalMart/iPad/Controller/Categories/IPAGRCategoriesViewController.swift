@@ -311,7 +311,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.titleLabel?.numberOfLines = 2;
             self.titleLabel?.attributedText = boldString;
             self.titleLabel?.userInteractionEnabled = true;
-            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(IPAGRCategoriesViewController.changeStore))
             self.titleLabel?.addGestureRecognizer(tapGesture)
             self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
         }else{

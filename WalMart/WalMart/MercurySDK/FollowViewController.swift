@@ -65,20 +65,20 @@ class FollowViewController : UIViewController, MKMapViewDelegate, UIAlertViewDel
         self.view.addSubview(viewImage!)
         
         
-        panGesture = UIPanGestureRecognizer(target: self, action: "move:")
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(FollowViewController.move(_:)))
         panGesture?.minimumNumberOfTouches = 1
         panGesture?.maximumNumberOfTouches = 1
         self.view.addGestureRecognizer(panGesture!)
         
         
-        tapGesture = UITapGestureRecognizer(target: self, action: "select")
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(FollowViewController.select as (FollowViewController) -> () -> ()))
         self.view.addGestureRecognizer(tapGesture!)
         
         closeButton = UIButton(frame: CGRectMake(0, 20, 40, 44))
         self.closeButton!.alpha = 0
         self.closeButton!.setImage(UIImage(named: "close_map"), forState: UIControlState.Normal)
         self.closeButton!.contentMode = UIViewContentMode.Center
-        self.closeButton!.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+        self.closeButton!.addTarget(self, action: #selector(FollowViewController.close), forControlEvents: UIControlEvents.TouchUpInside)
        
         //Header
         headContaimer = UIView()
@@ -120,7 +120,7 @@ class FollowViewController : UIViewController, MKMapViewDelegate, UIAlertViewDel
         callButton?.setTitle("Llamar a Carlos", forState: UIControlState.Normal)
         callButton?.backgroundColor = UIColor(red: 5/255, green: 206/255, blue: 124/255, alpha: 1.0)
         callButton?.layer.cornerRadius = 16
-        callButton?.addTarget(self, action: "callShopper", forControlEvents: UIControlEvents.TouchUpInside)
+        callButton?.addTarget(self, action: #selector(FollowViewController.callShopper), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         footerContaimer?.addSubview(backgroundFooter!)
@@ -184,7 +184,7 @@ class FollowViewController : UIViewController, MKMapViewDelegate, UIAlertViewDel
         
         if panGesture.state == UIGestureRecognizerState.Ended {
             
-            timmerSleep = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: "sleep", userInfo: nil, repeats: false)
+            timmerSleep = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(FollowViewController.sleep), userInfo: nil, repeats: false)
             
             let space : CGFloat = 5.0
             let currentX = self.firstPoint.x + translatedPoint.x

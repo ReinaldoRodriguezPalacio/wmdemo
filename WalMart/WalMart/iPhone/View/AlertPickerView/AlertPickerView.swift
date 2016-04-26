@@ -99,7 +99,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         viewContent.addSubview(headerView)
         
         closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-        closeButton!.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton!.addTarget(self, action: #selector(AlertPickerView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
         closeButton!.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
         headerView.addSubview(closeButton!)
 
@@ -129,7 +129,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
         buttonOk.center = CGPointMake(self.viewContent.frame.width / 2, 32)
-        buttonOk.addTarget(self, action: "okAction", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonOk.addTarget(self, action: #selector(AlertPickerView.okAction), forControlEvents: UIControlEvents.TouchUpInside)
         
         buttonCancel = UIButton(frame: CGRectMake(0, 0, 120, 34))
         buttonCancel.backgroundColor = WMColor.empty_gray_btn
@@ -137,7 +137,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         buttonCancel.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonCancel.setTitle("Cancelar", forState: UIControlState.Normal)
         buttonCancel.center = CGPointMake((self.viewContent.frame.width / 2) - 68 , 32)
-        buttonCancel.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonCancel.addTarget(self, action: #selector(AlertPickerView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
         
         if self.showCancelButton{
             buttonOk.frame = CGRectMake(0, 0, 120, 34)
@@ -231,7 +231,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             if self.selectDelegate{
                 cell.showButton?.hidden = false
                 cell.showButton?.tag = indexPath.row
-                cell.showButton?.addTarget(self, action: "cellShowButtonSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+                cell.showButton?.addTarget(self, action: #selector(AlertPickerView.cellShowButtonSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             }
             return cell
         }
@@ -436,7 +436,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             self.buttonRight = nil
         }
         self.buttonRight = buttonRight
-        self.buttonRight.addTarget(self, action: "newItemForm", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonRight.addTarget(self, action: #selector(AlertPickerView.newItemForm), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
         self.viewContent.addSubview(buttonRight)
     }
@@ -463,7 +463,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
             self.buttonRight.setTitle(NSLocalizedString("profile.save", comment: ""), forState: UIControlState.Normal)
             
             viewButtonClose = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-            viewButtonClose.addTarget(self, action: "closeNew", forControlEvents: UIControlEvents.TouchUpInside)
+            viewButtonClose.addTarget(self, action: #selector(AlertPickerView.closeNew), forControlEvents: UIControlEvents.TouchUpInside)
             viewButtonClose.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
             viewButtonClose.alpha = 0
             self.headerView.addSubview(viewButtonClose)

@@ -69,7 +69,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
         self.saveButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(AddressViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.hidden = true
         self.saveButton!.alpha = 0
@@ -120,7 +120,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.idAddress = id
                 self.titleLabel!.text = self.item!["name"] as! String?
                 deleteButton = UIButton()
-                deleteButton?.addTarget(self, action: "deleteAddress:", forControlEvents: .TouchUpInside)
+                deleteButton?.addTarget(self, action: #selector(AddressViewController.deleteAddress(_:)), forControlEvents: .TouchUpInside)
                 deleteButton!.setImage(UIImage(named: "deleteAddress"), forState: UIControlState.Normal)
                 self.header!.addSubview(self.deleteButton!)
             }
@@ -169,7 +169,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         
             addressShipingButton!.setImage(checkTermOff, forState: UIControlState.Normal)
             addressShipingButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressShipingButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+            addressShipingButton!.addTarget(self, action: #selector(AddressViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             addressShipingButton!.setTitle(NSLocalizedString("profile.address.shiping",  comment: ""), forState: UIControlState.Normal)
             addressShipingButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressShipingButton!.titleLabel?.textColor = WMColor.gray
@@ -180,7 +180,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             
             addressFiscalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalButton!.titleLabel?.textColor = WMColor.gray
-            addressFiscalButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+            addressFiscalButton!.addTarget(self, action: #selector(AddressViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
           
             addressFiscalButton!.setTitle(NSLocalizedString("profile.address.fiscal",  comment: ""), forState: UIControlState.Normal)
             addressFiscalButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0);
@@ -225,7 +225,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalPersonButton = UIButton()
             addressFiscalPersonButton!.setImage(checkTermOff, forState: UIControlState.Normal)
             addressFiscalPersonButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressFiscalPersonButton!.addTarget(self, action: "checkSelectedFisical:", forControlEvents: UIControlEvents.TouchUpInside)
+            addressFiscalPersonButton!.addTarget(self, action: #selector(AddressViewController.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalPersonButton!.setTitle(NSLocalizedString("profile.address.person",  comment: ""), forState: UIControlState.Normal)
             addressFiscalPersonButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalPersonButton!.titleLabel?.textColor = WMColor.gray
@@ -236,7 +236,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             addressFiscalMoralButton = UIButton()
             addressFiscalMoralButton!.setImage(checkTermOff, forState: UIControlState.Normal)
             addressFiscalMoralButton!.setImage(checkTermOn, forState: UIControlState.Selected)
-            addressFiscalMoralButton!.addTarget(self, action: "checkSelectedFisical:", forControlEvents: UIControlEvents.TouchUpInside)
+            addressFiscalMoralButton!.addTarget(self, action: #selector(AddressViewController.checkSelectedFisical(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             addressFiscalMoralButton!.setTitle(NSLocalizedString("profile.address.corporate",  comment: ""), forState: UIControlState.Normal)
             addressFiscalMoralButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
             addressFiscalMoralButton!.titleLabel?.textColor = WMColor.gray

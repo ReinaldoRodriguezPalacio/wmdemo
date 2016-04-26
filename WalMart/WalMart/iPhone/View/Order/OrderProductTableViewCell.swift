@@ -42,7 +42,7 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         btnShoppingCart = UIButton(frame: CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32))
         btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
-        btnShoppingCart.addTarget(self, action: "addToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        btnShoppingCart.addTarget(self, action: #selector(OrderProductTableViewCell.addToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, 1))
         separatorView.backgroundColor = WMColor.light_gray

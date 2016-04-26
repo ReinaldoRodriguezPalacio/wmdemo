@@ -27,7 +27,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         
         options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadMenu", name:"MORE_OPTIONS_RELOAD", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadMenu), name:"MORE_OPTIONS_RELOAD", object: nil)
         print("Create MORE_OPTIONS_RELOAD")
         // Como usar el app
         self.selected = NSIndexPath(forRow: 0, inSection: 2)
@@ -183,7 +183,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
     override func editProfile(sender:UIButton) {
        self.delegate.selectedDetail(10)
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadProfile", name: "RELOAD_PROFILE", object: nil)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadProfile), name: "RELOAD_PROFILE", object: nil)
 
     }
     

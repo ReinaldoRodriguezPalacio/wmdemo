@@ -25,11 +25,11 @@ class MGShoppingCartQuantitySelectorView : ShoppingCartQuantitySelectorView {
     self.lblQuantity.textAlignment = .Center
     
     self.btnLess = UIButton(frame: CGRectMake(lblQuantity.frame.minX , lblQuantity.frame.minY , 32, 32))
-    self.btnLess.addTarget(self, action: "btnLessAction", forControlEvents: UIControlEvents.TouchUpInside)
+    self.btnLess.addTarget(self, action: #selector(MGShoppingCartQuantitySelectorView.btnLessAction), forControlEvents: UIControlEvents.TouchUpInside)
     self.btnLess.setImage(UIImage(named: "addProduct_Less"), forState: UIControlState.Normal)
     
     self.btnMore = UIButton(frame: CGRectMake(lblQuantity.frame.maxX - 32, lblQuantity.frame.minY , 32, 32))
-    self.btnMore.addTarget(self, action: "btnMoreAction", forControlEvents: UIControlEvents.TouchUpInside)
+    self.btnMore.addTarget(self, action: #selector(MGShoppingCartQuantitySelectorView.btnMoreAction), forControlEvents: UIControlEvents.TouchUpInside)
     self.btnMore.setImage(UIImage(named: "addProduct_Add"), forState: UIControlState.Normal)
     
     self.addSubview(btnLess)

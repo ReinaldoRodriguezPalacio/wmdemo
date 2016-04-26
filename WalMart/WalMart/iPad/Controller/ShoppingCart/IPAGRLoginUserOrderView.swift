@@ -49,7 +49,7 @@ class IPAGRLoginUserOrderView : UIView {
         btnLogin.layer.cornerRadius = 20
         btnLogin.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
         btnLogin.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
-        btnLogin.addTarget(self, action: "showlogin", forControlEvents: UIControlEvents.TouchUpInside)
+        btnLogin.addTarget(self, action: #selector(IPAGRLoginUserOrderView.showlogin), forControlEvents: UIControlEvents.TouchUpInside)
         btnLogin.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.addSubview(btnLogin)
         

@@ -55,7 +55,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         self.addProductToShopingCart = UIButton()
         self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
-        self.addProductToShopingCart!.addTarget(self, action: "addProductToShoping", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addProductToShopingCart!.addTarget(self, action: #selector(SearchProductCollectionViewCell.addProductToShoping), forControlEvents: UIControlEvents.TouchUpInside)
        
         self.contentView.addSubview(productPriceThroughLabel!)
         

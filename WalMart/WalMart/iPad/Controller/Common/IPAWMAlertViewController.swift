@@ -108,7 +108,7 @@ class IPAWMAlertViewController: IPOWMAlertViewController {
         
         self.cancelButton!.backgroundColor = colorButton
         
-        self.cancelButton!.addTarget(self, action: "cancelBtn", forControlEvents: .TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(IPAWMAlertViewController.cancelBtn), forControlEvents: .TouchUpInside)
         self.cancelButton!.layer.cornerRadius = 20
         
         var bounds = self.view.bounds

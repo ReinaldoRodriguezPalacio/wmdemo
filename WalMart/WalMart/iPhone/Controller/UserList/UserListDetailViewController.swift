@@ -86,7 +86,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.editBtn!.setBackgroundImage(iconSelected, forState: .Selected)
         self.editBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.editBtn!.layer.cornerRadius = 11
-        self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
+        self.editBtn!.addTarget(self, action: #selector(UserListDetailViewController.showEditionMode), forControlEvents: .TouchUpInside)
         self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.hidden = true
@@ -101,7 +101,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.deleteAllBtn!.layer.cornerRadius = 11
         self.deleteAllBtn!.alpha = 0
         self.deleteAllBtn!.hidden = true
-        self.deleteAllBtn!.addTarget(self, action: "deleteAll", forControlEvents: .TouchUpInside)
+        self.deleteAllBtn!.addTarget(self, action: #selector(UserListDetailViewController.deleteAll), forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.deleteAllBtn!)
 
         self.titleLabel?.text = self.listName
@@ -116,7 +116,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), forState: .Normal)
         self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Selected)
         self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Highlighted)
-        self.duplicateButton!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
+        self.duplicateButton!.addTarget(self, action: #selector(UserListDetailViewController.duplicate), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.duplicateButton!)
         
         var x = self.duplicateButton!.frame.maxX + 16.0
@@ -124,14 +124,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: "shareList", forControlEvents: .TouchUpInside)
+        self.shareButton!.addTarget(self, action: #selector(UserListDetailViewController.shareList), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
-        self.addToCartButton!.addTarget(self, action: "addListToCart", forControlEvents: .TouchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(UserListDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.addToCartButton!)
 
         self.customLabel = CurrencyCustomLabel(frame: self.addToCartButton!.bounds)
@@ -149,7 +149,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton!.setImage(UIImage(named: "reminder_icon"), forState: .Normal)
         self.reminderButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.reminderButton!.backgroundColor = WMColor.orange
-        self.reminderButton!.addTarget(self, action: "addReminder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.reminderButton!.addTarget(self, action: #selector(UserListDetailViewController.addReminder), forControlEvents: UIControlEvents.TouchUpInside)
         self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
         self.reminderButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
@@ -187,7 +187,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: "tabBarActions",name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
         //Solo para presentar los resultados al presentar el controlador sin delay
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             loadServiceItems(nil)
@@ -596,7 +596,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         button.backgroundColor = WMColor.light_blue
         button.setTitle(NSLocalizedString("list.detail.empty.back", comment:""), forState: .Normal)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        button.addTarget(self, action: "backEmpty", forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(UserListDetailViewController.backEmpty), forControlEvents: .TouchUpInside)
         button.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         button.layer.cornerRadius = 20.0
         button.hidden = UserCurrentSession.hasLoggedUser()

@@ -72,12 +72,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.signInOrClose?.setBackgroundColor(WMColor.green, size: sizeImage, forUIControlState: UIControlState.Normal)
         self.signInOrClose?.setTitle("iniciar sesión", forState: UIControlState.Normal)
         //self.signInOrClose?.setTitle(" ", forState: UIControlState.Highlighted)
-        self.signInOrClose?.addTarget(self, action: "openLoginOrProfile", forControlEvents: UIControlEvents.TouchUpInside)
+        self.signInOrClose?.addTarget(self, action: #selector(MoreOptionsViewController.openLoginOrProfile), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(signInOrClose!)
        
         
         self.editProfileButton = UIButton()
-        self.editProfileButton.addTarget(self, action: "editProfile:", forControlEvents: .TouchUpInside)
+        self.editProfileButton.addTarget(self, action: #selector(MoreOptionsViewController.editProfile(_:)), forControlEvents: .TouchUpInside)
         self.editProfileButton.setImage(UIImage(named: "editProfile"), forState: UIControlState.Normal)
         self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Selected)
         self.editProfileButton.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Highlighted)
@@ -94,7 +94,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 
         self.view.addSubview(tableView!)
             
-       NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadProfileData", name: ProfileNotification.updateProfile.rawValue, object: nil)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: ProfileNotification.updateProfile.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {

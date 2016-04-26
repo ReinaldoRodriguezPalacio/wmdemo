@@ -297,7 +297,7 @@ public class PostDelivery : HelpMercuryViewDelegate {
     }
     
     class func scaleFactor() -> CGFloat {
-        if UIScreen.mainScreen().respondsToSelector("displayLinkWithTarget:selector:") {
+        if UIScreen.mainScreen().respondsToSelector(#selector(UIScreen.displayLinkWithTarget(_:selector:))) {
             return UIScreen.mainScreen().scale
         }
         return 1.0

@@ -82,7 +82,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     }
     
     override func viewWillAppear(animated: Bool) {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "finisSearch", name: "FINISH_SEARCH", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPALinesViewController.finisSearch), name: "FINISH_SEARCH", object: nil)
 
         if self.loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(11, 11, self.view.bounds.width, self.view.bounds.height - 46))

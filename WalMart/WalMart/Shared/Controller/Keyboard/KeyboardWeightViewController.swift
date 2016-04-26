@@ -36,7 +36,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         orderPiceButton.backgroundColor = WMColor.blue
         orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         orderPiceButton.layer.cornerRadius = 9
-        orderPiceButton.addTarget(self, action: "gotopice", forControlEvents: UIControlEvents.TouchUpInside)
+        orderPiceButton.addTarget(self, action: #selector(KeyboardWeightViewController.gotopice), forControlEvents: UIControlEvents.TouchUpInside)
         
         addButton.backgroundColor = WMColor.green
         addButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -49,14 +49,14 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
         addButton.backgroundColor = WMColor.green
-        addButton.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        addButton.addTarget(self, action: Selector("addtoshoppingcart:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let btnLess = UIButton(frame: CGRectMake(0, 0, 32, 32))
-        btnLess.addTarget(self, action: "btnLessAction", forControlEvents: UIControlEvents.TouchUpInside)
+        btnLess.addTarget(self, action: #selector(KeyboardWeightViewController.btnLessAction), forControlEvents: UIControlEvents.TouchUpInside)
         btnLess.setImage(UIImage(named: "addProduct_Less"), forState: UIControlState.Normal)
         
         let btnMore = UIButton(frame: CGRectMake(viewContainerQ.frame.width - 32, 0 , 32, 32))
-        btnMore.addTarget(self, action: "btnMoreAction", forControlEvents: UIControlEvents.TouchUpInside)
+        btnMore.addTarget(self, action: #selector(KeyboardWeightViewController.btnMoreAction), forControlEvents: UIControlEvents.TouchUpInside)
         btnMore.setImage(UIImage(named: "addProduct_Add"), forState: UIControlState.Normal)
         
         lblQuantity = UILabel(frame:CGRectMake(btnLess.frame.maxX + 2, 0 , btnMore.frame.minX - btnLess.frame.maxX - 4, 40))
@@ -66,7 +66,7 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         lblQuantity.textAlignment = NSTextAlignment.Center
         lblQuantity.minimumScaleFactor =  35 / 40
         lblQuantity.adjustsFontSizeToFitWidth = true
-        let gestureQuantity = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
+        let gestureQuantity = UITapGestureRecognizer(target: self, action: #selector(KeyboardWeightViewController.changetonumberpad(_:)))
         lblQuantity.addGestureRecognizer(gestureQuantity)
         lblQuantity.userInteractionEnabled = true
         
@@ -74,14 +74,14 @@ class KeyboardWeightViewController : UIViewController, KeyboardViewDelegate {
         quantityWAnimate.backgroundColor = UIColor.whiteColor()
         quantityWAnimate.alpha = 0
         lblQuantity.addSubview(quantityWAnimate)
-        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "updateAnimation", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(KeyboardWeightViewController.updateAnimation), userInfo: nil, repeats: true)
         
         viewContainerQ.addSubview(lblQuantity)
         viewContainerQ.addSubview(btnLess)
         viewContainerQ.addSubview(btnMore)
         
         btnNote.setImage(UIImage(named:"notes_keyboard"), forState: UIControlState.Normal)
-        btnNote.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNote.addTarget(self, action: Selector("updateOrAddNote"), forControlEvents: UIControlEvents.TouchUpInside)
         btnNote.alpha =  0
 
         self.updateLabelW()

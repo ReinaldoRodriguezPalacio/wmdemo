@@ -32,7 +32,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
         orderPiceButton.backgroundColor = WMColor.blue
         orderPiceButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         orderPiceButton.layer.cornerRadius = 9
-        orderPiceButton.addTarget(self, action: "gotograms", forControlEvents: UIControlEvents.TouchUpInside)
+        orderPiceButton.addTarget(self, action: #selector(KeyboardPicesViewController.gotograms), forControlEvents: UIControlEvents.TouchUpInside)
         
         addButton.backgroundColor = WMColor.green
         addButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -46,7 +46,7 @@ class KeyboardPicesViewController : UIViewController, KeyboardViewDelegate {
         addButton.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         addButton.layer.cornerRadius = 18.0
         addButton.backgroundColor = WMColor.green
-        addButton.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        addButton.addTarget(self, action: Selector("addtoshoppingcart:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         lblQuantity = UILabel(frame:CGRectMake(0, 0 ,viewContainerQ.frame.width, 40))

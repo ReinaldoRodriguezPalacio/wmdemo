@@ -44,7 +44,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         buttonCollapse.setImage(UIImage(named:"check_blue_empty"), forState: UIControlState.Selected)
         buttonCollapse.setTitle(NSLocalizedString("gr.category.especiales",comment:""), forState: UIControlState.Normal)
         buttonCollapse.setTitle(NSLocalizedString("gr.category.especiales",comment:""), forState: UIControlState.Selected)
-        buttonCollapse.addTarget(self, action: "collapse:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonCollapse.addTarget(self, action: #selector(IPOGRCategoriesViewController.collapse(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         buttonCollapse.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         buttonCollapse.titleLabel!.textColor = WMColor.light_blue
         buttonCollapse.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
@@ -432,7 +432,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             self.titleLabel?.numberOfLines = 1
             self.titleLabel?.attributedText = boldString;
             self.titleLabel?.userInteractionEnabled = true;
-            let tapGesture = UITapGestureRecognizer(target: self, action: "changeStore")
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(IPOGRCategoriesViewController.changeStore))
             self.titleLabel?.addGestureRecognizer(tapGesture)
         }else{
             self.titleLabel?.text = "Walmart Buenavista"

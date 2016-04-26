@@ -28,20 +28,20 @@ class TmpIPAHomeViewController : BaseController {
         viewSuper = IPOGroceriesView(frame: CGRectMake(0, self.headerView.frame.maxY, 1024, 48))
         self.view.addSubview(viewSuper)
         
-        let tapGestureLogo =  UITapGestureRecognizer(target: self, action: "logoTap")
+        let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(TmpIPAHomeViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         
         self.view.bringSubviewToFront(self.headerView)
         
         
-          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "disapearSuperView", userInfo: nil, repeats: false)
+          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(TmpIPAHomeViewController.disapearSuperView), userInfo: nil, repeats: false)
         
     }
     
     func apearSuperView (){
         isShowingGroceriesView = true
         supperIndicator.image = UIImage(named: "home_switch_On")
-          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "disapearSuperView", userInfo: nil, repeats: false)
+          NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: #selector(TmpIPAHomeViewController.disapearSuperView), userInfo: nil, repeats: false)
         self.viewSuper.generateBlurImageWithView(self.webview)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.viewSuper.frame = CGRectMake(0,self.headerView.frame.maxY, self.viewSuper.frame.width, self.viewSuper.frame.height)

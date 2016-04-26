@@ -56,7 +56,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
         closeButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(GRShoppingCartViewController.closeShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         viewHerader.addSubview(closeButton)
         viewHerader.addSubview(titleView)
@@ -85,16 +85,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.addToListButton = UIButton(frame: CGRectMake(8 ,0, 50, viewFooter.frame.height))
         self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
         self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
-        self.addToListButton!.addTarget(self, action: "addCartToList", forControlEvents: .TouchUpInside)
+        self.addToListButton!.addTarget(self, action: #selector(GRShoppingCartViewController.addCartToList), forControlEvents: .TouchUpInside)
         
         let buttonShare = UIButton(frame: CGRectMake(self.addToListButton!.frame.maxX, 0, 50, viewFooter.frame.height))
         buttonShare.setImage(UIImage(named: "detail_shareOff"), forState: UIControlState.Normal)
-        buttonShare.addTarget(self, action: "shareShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShare.addTarget(self, action: #selector(GRShoppingCartViewController.shareShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         buttonShop = UIButton(frame: CGRectMake(buttonShare.frame.maxX + 8, (viewFooter.frame.height / 2) - 17, self.view.frame.width - buttonShare.frame.maxX - 24, 34))
         buttonShop.backgroundColor = WMColor.green
         buttonShop.layer.cornerRadius = 17
-        buttonShop.addTarget(self, action: "showshoppingcart", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShop.addTarget(self, action: #selector(GRShoppingCartViewController.showshoppingcart), forControlEvents: UIControlEvents.TouchUpInside)
         buttonShop.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         
         viewFooter.addSubview(self.addToListButton!)
@@ -111,7 +111,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         editButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         editButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editButton.layer.cornerRadius = 11
-        editButton.addTarget(self, action: "editAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        editButton.addTarget(self, action: #selector(GRShoppingCartViewController.editAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         editButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 80, 12, 75, 22))
@@ -122,7 +122,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         deleteall.layer.cornerRadius = 11
         deleteall.alpha = 0
         deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
-        deleteall.addTarget(self, action: "deleteAll", forControlEvents: UIControlEvents.TouchUpInside)
+        deleteall.addTarget(self, action: #selector(GRShoppingCartViewController.deleteAll), forControlEvents: UIControlEvents.TouchUpInside)
         
         viewHerader.addSubview(editButton)
         viewHerader.addSubview(deleteall)
@@ -173,7 +173,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadGRShoppingCart", name: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GRShoppingCartViewController.reloadGRShoppingCart), name: CustomBarNotification.SuccessAddItemsToShopingCart.rawValue, object: nil)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.viewFooter.alpha = 1
         })

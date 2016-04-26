@@ -55,7 +55,7 @@ class AddressViewCell: SWTableViewCell {
 
         self.preferedButton.setImage(UIImage(named:"favorite_empty"), forState: UIControlState.Normal)
         self.preferedButton.setImage(UIImage(named:"favorite_selected"), forState: UIControlState.Selected)
-        self.preferedButton.addTarget(self , action: "applyPrefered", forControlEvents:UIControlEvents.TouchUpInside)
+        self.preferedButton.addTarget(self , action: #selector(AddressViewCell.applyPrefered), forControlEvents:UIControlEvents.TouchUpInside)
         
         self.contentView.addSubview(preferedButton)
         self.contentView.addSubview(titleLabel)

@@ -58,7 +58,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.viewBackground?.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         self.view.addSubview(self.viewBackground!)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:"handleTap:")
+        let tapGestureRecognizer = UITapGestureRecognizer(target:self,action:#selector(SearchViewController.handleTap(_:)))
         self.viewTapClose?.addGestureRecognizer(tapGestureRecognizer)
         self.viewTapClose?.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.viewTapClose!)
@@ -117,7 +117,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
-        self.clearButton!.addTarget(self, action: "clearSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        self.clearButton!.addTarget(self, action: #selector(SearchViewController.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
         self.clearButton!.hidden = true
         self.header!.addSubview(self.clearButton!)
         
@@ -125,7 +125,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
         self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
         self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
-        self.camButton!.addTarget(self, action: "showCamera:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.camButton!.addTarget(self, action: #selector(SearchViewController.showCamera(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.view!.addSubview(self.camButton!)
         
         self.camLabel = UILabel()
@@ -140,7 +140,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
         self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
         self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
-        self.scanButton!.addTarget(self, action: "showBarCode:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.scanButton!.addTarget(self, action: #selector(SearchViewController.showBarCode(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.view!.addSubview(self.scanButton!)
         
         self.scanLabel = UILabel()
@@ -153,7 +153,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         
         self.cancelButton = UIButton(type: .Custom)
         self.cancelButton!.frame = CGRectMake(0.0, 0.0, 44.0, 44.0)
-        self.cancelButton!.addTarget(self, action: "cancel:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(SearchViewController.cancel(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.cancelButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.setTitle(NSLocalizedString("product.searh.cancel",  comment: ""), forState: UIControlState.Normal)
         

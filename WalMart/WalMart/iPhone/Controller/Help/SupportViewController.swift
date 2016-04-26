@@ -113,12 +113,12 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         
         self.buttomCall.setImage(UIImage(named:"support-call"), forState: UIControlState.Normal)
         self.buttomCall.setImage(UIImage(named:"support-call."), forState: UIControlState.Selected)
-        self.buttomCall.addTarget(self , action: "selectecButton:", forControlEvents:UIControlEvents.TouchUpInside)
+        self.buttomCall.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), forControlEvents:UIControlEvents.TouchUpInside)
         self.buttomCall.backgroundColor = UIColor.clearColor()
         
         self.buttomMail.setImage(UIImage(named:"support-email"), forState: UIControlState.Normal)
         self.buttomMail.setImage(UIImage(named:"support-email"), forState: UIControlState.Selected)
-        self.buttomMail.addTarget(self , action: "selectecButton:", forControlEvents:UIControlEvents.TouchUpInside)
+        self.buttomMail.addTarget(self , action: #selector(SupportViewController.selectecButton(_:)), forControlEvents:UIControlEvents.TouchUpInside)
         self.buttomMail.backgroundColor = UIColor.clearColor()
       
         self.view.addSubview(imgConfirm)

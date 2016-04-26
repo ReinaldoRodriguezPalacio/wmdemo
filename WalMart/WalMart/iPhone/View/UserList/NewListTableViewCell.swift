@@ -46,13 +46,13 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
         self.saveButton!.setTitle(NSLocalizedString("list.new.keyboard.save", comment:""), forState: .Normal)
         self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.saveButton!.backgroundColor = WMColor.green
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(NewListTableViewCell.save(_:)), forControlEvents: .TouchUpInside)
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always
 
         self.scanTicketBtn = UIButton(type: .Custom)
         self.scanTicketBtn!.setImage(UIImage(named: "list_scan_ticket"), forState: .Normal)
-        self.scanTicketBtn!.addTarget(self, action: "scanTicket:", forControlEvents: .TouchUpInside)
+        self.scanTicketBtn!.addTarget(self, action: #selector(NewListTableViewCell.scanTicket(_:)), forControlEvents: .TouchUpInside)
         self.contentView.addSubview(self.scanTicketBtn!)
 
         self.separatorView = UIView()

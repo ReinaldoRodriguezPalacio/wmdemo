@@ -32,7 +32,7 @@ class NavigationViewController: IPOBaseController {
         if !hiddenBack{
             self.backButton = UIButton()
             self.backButton!.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
-            self.backButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+            self.backButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
             self.header?.addSubview(self.backButton!)
        }//if !hiddenBack{
     

@@ -27,7 +27,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         super.viewDidLoad()
         
 
-         NSNotificationCenter.defaultCenter().addObserver(self, selector: "setValues", name: ProfileNotification.updateProfile.rawValue, object: nil)
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.setValues), name: ProfileNotification.updateProfile.rawValue, object: nil)
         
         imageBG = UIImageView()
         imageBG!.image = UIImage(named: "profileBg")
@@ -58,12 +58,12 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         signOutButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         signOutButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
         signOutButton!.backgroundColor = WMColor.dark_blue
-        signOutButton?.addTarget(self, action: "signOut:", forControlEvents: .TouchUpInside)
+        signOutButton?.addTarget(self, action: #selector(ProfileViewController.signOut(_:)), forControlEvents: .TouchUpInside)
         signOutButton!.layer.cornerRadius = 14.0
         self.viewProfile!.addSubview(self.signOutButton!)
 
         self.editProfileButton = UIButton()
-        self.editProfileButton?.addTarget(self, action: "editProfile:", forControlEvents: .TouchUpInside)
+        self.editProfileButton?.addTarget(self, action: #selector(ProfileViewController.editProfile(_:)), forControlEvents: .TouchUpInside)
         self.editProfileButton!.setImage(UIImage(named: "editProfile"), forState: UIControlState.Normal)
         self.editProfileButton!.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Selected)
         self.editProfileButton!.setImage(UIImage(named: "editProfile_active"), forState: UIControlState.Highlighted)
@@ -72,7 +72,7 @@ class ProfileViewController: IPOBaseController, UITableViewDelegate, UITableView
         
         if !hiddenBack{
             self.backButton = UIButton()
-            self.backButton?.addTarget(self, action: "back", forControlEvents: .TouchUpInside)
+            self.backButton?.addTarget(self, action: #selector(ProfileViewController.back), forControlEvents: .TouchUpInside)
             self.backButton!.setImage(UIImage(named: "search_back"), forState: UIControlState.Normal)
             self.backButton!.setImage(UIImage(named: "search_back"), forState: UIControlState.Selected)
             self.backButton!.setImage(UIImage(named: "search_back"), forState: UIControlState.Highlighted)

@@ -61,7 +61,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.closeSelectQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.keyboardView = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantity.frame.maxY + 10, 160, 196))
         //289
@@ -76,7 +76,7 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
         btnOkAdd.backgroundColor = WMColor.green
-        btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnOkAdd.addTarget(self, action: #selector(ShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         var rectSize = CGRectZero
         

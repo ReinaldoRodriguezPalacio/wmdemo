@@ -36,7 +36,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "callServiceAddress", name: ProfileNotification.updateProfile.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MyAddressViewController.callServiceAddress), name: ProfileNotification.updateProfile.rawValue, object: nil)
         self.table = UITableView()
         self.table.registerClass(AddressViewCell.self, forCellReuseIdentifier: "labelCell")
         
@@ -54,7 +54,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         self.newAddressButton = WMRoundButton()
         self.newAddressButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
         self.newAddressButton?.setBackgroundColor(WMColor.green, size: CGSizeMake(55.0, 22), forUIControlState: UIControlState.Normal)
-        self.newAddressButton!.addTarget(self, action: "newAddress", forControlEvents: UIControlEvents.TouchUpInside)
+        self.newAddressButton!.addTarget(self, action: #selector(MyAddressViewController.newAddress), forControlEvents: UIControlEvents.TouchUpInside)
         self.newAddressButton!.setTitle(NSLocalizedString("profile.address.new", comment:"" ) , forState: UIControlState.Normal)
         self.newAddressButton!.frame = CGRectMake(248.0, 12.0, 55.0, 22.0)
         
@@ -85,7 +85,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
-        btnSuper.addTarget(self, action: "changeSuperTech:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnSuper.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         let titleTech = NSLocalizedString("profile.address.tech",comment:"")
         btnTech = UIButton(frame: CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2))
@@ -97,7 +97,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
-        btnTech.addTarget(self, action: "changeSuperTech:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnTech.addTarget(self, action: #selector(MyAddressViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         viewBgSelectorBtn.clipsToBounds = true
         viewBgSelectorBtn.backgroundColor = UIColor.whiteColor()

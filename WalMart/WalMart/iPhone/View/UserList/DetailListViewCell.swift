@@ -63,7 +63,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.quantityIndicator!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14.0)
         self.quantityIndicator!.backgroundColor = WMColor.yellow
-        self.quantityIndicator!.addTarget(self, action: "changeQuantity", forControlEvents: .TouchUpInside)
+        self.quantityIndicator!.addTarget(self, action: #selector(DetailListViewCell.changeQuantity), forControlEvents: .TouchUpInside)
         self.quantityIndicator!.layer.cornerRadius = 16.0
         self.contentView.addSubview(self.quantityIndicator!)
 
@@ -75,7 +75,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.check = UIButton(frame: CGRectMake(0, 0, 40, 109))
         self.check?.setImage(UIImage(named: "list_check_empty"), forState: UIControlState.Normal)
         self.check?.setImage(UIImage(named: "list_check_full"), forState: UIControlState.Selected)
-        self.check?.addTarget(self, action: "checked:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.check?.addTarget(self, action: #selector(DetailListViewCell.checked(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.check?.selected = true
         self.contentView.addSubview(self.check!)
 

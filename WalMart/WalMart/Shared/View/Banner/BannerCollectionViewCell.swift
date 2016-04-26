@@ -66,7 +66,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
         buttonTerms = UIButton(frame: CGRectMake(self.frame.width - 128, self.frame.height - 18, 120, 16))
         buttonTerms.setTitle(NSLocalizedString("home.banner.termsandconditions",comment:""), forState: UIControlState.Normal)
         buttonTerms.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        buttonTerms.addTarget(self, action: "termsclick", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonTerms.addTarget(self, action: #selector(BannerCollectionViewCell.termsclick), forControlEvents: UIControlEvents.TouchUpInside)
         buttonTerms.backgroundColor = WMColor.blue
         buttonTerms.layer.cornerRadius = 8
         buttonTerms.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(10)
@@ -127,7 +127,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             imageController.view.frame = pageViewController.view.bounds
             imageController.setCurrentImage(bannerUrl)
             imageController.view.tag = self.currentItem!
-            imageController.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "tapOnItembanner:"))
+            imageController.view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(BannerCollectionViewCell.tapOnItembanner(_:))))
             
             return imageController
         }
@@ -162,7 +162,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
-                point.addTarget(self, action: "pointSelected:", forControlEvents: .TouchUpInside)
+                point.addTarget(self, action: #selector(BannerCollectionViewCell.pointSelected(_:)), forControlEvents: .TouchUpInside)
                 point.selected = idx == self.currentItem!
                 point.tag = idx
                 x = CGRectGetMaxX(point.frame)
@@ -185,7 +185,7 @@ class BannerCollectionViewCell : UICollectionViewCell, UIPageViewControllerDataS
             if timmerBanner != nil {
                 timmerBanner.invalidate()
             }
-            timmerBanner = NSTimer.scheduledTimerWithTimeInterval(currentInterval, target: self, selector: "changebanner", userInfo: nil, repeats: true)
+            timmerBanner = NSTimer.scheduledTimerWithTimeInterval(currentInterval, target: self, selector: #selector(BannerCollectionViewCell.changebanner), userInfo: nil, repeats: true)
         }
         
     }

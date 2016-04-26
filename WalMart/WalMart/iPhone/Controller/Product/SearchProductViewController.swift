@@ -146,7 +146,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.filterButton = UIButton(type: .Custom)
         //self.filterButton!.setImage(iconImage, forState: .Normal)
         //elf.filterButton!.setImage(iconSelected, forState: .Highlighted)
-        self.filterButton!.addTarget(self, action: "filter:", forControlEvents: .TouchUpInside)
+        self.filterButton!.addTarget(self, action: #selector(SearchProductViewController.filter(_:)), forControlEvents: .TouchUpInside)
         self.filterButton!.tintColor = UIColor.whiteColor()
         self.filterButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11);
         self.filterButton!.setTitle(NSLocalizedString("filter.button.title", comment:"" ) , forState: .Normal)
@@ -176,7 +176,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnSuper.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnSuper.selected = true
         btnSuper.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width + 1, 0, 0.0);
-        btnSuper.addTarget(self, action: "changeSuperTech:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnSuper.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         let titleTech = NSLocalizedString("profile.address.tech",comment:"")
         btnTech = UIButton(frame: CGRectMake(btnSuper.frame.maxX, 1, viewBgSelectorBtn.frame.width / 2, viewBgSelectorBtn.frame.height - 2))
@@ -188,7 +188,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         btnTech.setTitle(titleTech, forState: UIControlState.Selected)
         btnTech.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnTech.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnSuper.frame.size.width , 0, 0.0);
-        btnTech.addTarget(self, action: "changeSuperTech:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnTech.addTarget(self, action: #selector(SearchProductViewController.changeSuperTech(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         viewBgSelectorBtn.clipsToBounds = true
         viewBgSelectorBtn.backgroundColor = UIColor.whiteColor()
@@ -242,7 +242,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         titleLabelEdit.textAlignment = .Center
     
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: "editSearch")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SearchProductViewController.editSearch))
         titleLabelEdit.addGestureRecognizer(tapGesture)
         
         return titleLabelEdit
@@ -302,8 +302,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.loading!.startAnnimating(self.isVisibleTab)
             //}
         }
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadUISearch", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "afterAddToSC", name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.reloadUISearch), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchProductViewController.afterAddToSC), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)
     }
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)

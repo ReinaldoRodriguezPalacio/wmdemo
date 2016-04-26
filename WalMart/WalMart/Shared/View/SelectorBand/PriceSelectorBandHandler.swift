@@ -33,7 +33,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         
         self.button = UIButton(type: .Custom)
         self.button!.frame = CGRectMake(frame.width - frame.size.height, 0.0 , frame.size.height, frame.size.height)
-        self.button!.addTarget(self, action: "showBand:", forControlEvents: .TouchUpInside)
+        self.button!.addTarget(self, action: #selector(PriceSelectorBandHandler.showBand(_:)), forControlEvents: .TouchUpInside)
         self.button!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.button!.backgroundColor = WMColor.yellow
         self.button!.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
@@ -45,7 +45,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.container!.backgroundColor = UIColor.clearColor()
         //self.container!.addSubview(self.price!)
         
-        self.tapGesture = UITapGestureRecognizer(target: self, action: "didTap");
+        self.tapGesture = UITapGestureRecognizer(target: self, action: #selector(PriceSelectorBandHandler.didTap));
         self.container!.addGestureRecognizer(self.tapGesture)
 
         self.bandLayout =  UICollectionViewFlowLayout()
@@ -104,7 +104,7 @@ class PriceSelectorBandHandler: SelectorBandHandler {
                     self.isShowingScroll = true
                     self.delegate?.startEdditingQuantity()
                     self.tapGesture.enabled = false
-                    self.timer = NSTimer(fireDate:NSDate(timeIntervalSinceNow:10), interval:5.0, target:self, selector:"removeBand", userInfo:nil, repeats:true)
+                    self.timer = NSTimer(fireDate:NSDate(timeIntervalSinceNow:10), interval:5.0, target:self, selector:#selector(SelectorBandHandler.removeBand), userInfo:nil, repeats:true)
                     let runner = NSRunLoop.currentRunLoop()
                     runner.addTimer(self.timer!, forMode: NSDefaultRunLoopMode)
                     self.container?.bringSubviewToFront(self.band!)

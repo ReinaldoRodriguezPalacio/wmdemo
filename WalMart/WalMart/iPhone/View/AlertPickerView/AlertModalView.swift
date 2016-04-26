@@ -59,7 +59,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
     func addCloseButton() {
         let margin : CGFloat = 8
         let viewButton = UIButton(frame: CGRectMake(margin, margin, 40, 40))
-        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        viewButton.addTarget(self, action: #selector(AlertModalView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
         viewButton.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
         self.addSubview(viewButton)
     }
@@ -78,7 +78,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         self.titleLabel.textAlignment = .Center
         
         self.viewButtonClose = UIButton(frame: CGRectMake(6, 3, 40, 40))
-        self.viewButtonClose.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        self.viewButtonClose.addTarget(self, action: #selector(AlertModalView.closePicker), forControlEvents: UIControlEvents.TouchUpInside)
         self.viewButtonClose.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
         headerView.addSubview(viewButtonClose)
         headerView.addSubview(titleLabel)
@@ -255,7 +255,7 @@ class AlertModalView : UIView, UITextFieldDelegate {
         self.lastFrame = self.viewContent.frame
         self.titleLabel!.text = title
         closeButton = UIButton(frame: CGRectMake(0, 0, self.headerView.frame.height,  self.headerView.frame.height))
-        closeButton!.addTarget(self, action: "closeNew", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton!.addTarget(self, action: #selector(AlertModalView.closeNew), forControlEvents: UIControlEvents.TouchUpInside)
         closeButton!.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
         closeButton!.alpha = 0
         self.headerView.addSubview(closeButton!)

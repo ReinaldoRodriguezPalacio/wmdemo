@@ -140,7 +140,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.toolTipLabel!.textColor = WMColor.empty_gray
         self.toolTipLabel!.textAlignment = .Right
         self.toolTipLabel!.userInteractionEnabled = true
-        let tapGesture = UITapGestureRecognizer(target: self, action: "showTooltip")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(GRCheckOutDeliveryViewController.showTooltip))
         self.toolTipLabel!.addGestureRecognizer(tapGesture)
         self.content.addSubview(self.toolTipLabel!)
         
@@ -154,7 +154,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
@@ -163,7 +163,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.light_blue
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(GRCheckOutDeliveryViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(saveButton!)
         
         self.imageView =  UIView()
@@ -762,7 +762,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.viewContents!.addSubview(imageIco!)
         let message = NSLocalizedString("checkout.tooltip.text", comment:"")
         self.lblInfo!.text = message
-        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: "animationClose", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(GRCheckOutDeliveryViewController.animationClose), userInfo: nil, repeats: false)
     }
     
     func animationClose () {

@@ -148,7 +148,7 @@ class IPOWMAlertViewController : UIViewController {
     
     func showDoneIcon() {
         showicon(self.imageDone)
-        NSTimer.scheduledTimerWithTimeInterval(1.4, target: self, selector: "close", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1.4, target: self, selector: #selector(IPOWMAlertViewController.close), userInfo: nil, repeats: false)
     }
     
     func showDoneIconWithoutClose() {
@@ -193,7 +193,7 @@ class IPOWMAlertViewController : UIViewController {
         
         self.doneButton.backgroundColor = colorButton
        
-        self.doneButton.addTarget(self, action: "closebtn", forControlEvents: .TouchUpInside)
+        self.doneButton.addTarget(self, action: #selector(IPOWMAlertViewController.closebtn), forControlEvents: .TouchUpInside)
         self.doneButton.layer.cornerRadius = 20
         
         var bounds = self.view.bounds
@@ -213,14 +213,14 @@ class IPOWMAlertViewController : UIViewController {
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         leftButton.backgroundColor = UIColor.whiteColor()
         leftButton.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        leftButton.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+        leftButton.addTarget(self, action: #selector(IPOWMAlertViewController.close), forControlEvents: UIControlEvents.TouchUpInside)
 
         let rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
         rightButton.layer.cornerRadius = 16
         rightButton.setTitle(NSLocalizedString("shoppingcart.goshoppingcart",comment:""), forState: UIControlState.Normal)
         rightButton.backgroundColor = WMColor.green
         rightButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        rightButton.addTarget(self, action: "goShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        rightButton.addTarget(self, action: Selector("goShoppingCart"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view.addSubview(leftButton)
         self.view.addSubview(rightButton)
@@ -238,7 +238,7 @@ class IPOWMAlertViewController : UIViewController {
         leftButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         leftButton.backgroundColor = WMColor.dark_blue
         leftButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        leftButton.addTarget(self, action: "leftTapInside", forControlEvents: UIControlEvents.TouchUpInside)
+        leftButton.addTarget(self, action: #selector(IPOWMAlertViewController.leftTapInside), forControlEvents: UIControlEvents.TouchUpInside)
         
 
         rightButton = UIButton(frame:CGRectMake(leftButton.frame.maxX + 11, leftButton.frame.minY, leftButton.frame.width, leftButton.frame.height))
@@ -250,7 +250,7 @@ class IPOWMAlertViewController : UIViewController {
         rightButton.setTitle(rightText, forState: UIControlState.Normal)
         rightButton.backgroundColor = WMColor.green
         rightButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        rightButton.addTarget(self, action: "righTapInside", forControlEvents: UIControlEvents.TouchUpInside)
+        rightButton.addTarget(self, action: #selector(IPOWMAlertViewController.righTapInside), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.leftAction = leftAction
         self.rightAction = rightAction

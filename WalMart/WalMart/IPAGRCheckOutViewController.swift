@@ -44,18 +44,18 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
-        self.buttonShop!.addTarget(self, action: "shopButtonTaped", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShop!.addTarget(self, action: #selector(IPAGRCheckOutViewController.shopButtonTaped), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         self.footer!.addSubview(self.buttonShop!)
         
         self.addToListButton = UIButton(frame: CGRectMake(8 ,0, 50, footer!.frame.height))
         self.addToListButton!.setImage(UIImage(named: "detail_list"), forState: .Normal)
         self.addToListButton!.setImage(UIImage(named: "detail_list_selected"), forState: .Selected)
-        self.addToListButton!.addTarget(self, action: "addCartToList", forControlEvents: .TouchUpInside)
+        self.addToListButton!.addTarget(self, action: #selector(IPAGRCheckOutViewController.addCartToList), forControlEvents: .TouchUpInside)
         
         self.buttonShare = UIButton(frame: CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height))
         self.buttonShare.setImage(UIImage(named: "detail_shareOff"), forState: UIControlState.Normal)
-        self.buttonShare.addTarget(self, action: "shareShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShare.addTarget(self, action: #selector(IPAGRCheckOutViewController.shareShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         self.footer!.addSubview(self.addToListButton!)
         self.footer!.addSubview(self.buttonShare)
         

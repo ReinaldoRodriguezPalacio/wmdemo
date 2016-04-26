@@ -95,7 +95,7 @@ class OrderConfirmDetailView : UIView {
         buttonOk.layer.cornerRadius = 17
         buttonOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonOk.addTarget(self, action: "okAction", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonOk.addTarget(self, action: #selector(OrderConfirmDetailView.okAction), forControlEvents: UIControlEvents.TouchUpInside)
         
         titleLabel = UILabel(frame: CGRectMake(0, 24, viewContent.frame.width, 18))
         titleLabel.font = WMFont.fontMyriadProLightOfSize(18)
@@ -326,7 +326,7 @@ class OrderConfirmDetailView : UIView {
         buttonNOk.layer.cornerRadius = 17
         buttonNOk.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonNOk.setTitle("Ok", forState: UIControlState.Normal)
-        buttonNOk.addTarget(self, action: "noOkAction", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonNOk.addTarget(self, action: #selector(OrderConfirmDetailView.noOkAction), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.viewContent.addSubview(buttonNOk)
         

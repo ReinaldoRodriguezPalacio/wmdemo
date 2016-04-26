@@ -34,7 +34,7 @@ class AlertButtomView : AlertPickerView {
         viewContent.addSubview(headerView)
         
         let viewButton = UIButton(frame: CGRectMake(10, 3, 40, 40))
-        viewButton.addTarget(self, action: "closePicker", forControlEvents: UIControlEvents.TouchUpInside)
+        viewButton.addTarget(self, action: Selector("closePicker"), forControlEvents: UIControlEvents.TouchUpInside)
         viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
         self.headerView.addSubview(viewButton)
         
@@ -54,7 +54,7 @@ class AlertButtomView : AlertPickerView {
         buttonGroceries.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonGroceries.layer.cornerRadius = 17
         buttonGroceries.center = CGPointMake(self.viewContent.frame.width / 2, 34)
-        buttonGroceries.addTarget(self, action: "mailAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonGroceries.addTarget(self, action: #selector(AlertButtomView.mailAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         buttonGroceries.tag = 1
         
         
@@ -63,7 +63,7 @@ class AlertButtomView : AlertPickerView {
         buttonMG.layer.cornerRadius = 17
         buttonMG.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonMG.center = CGPointMake (self.viewContent.frame.width / 2, buttonGroceries.frame.maxY + 20 )
-        buttonMG.addTarget(self, action: "mailAction:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonMG.addTarget(self, action: #selector(AlertButtomView.mailAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         buttonMG.tag = 2
         
        

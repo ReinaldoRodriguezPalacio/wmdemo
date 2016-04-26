@@ -37,7 +37,7 @@ class SegmentedView : UIView {
     func setup() {
         
         self.segmented = UISegmentedControl(items:self.tapsItems as [AnyObject])
-        self.segmented!.addTarget(self, action: Selector("segmentedControlAction:"), forControlEvents: .ValueChanged)
+        self.segmented!.addTarget(self, action: #selector(SegmentedView.segmentedControlAction(_:)), forControlEvents: .ValueChanged)
         self.segmented!.selectedSegmentIndex = 0
         self.segmented!.frame = CGRectMake(0.0, 0.0,self.bounds.width , self.bounds.height)
         self.segmented!.layer.cornerRadius = 10

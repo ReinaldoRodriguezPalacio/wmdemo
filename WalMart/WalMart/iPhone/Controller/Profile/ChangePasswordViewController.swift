@@ -79,7 +79,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
         //self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
         self.saveButton!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(ChangePasswordViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.tintColor = UIColor.whiteColor()
         self.saveButton!.layer.cornerRadius = 11

@@ -53,7 +53,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.edit.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
         self.edit!.backgroundColor = WMColor.dark_blue
         self.edit.layer.cornerRadius = 11
-        self.edit.addTarget(self, action: "editAction:", forControlEvents: .TouchUpInside)
+        self.edit.addTarget(self, action: #selector(WishListViewController.editAction(_:)), forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.edit)
         
         self.deleteall = UIButton(type: .Custom)
@@ -65,7 +65,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.deleteall.alpha = 0
         self.deleteall.layer.cornerRadius = 11
         self.deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
-        self.deleteall.addTarget(self, action: "deletealltap:", forControlEvents: .TouchUpInside)
+        self.deleteall.addTarget(self, action: #selector(WishListViewController.deletealltap(_:)), forControlEvents: .TouchUpInside)
         self.header!.addSubview(self.deleteall)
 
         
@@ -94,7 +94,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.idexesPath = []
         reloadWishlist()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadWishlist", name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WishListViewController.reloadWishlist), name: CustomBarNotification.ReloadWishList.rawValue, object: nil)
         if isShowingTabBar {
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         }
@@ -122,7 +122,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: "tabBarActions",name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(WishListViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
         self.tabBarActions()
     }
     
@@ -554,14 +554,14 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         
         let shareButton = UIButton(frame: CGRectMake(16, 14, 34, 34))
         shareButton.setImage(UIImage(named:"wishlist_share"), forState: UIControlState.Normal)
-        shareButton.addTarget(self, action: "shareItem", forControlEvents: UIControlEvents.TouchUpInside)
+        shareButton.addTarget(self, action: #selector(WishListViewController.shareItem), forControlEvents: UIControlEvents.TouchUpInside)
         
         buttonShop = UIButton(frame: CGRectMake(shareButton.frame.maxX + 16, 14, 240, 34))
         //buttonShop.setTitle("Comprar todo", forState: UIControlState.Normal)
         buttonShop.backgroundColor = WMColor.green
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonShop.layer.cornerRadius = 17
-        buttonShop.addTarget(self, action: "senditemsToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShop.addTarget(self, action: #selector(WishListViewController.senditemsToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         wishLitsToolBar.addSubview(bgShareBuy)
         wishLitsToolBar.addSubview(shareButton)

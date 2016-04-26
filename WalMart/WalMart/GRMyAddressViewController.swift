@@ -27,7 +27,7 @@ class GRMyAddressViewController: MyAddressViewController {
         self.okButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.okButton!.setTitle("Ok", forState: UIControlState.Normal)
         self.okButton!.center = CGPointMake(self.view.frame.width / 2, 32)
-        self.okButton!.addTarget(self, action: "okAction", forControlEvents: UIControlEvents.TouchUpInside)
+        self.okButton!.addTarget(self, action: #selector(GRMyAddressViewController.okAction), forControlEvents: UIControlEvents.TouchUpInside)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -95,7 +95,7 @@ class GRMyAddressViewController: MyAddressViewController {
         //self.hiddenBack = true
         self.backButton = UIButton()
         self.backButton!.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
-        self.backButton!.addTarget(self, action: "closeAddressView", forControlEvents: UIControlEvents.TouchUpInside)
+        self.backButton!.addTarget(self, action: #selector(GRMyAddressViewController.closeAddressView), forControlEvents: UIControlEvents.TouchUpInside)
         self.header?.addSubview(self.backButton!)
         self.view.addSubview(self.okButton!)
     }

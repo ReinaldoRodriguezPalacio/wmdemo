@@ -94,14 +94,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         registryButton!.backgroundColor = WMColor.blue
         registryButton!.layer.cornerRadius = 20.0
-        registryButton?.addTarget(self, action: "registryUser", forControlEvents: .TouchUpInside)
+        registryButton?.addTarget(self, action: #selector(LoginController.registryUser), forControlEvents: .TouchUpInside)
   
         signInButton = UIButton()
         signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
         signInButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         signInButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         signInButton!.backgroundColor = WMColor.green
-        signInButton!.addTarget(self, action: "signIn:", forControlEvents: .TouchUpInside)
+        signInButton!.addTarget(self, action: #selector(LoginController.signIn(_:)), forControlEvents: .TouchUpInside)
         signInButton!.layer.cornerRadius = 20.0
 
         //Button forgot password setup
@@ -111,7 +111,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         forgotPasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         forgotPasswordButton!.titleLabel!.textAlignment = .Right
         forgotPasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-        forgotPasswordButton?.addTarget(self, action: "forgot:", forControlEvents: .TouchUpInside)
+        forgotPasswordButton?.addTarget(self, action: #selector(LoginController.forgot(_:)), forControlEvents: .TouchUpInside)
        
         self.noAccount = UILabel()
         self.noAccount!.text = NSLocalizedString("profile.no.account",comment:"")
@@ -152,7 +152,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         
         self.close = UIButton(type: .Custom)
         self.close!.setImage(UIImage(named: "close"), forState: .Normal)
-        self.close!.addTarget(self, action: "closeModal", forControlEvents: .TouchUpInside)
+        self.close!.addTarget(self, action: #selector(LoginController.closeModal), forControlEvents: .TouchUpInside)
         self.close!.backgroundColor = UIColor.clearColor()
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)

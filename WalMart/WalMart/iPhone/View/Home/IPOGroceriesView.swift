@@ -41,7 +41,7 @@ class IPOGroceriesView : UIView {
         
         gotoGroceries = UIButton(frame: CGRectMake(descLabel.frame.maxX + 9, (self.frame.height / 2) - (24 / 2), 80, 24))
         gotoGroceries.setTitle( NSLocalizedString("home.gotosuper",comment:""), forState: UIControlState.Normal)
-        gotoGroceries.addTarget(self, action: "openGroceriesApp", forControlEvents: UIControlEvents.TouchUpInside)
+        gotoGroceries.addTarget(self, action: #selector(IPOGroceriesView.openGroceriesApp), forControlEvents: UIControlEvents.TouchUpInside)
         gotoGroceries.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         gotoGroceries.backgroundColor = WMColor.green
         gotoGroceries.layer.cornerRadius = gotoGroceries.frame.height / 2

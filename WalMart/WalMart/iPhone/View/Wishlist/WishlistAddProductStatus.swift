@@ -68,7 +68,7 @@ class WishlistAddProductStatus : UIView {
     }
 
     func prepareToClose() {
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: "closeStatus", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(WishlistAddProductStatus.closeStatus), userInfo: nil, repeats: false)
     }
     
 }

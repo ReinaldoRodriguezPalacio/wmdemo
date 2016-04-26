@@ -72,12 +72,12 @@ class IPASupportViewController: SupportViewController {
         
         self.buttomCall.setImage(UIImage(named:"support-call"), forState: UIControlState.Normal)
         self.buttomCall.setImage(UIImage(named:"support-call."), forState: UIControlState.Selected)
-        self.buttomCall.addTarget(self , action: "selectecButton:", forControlEvents:UIControlEvents.TouchUpInside)
+        self.buttomCall.addTarget(self , action: Selector("selectecButton:"), forControlEvents:UIControlEvents.TouchUpInside)
         self.buttomCall.backgroundColor = UIColor.clearColor()
         
         self.buttomMail.setImage(UIImage(named:"support-email-iPad"), forState: UIControlState.Normal)
         self.buttomMail.setImage(UIImage(named:"support-email-iPad"), forState: UIControlState.Selected)
-        self.buttomMail.addTarget(self , action: "selectecButton:", forControlEvents:UIControlEvents.TouchUpInside)
+        self.buttomMail.addTarget(self , action: Selector("selectecButton:"), forControlEvents:UIControlEvents.TouchUpInside)
         self.buttomMail.backgroundColor = UIColor.clearColor()
         
         self.view.addSubview(imgConfirm)

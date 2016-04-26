@@ -44,7 +44,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         field.enablesReturnKeyAutomatically = true
         field.delegate = self
         field.frame = CGRectMake( -self.frame.width + 40, (self.frame.height / 2) - 15, self.frame.width - 40,30)
-        self.field!.addTarget(self, action: "setPopOver", forControlEvents: UIControlEvents.EditingDidBegin)
+        self.field!.addTarget(self, action: #selector(IPASearchView.setPopOver), forControlEvents: UIControlEvents.EditingDidBegin)
         
         viewContent = UIView()
         viewContent.clipsToBounds = true
@@ -53,7 +53,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         backButton = UIButton()
         backButton.frame = CGRectMake(0, 0, 40, 40)
         backButton.setImage(UIImage(named: "search_back"), forState: UIControlState.Normal)
-        backButton.addTarget(self, action: "closeSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: #selector(IPASearchView.closeSearch), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(backButton)
         
         self.clearButton = UIButton(type: .Custom)
@@ -61,7 +61,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
-        self.clearButton!.addTarget(self, action: "clearSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        self.clearButton!.addTarget(self, action: #selector(IPASearchView.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
         self.clearButton!.alpha = 0
         self.field.addSubview(self.clearButton!)
         
@@ -105,7 +105,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
             self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
             self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
-            self.camButton!.addTarget(self, action: "showCamera:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.camButton!.addTarget(self, action: #selector(IPASearchView.showCamera(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             searchctrl.view!.addSubview(self.camButton!)
             
             self.camLabel = UILabel()
@@ -122,7 +122,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
             self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
             self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
-            self.scanButton!.addTarget(self, action: "showBarCode:", forControlEvents: UIControlEvents.TouchUpInside)
+            self.scanButton!.addTarget(self, action: #selector(IPASearchView.showBarCode(_:)), forControlEvents: UIControlEvents.TouchUpInside)
             searchctrl.view!.addSubview(self.scanButton!)
             
             self.scanLabel = UILabel()

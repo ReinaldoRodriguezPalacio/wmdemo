@@ -92,7 +92,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         btnMapView.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnMapView.selected = true
         btnMapView.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnMapView.frame.size.width + 1, 0, 0.0);
-        btnMapView.addTarget(self, action: "applyMapViewMemoryHotFix", forControlEvents: UIControlEvents.TouchUpInside)
+        btnMapView.addTarget(self, action: #selector(StoreLocatorViewController.applyMapViewMemoryHotFix), forControlEvents: UIControlEvents.TouchUpInside)
         
         let titleSat = NSLocalizedString("store.selector.satelite", comment:"")
         btnSatView = UIButton(frame: CGRectMake(btnMapView.frame.maxX, 1, self.segmentedView.frame.width / 2, self.segmentedView.frame.height - 2))
@@ -104,7 +104,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         btnSatView.setTitle(titleSat, forState: UIControlState.Selected)
         btnSatView.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(11)
         btnSatView.titleEdgeInsets = UIEdgeInsetsMake(2.0, -btnMapView.frame.size.width + 1, 0, 0.0);
-        btnSatView.addTarget(self, action: "applyMapViewMemoryHotFix", forControlEvents: UIControlEvents.TouchUpInside)
+        btnSatView.addTarget(self, action: #selector(StoreLocatorViewController.applyMapViewMemoryHotFix), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.segmentedView.clipsToBounds = true
         self.segmentedView.backgroundColor = UIColor.whiteColor()
@@ -155,7 +155,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.toggleViewBtn?.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
         self.toggleViewBtn!.setTitle(NSLocalizedString("store.showtable",comment:""), forState: .Normal)
         self.toggleViewBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.toggleViewBtn!.addTarget(self, action: "showTableView:", forControlEvents: .TouchUpInside)
+        self.toggleViewBtn!.addTarget(self, action: #selector(StoreLocatorViewController.showTableView(_:)), forControlEvents: .TouchUpInside)
         self.toggleViewBtn!.backgroundColor = UIColor.clearColor()
         self.header!.addSubview(self.toggleViewBtn!)
         
@@ -183,7 +183,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
-        self.clearButton!.addTarget(self, action: "clearSearch", forControlEvents: UIControlEvents.TouchUpInside)
+        self.clearButton!.addTarget(self, action: #selector(StoreLocatorViewController.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
         self.clearButton!.hidden = true
         self.searchField!.addSubview(self.clearButton!)
 
@@ -201,14 +201,14 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
         self.view.addSubview(self.clubCollection!)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRunning", name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "stopRunning", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.startRunning), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.stopRunning), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
         self.loadAnnotations()
         self.clubCollection!.reloadData()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "hideTabBar", name: CustomBarNotification.HideBar.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "showTabBar", name: CustomBarNotification.ShowBar.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.hideTabBar), name: CustomBarNotification.HideBar.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(StoreLocatorViewController.showTabBar), name: CustomBarNotification.ShowBar.rawValue, object: nil)
         
     }
     
@@ -333,7 +333,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
             self.viewBgDetailView = UIView(frame:CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
             self.viewBgDetailView!.backgroundColor = UIColor.clearColor()
-            self.viewBgDetailView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "mapViewUserDidTap"))
+            self.viewBgDetailView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(StoreLocatorViewController.mapViewUserDidTap as (StoreLocatorViewController) -> () -> ())))
             
             self.detailView = StoreView(frame:CGRectMake(0.0, 0.0, 256.0, 200.0))
             self.detailView!.delegate = self

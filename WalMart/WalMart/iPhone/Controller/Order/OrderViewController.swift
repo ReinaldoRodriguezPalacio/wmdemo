@@ -229,7 +229,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         self.buttonFactura.backgroundColor = WMColor.light_blue
         self.buttonFactura.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.buttonFactura.layer.cornerRadius = 17
-        self.buttonFactura.addTarget(self, action: "showWebView", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonFactura.addTarget(self, action: #selector(OrderViewController.showWebView), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonFactura.setTitle("Facturación electrónica",forState:UIControlState.Normal)
         
         facturasToolBar.addSubview(self.buttonFactura)

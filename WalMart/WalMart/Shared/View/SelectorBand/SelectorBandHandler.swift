@@ -72,7 +72,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
         
         self.segmented = UISegmentedControl(items: [NSLocalizedString("product.detail.addToCart", comment:""), "1"])
         self.segmented!.frame = CGRectMake(0.0,0.0,frame.size.width, frame.size.height)
-        self.segmented!.addTarget(self, action: Selector("segmentedControlAction:"), forControlEvents: .ValueChanged)
+        self.segmented!.addTarget(self, action: #selector(SelectorBandHandler.segmentedControlAction(_:)), forControlEvents: .ValueChanged)
         //self.segmented!.setWidth(frame.size.width - frame.size.height, forSegmentAtIndex: 0)
         self.segmented!.setWidth(frame.size.height + 5, forSegmentAtIndex: 1)
         
@@ -121,7 +121,7 @@ class SelectorBandHandler: NSObject, UICollectionViewDelegate, UICollectionViewD
                     if completed == true {
                         self.isShowingScroll = true
                         self.delegate?.startEdditingQuantity()
-                        self.timer = NSTimer(fireDate:NSDate(timeIntervalSinceNow:10), interval:5.0, target:self, selector:"removeBand", userInfo:nil, repeats:true)
+                        self.timer = NSTimer(fireDate:NSDate(timeIntervalSinceNow:10), interval:5.0, target:self, selector:#selector(SelectorBandHandler.removeBand), userInfo:nil, repeats:true)
                         let runner = NSRunLoop.currentRunLoop()
                         runner.addTimer(self.timer!, forMode: NSDefaultRunLoopMode)
                     }

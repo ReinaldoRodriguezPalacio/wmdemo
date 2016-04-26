@@ -98,7 +98,7 @@ class StoreView: UIView {
         self.showDirectionsButton!.setImage(UIImage(named: "directions"), forState: .Normal)
         self.showDirectionsButton!.setImage(UIImage(named: "directions_selected"), forState: .Selected)
         self.showDirectionsButton!.setImage(UIImage(named: "directions_selected"), forState: .Highlighted)
-        self.showDirectionsButton!.addTarget(self, action: "showCarRoute", forControlEvents: .TouchUpInside)
+        self.showDirectionsButton!.addTarget(self, action: #selector(StoreView.showCarRoute), forControlEvents: .TouchUpInside)
         self.footerView!.addSubview(self.showDirectionsButton!)
         self.buttons!.append(self.showDirectionsButton!)
         
@@ -106,7 +106,7 @@ class StoreView: UIView {
         self.makeCallButton!.setImage(UIImage(named: "call"), forState: .Normal)
         self.makeCallButton!.setImage(UIImage(named: "call_selected"), forState: .Selected)
         self.makeCallButton!.setImage(UIImage(named: "call_selected"), forState: .Highlighted)
-        self.makeCallButton!.addTarget(self, action: "makePhoneCall", forControlEvents: .TouchUpInside)
+        self.makeCallButton!.addTarget(self, action: #selector(StoreView.makePhoneCall), forControlEvents: .TouchUpInside)
         self.footerView!.addSubview(self.makeCallButton!)
         
         if IS_IPHONE && !IS_IPOD {
@@ -117,7 +117,7 @@ class StoreView: UIView {
         self.shareStoreButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         self.shareStoreButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
         self.shareStoreButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareStoreButton!.addTarget(self, action: "shareStore", forControlEvents: .TouchUpInside)
+        self.shareStoreButton!.addTarget(self, action: #selector(StoreView.shareStore), forControlEvents: .TouchUpInside)
         self.footerView!.addSubview(self.shareStoreButton!)
         self.buttons!.append(self.shareStoreButton!)
     }

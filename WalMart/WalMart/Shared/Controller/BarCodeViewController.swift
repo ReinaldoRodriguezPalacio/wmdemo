@@ -66,11 +66,11 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         
         close = UIButton(frame: CGRectMake((self.view.frame.width) - 48,16,48,48))
         close.setImage(UIImage(named: "closeScan"), forState: UIControlState.Normal)
-        close.addTarget(self, action: "closeAlert", forControlEvents: UIControlEvents.TouchUpInside)
+        close.addTarget(self, action: #selector(BarCodeViewController.closeAlert), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(close)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "startRunning", name: UIApplicationWillEnterForegroundNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "stopRunning", name: UIApplicationDidEnterBackgroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BarCodeViewController.startRunning), name: UIApplicationWillEnterForegroundNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(BarCodeViewController.stopRunning), name: UIApplicationDidEnterBackgroundNotification, object: nil)
         
         allowedBarcodeTypes.append("org.iso.QRCode")
         allowedBarcodeTypes.append("org.iso.PDF417")

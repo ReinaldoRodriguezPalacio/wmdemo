@@ -45,7 +45,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self,selector: "tabBarActions",name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(DefaultListDetailViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
          self.tabBarActions()
     }
     
@@ -83,7 +83,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         self.duplicateButton!.setImage(UIImage(named: "list_duplicate"), forState: .Normal)
         self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Selected)
         self.duplicateButton!.setImage(UIImage(named: "list_active_duplicate"), forState: .Highlighted)
-        self.duplicateButton!.addTarget(self, action: "duplicate", forControlEvents: .TouchUpInside)
+        self.duplicateButton!.addTarget(self, action: #selector(DefaultListDetailViewController.duplicate), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.duplicateButton!)
         
         var x = self.duplicateButton!.frame.maxX + 16.0
@@ -91,14 +91,14 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         self.shareButton!.setImage(UIImage(named: "detail_shareOff"), forState: .Normal)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Selected)
         self.shareButton!.setImage(UIImage(named: "detail_share"), forState: .Highlighted)
-        self.shareButton!.addTarget(self, action: "shareList", forControlEvents: .TouchUpInside)
+        self.shareButton!.addTarget(self, action: #selector(DefaultListDetailViewController.shareList), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
-        self.addToCartButton!.addTarget(self, action: "addListToCart", forControlEvents: .TouchUpInside)
+        self.addToCartButton!.addTarget(self, action: #selector(DefaultListDetailViewController.addListToCart), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.addToCartButton!)
         
         self.customLabel = CurrencyCustomLabel(frame: self.addToCartButton!.bounds)

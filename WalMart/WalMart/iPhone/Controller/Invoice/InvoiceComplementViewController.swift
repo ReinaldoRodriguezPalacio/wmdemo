@@ -71,7 +71,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsYesSelect = UIButton(frame: CGRectMake(margin,sectionIEPS.frame.maxY,45,fheight))
         iepsYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         iepsYesSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        iepsYesSelect!.addTarget(self, action: "checkIEPS:", forControlEvents: UIControlEvents.TouchUpInside)
+        iepsYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkIEPS(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         iepsYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
         iepsYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         iepsYesSelect!.titleLabel?.textAlignment = .Left
@@ -83,7 +83,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         iepsNoSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         iepsNoSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
         iepsNoSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        iepsNoSelect!.addTarget(self, action: "checkIEPS:", forControlEvents: UIControlEvents.TouchUpInside)
+        iepsNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkIEPS(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         iepsNoSelect!.setTitle("No", forState: UIControlState.Normal)
         iepsNoSelect!.titleLabel?.textAlignment = .Left
         iepsNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
@@ -97,7 +97,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristYesSelect = UIButton(frame: CGRectMake(margin,sectionTouristInfo.frame.maxY,45,fheight))
         touristYesSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         touristYesSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        touristYesSelect!.addTarget(self, action: "checkTourist:", forControlEvents: UIControlEvents.TouchUpInside)
+        touristYesSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         touristYesSelect!.setTitle("Sí", forState: UIControlState.Normal)
         touristYesSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         touristYesSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
@@ -109,7 +109,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         touristNoSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         touristNoSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
         touristNoSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        touristNoSelect!.addTarget(self, action: "checkTourist:", forControlEvents: UIControlEvents.TouchUpInside)
+        touristNoSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkTourist(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         touristNoSelect!.setTitle("No", forState: UIControlState.Normal)
         touristNoSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         touristNoSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
@@ -123,7 +123,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalPersonSelect = UIButton(frame: CGRectMake(margin,sectionSocialReason.frame.maxY,113,fheight))
         addressFiscalPersonSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         addressFiscalPersonSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        addressFiscalPersonSelect!.addTarget(self, action: "checkAddress:", forControlEvents: UIControlEvents.TouchUpInside)
+        addressFiscalPersonSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         addressFiscalPersonSelect!.setTitle("Persona Física", forState: UIControlState.Normal)
         addressFiscalPersonSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         addressFiscalPersonSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
@@ -136,7 +136,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         addressFiscalMoralSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         addressFiscalMoralSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
         addressFiscalMoralSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        addressFiscalMoralSelect!.addTarget(self, action: "checkAddress:", forControlEvents: UIControlEvents.TouchUpInside)
+        addressFiscalMoralSelect!.addTarget(self, action: #selector(InvoiceComplementViewController.checkAddress(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         addressFiscalMoralSelect!.setTitle("Persona Moral", forState: UIControlState.Normal)
         addressFiscalMoralSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
         addressFiscalMoralSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
@@ -161,7 +161,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.returnButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.returnButton!.backgroundColor = WMColor.light_blue
         self.returnButton!.layer.cornerRadius = 20
-        self.returnButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.returnButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(returnButton!)
         
         self.finishButton = UIButton(frame: CGRectMake(widthLessMargin - 140 , self.address!.frame.maxY + 25.0, 140.0, fheight))
@@ -170,7 +170,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
         self.finishButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.finishButton!.backgroundColor = WMColor.green
         self.finishButton!.layer.cornerRadius = 20
-        self.finishButton!.addTarget(self, action: "confirm", forControlEvents: UIControlEvents.TouchUpInside)
+        self.finishButton!.addTarget(self, action: #selector(InvoiceComplementViewController.confirm), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(finishButton!)
         
         self.picker = AlertPickerView.initPickerWithDefault()

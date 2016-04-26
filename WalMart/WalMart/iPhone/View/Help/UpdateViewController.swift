@@ -46,7 +46,7 @@ class UpdateViewController: UIView {
         later.backgroundColor = WMColor.blue
         later.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
         later.layer.cornerRadius = 18
-        later.addTarget(self, action: "updatelater", forControlEvents: UIControlEvents.TouchUpInside)
+        later.addTarget(self, action: #selector(UpdateViewController.updatelater), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(later)
         
         update = UIButton()
@@ -55,7 +55,7 @@ class UpdateViewController: UIView {
         update.backgroundColor = WMColor.green
         update.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(16)
         update.layer.cornerRadius = 18
-        update.addTarget(self, action: "goToAppStore", forControlEvents: UIControlEvents.TouchUpInside)
+        update.addTarget(self, action: #selector(UpdateViewController.goToAppStore), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(update)
         
     }

@@ -39,7 +39,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         
         self.closeSearch = UIButton(type: .Custom)
         self.closeSearch!.setImage(UIImage(named: "delete_icon"), forState: .Normal)
-        self.closeSearch!.addTarget(self, action: "closeSearchText", forControlEvents: .TouchUpInside)
+        self.closeSearch!.addTarget(self, action: #selector(AddProductTolistView.closeSearchText), forControlEvents: .TouchUpInside)
         self.closeSearch!.hidden =  true
         self.addSubview(self.closeSearch!)
         
@@ -57,12 +57,12 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         
         self.camButtom = UIButton(type: .Custom)
         self.camButtom!.setImage(UIImage(named: "cam_icon_addtolist"), forState: .Normal)
-        self.camButtom!.addTarget(self, action: "showCamera", forControlEvents: .TouchUpInside)
+        self.camButtom!.addTarget(self, action: #selector(AddProductTolistView.showCamera), forControlEvents: .TouchUpInside)
         self.addSubview(self.camButtom!)
   
         self.scannerButton = UIButton(type: .Custom)
         self.scannerButton!.setImage(UIImage(named: "barcode_icon_addtolist"), forState: .Normal)
-        self.scannerButton!.addTarget(self, action: "scanCode", forControlEvents: .TouchUpInside)
+        self.scannerButton!.addTarget(self, action: #selector(AddProductTolistView.scanCode), forControlEvents: .TouchUpInside)
         self.addSubview(self.scannerButton!)
         
         

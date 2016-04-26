@@ -75,7 +75,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.applyButton!.setBackgroundImage(iconSelected, forState: .Selected)
         self.applyButton!.setTitle(NSLocalizedString("filter.apply", comment:""), forState: .Normal)
         self.applyButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
-        self.applyButton!.addTarget(self, action: "applyFilters", forControlEvents: .TouchUpInside)
+        self.applyButton!.addTarget(self, action: #selector(FilterProductsViewController.applyFilters), forControlEvents: .TouchUpInside)
         self.applyButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         
         self.header!.addSubview(self.applyButton!)
@@ -85,7 +85,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         self.removeButton!.setBackgroundImage(iconSelected, forState: .Selected)
         self.removeButton!.setTitle(NSLocalizedString("filter.button.clean", comment:""), forState: .Normal)
         self.removeButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.removeButton!.addTarget(self, action: "removeFilters", forControlEvents: .TouchUpInside)
+        self.removeButton!.addTarget(self, action: #selector(FilterProductsViewController.removeFilters), forControlEvents: .TouchUpInside)
         self.removeButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.removeButton!.hidden = true
         self.removeButton!.layer.cornerRadius = 11

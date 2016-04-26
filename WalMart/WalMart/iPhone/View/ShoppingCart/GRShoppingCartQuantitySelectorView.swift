@@ -82,7 +82,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         
@@ -97,7 +97,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
         btnOkAdd.backgroundColor = WMColor.green
-        btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
@@ -114,7 +114,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         btnNote = UIButton(frame: CGRectMake((self.frame.width) - 48, keyboard.frame.maxY + 15 , 40, 40))
         btnNote.setImage(UIImage(named:"notes_keyboard"), forState: UIControlState.Normal)
-        btnNote.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNote.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), forControlEvents: UIControlEvents.TouchUpInside)
         btnNote.alpha = 0
         self.addSubview(btnNote)
         
@@ -122,7 +122,7 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         btnNoteComplete = UIButton(frame: CGRectMake(0, btnOkAdd.frame.maxY + 10, self.frame.width, 40))
         btnNoteComplete.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
         self.btnNoteComplete!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
-        btnNoteComplete.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNoteComplete.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.updateOrAddNote), forControlEvents: UIControlEvents.TouchUpInside)
         btnNoteComplete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         btnNoteComplete.alpha = 0
         

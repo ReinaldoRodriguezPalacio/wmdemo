@@ -153,8 +153,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.picker!.cellType = TypeField.Alphanumeric
             self.picker!.showPicker()
             
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillShow", name: UIKeyboardWillShowNotification, object: nil)
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GRCheckOutPymentViewController.keyBoardWillShow), name: UIKeyboardWillShowNotification, object: nil)
+            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GRCheckOutPymentViewController.keyBoardWillHide), name: UIKeyboardWillHideNotification, object: nil)
             
             //self.removeViewLoad()
         }
@@ -177,7 +177,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         cancelShop?.backgroundColor = WMColor.empty_gray_btn
         cancelShop?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         cancelShop?.layer.cornerRadius = 16
-        cancelShop?.addTarget(self, action: "cancelPurche", forControlEvents: UIControlEvents.TouchUpInside)
+        cancelShop?.addTarget(self, action: #selector(GRCheckOutPymentViewController.cancelPurche), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelShop!)
         
         self.confirmShop =  UIButton()
@@ -186,7 +186,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         confirmShop?.backgroundColor = WMColor.green
         confirmShop?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         confirmShop?.layer.cornerRadius = 16
-        confirmShop?.addTarget(self, action: "continuePurche", forControlEvents: UIControlEvents.TouchUpInside)
+        confirmShop?.addTarget(self, action: #selector(GRCheckOutPymentViewController.continuePurche), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(confirmShop!)
         
         let titleLabelPayPal = UILabel(frame:CGRectMake(22, 0, width - 22,22))
@@ -200,7 +200,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.payPalPaymentField = UIButton()
         self.payPalPaymentField!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.payPalPaymentField!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-        self.payPalPaymentField!.addTarget(self, action: "paypalCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.payPalPaymentField!.addTarget(self, action: #selector(GRCheckOutPymentViewController.paypalCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.payPalPaymentField!.addSubview(titleLabelPayPal)
         self.payPalPaymentField!.selected = false
         self.payPalPaymentField!.tag = -1
@@ -218,7 +218,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.payPalFuturePaymentField = UIButton()
         self.payPalFuturePaymentField!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.payPalFuturePaymentField!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-        self.payPalFuturePaymentField!.addTarget(self, action: "paypalCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.payPalFuturePaymentField!.addTarget(self, action: #selector(GRCheckOutPymentViewController.paypalCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.payPalFuturePaymentField!.addSubview(titleLabelPayPalFuture)
         self.payPalFuturePaymentField!.selected = false
         self.payPalFuturePaymentField!.tag = -3
@@ -258,7 +258,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.addViewLoad()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPromotios", name: "INVOKE_RELOAD_PROMOTION", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(GRCheckOutPymentViewController.reloadPromotios), name: "INVOKE_RELOAD_PROMOTION", object: nil)
     }
     
     func reloadPromotios(){
@@ -952,7 +952,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 let promSelect = UIButton(frame: CGRectMake(margin,posY,widthField,fheight))
                 promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
                 promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-                promSelect.addTarget(self, action: "promCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+                promSelect.addTarget(self, action: #selector(GRCheckOutPymentViewController.promCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                 promSelect.addSubview(titleLabel)
                 promSelect.selected = false
                 promSelect.tag = count

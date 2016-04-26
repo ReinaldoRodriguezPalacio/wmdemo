@@ -260,7 +260,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
         
         if finishLoadCheckOut != nil {
-               NSTimer.scheduledTimerWithTimeInterval(0.9, target: self, selector: "removeViewLoading", userInfo: nil, repeats: false)
+               NSTimer.scheduledTimerWithTimeInterval(0.9, target: self, selector: #selector(CheckOutViewController.removeViewLoading), userInfo: nil, repeats: false)
             finishLoadCheckOut!()
         }
         

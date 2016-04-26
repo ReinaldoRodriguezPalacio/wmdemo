@@ -68,7 +68,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         addReferedButton?.backgroundColor = WMColor.light_gray
         addReferedButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         addReferedButton?.layer.cornerRadius = 16
-        addReferedButton?.addTarget(self, action: "addRefered", forControlEvents: UIControlEvents.TouchUpInside)
+        addReferedButton?.addTarget(self, action: #selector(ReferedViewController.addRefered), forControlEvents: UIControlEvents.TouchUpInside)
         addReferedButton?.enabled = false
         self.view.addSubview(addReferedButton!)
         

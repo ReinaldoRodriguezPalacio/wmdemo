@@ -53,7 +53,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.footerSection!.frame = framefooter
         
         if addGestureLeft {
-            let gestureSwipeLeft = UISwipeGestureRecognizer(target: self, action: "didTapClose")
+            let gestureSwipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(IPAUserListDetailViewController.didTapClose))
             gestureSwipeLeft.direction = UISwipeGestureRecognizerDirection.Left
             self.header!.addGestureRecognizer(gestureSwipeLeft)
         }

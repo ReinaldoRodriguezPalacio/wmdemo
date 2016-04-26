@@ -40,7 +40,7 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
         
         btnClose = UIButton()
         btnClose.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        btnClose.addTarget(self, action: "closeCategory", forControlEvents: UIControlEvents.TouchUpInside)
+        btnClose.addTarget(self, action: #selector(IPACatHeaderSearchReusable.closeCategory), forControlEvents: UIControlEvents.TouchUpInside)
         
         btnClose.frame = CGRectMake(16 ,3 ,100,100)
         self.addSubview(btnClose)
@@ -56,7 +56,7 @@ class IPACatHeaderSearchReusable : UICollectionReusableView {
         titleLabel.frame = CGRectMake(16, 112, self.bounds.width - 32, 50)
         self.addSubview(titleLabel)
         
-        let gestrure = UITapGestureRecognizer(target: self, action: "closeCategory")
+        let gestrure = UITapGestureRecognizer(target: self, action: #selector(IPACatHeaderSearchReusable.closeCategory))
         self.addGestureRecognizer(gestrure)
         
         

@@ -48,7 +48,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
         
         buttonClose = UIButton()
         buttonClose.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
-        buttonClose.addTarget(self, action: "closeDepartment", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonClose.addTarget(self, action: #selector(DepartmentCollectionViewCell.closeDepartment), forControlEvents: UIControlEvents.TouchUpInside)
         buttonClose.alpha = 0
         
         self.addSubview(imageBackground)
@@ -161,7 +161,7 @@ class DepartmentCollectionViewCell : UICollectionViewCell {
     }
   
     func addGestureTiImage(){
-        let tapGesture = UITapGestureRecognizer(target: self, action: "closeDepartment")
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(DepartmentCollectionViewCell.closeDepartment))
         self.imageBackground.userInteractionEnabled = true
         self.imageBackground.addGestureRecognizer(tapGesture)
         

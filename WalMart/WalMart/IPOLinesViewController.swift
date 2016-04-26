@@ -43,7 +43,7 @@ class IPOLinesViewController : IPOCategoriesViewController {
         
         buttonClose = UIButton()
         buttonClose.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
-        buttonClose.addTarget(self, action: "closeDepartment", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonClose.addTarget(self, action: #selector(BaseCategoryViewController.closeDepartment), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view.addSubview(imageBackground)
         self.view.addSubview(imageIcon)

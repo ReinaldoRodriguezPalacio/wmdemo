@@ -39,7 +39,7 @@ class IPOCategoryView : CategoryView {
         
         closeButton = UIButton()
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeCategory", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(IPOCategoryView.closeCategory), forControlEvents: UIControlEvents.TouchUpInside)
         self.closeButton.enabled = false
         self.closeButton.alpha = 0
         

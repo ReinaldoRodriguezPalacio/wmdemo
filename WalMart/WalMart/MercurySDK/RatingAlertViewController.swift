@@ -69,25 +69,25 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         self.buttonNo?.setTitle("No", forState: UIControlState.Normal)
         self.buttonNo?.layer.cornerRadius = 18
         self.buttonNo?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
-        self.buttonNo?.addTarget(self, action: "actionNo", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonNo?.addTarget(self, action: #selector(RatingAlertViewController.actionNo), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.buttonYes = UIButton()
         self.buttonYes?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonYes?.setTitle("Si", forState: UIControlState.Normal)
         self.buttonYes?.layer.cornerRadius = 18
         self.buttonYes?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
-        self.buttonYes?.addTarget(self, action: "actionYes", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonYes?.addTarget(self, action: #selector(RatingAlertViewController.actionYes), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.buttonNotRecived = UIButton()
         self.buttonNotRecived?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonNotRecived?.setTitle("¿No recibiste tu orden?", forState: UIControlState.Normal)
-        self.buttonNotRecived?.addTarget(self, action: "undeliveriedOrder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonNotRecived?.addTarget(self, action: #selector(RatingAlertViewController.undeliveriedOrder), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.buttonEnd = UIButton()
         self.buttonEnd?.backgroundColor = UIColor(red: 119/255, green: 188/255, blue: 31/255, alpha: 1)
         self.buttonEnd?.setTitle("Terminar", forState: UIControlState.Normal)
         self.buttonEnd?.layer.cornerRadius = 18
-        self.buttonEnd?.addTarget(self, action: "actionEnd", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonEnd?.addTarget(self, action: #selector(RatingAlertViewController.actionEnd as (RatingAlertViewController) -> () -> ()), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonEnd?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonEnd?.alpha = 0
         
@@ -95,7 +95,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         self.buttonDone?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonDone?.setTitle("Ok", forState: UIControlState.Normal)
         self.buttonDone?.layer.cornerRadius = 18
-        self.buttonDone?.addTarget(self, action: "actionDone", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonDone?.addTarget(self, action: #selector(RatingAlertViewController.actionDone), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonDone?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonDone?.alpha = 0
         
@@ -104,7 +104,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         self.buttonCancelNotDev?.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1)
         self.buttonCancelNotDev?.setTitle("Cancelar", forState: UIControlState.Normal)
         self.buttonCancelNotDev?.layer.cornerRadius = 18
-        self.buttonCancelNotDev?.addTarget(self, action: "actionCancelNotDeliveried", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonCancelNotDev?.addTarget(self, action: #selector(RatingAlertViewController.actionCancelNotDeliveried), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonCancelNotDev?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonCancelNotDev?.alpha = 0
         
@@ -113,7 +113,7 @@ public class RatingAlertViewController : UIViewController ,DraggableViewDelegate
         self.buttonOkNotDev?.backgroundColor = UIColor(red: 0/255, green: 113/255, blue: 206/255, alpha: 1)
         self.buttonOkNotDev?.setTitle("Reportar", forState: UIControlState.Normal)
         self.buttonOkNotDev?.layer.cornerRadius = 18
-        self.buttonOkNotDev?.addTarget(self, action: "actionReportNotDeliveried", forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonOkNotDev?.addTarget(self, action: #selector(RatingAlertViewController.actionReportNotDeliveried), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonOkNotDev?.titleLabel!.font = MercuryFont.fontSFUIRegularOfSize(18)
         self.buttonOkNotDev?.alpha = 0
         

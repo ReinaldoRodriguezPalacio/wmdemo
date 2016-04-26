@@ -69,7 +69,7 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
         viewText.attributedText = myString
        
         // Add tap gesture recognizer to Text View
-        let tap = UITapGestureRecognizer(target: self, action: Selector("openTermsTap:"))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(BannerTermsView.openTermsTap(_:)))
         tap.delegate = self
         viewText.addGestureRecognizer(tap)
         
@@ -78,7 +78,7 @@ class BannerTermsView : UIView,UIGestureRecognizerDelegate {
 
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "removeFromSuperview", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(UIView.removeFromSuperview), forControlEvents: UIControlEvents.TouchUpInside)
         viewBg.addSubview(closeButton)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_BANNER_TERMS.rawValue, action: WMGAIUtils.ACTION_VIEW_BANNER_TERMS.rawValue, label: "")
     }

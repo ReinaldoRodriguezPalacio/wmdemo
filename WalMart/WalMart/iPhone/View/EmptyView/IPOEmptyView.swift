@@ -62,7 +62,7 @@ class IPOEmptyView : UIView {
         
         returnButton.backgroundColor = WMColor.light_blue
         returnButton.setTitle(NSLocalizedString("empty.return",comment:""), forState: UIControlState.Normal)
-        returnButton.addTarget(self, action: "returnActionSel", forControlEvents: UIControlEvents.TouchUpInside)
+        returnButton.addTarget(self, action: #selector(IPOEmptyView.returnActionSel), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.addSubview(iconImageView)
         self.addSubview(descLabel)

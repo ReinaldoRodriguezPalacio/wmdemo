@@ -74,7 +74,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.deleteButton!.setTitle("eliminar", forState: .Normal)
         self.deleteButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.deleteButton!.titleLabel?.font =  WMFont.fontMyriadProRegularOfSize(12)
-        self.deleteButton!.addTarget(self, action: "deleteReminder", forControlEvents: UIControlEvents.TouchUpInside)
+        self.deleteButton!.addTarget(self, action: #selector(ReminderViewController.deleteReminder), forControlEvents: UIControlEvents.TouchUpInside)
         self.deleteButton!.backgroundColor = WMColor.red
         self.deleteButton!.layer.cornerRadius = 11.0
         self.header!.addSubview(deleteButton!)
@@ -137,7 +137,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
@@ -146,7 +146,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "save", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(ReminderViewController.save), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(saveButton!)
     
         
@@ -188,7 +188,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.timePicker!.locale = NSLocale(localeIdentifier: "da_DK")
         self.timePicker!.minuteInterval = 15
         self.timePicker!.date = NSDate()
-        self.timePicker!.addTarget(self, action: "timeChanged", forControlEvents: .ValueChanged)
+        self.timePicker!.addTarget(self, action: #selector(ReminderViewController.timeChanged), forControlEvents: .ValueChanged)
         self.hourField!.inputView = self.timePicker!
         
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44),

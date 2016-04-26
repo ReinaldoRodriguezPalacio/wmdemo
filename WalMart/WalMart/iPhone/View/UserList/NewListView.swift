@@ -60,7 +60,7 @@ class NewListView: UIControl, UITextFieldDelegate {
         self.saveButton!.setTitle(NSLocalizedString("list.new.save", comment:""), forState: .Normal)
         self.saveButton!.setTitleColor(WMColor.gray, forState: .Normal)
         self.saveButton!.backgroundColor = WMColor.light_light_gray
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(NewListView.save(_:)), forControlEvents: .TouchUpInside)
         self.inputNameList!.rightView = self.saveButton
         self.inputNameList!.rightViewMode = .Always
         

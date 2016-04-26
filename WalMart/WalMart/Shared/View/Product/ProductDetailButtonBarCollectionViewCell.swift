@@ -114,7 +114,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         deltailButton.setImage(UIImage(named:"detail_infoOff"), forState: UIControlState.Normal)
         deltailButton.setImage(UIImage(named:"detail_info"), forState: UIControlState.Selected)
         deltailButton.setImage(UIImage(named:"detail_info"), forState: UIControlState.Highlighted)
-        deltailButton.addTarget(self, action: "detailProduct", forControlEvents: UIControlEvents.TouchUpInside)
+        deltailButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.detailProduct), forControlEvents: UIControlEvents.TouchUpInside)
         
         listButton = UIButton()
         listButton.frame = CGRectMake(deltailButton.frame.maxX, 0, widthButtons, self.frame.height)
@@ -122,14 +122,14 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         listButton.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Selected)
         listButton.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Highlighted)
         listButton.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
-        listButton.addTarget(self, action: "addProductToWishlist", forControlEvents: UIControlEvents.TouchUpInside)
+        listButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToWishlist), forControlEvents: UIControlEvents.TouchUpInside)
         
         facebookButton = UIButton()
         facebookButton.frame = CGRectMake(listButton.frame.maxX, 0, widthButtons, self.frame.height)
         facebookButton.setImage(UIImage(named:"detail_shareOff"), forState: UIControlState.Normal)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Highlighted)
         facebookButton.setImage(UIImage(named:"detail_share"), forState: UIControlState.Selected)
-        facebookButton.addTarget(self, action: "shareProduct", forControlEvents: UIControlEvents.TouchUpInside)
+        facebookButton.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.shareProduct), forControlEvents: UIControlEvents.TouchUpInside)
       
         self.addToShoppingCartButton = UIButton()
         self.addToShoppingCartButton.frame = CGRectMake(facebookButton.frame.maxX + 12, (self.frame.height / 2) - 17, 102, 34)
@@ -145,7 +145,7 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
         self.addToShoppingCartButton!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         //addToShoppingCartButton.setImage(UIImage(named:"detail_cart"), forState: UIControlState.Normal)
        
-        self.addToShoppingCartButton!.addTarget(self, action: "addProductToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addToShoppingCartButton!.addTarget(self, action: #selector(ProductDetailButtonBarCollectionViewCell.addProductToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         
         let upBorder = UIView(frame: CGRectMake(0, 0, self.frame.width, AppDelegate.separatorHeigth()))
         upBorder.backgroundColor = WMColor.light_light_gray

@@ -70,7 +70,7 @@ protocol GenerateOrderViewDelegate {
         
         
         buttonClose = UIButton(frame: CGRectMake(marginViews, marginViews, 23, 23))
-        buttonClose.addTarget(self, action: "editAction", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonClose.addTarget(self, action: #selector(GenerateOrderView.editAction), forControlEvents: UIControlEvents.TouchUpInside)
         buttonClose.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
 
         
@@ -174,14 +174,14 @@ protocol GenerateOrderViewDelegate {
         buttonEditOrder.layer.cornerRadius = 17
         buttonEditOrder.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonEditOrder.setTitle("Editar", forState: UIControlState.Normal)
-        buttonEditOrder.addTarget(self, action: "editAction", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonEditOrder.addTarget(self, action: #selector(GenerateOrderView.editAction), forControlEvents: UIControlEvents.TouchUpInside)
         
         buttonCreateOrder = UIButton(frame: CGRectMake((self.viewContent.frame.width / 2) + 4, 418, 120, 34))
         buttonCreateOrder.backgroundColor = WMColor.green
         buttonCreateOrder.layer.cornerRadius = 17
         buttonCreateOrder.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonCreateOrder.setTitle("Generar Pedido", forState: UIControlState.Normal)
-        buttonCreateOrder.addTarget(self, action: "createOrderAction", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonCreateOrder.addTarget(self, action: #selector(GenerateOrderView.createOrderAction), forControlEvents: UIControlEvents.TouchUpInside)
         
         
         

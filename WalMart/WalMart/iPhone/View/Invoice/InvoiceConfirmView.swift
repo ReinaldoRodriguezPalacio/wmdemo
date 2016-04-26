@@ -165,7 +165,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(FMResultSet.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(saveButton!)
 
     }

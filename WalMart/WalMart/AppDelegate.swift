@@ -36,7 +36,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         
         //Push notifications
          if #available(iOS 8.0, *) {
-          if application.respondsToSelector("registerUserNotificationSettings:") {
+          if application.respondsToSelector(#selector(UIApplication.registerUserNotificationSettings(_:))) {
                 let type: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
                 let setting = UIUserNotificationSettings(forTypes: type, categories: nil);
                 UIApplication.sharedApplication().registerUserNotificationSettings(setting);
@@ -335,7 +335,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
     }
     
     class func scaleFactor() -> CGFloat {
-        if UIScreen.mainScreen().respondsToSelector("displayLinkWithTarget:selector:") {
+        if UIScreen.mainScreen().respondsToSelector(#selector(UIScreen.displayLinkWithTarget(_:selector:))) {
             return UIScreen.mainScreen().scale
         }
         return 1.0

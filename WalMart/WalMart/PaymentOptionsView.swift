@@ -56,7 +56,7 @@ class PaymentOptionsView : UIView {
                     let promSelect = UIButton(frame: CGRectMake(0,posY,widthField,22))
                     promSelect.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
                     promSelect.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-                    promSelect.addTarget(self, action: "paymentCheckSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+                    promSelect.addTarget(self, action: #selector(PaymentOptionsView.paymentCheckSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
                     promSelect.addSubview(titleLabel)
                     promSelect.selected = false
                     promSelect.tag = count

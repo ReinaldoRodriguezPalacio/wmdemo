@@ -61,7 +61,7 @@ class PreShoppingCartView : UIView {
         shopButton.backgroundColor = UIColor.whiteColor()
         shopButton.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         shopButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
-        shopButton.addTarget(self, action: "tapGR", forControlEvents: UIControlEvents.TouchUpInside)
+        shopButton.addTarget(self, action: #selector(PreShoppingCartView.tapGR), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(shopButton)
         
 //        customlabel = CurrencyCustomLabel(frame:CGRectMake(0, 0, 137, 34))
@@ -70,7 +70,7 @@ class PreShoppingCartView : UIView {
        // shopButton.addSubview(customlabel)
         //shopButton.sendSubviewToBack(customlabel)
 
-        tapGesture = UITapGestureRecognizer(target: self, action: "tapGR")
+        tapGesture = UITapGestureRecognizer(target: self, action: #selector(PreShoppingCartView.tapGR))
         self.addGestureRecognizer(tapGesture)
         
         self.layer.cornerRadius = 8.0

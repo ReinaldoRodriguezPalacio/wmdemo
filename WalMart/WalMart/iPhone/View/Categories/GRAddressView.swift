@@ -51,7 +51,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(GRAddressView.close), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(cancelButton!)
         
         self.newButton = UIButton()
@@ -60,7 +60,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.newButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.newButton!.backgroundColor = WMColor.light_blue
         self.newButton!.layer.cornerRadius = 17
-        self.newButton!.addTarget(self, action: "new", forControlEvents: UIControlEvents.TouchUpInside)
+        self.newButton!.addTarget(self, action: #selector(GRAddressView.new), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(newButton!)
         
         self.tableAddress = UITableView()

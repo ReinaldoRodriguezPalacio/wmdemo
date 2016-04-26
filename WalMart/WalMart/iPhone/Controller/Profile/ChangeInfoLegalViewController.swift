@@ -42,7 +42,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.promoAccept!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.promoAccept!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.promoAccept!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-        self.promoAccept!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.promoAccept!.addTarget(self, action: #selector(ChangeInfoLegalViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.promoAccept!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
 
         
@@ -60,7 +60,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.acceptSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.acceptSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.acceptSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-        self.acceptSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.acceptSharePersonal!.addTarget(self, action: #selector(ChangeInfoLegalViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.acceptSharePersonal!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         
         self.declineSharePersonal = UIButton(frame: CGRectMake(acceptSharePersonal!.frame.maxX, lblPersonalData.frame.maxY + 24.0, 120, 16))
@@ -70,7 +70,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.declineSharePersonal!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.declineSharePersonal!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.declineSharePersonal!.titleEdgeInsets = UIEdgeInsetsMake(0, 8, 0, 0);
-        self.declineSharePersonal!.addTarget(self, action: "changeCons:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.declineSharePersonal!.addTarget(self, action: #selector(ChangeInfoLegalViewController.changeCons(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.declineSharePersonal!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
         
         //let iconImage = UIImage(named:"button_bg")
@@ -80,7 +80,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
         //self.saveButton!.setImage(iconImage, forState: UIControlState.Normal)
         //self.saveButton!.setImage(iconSelected, forState: UIControlState.Highlighted)
         self.saveButton!.setBackgroundColor(WMColor.green, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)
-        self.saveButton!.addTarget(self, action: "save:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(ChangeInfoLegalViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:"" ) , forState: UIControlState.Normal)
         self.saveButton!.tintColor = UIColor.whiteColor()
         self.saveButton!.layer.cornerRadius = 11

@@ -85,7 +85,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             if self.viewBgDetailView == nil {
                 self.viewBgDetailView = UIView(frame:CGRectMake(342.0, 0.0, self.clubMap!.bounds.width, self.view.bounds.height))
                 self.viewBgDetailView!.backgroundColor = UIColor.clearColor()
-                self.viewBgDetailView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "mapViewUserDidTap"))
+                self.viewBgDetailView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(StoreLocatorViewController.mapViewUserDidTap as (StoreLocatorViewController) -> () -> ())))
             }
             
             self.detailView = IPAStoreView(frame:CGRectMake(0.0, 0.0, 256.0, 200.0))

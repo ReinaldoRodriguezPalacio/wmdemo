@@ -87,7 +87,7 @@ class ProductDetailBannerTableViewCell : UITableViewCell,UICollectionViewDataSou
                 point.setImage(UIImage(named: "bannerContentOff"), forState: .Normal)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Selected)
                 point.setImage(UIImage(named: "bannerContentOn"), forState: .Highlighted)
-                point.addTarget(self, action: "pointSelected:", forControlEvents: .TouchUpInside)
+                point.addTarget(self, action: #selector(ProductDetailBannerTableViewCell.pointSelected(_:)), forControlEvents: .TouchUpInside)
                 point.selected = idx == self.currentItem!
                 x = CGRectGetMaxX(point.frame)
                 if idx < size {

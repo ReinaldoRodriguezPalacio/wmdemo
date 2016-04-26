@@ -53,7 +53,7 @@ class SliderTableViewCell: UITableViewCell {
         self.slider!.stepValue = 0.2
         self.slider!.stepValueContinuously = true
         self.slider!.continuous = false
-        self.slider!.addTarget(self, action: "report:", forControlEvents: .ValueChanged)
+        self.slider!.addTarget(self, action: #selector(SliderTableViewCell.report(_:)), forControlEvents: .ValueChanged)
         self.contentView.addSubview(self.slider!)
         
         self.currencyFmt = NSNumberFormatter()

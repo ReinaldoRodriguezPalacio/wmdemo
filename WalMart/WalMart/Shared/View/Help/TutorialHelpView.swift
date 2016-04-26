@@ -38,7 +38,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         
         buttonClose = UIButton(frame: CGRectMake(0, 20, 44, 44))
         buttonClose.setImage(UIImage(named:"tutorial_close"), forState: UIControlState.Normal)
-        buttonClose.addTarget(self, action: "removeHelp", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonClose.addTarget(self, action: #selector(TutorialHelpView.removeHelp), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(buttonClose)
         
         
@@ -125,7 +125,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
             buttonFinish.layer.cornerRadius = 18
             buttonFinish.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
             buttonFinish.backgroundColor = WMColor.green
-            buttonFinish.addTarget(self, action: "finishRemoveHelp", forControlEvents: UIControlEvents.TouchUpInside)
+            buttonFinish.addTarget(self, action: #selector(TutorialHelpView.finishRemoveHelp), forControlEvents: UIControlEvents.TouchUpInside)
             viewFinish.addSubview(buttonFinish)
 
             
@@ -175,7 +175,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
                 point.setImage(UIImage(named: "control_help_inactivo"), forState: .Normal)
                 point.setImage(UIImage(named: "control_help_activo"), forState: .Selected)
                 point.setImage(UIImage(named: "control_help_activo"), forState: .Highlighted)
-                point.addTarget(self, action: "pointSelected:", forControlEvents: .TouchUpInside)
+                point.addTarget(self, action: #selector(TutorialHelpView.pointSelected(_:)), forControlEvents: .TouchUpInside)
                 point.selected = idx == self.currentItem!
                 x = CGRectGetMaxX(point.frame)
                 if idx < size {
@@ -195,7 +195,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         for button: UIButton in self.pointButtons! {
             button.selected = button === sender
         }
-        if let idx = (self.pointButtons!).indexOf(sender) {
+        if (self.pointButtons!).indexOf(sender) != nil {
             self.scrollHelp!.scrollRectToVisible(CGRectMake(0, 0, self.frame.width, self.scrollHelp!.frame.height), animated: true)
         }
     }

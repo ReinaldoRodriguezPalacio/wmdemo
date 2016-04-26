@@ -69,7 +69,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         invoiceSelect = UIButton(frame: CGRectMake(margin,sectionTitle.frame.maxY,80,fheight))
         invoiceSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         invoiceSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
-        invoiceSelect!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        invoiceSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         invoiceSelect!.setTitle(NSLocalizedString("invoice.button.invoice",comment:""), forState: UIControlState.Normal)
         invoiceSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         invoiceSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
@@ -81,7 +81,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         consultSelect!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         consultSelect!.setImage(checkTermFull, forState: UIControlState.Selected)
         consultSelect!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        consultSelect!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        consultSelect!.addTarget(self, action: #selector(InvoiceViewController.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         consultSelect!.setTitle(NSLocalizedString("invoice.button.consult",comment:""), forState: UIControlState.Normal)
         consultSelect!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 15.0, 0, 0.0)
         consultSelect!.setTitleColor(WMColor.gray, forState: UIControlState.Normal)
@@ -151,12 +151,12 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         
         self.infoTCButton = UIButton(frame: CGRectMake(widthLessMargin - 16, infoMessage.frame.maxY + 20.0, 16, 16))
         self.infoTCButton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
-        self.infoTCButton!.addTarget(self, action: "infoImage:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.infoTCButton!.addTarget(self, action: #selector(InvoiceViewController.infoImage(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.content.addSubview(self.infoTCButton!)
         
         self.infoTRButton = UIButton(frame: CGRectMake(widthLessMargin - 16, self.ticketNumber!.frame.maxY + 20.0, 16, 16))
         self.infoTRButton!.setBackgroundImage(UIImage(named:"invoice_info"), forState: UIControlState.Normal)
-        self.infoTRButton!.addTarget(self, action: "infoImage:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.infoTRButton!.addTarget(self, action: #selector(InvoiceViewController.infoImage(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.content.addSubview(self.infoTRButton!)
         
         self.content.contentSize = CGSizeMake(self.view.frame.width, transactionNumber!.frame.maxY + 5.0)
@@ -167,7 +167,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.light_blue
         self.cancelButton!.layer.cornerRadius = 20
-        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.nextButton = UIButton(frame: CGRectMake(widthLessMargin - 140 , self.content!.frame.maxY + 5.0, 140.0, fheight))
@@ -176,7 +176,7 @@ class InvoiceViewController : NavigationViewController, TPKeyboardAvoidingScroll
         self.nextButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.nextButton!.backgroundColor = WMColor.green
         self.nextButton!.layer.cornerRadius = 20
-        self.nextButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.nextButton!.addTarget(self, action: #selector(InvoiceViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(nextButton!)
 
     }

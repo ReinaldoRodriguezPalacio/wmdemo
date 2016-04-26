@@ -71,10 +71,8 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
                         
                         let buttonClose = UIButton(frame: CGRectMake(0, 20, 44, 44))
                         buttonClose.setImage(UIImage(named:"tutorial_close"), forState: UIControlState.Normal)
-                        buttonClose.addTarget(alert!, action: "close", forControlEvents: UIControlEvents.TouchUpInside)
+                        buttonClose.addTarget(alert!, action: #selector(FMDatabase.close), forControlEvents: UIControlEvents.TouchUpInside)
                         alert!.view.addSubview(buttonClose)
-
-                        
                         //
                         return
                     }

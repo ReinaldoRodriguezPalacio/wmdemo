@@ -68,7 +68,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.arrivalButton = UIButton()
         arrivalButton!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         arrivalButton!.setImage(checkTermFull, forState: UIControlState.Selected)
-        arrivalButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        arrivalButton!.addTarget(self, action: #selector(TouristInformationForm.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         arrivalButton!.setTitle("Arribo", forState: UIControlState.Normal)
         arrivalButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         arrivalButton!.titleLabel?.textAlignment = .Left
@@ -81,7 +81,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         departureButton!.setImage(checkTermEmpty, forState: UIControlState.Normal)
         departureButton!.setImage(checkTermFull, forState: UIControlState.Selected)
         departureButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        departureButton!.addTarget(self, action: "checkSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        departureButton!.addTarget(self, action: #selector(TouristInformationForm.checkSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         departureButton!.setTitle("Salida", forState: UIControlState.Normal)
         departureButton!.titleLabel?.textAlignment = .Left
         departureButton!.titleEdgeInsets = UIEdgeInsetsMake(4.0, 11.0, 0, 0.0)
@@ -166,7 +166,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.light_blue
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
@@ -175,7 +175,7 @@ class TouristInformationForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScr
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(FMResultSet.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(saveButton!)
         
     }

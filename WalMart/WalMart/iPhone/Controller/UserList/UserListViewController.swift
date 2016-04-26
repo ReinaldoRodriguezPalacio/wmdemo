@@ -82,7 +82,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn!.setTitle(NSLocalizedString("list.endnew", comment:""), forState: .Selected)
         self.newListBtn!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         self.newListBtn!.setTitleColor(WMColor.light_blue, forState: .Selected)
-        self.newListBtn!.addTarget(self, action: "showNewListField", forControlEvents: .TouchUpInside)
+        self.newListBtn!.addTarget(self, action: #selector(UserListViewController.showNewListField), forControlEvents: .TouchUpInside)
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.newListBtn!.backgroundColor = WMColor.green
         self.newListBtn!.layer.cornerRadius = 11.0
@@ -94,7 +94,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.editBtn = UIButton(type: .Custom)
         self.editBtn!.setTitle(NSLocalizedString("list.edit", comment:""), forState: .Normal)
         self.editBtn!.setTitle(NSLocalizedString("list.endedit", comment:""), forState: .Selected)
-        self.editBtn!.addTarget(self, action: "showEditionMode", forControlEvents: .TouchUpInside)
+        self.editBtn!.addTarget(self, action: #selector(UserListViewController.showEditionMode), forControlEvents: .TouchUpInside)
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.layer.cornerRadius = 11.0
@@ -129,11 +129,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "ReloadListFormUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadListFormUpdate", name: "ReloadListFormUpdate", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserListViewController.reloadListFormUpdate), name: "ReloadListFormUpdate", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserListViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserListViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: "DUPLICATE_LIST", object: nil)
         self.showLoadingView()
         self.reloadList(
             success:{() -> Void in
@@ -211,7 +211,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.duplicateList(cell!)
         }
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "DUPLICATE_LIST", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "duplicateList", name: "DUPLICATE_LIST", object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserListViewController.duplicateList as (UserListViewController) -> () -> ()), name: "DUPLICATE_LIST", object: nil)
 
 
     }
@@ -901,7 +901,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
             self.helpView!.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
             self.helpView!.alpha = 0.0
-            self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: "removeHelpTicketView"))
+            self.helpView!.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UserListViewController.removeHelpTicketView)))
             self.view.addSubview(self.helpView!)
             
             let icon = UIImageView(image: UIImage(named: "list_scan_ticket_help"))

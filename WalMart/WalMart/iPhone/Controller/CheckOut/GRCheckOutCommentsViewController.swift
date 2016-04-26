@@ -71,7 +71,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallButton = UIButton()
         self.confirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.confirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-        self.confirmCallButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.confirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallButton!.setTitle(NSLocalizedString("gr.confirmacall", comment: ""), forState: .Normal)
         self.confirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.confirmCallButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
@@ -96,7 +96,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton = UIButton()
         self.confirmCallOptionButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.confirmCallOptionButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-        self.confirmCallOptionButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.confirmCallOptionButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.confirmCallOptionButton!.setTitle(NSLocalizedString("gr.not.confirmacall.option.detail", comment: ""), forState: .Normal)
         self.confirmCallOptionButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.confirmCallOptionButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -109,7 +109,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton = UIButton()
         self.notConfirmCallButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
         self.notConfirmCallButton!.setImage(UIImage(named:"checkAddressOn"), forState: UIControlState.Selected)
-        self.notConfirmCallButton!.addTarget(self, action: "confirmCallSelected:", forControlEvents: UIControlEvents.TouchUpInside)
+        self.notConfirmCallButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.confirmCallSelected(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.notConfirmCallButton!.setTitle(NSLocalizedString("gr.not.confirmacall.detal", comment: ""), forState: .Normal)
         self.notConfirmCallButton!.setTitleColor(WMColor.dark_gray, forState: .Normal)
         self.notConfirmCallButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -145,7 +145,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
@@ -154,7 +154,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.light_blue
         self.saveButton!.layer.cornerRadius = 17
-        self.saveButton!.addTarget(self, action: "next", forControlEvents: UIControlEvents.TouchUpInside)
+        self.saveButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(saveButton!)
 
         self.confirmText = "\(NSLocalizedString("gr.confirmacall", comment: ""))\n\(self.phoneField!.text!)"

@@ -72,7 +72,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
         buttonShop.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonShop.layer.cornerRadius = 17
         buttonShop.enabled = false
-        buttonShop.addTarget(self, action: "addProductToShoppingCart", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonShop.addTarget(self, action: #selector(ProductDetailOptionsViewController.addProductToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(buttonShop)
         
         self.getItemsFromFacetsDetails()

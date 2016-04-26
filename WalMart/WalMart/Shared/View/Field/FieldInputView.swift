@@ -38,7 +38,7 @@ class FieldInputView: UIInputView {
         self.saveBarButton!.frame = CGRectMake(self.bounds.width - 100 , 0, 100, self.bounds.height)
         self.saveBarButton!.setTitle(self.titleSave, forState: .Normal)
         self.saveBarButton!.backgroundColor = UIColor.clearColor()
-        self.saveBarButton!.addTarget(self, action: "save:", forControlEvents: .TouchUpInside)
+        self.saveBarButton!.addTarget(self, action: #selector(FieldInputView.save(_:)), forControlEvents: .TouchUpInside)
         self.addSubview(self.saveBarButton!)
     }
     

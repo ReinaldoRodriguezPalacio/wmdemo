@@ -19,7 +19,7 @@ class IPASearchProductCollectionViewCell : SearchProductCollectionViewCell {
         productShortDescriptionLabel!.numberOfLines = 2
         
         self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
-        self.addProductToShopingCart!.addTarget(self, action: "addProductToShoping", forControlEvents: UIControlEvents.TouchUpInside)
+        self.addProductToShopingCart!.addTarget(self, action: Selector("addProductToShoping"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
         self.productImage!.frame = CGRectMake((self.frame.width / 2) - (140 / 2), self.productShortDescriptionLabel!.frame.maxY , 140, 140)

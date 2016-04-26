@@ -101,7 +101,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             btnChankePices.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
             btnChankePices.backgroundColor = WMColor.blue
             btnChankePices.layer.cornerRadius = 9
-            btnChankePices.addTarget(self, action: "orderbypices", forControlEvents: UIControlEvents.TouchUpInside)
+            btnChankePices.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.orderbypices), forControlEvents: UIControlEvents.TouchUpInside)
             btnChankePices.setTitle(NSLocalizedString("shoppingcart.selectpices",comment:""), forState: UIControlState.Normal)
             btnChankePices.setTitle(NSLocalizedString("shoppingcart.selectgrkg",comment:""), forState: UIControlState.Selected)
             containerWeightView.addSubview(btnChankePices)
@@ -118,11 +118,11 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
             containerWeightView.addSubview(lblTitle)
         }
         btnLess = UIButton(frame: CGRectMake(64, startH + 51 , 32, 32))
-        btnLess.addTarget(self, action: "btnLessAction", forControlEvents: UIControlEvents.TouchUpInside)
+        btnLess.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.btnLessAction), forControlEvents: UIControlEvents.TouchUpInside)
         btnLess.setImage(UIImage(named: "addProduct_Less"), forState: UIControlState.Normal)
         
         btnMore = UIButton(frame: CGRectMake(224,  startH + 51 , 32, 32))
-        btnMore.addTarget(self, action: "btnMoreAction", forControlEvents: UIControlEvents.TouchUpInside)
+        btnMore.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.btnMoreAction), forControlEvents: UIControlEvents.TouchUpInside)
         btnMore.setImage(UIImage(named: "addProduct_Add"), forState: UIControlState.Normal)
         
         lblQuantityW = UILabel(frame:CGRectMake(btnLess.frame.maxX + 2, startH + 52 , btnMore.frame.minX - btnLess.frame.maxX - 4, 40))
@@ -141,11 +141,11 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         self.updateLabelW()
         
-        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: "updateAnimation", userInfo: nil, repeats: true)
+        NSTimer.scheduledTimerWithTimeInterval(0.4, target: self, selector: #selector(GRShoppingCartWeightSelectorView.updateAnimation), userInfo: nil, repeats: true)
         
         let closeButton = UIButton(frame: CGRectMake(0, 0, 44, 44))
         closeButton.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButton.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButton.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboard = WeightKeyboardView(frame:CGRectMake((self.frame.width / 2) - (289/2), lblQuantityW.frame.maxY + 20, 289, 196))
         //keyboard.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
@@ -155,7 +155,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         btnOkAdd.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAdd.layer.cornerRadius = 18.0
         btnOkAdd.backgroundColor = WMColor.green
-        btnOkAdd.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnOkAdd.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         if UserCurrentSession.sharedInstance().userHasUPCShoppingCart(self.upcProduct) {
             isUpcInShoppingCart = true
@@ -165,20 +165,20 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         updateShoppButton()
 
-        let gestureQuantity = UITapGestureRecognizer(target: self, action: "changetonumberpad:")
+        let gestureQuantity = UITapGestureRecognizer(target: self, action: #selector(GRShoppingCartWeightSelectorView.changetonumberpad(_:)))
         lblQuantityW.addGestureRecognizer(gestureQuantity)
         lblQuantityW.userInteractionEnabled = true
         
         btnNote = UIButton(frame: CGRectMake((self.frame.width) - 48, keyboard.frame.maxY  , 40, 40))
         btnNote.setImage(UIImage(named:"notes_keyboard"), forState: UIControlState.Normal)
-        btnNote.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNote.addTarget(self, action: Selector("updateOrAddNote"), forControlEvents: UIControlEvents.TouchUpInside)
         btnNote.alpha =  0
         self.addSubview(btnNote)
         
         btnNoteComplete = UIButton(frame: CGRectMake(0, btnOkAdd.frame.maxY + 10, self.frame.width, 40))
         btnNoteComplete.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
         self.btnNoteComplete!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
-        btnNoteComplete.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNoteComplete.addTarget(self, action: Selector("updateOrAddNote"), forControlEvents: UIControlEvents.TouchUpInside)
         btnNoteComplete.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         btnNoteComplete.alpha = 0
 
@@ -208,7 +208,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonGramsKG.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         buttonGramsKG.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         buttonGramsKG.selected = true
-        buttonGramsKG.addTarget(self, action: "changegrkg:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonGramsKG.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.changegrkg(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         buttonGramsKG.backgroundColor = WMColor.blue
         buttonGramsKG.layer.cornerRadius = 9
 
@@ -218,7 +218,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         buttonKg.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Selected)
         buttonKg.setTitleColor(UIColor.whiteColor().colorWithAlphaComponent(0.6), forState: UIControlState.Normal)
         buttonKg.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
-        buttonKg.addTarget(self, action: "changegrkg:", forControlEvents: UIControlEvents.TouchUpInside)
+        buttonKg.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.changegrkg(_:)), forControlEvents: UIControlEvents.TouchUpInside)
 
         lblQuantityN = UILabel(frame:CGRectMake((self.frame.width / 2) - (200 / 2), lblTitleNum.frame.maxY + 20 , 200, 40))
         lblQuantityN.font = WMFont.fontMyriadProRegularOfSize(40)
@@ -230,11 +230,11 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         let closeButtonN = UIButton(frame: CGRectMake(self.frame.width - 44, 0, 44, 44))
         closeButtonN.setImage(UIImage(named:"close"), forState: UIControlState.Normal)
-        closeButtonN.addTarget(self, action: "closeSelectQuantity", forControlEvents: UIControlEvents.TouchUpInside)
+        closeButtonN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.closeSelectQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         
         let backToW = UIButton(frame: CGRectMake(0, 0, 44, 44))
         backToW.setImage(UIImage(named:"search_back"), forState: UIControlState.Normal)
-        backToW.addTarget(self, action: "backToWeight", forControlEvents: UIControlEvents.TouchUpInside)
+        backToW.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.backToWeight), forControlEvents: UIControlEvents.TouchUpInside)
         
         keyboardN = NumericKeyboardView(frame:CGRectMake((self.frame.width / 2) - (160/2), lblQuantityN.frame.maxY + 10, 160, 196),typeKeyboard:NumericKeyboardViewType.Integer)
         keyboardN.generateButtons(UIColor.whiteColor().colorWithAlphaComponent(0.35), selected: UIColor.whiteColor())
@@ -245,19 +245,19 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         btnOkAddN.titleLabel?.font = WMFont.fontMyriadProSemiboldOfSize(16)
         btnOkAddN.layer.cornerRadius = 18.0
         btnOkAddN.backgroundColor = WMColor.green
-        btnOkAddN.addTarget(self, action: "addtoshoppingcart:", forControlEvents: UIControlEvents.TouchUpInside)
+        btnOkAddN.addTarget(self, action: #selector(GRShoppingCartQuantitySelectorView.addtoshoppingcart(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.updateShoppButtonN()
         
         btnNoteN = UIButton(frame: CGRectMake((self.frame.width) - 48, keyboard.frame.maxY + 15  , 40, 40))
         btnNoteN.setImage(UIImage(named:"notes_keyboard"), forState: UIControlState.Normal)
-        btnNoteN.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNoteN.addTarget(self, action: Selector("updateOrAddNote"), forControlEvents: UIControlEvents.TouchUpInside)
         btnNoteN.alpha  = 0
         
         btnNoteCompleteN = UIButton(frame: CGRectMake(0, btnOkAdd.frame.maxY + 15, self.frame.width, 40))
         btnNoteCompleteN.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
         self.btnNoteCompleteN!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
-        btnNoteCompleteN.addTarget(self, action: "updateOrAddNote", forControlEvents: UIControlEvents.TouchUpInside)
+        btnNoteCompleteN.addTarget(self, action: Selector("updateOrAddNote"), forControlEvents: UIControlEvents.TouchUpInside)
         btnNoteCompleteN.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         btnNoteCompleteN.alpha = 0
         
@@ -754,7 +754,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
     func setBackActionShoppingCart(backAction:(() -> Void)) {
         let backButton = UIButton(frame: CGRectMake(0, 0, 40, 40))
         backButton.setImage(UIImage(named: "search_back"), forState: UIControlState.Normal)
-        backButton.addTarget(self, action: "backActionUpInside", forControlEvents: UIControlEvents.TouchUpInside)
+        backButton.addTarget(self, action: #selector(GRShoppingCartWeightSelectorView.backActionUpInside), forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(backButton)
         self.backAction = backAction
     }
