@@ -79,9 +79,17 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         
         self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2),14 , 95, 95)
         self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 44, 0, 44 , 44)
-        self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY, self.bounds.width - 16 , 18)
+        self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY + 6, self.bounds.width - 16 , 18)
         self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY, self.bounds.width - 16 , 12)
         self.productShortDescriptionLabel!.frame = CGRectMake(8,  self.productPriceThroughLabel!.frame.maxY, self.frame.width - 16 , 46)
+        
+        if IS_IPAD {
+            self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2),22, 95, 95)
+            self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 52, 8, 44 , 44)
+            self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY + 16, self.bounds.width - 16 , 18)
+            self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY + 8, self.bounds.width - 16 , 12)
+            self.productShortDescriptionLabel!.frame = CGRectMake(40,  self.productPriceThroughLabel!.frame.maxY + 16, self.frame.width - 80 , 46)
+        }
     }
     
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool) {
