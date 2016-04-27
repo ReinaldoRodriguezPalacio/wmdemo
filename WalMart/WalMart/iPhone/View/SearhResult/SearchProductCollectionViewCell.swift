@@ -52,19 +52,14 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.productShortDescriptionLabel?.textAlignment = NSTextAlignment.Center
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         productShortDescriptionLabel!.numberOfLines = 2
+        productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
+
         
         self.addProductToShopingCart = UIButton()
         self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
         self.addProductToShopingCart!.addTarget(self, action: #selector(SearchProductCollectionViewCell.addProductToShoping), forControlEvents: UIControlEvents.TouchUpInside)
        
         self.contentView.addSubview(productPriceThroughLabel!)
-        
-       
-        self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2), self.productShortDescriptionLabel!.frame.maxY , 95, 95)
-        self.productPriceLabel!.frame = CGRectMake(0,  self.bounds.maxY - 36 , self.bounds.width , 18)
-        self.productPriceThroughLabel!.frame = CGRectMake(0, self.productPriceLabel!.frame.maxY  , self.bounds.width , 12)
-        self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 44, self.bounds.maxY - 44 , 44 , 44)
        
         let borderView = UIView(frame: CGRectMake(self.frame.width - AppDelegate.separatorHeigth() - 1, 0,AppDelegate.separatorHeigth(), self.frame.height ))
         borderView.backgroundColor = WMColor.light_light_gray
@@ -79,6 +74,16 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.addProductToShopingCart!.bringSubviewToFront(self.contentView)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2),14 , 95, 95)
+        self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 44, 0, 44 , 44)
+        self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY, self.bounds.width - 16 , 18)
+        self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY, self.bounds.width - 16 , 12)
+        self.productShortDescriptionLabel!.frame = CGRectMake(8,  self.productPriceThroughLabel!.frame.maxY, self.frame.width - 16 , 46)
+    }
+    
     func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
@@ -86,25 +91,10 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         imagePresale.hidden = !isPreorderable
         imagePresale.frame = CGRectMake(-1, 0, imagePresale.frame.width, imagePresale.frame.height)
         
-        if isPreorderable {
-            if IS_IPHONE {
-                self.productShortDescriptionLabel?.textAlignment = .Right
-            }
-           
-            self.productShortDescriptionLabel?.frame = CGRectMake(38, 0,self.frame.width - 42 , 46)
-            self.productShortDescriptionLabel?.lineBreakMode =  .ByTruncatingTail
-    
-        }else{
-            self.productShortDescriptionLabel?.textAlignment = .Center
-            self.productShortDescriptionLabel!.frame = CGRectMake(8, 0, self.frame.width - 16 , 46)
-        }
-        
-        
         if isLowStock {
-            self.lowStock?.frame = CGRectMake(16, self.productShortDescriptionLabel!.frame.maxY ,self.frame.width - 32 , 14)
+            self.lowStock?.frame = CGRectMake(8, 0 ,self.frame.width - 16 , 14)
             self.lowStock?.textAlignment =  .Center
             self.lowStock?.hidden =  false
-            self.productImage!.frame = CGRectMake((self.frame.width / 2) - (100 / 2), self.lowStock!.frame.maxY , 95, 95)
         }else{
             self.lowStock?.hidden = true
         }
@@ -134,15 +124,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
             
             self.productPriceThroughLabel!.hidden = true
         }
-        //self.productPriceThroughLabel!.text = savingPrice
-        if savingPrice == "" {
-            self.productPriceLabel!.frame = CGRectMake(0,  self.bounds.maxY - 30 , self.bounds.width , 18)
-        } else {
-            self.productPriceLabel!.frame = CGRectMake(0,  self.bounds.maxY - 36 , self.bounds.width , 18)
-        }
         
-        //self.productPriceThroughLabel!.frame = CGRectMake(0, self.productPriceLabel!.frame.maxY  , self.bounds.width , 12)
-       
         self.upc = upc
         self.desc = productShortDescription
         self.imageURL = productImageURL

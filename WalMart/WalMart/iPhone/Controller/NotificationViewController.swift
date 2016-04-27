@@ -141,6 +141,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     override func viewWillAppear(animated: Bool) {
         self.selectable = true
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
     
     override func back() {

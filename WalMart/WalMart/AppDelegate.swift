@@ -459,7 +459,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         }
         
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        //UIApplication.sharedApplication().cancelAllLocalNotifications()
     }
   
     
