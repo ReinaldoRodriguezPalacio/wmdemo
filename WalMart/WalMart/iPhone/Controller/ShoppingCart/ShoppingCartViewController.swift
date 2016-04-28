@@ -63,7 +63,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     var emptyView : IPOShoppingCartEmptyView!
-    
+    var totalShop: Double = 0.0
 
     
     override func getScreenGAIName() -> String {
@@ -965,7 +965,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func presentedCheckOut(loginController: LoginController, address: AddressViewController?){
         //FACEBOOKLOG
-        FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:(self.customlabel.label1!.text! as NSString).doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
+        FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
+
         
         UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
             let serviceReview = ReviewShoppingCartService()
@@ -1105,6 +1106,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func updateShopButton(total:String) {
+        self.totalShop = (total as NSString).doubleValue
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
             customlabel.backgroundColor = UIColor.clearColor()

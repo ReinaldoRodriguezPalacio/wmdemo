@@ -35,6 +35,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     var showCloseButton : Bool = true
 
     var emptyView : IPOShoppingCartEmptyView!
+    var totalShop: Double = 0.0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRSHOPPINGCART.rawValue
@@ -347,7 +348,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         self.buttonShop!.enabled = false
         if UserCurrentSession.sharedInstance().userSigned != nil {
             //FACEBOOKLOG
-            FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:(self.customlabel.label1!.text! as NSString).doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
+            FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
             UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                 self.buttonShop!.enabled = true
                 self.performSegueWithIdentifier("checkoutVC", sender: self)
@@ -485,6 +486,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func updateShopButton(total:String) {
+        self.totalShop = (total as NSString).doubleValue
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buttonShop.bounds)
             customlabel.backgroundColor = UIColor.clearColor()
@@ -495,6 +497,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
         let fmtTotal = CurrencyCustomLabel.formatString(total)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
+        
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
     }
     
