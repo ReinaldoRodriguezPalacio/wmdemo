@@ -848,21 +848,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            
-            let product = GAIEcommerceProduct()
-            let builder = GAIDictionaryBuilder.createScreenView()
-            product.setId(self.upc as String)
-            product.setName(self.name as String)
-            
-            let action = GAIEcommerceProductAction();
-            action.setAction(kGAIPADetail)
-            builder.setProductAction(action)
-            builder.addProduct(product)
-            
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-            tracker.send(builder.build() as [NSObject : AnyObject])
-        }
+        //FACEBOOKLOG
+        FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
+        
     }
     
     //MARK: - Collection view Data Source

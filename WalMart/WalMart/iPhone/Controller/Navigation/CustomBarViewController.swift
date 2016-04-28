@@ -546,7 +546,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     class func buildParamsUpdateShoppingCart(upc:String,desc:String,imageURL:String,price:String!,quantity:String,onHandInventory:String,wishlist:Bool,type:String,pesable:String,isPreorderable:String) -> [NSObject:AnyObject] {
-        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable]
+        return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price,"quantity":quantity,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"type":type]
         
     }
     
@@ -570,13 +570,21 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let params = notification.userInfo as! [String:AnyObject]
         
         addShopping.params = params
+        
+        let price = (params["price"] as? NSString)!.doubleValue
         let type = params["type"] as? String
+        let upc = params["upc"] as? String
+        
+        //FACEBOOKLOG
+        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum:price, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "product\(type!)",FBSDKAppEventParameterNameContentID:upc!])
+        
         if type == nil {
             addShopping.typeProduct = ResultObjectType.Mg
         }
         else {
             addShopping.typeProduct = (type == ResultObjectType.Mg.rawValue ? ResultObjectType.Mg : ResultObjectType.Groceries)
         }
+        
         self.addChildViewController(addShopping)
         addShopping.view.frame = self.view.bounds
         self.view.addSubview(addShopping.view)
@@ -590,14 +598,27 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let addShopping = ShoppingCartUpdateController()
         
         let params = notification.userInfo as! [String:AnyObject]
-        let type = params["type"] as? String
+        var type = params["type"] as? String
+        var price: Double = 0
+        var upc: String = "["
+        let allItems = params["allitems"] as? [[String:AnyObject]]
+        
+        for item in allItems! {
+            let productUpc = item["upc"] as? String
+            upc.appendContentsOf("'\(productUpc!)',")
+            price += (item["price"] as? NSString)!.doubleValue
+            type = item["type"] as? String
+        }
+        upc.appendContentsOf("]")
+        //FACEBOOKLOG
+        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum:price, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "product\(type!)",FBSDKAppEventParameterNameContentID:upc])
+        
         if type == nil {
             addShopping.typeProduct = ResultObjectType.Mg
         }
         else {
             addShopping.typeProduct = (type == ResultObjectType.Mg.rawValue ? ResultObjectType.Mg : ResultObjectType.Groceries)
         }
-        
         addShopping.goToShoppingCart = {() in
             self.showShoppingCart(self.btnShopping!)
         }

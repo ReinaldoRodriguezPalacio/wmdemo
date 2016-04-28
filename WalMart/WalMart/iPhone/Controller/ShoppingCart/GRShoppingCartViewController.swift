@@ -344,9 +344,10 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     func showshoppingcart() {
         
-        
         self.buttonShop!.enabled = false
         if UserCurrentSession.sharedInstance().userSigned != nil {
+            //FACEBOOKLOG
+            FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:(self.customlabel.label1!.text! as NSString).doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
             UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
                 self.buttonShop!.enabled = true
                 self.performSegueWithIdentifier("checkoutVC", sender: self)
@@ -678,6 +679,16 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let type = ResultObjectType.Groceries.rawValue
             upcItems.append(["upc":upc,"description":desc,"type":type])
         }
+        return upcItems
+    }
+    
+    func getUPCItemsString() -> String {
+        var upcItems :String = "["
+        for shoppingCartProduct in  itemsInCart {
+            let upc = shoppingCartProduct["upc"] as! String
+            upcItems.appendContentsOf("'\(upc)',")
+        }
+        upcItems.appendContentsOf("]")
         return upcItems
     }
 

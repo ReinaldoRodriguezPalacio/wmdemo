@@ -175,24 +175,9 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.loadCrossSell()
             
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
-           
             
-            if let tracker = GAI.sharedInstance().defaultTracker {
-                
-                let product = GAIEcommerceProduct()
-                let builder = GAIDictionaryBuilder.createScreenView()
-                product.setId(self.upc as String)
-                product.setName(self.name as String)
-                
-                let action = GAIEcommerceProductAction();
-                action.setAction(kGAIPADetail)
-                builder.setProductAction(action)
-                builder.addProduct(product)
-                
-                tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue)
-                tracker.send(builder.build() as [NSObject : AnyObject])
-                
-            }
+            //FACEBOOKLOG
+            FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.upc])
             
             },errorBlock: { (error:NSError) -> Void in
                 let empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))

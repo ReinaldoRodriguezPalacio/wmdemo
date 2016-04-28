@@ -806,6 +806,17 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
         return upcItems
     }
+    
+    func getUPCItemsString() -> String {
+        
+        var upcItems :String = "["
+        for shoppingCartProduct in  itemsInShoppingCart {
+            let upc = shoppingCartProduct["upc"] as! String
+            upcItems.appendContentsOf("'\(upc)',")
+        }
+        upcItems.appendContentsOf("]")
+        return upcItems
+    }
 
     
     func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
@@ -953,6 +964,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     
     func presentedCheckOut(loginController: LoginController, address: AddressViewController?){
+        //FACEBOOKLOG
+        FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:(self.customlabel.label1!.text! as NSString).doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
+        
         UserCurrentSession.sharedInstance().loadMGShoppingCart { () -> Void in
             let serviceReview = ReviewShoppingCartService()
             serviceReview.callService([:], successBlock: { (result:NSDictionary) -> Void in
