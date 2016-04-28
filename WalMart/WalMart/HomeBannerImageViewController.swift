@@ -31,7 +31,9 @@ class HomeBannerImageViewController : UIViewController {
             if imageView  ==  nil {
                 imageView = UIImageView(frame: self.view.bounds)
             }
-            imageView.setImageWithURL(urlObj)
+            imageView.setImageWithURL(urlObj, placeholderImage:UIImage(named: "loading_home"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+                self.imageView.image = image
+            },failure: nil)
         }
     }
     
