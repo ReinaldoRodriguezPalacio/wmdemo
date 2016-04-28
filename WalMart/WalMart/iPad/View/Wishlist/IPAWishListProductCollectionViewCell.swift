@@ -59,18 +59,21 @@ class IPAWishListProductCollectionViewCell : ProductCollectionViewCell {
         self.contentView.addSubview(addProductToShopingCart!)
         self.contentView.addSubview(productPriceThroughLabel!)
         
-        self.deleteProduct.frame = CGRectMake(0, 0 , 60 , 60)
-        self.productShortDescriptionLabel!.frame = CGRectMake(50, 16, self.frame.width - 100 , 28)
-        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (162 / 2), self.productShortDescriptionLabel!.frame.maxY + 8 , 162, 114)
-        self.productPriceLabel!.frame = CGRectMake(0, self.productImage!.frame.maxY + 8, self.bounds.width , 16)
-        self.productPriceThroughLabel!.frame = CGRectMake(0, self.productPriceLabel!.frame.maxY , self.bounds.width , 16)
-        self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 66,self.productImage!.frame.maxY + 8 , 66 , 34)
-        
         //Ale
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
         imagePresale.hidden =  true
         self.contentView.addSubview(imagePresale)
         self.contentView.addSubview(self.deleteProduct)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.deleteProduct.frame = CGRectMake(0, 0 , 60 , 60)
+        self.productImage!.frame = CGRectMake((self.frame.width / 2) - (162 / 2),22, 162, 114)
+        self.addProductToShopingCart!.frame = CGRectMake(self.bounds.maxX - 52, 8, 44 , 44)
+        self.productPriceLabel!.frame = CGRectMake(8, self.productImage!.frame.maxY + 6, self.bounds.width - 16 , 16)
+        self.productPriceThroughLabel!.frame = CGRectMake(8, self.productPriceLabel!.frame.maxY, self.bounds.width - 16 , 16)
+        self.productShortDescriptionLabel!.frame = CGRectMake(50,  self.productPriceThroughLabel!.frame.maxY + 6, self.frame.width - 100 , 28)
     }
 
 

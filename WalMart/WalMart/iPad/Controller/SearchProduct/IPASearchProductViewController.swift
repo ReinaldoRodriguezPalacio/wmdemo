@@ -330,6 +330,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         viewController.view = selectQuantityGR
         viewController.view.frame = frameDetail
         selectQuantityPopover = UIPopoverController(contentViewController: viewController)
+        selectQuantityPopover!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
         selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
     }
@@ -385,6 +386,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         viewController.view.frame = frameDetail
         selectQuantityPopover = UIPopoverController(contentViewController: viewController)
         selectQuantityPopover!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+        selectQuantityPopover!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
         selectQuantityPopover!.presentPopoverFromRect(cell.addProductToShopingCart!.bounds, inView: cell.addProductToShopingCart!, permittedArrowDirections: UIPopoverArrowDirection.Any, animated: true)
     }
     
