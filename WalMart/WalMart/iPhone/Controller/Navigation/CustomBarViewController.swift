@@ -1314,6 +1314,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func scanBarcode(notification:NSNotification){
         let barcodeValue = notification.object as! String
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Barcode.rawValue
+        self.idListSelected = ""
         self.selectKeyWord("", upc: barcodeValue, truncate:true,upcs:nil)
     }
     
