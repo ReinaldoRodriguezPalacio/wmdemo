@@ -1523,7 +1523,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         selectQuantity!.addToCartAction =
             { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
-                let maxProducts = cell.onHandInventory.integerValue <= 5 ? cell.onHandInventory.integerValue : 5
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
                     let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     

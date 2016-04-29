@@ -28,8 +28,8 @@ class ShoppingCartAddProductsService : BaseService {
     }
 
 
-    class func maxItemsInShoppingCart() -> Int {
-        return ShoppingCartParams.maxProducts
+    class func maxItemsInShoppingCart(useDefault:Bool, onHandInventory:Int) -> Int {
+        return useDefault ? ShoppingCartParams.maxProducts : onHandInventory
     }
     
     
@@ -203,11 +203,7 @@ class ShoppingCartAddProductsService : BaseService {
                 cartProduct = array[0]
             }
             let quantityStr = product["quantity"] as! NSString
-            if  quantityStr.integerValue <= ShoppingCartAddProductsService.maxItemsInShoppingCart() {
-                cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
-            } else {
-                cartProduct.quantity = NSNumber(integer:ShoppingCartAddProductsService.maxItemsInShoppingCart())
-            }
+            cartProduct.quantity = NSNumber(integer:quantityStr.integerValue)
             
             print("Product in shopping cart: \(product)")
             

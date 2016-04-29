@@ -28,6 +28,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var isPreorderable: String!
     var presale : UILabel!
     var imagePresale : UIImageView!
+    var productDeparment:String = ""
     
     var delegate: SearchProductCollectionViewCellDelegate?
 

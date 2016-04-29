@@ -38,6 +38,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var onHandInventory : NSString = ""
     var isPreorderable : String = ""
     var imagePresale : UIImageView!
+    var productDeparment: String = ""
     
     override func setup() {
         super.setup()
@@ -63,9 +64,9 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         
         priceSelector = PriceSelectorBandHandler()
         priceSelector.delegate = self
-        priceSelector.numberOfOptions = ShoppingCartAddProductsService.maxItemsInShoppingCart()
+        priceSelector.numberOfOptions = ShoppingCartAddProductsService.maxItemsInShoppingCart((productDeparment != "d-papeleria"),onHandInventory: 9)
         let selectionBand =  priceSelector.buildSelector(CGRectMake(self.frame.width - 210,self.productPriceLabel!.frame.minY  , 192.0, 36.0))
-        
+
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
         separatorView.backgroundColor = WMColor.light_light_gray
@@ -125,7 +126,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     }
     
     func addProductQuantity(quantity:Int) {
-        let maxProduct = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+        let maxProduct = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
         if maxProduct < quantity {
         
             priceSelector.setValues(forQuantity: self.quantity, withPrice:  self.price.doubleValue)

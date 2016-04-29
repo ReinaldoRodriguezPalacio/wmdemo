@@ -69,8 +69,6 @@ class PriceSelectorBandHandler: SelectorBandHandler {
         self.container!.addSubview(self.band!)
         self.selectedOption = 1
         
-        self.numberOfOptions = ShoppingCartAddProductsService.maxItemsInShoppingCart()
-        
         return self.container!
     }
     

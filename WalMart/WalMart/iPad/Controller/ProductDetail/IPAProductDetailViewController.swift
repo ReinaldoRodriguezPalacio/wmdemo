@@ -71,6 +71,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var fromSearch =  false
     var isEmpty: Bool = false
     var idListSelected = ""
+    var productDeparment: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -728,7 +729,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         selectQuantity?.generateBlurImage(self.tabledetail,frame:CGRectMake(0,0, self.tabledetail.frame.width, heightDetail))
         selectQuantity?.addToCartAction = { (quantity:String) in
-            let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+            let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
             if maxProducts >= Int(quantity) {
                 self.closeContainer({ () -> Void in
                     self.productDetailButton?.reloadShoppinhgButton()

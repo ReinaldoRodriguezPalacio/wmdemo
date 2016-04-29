@@ -65,6 +65,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     var fromSearch =  false
     var idListFromlistFind = ""
+    var productDeparment:String = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -495,7 +496,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
-                    let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+                    let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
                     if maxProducts >= Int(quantity) {
                         //let params = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price, quantity: quantity,onHandInventory:self.onHandInventory,)
                         let params = self.buildParamsUpdateShoppingCart(quantity)

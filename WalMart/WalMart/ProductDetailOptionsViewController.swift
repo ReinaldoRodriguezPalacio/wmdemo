@@ -34,6 +34,7 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
     var detailsOrder: [AnyObject]? = nil
     var selectedDetailItem: [String:String]? = nil
     var itemsSelected: [String:String]? = nil
+    var productDeparment:String = ""
     
     
     override func viewDidLoad() {
@@ -210,7 +211,8 @@ class ProductDetailOptionsViewController: ImageDisplayCollectionViewController, 
             selectQuantity!.addToCartAction =
                 { (quantity:String) in
                     //let quantity : Int = quantity.toInt()!
-                    let maxProducts = self.onHandInventory.integerValue <= 5 ? self.onHandInventory.integerValue : 5
+                    
+                    let maxProducts = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
                     if maxProducts >= Int(quantity) {
                         let params = self.buildParamsUpdateShoppingCart(quantity)
                         
