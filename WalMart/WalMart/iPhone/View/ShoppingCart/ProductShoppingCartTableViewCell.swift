@@ -9,15 +9,9 @@
 import Foundation
 
 protocol ProductShoppingCartTableViewCellDelegate {
-    
-    
-    func startUpdatingShoppingCart()
     func endUpdatingShoppingCart(cell:ProductShoppingCartTableViewCell)
-    
     func deleteProduct(cell:ProductShoppingCartTableViewCell)
-    
-    func startEdditingQuantity()
-    func endEdditingQuantity()
+    func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell)
     
 }
 
@@ -26,7 +20,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     
     var quantity : Int!
     var productPriceSavingLabel : CurrencyCustomLabel!
-    var priceSelector : PriceSelectorBandHandler!
+    var priceSelector : ShoppingCartButton!
     var priceProduct : Double!
     var savingProduct : Double!
     var upc : String!
@@ -62,18 +56,15 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         productPriceSavingLabel = CurrencyCustomLabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
         productPriceSavingLabel!.textAlignment = NSTextAlignment.Left
         
-        priceSelector = PriceSelectorBandHandler()
-        priceSelector.delegate = self
-        priceSelector.numberOfOptions = ShoppingCartAddProductsService.maxItemsInShoppingCart((productDeparment != "d-papeleria"),onHandInventory: 9)
-        let selectionBand =  priceSelector.buildSelector(CGRectMake(self.frame.width - 210,self.productPriceLabel!.frame.minY  , 192.0, 36.0))
-
+        priceSelector = ShoppingCartButton(frame: CGRectZero)
+        priceSelector.addTarget(self, action: #selector(ProductShoppingCartTableViewCell.choseQuantity), forControlEvents: UIControlEvents.TouchUpInside)
         
         separatorView = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
         separatorView.backgroundColor = WMColor.light_light_gray
         
         self.contentView.addSubview(separatorView)
         self.contentView.addSubview(productPriceSavingLabel)
-        self.contentView.addSubview(selectionBand!)
+        self.contentView.addSubview(priceSelector)
         
     }
     
@@ -83,7 +74,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
         self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
         self.separatorView.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 109,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
-        self.priceSelector.container!.frame = CGRectMake(self.frame.width - 210,self.productPriceLabel!.frame.minY  , 192.0, 36.0)
         self.productPriceSavingLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19)
         
     }
@@ -97,7 +87,8 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.imageurl = productImageURL
         self.onHandInventory = onHandInventory
         self.quantity = quantity
-        priceSelector.setValues(forQuantity: quantity, withPrice: productPrice.doubleValue)
+        
+        priceSelector.setValues(self.upc, quantity: quantity, hasNote: false, aviable: true, pesable: false)
         
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
@@ -123,13 +114,14 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             productPriceSavingLabel.hidden = true
         }
         
+        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:false,hasNote:false)
+        self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
     }
     
     func addProductQuantity(quantity:Int) {
         let maxProduct = (self.onHandInventory.integerValue <= 5 || self.productDeparment == "d-papeleria") ? self.onHandInventory.integerValue : 5
         if maxProduct < quantity {
-        
-            priceSelector.setValues(forQuantity: self.quantity, withPrice:  self.price.doubleValue)
+            priceSelector.setValues(self.upc, quantity: quantity, hasNote: false, aviable: true, pesable: false)
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
             
@@ -142,8 +134,6 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             
             
         }else {
-        
-            delegateProduct.startUpdatingShoppingCart()
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
             
@@ -192,16 +182,12 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     func startEdditingQuantity() {
         //EVENT
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "\(desc) - \(upc)")
-        
-        self.delegateProduct.startEdditingQuantity()
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel?.alpha = 0.0
             self.productPriceSavingLabel!.alpha = 0.0
         })
     }
     func endEdditingQuantity() {
-        
-        self.delegateProduct.endEdditingQuantity()
         UIView.animateWithDuration(0.01, animations: { () -> Void in
             self.productPriceLabel!.alpha = 1.0
             self.productPriceSavingLabel!.alpha = 1.0
@@ -216,5 +202,10 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         else{
             self.imagePresale.frame = CGRectMake( 0, 0, 46, 46)
         }
+    }
+    
+    func choseQuantity() {
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_QUANTITY_KEYBOARD.rawValue, label: "")
+        self.delegateProduct?.userShouldChangeQuantity(self)
     }
 }

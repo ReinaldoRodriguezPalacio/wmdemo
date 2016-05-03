@@ -572,18 +572,19 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         addShopping.params = params
         
         let price = (params["price"] as? NSString)!.doubleValue
-        let type = params["type"] as? String
+        var type = params["type"] as? String
         let upc = params["upc"] as? String
-        
-        //FACEBOOKLOG
-        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum:price, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "product\(type!)",FBSDKAppEventParameterNameContentID:upc!])
         
         if type == nil {
             addShopping.typeProduct = ResultObjectType.Mg
+            type = "MG"
         }
         else {
             addShopping.typeProduct = (type == ResultObjectType.Mg.rawValue ? ResultObjectType.Mg : ResultObjectType.Groceries)
         }
+        
+        //FACEBOOKLOG
+        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum:price, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "product\(type!)",FBSDKAppEventParameterNameContentID:upc!])
         
         self.addChildViewController(addShopping)
         addShopping.view.frame = self.view.bounds

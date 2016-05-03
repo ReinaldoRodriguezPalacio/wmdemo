@@ -64,6 +64,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
+    var selectQuantity: ShoppingCartQuantitySelectorView?
 
     
     override func getScreenGAIName() -> String {
@@ -416,8 +417,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable)
             //
-            cellProduct.priceSelector.closeBand()
-            cellProduct.endEdditingQuantity()
+            //cellProduct.priceSelector.closeBand()
+            //cellProduct.endEdditingQuantity()
             if isEdditing == true {
                 cellProduct.setEditing(true, animated: false)
                 cellProduct.showLeftUtilityButtonsAnimated(false)
@@ -611,12 +612,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
     }
     
-    
-    func startUpdatingShoppingCart() {
-        //self.viewContent.addSubview(viewLoad)
-        //viewLoad.startAnnimating()
-    }
-    
+//MARK: ProductShoppingCartTableViewCellDelegate
     
     func endUpdatingShoppingCart(cell:ProductShoppingCartTableViewCell) {
         let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
@@ -637,6 +633,56 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         }
     }
     
+    func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
+        if self.isEdditing == false {
+            let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            let text = String(cell.quantity).characters.count < 2 ? "0" : ""
+            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
+            self.selectQuantity!.updateQuantityBtn()
+            selectQuantity!.closeAction = { () in
+                self.selectQuantity!.removeFromSuperview()
+            }
+            selectQuantity!.addToCartAction = { (quantity:String) in
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
+                if maxProducts >= Int(quantity) {
+                    let params  =  self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                } else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                    self.selectQuantity!.lblQuantity?.text = "0\(maxProducts)"
+                }
+            }
+            self.view.addSubview(selectQuantity!)
+        }else {
+            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+            let frame = vc!.view.frame
+            let addShopping = ShoppingCartUpdateController()
+            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+            addShopping.params = params
+            vc!.addChildViewController(addShopping)
+            addShopping.view.frame = frame
+            vc!.view.addSubview(addShopping.view)
+            addShopping.didMoveToParentViewController(vc!)
+            addShopping.typeProduct = ResultObjectType.Groceries
+            addShopping.goToShoppingCart = {() in }
+            addShopping.removeSpinner()
+            addShopping.addActionButtons()
+            addShopping.addNoteToProduct(nil)
+            
+        }
+    }
+    
+    func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
+        let pesable = "0"
+        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
+    }
     
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
         switch index {
@@ -824,13 +870,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         controller.itemsToShow = items
         controller.ixSelected = index
         self.navigationController!.pushViewController(controller, animated: true)
-    }
-    
-    func startEdditingQuantity() {
-       self.isSelectingProducts = true
-    }
-    func endEdditingQuantity(){
-        self.isSelectingProducts = false
     }
     
     func openDiscount(){

@@ -116,8 +116,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
         
         if let btnSender = sender as? UIButton {
             var resultText : NSString = ""
-            
-            
             resultText = lblQuantity.text! + btnSender.titleLabel!.text!
             resultText = resultText.substringFromIndex(1)
             if resultText.integerValue > 0 && resultText.integerValue <= 10 {
@@ -184,20 +182,30 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     func userSelectValue(value:String!) {
         var resultText : NSString = ""
         
-        resultText = "\(lblQuantity.text!)\(value)"
-        resultText = resultText.substringFromIndex(1)
-        if resultText.integerValue > 0 && resultText.integerValue <= 10 {
-            lblQuantity.text = resultText as String
-        }else {
-            let tmpResult : NSString = "0\(value)"
-            if tmpResult.integerValue > 0 {
+        if first {
+            var tmpResult : NSString = value
+            tmpResult = tmpResult.integerValue < 10 ? "0\(value)" : value
+            if tmpResult != "00"{
                 lblQuantity.text = tmpResult as String
+                first = false
+            }
+        } else {
+            resultText = "\(lblQuantity.text!)\(value)"
+            resultText = resultText.substringFromIndex(1)
+            if resultText.integerValue > 0 && resultText.integerValue <= 99 {
+                lblQuantity.text = resultText as String
+            }else {
+                let tmpResult : NSString = "0\(value)"
+                if tmpResult.integerValue > 0 {
+                    lblQuantity.text = tmpResult as String
+                }
             }
         }
-      
+        
         updateQuantityBtn()
-       
+        
     }
+
     
     func userSelectDelete() {
         let resultText : NSString = "0" + lblQuantity.text!
