@@ -67,6 +67,26 @@ class ShoppingCartButton : UIButton {
         
     }
     
+    func setValuesMg(upc:String,quantity:Int, aviable:Bool){
+        self.quantity = quantity
+        self.hasNote = false
+        self.aviable = aviable
+        self.pesable = false
+        
+        
+        if aviable {
+            self.backgroundColor = WMColor.yellow
+            self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        } else {
+            self.backgroundColor = WMColor.yellow
+            self.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+            self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
+        }
+        
+        self.setTitle(ShoppingCartButton.quantityString(quantity,pesable:false), forState: UIControlState.Normal)
+    }
+    
     class func sizeForQuantity(quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
         let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
         let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
@@ -78,6 +98,14 @@ class ShoppingCartButton : UIButton {
         space += 20
         
         let fullSize = CGSizeMake(rectSize.size.width + space,rectSize.size.height)
+        return fullSize
+    }
+    
+    class func sizeForQuantityWithoutIcon(quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
+        let quantityStr = ShoppingCartButton.quantityString(quantity,pesable:pesable)
+        let attrStringLab : NSAttributedString = NSAttributedString(string:"\(quantityStr)", attributes: [NSFontAttributeName :WMFont.fontMyriadProSemiboldOfSize(14)])
+        let rectSize = attrStringLab.boundingRectWithSize(CGSizeMake(CGFloat.max, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
+        let fullSize = CGSizeMake(rectSize.size.width + 25,rectSize.size.height)
         return fullSize
     }
     

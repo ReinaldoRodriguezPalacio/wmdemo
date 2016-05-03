@@ -88,7 +88,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.onHandInventory = onHandInventory
         self.quantity = quantity
         
-        priceSelector.setValues(self.upc, quantity: quantity, hasNote: false, aviable: true, pesable: false)
+        priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
         
         let totalInProducts = productPrice.doubleValue * Double(quantity)
         let totalPrice = NSString(format: "%.2f", totalInProducts)
@@ -113,8 +113,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
             self.savingProduct = 0
             productPriceSavingLabel.hidden = true
         }
-        
-        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:false,hasNote:false)
+        let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
     }
     
