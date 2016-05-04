@@ -898,7 +898,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.quantitySelector!.closeAction = { () in
                 self.removeSelector()
             }
-            self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
+            //self.quantitySelector!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelector!.addToCartAction = { (quantity:String) in
                 if let item = self.products![indexPath!.row] as? [String:AnyObject] {
                     let upc = item["upc"] as? String

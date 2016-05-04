@@ -300,7 +300,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
-                self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
@@ -431,7 +431,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
-                self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                 }, completion: { (animated:Bool) -> Void in
                     if self.selectQuantity != nil {
                         self.selectQuantity!.removeFromSuperview()
@@ -475,7 +475,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             self.productDetailButton?.reloadShoppinhgButton()
                             self.isShowShoppingCart = false
                             self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0)
-                            self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                            //self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                         },
                         completion: { (animated:Bool) -> Void in
                             if self.selectQuantity != nil {
@@ -490,7 +490,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             //Event
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_KEYBOARD.rawValue, label: "\(self.name) - \(self.upc)")
             
-            selectQuantity!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
+           // selectQuantity!.generateBlurImage(self.view,frame:finalFrameOfQuantity)
             
          
             selectQuantity!.addToCartAction =
@@ -516,7 +516,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                             animations: { () -> Void in
                                 self.productDetailButton?.reloadShoppinhgButton()
                                 self.selectQuantity!.frame = CGRectMake(0, 360, 320, 0	)
-                                self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
+                               // self.selectQuantity!.imageBlurView.frame = CGRectMake(0, -360, 320, 360)
                             },
                             completion: { (animated:Bool) -> Void in
                                 self.selectQuantity!.removeFromSuperview()
@@ -546,11 +546,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     self.selectQuantity!.clipsToBounds = true
                     self.view.addSubview(self.selectQuantity!)
                     
-                    self.selectQuantity!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+                    //self.selectQuantity?.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
                     UIView.animateWithDuration(0.5, animations: { () -> Void in
                         self.productDetailButton?.setOpenQuantitySelector()
                         self.selectQuantity!.frame = finalFrameOfQuantity
-                        self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
+                        //self.selectQuantity!.imageBlurView.frame = finalFrameOfQuantity
                     })
             })
         }else{
@@ -606,7 +606,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.view.addSubview(selectQuantity!)
                 self.detailCollectionView.scrollEnabled = false
                 gestureCloseDetail.enabled = true
-                self.selectQuantity!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
+                //self.selectQuantity!.imageBlurView.frame =  CGRectMake(0, -360, 320, 360)
                
                 UIView.animateWithDuration(0.5, animations: { () -> Void in
                     self.productDetailButton?.setOpenQuantitySelector()
