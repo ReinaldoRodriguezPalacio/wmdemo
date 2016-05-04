@@ -178,7 +178,6 @@ class ShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     
     func userSelectValue(value:String!) {
         var resultText : NSString = ""
-        
         if first {
             var tmpResult : NSString = value
             tmpResult = tmpResult.integerValue < 10 ? "0\(value)" : value
