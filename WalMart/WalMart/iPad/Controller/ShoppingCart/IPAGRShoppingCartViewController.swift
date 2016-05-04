@@ -253,6 +253,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             viewController.view = selectQuantityGR
             viewController.view.frame = frameDetail
             popup = UIPopoverController(contentViewController: viewController)
+            popup!.backgroundColor = WMColor.light_blue
             popup!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
             popup!.presentPopoverFromRect(cell.changeQuantity.bounds, inView: cell.changeQuantity, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
             

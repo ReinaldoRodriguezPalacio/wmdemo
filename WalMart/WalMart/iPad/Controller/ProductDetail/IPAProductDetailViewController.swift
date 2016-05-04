@@ -1088,6 +1088,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             self.bundleItems = bndl
         }
         
+        if let category = result["category"] as? String{
+            self.productDeparment = category
+        }
+        
         self.isLoading = false
         
         self.tabledetail.delegate = self

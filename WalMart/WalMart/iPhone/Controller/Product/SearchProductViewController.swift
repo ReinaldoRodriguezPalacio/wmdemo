@@ -557,6 +557,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isLowStock = lowStock
         }
         
+        var productDeparment = ""
+        if let category = item["category"] as? String{
+            productDeparment = category
+        }
+        
         
         cell.setValues(upc,
             productImageURL: imageUrl!,
@@ -571,7 +576,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             pesable : isPesable,
             isFormList: idListFromSearch != "" ?  true :  false,
             productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! ),
-            isLowStock:isLowStock
+            isLowStock:isLowStock,
+            category:productDeparment
         )
         cell.delegate = self
         return cell

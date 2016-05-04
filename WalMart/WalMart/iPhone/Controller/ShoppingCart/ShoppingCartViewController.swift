@@ -389,6 +389,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let price = shoppingCartProduct["price"] as! String
             let quantity = shoppingCartProduct["quantity"] as! NSString
             
+            
+            
             var onHandInventory = "0"
             if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                 onHandInventory = inventory
@@ -413,9 +415,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 savingVal = shoppingCartProduct["saving"]  as! String
             }
             
+            var productDeparment = ""
+            if let category = shoppingCartProduct["category"] as? String{
+                productDeparment = category
+            }
+            
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable)
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment)
             //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
@@ -661,22 +668,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             }
             self.view.addSubview(selectQuantity!)
-        }else {
-            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-            let frame = vc!.view.frame
-            let addShopping = ShoppingCartUpdateController()
-            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
-            addShopping.params = params
-            vc!.addChildViewController(addShopping)
-            addShopping.view.frame = frame
-            vc!.view.addSubview(addShopping.view)
-            addShopping.didMoveToParentViewController(vc!)
-            addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.goToShoppingCart = {() in }
-            addShopping.removeSpinner()
-            addShopping.addActionButtons()
-            addShopping.addNoteToProduct(nil)
-            
         }
     }
     
