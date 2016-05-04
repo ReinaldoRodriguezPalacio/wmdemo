@@ -35,7 +35,6 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     var spaceBetweenButtons : CGFloat = 12.0
     var widthButtons : CGFloat = 57.0
     var detailProductCart: Cart?
-    var hasDetailOptions: Bool = false
     var isAddingOrRemovingWishlist: Bool = false
     
     
@@ -245,10 +244,8 @@ class ProductDetailButtonBarCollectionViewCell : UIView {
     }
   
     func reloadButton(){
-        
-        let buttonTitle = hasDetailOptions ? NSLocalizedString("productdetail.options",comment:"") : isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
-        
-        let buttonColor = hasDetailOptions ? WMColor.light_blue : isAviableToShoppingCart ? WMColor.yellow : WMColor.light_gray
+        let buttonTitle = isAviableToShoppingCart ? NSLocalizedString("productdetail.shop",comment:"") : NSLocalizedString("productdetail.shopna",comment:"")
+        let buttonColor = isAviableToShoppingCart ? WMColor.yellow : WMColor.light_gray
         
         self.addToShoppingCartButton!.setTitle(buttonTitle, forState: UIControlState.Normal)
         self.addToShoppingCartButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
