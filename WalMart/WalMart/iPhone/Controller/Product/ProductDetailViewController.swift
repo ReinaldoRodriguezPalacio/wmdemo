@@ -962,7 +962,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.isActive = self.strisActive
             productDetailButton!.onHandInventory = self.onHandInventory as String
             productDetailButton!.isPreorderable = self.strisPreorderable
-            productDetailButton!.hasDetailOptions = (self.facets?.count > 0)
             productDetailButton!.listButton.enabled = !self.isGift
             
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
