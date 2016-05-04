@@ -358,7 +358,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 selectQuantityGR?.first = true
                 selectQuantityGR?.showNoteButton()
             }
-            selectQuantityGR?.generateBlurImage(self.detailCollectionView,frame:CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail))
+            //selectQuantityGR?.generateBlurImage(self.detailCollectionView,frame:CGRectMake(0,0, self.detailCollectionView.frame.width, heightDetail))
             selectQuantityGR?.addToCartAction = { (quantity:String) in
                 //let quantity : Int = quantity.toInt()!
                 
@@ -398,12 +398,12 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
             self.opencloseContainer(true, viewShow:selectQuantityGR!,
                 additionalAnimationOpen: { () -> Void in
                     self.productDetailButton?.setOpenQuantitySelector()
-                    self.selectQuantityGR?.imageBlurView.frame = frameDetail
+                    //self.selectQuantityGR?.imageBlurView.frame = frameDetail
                     self.productDetailButton?.addToShoppingCartButton.selected = true
                 },
                 additionalAnimationClose:{ () -> Void in
-                    self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail,
-                    self.detailCollectionView.frame.width, self.heightDetail)
+//                    self.selectQuantityGR?.imageBlurView.frame =  CGRectMake(0, -self.heightDetail,
+//                    self.detailCollectionView.frame.width, self.heightDetail)
                     self.productDetailButton?.addToShoppingCartButton.selected = true
                 }
             )

@@ -93,7 +93,7 @@ class GRShoppingCartWeightSelectorView : GRShoppingCartQuantitySelectorView {
         
         
         self.backgroundView = UIView(frame:CGRectMake(0, 0, self.bounds.width, self.bounds.height))
-        self.backgroundView!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.9)
+        self.backgroundView!.backgroundColor = WMColor.light_blue.colorWithAlphaComponent(0.93)
         
         if equivalenceByPiece.integerValue > 0 {
             btnChankePices = UIButton(frame:CGRectMake((self.frame.width / 2) - 60, startH + 17, 120, 18 ))

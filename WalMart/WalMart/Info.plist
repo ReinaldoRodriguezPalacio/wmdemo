@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UseLancasterUrls</key>
-	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -19,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.41</string>
+	<string>3.42</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -27,12 +25,12 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
+			<key>CFBundleURLName</key>
+			<string>com.walmart.bcg</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>walmartmexicoapp</string>
 			</array>
-			<key>CFBundleURLName</key>
-			<string>com.walmar.bcg</string>
 		</dict>
 		<dict>
 			<key>CFBundleURLSchemes</key>
@@ -42,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>1</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>FacebookAppID</key>
@@ -169,6 +167,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UseLancasterUrls</key>
+	<true/>
 	<key>WMCamFindAPI</key>
 	<dict>
 		<key>CamFindAPIKey</key>
