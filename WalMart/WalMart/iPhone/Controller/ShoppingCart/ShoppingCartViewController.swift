@@ -389,6 +389,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let price = shoppingCartProduct["price"] as! String
             let quantity = shoppingCartProduct["quantity"] as! NSString
             
+            
+            
             var onHandInventory = "0"
             if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                 onHandInventory = inventory
@@ -413,9 +415,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 savingVal = shoppingCartProduct["saving"]  as! String
             }
             
+            var productDeparment = ""
+            if let category = shoppingCartProduct["category"] as? String{
+                productDeparment = category
+            }
+            
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable)
+            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment)
             //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()

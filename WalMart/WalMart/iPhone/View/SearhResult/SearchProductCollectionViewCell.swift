@@ -93,7 +93,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
@@ -142,6 +142,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.type = type
         self.pesable = pesable
         self.isPreorderable = "\(isPreorderable)"
+        self.productDeparment = category
         
         if self.pesable! { self.onHandInventory = "20000"}
         

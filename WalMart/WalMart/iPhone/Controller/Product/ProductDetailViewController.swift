@@ -845,6 +845,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.titlelbl.text = self.name as String
         }
         
+        if let category = result["category"] as? String{
+            self.productDeparment = category
+        }
+        
         self.loadCrossSell()
         
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
