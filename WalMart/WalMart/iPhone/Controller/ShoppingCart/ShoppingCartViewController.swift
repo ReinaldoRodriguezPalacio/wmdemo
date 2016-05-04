@@ -661,22 +661,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 }
             }
             self.view.addSubview(selectQuantity!)
-        }else {
-            let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
-            let frame = vc!.view.frame
-            let addShopping = ShoppingCartUpdateController()
-            let params = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
-            addShopping.params = params
-            vc!.addChildViewController(addShopping)
-            addShopping.view.frame = frame
-            vc!.view.addSubview(addShopping.view)
-            addShopping.didMoveToParentViewController(vc!)
-            addShopping.typeProduct = ResultObjectType.Groceries
-            addShopping.goToShoppingCart = {() in }
-            addShopping.removeSpinner()
-            addShopping.addActionButtons()
-            addShopping.addNoteToProduct(nil)
-            
         }
     }
     

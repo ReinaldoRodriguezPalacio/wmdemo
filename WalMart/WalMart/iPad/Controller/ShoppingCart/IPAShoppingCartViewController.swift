@@ -15,7 +15,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     var totalsView : IPAShoppingCartTotalView!
     var beforeLeave : IPAShoppingCartBeforeToLeave!
     var viewSeparator : UIView!
-    
+    var popup : UIPopoverController?
     var onClose : ((isClose:Bool) -> Void)? = nil
     
 
@@ -324,6 +324,44 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL
     }
+    
+    override func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
+        if self.isEdditing == false {
+            let frameDetail = CGRectMake(0, 0, 320, 568)
+            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            let text = String(cell.quantity).characters.count < 2 ? "0" : ""
+            self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
+            self.selectQuantity!.updateQuantityBtn()
+            selectQuantity!.closeAction = { () in
+                self.popup!.dismissPopoverAnimated(true)
+            }
+            selectQuantity!.addToCartAction = { (quantity:String) in
+                let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
+                if maxProducts >= Int(quantity) {
+                    let params  =  self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    self.selectQuantity!.closeAction()
+                } else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                    self.selectQuantity!.lblQuantity?.text = "0\(maxProducts)"
+                }
+            }
+            let viewController = UIViewController()
+            viewController.view = selectQuantity
+            viewController.view.frame = frameDetail
+            popup = UIPopoverController(contentViewController: viewController)
+            popup!.setPopoverContentSize(CGSizeMake(320,394), animated: true)
+            popup!.backgroundColor = WMColor.light_blue
+            popup!.presentPopoverFromRect(cell.priceSelector.bounds, inView: cell.priceSelector, permittedArrowDirections: UIPopoverArrowDirection.Right, animated: true)
+        }
+    }
+
     
     //On Close
     override func closeShoppingCart() {
