@@ -340,10 +340,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                 if maxProducts >= Int(quantity) {
                     let params  =  self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
-                    self.selectQuantity!.closeAction()
+                    self.popup!.dismissPopoverAnimated(false)
                 } else {
+                     self.popup!.dismissPopoverAnimated(false)
                     let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-                    
                     let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
                     let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
                     let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"

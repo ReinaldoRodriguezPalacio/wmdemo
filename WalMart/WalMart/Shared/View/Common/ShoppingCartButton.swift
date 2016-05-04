@@ -84,7 +84,7 @@ class ShoppingCartButton : UIButton {
             self.titleLabel!.font = WMFont.fontMyriadProSemiboldOfSize(14)
         }
         
-        self.setTitle(ShoppingCartButton.quantityString(quantity,pesable:false), forState: UIControlState.Normal)
+        self.setTitle(ShoppingCartButton.quantityStringMg(quantity), forState: UIControlState.Normal)
     }
     
     class func sizeForQuantity(quantity:Int,pesable:Bool,hasNote:Bool) -> CGSize {
@@ -129,6 +129,17 @@ class ShoppingCartButton : UIButton {
                 let kg = y/1000
                 quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.kg", comment:""), NSNumber(double:  kg))
             }
+        }
+        return quantityStr
+    }
+    
+    class func quantityStringMg(quantity:Int) -> String! {
+        var quantityStr = ""
+        if quantity == 1 {
+            quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), NSNumber(integer: quantity))
+        }
+        else {
+            quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(integer: quantity))
         }
         return quantityStr
     }

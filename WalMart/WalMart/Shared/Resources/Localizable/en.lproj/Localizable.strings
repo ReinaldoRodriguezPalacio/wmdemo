@@ -91,6 +91,8 @@
 "shoppingcart.noarticles.mg" = "Sin artículos\nToca aquí para hacer tus compras";
 "shoppingcart.quantity.piece" = "%@ pieza";
 "shoppingcart.quantity.pieces" = "%@ piezas";
+"shoppingcart.quantity.article" = "%@ art.";
+"shoppingcart.quantity.articles" = "%@ arts.";
 "shoppingcart.quantity.gr" = "%@ gr";
 "shoppingcart.quantity.kg" = "%@ kg";
 "shoppingcart.note" = "Nota";
