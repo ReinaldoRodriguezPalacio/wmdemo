@@ -151,7 +151,7 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
+        self.removeViewLoad()
         loadGRShoppingCart()
         
         self.emptyView!.hidden = self.itemsInCart.count > 0
@@ -344,9 +344,9 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
     }
     
     func showshoppingcart() {
-        
         self.buttonShop!.enabled = false
         if UserCurrentSession.sharedInstance().userSigned != nil {
+            self.addViewload()
             //FACEBOOKLOG
             FBSDKAppEvents.logPurchase(self.totalShop, currency: "MXN", parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productgr",FBSDKAppEventParameterNameContentID:self.getUPCItemsString()])
             UserCurrentSession.sharedInstance().loadGRShoppingCart { () -> Void in
@@ -704,24 +704,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         let serviceWishDelete = GRShoppingCartDeleteProductsService()
         var allUPCS : [String] = []
          allUPCS.append(upc)
-        
-       
-            if viewLoad == nil {
-                viewLoad = WMLoadingView(frame: self.view.bounds)
-                viewLoad.backgroundColor = UIColor.whiteColor()
-                viewLoad.startAnnimating(false)
-                self.view.addSubview(viewLoad)
-            }
+        self.addViewload()
             
             serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
                 UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                     self.itemsInCart.removeAtIndex(indexPath.row)
-                    
-                    if self.viewLoad != nil {
-                        self.viewLoad.stopAnnimating()
-                        self.viewLoad = nil
-                    }
-                    
+                    self.removeViewLoad()
                 if self.itemsInCart.count == 0 {
                     self.navigationController!.popToRootViewControllerAnimated(true)
                 } else {
@@ -786,21 +774,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
            allUPCS.append("\(upc!)")
         }
         
-        if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
-            viewLoad.startAnnimating(false)
-            self.view.addSubview(viewLoad)
-        }
+        self.addViewload()
         
         serviceWishDelete.callService(allUPCS, successBlock: { (result:NSDictionary) -> Void in
             UserCurrentSession.sharedInstance().loadGRShoppingCart({ () -> Void in
                 //self.loadGRShoppingCart()
                 
-                if self.viewLoad != nil {
-                    self.viewLoad.stopAnnimating()
-                    self.viewLoad = nil
-                }
+                self.removeViewLoad()
                 
                 print("done")
                 if self.onClose != nil {
@@ -1095,6 +1075,21 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         )
     }
     
+    func addViewload(){
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+            viewLoad.backgroundColor = UIColor.whiteColor()
+            viewLoad.startAnnimating(false)
+            self.view.addSubview(viewLoad)
+        }
+    }
+    
+    func removeViewLoad(){
+        if self.viewLoad != nil {
+            self.viewLoad.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
 
 
 }
