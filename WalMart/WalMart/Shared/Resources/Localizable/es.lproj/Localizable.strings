@@ -253,6 +253,7 @@
 "previousorder.fedex" = "Guía Fedex";
 "previousorder.upc" = "UPC";
 "previousorder.quantity" = "Artículos";
+"previousorder.quantityPesable" = "Cantidad";
 
 //address
 "profile.address.shortName" = "Nombre corto";

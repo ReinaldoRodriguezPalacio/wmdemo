@@ -107,7 +107,6 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             if (item["type"] as! String) == ResultObjectType.Groceries.rawValue {
                 statusStr = NSLocalizedString("gr.order.status.\(statusStr)", comment: "")
             }
-            
             cell.setValues(dateStr, trackingNumber: trackingStr, status: statusStr)
         }
         

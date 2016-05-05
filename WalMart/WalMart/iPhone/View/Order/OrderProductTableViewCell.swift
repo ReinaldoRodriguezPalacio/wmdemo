@@ -97,11 +97,18 @@ class OrderProductTableViewCell : ProductTableViewCell {
         
         upcString.attributedText = valuesDescItem
         
-        let lblItems = NSLocalizedString("previousorder.quantity",comment:"")
+        var lblItems = NSLocalizedString("previousorder.quantity",comment:"")
+        var attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
+        var attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
         
-        //var valueItemQ = NSMutableAttributedString()
-        let attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
-        let attrStringValQ = NSAttributedString(string:"\(quantity.integerValue)", attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
+        if pesable {
+            lblItems = NSLocalizedString("previousorder.quantityPesable",comment:"")
+            let quantityDouble: Double = quantity.integerValue >= 100 ? (quantity.doubleValue / 1000) : quantity.doubleValue
+            let quantitiString: NSString = quantity.integerValue >= 100 ? NSString(format: "%.2f kg", quantityDouble) : NSString(format: "%.0f gr", quantityDouble)
+            attrStringLabQ = NSAttributedString(string:"\(lblItems): ", attributes: [NSFontAttributeName : WMFont.fontMyriadProSemiboldOfSize(12),NSForegroundColorAttributeName:WMColor.gray])
+            attrStringValQ = NSAttributedString(string:quantitiString as String, attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(12),NSForegroundColorAttributeName:WMColor.dark_gray])
+        }
+        
         
         let valuesDescItemQ = NSMutableAttributedString()
         valuesDescItemQ.appendAttributedString(attrStringLabQ)
