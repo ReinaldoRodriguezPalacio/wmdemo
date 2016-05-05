@@ -98,6 +98,10 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         self.categories.reloadData()
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.categories.contentInset = UIEdgeInsetsZero
+            if let layoutFlow = self.categories.collectionViewLayout as? UICollectionViewFlowLayout {
+                let originalInset = layoutFlow.sectionInset
+                layoutFlow.sectionInset = UIEdgeInsetsMake(layoutFlow.sectionInset.top, layoutFlow.sectionInset.left, originalInset.bottom - 45, layoutFlow.sectionInset.right)
+            }
             }) { (end:Bool) -> Void in
                 self.categories.scrollEnabled = true
                 self.categories.userInteractionEnabled = true

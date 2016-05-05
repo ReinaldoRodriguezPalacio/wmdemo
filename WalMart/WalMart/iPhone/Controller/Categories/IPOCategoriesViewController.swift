@@ -49,8 +49,12 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
-        categories.frame = self.view.bounds
+        categories.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         familyController.view.frame = viewFamily.bounds
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
     }
     
     func loadDepartments() ->  [AnyObject]? {
@@ -109,8 +113,10 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
             print("Close")
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.viewFamily.alpha = 0
+                },completion: {(complete) -> Void in
+                    self.closeDepartment()
             })
-            self.closeDepartment()
+            
         }
         
         selectedView.animateToOpenDepartment(self.view.frame.width, endAnumating: { () -> Void in
@@ -130,9 +136,6 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     func openGroceriesCategories() {
         let grController = self.storyboard?.instantiateViewControllerWithIdentifier("GrCaregory")
         self.navigationController?.pushViewController(grController!, animated: true)
-        
-       
-        
         return
     }
     
@@ -217,11 +220,8 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
                 default:
                     return
                 }
-                
                 customBar.handleNotification(strAction,name:"",value:strValue,bussines:"")
             }
         }
     }
-   
-
 }

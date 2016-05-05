@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--Custom Bar View Controller-->
@@ -301,8 +301,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CzW-jR-AzM">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="505"/>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="CzW-jR-AzM">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="nxA-Jy-yWs">
                                     <size key="itemSize" width="154" height="98"/>
@@ -325,8 +325,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="height" secondItem="CzW-jR-AzM" secondAttribute="height" id="jzt-1W-KIF"/>
-                            <constraint firstAttribute="width" secondItem="CzW-jR-AzM" secondAttribute="width" id="oW2-yO-HFo"/>
+                            <constraint firstItem="CzW-jR-AzM" firstAttribute="leading" secondItem="7cO-tB-hfR" secondAttribute="leading" id="FiS-qX-8ps"/>
+                            <constraint firstAttribute="trailing" secondItem="CzW-jR-AzM" secondAttribute="trailing" id="e4l-py-aqe"/>
+                            <constraint firstItem="CzW-jR-AzM" firstAttribute="top" secondItem="7cO-tB-hfR" secondAttribute="top" id="fU3-3M-Bxs"/>
+                            <constraint firstItem="CzW-jR-AzM" firstAttribute="bottom" secondItem="mrl-Au-tup" secondAttribute="top" id="yOu-ed-KEG"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="xC7-S4-IxQ"/>
