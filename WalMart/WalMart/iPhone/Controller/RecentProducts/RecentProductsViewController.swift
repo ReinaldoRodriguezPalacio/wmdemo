@@ -18,6 +18,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var recentProductItems : [AnyObject] = [] 
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
+    var invokeStop  = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
@@ -42,6 +43,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             self.back()
         }
         self.view.addSubview(emptyView)
+        invokeRecentProducts()
     }
     
     override func viewWillLayoutSubviews() {
@@ -58,7 +60,19 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             viewLoad.startAnnimating(self.isVisibleTab)
             recentProducts.reloadData()
         }
+        if invokeStop{
+            self.viewLoad.stopAnnimating()
+        }
         
+        if IS_IOS8_OR_LESS {
+            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        }else{
+            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109)
+        }
+    }
+
+   
+    func invokeRecentProducts(){
         let service = GRRecentProductsService()
         service.callService({ (resultado:NSDictionary) -> Void in
             self.recentProductItems = resultado["responseArray"] as! [AnyObject]
@@ -66,6 +80,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
             }
+            self.invokeStop = true
             self.viewLoad = nil
             self.emptyView!.hidden = true
             }, errorBlock: { (error:NSError) -> Void in
@@ -73,11 +88,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 self.viewLoad.stopAnnimating()
                 self.viewLoad = nil
         })
-        if IS_IOS8_OR_LESS {
-            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        }else{
-            self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109)
-        }
+
+    
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

@@ -153,8 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
-        //Clean all notifications
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         //MERCURY
         //TODO: Uncomment
@@ -199,6 +197,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        
+        
+        //Clean all notifications
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         //Facebook
         FBSDKAppEvents.activateApp()
@@ -414,10 +416,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
 
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
         if let notiicationInfo = userInfo["notification"] as? NSDictionary {
-
+            
             let notiicationInfo = userInfo["notification"] as! NSDictionary
             let notiicationAPS = userInfo["aps"] as! NSDictionary
-            
             let type = notiicationInfo["type"] as! String
             let name = notiicationInfo["name"] as! String
             let value = notiicationInfo["value"] as! String
@@ -434,15 +435,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                 }else{
                     
-                    
                     let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                     alertNot?.showDoneIconWithoutClose()
                     alertNot?.setMessage(message)
                     alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
-                        
-                        
-                        
-                        
                         alertNot?.close()
                         }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
                             
@@ -453,12 +449,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                             
                             customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                             alertNot?.close()
-                    },isNewFrame: false)
+                        },isNewFrame: false)
                 }
             }
         }
-        
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         UIApplication.sharedApplication().cancelAllLocalNotifications()
     }
   
@@ -472,8 +466,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
        
         Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
-        
-        handleURLFacebook(url,sourceApplication:sourceApplication!)
+        //Quitar para produccion
+        //handleURLFacebook(url,sourceApplication:sourceApplication!)
         
         
         handleURL(url)
@@ -487,8 +481,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         
         if rangeEnd.location != NSNotFound {
             if (parsedUrl.appLinkData != nil) {
-                
-               
+            
                 let targetUrl:NSURL =  parsedUrl.targetURL
                 NSLog("targetUrl::\(targetUrl)")
                 
@@ -505,11 +498,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                 UIAlertView(title: "Received link:",
                     message:targetUrl.absoluteString, delegate: nil,
                     cancelButtonTitle: "ok").show()
-                
-                
             }
         }
-        
     }
     
     
