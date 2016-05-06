@@ -16,26 +16,18 @@ class IPAOrderViewController: OrderViewController {
         super.viewDidLoad()
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.emptyView.returnButton.hidden = true
-        
-        self.tableOrders!.contentInset = UIEdgeInsetsZero
-        self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsZero
-        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-         self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-
+        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 110)
         self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
-        
         if isShowingButtonFactura {
             self.buttonFactura.frame = CGRectMake(16, 14, facturasToolBar.frame.width - 32, 34)
         }else{
-             self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+             self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.frame.height - 110)
         }
-        
-       
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -93,6 +85,33 @@ class IPAOrderViewController: OrderViewController {
             
         }
     }
+    
+    override func reloadPreviousOrders() {
+        self.items = []
+        self.emptyView.frame = CGRectMake(0, 46, 681.5, self.view.frame.height - 46)
+        self.viewLoad.frame = CGRectMake(0, 46, 681.5, self.view.frame.height - 46)
+        //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
+        if viewLoad == nil {
+            viewLoad = WMLoadingView(frame: self.view.bounds)
+        }
+        viewLoad.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(viewLoad)
+        viewLoad.startAnnimating(self.isVisibleTab)
+        
+        let servicePrev = PreviousOrdersService()
+        servicePrev.callService({ (previous:NSArray) -> Void in
+            for orderPrev in previous {
+                let dictMGOrder = NSMutableDictionary(dictionary: orderPrev as! NSDictionary)
+                dictMGOrder["type"] =  ResultObjectType.Mg.rawValue
+                self.items.append(dictMGOrder)
+            }
+            self.loadGROrders()
+            }, errorBlock: { (error:NSError) -> Void in
+                self.loadGROrders()
+        })
+    }
+    
+    
     
     //MARK: - ScrollDelegate
     override func willShowTabbar() {

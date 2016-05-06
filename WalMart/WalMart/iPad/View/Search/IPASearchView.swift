@@ -43,6 +43,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         field.autocorrectionType = .No
         field.enablesReturnKeyAutomatically = true
         field.delegate = self
+        field.placeholder = NSLocalizedString("search.info.placeholder",comment:"")
         field.frame = CGRectMake( -self.frame.width + 40, (self.frame.height / 2) - 15, self.frame.width - 40,30)
         self.field!.addTarget(self, action: #selector(IPASearchView.setPopOver), forControlEvents: UIControlEvents.EditingDidBegin)
         

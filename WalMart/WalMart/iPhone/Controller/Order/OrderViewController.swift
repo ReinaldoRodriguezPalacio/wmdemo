@@ -26,9 +26,6 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
-        
-        
         viewLoad = WMLoadingView(frame:CGRectZero)
         
         self.view.backgroundColor = UIColor.whiteColor()
@@ -49,33 +46,22 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
             self.back()
         }
         self.view.addSubview(emptyView)
-        
-        self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-        self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
-
         tabFooterView()
-
-        
-        
-
+        self.reloadPreviousOrders()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         isShowingTabBar = !TabBarHidden.isTabBarHidden
-        
-        self.reloadPreviousOrders()
-        
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
+        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 156)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {
-            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
+            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 109 , self.view.frame.width, 64)
         }else{
             //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64, self.view.frame.width, 64)
         }
@@ -156,9 +142,9 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     
     func reloadPreviousOrders() {
         self.items = []
-        self.emptyView.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.viewLoad.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height + 64)
+        self.emptyView.frame = CGRectMake(0, 46, self.view.frame.width, self.view.frame.height - 46)
+        self.viewLoad.frame = CGRectMake(0, 46, self.view.frame.width, self.view.frame.height - 46)
+        //self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 155)
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: self.view.bounds)
         }
@@ -245,9 +231,8 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func willShowTabbar() {
         isShowingTabBar = true
         UIView.animateWithDuration(0.2, animations: { () -> Void in
-            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64  - 45 , self.view.frame.width, 64)
-            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 109, 0)
-            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 109, 0)
+            self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 110 , self.view.frame.width, 64)
+            self.tableOrders!.frame = CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 109)
         })
     }
     
@@ -255,8 +240,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
         isShowingTabBar = false
         UIView.animateWithDuration(0.2, animations: { () -> Void in
             self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64  , self.view.frame.width, 64)
-            self.tableOrders!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
-            self.tableOrders!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
+            self.tableOrders!.frame = CGRectMake(0, 46 , self.view.frame.width, self.view.frame.height - 64)
         })
     }
     
