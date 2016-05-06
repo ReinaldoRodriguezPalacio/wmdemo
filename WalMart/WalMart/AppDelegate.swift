@@ -153,9 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         let productionClientID =  payPalEnvironment.objectForKey("ProductionClientID") as! String
         PayPalMobile.initializeWithClientIdsForEnvironments([PayPalEnvironmentProduction:productionClientID,PayPalEnvironmentSandbox:sandboxClientID])
         
-        //Clean all notifications
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
-        
         //MERCURY
         //TODO: Uncomment
         //MercuryService.sharedInstance().startMercuryService()
@@ -199,7 +196,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-        
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         //Facebook
         FBSDKAppEvents.activateApp()
         
