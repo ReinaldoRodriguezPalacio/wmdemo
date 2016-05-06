@@ -183,8 +183,6 @@ protocol GenerateOrderViewDelegate {
         buttonCreateOrder.setTitle("Generar Pedido", forState: UIControlState.Normal)
         buttonCreateOrder.addTarget(self, action: "createOrderAction", forControlEvents: UIControlEvents.TouchUpInside)
         
-        
-        
         viewContent.addSubview(titleLabel)
         viewContent.addSubview(lblNumberItems)
         viewContent.addSubview(lblTitleSubtotal)
@@ -192,15 +190,11 @@ protocol GenerateOrderViewDelegate {
         viewContent.addSubview(lbldiscounts)
         viewContent.addSubview(lblTitleTotal)
         
-        
-        
         viewContent.addSubview(lbldeliveryAddress)
         viewContent.addSubview(lblTitleDeliveryDate)
         viewContent.addSubview(lblTitleDeliveryHour)
         viewContent.addSubview(lblTitlePaymentType)
         viewContent.addSubview(lblTitleCommens)
-        
-       
        
         viewContent.addSubview(lblValueAddress)
         viewContent.addSubview(lblValueDeliveryDate)
@@ -208,13 +202,11 @@ protocol GenerateOrderViewDelegate {
         viewContent.addSubview(lblValueDiscounts)
         viewContent.addSubview(lblValueCommenst)
         
-        
         viewContent.addSubview(lblValueDeliveryHour)
         viewContent.addSubview(lblValuePaymentType)
         viewContent.addSubview(lblValueSubtotal)
         viewContent.addSubview(lblValueTotal)
-
-        
+ 
         viewContent.addSubview(buttonClose)
         viewContent.addSubview(buttonEditOrder)
         viewContent.addSubview(buttonCreateOrder)
@@ -250,13 +242,10 @@ protocol GenerateOrderViewDelegate {
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
         bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
         self.bgView.addSubview(bgViewAlpha)
-        
-
     }
     
     
     func showGenerateOrder(paramsToOrder:NSDictionary) {
-        
         //right
         var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String)
         lblValueSubtotal.text = stringValue
@@ -277,13 +266,11 @@ protocol GenerateOrderViewDelegate {
         lblValueDeliveryAmount.textColor = WMColor.dark_gray
         lblValueDeliveryAmount.text = stringValue
 
-        
         stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! String)
         lblValueDiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueDiscounts.textAlignment = .Right
         lblValueDiscounts.textColor = WMColor.dark_gray
         lblValueDiscounts.text = stringValue
-        
         //left
         lblValueAddress.text = paramsToOrder["address"] as? String
         lblValueDeliveryDate.text = paramsToOrder["date"] as? String
@@ -292,8 +279,6 @@ protocol GenerateOrderViewDelegate {
         lblValueCommenst.text = paramsToOrder["pickingInstruction"] as? String
 
         self.viewContent.center = self.center
-        
-        
     }
     
     func btnClose() {

@@ -338,7 +338,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.generateOrderPaymentType =  self.paymentString
         
         self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" :self.paramsToConfirm!["shipmentAmount"]
-        self.paramsToConfirm!["total"] = generateOrderTotal
+        let amoutnShip = self.paramsToConfirm!["shipmentAmount"] as! String
+        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble()! + amoutnShip.toDouble()!)"
         self.paramsToConfirm!["subtotal"] = generateOrderSubtotal
         self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
         self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
@@ -694,8 +695,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                     let dSubtotal = NSNumberFormatter().numberFromString(subTotal)
                     let subNewTotal = dSubtotal!.doubleValue + dSaving!.doubleValue
                     
-                    self.generateOrderTotal = "\(subNewTotal)"
-                    self.generateOrderSubtotal = "\(subTotal)"
+                    self.generateOrderTotal = "\(subTotal)"
+                    self.generateOrderSubtotal = "\(subNewTotal)"
                     self.generateOrderDiscounts = "\(saving)"
                     self.generateOrderPaymentType =  self.paymentString
                     

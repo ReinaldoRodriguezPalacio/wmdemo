@@ -501,11 +501,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func searchByText(text: String) {
         if text.isNumeric() && text.length() == 13 ||  text.length() == 14 {
-            let window = UIApplication.sharedApplication().keyWindow
-            if let customBar = window!.rootViewController as? IPACustomBarViewController {
-                customBar.idListSelected =  self.listId!
-                customBar.handleNotification("UPC",name:"",value:text,bussines:"gr")
-            }
+             self.findProdutFromUpc(text)
+//            let window = UIApplication.sharedApplication().keyWindow
+//            if let customBar = window!.rootViewController as? IPACustomBarViewController {
+//                customBar.idListSelected =  self.listId!
+//                customBar.handleNotification("UPC",name:"",value:text,bussines:"gr")
+//            }
         }else{
             super.searchByText(text)
         }
