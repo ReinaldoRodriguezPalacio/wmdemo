@@ -28,7 +28,6 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         self.separatorView = UIView()
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(self.separatorView!)
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -100,8 +99,6 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         self.currentEntity = nil
         navController.view.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
         self.detailController = navController
-        
-        
     }
     
     func reloadViewList() {

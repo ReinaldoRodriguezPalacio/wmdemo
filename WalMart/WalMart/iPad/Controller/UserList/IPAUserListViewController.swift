@@ -41,8 +41,8 @@ class IPAUserListViewController: UserListViewController {
         
         self.isShowingWishList = false
         self.needsToShowWishList = false
-        
         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+        self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: false, scrollPosition: .None)
     }
     
     override func viewDidLayoutSubviews() {

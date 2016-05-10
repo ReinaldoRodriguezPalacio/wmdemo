@@ -111,7 +111,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
         self.saveButton!.frame = CGRectMake( self.view.bounds.maxX - 87, 0 , 71, self.header!.frame.height)
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
         
-        self.passworCurrent?.frame = CGRectMake(leftRightPadding, 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
+        self.passworCurrent?.frame = CGRectMake(leftRightPadding, 32,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
         self.password?.frame = CGRectMake(leftRightPadding,  passworCurrent!.frame.maxY + 8, self.view.frame.width - (leftRightPadding * 2), fieldHeight)
         self.confirmPassword?.frame = CGRectMake(leftRightPadding,  password!.frame.maxY + 8,  self.view.frame.width - (leftRightPadding * 2), fieldHeight)
     }
@@ -124,7 +124,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
                 errorView?.removeFromSuperview()
                 errorView!.focusError = nil
                 errorView = nil
-                self.content.frame = CGRectMake(0, self.header!.frame.maxY  , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height )
+                self.content.frame = CGRectMake(0, self.header!.frame.maxY  , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height)
             }
         }
     }
