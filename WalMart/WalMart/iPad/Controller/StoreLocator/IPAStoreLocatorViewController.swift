@@ -17,8 +17,8 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
         
         self.clubCollection!.registerClass(IPAClubLocatorTableViewCell.self, forCellWithReuseIdentifier: "club")
         self.clubCollection!.hidden = false
-        self.clubCollection!.contentInset = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
-        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0.0, 0.0)
+        self.clubCollection!.scrollIndicatorInsets = UIEdgeInsetsMake(0.0, 0.0, 0, 0.0)
+        self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
 
         self.clubCollection!.reloadData()
 
@@ -115,6 +115,11 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             
             if let index = (self.items!).indexOf(annotation.storeEntity!) {
                 let indexPath = NSIndexPath(forRow: index, inSection: 0)
+                if index >= (self.items!.count - 4) {
+                    self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 390, 0)
+                }else{
+                     self.clubCollection!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                }
                 self.clubCollection!.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
             }
         }
@@ -132,11 +137,6 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.searchField.resignFirstResponder()
         let store = self.items![indexPath.row]
-        if indexPath.row == self.items!.count - 1 || indexPath.row == self.items!.count - 2 {
-            collectionView.contentInset = UIEdgeInsetsMake(0, 0, 250, 0)
-        }else{
-           collectionView.contentInset = UIEdgeInsetsZero
-        }
          collectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Top, animated: true)
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_STORELOCATOR_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_STORELOCATOR_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_SHOW_STORE_LOCATOR_IN_MAP.rawValue, label:store.name! )
