@@ -196,7 +196,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     func moveRightImagePresale(moveRight:Bool){
         if moveRight {
             UIView.animateWithDuration( 0.3 , animations: {
-                self.imagePresale.frame = CGRectMake( 90, 0, 46, 46)
+                self.imagePresale.frame = CGRectMake( 36, 0, 46, 46)
             })
         }
         else{

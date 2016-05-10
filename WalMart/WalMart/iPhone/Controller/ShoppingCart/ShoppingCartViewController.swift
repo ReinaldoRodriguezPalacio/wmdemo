@@ -326,16 +326,21 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     imageUrl = imageArray.objectAtIndex(0) as! String
                 }
                 
+                var preorderable = "false"
+                if let preorder = shoppingCartProduct["isPreorderable"] as? String {
+                    preorderable = preorder
+                }
+                
                 let serviceAdd = AddItemWishlistService()
                 if ixCount < self.itemsInShoppingCart.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: "false", mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
                         //let path = NSIndexPath(forRow: , inSection: 0)
 
                         
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }else {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: "false", mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable, mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
                         self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
                         animation.removeFromSuperview()
                         }, errorBlock: { (error:NSError) -> Void in
@@ -431,8 +436,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 cellProduct.showLeftUtilityButtonsAnimated(false)
                 cellProduct.moveRightImagePresale(false)
             }else{
-                
-                
                 cellProduct.setEditing(false, animated: false)
                 cellProduct.hideUtilityButtonsAnimated(false)
                 cellProduct.moveRightImagePresale(false)
@@ -694,6 +697,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         case 0:
             //let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
             //deleteRowAtIndexPath(indexPath)
+            let index = self.viewShoppingCart.indexPathForCell(cell)
+            let superCell = self.viewShoppingCart.cellForRowAtIndexPath(index!) as! ProductShoppingCartTableViewCell
+            superCell.moveRightImagePresale(false)
              cell.showRightUtilityButtonsAnimated(true)
         default :
             print("other pressed")

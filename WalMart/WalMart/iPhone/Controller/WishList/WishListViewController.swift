@@ -205,11 +205,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
 
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
-        if isPreorderable {
-             cell.moveRightImagePresale(true)
-        }else{
-             cell.moveRightImagePresale(false)
-        }
         cell.moveRightImagePresale(isPreorderable)
         cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
        
@@ -494,6 +489,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         case 0:
             //let indexPath : NSIndexPath = self.wishlist.indexPathForCell(cell)!
             //deleteRowAtIndexPath(indexPath)
+            let index = self.wishlist.indexPathForCell(cell)
+            let superCell = self.wishlist.cellForRowAtIndexPath(index!) as! WishlistProductTableViewCell
+            superCell.moveRightImagePresale(false)
             cell.showRightUtilityButtonsAnimated(true)
         default :
             print("other pressed")
