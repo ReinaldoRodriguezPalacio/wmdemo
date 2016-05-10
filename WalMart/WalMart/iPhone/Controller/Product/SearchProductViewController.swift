@@ -670,6 +670,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
             controller.idListSeleted =  self.idListFromSearch!
+            controller.stringSearching =  self.titleHeader!
             self.navigationController!.pushViewController(controller, animated: true)
         }
        
@@ -1566,14 +1567,14 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let channel = IS_IPAD ? "ipad" : "iphone"
         if cell.type == ResultObjectType.Groceries.rawValue {
             if searchText != ""{
-                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addticart","collection":"dah","channel": channel]]
+                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel]]
             }
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
         }
         else {
             
             if searchText != ""{
-            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"parameter":["q":searchText,"eventtype": "addticart","collection":"mg","channel": channel]]
+            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel]]
             }
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable]
         }

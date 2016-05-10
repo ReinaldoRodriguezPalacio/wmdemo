@@ -47,6 +47,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     var strisActive : String! = "true"
     var strisPreorderable : String! = "false"
+    var stringSearching  = ""
     
     var titlelbl : UILabel!
     
@@ -706,7 +707,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
             let productService = ProductDetailService(dictionary: signalsDictionary)
             let eventType = self.fromSearch ? "clickdetails" : "pdpview"
-            let params = productService.buildParams(upc as String,eventtype:eventType)
+            let params = productService.buildParams(upc as String,eventtype:eventType,stringSearching: self.stringSearching)
             productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
                 self.reloadViewWithData(result)
                 if let facets = result["facets"] as? [[String:AnyObject]] {

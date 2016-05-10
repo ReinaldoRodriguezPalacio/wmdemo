@@ -30,7 +30,7 @@ class GRProductBySearchService: GRBaseService {
             let searchText = text != nil ? text! : ""
             var parameter = ["q":searchText,"eventtype": "search","collection":"dah","channel": channel] as [String:AnyObject]
             if searchText == ""{
-               parameter = ["category":idDepartment!,"eventtype": "categoryview","collection":"dah","channel": channel]
+               parameter = ["category":idLine!,"eventtype": "categoryview","collection":"dah","channel": channel]
             }
             return [
                 JSON_KEY_TEXT:searchText, //"pText"

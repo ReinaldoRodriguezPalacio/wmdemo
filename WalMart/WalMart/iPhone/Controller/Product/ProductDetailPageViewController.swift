@@ -19,6 +19,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     var ctrlToShow : UIViewController!
     var isForSeach:Bool = false
     var idListSeleted : String? = ""
+    var stringSearching = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
@@ -66,15 +67,18 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         case ResultObjectType.Mg.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
                 vc.upc = upc
+                vc.stringSearching = self.stringSearching
                 vc.name = descr
                 vc.fromSearch =  self.isForSeach
                 vc.view.tag = ixSelected
+                
                 
                 return vc
             }
         case ResultObjectType.Groceries.rawValue :
                 if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? ProductDetailViewController {
                     vc.upc = upc
+                    vc.stringSearching =  self.stringSearching
                     vc.fromSearch =  self.isForSeach
                     vc.name = descr
                     vc.saving = saving == nil ? "" : saving!
