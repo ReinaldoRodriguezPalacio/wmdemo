@@ -71,6 +71,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var fromSearch =  false
     var isEmpty: Bool = false
     var idListSelected = ""
+    var stringSearch = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()

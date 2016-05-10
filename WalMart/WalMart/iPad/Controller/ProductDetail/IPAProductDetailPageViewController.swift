@@ -22,6 +22,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
                 vc.name = descr
+                vc.stringSearch = self.stringSearching
                 vc.view.tag = ixSelected
                 vc.pagerController = self
                 return vc
@@ -29,11 +30,13 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         case ResultObjectType.Groceries.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? IPAGRProductDetailViewController {
                 vc.upc = upc
+                vc.stringSearch = self.stringSearching
                 vc.name = descr
                 vc.view.tag = ixSelected
                 vc.saving = saving == nil ? "" : saving!
                 vc.pagerController = self
                 vc.idListSelected =  self.idListSeleted!
+                
                 return vc
             }
         default:
