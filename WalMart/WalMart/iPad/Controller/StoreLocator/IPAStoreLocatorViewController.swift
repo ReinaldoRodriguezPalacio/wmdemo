@@ -115,7 +115,7 @@ class IPAStoreLocatorViewController: StoreLocatorViewController, UIPopoverContro
             
             if let index = (self.items!).indexOf(annotation.storeEntity!) {
                 let indexPath = NSIndexPath(forRow: index, inSection: 0)
-                self.clubCollection!.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
+                self.clubCollection!.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: UICollectionViewScrollPosition.None)
             }
         }
     }

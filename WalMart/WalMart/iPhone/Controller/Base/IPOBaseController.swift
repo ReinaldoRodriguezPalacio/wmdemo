@@ -27,7 +27,7 @@ class IPOBaseController : BaseController {
         let differenceFromLast: CGFloat = self.lastContentOffset! - currentOffset
         lastContentOffset = currentOffset;
         
-        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden {
+        if differenceFromStart < 0 && !TabBarHidden.isTabBarHidden && !IS_IPAD {
             
             
             if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {
@@ -61,7 +61,7 @@ class IPOBaseController : BaseController {
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.HideBar.rawValue, object: nil)
             }
         }
-        if (differenceFromStart > 0 && TabBarHidden.isTabBarHidden) {
+        if (differenceFromStart > 0 && TabBarHidden.isTabBarHidden) && !IS_IPAD{
             
             
             if(scrollView.tracking && (abs(differenceFromLast)>0.20)) {

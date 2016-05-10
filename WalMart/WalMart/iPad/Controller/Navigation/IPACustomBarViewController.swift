@@ -81,10 +81,13 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func hideTabBar(notification:NSNotification) {
         // EN IPAD NO SE VA A ESCONDER LA BARRA CON EL SCROLL
         //self.setTabBarHidden(true, animated: true, delegate:notification.object as CustomBarDelegate?)
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
+        
     }
     
     override func showTabBar(notification:NSNotification) {
         //self.setTabBarHidden(false, animated: true, delegate:notification.object as CustomBarDelegate?)
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
     }
     
     override func layoutButtons() {
