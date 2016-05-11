@@ -78,6 +78,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 paginatedProductDetail.idListSeleted = self.idListFromSearch
                 paginatedProductDetail.ixSelected = indexPath.row
                 paginatedProductDetail.itemsToShow = []
+                paginatedProductDetail.stringSearching = self.titleHeader!
+                
                 for product in self.allProducts! {
                     let upc = product["upc"] as! NSString
                     let desc = product["description"] as! NSString

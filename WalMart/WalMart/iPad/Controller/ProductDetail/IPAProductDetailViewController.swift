@@ -72,6 +72,9 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isEmpty: Bool = false
     var idListSelected = ""
     var productDeparment: String = ""
+    var stringSearch = ""
+
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -964,7 +967,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
-        let params = productService.buildParams(upc as String,eventtype: eventType)
+        let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch)
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [[String:AnyObject]] {

@@ -27,7 +27,7 @@ class ProductbySearchService : BaseService {
             let searchText = text != nil ? text! : ""
             var parameter = ["q":searchText,"eventtype": "search","collection":"mg","channel": channel]
             if searchText == ""{
-                parameter = ["category":idDepartment!,"eventtype": "categoryview","collection":"mg","channel": channel]
+                parameter = ["category":idLine!,"eventtype": "categoryview","collection":"mg","channel": channel]
             }
             return [
                 JSON_KEY_TEXT:(text != nil ? text! : ""),

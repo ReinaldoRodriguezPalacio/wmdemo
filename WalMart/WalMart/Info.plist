@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3</string>
+	<string>4</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
 	<key>FacebookAppID</key>
@@ -1175,6 +1175,6 @@
 	<key>cpwrUEM_logging.level</key>
 	<string>ALL</string>
 	<key>useSignalsServices</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
