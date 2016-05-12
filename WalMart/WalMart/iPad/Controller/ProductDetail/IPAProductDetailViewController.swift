@@ -1003,7 +1003,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
                     print("Return Button")
-                    self.navigationController!.popViewControllerAnimated(true)
+                    self.backButton()
                 }
                 self.isEmpty = true
                 self.view.addSubview(empty)
