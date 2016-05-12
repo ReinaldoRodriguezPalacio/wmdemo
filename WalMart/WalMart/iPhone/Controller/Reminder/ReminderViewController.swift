@@ -208,6 +208,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        let lineHeight: CGFloat = TabBarHidden.isTabBarHidden ? 67 : 113
         self.deleteButton!.frame = CGRectMake(self.header!.frame.width - 80, 12, 65, 22)
         self.frequencyLabel!.frame = CGRectMake(16, 16,  self.view.frame.width - 32, 20)
         self.frequencyField!.frame = CGRectMake(16, self.frequencyLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
@@ -216,7 +217,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.hourLabel!.frame = CGRectMake(16, self.dateField!.frame.maxY + 16,  self.view.frame.width - 32, 20)
         self.hourField!.frame = CGRectMake(16, self.hourLabel!.frame.maxY + 8,  self.view.frame.width - 32, 40)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height)
-        self.layerLine.frame = CGRectMake(0, self.hourField!.frame.maxY + 94,  self.view.frame.width, 1)
+        self.layerLine.frame = CGRectMake(0, self.view.frame.height - lineHeight,  self.view.frame.width, 1)
         self.cancelButton!.frame = CGRectMake((self.view.frame.width/2) - 148,self.layerLine.frame.maxY + 16, 140, 34)
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
     }
