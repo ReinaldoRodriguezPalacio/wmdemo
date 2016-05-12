@@ -72,6 +72,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var isEmpty: Bool = false
     var idListSelected = ""
     var stringSearch = ""
+    var defaultLoadingImg: UIImageView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,6 +97,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
 
         bannerImagesProducts =  IPAProductDetailBannerView(frame:CGRectMake(0, heigthHeader, 682, 388))
         bannerImagesProducts.delegate = self
+        
+        defaultLoadingImg = UIImageView(frame:CGRectMake(327, heigthHeader + 180, 28, 28))
+        defaultLoadingImg!.image = UIImage(named: "img_default_cell")
+        defaultLoadingImg!.contentMode = UIViewContentMode.ScaleAspectFit
        
         self.view.backgroundColor = UIColor.whiteColor()
         
@@ -131,7 +136,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.view.addSubview(bannerImagesProducts)
         self.view.addSubview(containerinfo)
         self.view.addSubview(separator)
-        
+        self.view.addSubview(defaultLoadingImg!)
         loadDataFromService()
     }
     
@@ -1122,7 +1127,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
-        
+        self.defaultLoadingImg?.hidden = true 
     }
     
     func removeListSelector(action action:(()->Void)?, closeRow: Bool ) {
