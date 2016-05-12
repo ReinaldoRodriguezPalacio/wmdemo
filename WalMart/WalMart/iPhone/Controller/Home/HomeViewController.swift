@@ -249,7 +249,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let arrayItemsResult =  arrayItems as! [AnyObject]
                 let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
                 
-                let desc = recommendProduct["description"] as! String
+                let desc = recommendProduct["description"] as? String
                 var price = ""
                 if let priceStr = recommendProduct["price"] as? String {
                     price = priceStr
@@ -290,7 +290,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 }
 
                 
-                productCell.setValues(imageUrl, productShortDescription: desc, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice)
+                productCell.setValues(imageUrl, productShortDescription: desc!, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice)
                
                 cell = productCell
         }
@@ -463,11 +463,13 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             var nameCategory = "Otros"
             let categoryname = itemRec["name"] as! String
             let categorytype = itemRec["type"] as! String
-            self.categoryType[categoryname] = categorytype
-            categories.append(itemRec["name"] as! String)
-            let upcs = itemRec["upcs"] as! NSArray
-
             
+            self.categoryType[categoryname] = categorytype
+            
+            categories.append(itemRec["name"] as! String)
+           
+            let upcs = itemRec["upcs"] as? NSArray
+
                     nameCategory = itemRec["name"] as! String
                     if categories.filter({ (catName) -> Bool in return catName == nameCategory }).count == 0 {
                         categories.append(nameCategory)

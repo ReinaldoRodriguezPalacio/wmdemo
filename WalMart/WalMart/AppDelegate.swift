@@ -462,7 +462,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
        
         Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         //Quitar para produccion
-        //handleURLFacebook(url,sourceApplication:sourceApplication!)
+        handleURLFacebook(url,sourceApplication:sourceApplication!)
         
         
         handleURL(url)
@@ -481,13 +481,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                 NSLog("targetUrl::\(targetUrl)")
                 
                 let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
-                var components = strAction.componentsSeparatedByString("_")
+                var components = strAction.componentsSeparatedByString("/")
                 
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
-                    let cmpStr  = components[0]
-                    let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
-                    //TODO validar como llegara los links
-                    customBar.handleNotification("UPC",name:"",value:strValue,bussines:"mg")
+                    let srtBussines  = components[0].componentsSeparatedByString("_")[1]
+                    let srtType  = components[1].componentsSeparatedByString("_")[1]
+                    let srtValue  = components[2].componentsSeparatedByString("_")[1]
+                //TODO validar como llegara los links
+                    customBar.handleNotification(srtType,name:"",value:srtValue,bussines:srtBussines)
                 }
                 //TODO quitar en produccion 
                 UIAlertView(title: "Received link:",
