@@ -238,9 +238,7 @@ class IPACustomBarViewController :  CustomBarViewController {
                     controllernav?.popViewControllerAnimated(false)
                     self.isEditingSearch = false
                 }
-
                 controllernav?.pushViewController(contDetail, animated: true)
-                
                 }, errorBlock: { (error:NSError) -> Void in
                     
                     if upcDesc.length < 14 {
@@ -259,9 +257,6 @@ class IPACustomBarViewController :  CustomBarViewController {
             })
         }
         else{
-            
-            
-            
             let controller = IPASearchProductViewController()
             controller.searchContextType = .WithText
             controller.titleHeader = keyWord

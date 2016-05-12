@@ -465,7 +465,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             let categorytype = itemRec["type"] as! String
             self.categoryType[categoryname] = categorytype
             categories.append(itemRec["name"] as! String)
-            let upcs = itemRec["upcs"] as! NSArray
+            let upcs = itemRec["upcs"] as? NSArray
 
             
                     nameCategory = itemRec["name"] as! String

@@ -179,7 +179,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 self.name = NSLocalizedString("empty.productdetail.title",comment:"")
                 empty.returnAction = { () in
                     print("")
-                    self.navigationController!.popViewControllerAnimated(true)
+                    self.backButton()
                 }
                 self.view.addSubview(empty)
                 if self.viewLoad != nil {

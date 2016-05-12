@@ -23,6 +23,7 @@ class ProductDetailBannerMediaCollectionViewCell : UICollectionViewCell {
     
     func setup() {
         imageView = UIImageView()
+        imageView.image = UIImage(named:"img_default_cell")
         imageView.frame =  CGRectMake(0, 24 ,self.bounds.width, self.bounds.height - 48 )
         //imageView.frame = self.bounds
         imageView.contentMode = UIViewContentMode.ScaleAspectFit
