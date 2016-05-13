@@ -13,6 +13,7 @@ protocol ReferedFormDelegate {
     func selectCloseButton()
 }
 
+/// Formulario para agregar referidos
 class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate {
     
     var headerView: UIView!
@@ -118,7 +119,11 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.saveButton!.frame = CGRectMake((self.frame.width - 98) / 2,layerLine.frame.maxY + 12,98,34)
         self.confirmLabel!.frame = CGRectMake((self.frame.width - 98) / 2,layerLine.frame.maxY + 12,98,34)
     }
-    
+    /**
+     Valida los datos del formulario
+     
+     - returns: Bool regresa true si los datos son correctos
+     */
     func validate() -> Bool{
         var error = viewError(name!)
         if !error{
@@ -130,6 +135,13 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         return true
     }
     
+    /**
+     Agrega mensage de error
+     
+     - parameter field: field a validar
+     
+     - returns: Bool regresa true si es existe error
+     */
     func viewError(field: FormFieldView)-> Bool{
         let message = field.validate()
         if message != nil  {
@@ -149,17 +161,25 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         return val
     }
 
-    
+    /**
+     Llama al delegado para guardar Referido
+     */
     func save(){
         if self.validate(){
             delegate?.selectSaveButton(name.text!, mail: email.text!)
         }
     }
-    
+    /**
+     Llama al delegado para cerrar popup
+     */
     func close(){
         delegate?.selectCloseButton()
     }
-    
+    /**
+     Agrega header con titulo
+     
+     - parameter title: titulo a mostrar
+     */
     func addHeaderAndTitle(title:String){
         headerView = UIView(frame: CGRectMake(0, 0, self.frame.width, 46))
         headerView.backgroundColor = WMColor.light_light_gray
@@ -180,6 +200,12 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         headerView.addSubview(titleLabel)
     }
     
+    /**
+     Muestra datos del referido, los campos no se pueden editar
+     
+     - parameter name: nombre del referido
+     - parameter mail: mail del referido
+     */
     func showReferedUser(name:String,mail:String){
         self.email.text = mail
         self.name.text = name

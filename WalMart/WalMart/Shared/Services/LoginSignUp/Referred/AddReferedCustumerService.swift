@@ -7,10 +7,8 @@
 //
 
 import Foundation
-
+/// Servicio para agregar referidos
 class AddReferedCustumerService : GRBaseService {
-    
-    
     func buildParamsRefered(emailRef:String,nameRef:String,isReferedAutorized:Bool) -> NSDictionary {
         return [ "emailRef":emailRef,  "nameRef": nameRef,  "isReferedAutorized":isReferedAutorized]
     }

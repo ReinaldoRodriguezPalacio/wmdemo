@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/// Celda listado de referidos
 class ReferedTableViewCell : UITableViewCell {
 
     var titleLabel : UILabel!

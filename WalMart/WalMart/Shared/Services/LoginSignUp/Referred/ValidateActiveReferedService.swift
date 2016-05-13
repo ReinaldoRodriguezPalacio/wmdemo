@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+/// servicio que valida si se pueden agregar referidos
 class ValidateActiveReferedService : GRBaseService {
        
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

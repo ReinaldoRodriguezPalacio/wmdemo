@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/// Celda con detalle de Referidos
 class ReferedDetailTableViewCell : UITableViewCell {
     
     var referedLabel : UILabel!
