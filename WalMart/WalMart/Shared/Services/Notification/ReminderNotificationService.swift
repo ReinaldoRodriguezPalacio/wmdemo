@@ -18,6 +18,7 @@ let REMINDER_NOTIFICATION_NAME = "name"
 let REMINDER_NOTIFICATION_VALUE = "value"
 let REMINDER_NOTIFICATION_BUSINESS = "business"
 
+ /// Servicio para crear recordatorios locales
 class ReminderNotificationService {
     let options = [NSLocalizedString("list.reminder.option.onetime", comment:""),NSLocalizedString("list.reminder.option.weekly", comment:""), NSLocalizedString("list.reminder.option.everyTwoWeek", comment:""), NSLocalizedString("list.reminder.option.everyThreeWeek", comment:""),
         NSLocalizedString("list.reminder.option.montly", comment:"")]
@@ -39,6 +40,13 @@ class ReminderNotificationService {
     }
 
     //MARK: - Notifications
+    /**
+     Crea los recordatorios tomando en cuenta la periodicidad
+     
+     - parameter option:   Periodicidad del recordatorio
+     - parameter fireDate: fecha de comienzo del recordatorio
+     - parameter time:     hora del recordatorio
+     */
     func scheduleNotifications(forOption option:Int, withDate fireDate:NSDate, forTime time:String) {
         let timeArray = time.componentsSeparatedByString(":")
         let hour = Int(timeArray.first!)
@@ -78,6 +86,15 @@ class ReminderNotificationService {
         }
     }
     
+    /**
+     Agrega una hora especifica a una fecha
+     
+     - parameter date:   Fecha a la que se agregara la hora
+     - parameter hour:   Hora que se va a agregar
+     - parameter minute: Minutos que se van a agregar
+     
+     - returns: Regresa la fecha con la hora especificada
+     */
     func createDateFrom(date:NSDate, forHour hour:Int, andMinute minute:Int) -> NSDate? {
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
@@ -90,6 +107,17 @@ class ReminderNotificationService {
         return otherDate
     }
     
+    /**
+     crea la notificacion de manera local en el dispositivo
+     
+     - parameter title:            titulo de la notificacion
+     - parameter fireDate:         fecha de lanzamiento
+     - parameter originalFireDate: fecha original de creacion
+     - parameter frequency:        frecuencia de repticion
+     - parameter customType:       periodicidad como entero
+     
+     - returns: UILocalNotification
+     */
     func createLocalNotification(title title:String, fireDate:NSDate, originalFireDate:NSDate, frequency:NSCalendarUnit?, customType:Int) -> UILocalNotification {
         let notification = UILocalNotification()
         if frequency != nil {
@@ -117,6 +145,9 @@ class ReminderNotificationService {
         return notification
     }
     
+    /**
+     Elimina las notificaciones segun el ListId
+     */
     func removeNotificationsFromCurrentList() {
         var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
@@ -134,6 +165,9 @@ class ReminderNotificationService {
         }
     }
     
+    /**
+     Busca las notificaciones existentes para la lista y si existe inicializa el currentNotificationConfig
+     */
     func findNotificationForCurrentList() {
         var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
         if notifications != nil && notifications!.count > 0 {
@@ -152,6 +186,11 @@ class ReminderNotificationService {
         }
     }
     
+    /**
+     Regresa true si existen notificciones para la lista, false si no existen
+     
+     - returns: Bool
+     */
     func existNotificationForCurrentList() -> Bool {
         var exist = false
         var notifications = UIApplication.sharedApplication().scheduledLocalNotifications
@@ -172,6 +211,11 @@ class ReminderNotificationService {
         return exist
     }
     
+    /**
+     Verifica si el dispositivo puede crear recordatorios
+     
+     - returns: Bool
+     */
     static func isEnableLocalNotificationForApp() -> Bool {
         if(UIApplication.instancesRespondToSelector(Selector("currentUserNotificationSettings")))
         {
@@ -204,13 +248,21 @@ class ReminderNotificationService {
         return true
     }
     
-    
+    /**
+     Regresa el periodo de el recordatorio en String
+     
+     - returns: String periodo del recordatorio
+     */
     func getNotificationPeriod() -> String{
         self.findNotificationForCurrentList()
         return self.options[self.currentNotificationConfig!["type"] as! Int]
     }
     
-    
+    /**
+     Busca los recordatorios para la lista, elimina las anteriores y crea nuevos recordatorios con el nombre nuevo.
+     
+     - parameter newName: el nuevo nombre para el recordatorio
+     */
     func updateListName(newName:String){
         if self.existNotificationForCurrentList(){
             self.findNotificationForCurrentList()

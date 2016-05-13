@@ -9,6 +9,12 @@
 import UIKit
 
 protocol ReminderViewControllerDelegate {
+    /**
+     Notifica que el reminderViewCOntroller fue cerrado
+     
+     - parameter flag:  indica si es necesario forzar la validacion de creacion
+     - parameter value: indica si se creo o no un recordatorio
+     */
     func notifyReminderWillClose(forceValidation flag:Bool, value:Bool)
 }
 
@@ -274,6 +280,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         super.back()
     }
     
+    /**
+     Elimina recordatorios de la lista
+     */
     func deleteReminder(){
         self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "done"), imageError: UIImage(named: "reminder_alert"))
         self.alertController!.setMessage("Eliminando recordatorio ...")
@@ -295,6 +304,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         
     }
     
+    /**
+     Crea nuevos recordatorios con los parametros seleccionados en la vista
+     */
     func save(){
         if self.validateReminderForm(){
             self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "done"), imageError: UIImage(named: "reminder_alert"))
@@ -319,7 +331,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             }
         }
     }
-    
+    /**
+     Valida la hora en la que se desa crear un recordatorio (Cada 15 min)
+     */
     func timeChanged(){
         if self.errorView != nil{
             self.errorView!.removeFromSuperview()
@@ -338,7 +352,11 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         self.currentOriginalFireDate = self.reminderService!.createDateFrom(fireDate, forHour: self.currentOriginalFireHour, andMinute: self.currentOriginalFireMin)
         //self.selectedDate = date
     }
-    
+    /**
+     valida que todos los parametros esten correctos
+     
+     - returns: Bool regtesa true si los parametros son correctos
+     */
     func validateReminderForm() -> Bool{
         var field = FormFieldView()
         var message = ""
@@ -400,7 +418,6 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
         return CGSizeMake(self.view.frame.width, self.content!.contentSize.height)
     }

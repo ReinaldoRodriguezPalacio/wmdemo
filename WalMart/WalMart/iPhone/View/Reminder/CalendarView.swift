@@ -12,6 +12,7 @@ protocol CalendarViewDelegate{
     func selectedDate(date:NSDate?)
 }
 
+/// Vista con un calendario
 class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol{
      var calendar: ABCalendarPicker?
      var alertView:IPOWMAlertViewController?
@@ -134,6 +135,15 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
         return 0
     }
     
+    /**
+     Valida que dos fechas tengan un intervalo de dias de separacion
+     
+     - parameter theDate:  primera fecha
+     - parameter days:     dias del intervalo a comparar
+     - parameter fromDate: segunda fecha
+     
+     - returns: Bool true si el intervalo entre las fechas es el mismo
+     */
     func isDate(theDate:NSDate, partOfIntervalOfDays days:Int, fromDate:NSDate) -> Bool {
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
@@ -180,6 +190,15 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
         self.selectedDate = date
     }
     
+    /**
+     Setea hora y minutos a una fecha
+     
+     - parameter date:   fecha
+     - parameter hour:   horas a gregar
+     - parameter minute: minutos a agregar
+     
+     - returns: NSDate cpn la fecha y la hora
+     */
     func createDateFrom(date:NSDate, forHour hour:Int, andMinute minute:Int) -> NSDate? {
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
@@ -192,10 +211,16 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
         return otherDate
     }
     
+    /**
+     Llama al delegado indicando la fecha seleccionada
+     */
     func save(){
         self.delegate?.selectedDate(self.selectedDate)
     }
     
+    /**
+     Llama al delegado indicando la fecha original descartando si se elige una nueva
+     */
     func cancel(){
         self.delegate?.selectedDate(self.originalDate)
     }
