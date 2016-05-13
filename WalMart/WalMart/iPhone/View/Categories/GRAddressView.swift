@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+/// Vista con el listado de direcciones de usuario.
 class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var cancelButton: UIButton?
     var newButton: UIButton?
@@ -80,10 +80,16 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.newButton?.frame = CGRectMake((self.frame.width/2) + 4 , self.layerLine.frame.maxY + 16, 125, 34)
     }
     
+    /**
+     Cierra la vista
+     */
     func close(){
         self.onCloseAddressView?()
     }
     
+    /**
+     Envia al formulario de nueva direccion si hay menos de 12 direcciones
+     */
     func new(){
         if self.addressArray!.count >= 12 {
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
@@ -174,6 +180,9 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
+    /**
+     Agrega vista de loading
+     */
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.bounds.width, self.bounds.height - 46))
@@ -184,6 +193,9 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     //MARK: -Service
+    /**
+     servicio que trae las direcciones por usuario
+     */
     func callServiceAddressGR(){
         self.addViewLoad()
         let addressService = GRAddressByUserService()

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+/// Vista con mensaje indicando que no tienes direcciones
 class GRAddressNoStoreView: UIView {
     var layerLine: CALayer!
     var newAdressForm: (() -> Void)?
@@ -53,6 +53,9 @@ class GRAddressNoStoreView: UIView {
         self.newButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
     }
     
+    /**
+     Envia al formulario para crear nueva direccion
+     */
     func new(){
         self.newAdressForm?()
     }

@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Vista con formulario para crear direccion de GR
 class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITableViewDelegate {
     
     let tableHeight: CGFloat = 136.0
@@ -353,6 +354,11 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
 
     }
     
+    /**
+     Agrega a la vista un popup con una tabla de opciones
+     
+     - parameter itemView: Item al que se le va a agregar el poup
+     */
     func addPopupTable(itemView: FormFieldView){
         if itemView == self.popupTableItem {
            self.popupTable!.hidden = true
@@ -367,7 +373,11 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     }
     
     //MARK - TableView
-    
+    /**
+     Recarga la vista con nuevas opciones
+     
+     - parameter values: Nuevos valores para la tabla
+     */
     func setValues(values:[String]) {
         self.itemsToShow = values
         popupTable!.reloadData()
@@ -421,6 +431,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         return  SelectItemTableViewCell.sizeText(textCell, width: 247.0)
     }
     
+   //MARK: textFieldDelegate
     override func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)

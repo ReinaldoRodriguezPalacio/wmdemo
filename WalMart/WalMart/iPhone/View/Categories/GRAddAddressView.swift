@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+/// Vista con formulario para crear nueva direccion
 class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
     var scrollForm: TPKeyboardAvoidingScrollView?
     var layerLine: CALayer!
@@ -60,7 +60,9 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
         self.layerLine.frame = CGRectMake(0,self.frame.height - 66,self.frame.width, 1)
         self.saveButton?.frame = CGRectMake((self.frame.width/2) - 63 , self.layerLine.frame.maxY + 16, 125, 34)
     }
-    
+    /**
+     guarda nueva direccion
+     */
     func save(){
         self.endEditing(true)
         self.sAddredssForm!.allAddress = self.addressArray
@@ -84,7 +86,7 @@ class GRAddAddressView: UIView, TPKeyboardAvoidingScrollViewDelegate {
             }
         }
     }
-    
+    //MARK: - textFieldDelegate
     func textFieldDidEndEditing(sender: UITextField!) {
         if let zipCode = sender as? FormFieldView{
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{

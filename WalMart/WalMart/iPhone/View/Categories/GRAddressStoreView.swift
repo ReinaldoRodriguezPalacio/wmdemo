@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Vista con un listado de tiendas segun la direccion.
 class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     var cancelButton: UIButton?
     var saveButton: UIButton?
@@ -33,7 +34,6 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     func setup() {
-        
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.light_gray.CGColor
         self.layer.insertSublayer(layerLine, atIndex: 0)
@@ -75,11 +75,14 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         self.cancelButton?.frame = CGRectMake((self.frame.width/2) - 129,self.layerLine.frame.maxY + 16, 125, 34)
         self.saveButton?.frame = CGRectMake((self.frame.width/2) + 4 , self.layerLine.frame.maxY + 16, 125, 34)
     }
-    
+    /**
+     Regresa al listado de direcciones
+     */
     func close(){
      self.onReturn?()
     }
     
+    //Guarda tienda como preferida
     func save() {
         self.applyPrefered(self.addressId)
     }
@@ -126,6 +129,9 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
         tableView.reloadRowsAtIndexPaths([ self.selectedStore! ,lastSelected!], withRowAnimation: UITableViewRowAnimation.None)
     }
     
+    /**
+     Agrega vista con loading
+     */
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: CGRectMake(3, 13, self.frame.width, self.frame.height - 13))
@@ -134,7 +140,11 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
             viewLoad.startAnnimating(true)
         }
     }
-    
+    /**
+     Guarda dirrecion como preferida y modifica si es necesario la tienda de la direccion
+     
+     - parameter addressID: identificador de la direccion a guardar
+     */
     func applyPrefered (addressID: String){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView?.setMessage("Cambiando tienda ...")
