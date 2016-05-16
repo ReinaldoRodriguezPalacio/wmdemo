@@ -1101,7 +1101,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     /**
      Mark the promotions selected
-     - parameter sender: button to promotion select
+     - parameter sender: button to promotion select, 
+       and add to dictionary to send service
      */
     func promCheckSelected(sender: UIButton){
         //self.promotionIds! = ""
