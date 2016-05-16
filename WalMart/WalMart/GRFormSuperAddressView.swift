@@ -8,7 +8,6 @@
 
 import Foundation
 
-/// Vista con formulario para crear direccion de GR
 class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITableViewDelegate {
     
     let tableHeight: CGFloat = 136.0
@@ -355,9 +354,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     }
     
     /**
-     Agrega a la vista un popup con una tabla de opciones
+     Adds a popup view with an options table
      
-     - parameter itemView: Item al que se le va a agregar el poup
+     - parameter itemView: item which is to be added the popup
      */
     func addPopupTable(itemView: FormFieldView){
         if itemView == self.popupTableItem {
@@ -374,9 +373,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
     
     //MARK - TableView
     /**
-     Recarga la vista con nuevas opciones
+    Reloads the popup view with new options
      
-     - parameter values: Nuevos valores para la tabla
+     - parameter values: New options from table
      */
     func setValues(values:[String]) {
         self.itemsToShow = values

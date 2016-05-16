@@ -166,9 +166,9 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     
     /**
-     Agrega nuevos renglones tomando encuenta la seccion seleccionada
+     Adds new rows for the selected section
      
-     - parameter indexPath: indexPath seleccionado
+     - parameter indexPath: selected indexPath
      */
     func selectSection(indexPath: NSIndexPath!) {
         selectedRow = indexPath
@@ -183,9 +183,9 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     
     /**
-     Elimina los renglones de la seccion seleccionada
+     Dletes rows of the selected section
      
-     - parameter indexPath: indexPath seleccionado
+     - parameter indexPath: selected indexPath
      */
     func deSelectSection(indexPath: NSIndexPath!) {
         selectedRow = nil
@@ -200,7 +200,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     
     /**
-     Muestra un formulario para agregar referidos
+     Shows a form to adds refered
      */
     func addRefered(){
         let addreferedForm = ReferedForm(frame: CGRectMake(0, 0,  288, 248))
@@ -210,9 +210,9 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     
     /**
-     Configura un UILabel con el numero de referidos del usuario
+     Sets an UILabel with the user refered number
      
-     - parameter countRefered: numero de referidos
+     - parameter countRefered: user refered number
      */
     func setCountLabel(countRefered:Int){
        var message = ""
@@ -227,7 +227,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     //MARK: Services
     /**
-     Servicio para consulta de referidos por usuario
+     Gets the user refereds
      */
     func invokeReferedCustomerService(){
         let referedCustomerService = ReferedCustomerService()
@@ -260,7 +260,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     }
     
     /**
-     Servicio que indica si se pueden agregar referidos
+     Service than indicates if the user can add refereds
      */
     func invokeValidateActiveReferedService(){
         let validateActiveReferedService = ValidateActiveReferedService()
@@ -282,9 +282,6 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
         })
     }
     
-    /**
-     Agrega vista con loading
-     */
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame:CGRectMake(0, 0, (self.parentViewController?.view.bounds.width)!, (self.parentViewController?.view.bounds.height)!))
@@ -293,9 +290,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             self.view.addSubview(viewLoad!)
         }
     }
-    /**
-     Remueve vista con loading
-     */
+    
     func removeViewLoad(){
         if self.viewLoad != nil {
             self.viewLoad!.stopAnnimating()
@@ -305,10 +300,10 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
     
     //MARK: ReferedFormDelegate
     /**
-     agrega referido
+     Adds refered
      
-     - parameter name: nombre del referido
-     - parameter mail: email del referido
+     - parameter name: refered name
+     - parameter mail: refered mail
      */
     func selectSaveButton(name:String,mail:String) {
         modalView?.closePicker()
@@ -347,7 +342,7 @@ class ReferedViewController: NavigationViewController,UITableViewDataSource,UITa
             })
     }
     /**
-     Cierra formulario para agregar referidos
+     Close refered add form
      */
     func selectCloseButton() {
         modalView?.closePicker()

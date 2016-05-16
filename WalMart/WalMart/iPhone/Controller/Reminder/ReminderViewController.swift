@@ -10,10 +10,10 @@ import UIKit
 
 protocol ReminderViewControllerDelegate {
     /**
-     Notifica que el reminderViewCOntroller fue cerrado
+     Notify than the reminder is created
      
-     - parameter flag:  indica si es necesario forzar la validacion de creacion
-     - parameter value: indica si se creo o no un recordatorio
+     - parameter flag:  indicates if is necesary to force the validation 
+     - parameter value: indicates if the reminder was created or not
      */
     func notifyReminderWillClose(forceValidation flag:Bool, value:Bool)
 }
@@ -281,7 +281,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     }
     
     /**
-     Elimina recordatorios de la lista
+     Delete reminders from the current list
      */
     func deleteReminder(){
         self.alertController = IPOWMAlertViewController.showAlert(UIImage(named: "reminder_alert"), imageDone: UIImage(named: "done"), imageError: UIImage(named: "reminder_alert"))
@@ -305,7 +305,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
     }
     
     /**
-     Crea nuevos recordatorios con los parametros seleccionados en la vista
+     Creates new reminders with the form data
      */
     func save(){
         if self.validateReminderForm(){
@@ -332,7 +332,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         }
     }
     /**
-     Valida la hora en la que se desa crear un recordatorio (Cada 15 min)
+     Validates the hour for the reminder (Every 15 min)
      */
     func timeChanged(){
         if self.errorView != nil{
@@ -353,9 +353,9 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
         //self.selectedDate = date
     }
     /**
-     valida que todos los parametros esten correctos
+     Validates reminder form data
      
-     - returns: Bool regtesa true si los parametros son correctos
+     - returns: Bool returns true if the data is valid and complete
      */
     func validateReminderForm() -> Bool{
         var field = FormFieldView()

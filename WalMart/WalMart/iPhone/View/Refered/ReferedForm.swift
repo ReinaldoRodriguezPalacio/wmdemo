@@ -13,7 +13,6 @@ protocol ReferedFormDelegate {
     func selectCloseButton()
 }
 
-/// Formulario para agregar referidos
 class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate {
     
     var headerView: UIView!
@@ -120,9 +119,9 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         self.confirmLabel!.frame = CGRectMake((self.frame.width - 98) / 2,layerLine.frame.maxY + 12,98,34)
     }
     /**
-     Valida los datos del formulario
+     Validates the form data
      
-     - returns: Bool regresa true si los datos son correctos
+     - returns: Bool returns true if the form data is complete and valid
      */
     func validate() -> Bool{
         var error = viewError(name!)
@@ -136,11 +135,11 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     }
     
     /**
-     Agrega mensage de error
+     Adds and error message
      
-     - parameter field: field a validar
+     - parameter field: field to validate
      
-     - returns: Bool regresa true si es existe error
+     - returns: Bool returns true if exist an error
      */
     func viewError(field: FormFieldView)-> Bool{
         let message = field.validate()
@@ -162,7 +161,7 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     }
 
     /**
-     Llama al delegado para guardar Referido
+     Calls the delegate to save the refered
      */
     func save(){
         if self.validate(){
@@ -170,15 +169,15 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
         }
     }
     /**
-     Llama al delegado para cerrar popup
+     Calls the delegate to close the popup view
      */
     func close(){
         delegate?.selectCloseButton()
     }
     /**
-     Agrega header con titulo
+     Adds a header view with title
      
-     - parameter title: titulo a mostrar
+     - parameter title: view title
      */
     func addHeaderAndTitle(title:String){
         headerView = UIView(frame: CGRectMake(0, 0, self.frame.width, 46))
@@ -201,10 +200,10 @@ class ReferedForm: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDele
     }
     
     /**
-     Muestra datos del referido, los campos no se pueden editar
+     Shows the refered data, the fields can not be edited
      
-     - parameter name: nombre del referido
-     - parameter mail: mail del referido
+     - parameter name: refered name
+     - parameter mail: refered mail
      */
     func showReferedUser(name:String,mail:String){
         self.email.text = mail

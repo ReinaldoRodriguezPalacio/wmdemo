@@ -7,7 +7,7 @@
 //
 
 import Foundation
-/// Vista con mensaje indicando que no tienes direcciones
+
 class GRAddressNoStoreView: UIView {
     var layerLine: CALayer!
     var newAdressForm: (() -> Void)?
@@ -54,7 +54,7 @@ class GRAddressNoStoreView: UIView {
     }
     
     /**
-     Envia al formulario para crear nueva direccion
+     Calls the block to show a view with address form
      */
     func new(){
         self.newAdressForm?()
