@@ -349,7 +349,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
                     let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                     alert!.setMessage(msgInventory)
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                    self.selectQuantity!.lblQuantity?.text = "0\(maxProducts)"
+                    self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
                 }
             }
             let viewController = UIViewController()

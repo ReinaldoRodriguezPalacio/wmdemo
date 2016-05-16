@@ -73,6 +73,10 @@ class ShoppingCartProductsService : BaseService {
                         if  let ivabase = shoppingCartProduct["ivaAmount"] as? NSNumber {
                             iva = ivabase.stringValue
                         }
+                        var department = ""
+                        if  let departmentBase = shoppingCartProduct["department"] as? String {
+                            department = departmentBase
+                        }
                         
                         
                         var imageUrl = ""
@@ -90,6 +94,7 @@ class ShoppingCartProductsService : BaseService {
                         carProductItem.iva = iva
                         carProductItem.baseprice = baseprice
                         carProductItem.img = imageUrl
+                        carProductItem.department = department
                         
                         if let active = shoppingCartProduct["isActive"] as? String {
                             carProductItem.isActive = active
@@ -171,7 +176,7 @@ class ShoppingCartProductsService : BaseService {
             
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
             
-            let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable]
+            let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department]
             
             
             

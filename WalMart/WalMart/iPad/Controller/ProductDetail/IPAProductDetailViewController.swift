@@ -1226,24 +1226,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         return ""
     }
-    
-    func showProductDetailOptions() {
-        let controller = ProductDetailOptionsViewController()
-        controller.upc = self.upc as String
-        controller.name = self.name as String
-        controller.imagesToDisplay = imageUrl
-        controller.currentItem = 0
-        controller.onHandInventory = self.onHandInventory
-        controller.detailProductCart = self.productDetailButton!.detailProductCart
-        controller.strIsPreorderable = self.isPreorderable ? "true" : "false"
-        controller.facets = self.facets
-        controller.facetsDetails = self.facetsDetails
-        controller.colorItems = self.colorItems
-        controller.selectedDetailItem = self.selectedDetailItem
-        controller.modalPresentationStyle = UIModalPresentationStyle.FormSheet
-        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        controller.setAdditionalValues(self.listPrice as String, price: self.price as String, saving: self.saving as String)
-    }
+
     
     // MARK Color Size Functions
     func getFacetsDetails() -> [String:AnyObject]{

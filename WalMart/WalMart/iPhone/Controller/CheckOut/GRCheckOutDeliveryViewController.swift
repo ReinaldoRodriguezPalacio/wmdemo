@@ -246,6 +246,14 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
     }
     
+    /**
+     Builds UILabel with section title
+     
+     - parameter title: section title
+     - parameter frame: frame
+     
+     - returns: UILabel
+     */
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
@@ -255,6 +263,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         return sectionTitle
     }
     
+    /**
+     Shows address picker view
+     */
     func showAddressPicker(){
         let itemsAddress : [String] = self.getItemsTOSelectAddres()
         self.picker!.selected = self.selectedAddressIx

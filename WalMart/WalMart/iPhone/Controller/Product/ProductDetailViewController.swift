@@ -138,7 +138,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
-    
+    /**
+     Close or show action view if is necesary
+     */
     func closeActionView () {
         if isShowProductDetail {
             closeProductDetail()
@@ -161,12 +163,20 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     
-    
 
+    //MARK: TableViewDelegate
     func numberOfSectionsInTableView(tableView: UITableView!) -> Int {
         return 1
     }
     
+    /**
+     Returns the size for indexPath
+     
+     - parameter point:     point
+     - parameter indexPath: tableViewIndexPath
+     
+     - returns: CGFloat
+     */
     func sizeForIndexPath (point:(Int,Int),indexPath: NSIndexPath!)  -> CGFloat {
         switch point {
         case (0,0) :
@@ -231,7 +241,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
    
-    
+    /**
+     Return to the last viewController
+     */
     func backButton (){
         self.navigationController!.popViewControllerAnimated(true)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BACK.rawValue, label: "")
@@ -254,7 +266,16 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
 
     // MARK: - Collection view config
-    
+    /**
+     Shows product detail in PageController
+     
+     - parameter upc:          upc
+     - parameter items:        items
+     - parameter index:        index
+     - parameter imageProduct: image
+     - parameter point:        point
+     - parameter idList:       list identifier
+     */
     func goTODetailProduct(upc: String, items: [[String : String]], index: Int, imageProduct: UIImage?, point: CGRect, idList: String) {
         //Event
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_BUNDLE_PRODUCT_DETAIL_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
@@ -264,7 +285,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.ixSelected = index
         self.navigationController!.pushViewController(controller, animated: true)
     }
-    
+    /**
+     Shows crossSell and reload collectionView
+     */
     func showCrossSell() {
         isHideCrossSell = false
         //let numberOfRows = self.detailCollectionView.numberOfItemsInSection(0)
@@ -292,11 +315,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
    
     
-    
-    
-    
     func showProductDetail() {
-        
         if isShowShoppingCart {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.isShowShoppingCart = false
@@ -330,10 +349,21 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                     
                 }
         })
-        
-        
     }
     
+    /**
+     Adds or removes products in wishList
+     
+     - parameter upc:             product upc
+     - parameter desc:            product description
+     - parameter imageurl:        product Image
+     - parameter price:           product price
+     - parameter addItem:         add or remove item
+     - parameter isActive:        product is active
+     - parameter onHandInventory: product inventory
+     - parameter isPreorderable:  is preorderable product
+     - parameter added:           added block
+     */
     func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
         
         self.isWishListProcess = true
@@ -455,7 +485,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             addOrRemoveToWishListBlock!()
         }
     }
-    
+    /**
+     Adds product to shopping cart
+     
+     - parameter upc:      product upc
+     - parameter desc:     product description
+     - parameter price:    product price
+     - parameter imageURL: product image
+     - parameter comments: product comments
+     */
     func addProductToShoppingCart(upc:String,desc:String,price:String,imageURL:String, comments:String)
     {
         if selectQuantity == nil {
@@ -590,6 +628,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
     }
     
+    //MARK: scrollViewDelegate
     func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
        
         if isShowProductDetail == true &&  isShowShoppingCart == false{
@@ -624,7 +663,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             }
         }
     }
-    
+    /**
+     Animates product detail view
+     */
     func startAnimatingProductDetail() {
         let finalFrameOfQuantity = CGRectMake(0, 0, 320, 360)
         viewDetail = ProductDetailTextDetailView(frame: CGRectMake(0,360, 320, 0))
@@ -645,7 +686,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             self.productDetailButton?.deltailButton.selected = true
         })
     }
-    
+    /**
+     Close product detail view
+     */
     func closeProductDetail () {
         if isShowProductDetail == true {
         isShowProductDetail = false
@@ -667,7 +710,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
-    
+    /**
+     Presents a image in ImageDisplayCollectionViewController
+     
+     - parameter indexPath: indexPath or image to show
+     */
     func sleectedImage(indexPath: NSIndexPath) {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_PRODUCT_DETAIL_IMAGE_TAPPED.rawValue, label: "\(self.name) - \(self.upc)")
         
@@ -678,9 +725,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         controller.type = self.type.rawValue
         self.navigationController?.presentViewController(controller, animated: true, completion: nil)
     }
-    
+    /**
+     Shows not aviable product message
+     */
     func showMessageProductNotAviable() {
-        
         self.detailCollectionView.scrollRectToVisible(CGRectMake(0, 0, self.detailCollectionView.frame.width,  self.detailCollectionView.frame.height ), animated: false)
         let addedAlertNA = WishlistAddProductStatus(frame: CGRectMake(0, 360, 320, 0))
         addedAlertNA.generateBlurImage(self.view,frame:CGRectMake(0, 312, 320, 360))
@@ -697,12 +745,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     }
     
-    
+    /**
+     Gets product detail info from service
+     */
     func loadDataFromService() {
-        
         self.type = ResultObjectType.Mg
-        
-
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             //TODO signals
             let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
@@ -753,7 +800,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         
     }
-    
+    /**
+     Reloads product detail view with a NSDIctionary
+     
+     - parameter result: product detail data
+     */
     func reloadViewWithData(result:NSDictionary){
         self.name = result["description"] as! NSString
         self.price = result["price"] as! NSString
@@ -1051,7 +1102,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
-        
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen)
         } else {
@@ -1102,19 +1152,28 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: Shopping cart
+    /**
+     Builds an NSDictionary with data to add product to shopping cart
+     
+     - parameter quantity: quantity of product
+     
+     - returns: NSDictionary
+     */
     func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
         }
         let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable]
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
     }
     
     
     
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
-    
+    /**
+     Builds an image to share
+     */
     func shareProduct() {
         let imageHead = UIImage(named:"detail_HeaderMail")
         let imageHeader = UIImage(fromView: self.headerView)
@@ -1137,7 +1196,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
         self.navigationController!.presentViewController(controller, animated: true, completion: nil)
     }
-    
+    //MARK: activityViewControllerDelegate
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
         return "Walmart"
     }
@@ -1170,29 +1229,21 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return ""
     }
-    
+    /**
+     Reloads shopping cart button
+     
+     - parameter sender: sender
+     */
     func endUpdatingShoppingCart(sender:AnyObject) {
         self.productDetailButton?.reloadShoppinhgButton()
     }
     
-    func showProductDetailOptions() {
-        let controller = ProductDetailOptionsViewController()
-        controller.upc = self.upc as String
-        controller.name = self.name as String
-        controller.imagesToDisplay = imageUrl
-        controller.currentItem = 0
-        controller.type = self.type.rawValue
-        controller.onHandInventory = self.onHandInventory
-        controller.detailProductCart = self.productDetailButton!.detailProductCart
-        controller.strIsPreorderable = self.strisPreorderable
-        controller.facets = self.facets
-        controller.facetsDetails = self.facetsDetails
-        controller.colorItems = self.colorItems
-        controller.selectedDetailItem = self.selectedDetailItem
-        self.navigationController?.presentViewController(controller, animated: true, completion: nil)
-        controller.setAdditionalValues(self.listPrice as String, price: self.price as String, saving: self.saving as String)
-    }
     // MARK Color Size Functions
+    /**
+     Gets details objects from facets
+     
+     - returns: dictionary wit facet details
+     */
     func getFacetsDetails() -> [String:AnyObject]{
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
         for product in self.facets! {
@@ -1219,7 +1270,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return facetsDetails
     }
-    
+    /**
+     Gets upc from selected details
+     
+     - parameter itemsSelected: selected items
+     
+     - returns: String upc
+     */
     func getUpc(itemsSelected: [String:String]) -> String
     {
         var upc = ""
@@ -1242,7 +1299,13 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return upc
     }
-    
+    /**
+     Gets facet item from upc
+     
+     - parameter upc: product upc
+     
+     - returns: Dictionary with product data
+     */
     func getFacetWithUpc(upc:String) -> [String:AnyObject] {
         var facet = self.facets!.first
         for product in self.facets! {
@@ -1253,7 +1316,15 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         return facet!
     }
-    
+    /**
+     Gets detail from detail key
+     
+     - parameter key:       detail key
+     - parameter value:     detail value
+     - parameter keyToFind: key to find
+     
+     - returns: array of sting with details
+     */
     func getDetailsWithKey(key: String, value: String, keyToFind: String) -> [String]{
         let itemDetails = self.facetsDetails!["itemDetails"] as? [AnyObject]
         var findObj: [String] = []
@@ -1267,6 +1338,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     }
     
     //MARK: ProductDetailColorSizeDelegate
+    /**
+     gets next detail items or gets the product detail data
+     
+     - parameter selected: selected detail
+     - parameter itemType: item type
+     */
     func selectDetailItem(selected: String, itemType: String) {
         var detailOrderCount = 0
         let keys = Array(self.facetsDetails!.keys)

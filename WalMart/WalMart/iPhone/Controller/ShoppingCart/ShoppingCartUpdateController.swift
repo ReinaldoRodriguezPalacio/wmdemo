@@ -297,6 +297,12 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 isPreorderable = isPreorderableVal
             }
             
+            var category = ""
+            if let categoryVal = params["category"] as? String {
+              category = categoryVal
+            }
+            
+            
             if let type = params["type"] as?  String {
                 if type == ResultObjectType.Groceries.rawValue {
                     typeProduct = ResultObjectType.Groceries
@@ -351,7 +357,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             
             typeProduct = ResultObjectType.Mg
             
-            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
                 if self.timmer == nil {
@@ -415,8 +421,13 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 isPreorderable = isPreorderableVal
             }
             
+            var category = ""
+            if let categoryVal = params["category"] as? String{
+                category = categoryVal
+            }
+            
             let serviceAddProduct = ShoppingCartAddProductsService()
-            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+            serviceAddProduct.callCoreDataService(params["upc"] as! String, quantity: "1", comments: "",desc:params["desc"] as! String,price:params["price"] as! String,imageURL:params["imgUrl"] as! String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category , successBlock: { (result:NSDictionary) -> Void in
                 self.currentIndex += 1
                 self.callItemsService()
                 }) { (error:NSError) -> Void in
