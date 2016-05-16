@@ -12,7 +12,6 @@ protocol CalendarViewDelegate{
     func selectedDate(date:NSDate?)
 }
 
-/// Vista con un calendario
 class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDataSourceProtocol{
      var calendar: ABCalendarPicker?
      var alertView:IPOWMAlertViewController?
@@ -136,13 +135,13 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     /**
-     Valida que dos fechas tengan un intervalo de dias de separacion
+     Validates a range of days between two dates
      
-     - parameter theDate:  primera fecha
-     - parameter days:     dias del intervalo a comparar
-     - parameter fromDate: segunda fecha
+     - parameter theDate:  First date
+     - parameter days:     Days to compare
+     - parameter fromDate: Second date
      
-     - returns: Bool true si el intervalo entre las fechas es el mismo
+     - returns: Bool returns true if the difference of days between the dates is equals to days parameter
      */
     func isDate(theDate:NSDate, partOfIntervalOfDays days:Int, fromDate:NSDate) -> Bool {
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
@@ -191,13 +190,13 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     /**
-     Setea hora y minutos a una fecha
+     Add hours and minutes to a date
      
-     - parameter date:   fecha
-     - parameter hour:   horas a gregar
-     - parameter minute: minutos a agregar
+     - parameter date:   date
+     - parameter hour:   hours to add
+     - parameter minute: minutes to add
      
-     - returns: NSDate cpn la fecha y la hora
+     - returns: NSDate with date, hours and minutes
      */
     func createDateFrom(date:NSDate, forHour hour:Int, andMinute minute:Int) -> NSDate? {
         let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
@@ -212,14 +211,14 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
     }
     
     /**
-     Llama al delegado indicando la fecha seleccionada
+     Calls the delegate with the selected date
      */
     func save(){
         self.delegate?.selectedDate(self.selectedDate)
     }
     
     /**
-     Llama al delegado indicando la fecha original descartando si se elige una nueva
+     Calls the delegate with the original date
      */
     func cancel(){
         self.delegate?.selectedDate(self.originalDate)

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-/// Servicio para consultar referidos por usuario
+
 class ReferedCustomerService : GRBaseService {
     func callService(successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService([:],

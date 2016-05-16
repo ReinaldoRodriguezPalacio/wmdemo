@@ -8,7 +8,6 @@
 
 import Foundation
 
-/// Vista con el listado de direcciones de usuario.
 class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     var cancelButton: UIButton?
     var newButton: UIButton?
@@ -81,14 +80,14 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     }
     
     /**
-     Cierra la vista
+     Close the view
      */
     func close(){
         self.onCloseAddressView?()
     }
     
     /**
-     Envia al formulario de nueva direccion si hay menos de 12 direcciones
+     Shows the new address form only if the user has less than 12 addresses
      */
     func new(){
         if self.addressArray!.count >= 12 {
@@ -180,9 +179,6 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    /**
-     Agrega vista de loading
-     */
     func addViewLoad(){
         if viewLoad == nil {
             viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.bounds.width, self.bounds.height - 46))
@@ -194,7 +190,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
     
     //MARK: -Service
     /**
-     servicio que trae las direcciones por usuario
+     Gets the user addresses
      */
     func callServiceAddressGR(){
         self.addViewLoad()

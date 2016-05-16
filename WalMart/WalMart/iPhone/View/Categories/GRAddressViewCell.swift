@@ -8,7 +8,6 @@
 
 import Foundation
 
-/// Celda para listado de direcciones
 class GRAddressViewCell: UITableViewCell {
     var titleLabel : UILabel!
     var addressID : String!
@@ -51,14 +50,14 @@ class GRAddressViewCell: UITableViewCell {
     }
     
     /**
-     Seta los parametros de la celda
+     Sets the cell parameters
      
-     - parameter title:         titulo de la celda
-     - parameter font:          tipo de letra
-     - parameter numberOfLines: numero de lineas del titulo
-     - parameter textColor:     color del texto
-     - parameter align:         alineacion del texto
-     - parameter addressID:     identificador de la direccion
+     - parameter title:         title of the cell
+     - parameter font:          font of the cell text
+     - parameter numberOfLines: number of lines
+     - parameter textColor:     color of text
+     - parameter align:         align of text
+     - parameter addressID:     address identifier
      */
     func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,align:NSTextAlignment,addressID: String){
         titleLabel.text  = title
@@ -70,9 +69,9 @@ class GRAddressViewCell: UITableViewCell {
     }
     
     /**
-     Muestra o oculta el indicador de dirrecion incompleta
+     Shows or hides an error indicator
      
-     - parameter show: indica si se muestra o se oculta el indicador
+     - parameter show: indicates if shows or hides the indicator
      */
     func showErrorFieldImage(show:Bool){
         self.imageErrorField.hidden = !show
