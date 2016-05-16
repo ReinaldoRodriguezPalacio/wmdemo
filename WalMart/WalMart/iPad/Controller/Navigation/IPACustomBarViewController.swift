@@ -620,7 +620,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             self.view.bringSubviewToFront(splashVC.view)
         }
         
-        
+         self.btnSearch?.selected =  false
         
         return true
     }

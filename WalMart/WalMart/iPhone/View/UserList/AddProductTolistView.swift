@@ -97,14 +97,23 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     
     
     //MARK: Actios
+    /**
+    Call open Camera controller delegate
+     */
     func showCamera(){
         self.delegate?.showCamera()
     }
     
+    /**
+     Call open scan Camera controller delegate
+     */
     func scanCode (){
          self.delegate?.scanCode()
     }
     
+    /**
+     Disable edit search text in list Detail
+     */
     func closeSearchText(){
         changeFrame =  false
         self.layoutSubviews()
@@ -153,18 +162,5 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         
         return true
     }
-    
-    func textFieldDidBeginEditing(textField: UITextField) {
-        print("textFieldDidBeginEditing")
-    }
-    
-    func textFieldDidEndEditing(textField: UITextField) {
-
-         print("textFieldShouldEndEditing")
-        
-
-    }
-    
-    
 
 }
