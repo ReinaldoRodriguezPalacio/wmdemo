@@ -85,6 +85,13 @@ class PaymentOptionsView : UIView {
     //Las descripciones cambiaran de acuerdo a lo que el usuario indique,
     //hasta que el servivicio regrese esas descripciones
     
+    /**
+    Get description to payment types
+    
+    - parameter value: Type pyment
+    
+    - returns:description to payment type
+    */
     func assingDescription(value:String) -> String{
         
         var descripcion = ""
@@ -130,6 +137,11 @@ class PaymentOptionsView : UIView {
     }
 
 
+    /**
+     Select and deselect pyment type in checkout
+     
+     - parameter sender: payment type button
+     */
     func paymentCheckSelected(sender: UIButton){
         if(sender.selected){
             sender.selected = sender == afterButton ? true : false
@@ -179,6 +191,9 @@ class PaymentOptionsView : UIView {
         print("payment:::: \(selected) :::")
     }
     
+    /**
+     Cleaning options payment type, changed colors to labels
+     */
     func deselectOptions(){
         if afterButton != nil{
             afterButton!.selected = false

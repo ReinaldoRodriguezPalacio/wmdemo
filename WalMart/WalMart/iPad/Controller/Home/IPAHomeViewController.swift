@@ -106,8 +106,11 @@ class IPAHomeViewController : HomeViewController {
             paginatedProductDetail.itemsToShow = []
             for productRecomm  in arrayItemsResult {
                 let upc = productRecomm["upc"] as! String
-                let desc = productRecomm["description"] as! String
-                //let type = productRecomm["type"] as! String
+                var desc = ""
+                if let  descs = productRecomm["description"] as? String{
+                   desc =  descs
+                }
+                
                 let type = self.categoryType[catNameFilter]! == "gr" ? "groceries" : "mg"
 
                 paginatedProductDetail.itemsToShow.append(["upc":upc,"description":desc,"type":type])

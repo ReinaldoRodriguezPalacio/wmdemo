@@ -17,6 +17,9 @@ class SignUpMGViewController: SignUpViewController {
     var addressMgView:AddressViewController!
     
     
+    /**
+     Fucntion to registry user from cart MG, call login service and SignUpService
+     */
     override func registryUser() {
         
         if validateTerms() {

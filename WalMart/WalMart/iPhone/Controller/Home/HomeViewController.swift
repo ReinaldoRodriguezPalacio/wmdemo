@@ -249,7 +249,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 let arrayItemsResult =  arrayItems as! [AnyObject]
                 let recommendProduct = arrayItemsResult[indexPath.row] as! [String:AnyObject]
                 
-                let desc = recommendProduct["description"] as! String
+                var desc = ""
+                if let descs = recommendProduct["description"] as? String {
+                    desc = descs
+                }
+                
                 var price = ""
                 if let priceStr = recommendProduct["price"] as? String {
                     price = priceStr

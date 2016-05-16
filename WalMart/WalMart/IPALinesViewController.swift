@@ -91,6 +91,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             self.loading!.startAnnimating(true)
         }
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        //super.viewDidAppear(animated)
+    }
+    
+    /**
+     Removing animaion loading
+     */
     func finisSearch(){
         self.loading!.stopAnnimating()
         NSNotificationCenter.defaultCenter().removeObserver(self)
@@ -98,10 +106,11 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     }
 
     
-    override func viewDidAppear(animated: Bool) {
-        //super.viewDidAppear(animated)
-    }
-    
+    /**
+     Call lines service
+     
+     - parameter succesBlock: if succes service, return block
+     */
     func invokeServiceLine(succesBlock:(() -> Void)){
         print("familyId::::\(familyId)")
         let service =  LineService()
@@ -119,6 +128,9 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
     }
     
+    /**
+     Show popover with  lines list
+     */
    override func addPopover(){
         lineController =  IPALinesListViewController()
         lineController.departmentId = "0"
@@ -147,7 +159,9 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
        self.loading?.stopAnnimating()
         
     }
-    
+    /**
+     Remove loading and popToRootViewController
+     */
     override func closeCategory() {
         self.loading?.stopAnnimating()
         self.navigationController?.popToRootViewControllerAnimated(true)
@@ -156,6 +170,9 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         //self.view.removeFromSuperview()
     }
     
+    /**
+     Open popover with lines lists
+     */
     override func showFamilyController() {
         
         lineController.families = self.linesCamp!
@@ -175,7 +192,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         lineController.familyTable.reloadData()
     }
     
-    
+    /**
+     Select line in popover and send values to Cat Product View Controller
+     
+     - parameter department: departmen select
+     - parameter family:     family select
+     - parameter line:       line select
+     - parameter name:       Title
+     */
     func didSelectLineList(department:String,family:String,line:String, name:String) {
         
         lineController.departmentId = line

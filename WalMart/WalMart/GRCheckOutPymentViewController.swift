@@ -261,15 +261,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "reloadPromotios", name: "INVOKE_RELOAD_PROMOTION", object: nil)
     }
     
-    func reloadPromotios(){
-        self.addViewLoad()
-        self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow,endCallPromotions: { (finish) -> Void in
-            self.removeViewLoad()
-            print("finish")
-        })
-    
-    }
-    
     
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "INVOKE_RELOAD_PROMOTION", object: nil)
@@ -300,21 +291,34 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.sectionTitlePayments.frame =  CGRectMake(16,16.0, self.view.frame.width, lheight)
         }
         
-        
-        
         self.contenPayments.frame = CGRectMake(16,self.sectionTitlePayments.frame.maxY ,self.view.frame.width - 32 , 320)
         sectionTitleDiscount.frame = CGRectMake(16, self.contenPayments!.frame.maxY, width, lheight)
         self.discountAssociate!.frame = CGRectMake(margin,sectionTitleDiscount.frame.maxY,width,fheight)
-        
-       // self.paymentOptions!.frame = CGRectMake(16, self.sectionTitleDiscount!.frame.minY,  self.paymentOptions!.frame.width , fheight)
-        
         self.cancelShop!.frame = CGRectMake((self.view.frame.width/2) - 148,self.view.bounds.height - 65 + 16, 140, 34)
         self.confirmShop!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.view.bounds.height - 65 + 16, 140, 34)
         self.buildPromotionButtons()
     }
     
     
+    /**
+     call service getPromotios, to validate more promotions
+     */
+    func reloadPromotios(){
+        self.addViewLoad()
+        self.invokeGetPromotionsService(self.picker.textboxValues!,discountAssociateItems: self.picker.itemsToShow,endCallPromotions: { (finish) -> Void in
+            self.removeViewLoad()
+        })
     
+    }
+    
+    /**
+     Create title label to sections in payments options
+     
+     - parameter title: title to show
+     - parameter frame: frame of title
+     
+     - returns: label with title
+     */
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
@@ -324,12 +328,16 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         return sectionTitle
     }
     
-    
+    /**
+     Call function back, to return before section
+     */
     func cancelPurche (){
         self.back()
     }
     
-    
+    /**
+     Show confirm order before call to service shopping
+     */
     func continuePurche (){
         
         self.confirmOrderView  = GenerateOrderView.initDetail()
@@ -346,6 +354,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.confirmOrderView?.showGenerateOrder(self.paramsToConfirm!)
     }
     
+    /**
+      Call service sendOrderWithSlotPromo, and present confirm order view
+     */
     func sendOrder(){
         
         let serviceCheck = GRSendOrderService()
@@ -471,6 +482,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     //MARK : OrderConfirmDetailViewDelegate
+    /**
+    Close shopping cart when finishing confirm order
+    */
     func didFinishConfirm() {
 
         if IS_IPAD {
@@ -482,13 +496,16 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 
     }
     
-   
-    
-    
+    /**
+     Close cart when tap ok action in confirm view
+     */
     func didErrorConfirm() {
         self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
+    /**
+     Show loading animation in view
+     */
     func addViewLoad(){
         if viewLoad == nil {
             let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
@@ -500,6 +517,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     //MARK: - PayPal
+    /**
+    Show paypal controller
+    */
     func showPayPalPaymentController()
     {
         let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
@@ -541,6 +561,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
     }
     
+    /**
+     Show paypal future payments controller
+     */
     func showPayPalFuturePaymentController(){
         let futurePaymentController = PayPalFuturePaymentViewController(configuration: self.initPayPalConfig(), delegate: self)
         futurePaymentController!.modalPresentationStyle = UIModalPresentationStyle.FormSheet
@@ -574,6 +597,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         return PayPalEnvironmentNoNetwork
     }
     
+    /**
+     Remove loading from superview
+     */
     func removeViewLoad(){
         if self.viewLoad != nil {
             self.viewLoad.stopAnnimating()
@@ -592,7 +618,13 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     
     
     //MARK: InvokeServices
+    /**
+      Call getPromotions service, paint totals
     
+    - parameter pickerValues:           array values parameters to service
+    - parameter discountAssociateItems: values from associate
+    - parameter endCallPromotions:       call when finished service
+    */
     func invokeGetPromotionsService(pickerValues: [String:String], discountAssociateItems: [String],endCallPromotions:((Bool) -> Void))
     {
         var savinAply : Double = 0.0
@@ -721,8 +753,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     
-    //valida si se presenta el descuento de asociado
+    /**
+    Validate if the associate discount is showing in display
     
+    - parameter endCallDiscountActive: finish to call service
+    */
     func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
         let discountActive  = GRDiscountActiveService()
         discountActive.callService({ (result:NSDictionary) -> Void in
@@ -744,8 +779,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         })
     }
     
-    
-    
+    /**
+     Call getPaymentTypeService
+     
+     - parameter endCallPaymentOptions: block to end service success
+     */
     func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
         
         let service = GRPaymentTypeService()
@@ -781,6 +819,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         )
     }
     
+    /**
+     Call getSavingService, this service validate information of associate
+     
+     - parameter pickerValues:            values from cart,(total,addresId,associateNumber,date and determinat)
+     - parameter discountAssociateItems:  values from associate
+     */
     func invokeDiscountAssociateService(pickerValues: [String:String], discountAssociateItems: [String])
     {
         if pickerValues.count == discountAssociateItems.count
@@ -870,7 +914,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     }
     
     //MARK: InvokeServices - Paypal
+    /**
+    call updateOrderStatusPaypal Service
     
+    - parameter message:   Message to show in orderDetail
+    */
     func invokePayPalCancelService(message: String){
         let cancelPayPalService = GRPaypalUpdateOrderService()
         cancelPayPalService.callServiceCancelOrder(requestParams: self.cancelOrderDictionary, succesBlock: {(result:NSDictionary) -> Void in
@@ -886,6 +934,13 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
     }
     
+    /**
+     Call updateOrderStatusPaypal Service
+     
+     - parameter authorizationId: authorizationId
+     - parameter paymentType:     paymentType selected
+     - parameter idAuthorization: idAuthorization
+     */
     func invokePaypalUpdateOrderService(authorizationId:String,paymentType:String,idAuthorization:String){
         let updatePaypalService = GRPaypalUpdateOrderService()
         self.confirmOrderDictionary["authorizationId"] = authorizationId
@@ -910,6 +965,12 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
 
     //MARK: Actions
     
+    /**
+    Validate Required vaues from asociate form
+    
+    - parameter pickerValues: array wich fields asociate
+    - parameter completion:   if error in any field return a meessage
+    */
     func validateAssociate(pickerValues: [String:String], completion: (result:String) -> Void) {
         var message = ""
         if pickerValues[NSLocalizedString("checkout.discount.associateNumber", comment:"")] == nil ||  pickerValues[NSLocalizedString("checkout.discount.associateNumber", comment:"")]?.trim() == "" {
@@ -926,7 +987,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
     }
     
-    
+    /**
+     Create views witch any promotios, adding label and button select
+     
+     - returns: Last frame
+     */
     func buildPromotionButtons() -> CGFloat{
         let bounds = self.view.frame.size
         var width = bounds.width - 32.0
@@ -974,6 +1039,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         return posY
     }
     
+    /**
+     Reorganizing payment options an promotions
+     */
     func buildSubViews(){
         let bounds = self.view.frame.size
         let footerHeight:CGFloat = 60.0
@@ -997,9 +1065,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             self.payPalFuturePaymentField!.alpha = self.showPayPalFuturePayment ? 1 : 0
             self.payPalPaymentField!.alpha = 1
         }
-        
-        
-        //self.paymentOptions!.frame = CGRectMake(margin, self.paymentOptions!.frame.minY, widthField, fheight)
         
         let posY  = self.view.frame.maxY
         if showDiscountAsociate
@@ -1034,6 +1099,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var promotionSelect: String! = ""
     var promotionIds: String! = ""
     
+    /**
+     Mark the promotions selected
+     - parameter sender: button to promotion select
+     */
     func promCheckSelected(sender: UIButton){
         //self.promotionIds! = ""
         if promotionSelect != ""{
@@ -1073,7 +1142,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     func getDeviceNum() -> String {
         return  "24"
     }
-    
+    /**
+     Get appId
+     
+     - returns: version device
+     */
     func getAppId() -> String{
         return "\(UserCurrentSession.systemVersion()) \(UserCurrentSession.currentDevice())"
     }
@@ -1192,7 +1265,11 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         sender.selected = (sender == self.payPalPaymentField) ? true : !sender.selected
         self.changeButonTitleColor(sender)
     }
-    
+    /**
+     Change title color.
+     
+     - parameter sender: button cahnge color
+     */
     func changeButonTitleColor(sender:UIButton){
         for btnView in sender.subviews {
             if  btnView.isKindOfClass(UILabel) {
@@ -1206,7 +1283,9 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         }
     }
     
-    //MARK: GenerateOrderViewDelegate
+    /**
+     Validate send order or present paymentFuetureController
+     */
     func sendOrderConfirm() {
         print("Creando su orden")
         if self.payPalFuturePayment{
