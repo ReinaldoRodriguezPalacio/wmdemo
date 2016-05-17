@@ -13,6 +13,7 @@ import CoreData
 class ShoppingCartAddProductsService : BaseService {
     var useSignals = false
     var parameterSend : AnyObject?
+    var isInCart: Bool = false
     override init() {
         super.init()
         //self.urlForSession = true
@@ -152,7 +153,7 @@ class ShoppingCartAddProductsService : BaseService {
     
     func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         
-        if (UserCurrentSession.sharedInstance().hasPreorderable()) {// is preorderable
+        if (UserCurrentSession.sharedInstance().hasPreorderable() && !self.isInCart) {// is preorderable
             //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
             let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
             let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])

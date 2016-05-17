@@ -136,7 +136,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }else {
             self.quantity = quantity
             let updateService = ShoppingCartUpdateProductsService()
-            
+            updateService.isInCart = true
             updateService.callCoreDataService(upc, quantity: String(quantity), comments: "", desc:desc,price:price as String,imageURL:imageurl,onHandInventory:self.onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment ,successBlock: { (result:NSDictionary) -> Void in
                 
                 let totalInProducts = self.priceProduct * Double(quantity)
