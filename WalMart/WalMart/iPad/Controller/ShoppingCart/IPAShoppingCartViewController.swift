@@ -338,8 +338,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             selectQuantity!.addToCartAction = { (quantity:String) in
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
-                    let params  =  self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
-                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                    let updateService = ShoppingCartUpdateProductsService()
+                    updateService.isInCart = true
+                    updateService.callCoreDataService(cell.upc, quantity: String(quantity), comments: "", desc:cell.desc,price:cell.price as String,imageURL:cell.imageurl,onHandInventory:cell.onHandInventory,isPreorderable:cell.isPreorderable,category:cell.productDeparment ,successBlock: nil,errorBlock: nil)
+                    self.reloadShoppingCart()
                     self.popup!.dismissPopoverAnimated(false)
                 } else {
                      self.popup!.dismissPopoverAnimated(false)
