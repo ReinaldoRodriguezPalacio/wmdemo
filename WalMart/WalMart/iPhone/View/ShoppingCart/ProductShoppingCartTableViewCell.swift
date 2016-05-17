@@ -88,6 +88,7 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         self.onHandInventory = onHandInventory
         self.quantity = quantity
         self.productDeparment = category
+        self.isPreorderable = isPreorderable
         
         priceSelector.setValuesMg(self.upc, quantity: quantity, aviable: true)
         

@@ -152,28 +152,26 @@ class ShoppingCartAddProductsService : BaseService {
     }
     
     func callCoreDataService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        
-        if (UserCurrentSession.sharedInstance().hasPreorderable() && !self.isInCart) {// is preorderable
-            //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
-            let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
-            let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
-            errorBlock?(error)
-            return
-        } else {
-            for product in params as! NSArray {
-                if let preorderable = product["isPreorderable"] as? String {
-                if preorderable == "true" && !UserCurrentSession.sharedInstance().isEmptyMG() {
-                    let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
-                    let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
-                    errorBlock?(error)
-                    return
+        if !self.isInCart {
+            if (UserCurrentSession.sharedInstance().hasPreorderable()) {// is preorderable
+                //let items  = UserCurrentSession.sharedInstance().itemsMG!["items"] as? NSArray
+                let message = NSLocalizedString("mg.preorderanble.item",  comment: "")
+                let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+                errorBlock?(error)
+                return
+            } else {
+                for product in params as! NSArray {
+                    if let preorderable = product["isPreorderable"] as? String {
+                        if preorderable == "true" && !UserCurrentSession.sharedInstance().isEmptyMG() {
+                            let message = NSLocalizedString("mg.preorderanble.item.add",  comment: "")
+                            let error =  NSError(domain: ERROR_SERIVCE_DOMAIN, code:999, userInfo: [NSLocalizedDescriptionKey:message])
+                            errorBlock?(error)
+                            return
+                        }
                     }
                 }
             }
         }
-        
-        
-        
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
