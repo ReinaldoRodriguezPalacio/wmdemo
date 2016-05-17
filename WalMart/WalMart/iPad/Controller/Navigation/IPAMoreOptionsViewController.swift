@@ -144,7 +144,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
+        cell?.selected = false
         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
             self.openLoginOrProfile()
             self.selected = NSIndexPath(forRow: 0, inSection: 2)
