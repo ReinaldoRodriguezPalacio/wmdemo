@@ -77,7 +77,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var imageBlurView: UIImageView? = nil
     var imageLoadingCart: UIImageView!
     var openSearch = false
-    var totuView : TutorialHelpView!
+    var totuView : TutorialHelpView?
     //var viewSuper : IPOGroceriesView!
     
     var splashVC : IPOSplashViewController!
@@ -208,7 +208,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if self.helpView != nil {
             self.helpView!.frame = CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height)
             if totuView != nil {
-                totuView.frame = self.helpView!.bounds
+                totuView!.frame = self.helpView!.bounds
             }
         }
         layoutButtons()
@@ -1338,11 +1338,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             
             let imageArray = [["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
             totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
-            totuView.onClose = {() in
+            totuView!.onClose = {() in
                 self.removeHelpForSearchView()
                 self.addOrUpdateParam("mainHelp", value: "false")
             }
-            helpView?.addSubview(totuView)
+            helpView?.addSubview(totuView!)
             
             
             

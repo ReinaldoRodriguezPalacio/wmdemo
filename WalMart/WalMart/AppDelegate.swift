@@ -424,9 +424,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
             serviceSave.saveNotification(userInfo)
             
             if let customBar = self.window?.rootViewController as? CustomBarViewController {
-                
+               
                 if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
                 {
+                    customBar.helpView?.removeFromSuperview()
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                 }else{
                     
@@ -449,6 +450,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
             }
         }
         UIApplication.sharedApplication().cancelAllLocalNotifications()
+    
     }
   
     

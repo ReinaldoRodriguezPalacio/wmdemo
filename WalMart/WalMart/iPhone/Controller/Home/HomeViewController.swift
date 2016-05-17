@@ -294,7 +294,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
                 }
 
                 
-                productCell.setValues(imageUrl, productShortDescription: desc!, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice)
+                productCell.setValues(imageUrl, productShortDescription: desc, productPrice: price,saving:saving,preorderable:preorderable,listPrice: listPrice)
                
                 cell = productCell
         }
