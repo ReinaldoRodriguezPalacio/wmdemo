@@ -552,7 +552,7 @@
 "camfind.search.messagefour" = "Obteniendo resultados";
 
 "mg.preorderanble.item" = "No se pueden agregar artículos hasta que completes tu compra de preventa";
-"mg.preorderanble.item.add" = "No se pueden agregar artículos de preventa en tu carrito";
+"mg.preorderanble.item.add" = "No se permite combinar artículos de preventa o bajo pedido.";
 
 "gr.checkout.discount" = "Descuento aplicado";
 
