@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 class IPOLinesViewController : IPOCategoriesViewController {
 
     var lineController : LineViewController!
@@ -17,7 +18,8 @@ class IPOLinesViewController : IPOCategoriesViewController {
     var urlTicer : String!
     var familyName : String!
     var loading: WMLoadingView?
-    
+    var linesCamp :[[String:AnyObject]]?
+
     override func viewDidLoad() {
       self.view.backgroundColor =  UIColor.whiteColor()
 
@@ -80,8 +82,10 @@ class IPOLinesViewController : IPOCategoriesViewController {
         buttonClose.frame = CGRectMake(0, 0, 40, 40)
     }
     
-    var linesCamp :[[String:AnyObject]]?
     
+    /**
+     Call lines service
+     */
     func invokeServiceLine(){
         print("familyName :::\(familyName)")
         let service =  LineService()
@@ -100,9 +104,12 @@ class IPOLinesViewController : IPOCategoriesViewController {
     
     }
     
-    
+    /**
+     
+     Load family select in this case is from banner tap
+     - parameter indexPath: Department selected, in this case not use
+     */
     override func didSelectDeparmentAtIndex(indexPath: NSIndexPath){
-        
         lineController.departmentId = "0"
         lineController.families = self.linesCamp!
         lineController.selectedFamily = nil
@@ -110,9 +117,12 @@ class IPOLinesViewController : IPOCategoriesViewController {
         self.viewFamily.alpha = 1
         self.view.addSubview(self.viewFamily)
         self.loading!.stopAnnimating()
-       
         
     }
+    
+    /**
+     Return to home
+     */
     override func closeDepartment() {
         self.navigationController?.popToRootViewControllerAnimated(true)
     }

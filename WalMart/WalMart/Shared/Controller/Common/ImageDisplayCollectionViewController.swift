@@ -134,7 +134,7 @@ class ImageDisplayCollectionViewController: BaseController, UICollectionViewDele
         }
       
         self.pointButtons = buttons
-        self.collectionView!.reloadData()
+        //self.collectionView!.reloadData()
         
         if selectedButton == nil{
             selectedButton = self.pointButtons![0] as UIButton
