@@ -49,7 +49,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
-        categories.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
+        categories!.frame = CGRectMake(0, 0, self.view.frame.width, self.view.frame.height)
         familyController.view.frame = viewFamily.bounds
     }
     
@@ -101,12 +101,12 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         familyController.selectedFamily = nil
         familyController.familyTable.reloadData()
         
-        var categoryCell = self.categories.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
+        var categoryCell = self.categories!.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
         if categoryCell == nil {
-            self.categories.reloadItemsAtIndexPaths([indexPath])
-            categoryCell = self.categories.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
+            self.categories!.reloadItemsAtIndexPaths([indexPath])
+            categoryCell = self.categories!.cellForItemAtIndexPath(indexPath) as? DepartmentCollectionViewCell
         }
-        let frameOriginal = self.categories.convertRect(categoryCell!.frame, toView:  self.view)
+        let frameOriginal = self.categories!.convertRect(categoryCell!.frame, toView:  self.view)
         selectedView = IPODepartmentCollectionViewCell(frame:frameOriginal)
         selectedView.isOpen = true
         selectedView.setValuesFromCell(categoryCell!)
@@ -143,7 +143,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
+        let categoryCell = categories!.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
         
         let svcUrl = delegate?.getServiceURLIcon()
         let svcUrlCar = delegate?.getServiceURLHeader()
@@ -282,7 +282,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
 
     func tabBarFinish(){
-        if let layoutFlow = self.categories.collectionViewLayout as? UICollectionViewFlowLayout {
+        if let layoutFlow = self.categories?.collectionViewLayout as? UICollectionViewFlowLayout {
             if TabBarHidden.isTabBarHidden {
                 let insetToUse: CGFloat = (layoutFlow.sectionInset.bottom  - 49) < 0 ? layoutFlow.sectionInset.bottom : CGFloat(4.0)
                 layoutFlow.sectionInset = UIEdgeInsetsMake(layoutFlow.sectionInset.top, layoutFlow.sectionInset.left, insetToUse, layoutFlow.sectionInset.right)

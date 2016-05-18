@@ -21,7 +21,7 @@ protocol BaseCategoryViewControllerDelegate {
 
 class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UICollectionViewDataSource {
     
-    @IBOutlet var categories: UICollectionView!
+    @IBOutlet var categories: UICollectionView?
     var delegate : BaseCategoryViewControllerDelegate?
     var datasource : BaseCategoryViewControllerDataSource?
     var currentIndexSelected : NSIndexPath?
@@ -33,8 +33,8 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         
         items = self.datasource?.loadDepartments()
 
-        categories.delegate = self
-        categories.dataSource = self
+        categories!.delegate = self
+        categories!.dataSource = self
         
     }
    
@@ -44,7 +44,7 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let categoryCell = categories.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
+        let categoryCell = categories!.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
         
         let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
@@ -74,13 +74,13 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         
         
         self.currentIndexSelected = indexPath
-        self.categories.scrollEnabled = false
-        self.categories.userInteractionEnabled = false
-        self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
-        self.categories.reloadData()
+        self.categories!.scrollEnabled = false
+        self.categories!.userInteractionEnabled = false
+        self.categories!.contentInset = UIEdgeInsetsMake(0, 0, self.categories!.frame.height, 0)
+        self.categories!.reloadData()
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.categories.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
+            self.categories!.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.Top, animated: false)
         }) { (Bool) -> Void in
             print("")
            self.delegate?.didSelectDeparmentAtIndex(indexPath)
@@ -95,12 +95,12 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     
     func closeDepartment() {
         self.currentIndexSelected = nil
-        self.categories.reloadData()
+        self.categories!.reloadData()
         UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.categories.contentInset = UIEdgeInsetsZero
+            self.categories!.contentInset = UIEdgeInsetsZero
             }) { (end:Bool) -> Void in
-                self.categories.scrollEnabled = true
-                self.categories.userInteractionEnabled = true
+                self.categories!.scrollEnabled = true
+                self.categories!.userInteractionEnabled = true
         }
     }
     
