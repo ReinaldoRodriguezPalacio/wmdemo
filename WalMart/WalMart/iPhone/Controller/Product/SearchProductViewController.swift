@@ -323,7 +323,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.showEmptyMGGRView()
             }
         } else if self.allProducts == nil || self.allProducts!.count == 0 {
-            if finsihService || viewEmptyImage {
+            if (finsihService || viewEmptyImage) && !self.isLoading {
                 self.showEmptyView()
             }
         }
@@ -692,8 +692,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let errorBlock = { () -> Void in self.updateViewAfterInvokeService(resetTable:resetTable) }
         
         if self.searchContextType != nil {
-            
-            
             self.invokeSearchUPCGroceries(actionSuccess: { () -> Void in
                 self.invokeSearchUPCMG { () -> Void in
                     switch self.searchContextType! {
@@ -749,7 +747,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         else {
             print("No existe contexto de busqueda. Es necesario indicar el contexto")
         }
-        
     }
     
     func invokeSearchUPCGroceries(actionSuccess actionSuccess:(() -> Void)?) {
@@ -1024,7 +1021,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
            self.showEmptyView()
         }
         else {
-            
             if self.searchContextType != nil && self.isTextSearch && self.allProducts != nil {
                 //println("sorting values from text search")
                 //Order items
@@ -1218,16 +1214,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
-
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+        if IS_IPHONE {
             self.isLoading = true
         } else {
-            showLoadingIfNeeded(false)
+            self.showLoadingIfNeeded(false)
         }
-        
-    
-    
-        
         
         self.filterButton!.alpha = 1
         if self.originalSort == nil {
@@ -1266,8 +1257,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.allProducts = []
         self.mgResults!.resetResult()
         self.grResults!.resetResult()
-        
-
         self.getServiceProduct(resetTable: true)
     }
     
@@ -1278,7 +1267,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
     func apply(order:String, upcs: [String]) {
 
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+        if IS_IPHONE {
             self.isLoading = true
         } else {
             showLoadingIfNeeded(false)
@@ -1303,8 +1292,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 //            self.view.addSubview(self.empty)
 //            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
             self.finsihService =  true
-           
-            
             return
         } else {
             if self.empty != nil {

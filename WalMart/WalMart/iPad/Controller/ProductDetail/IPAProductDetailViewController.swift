@@ -780,14 +780,10 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
-        
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen, additionalAnimationFinish: { () -> Void in
             })
-        } else {
-          
         }
-        
     }
     
     func endUpdatingShoppingCart(sender:AnyObject) {

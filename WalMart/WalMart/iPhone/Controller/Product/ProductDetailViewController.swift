@@ -313,8 +313,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         })
         
     }
-   
-    
+    /**
+     Shows product detail information in popup view
+     */
     func showProductDetail() {
         if isShowShoppingCart {
             UIView.animateWithDuration(0.5, animations: { () -> Void in
