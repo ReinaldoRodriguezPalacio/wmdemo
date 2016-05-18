@@ -292,7 +292,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
         self.picker!.showPicker()
     }
-    
+    /**
+     Gets the address options
+     
+     - returns: [String]
+     */
     func getItemsTOSelectAddres()  -> [String]{
         var itemsAddress : [String] = []
         var ixSelected = 0
@@ -312,14 +316,23 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }
         return itemsAddress
     }
-    
+    /**
+     Returns the NSDate of string
+     
+     - parameter dateStr: date in string format
+     - parameter format:  string format of date
+     
+     - returns: NSDAte
+     */
     func parseDateString(dateStr:String, format:String="dd/MM/yyyy") -> NSDate {
         let dateFmt = NSDateFormatter()
         dateFmt.timeZone = NSTimeZone.defaultTimeZone()
         dateFmt.dateFormat = format
         return dateFmt.dateFromString(dateStr)!
     }
-    
+    /**
+     Sets the aviable dates to delibery
+     */
     func getAviableDates(){
         self.datesItems = []
         self.datesToShow = []
@@ -342,7 +355,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.datesToShow!.append(stringDate)
         }
     }
-    
+    /**
+     Returns the aviable date  format of a dte
+     
+     - parameter date: date to format
+     
+     - returns: [String:AnyObject]
+     */
     func returnAviableDate(date:NSDate) -> [String: AnyObject]{
         var aviableDate = self.datesItems!.last!
         var row = 0
@@ -366,7 +385,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.selectedDateTypeIx = NSIndexPath(forRow: row, inSection: 0)
         return aviableDate as! [String : AnyObject]
     }
-    
+    /**
+     Converts an hour string in another format
+     
+     - parameter hour: hour string
+     
+     - returns: return hour in format to show
+     */
     func getHourToShow(hour:String) -> String{
         var cellText = hour
         let firstRange = cellText.rangeOfString("(")
@@ -386,7 +411,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             }
         
     }
-    
+    /**
+     Sent to the following page only if the data is valid
+     */
     func next(){
         if !self.validate() {
             return
@@ -410,7 +437,6 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
  
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
         if let scroll = sender as? TPKeyboardAvoidingScrollView {
             if scrollForm != nil {
@@ -480,7 +506,13 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func buttomViewSelected(sender: UIButton) {
         
     }
-    
+    /**
+     Returns the view to replace in popup
+     
+     - parameter frame: view frame
+     
+     - returns:UIView
+     */
     func viewReplaceContent(frame:CGRect) -> UIView! {
         scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
         self.scrollForm.scrollDelegate = self
@@ -511,12 +543,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         
         scrollForm.addSubview(sAddredssForm)
         self.picker!.titleLabel.text = NSLocalizedString("checkout.field.new.address", comment:"")
-       
         return scrollForm
-        
-        
     }
-    
+    /**
+     Saves action of new view
+     */
     func saveReplaceViewSelected() {
         self.picker!.onClosePicker = nil
         let service = GRAddressAddService()
@@ -561,7 +592,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     }
 
     //MARK: Services
-    
+    /**
+     Gets the user addresses
+     */
     func reloadUserAddresses(){
         self.invokeAddressUserService({ () -> Void in
             self.getItemsTOSelectAddres()
@@ -576,7 +609,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.buildAndConfigureDeliveryType()
         })
     }
-    
+    /**
+     Gets the user addresses service
+     */
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
         //--self.addViewLoad()
         let service = GRAddressByUserService()
@@ -632,6 +667,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         )
     }
     
+    /**
+     Gets and shows the delibery types in a popup view
+     */
     func buildAndConfigureDeliveryType() {
         if self.selectedAddress != nil {
             self.invokeDeliveryTypesService({ () -> Void in
@@ -658,7 +696,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             })
         }
     }
-    
+    /**
+     Gets delivery types from an address
+     
+     - parameter endCallTypeService: block to call at end of service
+     */
     func invokeDeliveryTypesService(endCallTypeService:(() -> Void)) {
         //--self.addViewLoad()
         let service = GRDeliveryTypeService()
@@ -714,7 +756,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             )
         }
     }
-    
+    /**
+     Gets the available hours from date
+     
+     - parameter date: date
+     */
     func buildSlotsPicker(date:NSDate?) {
         //self.addViewLoad()
         var strDate = ""
@@ -737,7 +783,12 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             self.removeViewLoad()//ok
         })
     }
-    
+    /**
+      Gets available hours from date
+     
+     - parameter date:               date to get hours
+     - parameter endCallTypeService: end block
+     */
     func invokeTimeBandsService(date:String,endCallTypeService:(() -> Void)) {
         let service = GRTimeBands()
         let params = service.buildParams(date, addressId: self.selectedAddress!)
@@ -761,7 +812,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             endCallTypeService()
         }
     }
-    
+    /**
+     Shows or hides tooltip view
+     */
     func showTooltip(){
         self.viewContents!.alpha = 1.0
         self.imageIco!.alpha = 1.0
@@ -775,7 +828,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         self.lblInfo!.text = message
         NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(GRCheckOutDeliveryViewController.animationClose), userInfo: nil, repeats: false)
     }
-    
+    /**
+     Animation that closes toltip view
+     */
     func animationClose () {
         UIView.animateWithDuration(0.9,
             animations: { () -> Void in
@@ -792,7 +847,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                 }
         })
     }
-    
+    /**
+     Validates shipment items and slot items
+     
+     - returns: true if the data is valid
+     */
     func validate() -> Bool{
         if self.shipmentItems ==  nil {
             return self.viewError(self.shipmentType!,message: NSLocalizedString("checkout.error.shipment", comment:""))

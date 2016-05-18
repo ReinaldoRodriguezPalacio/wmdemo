@@ -1339,7 +1339,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     
     //MARK: ProductDetailColorSizeDelegate
     /**
-     gets next detail items or gets the product detail data
+     Gets next detail items or gets the product detail data
      
      - parameter selected: selected detail
      - parameter itemType: item type

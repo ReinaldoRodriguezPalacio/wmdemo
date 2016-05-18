@@ -185,7 +185,14 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
     }
-    
+    /**
+     Builds an UILabel with the title of section
+     
+     - parameter title: title of section
+     - parameter frame: frame of UILabel
+     
+     - returns: UILabel
+     */
     func buildSectionTitle(title: String, frame: CGRect) -> UILabel {
         let sectionTitle = UILabel(frame: frame)
         sectionTitle.textColor = WMColor.light_blue
@@ -195,6 +202,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         return sectionTitle
     }
     
+    /**
+     Sends to the next checkout page
+     */
     func next(){
         self.comments!.resignFirstResponder()
         let commentsText = self.comments!.text ==  NSLocalizedString("checkout.field.comments", comment:"") ? "" : self.comments!.text
@@ -222,7 +232,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.viewLoad = nil
         }
     }
-    
+    /**
+     Confirm call buttons action
+     
+     - parameter button: selected button
+     */
     func confirmCallSelected(button:UIButton){
         self.confirmCallButton?.selected = (self.confirmCallButton == button)
         self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
