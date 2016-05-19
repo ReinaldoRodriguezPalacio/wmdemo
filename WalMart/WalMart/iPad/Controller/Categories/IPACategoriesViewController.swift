@@ -139,6 +139,13 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
                 itemsLine = lineArray as! [[String:AnyObject]]
             }
             
+            if itemsLine.count == 0{
+                self.categories.contentInset = UIEdgeInsetsMake(0, 0, self.categories.frame.height, 0)
+                let cellSelected = categories.cellForItemAtIndexPath(selectedIndex) as! IPACategoryCollectionViewClass
+                self.didSelectLine("", family: "", line: "", name: "", imageDepartment: cellSelected.imageBackground.image, imageIcon: cellSelected.imageIcon.image)
+                return
+            }
+            
                 let lineSelected =  itemsLine[0]
                 let idLineDefault = lineSelected["id"] as! String
                 let nameLineDefault = lineSelected["name"] as! String
@@ -157,8 +164,9 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
                             self.didSelectLine(self.selIdDepartment,family:self.selIdFamily,line:self.selIdLine, name:self.selName,imageDepartment:cellSelected.imageBackground.image,imageIcon:cellSelected.imageIcon.image)
                         }
                 }
-            }
-        
+        //}
+    }
+    
         
         
        
