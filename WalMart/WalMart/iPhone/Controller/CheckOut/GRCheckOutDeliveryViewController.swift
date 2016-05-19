@@ -859,6 +859,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         if self.slotsItems!.count == 0{
            return self.viewError(self.deliveryDate!,message: NSLocalizedString("checkout.error.slots", comment:""))
         }
+        if !self.selectedAddressHasStore  {
+            return self.viewError(self.address!,message: NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+        }
         return true
     }
     

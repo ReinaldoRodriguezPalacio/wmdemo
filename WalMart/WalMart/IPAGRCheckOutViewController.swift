@@ -368,9 +368,15 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.content.setContentOffset(CGPointZero, animated: true)
         self.view.addSubview(self.backgroundView!)
         self.timeSlotsTable?.hidden = true
+        if self.errorView != nil {
+            self.errorView!.removeFromSuperview()
+            self.errorView!.focusError = nil
+            self.errorView = nil
+            self.address?.layer.borderColor =   UIColor.whiteColor().CGColor
+        }
     }
     
-    //Share 
+    //Share
     func shareShoppingCart() {
         self.delegateCheckOut?.shareShoppingCart()
     }
