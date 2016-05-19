@@ -1191,11 +1191,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,imagen])
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")
-        
-        let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
-
-        
-        self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        if urlWmart != nil {
+            let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+            self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        }
     }
     //MARK: activityViewControllerDelegate
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
