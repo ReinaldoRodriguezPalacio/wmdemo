@@ -1423,11 +1423,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func searchByText(text: String) {
-        if text.isNumeric() && (text.length() == 13 || text.length() == 14) {
-            
-            self.findProdutFromUpc(text)
-
-            
+        if text.isNumeric() {
+            let cero = text.length() < 13 ? "0":""
+            self.findProdutFromUpc("\(cero)\(text)")
         }else{
             
             let message = self.validateText(text)
