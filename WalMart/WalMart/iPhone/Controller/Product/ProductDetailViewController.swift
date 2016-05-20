@@ -220,11 +220,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
             productDetailButton!.price = self.price as String
-            
             productDetailButton!.isActive = self.strisActive
             productDetailButton!.onHandInventory = self.onHandInventory as String
             productDetailButton!.isPreorderable = self.strisPreorderable
-            
+            productDetailButton!.productDepartment = self.productDeparment
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
@@ -365,7 +364,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter isPreorderable:  is preorderable product
      - parameter added:           added block
      */
-    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
+    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         
         self.isWishListProcess = true
         
@@ -391,7 +390,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 addedAlertWL.imageBlurView.frame = CGRectMake(0, -312, 320, 360)
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
-                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:NSDictionary) -> Void in
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             

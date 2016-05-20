@@ -410,7 +410,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.isEdditing {
             return
         }
-        
 
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue , label: "")
         //ValidateActives
@@ -442,8 +441,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         if self.products != nil && self.products!.count > 0 {
-            
-            
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
                 let idx = idxVal as! Int

@@ -206,7 +206,9 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.isPreorderable =  product["isPreorderable"]  as? String == nil ? "false" : product["isPreorderable"] as! String
             cartProduct.status = NSNumber(integer: statusForProduct())
             cartProduct.type = ResultObjectType.Mg.rawValue
-            cartProduct.product.department = product["category"] as! String
+            if let category = product["category"] as? String {
+                cartProduct.product.department = category
+            }
 
             if UserCurrentSession.hasLoggedUser() {
                 cartProduct.user  = UserCurrentSession.sharedInstance().userSigned!

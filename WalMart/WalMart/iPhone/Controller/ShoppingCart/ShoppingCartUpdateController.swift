@@ -201,6 +201,11 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 if let lpreoObj = itemToShop["isPreorderable"] as? String {
                     isPreorderable = lpreoObj
                 }
+                
+                var category = ""
+                if let categoryVal = itemToShop["category"] as? String {
+                    category = categoryVal
+                }
 
                 
                 if let commentsParams = itemToShop["comments"] as? NSString{
@@ -216,7 +221,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 }
                 
                 
-                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable,isPreorderable:isPreorderable)
+                let param = serviceAddProduct.builParam(itemToShop["upc"] as! String, quantity: itemToShop["quantity"] as! String, comments: self.comments ,desc:itemToShop["desc"] as! String,price:itemToShop["price"] as! String,imageURL:itemToShop["imgUrl"] as! String,onHandInventory:numOnHandInventory,wishlist:wishlistObj,pesable:pesable,isPreorderable:isPreorderable,category:category)
                 
                 paramsitems.append(param)
             }
@@ -230,6 +235,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                     if self.timmer == nil {
                     self.showDoneIcon()
                     WishlistService.shouldupdate = true
+                    self.btnAddNote?.hidden = true
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
                 }
                 
