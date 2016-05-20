@@ -330,17 +330,23 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 if let preorder = shoppingCartProduct["isPreorderable"] as? String {
                     preorderable = preorder
                 }
+
+                var category = ""
+                if let categoryVal = shoppingCartProduct["category"] as? String {
+                    category = categoryVal
+                }
+
                 
                 let serviceAdd = AddItemWishlistService()
                 if ixCount < self.itemsInShoppingCart.count {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
                         //let path = NSIndexPath(forRow: , inSection: 0)
 
                         
                         }, errorBlock: { (error:NSError) -> Void in
                     })
                 }else {
-                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable, mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
                         self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
                         animation.removeFromSuperview()
                         }, errorBlock: { (error:NSError) -> Void in

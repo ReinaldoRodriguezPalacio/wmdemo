@@ -363,12 +363,17 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                 imageUrl = imageArray.objectAtIndex(0) as! String
             }
             
+            var category : String = ""
+            if let categoryVal = itemWishList["category"] as? String{
+                category  = categoryVal
+            }
+            
             
             
             if isActive == true && numOnHandInventory.integerValue > 0  { //&& isPreorderable == false
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageUrl, price: price as String , quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
                     //params.append(paramsItem)
                     if isPreorderable == "true" {
                         paramsPreorderable.append(paramsItem)

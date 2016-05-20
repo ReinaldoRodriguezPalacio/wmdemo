@@ -13,16 +13,16 @@ class AddItemWishlistService : BaseService {
     
     var mustUpdateWishList : Bool = true
     
-    func buildParams(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String) -> NSArray {
-        return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory]]
+    func buildParams(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category: String) -> NSArray {
+        return [["comments":comments,"quantity":quantity,"upc":UPC,"desc":desc,"imageURL":imageurl,"price":price,"isActive":isActive,"isPreordeable":isPreorderable,"onHandInventory":onHandInventory,"category":category]]
     }
     
-    func callService(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable),mustUpdateWishList:true,successBlock: successBlock, errorBlock: errorBlock)
+    func callService(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category),mustUpdateWishList:true,successBlock: successBlock, errorBlock: errorBlock)
     }
     
-    func callService(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,mustUpdateWishList:Bool,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable),mustUpdateWishList:mustUpdateWishList,successBlock: successBlock, errorBlock: errorBlock)
+    func callService(UPC:String,quantity:String,comments:String,desc:String,imageurl:String,price:String,isActive:String,onHandInventory:String,isPreorderable:String,category:String,mustUpdateWishList:Bool,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+        self.callService(buildParams(UPC, quantity: quantity, comments: comments,desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:category),mustUpdateWishList:mustUpdateWishList,successBlock: successBlock, errorBlock: errorBlock)
     }
 
     
@@ -97,6 +97,7 @@ class AddItemWishlistService : BaseService {
             wishlistProduct.product.isActive = product["isActive"] as! String
             wishlistProduct.product.isPreorderable = product["isPreordeable"] as! String
             wishlistProduct.product.onHandInventory = product["onHandInventory"] as! String
+            wishlistProduct.product.department = product["category"] as! String
             
             wishlistProduct.status = NSNumber(integer: WishlistStatus.Created.rawValue)
             if UserCurrentSession.hasLoggedUser() {

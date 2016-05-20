@@ -552,6 +552,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton!.reloadButton()
             productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             productDetailButton!.listButton.enabled = !self.isGift
+            productDetailButton!.productDepartment = self.productDeparment
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
@@ -874,14 +875,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
     }
     
-    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
+    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         
         self.isWishListProcess = true
         
         self.addOrRemoveToWishListBlock = {() in
             if addItem {
                 let serviceWishList = AddItemWishlistService()
-                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:NSDictionary) -> Void in
                     added(true)
                     
                     //Event
