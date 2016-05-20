@@ -340,7 +340,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation.location)
             let height = self.detailView!.retrieveCalculatedHeight()
             self.detailView!.frame = CGRectMake(0.0, 0.0, 256.0, height)
-            self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 100.0)
+            self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 85.0)
             
             view.image = UIImage(named:"pin_selected")
             

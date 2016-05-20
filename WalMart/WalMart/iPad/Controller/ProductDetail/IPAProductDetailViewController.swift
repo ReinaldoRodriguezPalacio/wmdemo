@@ -1100,7 +1100,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.tabledetail.delegate = self
         self.tabledetail.dataSource = self
         self.tabledetail.reloadData()
-        
+        self.defaultLoadingImg?.hidden = true 
         
         self.bannerImagesProducts.items = self.imageUrl
         self.bannerImagesProducts.collection.reloadData()
@@ -1116,7 +1116,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
-        self.defaultLoadingImg?.hidden = true 
+        
     }
     
     func removeListSelector(action action:(()->Void)?, closeRow: Bool ) {

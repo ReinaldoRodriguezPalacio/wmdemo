@@ -26,10 +26,6 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         //total.textAlignment = .Right
 
         totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
-        
-        
-        
-        
     }
     
     override func layoutSubviews() {
@@ -46,6 +42,9 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     func setValues(subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
         super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
+        self.valueTotal.label1?.textColor = WMColor.orange
+        self.valueTotal.label2?.textColor = WMColor.orange
+        self.total.textColor = WMColor.orange
         if numProds != "" {
             numProducts.text = "\(numProds) \(articles)"
         }

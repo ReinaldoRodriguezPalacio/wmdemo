@@ -435,10 +435,13 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         let identicalMG = UserCurrentSession.sharedInstance().identicalMG()
         let totArticlesMG = UserCurrentSession.sharedInstance().numberOfArticlesMG()
         
-        if (paramsPreorderable.count == 0 &&  totArticlesMG == 0) || ( paramsPreorderable.count == 0 && !identicalMG) {
+        if paramsPreorderable.count == 0 && params.count == 0 {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
             alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+            return
+        }
+        if params.count  > 0 && paramsPreorderable.count == 0 && (totArticlesMG == 0 || !identicalMG) {
             self.sendNewItemsToShoppingCart(params)
         }else{
             

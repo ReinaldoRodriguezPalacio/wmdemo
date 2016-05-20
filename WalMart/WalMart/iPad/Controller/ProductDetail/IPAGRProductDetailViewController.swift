@@ -162,7 +162,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.bannerImagesProducts.collection.reloadData()
             
             self.loadCrossSell()
-            
+            self.defaultLoadingImg?.hidden = true 
             self.titlelbl.text = self.name as String
             
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
