@@ -205,7 +205,7 @@ class FormFieldView : UIEdgeTextField {
             case .NumAddress:
                 validate = self.validateNumAddress()
             case .Name:
-                let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ ").invertedSet
+                let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúÁÉÍÓÚ ").invertedSet
                 if let contains = self.text!.rangeOfCharacterFromSet(alphanumericset) {
                     return   NSLocalizedString("field.validate.text.invalid",comment:"")
                 }

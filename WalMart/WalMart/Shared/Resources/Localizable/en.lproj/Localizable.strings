@@ -297,9 +297,11 @@
 "profile.address.super" = "Súper";
 "profile.address.tech" = "Tecnología, Hogar y más";
 "profile.address.already.exist" = "La dirección ya existe";
-"profile.address.error.max" = "Se ha alcanzado el máximo de direcciones, elimine ó actualice las existentes";
-"profile.address.fiscal.error.max" = "Se ha alcanzado el máximo de direcciones de facturación, elimine ó actualice las existentes";
-"profile.address.shipping.error.max" = "Se ha alcanzado el máximo de direcciones de entrega, elimine ó actualice las existentes";
+"profile.address.error.max" = "Se ha alcanzado el máximo de direcciones,\n elimine ó actualice las existentes";
+"profile.address.fiscal.error.max" = "Se ha alcanzado el máximo de direcciones\n de facturación, elimine ó actualice las existentes";
+"profile.address.shipping.error.max" = "Se ha alcanzado el máximo de direcciones\n de entrega,elimine ó actualice las existentes";
+"profile.address.update.ok" = "La actualización de la dirección\n ha sido exitosa.";
+"profile.address.add.ok" = "La Dirección ha sido Agregada\n Exitosamente.";
 
 //field
 "field.validate.required" = " Es requerido";

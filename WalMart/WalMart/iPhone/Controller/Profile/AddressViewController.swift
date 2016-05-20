@@ -621,6 +621,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.view.endEditing(true)
                 if self.showSaveAlert {
                     self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
+                    
                 }
                 
                 if addressShippingCont >= 12 && typeAddress == .Shiping {
@@ -640,11 +641,12 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 if self.showSaveAlert {
                     self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
                 }
-
+                
                 service.callPOSTService(params!, successBlock:{ (resultCall:NSDictionary?) in
                     if let message = resultCall!["message"] as? String {
                          if self.showSaveAlert {
-                            self.alertView!.setMessage("\(message)")
+                            let addres  = params!["AddressID"] as? String
+                            self.alertView!.setMessage(addres != nil ? NSLocalizedString("profile.address.update.ok",comment:"") :NSLocalizedString("profile.address.add.ok",comment:""))
                             self.alertView!.showDoneIcon()
                         }
                     }
