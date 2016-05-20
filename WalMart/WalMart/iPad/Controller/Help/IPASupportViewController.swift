@@ -116,8 +116,8 @@ class IPASupportViewController: SupportViewController {
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY + 5  , bounds.width, 15 )
         
        // callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)
-        sendmeMail.frame =   CGRectMake(bounds.midY - 20 , bounds.maxY - 100 , 85, 15)//label
-        buttomMail.frame =  CGRectMake(bounds.midY - 20 , sendmeMail.frame.midY - 100 , 85, 85)//btn
+        sendmeMail.frame =  CGRectMake(bounds.midX - 43 , bounds.maxY - 100 , 85, 15)//label
+        buttomMail.frame =  CGRectMake(bounds.midX - 43 , sendmeMail.frame.midY - 100 , 85, 85)//btn
     
         
     }

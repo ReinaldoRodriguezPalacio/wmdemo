@@ -32,8 +32,6 @@ class ShoppingCartCrossSellCollectionViewCell : ProductDetailCrossSellTableViewC
         
     }
 
-
-        
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collection.dequeueReusableCellWithReuseIdentifier("shoppingCartCrossSellCell", forIndexPath: indexPath) as! ShoppingCartCrossSellItemCollectionViewCell
         

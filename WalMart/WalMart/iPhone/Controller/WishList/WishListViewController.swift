@@ -707,7 +707,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
             }
         }
-        if self.items.count > 0 && hasItemsNotAviable {
+        if self.items.count == 1 && hasItemsNotAviable {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
             let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
             

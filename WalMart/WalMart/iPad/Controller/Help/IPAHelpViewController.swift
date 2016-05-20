@@ -19,6 +19,4 @@ class IPAHelpViewController: HelpViewController {
         }
         super.viewDidLoad()
     }
-    
-    
 }
