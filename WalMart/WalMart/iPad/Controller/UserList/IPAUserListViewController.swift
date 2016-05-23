@@ -185,7 +185,14 @@ class IPAUserListViewController: UserListViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = self.tableuserlist?.cellForRowAtIndexPath(self.rowSelected!)
+        var  cell : UITableViewCell?
+        if self.rowSelected != nil{
+            cell = self.tableuserlist?.cellForRowAtIndexPath(self.rowSelected!)
+        }else{
+            cell = self.tableuserlist?.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0))
+        }
+    
+       
         cell?.selected = false
         let lastSelected = self.rowSelected
         self.rowSelected = indexPath
