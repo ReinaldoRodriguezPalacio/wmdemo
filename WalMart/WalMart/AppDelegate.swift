@@ -493,9 +493,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
                     customBar.handleNotification(srtType,name:"",value:srtValue,bussines:srtBussines)
                 }
                 //TODO quitar en produccion 
-                UIAlertView(title: "Received link:",
-                    message:targetUrl.absoluteString, delegate: nil,
-                    cancelButtonTitle: "ok").show()
+//                UIAlertView(title: "Received link:",
+//                    message:targetUrl.absoluteString, delegate: nil,
+//                    cancelButtonTitle: "ok").show()
             }
         }
     }
