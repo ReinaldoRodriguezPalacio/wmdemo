@@ -65,7 +65,7 @@ class PaymentOptionsView : UIView {
                 
                     let descriptionLabel = UILabel(frame:CGRectMake(22,promSelect.frame.maxY , widthField - 22,14))
                     descriptionLabel.font = WMFont.fontMyriadProRegularOfSize(12)
-                    descriptionLabel.text = self.assingDescription(titleLabel.text!)
+                    descriptionLabel.text = ""//self.assingDescription(titleLabel.text!)Se comenta descripcion por peticion de usuario
                     descriptionLabel.lineBreakMode = NSLineBreakMode.ByTruncatingTail
                     descriptionLabel.textColor = WMColor.light_gray
                     descriptionLabel.tag = count

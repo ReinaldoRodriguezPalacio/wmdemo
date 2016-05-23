@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Tune
+//import Tune
 
 
 class BaseController : UIViewController {
@@ -63,90 +63,87 @@ class BaseController : UIViewController {
         BaseController.sendAnalytics(category, action: action, label: label)
     }
 
-    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
-        
-        print("TUNE_EVENT_\(event)")
-        switch(event){
-        case TUNE_EVENT_PURCHASE:
-            let payPalItems:NSMutableArray = []
-            for item in itesShop! {
-                
-                var itemPrice = 0.0
-                var quantity : UInt = 1
-                
-                if let priceItem = item["price"] as? Double {
-                     itemPrice = priceItem
-                }
-                if let priceItem = item["price"] as? String {
-                    itemPrice = Double(priceItem)!
-                }
-                
-                if let itemQuantity = item["quantity"] as? UInt{
-                    quantity = itemQuantity
-                }
-                
-                if let itemQuantity = item["quantity"] as? String {
-                    quantity = UInt(itemQuantity)!
-                }
-                
-                
-                if let types = item["type"] as? String
-                {
-                    if types == "1"{
-                        itemPrice = (Double(quantity) / 1000.0) * itemPrice
-                        quantity = 1
-                    }
-                }
-                var upcSend = ""
-                if let upc = item["upc"] as? String
-                {
-                    upcSend = upc
-                }
-                
-                let tuneItem : TuneEventItem = TuneEventItem(name: item["description"] as! String, unitPrice: CGFloat(itemPrice), quantity: quantity)
-                tuneItem.attribute1 = upcSend
-                payPalItems.addObject(tuneItem)
-            }
-            
-            Tune.setUserId(idUser)
-            
-            let event :TuneEvent = TuneEvent(name: event)
-            event.eventItems = payPalItems as [AnyObject]
-            event.refId = refId
-            event.revenue = CGFloat(total)
-            event.currencyCode = "MXN"
-            Tune.measureEvent(event)
-            
-            
-            break
-        case TUNE_EVENT_LOGIN:
-            Tune.setUserEmail(email)
-            Tune.setUserName(userName)
-            Tune.setGender(gender.lowercaseString == "male" ?TuneGender.Male:TuneGender.Female)
-            Tune.setUserId(idUser)
-            Tune.measureEventName(event)
-            print(TUNE_EVENT_LOGIN)
-            break
-        case TUNE_EVENT_REGISTRATION:
-            Tune.setUserEmail(email)
-            Tune.setUserName(userName)
-            Tune.setGender(gender.lowercaseString == "male" ? TuneGender.Male :TuneGender.Female)
-            Tune.setUserId(idUser)
-            Tune.measureEventName(TUNE_EVENT_REGISTRATION)
-            print(TUNE_EVENT_REGISTRATION)
-            
-            break
-            
-        default:
-            break
-            
-            
-        
-        }
-        
-        
-    
-    }
+//    class func sendTuneAnalytics(event:String,email:String,userName:String,gender:String,idUser:String,itesShop:NSArray?,total:NSNumber,refId:String){
+//        
+//        print("TUNE_EVENT_\(event)")
+//        switch(event){
+//        case TUNE_EVENT_PURCHASE:
+//            let payPalItems:NSMutableArray = []
+//            for item in itesShop! {
+//                
+//                var itemPrice = 0.0
+//                var quantity : UInt = 1
+//                
+//                if let priceItem = item["price"] as? Double {
+//                     itemPrice = priceItem
+//                }
+//                if let priceItem = item["price"] as? String {
+//                    itemPrice = Double(priceItem)!
+//                }
+//                
+//                if let itemQuantity = item["quantity"] as? UInt{
+//                    quantity = itemQuantity
+//                }
+//                
+//                if let itemQuantity = item["quantity"] as? String {
+//                    quantity = UInt(itemQuantity)!
+//                }
+//                
+//                
+//                if let types = item["type"] as? String
+//                {
+//                    if types == "1"{
+//                        itemPrice = (Double(quantity) / 1000.0) * itemPrice
+//                        quantity = 1
+//                    }
+//                }
+//                var upcSend = ""
+//                if let upc = item["upc"] as? String
+//                {
+//                    upcSend = upc
+//                }
+//                
+//                let tuneItem : TuneEventItem = TuneEventItem(name: item["description"] as! String, unitPrice: CGFloat(itemPrice), quantity: quantity)
+//                tuneItem.attribute1 = upcSend
+//                payPalItems.addObject(tuneItem)
+//            }
+//            
+//            Tune.setUserId(idUser)
+//            
+//            let event :TuneEvent = TuneEvent(name: event)
+//            event.eventItems = payPalItems as [AnyObject]
+//            event.refId = refId
+//            event.revenue = CGFloat(total)
+//            event.currencyCode = "MXN"
+//            Tune.measureEvent(event)
+//            
+//            
+//            break
+//        case TUNE_EVENT_LOGIN:
+//            Tune.setUserEmail(email)
+//            Tune.setUserName(userName)
+//            Tune.setGender(gender.lowercaseString == "male" ?TuneGender.Male:TuneGender.Female)
+//            Tune.setUserId(idUser)
+//            Tune.measureEventName(event)
+//            print(TUNE_EVENT_LOGIN)
+//            break
+//        case TUNE_EVENT_REGISTRATION:
+//            Tune.setUserEmail(email)
+//            Tune.setUserName(userName)
+//            Tune.setGender(gender.lowercaseString == "male" ? TuneGender.Male :TuneGender.Female)
+//            Tune.setUserId(idUser)
+//            Tune.measureEventName(TUNE_EVENT_REGISTRATION)
+//            print(TUNE_EVENT_REGISTRATION)
+//            
+//            break
+//            
+//        default:
+//            break
+//            
+//        
+//        }
+//        
+//    }
 
     
    

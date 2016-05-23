@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Tune
+//import Tune
 
 
 class SignUpMGViewController: SignUpViewController {
@@ -58,7 +58,7 @@ class SignUpMGViewController: SignUpViewController {
                             //self.alertView!.showDoneIcon()
                             self.successCallBack?()
                             }, errorBlock: { (error:NSError) -> Void in
-                                BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName:self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
+                                //BaseController.sendTuneAnalytics(TUNE_EVENT_REGISTRATION, email:self.email!.text!, userName:self.email!.text!, gender:gender, idUser: "", itesShop: nil,total:0,refId:"")
                                 //self.alertView!.close()
                                 self.addressMgView.registryAddress(self.email!.text!, password:self.password!.text!, successBlock: { (finish) -> Void in
                                     //Cerrar el registro de la direccion y mandar al checkout
