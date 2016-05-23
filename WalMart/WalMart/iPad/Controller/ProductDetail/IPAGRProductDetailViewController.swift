@@ -744,7 +744,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
 
-func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+override func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String
