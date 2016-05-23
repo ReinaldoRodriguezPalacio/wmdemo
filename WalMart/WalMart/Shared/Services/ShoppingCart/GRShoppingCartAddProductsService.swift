@@ -139,6 +139,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
 
         
         } else {
+             successBlock!([:])
             callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
         }
     }
@@ -200,10 +201,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
         
         WishlistService.shouldupdate = true
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
-        
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-        
     }
     
     func statusForProduct() -> Int {

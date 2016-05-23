@@ -67,7 +67,7 @@ class DetailListViewCell: ProductTableViewCell {
         self.quantityIndicator!.layer.cornerRadius = 16.0
         self.contentView.addSubview(self.quantityIndicator!)
 
-        self.separator = UIView(frame:CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth()))
+        self.separator = UIView(frame:CGRectMake(16, bounds.height - 1.0,self.frame.width - 16, 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.contentView.addSubview(self.separator!)
         
@@ -271,7 +271,7 @@ class DetailListViewCell: ProductTableViewCell {
             self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 26.0)
         }
 
-        self.separator!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
+        self.separator!.frame = CGRectMake(16, 108,self.frame.width - 16, 1.0)
         
         
     }

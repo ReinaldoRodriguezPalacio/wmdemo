@@ -23,15 +23,16 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
         iva.text = NSLocalizedString("shoppingcart.iva",comment:"")
         total.text = NSLocalizedString("shoppingcart.total",comment:"")
-        //total.textAlignment = .Right
-
         totalSavingTitle.text = NSLocalizedString("shoppingcart.saving",comment:"")
+        total.textAlignment = .Right
+        valueTotal.textAlignment = .Right
+        totalSavingTitle.textAlignment = .Right
+        valueTotalSaving.textAlignment = .Right
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         total.frame = CGRectMake(total.frame.origin.x , 25, total.frame.size.width, total.frame.size.height)
-
         valueTotal.frame = CGRectMake(valueTotal.frame.origin.x, 25 , valueTotal.frame.size.width, valueTotal.frame.size.height)
         totalSavingTitle.frame = CGRectMake(totalSavingTitle.frame.origin.x, total.frame.maxY + 4.0 , 101, 12)
         valueTotalSaving.frame = CGRectMake(totalSavingTitle.frame.maxX + 8,  totalSavingTitle.frame.minY , 50, 12)

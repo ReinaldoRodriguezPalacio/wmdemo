@@ -252,6 +252,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
                })
+                self.btnAddNote?.hidden = true
             }else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in

@@ -35,7 +35,7 @@ class DefaultListTableViewCell : UITableViewCell {
         self.nameView!.frame = CGRectMake(self.iconView.frame.maxX + 16, 16, self.frame.width - (self.iconView.frame.maxX + 32), 32)
         self.articlesView!.frame = CGRectMake(self.iconView.frame.maxX + 16,self.nameView!.frame.maxY +  2, 81, 14)
         self.priceView!.frame = CGRectMake(self.iconView.frame.maxX + 16, self.articlesView!.frame.maxY + 8, 81, 18)
-        self.separator!.frame = CGRectMake(nameView!.frame.minX, self.frame.height - 1,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth())
+        self.separator!.frame = CGRectMake(16, self.bounds.height - 1,self.frame.width - 16, 1)
         
     
     
@@ -65,7 +65,7 @@ class DefaultListTableViewCell : UITableViewCell {
         self.priceView!.textColor = WMColor.orange
         self.addSubview(self.priceView)
         
-        self.separator = UIView(frame:CGRectMake(nameView!.frame.minX, 108,self.frame.width - nameView!.frame.minX, AppDelegate.separatorHeigth()))
+        self.separator = UIView(frame:CGRectMake(16, 108,self.frame.width - 16, 1.0))
         self.separator!.backgroundColor = WMColor.light_light_gray
         self.addSubview(self.separator!)
 
