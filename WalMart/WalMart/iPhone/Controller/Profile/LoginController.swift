@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Tune
+//import Tune
 
 class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate {
     var close: UIButton?
@@ -382,12 +382,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         let service = LoginService()
         service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
             
-            let profile = resultCall!["profile"] as? NSDictionary
-            let gender = profile!["gender"] as? String
-            let email = resultCall!["email"] as? String
-            let idUser = resultCall!["idUser"] as? String
+//            let profile = resultCall!["profile"] as? NSDictionary
+//            let gender = profile!["gender"] as? String
+//            let email = resultCall!["email"] as? String
+//            let idUser = resultCall!["idUser"] as? String
             
-            BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email!, userName: email!, gender: gender!, idUser: idUser!, itesShop: nil,total:0,refId:"")
+            //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email!, userName: email!, gender: gender!, idUser: idUser!, itesShop: nil,total:0,refId:"")
             
             self.signInButton!.enabled = true
             if self.successCallBack == nil {
@@ -651,7 +651,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     
                     let idUser = resultCall!["idUser"] as? String
                     
-                    BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email, userName: email, gender: gender, idUser: idUser!, itesShop: nil,total:0,refId:"")
+                    //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email, userName: email, gender: gender, idUser: idUser!, itesShop: nil,total:0,refId:"")
                     
                     if self.alertView != nil {
                         self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))

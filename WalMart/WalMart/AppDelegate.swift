@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-import Tune
+//import Tune
 import AdSupport
 import CoreTelephony
 import iAd
@@ -20,7 +20,7 @@ import SystemConfiguration
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -158,10 +158,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         //MercuryService.sharedInstance().startMercuryService()
         
         //Tune.framework
-        let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
-        let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
-        let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
-        Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
+        //let mobileAppTracking =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMMobileAppTracking") as! NSDictionary
+        //let advertiserId = mobileAppTracking.objectForKey("Advertiser_id") as! String
+        //let conversionKey =  mobileAppTracking.objectForKey("Conversion_key") as! String
+        //Tune.initializeWithTuneAdvertiserId(advertiserId, tuneConversionKey:conversionKey)
         //Tune.setDelegate(self)
         //Tune.setDebugMode(true)
         //Tune.setAllowDuplicateRequests(false)
@@ -211,7 +211,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
         }
         
         //Tune.framework
-        Tune.measureSession()
+        //Tune.measureSession()
     }
     
     func applicationWillTerminate(application: UIApplication) {
@@ -462,7 +462,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,TuneDelegate {
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
        
-        Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
+        //Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         //Quitar para produccion
         handleURLFacebook(url,sourceApplication:sourceApplication!)
         
