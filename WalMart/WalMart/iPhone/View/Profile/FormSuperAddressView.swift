@@ -245,7 +245,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             
             if self.currentZipCode != self.zipcode.text {
                 self.currentZipCode = self.zipcode.text!
-                let zipCode = self.zipcode.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                var zipCode = self.zipcode.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 
                 self.neighborhoods = []
                 self.stores = []
@@ -257,6 +257,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 self.selectedStore = nil
                 
                 var padding : String = ""
+                
+                let textZipcode = String(format: "%05d",(zipCode as NSString).integerValue)
+                zipCode = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
                 
                 if zipCode.characters.count < 5 {
                     padding =  padding.stringByPaddingToLength( 5 - zipCode.characters.count , withString: "0", startingAtIndex: 0)

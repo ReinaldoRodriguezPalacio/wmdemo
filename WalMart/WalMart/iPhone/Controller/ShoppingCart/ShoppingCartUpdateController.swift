@@ -39,6 +39,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     var btnAddNote : UIButton!
     var content : UIView!
+    var showBtnAddNote: Bool = true
   
     
     override func viewDidLoad() {
@@ -229,13 +230,13 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
 
             
             if type == ResultObjectType.Groceries.rawValue {
+                self.showBtnAddNote = false
             serviceAddProduct.callService(requestParams : paramsitems, successBlock: { (result:NSDictionary) -> Void in
                 self.finishCall = true
                 
                     if self.timmer == nil {
                     self.showDoneIcon()
                     WishlistService.shouldupdate = true
-                    self.btnAddNote?.hidden = true
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
                 }
                 
@@ -252,7 +253,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                         self.viewBgImage.backgroundColor = WMColor.light_light_blue
                     }
                })
-                self.btnAddNote?.hidden = true
             }else {
                  let serviceAddProductMG = ShoppingCartAddProductsService()
                 serviceAddProductMG.callService(paramsitems, successBlock: { (result:NSDictionary) -> Void in
@@ -363,7 +363,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
             }
             
             typeProduct = ResultObjectType.Mg
-            
             serviceAddProduct.callService(params["upc"] as! NSString as String, quantity:params["quantity"] as! NSString as String, comments: "",desc:params["desc"] as! NSString as String,price:params["price"] as! NSString as String,imageURL:params["imgUrl"] as! NSString as String,onHandInventory:numOnHandInventory,isPreorderable:isPreorderable,category:category,parameter: params["parameter"] as? [String:AnyObject], successBlock: { (result:NSDictionary) -> Void in
                 
                 self.finishCall = true
@@ -489,8 +488,7 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
     
     func addActionButtons() {
         if goToShoppingCart != nil {
-            if typeProduct == ResultObjectType.Groceries {
-                
+            if typeProduct == ResultObjectType.Groceries && self.showBtnAddNote {
                 btnAddNote = UIButton(frame: CGRectMake(0, 248, self.view.frame.width, 20))
                 btnAddNote.setImage(UIImage(named: "notes_alert"), forState: UIControlState.Normal)
                 self.btnAddNote!.imageEdgeInsets = UIEdgeInsetsMake(0, 0.0, 0.0, 10.0)
@@ -499,7 +497,6 @@ class ShoppingCartUpdateController : UIViewController, CommentBubbleViewDelegate
                 }else {
                     self.btnAddNote.setTitle(NSLocalizedString("shoppingcart.addNote",comment:""), forState: UIControlState.Normal)
                 }
-                
                 btnAddNote.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
                 btnAddNote.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
                 btnAddNote.addTarget(self, action: #selector(ShoppingCartUpdateController.addNoteToProduct(_:)), forControlEvents: UIControlEvents.TouchUpInside)
