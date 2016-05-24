@@ -1,5 +1,5 @@
 //
-//  GetSchoolService.swift
+//  GetFamilyByCategoryService.swift
 //  WalMart
 //
 //  Created by Luis Alonso Salcido Martinez on 24/05/16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GetSchoolService: BaseService {
+class GetFamilyByCategoryService: BaseService {
     
     func callService(requestParams params:AnyObject, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
