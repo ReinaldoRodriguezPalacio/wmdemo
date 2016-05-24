@@ -743,10 +743,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
-                        
-                        let pesable = self.isPesable ? "1" : "0"
-                        
-                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"\(maxProducts)",pesable:pesable,isPreorderable:"\(self.isPreorderable)")
+                        var params  =  self.buildParamsUpdateShoppingCart(quantity)
                         params.updateValue(comments, forKey: "comments")
                         params.updateValue(self.type, forKey: "type")
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
@@ -760,7 +757,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                 alert!.setMessage(msgInventory)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                self.selectQuantity?.lblQuantity?.text = "0\(maxProducts)"
+                self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
             }
         }
         
@@ -778,6 +775,23 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         
         self.productDetailButton?.reloadButton()
+    }
+    
+    //MARK: Shopping cart
+    /**
+     Builds an NSDictionary with data to add product to shopping cart
+     
+     - parameter quantity: quantity of product
+     
+     - returns: NSDictionary
+     */
+    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+        var imageUrlSend = ""
+        if self.imageUrl.count > 0 {
+            imageUrlSend = self.imageUrl[0] as! NSString as String
+        }
+        let pesable = isPesable ? "1" : "0"
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
     }
     
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {

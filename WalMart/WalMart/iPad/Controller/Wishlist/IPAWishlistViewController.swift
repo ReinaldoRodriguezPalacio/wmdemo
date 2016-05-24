@@ -412,15 +412,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             if self.items.count > 1 {
                 for itemWishList in self.items {
                     let upc = itemWishList["upc"] as! NSString
-                    
-                    
-                    
-                    
-                    
                     let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                     if hasUPC {
                         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
-                        alert!.setMessage(NSLocalizedString("shoppingcart.isincart",comment:""))
+                        alert!.setMessage(NSLocalizedString("shoppingcart.alreadyincart",comment:""))
                         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                         
                         return

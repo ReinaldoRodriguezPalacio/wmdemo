@@ -597,6 +597,23 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
+    //MARK: Shopping cart
+    /**
+     Builds an NSDictionary with data to add product to shopping cart
+     
+     - parameter quantity: quantity of product
+     
+     - returns: NSDictionary
+     */
+    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+        var imageUrlSend = ""
+        if self.imageUrl.count > 0 {
+            imageUrlSend = self.imageUrl[0] as! NSString as String
+        }
+        let pesable = isPesable ? "1" : "0"
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
+    }
+    
     
     func closeContainerDetail(){
         if selectQuantity != nil {
@@ -678,7 +695,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         self.view.addSubview(viewDetail)
         
-        
+        self.productDetailButton?.reloadButton()
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.viewDetail!.frame = finalFrameOfQuantity
             self.viewDetail!.imageBlurView.frame = finalFrameOfQuantity
@@ -702,9 +719,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 if self.viewDetail != nil {
                 self.viewDetail.removeFromSuperview()
                 self.viewDetail = nil
-                    
-            
-            self.productDetailButton?.deltailButton.selected = false
+                self.productDetailButton?.deltailButton.selected = false
+                self.productDetailButton?.reloadButton()
                 }
         }
         }
@@ -1150,25 +1166,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 //self.viewDetail = nil
         }
     }
-    
-    //MARK: Shopping cart
-    /**
-     Builds an NSDictionary with data to add product to shopping cart
-     
-     - parameter quantity: quantity of product
-     
-     - returns: NSDictionary
-     */
-    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
-        var imageUrlSend = ""
-        if self.imageUrl.count > 0 {
-            imageUrlSend = self.imageUrl[0] as! NSString as String
-        }
-        let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
-    }
-    
-    
     
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
     /**
