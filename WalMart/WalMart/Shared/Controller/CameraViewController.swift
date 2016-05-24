@@ -483,8 +483,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
             scheduleTimmer.invalidate()
             return
         }
-        
-        self.alertView!.setMessage(arrayImages[++currentItem])
+        currentItem += 1
+        self.alertView!.setMessage(arrayImages[currentItem])
     }
     
     func checkPhotoStatus(token: String, idSearch: String){

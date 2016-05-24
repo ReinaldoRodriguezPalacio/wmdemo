@@ -164,7 +164,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
             self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), countItem)
         }
         self.iconView!.image = UIImage(named: "list")
-        self.listId = object["id"] as! String
+        self.listId = object["id"] as? String
         
         
         let editLenghtList : String = self.listName!.text!

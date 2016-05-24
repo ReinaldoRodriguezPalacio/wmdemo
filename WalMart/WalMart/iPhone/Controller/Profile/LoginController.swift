@@ -648,9 +648,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 }
             }else {
                 if self.closeAlertOnSuccess {
-                    
-                    let idUser = resultCall!["idUser"] as? String
-                    
                     //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email, userName: email, gender: gender, idUser: idUser!, itesShop: nil,total:0,refId:"")
                     
                     if self.alertView != nil {

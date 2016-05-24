@@ -12,8 +12,6 @@ import CoreData
 enum CustomBarNotification : String {
     case HideBar = "kCustomBarHideBarNotification"
     case ShowBar = "kCustomBarShowBarNotification"
-    case ShowCategories = "kCustomBarCategoriesNotification"
-    case ShowCartBadge = "kCustomBarShowCartBadgeNotification"
     case AddUPCToShopingCart = "kAddUPCToShopingCart"
     case AddItemsToShopingCart = "kAddItemsToShopingCart"
     case SuccessAddItemsToShopingCart = "kSuccessAddItemsToShopingCart"
@@ -114,8 +112,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.hideTabBar(_:)), name: CustomBarNotification.HideBar.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.showTabBar(_:)), name: CustomBarNotification.ShowBar.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("showCategories"), name: CustomBarNotification.ShowCategories.rawValue, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("showCartBadge:"), name: CustomBarNotification.ShowCartBadge.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.addItemToShoppingCart(_:)), name: CustomBarNotification.AddUPCToShopingCart.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.addItemsToShoppingCart(_:)), name: CustomBarNotification.AddItemsToShopingCart.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.notificaUpdateBadge(_:)), name: CustomBarNotification.UpdateBadge.rawValue, object: nil)

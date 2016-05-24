@@ -506,8 +506,6 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             return true
         case SWCellState.CellStateCenter:
             return !isEdditing
-        default:
-            return !isEdditing
         }
     }
     

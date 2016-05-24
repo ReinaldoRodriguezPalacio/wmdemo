@@ -32,7 +32,7 @@ public class MercuryService {
     }
 
     public func startMercuryService(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateMercuryDelivery"), name: "delivery", object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("updateMercuryDelivery"), name: "delivery", object: nil)
     
         if self.username != "" {
             setActiveUserName(self.username)

@@ -156,7 +156,7 @@ class InvoiceConfirmView: UIView,TPKeyboardAvoidingScrollViewDelegate, UIScrollV
         self.editButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.editButton!.backgroundColor = WMColor.light_blue
         self.editButton!.layer.cornerRadius = 17
-        self.editButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
+        //self.editButton!.addTarget(self, action: "back", forControlEvents: UIControlEvents.TouchUpInside)
         self.addSubview(editButton!)
         
         self.saveButton = UIButton()

@@ -53,7 +53,8 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 let labelCharacteristic = UILabel(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
                 labelCharacteristic.attributedText = attrString
                 labelCharacteristic.numberOfLines = 0
-                if index++ % 2 == 0 {
+                index += 1
+                if index % 2 == 0 {
                     bgView.backgroundColor = UIColor.whiteColor()
                 }else{
                     bgView.backgroundColor = WMColor.light_light_gray

@@ -12,7 +12,7 @@ class GRPaymentTypeService: GRBaseService {
 
     
     func callService(payment:String, successBlock:((NSArray) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        let afManager = getManager()
+        //let afManager = getManager()
         self.callService(requestParams: ["payment":payment,"isPaypalOn":true], successBlock: successBlock, errorBlock: errorBlock)
     }
     
