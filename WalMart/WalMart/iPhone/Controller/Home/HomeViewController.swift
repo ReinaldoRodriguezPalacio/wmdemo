@@ -57,7 +57,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
       
 
     
-        print("::::PLECA VALOR:::")
         NSTimer.scheduledTimerWithTimeInterval(20.0, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: false)
         
         self.recommendItems = []
@@ -77,8 +76,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func removePleca(){
         
         UIView.animateWithDuration(0.2 , animations: {
-            print(":::removePleca::::")
-           
             self.titleView?.alpha = 0
             self.detailsButton?.alpha = 0
             self.imageNotification?.alpha = 0
@@ -108,7 +105,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     func showPleca (){
-        print(":::showPleca::::")
         if plecaItems !=  nil && plecaItems!.count > 0 {
             if alertBank == nil {
                 alertBank = UIView(frame: CGRectMake(0, 0, self.view.frame.width, 0))
@@ -366,6 +362,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if urlTteaser !=  nil  {
             components[0] = "lc"
         }
+        //Pendiente validar bts
+        let componentsBts = queryBanner.componentsSeparatedByString("bts")
+        if componentsBts.count > 0 {
+            components[0] = "bts"
+        }
+        
         if(components.count <= 1 && urlTteaser == nil){
             return
         }
@@ -403,6 +405,9 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         case "lc":
             self.openLandinCampaign(urlTteaser!,idFamily:queryBanner)
             print("Hacer busqueda por lines ")
+        case "bts":
+            self.opnenLandingCategory(urlTteaser!,idCategory:queryBanner)
+            print("Hacer busqueda por lines ")
    
         default:
             return
@@ -411,7 +416,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
               
     }
     
-    
+    /**
+     Open linescontroller
+     
+     - parameter urlTicer: url of image
+     - parameter idFamily: family search
+     */
     func openLandinCampaign(urlTicer:String,idFamily:String){
         
         let controller = IPOLinesViewController()
@@ -419,6 +429,21 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         controller.familyName = idFamily
         self.navigationController!.pushViewController(controller, animated: true)
 
+    }
+    
+    /**
+     Open controller
+     
+     - parameter urlTicer:   image use in next controller
+     - parameter idCategory: idCategory Search
+     */
+    func opnenLandingCategory(urlTicer:String,idCategory:String){
+
+        print("Abrir categorias de escuelas")
+        print(urlTicer)
+        print(idCategory)
+        print("::::::::")
+        
     }
     
     
