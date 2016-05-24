@@ -1038,6 +1038,10 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.GetSchoolService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getFamylyByCategory.tx</string>
+			<key>WalmartMG.GetGradesService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLinesByFamily.txt</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>
