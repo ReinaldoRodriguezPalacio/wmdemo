@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Tune
+//import Tune
 
 
 class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegate,TPKeyboardAvoidingScrollViewDelegate,UIScrollViewDelegate,UIPickerViewDelegate,AlertPickerViewDelegate,OrderConfirmDetailViewDelegate,PayPalPaymentDelegate, PayPalFuturePaymentDelegate,GenerateOrderViewDelegate{
@@ -395,10 +395,10 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BUY_GR.rawValue , label: "")
             // deliveryAmount
-            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
-            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
-            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
-            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
+//            let userEmail = UserCurrentSession.sharedInstance().userSigned!.email as String
+//            let userName = UserCurrentSession.sharedInstance().userSigned!.profile.name as String
+//            let idUser = UserCurrentSession.sharedInstance().userSigned!.profile.user.idUser as String
+//            let items :[[String:AnyObject]] = UserCurrentSession.sharedInstance().itemsGR!["items"]! as! [[String:AnyObject]]
             
             
             
@@ -415,7 +415,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             var correlationId = ""
             var deliveryAmount = purchaseOrder["deliveryAmount"] as! Double
             
-            BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
+            //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
             
             let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
             

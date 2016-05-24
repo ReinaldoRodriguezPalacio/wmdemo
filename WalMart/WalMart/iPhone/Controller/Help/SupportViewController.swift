@@ -174,11 +174,12 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY  , bounds.width, 15 )
         
         if IS_IPHONE {
-            callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)
-            callme.frame =  CGRectMake(64 , callmeNumber.frame.midY - 20  , 64, 15)
-            sendmeMail.frame =   CGRectMake(callme.frame.maxX + 64 , callmeNumber.frame.midY - 20 , 64, 15)
-            buttomCall.frame =  CGRectMake(64 , callme.frame.midY - 78 , 64, 64)
-            buttomMail.frame =  CGRectMake(buttomCall.frame.maxX + 64 , callme.frame.midY - 78 , 64, 64)
+            let referenceHeight = IS_IPHONE_4_OR_LESS ? bounds.midY + 30 : bounds.midY
+            callmeNumber.frame =  CGRectMake(32 , referenceHeight + 120 , 131, 15)
+            callme.frame =  CGRectMake(64 , referenceHeight + 106  , 64, 15)
+            sendmeMail.frame =   CGRectMake(callme.frame.maxX + 67 , referenceHeight + 106 , 64, 15)
+            buttomCall.frame =  CGRectMake(64 , referenceHeight + 40 , 64, 64)
+            buttomMail.frame =  CGRectMake(buttomCall.frame.maxX + 64 , referenceHeight + 40 , 64, 64)
         }else{
             callmeNumber.hidden = true
             callme.hidden = true

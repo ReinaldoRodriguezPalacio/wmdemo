@@ -57,6 +57,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         tableView?.registerClass(DetailListViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         tableView?.delegate = self
         tableView?.dataSource = self
+        tableView?.separatorStyle = .None
         self.view.addSubview(tableView!)
         
         if self.detailItems?.count == 0 || self.detailItems == nil {

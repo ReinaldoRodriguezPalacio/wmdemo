@@ -552,6 +552,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             productDetailButton!.reloadButton()
             productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             productDetailButton!.listButton.enabled = !self.isGift
+            productDetailButton!.productDepartment = self.productDeparment
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
@@ -742,10 +743,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                     }, completeClose: { () -> Void in
                         
                         self.isShowShoppingCart = false
-                        
-                        let pesable = self.isPesable ? "1" : "0"
-                        
-                        var params  =  CustomBarViewController.buildParamsUpdateShoppingCart(upc, desc: desc, imageURL: imageURL, price: price,quantity: quantity,onHandInventory:"\(maxProducts)",pesable:pesable,isPreorderable:"\(self.isPreorderable)")
+                        var params  =  self.buildParamsUpdateShoppingCart(quantity)
                         params.updateValue(comments, forKey: "comments")
                         params.updateValue(self.type, forKey: "type")
                         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
@@ -759,7 +757,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
                 let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
                 alert!.setMessage(msgInventory)
                 alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
-                self.selectQuantity?.lblQuantity?.text = "0\(maxProducts)"
+                self.selectQuantity?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
             }
         }
         
@@ -779,6 +777,23 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.productDetailButton?.reloadButton()
     }
     
+    //MARK: Shopping cart
+    /**
+     Builds an NSDictionary with data to add product to shopping cart
+     
+     - parameter quantity: quantity of product
+     
+     - returns: NSDictionary
+     */
+    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+        var imageUrlSend = ""
+        if self.imageUrl.count > 0 {
+            imageUrlSend = self.imageUrl[0] as! NSString as String
+        }
+        let pesable = isPesable ? "1" : "0"
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
+    }
+    
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen, additionalAnimationFinish: { () -> Void in
@@ -793,8 +808,6 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void),additionalAnimationFinish:(() -> Void)) {
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen, additionalAnimationFinish: additionalAnimationFinish)
-        } else {
-            
         }
         
     }
@@ -874,14 +887,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
     }
     
-    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
+    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         
         self.isWishListProcess = true
         
         self.addOrRemoveToWishListBlock = {() in
             if addItem {
                 let serviceWishList = AddItemWishlistService()
-                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+                serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:NSDictionary) -> Void in
                     added(true)
                     
                     //Event
@@ -1099,7 +1112,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.tabledetail.delegate = self
         self.tabledetail.dataSource = self
         self.tabledetail.reloadData()
-        
+        self.defaultLoadingImg?.hidden = true 
         
         self.bannerImagesProducts.items = self.imageUrl
         self.bannerImagesProducts.collection.reloadData()
@@ -1115,7 +1128,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         FBSDKAppEvents.logEvent(FBSDKAppEventNameViewedContent, valueToSum:self.price.doubleValue, parameters: [FBSDKAppEventParameterNameCurrency:"MXN",FBSDKAppEventParameterNameContentType: "productmg",FBSDKAppEventParameterNameContentID:self.upc])
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHOW_PRODUCT_DETAIL.rawValue, label: "\(self.name) - \(self.upc)")
-        self.defaultLoadingImg?.hidden = true 
+        
     }
     
     func removeListSelector(action action:(()->Void)?, closeRow: Bool ) {
@@ -1181,13 +1194,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         
         
         let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=\(self.upc)")
-        
-        let imgResult = UIImage.verticalImageFromArrayProdDetail([imageHead!,imageHeader,product.imageView!.image!,screen])
-        //let imgResult = UIImage.verticalImageFromArray([imageHead!,product.imageView!.image!,screen],andWidth:320)
-        let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
-        popup = UIPopoverController(contentViewController: controller)
-        
-        popup!.presentPopoverFromRect(CGRectMake(700, 100, 300, 100), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        if urlWmart != nil {
+            let imgResult = UIImage.verticalImageFromArrayProdDetail([imageHead!,imageHeader,product.imageView!.image!,screen])
+            //let imgResult = UIImage.verticalImageFromArray([imageHead!,product.imageView!.image!,screen],andWidth:320)
+            let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+            popup = UIPopoverController(contentViewController: controller)
+            popup!.presentPopoverFromRect(CGRectMake(700, 100, 300, 100), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        }
         
     }
     

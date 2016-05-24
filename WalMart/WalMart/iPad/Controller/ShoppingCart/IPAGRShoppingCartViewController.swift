@@ -291,8 +291,8 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     
     
+    //MARK: IPAGRLoginUserOrderViewDelegate
     func showlogin() {
-        
         var cont = IPALoginController.showLogin()
         cont!.closeAlertOnSuccess = false
         cont!.successCallBack = {() in
@@ -332,7 +332,13 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
     
+    func shareCart(){
+        self.shareShoppingCart()
+    }
     
+    func addCartProductToList() {
+        self.addCartToList()
+    }
     
     override func loadGRShoppingCart() {
         super.loadGRShoppingCart()
@@ -368,6 +374,44 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         }
     }
     
-    
+    override func addCartToList(){
+        if self.listSelectorController == nil {
+            self.addToListButton!.selected = true
+            let frame = self.view.frame
+            self.listSelectorController = ListsSelectorViewController()
+            self.listSelectorController!.hiddenOpenList = true
+            self.listSelectorController!.delegate = self
+            //self.listSelectorController!.productUpc = self.upc
+            self.addChildViewController(self.listSelectorController!)
+            self.listSelectorController!.view.frame = CGRectMake(0.0, frame.height, frame.width, frame.height)
+            //self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
+            self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
+            self.listSelectorController!.didMoveToParentViewController(self)
+            self.listSelectorController!.view.clipsToBounds = true
+            
+            self.listSelectorController!.generateBlurImage(self.view, frame: CGRectMake(0, 0, frame.width, frame.height))
+            self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, -frame.height, frame.width, frame.height)
+            self.view.addSubview(self.listSelectorController!.view)
+            
+            UIView.animateWithDuration(0.5,
+                animations: { () -> Void in
+                    self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
+                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+                },
+                    completion: { (finished:Bool) -> Void in
+                    if finished {
+                    }
+                }
+            )
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
+                self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+            })
+        }
+        else {
+            self.removeListSelector(action: nil)
+        }
+    }
     
 }

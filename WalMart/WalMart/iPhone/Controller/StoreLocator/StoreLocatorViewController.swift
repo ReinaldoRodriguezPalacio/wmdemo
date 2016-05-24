@@ -229,9 +229,8 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         
         self.clubMap!.frame = CGRectMake(0.0, self.header!.frame.maxY, bounds.width, height)
         self.clubCollection?.frame = CGRectMake(0.0, self.searchView!.frame.maxY, bounds.width, height - 72)
-
         if self.segmentedView!.frame.origin.y == 16 {
-            self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 38.0, 150.0, 22.0)
+            self.segmentedView!.frame = CGRectMake(16.0, bounds.height - 84.0, 150.0, 22.0)
         }
         if self.toggleViewBtn != nil {
             bounds = self.header!.frame
@@ -340,7 +339,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             self.detailView!.setValues(annotation.storeEntity, userLocation: mapView.userLocation.location)
             let height = self.detailView!.retrieveCalculatedHeight()
             self.detailView!.frame = CGRectMake(0.0, 0.0, 256.0, height)
-            self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 100.0)
+            self.detailView!.center = CGPointMake((self.viewBgDetailView!.frame.width/2), (self.viewBgDetailView!.frame.height/2) - 90.0)
             
             view.image = UIImage(named:"pin_selected")
             
@@ -709,20 +708,9 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     }
     
     func showTabBar() {
-        bottomSpaceMap?.constant = 44
-        bottomSpaceButton?.constant = 60
-        if bottomSpaceButton != nil  {
-            self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
-        }
-        
     }
     
     func hideTabBar() {
-        bottomSpaceMap?.constant = 0
-        bottomSpaceButton?.constant = 16
-        if bottomSpaceButton != nil  {
-           self.segmentedView!.center = CGPointMake(self.segmentedView!.center.x, self.usrPositionBtn!.center.y -  (bottomSpaceButton!.constant - 16))
-        }
     }
     
     override func back() {

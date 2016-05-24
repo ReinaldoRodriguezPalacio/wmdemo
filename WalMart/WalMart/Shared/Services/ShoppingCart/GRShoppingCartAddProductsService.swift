@@ -47,8 +47,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
         return ["comments":comments,"quantity":quantity,"upc":upc]
     }
     
-    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String) -> [String:AnyObject] {
-        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable]
+    func builParam(upc:String,quantity:String,comments:String,desc:String,price:String,imageURL:String,onHandInventory:NSString,wishlist:Bool,pesable:NSString,isPreorderable:String,category:String) -> [String:AnyObject] {
+        return ["comments":comments,"quantity":quantity,"upc":upc,"desc":desc,"price":price,"imageURL":imageURL,"onHandInventory":onHandInventory,"wishlist":wishlist,"pesable":pesable,"isPreorderable":isPreorderable,"category":category]
     }
     
   
@@ -139,6 +139,7 @@ class GRShoppingCartAddProductsService : GRBaseService {
 
         
         } else {
+             successBlock!([:])
             callCoreDataService(params,successBlock:successBlock, errorBlock:errorBlock )
         }
     }
@@ -200,10 +201,8 @@ class GRShoppingCartAddProductsService : GRBaseService {
         
         WishlistService.shouldupdate = true
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ReloadWishList.rawValue, object: nil)
-        
         let shoppingService = ShoppingCartProductsService()
         shoppingService.callCoreDataService([:], successBlock: successBlock, errorBlock: errorBlock)
-        
     }
     
     func statusForProduct() -> Int {

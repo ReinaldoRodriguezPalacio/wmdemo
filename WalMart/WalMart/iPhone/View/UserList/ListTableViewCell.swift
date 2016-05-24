@@ -138,7 +138,7 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
             self.textField!.frame = CGRectMake(x, sep, width - (sep + self.leftBtnWidth), 40.0)
         }
         self.copyBtn!.frame = CGRectMake(bounds.width - (copyWidth + sep), (bounds.height - 18.0)/2, 55.0, 18.0)
-        self.separatorView!.frame = CGRectMake(x, bounds.height - 1.0, width, 1.0)
+        self.separatorView!.frame = CGRectMake(16, bounds.height - 1.0, width, 1.0)
 
         if self.isCopyEnabled {
             width -= (copyWidth + (2*sep))

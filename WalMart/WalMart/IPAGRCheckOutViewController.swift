@@ -360,8 +360,23 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     func shopButtonTaped(){
+        if self.selectedAddressHasStore {
         self.backgroundView?.removeFromSuperview()
         self.timeSlotsTable?.hidden = false
+        }else{
+            self.showAddressPicker()
+            self.picker!.newItemForm()
+            self.picker!.viewButtonClose.hidden = true
+            let delay = 0.7 * Double(NSEC_PER_SEC)
+            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
+            dispatch_after(time, dispatch_get_main_queue()) {
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
+                self.alertView!.showDoneIconWithoutClose()
+                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
+            }
+        
+        }
     }
     
     override func back() {

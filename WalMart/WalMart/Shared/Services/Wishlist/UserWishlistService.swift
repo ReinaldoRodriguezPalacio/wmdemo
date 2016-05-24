@@ -85,7 +85,12 @@ class UserWishlistService : BaseService {
                         if let preordeable  = wishlistDicProduct["isPreorderable"] as? String {
                             isPreordeable = preordeable
                         }
-                        
+
+                        var category  = ""
+                        if let categoryVal  = wishlistDicProduct["department"] as? String {
+                            category = categoryVal
+                        }
+
                         wishlistProduct = NSEntityDescription.insertNewObjectForEntityForName("Wishlist" as String, inManagedObjectContext: context) as! Wishlist
                         wishlistProduct.product = NSEntityDescription.insertNewObjectForEntityForName("Product" as String, inManagedObjectContext: context) as! Product
                         wishlistProduct.product.upc = upc
@@ -95,6 +100,7 @@ class UserWishlistService : BaseService {
                         wishlistProduct.product.isActive = isActive
                         wishlistProduct.product.isPreorderable = isPreordeable
                         wishlistProduct.product.onHandInventory = onHandInventory
+                        wishlistProduct.product.department = category
                         wishlistProduct.user = user!
                         
                     }
@@ -139,7 +145,7 @@ class UserWishlistService : BaseService {
         //var subtotal : Double = 0.0
         //var totalQuantity = 0
         for itemWL in array {
-            let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable]
+            let dictItem = ["upc":itemWL.product.upc,"description":itemWL.product.desc,"price":itemWL.product.price,"imageUrl":[itemWL.product.img],"isActive":itemWL.product.isActive,"onHandInventory":itemWL.product.onHandInventory,"isPreorderable":itemWL.product.isPreorderable,"category":itemWL.product.department]
             items.append(dictItem)
         }
         
@@ -196,7 +202,7 @@ class UserWishlistService : BaseService {
             
             for itemAdded in added! {
                 let serviceWishList = AddItemWishlistService()
-                serviceWishList.callService(itemAdded.product.upc, quantity: "1", comments: "",desc:itemAdded.product.desc,imageurl:itemAdded.product.img,price:itemAdded.product.price as String,isActive:itemAdded.product.isActive,onHandInventory:itemAdded.product.onHandInventory,isPreorderable:itemAdded.product.isPreorderable,mustUpdateWishList:false, successBlock: { (result:NSDictionary) -> Void in
+                serviceWishList.callService(itemAdded.product.upc, quantity: "1", comments: "",desc:itemAdded.product.desc,imageurl:itemAdded.product.img,price:itemAdded.product.price as String,isActive:itemAdded.product.isActive,onHandInventory:itemAdded.product.onHandInventory,isPreorderable:itemAdded.product.isPreorderable,category:itemAdded.product.department,mustUpdateWishList:false, successBlock: { (result:NSDictionary) -> Void in
                         successBlock()
                     }) { (error:NSError) -> Void in
                         successBlock()

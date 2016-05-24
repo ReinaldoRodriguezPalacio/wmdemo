@@ -650,6 +650,11 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 numOnHandInventory  = numberOf
             }
             
+            var category : String = ""
+            if let categoryVal = itemWishList["category"] as? String{
+                category  = categoryVal
+            }
+            
             var imageUrl = ""
             if imageArray.count > 0 {
                 imageUrl = imageArray.objectAtIndex(0) as! String
@@ -660,7 +665,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
                 
                 let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc as String)
                 if !hasUPC {
-                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable)
+                    let paramsItem = CustomBarViewController.buildParamsUpdateShoppingCart(upc as String, desc: desc as String, imageURL: imageUrl, price: price as String, quantity: "1",onHandInventory:numOnHandInventory as String,wishlist:true,type:ResultObjectType.Mg.rawValue,pesable:"0",isPreorderable:isPreorderable,category:category)
                     //params.append(paramsItem)
                     if isPreorderable == "true" {
                         paramsPreorderable.append(paramsItem)
@@ -702,7 +707,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
 
             }
         }
-        if self.items.count > 0 && hasItemsNotAviable {
+        if self.items.count == 1 && hasItemsNotAviable {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"cart_loading"),imageDone:nil,imageError:UIImage(named:"cart_loading"))
             let aleradyMessage = NSLocalizedString("productdetail.notaviable",comment:"")
             

@@ -231,7 +231,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
 
-    override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
+    override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         self.closeProductDetail()
         if self.selectQuantityGR != nil {
             self.closeContainer(
@@ -240,7 +240,7 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
-                    self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, added: added)
+                    self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable,category:category,added: added)
                 }
             )
             return

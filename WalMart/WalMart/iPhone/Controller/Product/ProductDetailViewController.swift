@@ -220,11 +220,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             productDetailButton!.desc = self.name as String
             productDetailButton!.price = self.price as String
             productDetailButton!.price = self.price as String
-            
             productDetailButton!.isActive = self.strisActive
             productDetailButton!.onHandInventory = self.onHandInventory as String
             productDetailButton!.isPreorderable = self.strisPreorderable
-            
+            productDetailButton!.productDepartment = self.productDeparment
             productDetailButton!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
             productDetailButton!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
             
@@ -365,7 +364,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      - parameter isPreorderable:  is preorderable product
      - parameter added:           added block
      */
-    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
+    func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         
         self.isWishListProcess = true
         
@@ -391,7 +390,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 addedAlertWL.imageBlurView.frame = CGRectMake(0, -312, 320, 360)
                 if addItem {
                     let serviceWishList = AddItemWishlistService()
-                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable, successBlock: { (result:NSDictionary) -> Void in
+                    serviceWishList.callService(upc, quantity: "1", comments: "",desc:desc,imageurl:imageurl,price:price,isActive:isActive,onHandInventory:onHandInventory,isPreorderable:isPreorderable,category:self.productDeparment, successBlock: { (result:NSDictionary) -> Void in
                         addedAlertWL.textView.text = NSLocalizedString("wishlist.ready",comment:"")
                         added(true)
             
@@ -598,6 +597,23 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
+    //MARK: Shopping cart
+    /**
+     Builds an NSDictionary with data to add product to shopping cart
+     
+     - parameter quantity: quantity of product
+     
+     - returns: NSDictionary
+     */
+    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+        var imageUrlSend = ""
+        if self.imageUrl.count > 0 {
+            imageUrlSend = self.imageUrl[0] as! NSString as String
+        }
+        let pesable = isPesable ? "1" : "0"
+        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
+    }
+    
     
     func closeContainerDetail(){
         if selectQuantity != nil {
@@ -679,7 +695,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
         self.view.addSubview(viewDetail)
         
-        
+        self.productDetailButton?.reloadButton()
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.viewDetail!.frame = finalFrameOfQuantity
             self.viewDetail!.imageBlurView.frame = finalFrameOfQuantity
@@ -703,9 +719,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 if self.viewDetail != nil {
                 self.viewDetail.removeFromSuperview()
                 self.viewDetail = nil
-                    
-            
-            self.productDetailButton?.deltailButton.selected = false
+                self.productDetailButton?.deltailButton.selected = false
+                self.productDetailButton?.reloadButton()
                 }
         }
         }
@@ -1152,25 +1167,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
-    //MARK: Shopping cart
-    /**
-     Builds an NSDictionary with data to add product to shopping cart
-     
-     - parameter quantity: quantity of product
-     
-     - returns: NSDictionary
-     */
-    func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
-        var imageUrlSend = ""
-        if self.imageUrl.count > 0 {
-            imageUrlSend = self.imageUrl[0] as! NSString as String
-        }
-        let pesable = isPesable ? "1" : "0"
-        return ["upc":self.upc,"desc":self.name,"imgUrl":imageUrlSend,"price":self.price,"quantity":quantity,"onHandInventory":self.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":self.strisPreorderable,"category":self.productDeparment]
-    }
-    
-    
-    
     //MARK: -  ProductDetailButtonBarCollectionViewCellDelegate
     /**
      Builds an image to share
@@ -1191,11 +1187,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         let imgResult = UIImage.verticalImageFromArray([imageHead!,imageHeader,imagen])
         
         //let urlWmart = NSURL(string: "walmartMG://UPC_\(self.upc)")
-        
-        let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
-
-        
-        self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        if urlWmart != nil {
+            let controller = UIActivityViewController(activityItems: [self,imgResult,urlWmart!], applicationActivities: nil)
+            self.navigationController!.presentViewController(controller, animated: true, completion: nil)
+        }
     }
     //MARK: activityViewControllerDelegate
     func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{

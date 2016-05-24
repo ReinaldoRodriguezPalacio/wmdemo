@@ -162,7 +162,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.bannerImagesProducts.collection.reloadData()
             
             self.loadCrossSell()
-            
+            self.defaultLoadingImg?.hidden = true 
             self.titlelbl.text = self.name as String
             
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
@@ -283,7 +283,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     
-    override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,added:(Bool) -> Void) {
+    override func addOrRemoveToWishList(upc:String,desc:String,imageurl:String,price:String,addItem:Bool,isActive:String,onHandInventory:String,isPreorderable:String,category:String,added:(Bool) -> Void) {
         //let frameDetail = CGRectMake(0,0, self.tabledetail.frame.width, heightDetail)
         
         if self.isShowShoppingCart || self.isShowProductDetail  {
@@ -293,7 +293,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 }, completeClose: { () -> Void in
                     self.isShowShoppingCart = false
                     self.selectQuantityGR = nil
-                    self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, added: added)
+                    self.addOrRemoveToWishList(upc, desc: desc, imageurl: imageurl, price: price, addItem: addItem, isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable,category:category,added: added)
                 }, closeRow:false
             )
             return
@@ -744,7 +744,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
 
-func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
+override func buildParamsUpdateShoppingCart(quantity:String) -> [NSObject:AnyObject] {
         var imageUrlSend = ""
         if self.imageUrl.count > 0 {
             imageUrlSend = self.imageUrl[0] as! NSString as String

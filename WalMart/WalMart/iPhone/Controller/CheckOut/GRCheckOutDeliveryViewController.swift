@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import Tune
+//import Tune
 
 class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate, AlertPickerViewDelegate,UITableViewDataSource, UITableViewDelegate {
 
@@ -517,7 +517,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         scrollForm = TPKeyboardAvoidingScrollView(frame: frame)
         self.scrollForm.scrollDelegate = self
         scrollForm.contentSize = CGSizeMake(frame.width, 720)
-        sAddredssForm = FormSuperAddressView(frame: CGRectMake(scrollForm.frame.minX, 0, scrollForm.frame.width, 700))
+        if sAddredssForm == nil {
+            sAddredssForm = FormSuperAddressView(frame: CGRectMake(scrollForm.frame.minX, 0, scrollForm.frame.width, 700))
+        }
         sAddredssForm.allAddress = self.addressItems
         sAddredssForm.idAddress = ""
         self.picker!.closeButton!.hidden =  true
