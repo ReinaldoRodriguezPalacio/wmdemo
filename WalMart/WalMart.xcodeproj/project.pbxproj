@@ -67,7 +67,6 @@
 		4A5A9D521C84A99B00A2A7F4 /* ABCalendarPickerDefaultYearsProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D3C1C84A99B00A2A7F4 /* ABCalendarPickerDefaultYearsProvider.m */; };
 		4A5A9D531C84A99B00A2A7F4 /* ABViewPool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D401C84A99B00A2A7F4 /* ABViewPool.m */; };
 		4A5A9D5B1C84A99B00A2A7F4 /* UIMyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D491C84A99B00A2A7F4 /* UIMyButton.m */; };
-		4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233F1C2B683400361329 /* Tune.framework */; };
 		4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B61C7F6881006227EF /* LineViewController.swift */; };
 		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
@@ -1314,7 +1313,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A683A411C4850BD00DE46B1 /* Tune.framework in Frameworks */,
 				5603233B1C2B4B5500361329 /* StoreKit.framework in Frameworks */,
 				560323391C2B4B3200361329 /* iAd.framework in Frameworks */,
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
