@@ -112,44 +112,6 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.segmentedView.addSubview(btnSatView)
          self.view.addSubview(self.segmentedView!)
         
-//        self.segmented = UISegmentedControl(items: [NSLocalizedString("store.selector.map", comment:""), NSLocalizedString("store.selector.satelite", comment:"")])
-//        self.segmented!.addTarget(self, action: Selector("segmentedControlAction:"), forControlEvents: .ValueChanged)
-//        self.segmented!.selectedSegmentIndex = 0
-//        self.view.addSubview(self.segmented!)
-//        //self.segmented!.momentary = true
-//        
-//        var segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
-//            NSForegroundColorAttributeName:WMColor.gray]
-//        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Normal)
-//        
-//        segmentedTitleAttributes = [NSFontAttributeName: WMFont.fontMyriadProRegularOfSize(14),
-//            NSForegroundColorAttributeName:UIColor.whiteColor()]
-//        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Selected)
-//        self.segmented!.setTitleTextAttributes(segmentedTitleAttributes, forState: .Highlighted)
-//        
-//        var imgInsets = UIEdgeInsetsMake(15, 15, 15, 15)
-//        var image_normal = UIImage(named:"store_segmented_normal")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).resizableImageWithCapInsets(imgInsets)
-//        var image_selected = UIImage(named:"store_segmented_selected")!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal).resizableImageWithCapInsets(imgInsets)
-//        self.segmented!.setBackgroundImage(image_normal, forState:.Normal, barMetrics:.Default)
-//        self.segmented!.setBackgroundImage(image_selected, forState:.Selected, barMetrics:.Default)
-//        self.segmented!.setBackgroundImage(image_selected, forState:.Highlighted, barMetrics:.Default)
-//
-//        var sepInsets = UIEdgeInsetsMake(15, 10, 15, 10)
-//        var bothSelected = UIImage(named:"store_segmented_bothActive")!.resizableImageWithCapInsets(sepInsets)
-//        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Selected, rightSegmentState: .Highlighted, barMetrics: .Default)
-//        self.segmented!.setDividerImage(bothSelected, forLeftSegmentState: .Highlighted, rightSegmentState: .Selected, barMetrics: .Default)
-//        
-//        var leftSelected = UIImage(named:"store_segmented_LActiveRInactive.png")!.resizableImageWithCapInsets(sepInsets)
-//        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Highlighted, rightSegmentState:.Normal, barMetrics:.Default)
-//        self.segmented!.setDividerImage(leftSelected, forLeftSegmentState:.Selected, rightSegmentState:.Normal, barMetrics:.Default)
-//        
-//        var rightSelected = UIImage(named:"store_segmented_RActiveLInactive.png")!.resizableImageWithCapInsets(sepInsets)
-//        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Highlighted, barMetrics:.Default)
-//        self.segmented!.setDividerImage(rightSelected, forLeftSegmentState:.Normal, rightSegmentState:.Selected, barMetrics:.Default)
-        
-        
-
-        
         self.toggleViewBtn = WMRoundButton()
         self.toggleViewBtn?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
         self.toggleViewBtn?.setBackgroundColor(WMColor.light_blue, size: CGSizeMake(71, 22), forUIControlState: UIControlState.Normal)

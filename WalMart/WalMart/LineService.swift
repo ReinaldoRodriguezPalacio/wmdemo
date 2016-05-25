@@ -14,7 +14,6 @@ class LineService : BaseService {
         super.init()
     }
     
-    
     func buildParamsLine(familyId:String) -> NSDictionary {
         return ["id":familyId]
     }

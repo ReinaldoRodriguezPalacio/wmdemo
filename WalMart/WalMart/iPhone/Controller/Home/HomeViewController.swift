@@ -363,7 +363,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             components[0] = "lc"
         }
         //Pendiente validar bts
-        let componentsBts = queryBanner.componentsSeparatedByString("bts")
+        //let componentsBts = queryBanner.componentsSeparatedByString("bts")
+        let componentsBts = queryBanner.componentsSeparatedByString("UPC_")
         if componentsBts.count > 1 {
             components[0] = "bts"
         }
@@ -404,16 +405,24 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             }
         case "lc":
             self.openLandinCampaign(urlTteaser!,idFamily:queryBanner)
-            print("Hacer busqueda por lines ")
         case "bts":
-            self.opnenLandingCategory(urlTteaser!,idCategory:queryBanner)
-            print("Hacer busqueda por lines ")
-   
+            self.openBackToSchoolCategory("")
         default:
             return
         }
        
               
+    }
+    
+    /**
+     Open BackToSchoolCategory
+     */
+    func openBackToSchoolCategory(urlTicer:String){
+        let controller = BackToSchoolCategoryViewController()
+        controller.urlTicer = urlTicer
+        self.navigationController!.pushViewController(controller, animated: true)
+        
+
     }
     
     /**
