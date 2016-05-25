@@ -1087,7 +1087,7 @@
 			<key>WalmartMG.HeaderCategoryIpad</key>
 			<string>https://www.walmart.com.mx/images/walmartmg/ipad/header/</string>
 			<key>WalmartMG.LineService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesByFamily</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getLinesByFamily.txt</string>
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>

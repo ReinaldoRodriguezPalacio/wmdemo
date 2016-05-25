@@ -15,9 +15,9 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var imageIcon : UIImageView!
     var titleLabel : UILabel!
     var urlTicer : String!
-    var familyName : String!
     var loading: WMLoadingView?
     var schoolsList :[[String:AnyObject]]! = [[:]]
+    var filterList :[[String:AnyObject]]! = [[:]]
     var searchView: UIView!
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
@@ -85,7 +85,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.schoolsTable = UITableView()
         self.schoolsTable.delegate = self
         self.schoolsTable.dataSource = self
-        self.schoolsTable.registerClass(IPOFamilyTableViewCell.self, forCellReuseIdentifier: "familyCell")
+        self.schoolsTable.registerClass(IPOLineTableViewCell.self, forCellReuseIdentifier: "lineCell")
         self.schoolsTable.separatorStyle = .None
         self.view.addSubview(self.schoolsTable)
         self.invokeServiceFamilyByCategory()
@@ -118,12 +118,12 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
      Call family by category service
      */
     func invokeServiceFamilyByCategory(){
-        print("familyName :::\(familyName)")
         let service =  FamilyByCategoryService()
         
         service.callService(requestParams: [:], successBlock: { (response:NSDictionary) -> Void in
             let schools  =  response["responseArray"] as! NSArray
             self.schoolsList = schools as? [[String : AnyObject]]
+            self.filterList = self.schoolsList
             self.schoolsTable.reloadData()
             self.loading!.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
@@ -134,7 +134,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
    //MARK: TableViewDelegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.schoolsList!.count
+        return self.filterList!.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -142,14 +142,19 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let school = self.schoolsList![indexPath.row]
-        let cell = tableView.dequeueReusableCellWithIdentifier("familyCell", forIndexPath: indexPath) as! IPOFamilyTableViewCell
+        let school = self.filterList![indexPath.row]
+        let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
         cell.titleLabel?.text = school["name"] as? String
+        cell.showSeparator =  true
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let school = self.filterList![indexPath.row]
+        let gradesController = GradesListViewController()
+        gradesController.familyName = school["id"] as! String
+        gradesController.schoolName = school["name"] as! String
+        self.navigationController?.pushViewController(gradesController, animated: true)
     }
     
     //MARK: - UITextFieldDelegate
@@ -161,8 +166,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
             return false
         }
         
-        //self.schoolsList = self.searchForItems(txtAfterUpdate as String)
-        //self.schoolsTable!.reloadData()
+        self.filterList = self.searchForItems(txtAfterUpdate as String)
+        self.schoolsTable!.reloadData()
         return true
     }
     
@@ -171,9 +176,15 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         return true
     }
     
-//    func searchForItems(textUpdate:String) -> [Array]? {
-//       return []
-//    }
+    func searchForItems(textUpdate:String) -> [[String:AnyObject]]? {
+        if textUpdate == "" {
+            return self.schoolsList
+        }
+        let filterList = self.schoolsList.filter({ (catego) -> Bool in
+            return (catego["name"] as! String).lowercaseString.containsString(textUpdate.lowercaseString)})
+        
+        return filterList
+    }
     
     func clearSearch(){
         self.searchField!.text = ""
