@@ -419,7 +419,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func openBackToSchoolCategory(urlTicer:String,idFamily:String){
         let controller = BackToSchoolCategoryViewController()
         controller.urlTicer = urlTicer
-        controller.idFamily = idFamily
+        controller.departmentId = idFamily
         self.navigationController!.pushViewController(controller, animated: true)
     }
     

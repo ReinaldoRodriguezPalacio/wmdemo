@@ -11,7 +11,8 @@ import Foundation
 class GradesListViewController: NavigationViewController,UITableViewDelegate,UITableViewDataSource {
     
     var schoolName: String! = ""
-    var familyName: String! = ""
+    var familyId: String! = ""
+    var departmentId: String?
     var gradesList :[[String:AnyObject]]! = [[:]]
     var gradesTable : UITableView!
     var loading: WMLoadingView?
@@ -69,14 +70,16 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let grade = self.gradesList![indexPath.row]
         let listController = SchoolListViewController()
-        //listController.familyName = grade["id"] as! String
+        listController.lineId = grade["id"] as? String
         listController.schoolName = self.schoolName
+        listController.familyId = self.familyId
+        listController.departmentId = self.departmentId
         self.navigationController?.pushViewController(listController, animated: true)
     }
     
     func invokeServiceLines(){
         let service =  LineService()
-        service.callService(requestParams: familyName, successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: self.familyId, successBlock: { (response:NSDictionary) -> Void in
             let grades  =  response["responseArray"] as! NSArray
             self.gradesList = grades as? [[String : AnyObject]]
             self.gradesTable.reloadData()

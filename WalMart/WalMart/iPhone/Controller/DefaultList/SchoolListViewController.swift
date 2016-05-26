@@ -11,6 +11,9 @@ import Foundation
 class SchoolListViewController : DefaultListDetailViewController {
     
     var schoolName: String! = ""
+    var familyId: String?
+    var lineId: String?
+    var departmentId: String?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SCHOOLLIST.rawValue
@@ -31,6 +34,7 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     override func setup() {
         super.setup()
+        self.getDetailItems()
     }
     
     
@@ -63,5 +67,20 @@ class SchoolListViewController : DefaultListDetailViewController {
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
         return listCell
+    }
+    
+    func getDetailItems(){
+        //self.detailItems
+        //TODO: Signals
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
+        let service = ProductbySearchService(dictionary:signalsDictionary)
+        let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 20)
+        service.callService(params,
+                            successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
+                                
+                                            },
+                            errorBlock: {(error: NSError) in
+               
+            })
     }
 }

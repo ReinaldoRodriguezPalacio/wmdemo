@@ -15,7 +15,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var imageIcon : UIImageView!
     var titleLabel : UILabel!
     var urlTicer : String!
-    var idFamily : String!
+    var departmentId : String!
     var loading: WMLoadingView?
     var schoolsList :[[String:AnyObject]]! = [[:]]
     var filterList :[[String:AnyObject]]! = [[:]]
@@ -120,7 +120,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
      */
     func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
-        service.callService(requestParams: ["id":self.idFamily], successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: ["id":self.departmentId], successBlock: { (response:NSDictionary) -> Void in
             let schools  =  response["responseArray"] as! NSArray
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList
@@ -152,7 +152,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let school = self.filterList![indexPath.row]
         let gradesController = GradesListViewController()
-        gradesController.familyName = school["id"] as! String
+        gradesController.departmentId = self.departmentId
+        gradesController.familyId = school["id"] as! String
         gradesController.schoolName = school["name"] as! String
         self.navigationController?.pushViewController(gradesController, animated: true)
     }
