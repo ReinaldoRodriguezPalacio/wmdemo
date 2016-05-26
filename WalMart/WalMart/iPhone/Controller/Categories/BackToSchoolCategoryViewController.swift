@@ -120,8 +120,6 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
      */
     func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
-        service.buildParams("d-lp-bts-listas-utiles")
-        
         service.callService(requestParams: ["id":self.idFamily], successBlock: { (response:NSDictionary) -> Void in
             let schools  =  response["responseArray"] as! NSArray
             self.schoolsList = schools as? [[String : AnyObject]]
