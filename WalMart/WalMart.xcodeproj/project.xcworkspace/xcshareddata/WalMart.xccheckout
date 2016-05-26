@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>CBEF8EA6-28E4-41D9-8EE5-E72441806F7A</string>
 	<key>IDESourceControlProjectName</key>
-	<string>WalMart</string>
+	<string>project</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>EAA5B6DF418D27A3791FA5889C58F36F88D23CAE</key>
 		<string>https://bitbucket.org/isoldev/walmart-ios.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>WalMart/WalMart.xcodeproj</string>
+	<string>WalMart/WalMart.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>EAA5B6DF418D27A3791FA5889C58F36F88D23CAE</key>
