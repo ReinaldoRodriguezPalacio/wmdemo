@@ -1039,7 +1039,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.FamilyByCategoryService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/getFamylyByCategory.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>

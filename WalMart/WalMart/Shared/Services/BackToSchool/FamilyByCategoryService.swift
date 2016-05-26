@@ -10,6 +10,11 @@ import UIKit
 
 class FamilyByCategoryService: BaseService {
     
+    func buildParams(idCategory:String)-> NSMutableDictionary {
+        
+        return ["id":idCategory]
+    }
+    
     func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
