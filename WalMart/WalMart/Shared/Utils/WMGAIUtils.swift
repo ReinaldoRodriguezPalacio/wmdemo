@@ -34,6 +34,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case SCREEN_WISHLIST = "WishList"
     case SCREEN_PRACTILISTA = "Practilista"
     case SCREEN_PACTILISTASDETAILS = "PractilistaDetail"
+    case SCREEN_SCHOOLLIST = "SchoolList"
     case SCREEN_ADDTOLIST = "AddtoList"
     case SCREEN_MYLISTDETAILEMPTY = "MyListDetailEmpty"
     case SCREEN_PRESHOPPINGCART = "PreShoppingCart"

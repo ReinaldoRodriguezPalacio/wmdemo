@@ -67,7 +67,11 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+        let grade = self.gradesList![indexPath.row]
+        let listController = SchoolListViewController()
+        //listController.familyName = grade["id"] as! String
+        listController.schoolName = self.schoolName
+        self.navigationController?.pushViewController(listController, animated: true)
     }
     
     func invokeServiceLines(){

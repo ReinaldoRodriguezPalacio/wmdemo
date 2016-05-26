@@ -179,8 +179,10 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
     func searchForItems(textUpdate:String) -> [[String:AnyObject]]? {
         if textUpdate == "" {
+            self.clearButton?.hidden = true
             return self.schoolsList
         }
+        self.clearButton?.hidden = false
         let filterList = self.schoolsList.filter({ (catego) -> Bool in
             return (catego["name"] as! String).lowercaseString.containsString(textUpdate.lowercaseString)})
         
@@ -191,9 +193,14 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.searchField!.text = ""
         self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         self.clearButton?.hidden = true
+        self.filterList = self.schoolsList
         self.schoolsTable!.reloadData()
     }
 
+    //MARK: ScrollViewDelegate
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView){
+        self.searchField.resignFirstResponder()
+    }
     
     /**
      Return to home
