@@ -43,17 +43,14 @@ class SchoolListTableViewCell : UITableViewCell {
         self.schoolLogo = UIImageView()
         
         self.schoolNameLabel = UILabel()
-        self.schoolNameLabel?.text = "Colegio Moltesory"
         self.schoolNameLabel?.font = WMFont.fontMyriadProSemiboldSize(14)
         self.schoolNameLabel?.textColor = WMColor.light_blue
         
         self.gradeDescLabel = UILabel()
-        self.gradeDescLabel?.text = "1º Grado de primaria"
         self.gradeDescLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.gradeDescLabel?.textColor = WMColor.dark_gray
         
         self.numElementsLabel = UILabel()
-        self.numElementsLabel?.text = "16 productos"
         self.numElementsLabel?.font = WMFont.fontMyriadProRegularOfSize(12)
         self.numElementsLabel?.textColor = WMColor.dark_gray
         
@@ -78,6 +75,15 @@ class SchoolListTableViewCell : UITableViewCell {
         self.addSubview(schoolLogo!)
         self.addSubview(saving!)
         self.addSubview(total!)
+    }
+    
+    func setValues(name:String,grade:String,listPrice:String,numArticles:Int,savingPrice:String)
+    {
+        self.schoolNameLabel?.text = name
+        self.gradeDescLabel?.text = grade
+        self.numElementsLabel?.text = "\(numArticles) productos"
+        self.total!.updateMount(listPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+        self.saving!.updateMount(savingPrice, font: WMFont.fontMyriadProRegularOfSize(14), color: WMColor.green, interLine: false)
     }
     
     

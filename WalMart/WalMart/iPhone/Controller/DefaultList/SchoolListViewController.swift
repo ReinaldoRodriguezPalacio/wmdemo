@@ -11,9 +11,12 @@ import Foundation
 class SchoolListViewController : DefaultListDetailViewController {
     
     var schoolName: String! = ""
+    var gradeName: String?
     var familyId: String?
     var lineId: String?
     var departmentId: String?
+    var selectAllButton: UIButton?
+    var listPrice: String?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SCHOOLLIST.rawValue
@@ -23,6 +26,15 @@ class SchoolListViewController : DefaultListDetailViewController {
         super.viewDidLoad()
         self.titleLabel?.text = self.schoolName
         self.tableView!.registerClass(SchoolListTableViewCell.self, forCellReuseIdentifier: "schoolCell")
+        
+        let y = (self.footerSection!.frame.height - 34.0)/2
+        self.selectAllButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
+        self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Normal)
+        self.selectAllButton!.setImage(UIImage(named: "check_full"), forState: .Selected)
+        self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Disabled)
+        self.selectAllButton!.addTarget(self, action: "selectAll", forControlEvents: .TouchUpInside)
+        self.footerSection!.addSubview(self.selectAllButton!)
+        self.duplicateButton?.removeFromSuperview()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -56,7 +68,13 @@ class SchoolListViewController : DefaultListDetailViewController {
         
         if indexPath.row == 0 {
            let schoolCell = tableView.dequeueReusableCellWithIdentifier("schoolCell", forIndexPath: indexPath) as! SchoolListTableViewCell
-            schoolCell.schoolNameLabel!.text = self.schoolName
+            let range = (self.gradeName! as NSString).rangeOfString(self.schoolName)
+            var grade = self.gradeName!
+            if range.location != NSNotFound {
+                grade = grade.substringFromIndex(grade.startIndex.advancedBy(range.length))
+            }
+            self.listPrice = self.listPrice ?? "0.0"
+            schoolCell.setValues(self.schoolName, grade: grade, listPrice: self.listPrice!, numArticles: 19, savingPrice: "Ahorras 245.89")
             return schoolCell
         }
         
@@ -82,5 +100,9 @@ class SchoolListViewController : DefaultListDetailViewController {
                             errorBlock: {(error: NSError) in
                
             })
+    }
+    
+    func selectAll() {
+        
     }
 }

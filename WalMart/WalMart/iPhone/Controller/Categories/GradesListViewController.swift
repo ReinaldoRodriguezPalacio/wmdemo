@@ -74,6 +74,8 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         listController.schoolName = self.schoolName
         listController.familyId = self.familyId
         listController.departmentId = self.departmentId
+        listController.gradeName = grade["name"] as? String
+        listController.listPrice = grade["price"] as? String
         self.navigationController?.pushViewController(listController, animated: true)
     }
     
