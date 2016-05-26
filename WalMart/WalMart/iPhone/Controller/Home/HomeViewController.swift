@@ -405,7 +405,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         case "lc":
             self.openLandinCampaign(urlTteaser!,idFamily:queryBanner)
         case "bts":
-            self.openBackToSchoolCategory(urlTteaser!)
+            self.openBackToSchoolCategory(urlTteaser!,idFamily:queryBanner)
         default:
             return
         }
@@ -416,12 +416,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     /**
      Open BackToSchoolCategory
      */
-    func openBackToSchoolCategory(urlTicer:String){
+    func openBackToSchoolCategory(urlTicer:String,idFamily:String){
         let controller = BackToSchoolCategoryViewController()
         controller.urlTicer = urlTicer
+        controller.idFamily = idFamily
         self.navigationController!.pushViewController(controller, animated: true)
-        
-
     }
     
     /**

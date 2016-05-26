@@ -77,7 +77,6 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                 currentY += rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()
             }
         }
-        
         descLabel.frame = CGRectMake(0, 0,  self.frame.width, currentY)
         downBorder.frame = CGRectMake(0, self.frame.height - 1, self.frame.width, AppDelegate.separatorHeigth())
         

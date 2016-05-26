@@ -15,6 +15,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var imageIcon : UIImageView!
     var titleLabel : UILabel!
     var urlTicer : String!
+    var idFamily : String!
     var loading: WMLoadingView?
     var schoolsList :[[String:AnyObject]]! = [[:]]
     var filterList :[[String:AnyObject]]! = [[:]]
@@ -120,7 +121,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
         
-        service.callService(requestParams: [:], successBlock: { (response:NSDictionary) -> Void in
+        service.callService(requestParams: ["id":self.idFamily], successBlock: { (response:NSDictionary) -> Void in
             let schools  =  response["responseArray"] as! NSArray
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList

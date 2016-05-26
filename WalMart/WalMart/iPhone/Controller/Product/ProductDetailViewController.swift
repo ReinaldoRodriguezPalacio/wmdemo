@@ -1071,6 +1071,23 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return CGSizeMake(self.view.frame.width , hForCell);
     }
     
+    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+        return (action == Selector("copy:"))
+    }
+    
+    func collectionView(collectionView: UICollectionView, shouldShowMenuForItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+        if (action == Selector("copy:")) {
+            let cell = collectionView.cellForItemAtIndexPath(indexPath)
+            let pasteBoard = UIPasteboard.generalPasteboard()
+            pasteBoard.setValue("UPC", forPasteboardType: "UPC")
+        }
+
+    }
+    
     func cellForPoint(point:(Int,Int),indexPath: NSIndexPath) -> UICollectionViewCell? {
         var cell : UICollectionViewCell? = nil
         switch point {

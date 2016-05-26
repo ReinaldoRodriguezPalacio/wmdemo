@@ -10,7 +10,7 @@ import UIKit
 
 class FamilyByCategoryService: BaseService {
     
-    func callService(requestParams params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
+    func callService(requestParams params:[String:AnyObject], successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
         }) { (error:NSError) -> Void in
