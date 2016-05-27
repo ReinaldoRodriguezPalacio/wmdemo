@@ -79,6 +79,7 @@ class SchoolListTableViewCell : UITableViewCell {
     
     func setValues(name:String,grade:String,listPrice:String,numArticles:Int,savingPrice:String)
     {
+        self.saving!.hidden = true 
         self.schoolNameLabel?.text = name
         self.gradeDescLabel?.text = grade
         self.numElementsLabel?.text = "\(numArticles) productos"

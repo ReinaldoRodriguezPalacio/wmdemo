@@ -97,13 +97,14 @@ class SchoolListViewController : DefaultListDetailViewController {
         
         if indexPath.section == 0 {
            let schoolCell = tableView.dequeueReusableCellWithIdentifier("schoolCell", forIndexPath: indexPath) as! SchoolListTableViewCell
-            let range = (self.gradeName! as NSString).rangeOfString(self.schoolName)
+            let range = (self.gradeName!.lowercaseString as NSString).rangeOfString(self.schoolName.lowercaseString)
             var grade = self.gradeName!
             if range.location != NSNotFound {
                 grade = grade.substringFromIndex(grade.startIndex.advancedBy(range.length))
             }
+            let itemsCount = self.detailItems == nil ? 0 : self.detailItems!.count
             self.listPrice = self.listPrice ?? "0.0"
-            schoolCell.setValues(self.schoolName, grade: grade, listPrice: self.listPrice!, numArticles: 19, savingPrice: "Ahorras 245.89")
+            schoolCell.setValues(self.schoolName, grade: grade, listPrice: self.listPrice!, numArticles:itemsCount, savingPrice: "Ahorras 245.89")
             return schoolCell
         }
         
@@ -114,6 +115,32 @@ class SchoolListViewController : DefaultListDetailViewController {
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
         return listCell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 0 {
+            return
+        }
+        
+        let controller = ProductDetailPageViewController()
+        var productsToShow:[AnyObject] = []
+        for idx in 0 ..< self.detailItems!.count {
+            let product = self.detailItems![idx]
+            let upc = product["upc"] as! NSString
+            let description = product["description"] as! NSString
+            
+            productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Mg.rawValue, "saving":""])
+        }
+        controller.itemsToShow = productsToShow
+        controller.ixSelected = indexPath.row
+        
+        let product = self.detailItems![indexPath.row]
+        let upc = product["upc"] as! NSString
+        let description = product["description"] as! NSString
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
+        
+        self.navigationController!.pushViewController(controller, animated: true)
     }
     
     func getDetailItems(){
@@ -248,6 +275,76 @@ class SchoolListViewController : DefaultListDetailViewController {
             )
         }
     }
+    
+    override func addListToCart() {
+        
+        //ValidateActives
+        var hasActive = false
+        for product in self.detailItems! {
+            let item = product
+            let stock = (item["stock"] as! String) == "true"
+            let active = item["isActive"] as! String
+            if stock && active == "true" {
+                hasActive = true
+                break
+            }
+        }
+        
+        
+        if !hasActive {
+            self.noProductsAvailableAlert()
+            return
+        }
+        
+        if self.selectedItems != nil && self.selectedItems!.count > 0 {
+            var upcs: [AnyObject] = []
+            for idxVal  in selectedItems! {
+                let idx = idxVal as! Int
+                var params: [String:AnyObject] = [:]
+                let item = self.detailItems![idx]
+                params["upc"] = item["upc"] as! String
+                params["desc"] = item["description"] as! String
+                var imageUrl: String? = ""
+                if let imageArray = item["imageUrl"] as? NSArray {
+                    if imageArray.count > 0 {
+                        imageUrl = imageArray[0] as? String
+                    }
+                } else if let imageUrlTxt = item["imageUrl"] as? String {
+                    imageUrl = imageUrlTxt
+                }
+                params["imgUrl"] = imageUrl
+                if let price = item["price"] as? NSNumber {
+                    params["price"] = "\(price)"
+                }
+                if let price = item["price"] as? NSString {
+                    params["price"] = "\(price)"
+                }
+                if let quantity = item["quantity"] as? NSNumber {
+                    params["quantity"] = "\(quantity)"
+                }
+                if let quantity = item["quantity"] as? NSString {
+                    params["quantity"] = "\(quantity)"
+                }
+                params["pesable"] = false
+                params["wishlist"] = false
+                params["type"] = ResultObjectType.Mg.rawValue
+                params["comments"] = ""
+                params["onHandInventory"] = "99"
+                upcs.append(params)
+            }
+            if upcs.count > 0 {
+                NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+            }else{
+                self.noProductsAvailableAlert()
+                return
+            }
+        }else{
+            self.noProductsAvailableAlert()
+            return
+        }
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
+    }
+
     
     func selectAll() {
         let selected = !self.selectAllButton!.selected
