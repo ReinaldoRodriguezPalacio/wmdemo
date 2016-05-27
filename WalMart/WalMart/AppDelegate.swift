@@ -496,6 +496,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
 //                UIAlertView(title: "Received link:",
 //                    message:targetUrl.absoluteString, delegate: nil,
 //                    cancelButtonTitle: "ok").show()
+            }else{
+                let targetUrl:NSURL =  parsedUrl.targetURL
+                
+                let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
+                var components = strAction.componentsSeparatedByString("/")
+                
+                if let customBar = self.window!.rootViewController as? CustomBarViewController {
+                    let srtBussines  = components[0].componentsSeparatedByString("_")[1]
+                    let srtType  = components[1].componentsSeparatedByString("_")[1]
+                    let srtValue  = components[2].componentsSeparatedByString("_")[1]
+                    customBar.handleNotification(srtType,name:"",value:srtValue,bussines:srtBussines)
+                }
+
             }
         }
     }
