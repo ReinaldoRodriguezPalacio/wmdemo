@@ -33,7 +33,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         let y = (self.footerSection!.frame.height - 34.0)/2
         self.selectAllButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
         self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Normal)
-        self.selectAllButton!.setImage(UIImage(named: "check_full"), forState: .Selected)
+        self.selectAllButton!.setImage(UIImage(named: "check_full_green"), forState: .Selected)
         self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Disabled)
         self.selectAllButton!.addTarget(self, action: "selectAll", forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.selectAllButton!)
@@ -125,7 +125,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                                     }
                                 }
                                 self.tableView?.reloadData()
-                                self.calculateTotalAmount()
+                                self.updateTotalLabel()
                                 self.removeViewLoad()
                             },
                             errorBlock: {(error: NSError) in
@@ -210,6 +210,8 @@ class SchoolListViewController : DefaultListDetailViewController {
         } else {
             self.selectedItems?.addObject(indexPath!.row + 1)
         }
+        
+        self.selectAllButton!.selected = !(self.selectedItems?.count == self.detailItems?.count)
         self.updateTotalLabel()
     }
     
@@ -233,6 +235,19 @@ class SchoolListViewController : DefaultListDetailViewController {
     }
     
     func selectAll() {
-        
+        let selected = !self.selectAllButton!.selected
+        if selected {
+            self.selectedItems = NSMutableArray()
+            self.tableView?.reloadData()
+            self.selectAllButton!.selected = true
+        }else{
+            self.selectedItems = NSMutableArray()
+            for i in 0...self.detailItems!.count - 1 {
+                self.selectedItems?.addObject(i)
+            }
+            self.tableView?.reloadData()
+            self.selectAllButton!.selected = false
+        }
+        self.updateTotalLabel()
     }
 }
