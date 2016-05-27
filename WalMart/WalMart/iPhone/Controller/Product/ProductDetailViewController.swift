@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate ,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate {
+class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource,UICollectionViewDelegate ,ProductDetailCrossSellViewDelegate,ProductDetailButtonBarCollectionViewCellDelegate ,ProductDetailBannerCollectionViewDelegate,UIActivityItemSource, ProductDetailColorSizeDelegate,UIGestureRecognizerDelegate {
 
     @IBOutlet weak var detailCollectionView: UICollectionView!
     
@@ -1071,7 +1071,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return CGSizeMake(self.view.frame.width , hForCell);
     }
     
-    func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+ 
+    /*func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
         return (action == Selector("copy:"))
     }
     
@@ -1086,7 +1087,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             pasteBoard.setValue("UPC", forPasteboardType: "UPC")
         }
 
-    }
+    }*/
     
     func cellForPoint(point:(Int,Int),indexPath: NSIndexPath) -> UICollectionViewCell? {
         var cell : UICollectionViewCell? = nil
@@ -1114,6 +1115,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             if characteristics.count != 0 {
                 let cellCharacteristics = detailCollectionView.dequeueReusableCellWithReuseIdentifier("cellCharacteristics", forIndexPath: indexPath) as! ProductDetailCharacteristicsCollectionViewCell
                 cellCharacteristics.setValues(characteristics)
+                cellCharacteristics.superview?.userInteractionEnabled = true
                 cell = cellCharacteristics
             }else{
                 return cellForPoint((indexPath.section,3),indexPath: indexPath)
