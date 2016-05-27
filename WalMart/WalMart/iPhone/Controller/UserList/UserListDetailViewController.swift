@@ -1301,7 +1301,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func duplicate() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DUPLICATE_LIST.rawValue , label: "")
-        if let user = UserCurrentSession.sharedInstance().userSigned {
+        if UserCurrentSession.hasLoggedUser() {
             let service = GRUserListService()
             self.itemsUserList = service.retrieveUserList()
             if  self.itemsUserList!.count == 12{
