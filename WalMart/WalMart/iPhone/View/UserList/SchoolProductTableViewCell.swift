@@ -44,26 +44,31 @@ class SchoolProductTableViewCell: DetailListViewCell {
             }
         }
         
-        let quantity = product["quantity"] as! NSString
+        var quantity: Double = 0.0
+        if let quantityString = product["quantity"] as? NSString {
+            quantity = quantityString.doubleValue
+        }
+        if let quantityNumber = product["quantity"] as? NSNumber {
+            quantity = quantityNumber.doubleValue
+        }
         let price = product["price"] as! NSString
         var text: String? = ""
         var total: Double = 0.0
         //Piezas
-        if quantity.integerValue == 1 {
-            text = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), quantity)
+        if Int(quantity) == 1 {
+            text = String(format: NSLocalizedString("shoppingcart.quantity.article", comment:""), NSNumber(double:quantity))
         }
         else {
-            text = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), quantity)
+            text = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(double:quantity))
         }
-        total = (quantity.doubleValue * price.doubleValue)
+        total = (quantity * price.doubleValue)
         
         self.quantityIndicator!.setTitle(text!, forState: .Normal)
         
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
         self.total = formatedPrice
         self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
-        
-        checkDisabled(disabled)
+    
         if let stock = product["stock"] as? NSString {
             if stock == "false" {
                 self.quantityIndicator!.enabled = false
@@ -75,6 +80,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
                 self.hasStock = true
             }
         }
+    self.checkDisabled(disabled)
     }
 
 }

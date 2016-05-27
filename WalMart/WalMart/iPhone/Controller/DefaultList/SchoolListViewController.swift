@@ -76,17 +76,26 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     //MARK: TableViewDelegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == 0  ? 98 :109
+        if indexPath.section == 0 {
+            return 98
+        }
+        return 109
+    }
+    
+     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.detailItems == nil { return 1 }
-        return self.detailItems!.count + 1
+        if section == 0 {
+            return 1
+        }
+        return  self.detailItems == nil ? 0 : self.detailItems!.count
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
            let schoolCell = tableView.dequeueReusableCellWithIdentifier("schoolCell", forIndexPath: indexPath) as! SchoolListTableViewCell
             let range = (self.gradeName! as NSString).rangeOfString(self.schoolName)
             var grade = self.gradeName!
@@ -99,7 +108,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         let listCell = tableView.dequeueReusableCellWithIdentifier("schoolProduct", forIndexPath: indexPath) as! SchoolProductTableViewCell
-        listCell.setValuesDictionary(self.detailItems![indexPath.row - 1],disabled:!self.selectedItems!.containsObject(indexPath.row - 1))
+        listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
         listCell.detailDelegate = self
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
@@ -139,14 +148,20 @@ class SchoolListViewController : DefaultListDetailViewController {
             let idx = idxVal as! Int
             let item = self.detailItems![idx]
             if let typeProd = item["type"] as? NSString {
-                let quantity = item["quantity"] as! NSString
+                var quantity: Double = 0.0
+                if let quantityString = item["quantity"] as? NSString {
+                    quantity = quantityString.doubleValue
+                }
+                if let quantityNumber = item["quantity"] as? NSNumber {
+                    quantity = quantityNumber.doubleValue
+                }
                 let price = item["price"] as! NSString
                 
                 if typeProd.integerValue == 0 {
-                    total += (quantity.doubleValue * price.doubleValue)
+                    total += (quantity * price.doubleValue)
                 }
                 else {
-                    let kgrams = quantity.doubleValue / 1000.0
+                    let kgrams = quantity / 1000.0
                     total += (kgrams * price.doubleValue)
                 }
             }
@@ -165,7 +180,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             }
             var price: String? = nil
             
-            let item = self.detailItems![indexPath!.row - 1]
+            let item = self.detailItems![indexPath!.row]
             price = item["price"] as? String
             
             let width:CGFloat = self.view.frame.width
@@ -206,9 +221,9 @@ class SchoolListViewController : DefaultListDetailViewController {
     override func didDisable(disaable:Bool, cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPathForCell(cell)
         if disaable {
-            self.selectedItems?.removeObject(indexPath!.row + 1)
+            self.selectedItems?.removeObject(indexPath!.row)
         } else {
-            self.selectedItems?.addObject(indexPath!.row + 1)
+            self.selectedItems?.addObject(indexPath!.row)
         }
         
         self.selectAllButton!.selected = !(self.selectedItems?.count == self.detailItems?.count)
