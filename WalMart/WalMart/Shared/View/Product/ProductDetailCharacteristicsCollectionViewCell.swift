@@ -44,6 +44,8 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
         self.addSubview(downBorder)
         self.addSubview(descLabel)
         self.addSubview(titleLabel)
+        
+        self.userInteractionEnabled = true
     }
     
     func setValues(values:NSArray){
@@ -63,7 +65,8 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                 let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size: 14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(self.frame.width - 32, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 let bgView = UIView(frame: CGRectMake(0, currentY, self.frame.width, rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
-                let labelCharacteristic = UILabel(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
+                let labelCharacteristic = WMTCopyLable(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
+                labelCharacteristic.stringCopy = strValue
                 labelCharacteristic.attributedText = attrString
                 labelCharacteristic.numberOfLines = 0
                 index += 1
@@ -73,6 +76,9 @@ class ProductDetailCharacteristicsCollectionViewCell :UICollectionViewCell {
                     bgView.backgroundColor = WMColor.light_light_gray
                 }
                 bgView.addSubview(labelCharacteristic)
+                bgView.userInteractionEnabled = true
+                descLabel.userInteractionEnabled = true
+                self.superview?.userInteractionEnabled = true
                 descLabel.addSubview(bgView)
                 currentY += rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()
             }

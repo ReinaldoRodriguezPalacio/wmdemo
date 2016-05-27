@@ -442,6 +442,7 @@
 		6CF6CAE81BF2C9900026689F /* ReferedForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF6CAE71BF2C9900026689F /* ReferedForm.swift */; };
 		6CFBA2211BED0CEA00573754 /* InvoiceConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */; };
 		6CFDD8A81BC8275000124667 /* PushNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CFDD8A71BC8275000124667 /* PushNotificationService.swift */; };
+		851EF5F01CF7AD2F00C37BD5 /* WMTCopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */; };
 		85A40B691C223AE40036C78A /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A40B171C223AE40036C78A /* Address.swift */; };
 		85A40B6A1C223AE40036C78A /* Application.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A40B181C223AE40036C78A /* Application.swift */; };
 		85A40B6B1C223AE40036C78A /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85A40B1A1C223AE40036C78A /* CommentView.swift */; };
@@ -1112,6 +1113,7 @@
 		6CF6CAE71BF2C9900026689F /* ReferedForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedForm.swift; path = iPhone/View/Refered/ReferedForm.swift; sourceTree = "<group>"; };
 		6CFBA2201BED0CEA00573754 /* InvoiceConfirmView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceConfirmView.swift; path = iPhone/View/Invoice/InvoiceConfirmView.swift; sourceTree = "<group>"; };
 		6CFDD8A71BC8275000124667 /* PushNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PushNotificationService.swift; path = Shared/Services/Notification/PushNotificationService.swift; sourceTree = "<group>"; };
+		851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WMTCopyLabel.swift; sourceTree = "<group>"; };
 		85A40B171C223AE40036C78A /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		85A40B181C223AE40036C78A /* Application.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Application.swift; sourceTree = "<group>"; };
 		85A40B191C223AE40036C78A /* CocoaAsyncSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CocoaAsyncSocket.h; sourceTree = "<group>"; };
@@ -2174,6 +2176,7 @@
 			children = (
 				AC3B64EE19BE654A00564845 /* Search */,
 				56527DF519B00953008032C6 /* CurrencyCustomLabel.swift */,
+				851EF5EF1CF7AD2F00C37BD5 /* WMTCopyLabel.swift */,
 			);
 			name = General;
 			sourceTree = "<group>";
@@ -3976,6 +3979,7 @@
 				5645789C19AE2E00006A7152 /* AppDelegate.swift in Sources */,
 				565E5A6819C0AFBF00444DF7 /* ImageDisplayCollectionViewController.swift in Sources */,
 				5614A6681A688EB60048B71A /* GRAddressUpdateService.swift in Sources */,
+				851EF5F01CF7AD2F00C37BD5 /* WMTCopyLabel.swift in Sources */,
 				04312C991A6EDEB40009A940 /* ListTableViewCell.swift in Sources */,
 				56940AC91A644D7000BAFF78 /* GRShoppingCartWeightSelectorView.swift in Sources */,
 				5688470D19E87FF900D5C45D /* IPACategoryCollectionViewClass.swift in Sources */,
