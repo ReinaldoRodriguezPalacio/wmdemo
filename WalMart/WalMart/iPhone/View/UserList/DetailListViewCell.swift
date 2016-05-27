@@ -95,7 +95,6 @@ class DetailListViewCell: ProductTableViewCell {
         
         
     }
-    
 
     func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
         let imageUrl = product["imageUrl"] as! String
