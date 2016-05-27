@@ -418,6 +418,7 @@
 		6C6AC1F41CF6120B0072FBB7 /* GradesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F31CF6120B0072FBB7 /* GradesListViewController.swift */; };
 		6C6AC1F81CF64C560072FBB7 /* SchoolListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F71CF64C560072FBB7 /* SchoolListViewController.swift */; };
 		6C6AC1FC1CF662070072FBB7 /* SchoolListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1FB1CF662070072FBB7 /* SchoolListTableViewCell.swift */; };
+		6C6AC1FE1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1FD1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift */; };
 		6C716A321C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */; };
 		6C747C301C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */; };
 		6C747C321C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */; };
@@ -1087,6 +1088,7 @@
 		6C6AC1F31CF6120B0072FBB7 /* GradesListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GradesListViewController.swift; path = iPhone/Controller/Categories/GradesListViewController.swift; sourceTree = "<group>"; };
 		6C6AC1F71CF64C560072FBB7 /* SchoolListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchoolListViewController.swift; path = iPhone/Controller/DefaultList/SchoolListViewController.swift; sourceTree = "<group>"; };
 		6C6AC1FB1CF662070072FBB7 /* SchoolListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchoolListTableViewCell.swift; path = iPhone/View/UserList/SchoolListTableViewCell.swift; sourceTree = "<group>"; };
+		6C6AC1FD1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchoolProductTableViewCell.swift; path = iPhone/View/UserList/SchoolProductTableViewCell.swift; sourceTree = "<group>"; };
 		6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGShoppingCartQuantitySelectorView.swift; path = iPhone/View/ShoppingCart/MGShoppingCartQuantitySelectorView.swift; sourceTree = "<group>"; };
 		6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutDeliveryViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutDeliveryViewController.swift; sourceTree = "<group>"; };
 		6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutCommentsViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutCommentsViewController.swift; sourceTree = "<group>"; };
@@ -2857,6 +2859,7 @@
 			children = (
 				5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */,
 				6C6AC1FB1CF662070072FBB7 /* SchoolListTableViewCell.swift */,
+				6C6AC1FD1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift */,
 			);
 			name = DefaultList;
 			sourceTree = "<group>";
@@ -3959,6 +3962,7 @@
 				AC87A4091AA8CC7700165CE1 /* IPARecentProductsViewController.swift in Sources */,
 				5680A09E1A48DD33009C5515 /* GRLoginService.swift in Sources */,
 				AC1CF41719EC7AFB006F1BC6 /* IPALoginController.swift in Sources */,
+				6C6AC1FE1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift in Sources */,
 				AC37F6BD19B90E48000BB80D /* AddShippingAddressService.swift in Sources */,
 				56679E801B3228DE003A8CB9 /* MoreSectionView.swift in Sources */,
 				85A40BA01C223AE40036C78A /* DDTTYLogger.m in Sources */,

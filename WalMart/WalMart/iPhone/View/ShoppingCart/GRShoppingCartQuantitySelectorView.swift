@@ -252,7 +252,6 @@ class GRShoppingCartQuantitySelectorView : UIView, KeyboardViewDelegate {
     }
     
     func updateQuantityBtn(){
-        
             let intQuantity = Int(lblQuantity.text!)
             let result = priceProduct.doubleValue * Double(intQuantity!)
             let strPrice = CurrencyCustomLabel.formatString("\(result)")

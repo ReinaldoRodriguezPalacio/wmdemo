@@ -95,7 +95,6 @@ class DetailListViewCell: ProductTableViewCell {
         
         
     }
-    
 
     func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
         let imageUrl = product["imageUrl"] as! String
@@ -164,9 +163,6 @@ class DetailListViewCell: ProductTableViewCell {
         }
         
         
-       
-        checkDisabled(disabled)
-        
         if let stock = product["stock"] as? NSString {
             if stock.integerValue == 0 {
                 self.quantityIndicator!.enabled = false
@@ -190,6 +186,8 @@ class DetailListViewCell: ProductTableViewCell {
                 self.hasStock = false
             }
         }
+        
+         checkDisabled(disabled)
     }
     
     func setValues(product:Product,disabled:Bool) {

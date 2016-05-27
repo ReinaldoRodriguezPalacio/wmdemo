@@ -171,7 +171,7 @@ class BaseService : NSObject {
     func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> NSURLSessionDataTask {
         let afManager = getManager()
        //TODO: Quitar no debe de ir
-        var url = serviceUrl()
+        let url = serviceUrl()
    
         let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary

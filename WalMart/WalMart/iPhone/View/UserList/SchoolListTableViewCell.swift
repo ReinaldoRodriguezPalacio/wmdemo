@@ -36,7 +36,7 @@ class SchoolListTableViewCell : UITableViewCell {
         self.numElementsLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, self.gradeDescLabel!.frame.maxY + 4, 113, 12)
         self.total!.frame = CGRectMake(self.frame.width - 106, self.numElementsLabel!.frame.maxY - 5, 90, 18)
         self.saving!.frame = CGRectMake(self.frame.width - 106, self.total!.frame.maxY + 4, 90, 14)
-        self.separator.frame = CGRectMake(0, 98, self.frame.width, 1)
+        self.separator.frame = CGRectMake(0, 97, self.frame.width, 1)
     }
     
     func setup(){
