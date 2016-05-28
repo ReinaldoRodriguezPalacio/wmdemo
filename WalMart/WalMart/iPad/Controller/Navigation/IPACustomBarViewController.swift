@@ -605,6 +605,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[4])
+        case "URL": self.openURLNotification(trimValue)
         case "SH":
             if self.splashVC == nil {
                 self.openSearchProduct()

@@ -1287,6 +1287,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[3])
+            
+        case "URL": self.openURLNotification(trimValue)
         case "SH":
             if self.splashVC == nil {
                 self.openSearchProduct()
@@ -1305,6 +1307,25 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         
         return true
+    }
+    
+    /**
+     open url from notification, url or app store
+     
+     - parameter url: url open
+     */
+    func openURLNotification(url:String){
+
+        if url.rangeOfString("itms-apps:") != nil {
+            let urlApp  = NSURL(string: url)
+            if UIApplication.sharedApplication().canOpenURL(urlApp!) == true  {
+                UIApplication.sharedApplication().openURL(urlApp!)
+            }
+        }else{
+            let ctrlWeb = IPOWebViewController()
+            ctrlWeb.openURL(url)
+            self.presentViewController(ctrlWeb, animated: true, completion: nil)
+        }
     }
     
     //MARK: Barcode Function
