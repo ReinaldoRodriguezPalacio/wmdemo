@@ -33,6 +33,10 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         self.gradesTable.separatorStyle = .None
         self.view.addSubview(self.gradesTable)
         self.invokeServiceLines()
+        
+        if IS_IPAD {
+            self.backButton?.hidden = true 
+        }
     }
 
     override func viewWillLayoutSubviews() {
@@ -69,7 +73,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let grade = self.gradesList![indexPath.row]
-        let listController = SchoolListViewController()
+        let listController = IS_IPAD ? IPASchoolListViewController() : SchoolListViewController()
         listController.lineId = grade["id"] as? String
         listController.schoolName = self.schoolName
         listController.familyId = self.familyId
@@ -85,7 +89,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
             let grades  =  response["responseArray"] as! NSArray
             self.gradesList = grades as? [[String : AnyObject]]
             self.gradesTable.reloadData()
-            self.loading!.stopAnnimating()
+            self.loading?.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.navigationController?.popToRootViewControllerAnimated(true)

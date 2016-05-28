@@ -125,7 +125,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
             self.schoolsList = schools as? [[String : AnyObject]]
             self.filterList = self.schoolsList
             self.schoolsTable.reloadData()
-            self.loading!.stopAnnimating()
+            self.loading?.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.navigationController?.popToRootViewControllerAnimated(true)

@@ -147,7 +147,6 @@ class SchoolListViewController : DefaultListDetailViewController {
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
         let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 20)
-        //let params = service.buildParamsForSearch(text: "", family:"f-papeleria-escolar", line: "l-escolar-cuadernos", sort:"rankingASC", departament: "d-papeleria", start: 0, maxResult: 20)
         service.callService(params,
                             successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
                                 self.detailItems = arrayProduct as? [[String:AnyObject]]
@@ -161,6 +160,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                                     }
                                 }
                                 self.tableView?.reloadData()
+                                self.listPrice = "\(self.calculateTotalAmount())"
                                 self.updateTotalLabel()
                                 self.removeViewLoad()
                             },
