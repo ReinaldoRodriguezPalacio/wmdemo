@@ -41,6 +41,7 @@ class SchoolListTableViewCell : UITableViewCell {
     
     func setup(){
         self.schoolLogo = UIImageView()
+        self.schoolLogo?.image = UIImage(named: "papeleria_list")
         
         self.schoolNameLabel = UILabel()
         self.schoolNameLabel?.font = WMFont.fontMyriadProSemiboldSize(14)
