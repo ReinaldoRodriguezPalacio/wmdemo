@@ -552,6 +552,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.FamilyByCategoryService</key>
+			<string>https://www.aclaraciones.com.mx/walmartmg/login/getFamylyByCategory</string>
 			<key>WalmartMG.AddFiscalAddressService</key>
 			<string>https://www.aclaraciones.com.mx/walmartmg/list/addFiscalAddress</string>
 			<key>WalmartMG.AddItemWishlistService</key>

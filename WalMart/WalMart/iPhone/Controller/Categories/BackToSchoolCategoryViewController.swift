@@ -12,8 +12,6 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var schoolsTable : UITableView!
     var buttonClose : UIButton!
     var imageBackground : UIImageView!
-    var imageIcon : UIImageView!
-    var titleLabel : UILabel!
     var urlTicer : String!
     var departmentId : String!
     var loading: WMLoadingView?
@@ -23,6 +21,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
     var separator: CALayer!
+    var startView: CGFloat = 0.0
     
     override func viewDidLoad() {
         self.view.backgroundColor =  UIColor.whiteColor()
@@ -36,16 +35,6 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
             print("Error al presentar imagen")
         }
-        
-        imageIcon = UIImageView()
-        imageIcon.image = UIImage(named: "default")
-        
-        
-        titleLabel = UILabel()
-        titleLabel.font  = WMFont.fontMyriadProRegularOfSize(16)
-        titleLabel.textColor = UIColor.whiteColor()
-        titleLabel.textAlignment = .Center
-        titleLabel.text = ""
         
         buttonClose = UIButton()
         buttonClose.setImage(UIImage(named: "close"), forState: UIControlState.Normal)
@@ -78,8 +67,6 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.searchField!.addSubview(self.clearButton!)
         
         self.view.addSubview(imageBackground)
-        self.view.addSubview(imageIcon)
-        self.view.addSubview(titleLabel)
         self.view.addSubview(buttonClose)
         self.view.addSubview(searchView)
         
@@ -103,10 +90,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
     
     override func viewWillLayoutSubviews() {
-        self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , CELL_HEIGHT)
-        self.titleLabel.frame = CGRectMake(0, 66, self.view.frame.width , 16)
-        self.imageIcon.frame = CGRectMake((self.view.frame.width / 2) - 14, 22 , 28, 28)
-        self.buttonClose.frame = CGRectMake(0, 0, 40, 40)
+        self.imageBackground.frame = CGRectMake(0,startView ,self.view.frame.width , CELL_HEIGHT)
+        self.buttonClose.frame = CGRectMake(0, startView, 40, 40)
         self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
         self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
         self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - 32, 40.0)
@@ -172,6 +157,10 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         return true
     }
     
+    func textFieldDidBeginEditing(textField: UITextField) {
+        self.hideImageHeader()
+    }
+    
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
@@ -189,12 +178,44 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         return filterList
     }
     
+    func hideImageHeader() {
+        self.startView = -98
+        UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+            self.imageBackground.frame = CGRectMake(0,self.startView,self.view.frame.width , 98)
+            self.buttonClose.frame = CGRectMake(0, self.startView, 40, 40)
+            self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
+            self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
+            }, completion: {(finish) in
+        })
+    }
+    
+    func showImageHeader() {
+        self.startView = 0.0
+        UIView.animateWithDuration(0.4, animations: {() in
+            self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , 98)
+            self.buttonClose.frame = CGRectMake(0, 0, 40, 40)
+            self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
+            self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
+        })
+    }
+    
+   override func willHideTabbar() {
+        super.willHideTabbar()
+        self.hideImageHeader()
+    }
+    
+    override func willShowTabbar() {
+        super.willShowTabbar()
+        self.showImageHeader()
+    }
+    
     func clearSearch(){
         self.searchField!.text = ""
         self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         self.clearButton?.hidden = true
         self.filterList = self.schoolsList
         self.schoolsTable!.reloadData()
+        self.showImageHeader()
     }
 
     //MARK: ScrollViewDelegate
