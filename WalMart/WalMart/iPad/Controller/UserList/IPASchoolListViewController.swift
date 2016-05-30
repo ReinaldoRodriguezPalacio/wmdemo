@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPASchoolListViewController: SchoolListViewController {
+class IPASchoolListViewController: SchoolListViewController, UIPopoverControllerDelegate {
     
     var sharePopover: UIPopoverController?
     
@@ -104,6 +104,25 @@ class IPASchoolListViewController: SchoolListViewController {
         self.sharePopover!.backgroundColor = WMColor.light_blue
         let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+    }
+    
+    //MARK: Actions
+    
+    override func shareList() {
+        //isShared = true
+        if let image = self.buildImageToShare() {
+            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            self.sharePopover = UIPopoverController(contentViewController: controller)
+            self.sharePopover!.delegate = self
+            //self.sharePopover!.backgroundColor = UIColor.greenColor()
+            let rect = self.footerSection!.convertRect(self.shareButton!.frame, toView: self.view.superview!)
+            self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
+        }
+    }
+    
+    //MARK: - UIPopoverControllerDelegate
+    func popoverControllerDidDismissPopover(popoverController: UIPopoverController) {
+        self.sharePopover = nil
     }
     
     override func willShowTabbar() { }
