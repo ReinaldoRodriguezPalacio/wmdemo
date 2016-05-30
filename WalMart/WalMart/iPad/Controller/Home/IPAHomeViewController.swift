@@ -205,6 +205,15 @@ class IPAHomeViewController : HomeViewController {
     override func viewWillDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-
+    
+    /**
+     Open BackToSchoolCategory
+     */
+   override func openBackToSchoolCategory(urlTicer:String,idFamily:String){
+        let controller = IPABackToSchoolContainerViewController()
+        controller.urlTicer = urlTicer
+        controller.departmentId = idFamily
+        self.navigationController!.pushViewController(controller, animated: true)
+    }
 
 }

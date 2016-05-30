@@ -419,6 +419,9 @@
 		6C6AC1F81CF64C560072FBB7 /* SchoolListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F71CF64C560072FBB7 /* SchoolListViewController.swift */; };
 		6C6AC1FC1CF662070072FBB7 /* SchoolListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1FB1CF662070072FBB7 /* SchoolListTableViewCell.swift */; };
 		6C6AC1FE1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1FD1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift */; };
+		6C6AC2001CF8F5860072FBB7 /* IPASchoolListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1FF1CF8F5860072FBB7 /* IPASchoolListViewController.swift */; };
+		6C6AC2021CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC2011CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift */; };
+		6C6AC2041CF90C760072FBB7 /* IPABackToSchoolViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC2031CF90C760072FBB7 /* IPABackToSchoolViewController.swift */; };
 		6C716A321C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */; };
 		6C747C301C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */; };
 		6C747C321C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */; };
@@ -1089,6 +1092,9 @@
 		6C6AC1F71CF64C560072FBB7 /* SchoolListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchoolListViewController.swift; path = iPhone/Controller/DefaultList/SchoolListViewController.swift; sourceTree = "<group>"; };
 		6C6AC1FB1CF662070072FBB7 /* SchoolListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchoolListTableViewCell.swift; path = iPhone/View/UserList/SchoolListTableViewCell.swift; sourceTree = "<group>"; };
 		6C6AC1FD1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SchoolProductTableViewCell.swift; path = iPhone/View/UserList/SchoolProductTableViewCell.swift; sourceTree = "<group>"; };
+		6C6AC1FF1CF8F5860072FBB7 /* IPASchoolListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPASchoolListViewController.swift; sourceTree = "<group>"; };
+		6C6AC2011CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPABackToSchoolContainerViewController.swift; path = iPad/Controller/Categories/IPABackToSchoolContainerViewController.swift; sourceTree = "<group>"; };
+		6C6AC2031CF90C760072FBB7 /* IPABackToSchoolViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPABackToSchoolViewController.swift; path = iPad/Controller/Categories/IPABackToSchoolViewController.swift; sourceTree = "<group>"; };
 		6C716A311C319D0A00EA3942 /* MGShoppingCartQuantitySelectorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MGShoppingCartQuantitySelectorView.swift; path = iPhone/View/ShoppingCart/MGShoppingCartQuantitySelectorView.swift; sourceTree = "<group>"; };
 		6C747C2F1C9B16F7005A3804 /* GRCheckOutDeliveryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutDeliveryViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutDeliveryViewController.swift; sourceTree = "<group>"; };
 		6C747C311C9B34A3005A3804 /* GRCheckOutCommentsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutCommentsViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutCommentsViewController.swift; sourceTree = "<group>"; };
@@ -1399,6 +1405,7 @@
 				04448A371A9E74AF006AFEC4 /* IPAUserListViewController.swift */,
 				04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */,
 				04448A3A1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift */,
+				6C6AC1FF1CF8F5860072FBB7 /* IPASchoolListViewController.swift */,
 			);
 			name = UserList;
 			path = iPad/Controller/UserList;
@@ -2446,6 +2453,8 @@
 				56ED1B601A9FEB9400D561D6 /* IPAGRCategoriesViewController.swift */,
 				4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */,
 				4AE7FA931C802805007C43B3 /* IPALinesListViewController.swift */,
+				6C6AC2011CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift */,
+				6C6AC2031CF90C760072FBB7 /* IPABackToSchoolViewController.swift */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -3579,6 +3588,7 @@
 				04D5E9421A30CD390043437C /* StoreView.swift in Sources */,
 				6C6AC1F41CF6120B0072FBB7 /* GradesListViewController.swift in Sources */,
 				5696078C19B4C773005D20DC /* LoginService.swift in Sources */,
+				6C6AC2021CF90BD60072FBB7 /* IPABackToSchoolContainerViewController.swift in Sources */,
 				4A5A9D521C84A99B00A2A7F4 /* ABCalendarPickerDefaultYearsProvider.m in Sources */,
 				567023311AB0EE8400FDCD91 /* IPAGRCheckOutViewController.swift in Sources */,
 				04BA491C1A8AB556009D5272 /* GRUpdateListService.swift in Sources */,
@@ -3724,6 +3734,7 @@
 				56EECE8B1B02EC630091F491 /* GRNutrimentalInfoView.swift in Sources */,
 				56C211881A24F1F4002D1C91 /* NotificationService.swift in Sources */,
 				6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */,
+				6C6AC2041CF90C760072FBB7 /* IPABackToSchoolViewController.swift in Sources */,
 				569FCA101BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift in Sources */,
 				568A42B119ED8E7500608297 /* IPAProductDetailCrossSellView.swift in Sources */,
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
@@ -3917,6 +3928,7 @@
 				049CC7CC1A9BAAE000DE2C8D /* LinesForSearchService.swift in Sources */,
 				AC5F646E19BF51670098BE43 /* WalMartSqliteDB.swift in Sources */,
 				04D2A38F1A2FBE8E008DAE37 /* MoreOptionsViewController.swift in Sources */,
+				6C6AC2001CF8F5860072FBB7 /* IPASchoolListViewController.swift in Sources */,
 				569607AB19B53091005D20DC /* ProductDetailCharacteristicsTableViewCell.swift in Sources */,
 				5673D1441A9D500400DCD20B /* StringExtension.swift in Sources */,
 				56AAFF951A9257F1007B8D91 /* SuperAddressViewController.swift in Sources */,
