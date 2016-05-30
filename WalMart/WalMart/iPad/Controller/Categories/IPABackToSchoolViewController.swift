@@ -15,11 +15,16 @@ protocol IPABackToSchoolViewControllerDelegate {
 class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
     
     var btsDelegate: IPABackToSchoolViewControllerDelegate?
+    var showGrades: Bool = true
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.schoolsTable!.selectRowAtIndexPath(NSIndexPath(forRow: 0,inSection:0), animated: false, scrollPosition: .Top)
-        self.tableView(self.schoolsTable!, didSelectRowAtIndexPath: NSIndexPath(forRow: 0,inSection:0))
+        
+        if self.showGrades {
+            self.schoolsTable!.selectRowAtIndexPath(NSIndexPath(forRow: 0,inSection:0), animated: false, scrollPosition: .Top)
+            self.tableView(self.schoolsTable!, didSelectRowAtIndexPath: NSIndexPath(forRow: 0,inSection:0))
+            self.showGrades = false
+        }
     }
     
     override  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

@@ -9,6 +9,7 @@
 import Foundation
 
 class IPASchoolListViewController: SchoolListViewController {
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !self.isSharing {
@@ -19,6 +20,7 @@ class IPASchoolListViewController: SchoolListViewController {
         let y = (self.footerSection!.frame.height - 34.0)/2
         self.addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
         self.selectAllButton?.frame = CGRectMake(16.0, y, 34.0, 34.0)
+        self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + 16.0), 34.0)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
