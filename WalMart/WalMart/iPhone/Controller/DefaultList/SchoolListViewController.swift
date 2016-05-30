@@ -13,7 +13,7 @@ class SchoolListViewController : DefaultListDetailViewController {
     var schoolName: String! = ""
     var gradeName: String?
     var familyId: String?
-    var lineId: String?
+    
     var departmentId: String?
     var selectAllButton: UIButton?
     var listPrice: String?
