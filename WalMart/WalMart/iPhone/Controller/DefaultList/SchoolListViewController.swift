@@ -35,7 +35,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Normal)
         self.selectAllButton!.setImage(UIImage(named: "check_full_green"), forState: .Selected)
         self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Disabled)
-        self.selectAllButton!.addTarget(self, action: "selectAll", forControlEvents: .TouchUpInside)
+        self.selectAllButton!.addTarget(self, action: #selector(SchoolListViewController.selectAll as (SchoolListViewController) -> () -> ()), forControlEvents: .TouchUpInside)
         self.footerSection!.addSubview(self.selectAllButton!)
         self.duplicateButton?.removeFromSuperview()
         self.addViewLoad()

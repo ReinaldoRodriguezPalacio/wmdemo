@@ -10,6 +10,8 @@ import Foundation
 
 class IPASchoolListViewController: SchoolListViewController {
     
+    var sharePopover: UIPopoverController?
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !self.isSharing {
@@ -49,6 +51,48 @@ class IPASchoolListViewController: SchoolListViewController {
         if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
             navCtrl.navigationController!.pushViewController(controller, animated: true)
         }
+    }
+    
+    //MARK: Delegate item cell
+    override func didChangeQuantity(cell:DetailListViewCell){
+            
+        let indexPath = self.tableView!.indexPathForCell(cell)
+        if indexPath == nil {
+            return
+        }
+        var price: String? = nil
+            
+        let item = self.detailItems![indexPath!.row]
+        price = item["price"] as? String
+        let selectorFrame = CGRectMake(0.0, 0.0, 320.0, 388.0)
+        self.quantitySelectorMg = ShoppingCartQuantitySelectorView(frame: selectorFrame, priceProduct: NSNumber(double:Double(price!)!),upcProduct:cell.upcVal!)
+        self.view.addSubview(self.quantitySelectorMg!)
+        self.quantitySelectorMg!.closeAction = { () in
+            self.sharePopover!.dismissPopoverAnimated(true)
+            self.quantitySelectorMg = nil
+        }
+        self.quantitySelectorMg!.addToCartAction = { (quantity:String) in
+            var item = self.detailItems![indexPath!.row]
+            //var upc = item["upc"] as? String
+            item["quantity"] = NSNumber(integer:Int(quantity)!)
+            self.detailItems![indexPath!.row] = item
+            self.tableView?.reloadData()
+            self.updateTotalLabel()
+            self.quantitySelectorMg!.closeAction()
+            //TODO: Update quantity
+        }
+            
+        self.quantitySelectorMg!.backgroundColor = UIColor.clearColor()
+        let controller = UIViewController()
+        controller.view.frame = CGRectMake(0.0, 0.0, 320.0, 388.0)
+        controller.view.addSubview(self.quantitySelectorMg!)
+        controller.view.backgroundColor = UIColor.clearColor()
+            
+        self.sharePopover = UIPopoverController(contentViewController: controller)
+        self.sharePopover!.popoverContentSize =  CGSizeMake(320.0, 388.0)
+        self.sharePopover!.backgroundColor = WMColor.light_blue
+        let rect = cell.convertRect(cell.quantityIndicator!.frame, toView: self.view.superview!)
+        self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
     }
     
     override func willShowTabbar() { }
