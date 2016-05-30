@@ -293,24 +293,29 @@ DetailListViewCellDelegate,UIActivityItemSource {
         
      
         let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
-        var urlss  = NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_\(self.lineId! as String)")// NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
+       
+        var urlss  = ""
+        if self.lineId != nil {
+            let appLink  = NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_\(self.lineId! as String)")// NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
+            urlss = "\n Entra a nuestra aplicación:\n \(appLink!)"
+        }
         
         let urlapp  = url?.absoluteURL
         
         if activityType == UIActivityTypeMail {
-            return "Hola, Me gustó este producto de Walmart.¡Te lo recomiendo! \n \n Siempre encuentra todo y pagas menos \n Entra a nuestra aplicación:\n \(urlss)"
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss) \n-Descarga la aplicación : \n\(urlapp!)"
         }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
-            return "Chequen este producto:  #walmartapp #wow "
+            return "Chequa esta lista de productos:  #walmartapp #wow "
         }
-        return "Checa este producto: Entra a nuestra aplicación:\n \(urlss)"
+        return "Chequa esta lista de productos: \(urlss) \n -Descarga la aplicación : \n \(urlapp!)"
     }
     
     func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
         if activityType == UIActivityTypeMail {
             if UserCurrentSession.sharedInstance().userSigned == nil {
-                return "Encontré un producto que te puede interesar en www.walmart.com.mx"
+                return "Encontré estos productos te pueden interesar en www.walmart.com.mx"
             } else {
-                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) encontró un producto que te puede interesar en www.walmart.com.mx"
+                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) encontró unos productos que te pueden interesar en www.walmart.com.mx"
             }
         }
         return ""
