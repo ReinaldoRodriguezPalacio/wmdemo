@@ -9,7 +9,8 @@
 import Foundation
 import CoreData
 
-class DefaultListDetailViewController : NavigationViewController, UITableViewDelegate, UITableViewDataSource, DetailListViewCellDelegate{
+class DefaultListDetailViewController : NavigationViewController, UITableViewDelegate, UITableViewDataSource,
+DetailListViewCellDelegate,UIActivityItemSource {
     
     //MARK: Views
     var tableView : UITableView?
@@ -27,6 +28,7 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
     var isShowingTabBar : Bool = true
     var isSharing: Bool = false
     var duplicateButton: UIButton?
+    var lineId: String?
     
     var alertView : IPOWMAlertViewController?
     
@@ -274,11 +276,46 @@ class DefaultListDetailViewController : NavigationViewController, UITableViewDel
         if let image = self.tableView!.screenshot() {
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=00069685996679")
             
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
+            
         }
     }
+    
+    //MARK: activityViewControllerDelegate
+    func activityViewControllerPlaceholderItem(activityViewController: UIActivityViewController) -> AnyObject{
+        return "Walmart"
+    }
+    
+    func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
+        
+     
+        let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+        var urlss  = NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_\(self.lineId! as String)")// NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
+        
+        let urlapp  = url?.absoluteURL
+        
+        if activityType == UIActivityTypeMail {
+            return "Hola, Me gustó este producto de Walmart.¡Te lo recomiendo! \n \n Siempre encuentra todo y pagas menos \n Entra a nuestra aplicación:\n \(urlss)"
+        }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
+            return "Chequen este producto:  #walmartapp #wow "
+        }
+        return "Checa este producto: Entra a nuestra aplicación:\n \(urlss)"
+    }
+    
+    func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
+        if activityType == UIActivityTypeMail {
+            if UserCurrentSession.sharedInstance().userSigned == nil {
+                return "Encontré un producto que te puede interesar en www.walmart.com.mx"
+            } else {
+                return "\(UserCurrentSession.sharedInstance().userSigned!.profile.name) encontró un producto que te puede interesar en www.walmart.com.mx"
+            }
+        }
+        return ""
+    }
+    //-----
     
     func buildImageToShare() -> UIImage? {
         
