@@ -21,20 +21,16 @@ class DetailListViewCell: ProductTableViewCell {
     var separator: UIView?
     var quantityIndicator: UIButton?
     var check: UIButton?
-    
-    
     var equivalenceByPiece: NSNumber? = NSNumber(int:0)
-    
     var detailDelegate: DetailListViewCellDelegate?
-    
     var imageGrayScale: UIImage? = nil
     var imageNormal: UIImage? = nil
-    
     var total: String? = ""
     var upcVal: String? = ""
-    
     var defaultList = true
     var hasStock:Bool = true
+    var onHandInventory: Int = 0
+    var productDeparment: String = ""
     
     
     override func setup() {

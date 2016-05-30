@@ -43,6 +43,8 @@ class SchoolProductTableViewCell: DetailListViewCell {
                 self.equivalenceByPiece =  NSNumber(int: equivalence.intValue)
             }
         }
+    
+        self.onHandInventory = Int(product["onHandInventory"] as! String)!
         
         var quantity: Double = 0.0
         if let quantityString = product["quantity"] as? NSString {
@@ -51,6 +53,11 @@ class SchoolProductTableViewCell: DetailListViewCell {
         if let quantityNumber = product["quantity"] as? NSNumber {
             quantity = quantityNumber.doubleValue
         }
+    
+        if let category = product["category"] as? String {
+            self.productDeparment = category
+        }
+
         let price = product["price"] as! NSString
         var text: String? = ""
         var total: Double = 0.0

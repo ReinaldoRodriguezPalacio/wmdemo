@@ -53,7 +53,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.searchField!.autocapitalizationType = .None
         self.searchField!.autocorrectionType = .No
         self.searchField!.enablesReturnKeyAutomatically = true
-        self.searchField!.placeholder = "Buscar por nombre de la escuela"
+        self.searchField!.placeholder = "Buscar por nombre de escuela"
         self.searchField!.backgroundColor = WMColor.light_light_gray
         self.searchField!.delegate = self
         self.searchView.addSubview(self.searchField)

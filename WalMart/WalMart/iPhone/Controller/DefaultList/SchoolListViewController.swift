@@ -225,14 +225,25 @@ class SchoolListViewController : DefaultListDetailViewController {
             }
             self.quantitySelectorMg!.generateBlurImage(self.view, frame:CGRectMake(0.0, 0.0, width, height))
             self.quantitySelectorMg!.addToCartAction = { (quantity:String) in
-                var item = self.detailItems![indexPath!.row]
-                //var upc = item["upc"] as? String
-                item["quantity"] = NSNumber(integer:Int(quantity)!)
-                self.detailItems![indexPath!.row] = item
-                self.tableView?.reloadData()
-                self.removeSelector()
-                self.updateTotalLabel()
-                //TODO: Update quantity
+                let maxProducts = (cell.onHandInventory <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory : 5
+                if maxProducts >= Int(quantity) {
+                    var item = self.detailItems![indexPath!.row]
+                    //var upc = item["upc"] as? String
+                    item["quantity"] = NSNumber(integer:Int(quantity)!)
+                    self.detailItems![indexPath!.row] = item
+                    self.tableView?.reloadData()
+                    self.removeSelector()
+                    self.updateTotalLabel()
+                }else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    let secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    let msgInventory = "\(firstMessage)\(maxProducts) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                    self.quantitySelectorMg?.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
+                }
             }
             
             UIView.animateWithDuration(0.5, animations: { () -> Void in
@@ -325,11 +336,20 @@ class SchoolListViewController : DefaultListDetailViewController {
                 if let quantity = item["quantity"] as? NSString {
                     params["quantity"] = "\(quantity)"
                 }
+                if let category = item["category"] as? NSString {
+                    params["category"] = "\(category)"
+                }
+                if let onHandInventory = item["onHandInventory"] as? NSString {
+                    params["onHandInventory"] = "\(onHandInventory)"
+                }else{
+                    params["onHandInventory"] = "99"
+                }
+
+                
                 params["pesable"] = false
                 params["wishlist"] = false
                 params["type"] = ResultObjectType.Mg.rawValue
                 params["comments"] = ""
-                params["onHandInventory"] = "99"
                 upcs.append(params)
             }
             if upcs.count > 0 {
