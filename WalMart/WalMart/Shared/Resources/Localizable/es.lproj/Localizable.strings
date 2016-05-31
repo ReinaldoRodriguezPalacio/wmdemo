@@ -370,6 +370,8 @@
 "empty.productdetail.banner" ="Información temporalmente no disponible, estamos trabajando en resolverlo";
 "empty.productdetail.title" = "Artículo no disponible";
 "empty.search.title" = "Artículo no disponible";
+"empty.bts.title.school" = "No se econtraron grados para esta escuela.";
+"empty.bts.title.list" = "No se encontraron artículos para esta lista.";
 
 
 //Checkout

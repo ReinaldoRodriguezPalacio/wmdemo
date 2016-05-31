@@ -20,6 +20,8 @@ class SchoolListViewController : DefaultListDetailViewController {
     var quantitySelectorMg: ShoppingCartQuantitySelectorView?
     var loading: WMLoadingView?
     
+    var emptyView: IPOGenericEmptyView!
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SCHOOLLIST.rawValue
     }
@@ -60,7 +62,7 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     func addViewLoad(){
         if self.loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - 46))
             self.loading!.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
@@ -104,6 +106,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             }
             let itemsCount = self.detailItems == nil ? 0 : self.detailItems!.count
             self.listPrice = self.listPrice ?? "0.0"
+            schoolCell.selectionStyle = .None
             schoolCell.setValues(self.schoolName, grade: grade, listPrice: self.listPrice!, numArticles:itemsCount, savingPrice: "Ahorras 245.89")
             return schoolCell
         }
@@ -146,12 +149,14 @@ class SchoolListViewController : DefaultListDetailViewController {
     func getDetailItems(){
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
-        let params = service.buildParamsForSearch(text: "", family:self.familyId, line: self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 20)
+        let params = service.buildParamsForSearch(text: "", family:self.familyId, line:self.lineId, sort:"rankingASC", departament: self.departmentId, start: 0, maxResult: 20)
         service.callService(params,
                             successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
                                 self.detailItems = arrayProduct as? [[String:AnyObject]]
+                                
                                 if self.detailItems?.count == 0 || self.detailItems == nil {
                                     self.selectedItems = []
+                                    self.showEmptyView()
                                 }
                                 else{
                                     self.selectedItems = NSMutableArray()
@@ -163,10 +168,12 @@ class SchoolListViewController : DefaultListDetailViewController {
                                 self.listPrice = "\(self.calculateTotalAmount())"
                                 self.updateTotalLabel()
                                 self.removeViewLoad()
-                            },
+            },
                             errorBlock: {(error: NSError) in
-               
-            })
+                                self.showEmptyView()
+                                self.removeViewLoad()
+                                
+        })
     }
     
     override func calculateTotalAmount() -> Double {
@@ -365,6 +372,34 @@ class SchoolListViewController : DefaultListDetailViewController {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_ADD_ALL_TO_SHOPPING_CART.rawValue, label: self.defaultListName!)
     }
 
+    //MARK: Utils
+    /**
+     Present Empty view in case error or no items in array
+     */
+    func showEmptyView(){
+        
+        if  self.emptyView == nil {
+            self.emptyView = IPOGenericEmptyView(frame:CGRectMake(0,self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - 46))
+            
+            
+        }else{
+            self.emptyView.removeFromSuperview()
+            self.emptyView =  nil
+            self.emptyView = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - 46))
+        }
+        
+        if IS_IPAD {
+            self.emptyView.iconImageView.image = UIImage(named:"oh-oh_bts")
+            self.emptyView.returnButton.hidden =  true
+        }
+     
+        self.emptyView.descLabel.text = NSLocalizedString("empty.bts.title.list",comment:"")
+        self.emptyView.returnAction = { () in
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        self.view.addSubview(self.emptyView)
+    }
+    
     
     func selectAll() {
         let selected = !self.selectAllButton!.selected
@@ -381,5 +416,11 @@ class SchoolListViewController : DefaultListDetailViewController {
             self.selectAllButton!.selected = false
         }
         self.updateTotalLabel()
+    }
+    
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+    self.tabBarActions()
     }
 }

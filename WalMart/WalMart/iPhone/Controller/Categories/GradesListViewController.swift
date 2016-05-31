@@ -16,6 +16,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     var gradesList :[[String:AnyObject]]! = [[:]]
     var gradesTable : UITableView!
     var loading: WMLoadingView?
+    var emptyView: IPOGenericEmptyView!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRADESLIST.rawValue
@@ -92,8 +93,36 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
             self.loading?.stopAnnimating()
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
-                self.navigationController?.popToRootViewControllerAnimated(true)
+                self.loading?.stopAnnimating()
+                self.showEmptyView()
         })
+    }
+    
+    //MARK: Utils
+    func showEmptyView(){
+
+        if  self.emptyView == nil {
+            self.emptyView = IPOGenericEmptyView(frame:CGRectMake(0,  self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - 46))
+            
+        }else{
+            self.emptyView.removeFromSuperview()
+            self.emptyView =  nil
+            self.emptyView = IPOGenericEmptyView(frame:CGRectMake(0,self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - 46))
+        }
+        
+        if IS_IPAD {
+            self.emptyView.iconImageView.image = UIImage(named:"oh-oh_bts")
+            self.emptyView.returnButton.hidden =  true
+        }
+        
+        self.emptyView.descLabel.text = NSLocalizedString("empty.bts.title.school",comment:"")
+        
+        self.emptyView.returnAction = { () in
+            //self.emptyView.removeFromSuperview()
+            self.navigationController?.popViewControllerAnimated(true)
+        }
+        
+        self.view.addSubview(self.emptyView)
     }
 
 }
