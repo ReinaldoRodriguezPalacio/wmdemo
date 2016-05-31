@@ -377,13 +377,14 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     override func addCartToList(){
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
-            let frame = self.view.frame
+            let frame = self.viewShowLogin!.frame
+            let originX = self.view.frame.width - frame.width
             self.listSelectorController = ListsSelectorViewController()
             self.listSelectorController!.hiddenOpenList = true
             self.listSelectorController!.delegate = self
             //self.listSelectorController!.productUpc = self.upc
             self.addChildViewController(self.listSelectorController!)
-            self.listSelectorController!.view.frame = CGRectMake(0.0, frame.height, frame.width, frame.height)
+            self.listSelectorController!.view.frame = CGRectMake(originX, frame.height, frame.width, frame.height)
             //self.view.insertSubview(self.listSelectorController!.view, belowSubview: self.viewFooter!)
             self.listSelectorController!.titleLabel!.text = NSLocalizedString("gr.addtolist.super", comment: "")
             self.listSelectorController!.didMoveToParentViewController(self)
@@ -395,23 +396,46 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
             
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
-                    self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
-                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
+                    self.listSelectorController!.view.frame = CGRectMake(originX, 0, frame.width, frame.height)
+                    self.listSelectorController!.imageBlurView!.frame = CGRectMake(originX, 0, frame.width, frame.height)
                 },
                     completion: { (finished:Bool) -> Void in
                     if finished {
                     }
                 }
             )
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
-                self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
-                self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
-            })
         }
         else {
             self.removeListSelector(action: nil)
         }
     }
+    
+    override func removeListSelector(action action:(()->Void)?) {
+        if self.listSelectorController != nil {
+            UIView.animateWithDuration(0.5,
+                                       delay: 0.0,
+                                       options: .LayoutSubviews,
+                                       animations: { () -> Void in
+                                        let frame = self.viewShowLogin!.frame
+                                        let originX = self.view.frame.width - frame.width
+                                        self.listSelectorController!.view.frame = CGRectMake(originX, frame.height, frame.width, 0.0)
+                                        self.listSelectorController!.imageBlurView!.frame = CGRectMake(originX, -frame.height, frame.width, frame.height)
+                }, completion: { (complete:Bool) -> Void in
+                    if complete {
+                        if self.listSelectorController != nil {
+                            self.listSelectorController!.willMoveToParentViewController(nil)
+                            self.listSelectorController!.view.removeFromSuperview()
+                            self.listSelectorController!.removeFromParentViewController()
+                            self.listSelectorController = nil
+                        }
+                        self.addToListButton!.selected = false
+                        
+                        action?()
+                    }
+                }
+            )
+        }
+    }
+
     
 }
