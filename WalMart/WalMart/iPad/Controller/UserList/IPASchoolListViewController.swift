@@ -122,7 +122,10 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     override func shareList() {
         //isShared = true
         if let image = self.buildImageToShare() {
-            let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/")
+            
+            let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
+            //let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
             self.sharePopover = UIPopoverController(contentViewController: controller)
             self.sharePopover!.delegate = self
             //self.sharePopover!.backgroundColor = UIColor.greenColor()

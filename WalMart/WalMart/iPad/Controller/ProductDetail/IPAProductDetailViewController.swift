@@ -1218,7 +1218,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         }
         //Prueba de concepto
         let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
-        var urlss  = NSURL(string: "walmartmexicoapp://bussines_mg/type_UPC/value_\(self.upc)")//NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
+        let urlss  = NSURL(string: "walmartmexicoapp://bussines_mg/type_UPC/value_\(self.upc)")//NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
         let urlapp  = url?.absoluteURL
 
         if activityType == UIActivityTypeMail {

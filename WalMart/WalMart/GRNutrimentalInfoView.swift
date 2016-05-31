@@ -49,7 +49,7 @@ class GRNutrimentalInfoView : UIView {
             ingredientsLabel.font = WMFont.fontMyriadProRegularOfSize(16)
             ingredientsLabel.textColor = UIColor.whiteColor()
             ingredientsLabel.text = ingredients
-            ingredientsLabel.textAlignment = .Center
+            ingredientsLabel.textAlignment = .Justified
             ingredientsLabel.numberOfLines = 0
             ingredientsLabel.sizeToFit()
             self.scrollView.addSubview(ingredientsLabel)
