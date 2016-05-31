@@ -276,7 +276,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         if let image = self.tableView!.screenshot() {
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_SHARE.rawValue, label: self.defaultListName!)
-            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx/Busqueda.aspx?Text=00069685996679")
+            let urlWmart = UserCurrentSession.urlWithRootPath("https://www.walmart.com.mx")
             
             let controller = UIActivityViewController(activityItems: [self,image,urlWmart!], applicationActivities: nil)
             self.navigationController?.presentViewController(controller, animated: true, completion: nil)
@@ -303,11 +303,11 @@ DetailListViewCellDelegate,UIActivityItemSource {
         let urlapp  = url?.absoluteURL
         
         if activityType == UIActivityTypeMail {
-            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss) \n-Descarga la aplicación : \n\(urlapp!)"
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss) \n-Descarga la aplicación en : \n\(urlapp!) \n \n"
         }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
             return "Chequa esta lista de productos:  #walmartapp #wow "
         }
-        return "Chequa esta lista de productos: \(urlss) \n -Descarga la aplicación : \n \(urlapp!)"
+        return "Chequa esta lista de productos: \(urlss) \n -Descarga la aplicación en : \n \(urlapp!)"
     }
     
     func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
