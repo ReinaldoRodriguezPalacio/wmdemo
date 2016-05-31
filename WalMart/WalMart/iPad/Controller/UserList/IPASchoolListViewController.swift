@@ -25,6 +25,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + 16.0), 34.0)
     }
     
+    //MARK: TableViewDelegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 {
             return
@@ -72,6 +73,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
             self.quantitySelectorMg = nil
         }
         self.quantitySelectorMg!.addToCartAction = { (quantity:String) in
+            self.quantitySelectorMg!.closeAction()
             let maxProducts = (cell.onHandInventory <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory : 5
             if maxProducts >= Int(quantity) {
                 var item = self.detailItems![indexPath!.row]

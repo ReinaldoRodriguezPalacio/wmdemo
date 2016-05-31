@@ -63,7 +63,6 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
         self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
         self.clearButton!.addTarget(self, action: #selector(StoreLocatorViewController.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
-        self.clearButton!.hidden = true
         self.searchField!.addSubview(self.clearButton!)
         
         self.view.addSubview(imageBackground)
@@ -159,6 +158,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
     func textFieldDidBeginEditing(textField: UITextField) {
         self.hideImageHeader()
+        self.searchField.layer.borderColor = WMColor.light_blue.CGColor
+        self.searchField.layer.borderWidth = 0.5
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -166,12 +167,15 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         return true
     }
     
+    func textFieldDidEndEditing(textField: UITextField) {
+        self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
+        self.searchField.layer.borderWidth = 0.0
+    }
+    
     func searchForItems(textUpdate:String) -> [[String:AnyObject]]? {
         if textUpdate == "" {
-            self.clearButton?.hidden = true
             return self.schoolsList
         }
-        self.clearButton?.hidden = false
         let filterList = self.schoolsList.filter({ (catego) -> Bool in
             return (catego["name"] as! String).lowercaseString.containsString(textUpdate.lowercaseString)})
         
@@ -180,7 +184,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
     func hideImageHeader() {
         self.startView = -98
-        UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+        UIView.animateWithDuration(0.3, animations: {
             self.imageBackground.frame = CGRectMake(0,self.startView,self.view.frame.width , 98)
             self.buttonClose.frame = CGRectMake(0, self.startView, 40, 40)
             self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
@@ -191,7 +195,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
     func showImageHeader() {
         self.startView = 0.0
-        UIView.animateWithDuration(0.4, animations: {() in
+        UIView.animateWithDuration(0.3, animations: {() in
             self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , 98)
             self.buttonClose.frame = CGRectMake(0, 0, 40, 40)
             self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
@@ -211,8 +215,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     
     func clearSearch(){
         self.searchField!.text = ""
+        self.searchField.resignFirstResponder()
         self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
-        self.clearButton?.hidden = true
         self.filterList = self.schoolsList
         self.schoolsTable!.reloadData()
         self.showImageHeader()
