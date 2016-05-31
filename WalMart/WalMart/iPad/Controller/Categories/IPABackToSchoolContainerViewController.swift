@@ -24,7 +24,6 @@ class IPABackToSchoolContainerViewController: UIViewController, IPABackToSchoolV
         
         self.separatorLayer = CALayer()
         self.separatorLayer!.backgroundColor = WMColor.light_light_gray.CGColor
-        self.view.layer.insertSublayer(self.separatorLayer!, atIndex: 1000)
         
         self.btsController = IPABackToSchoolViewController()
         self.btsController!.urlTicer = self.urlTicer
@@ -33,12 +32,13 @@ class IPABackToSchoolContainerViewController: UIViewController, IPABackToSchoolV
         self.addChildViewController(btsController!)
         self.view.addSubview(btsController!.view)
         btsController!.didMoveToParentViewController(self)
-        btsController!.view.frame = CGRectMake(0.0, 0.0, 342, 658.0)
+        btsController!.view.frame = CGRectMake(0.0, 0.0, 341, 658.0)
+        self.btsController!.view.layer.insertSublayer(self.separatorLayer!, atIndex: 1000)
     }
     
     override func viewWillLayoutSubviews() {
         let bounds = self.view.bounds
-        self.separatorLayer!.frame = CGRectMake(342, 0.0, 1.0, bounds.height)
+        self.separatorLayer!.frame = CGRectMake(341, 0.0, 1.0, bounds.height)
         self.btsController!.view.frame = CGRectMake(0.0, 0.0, 342, bounds.height)
     }
     

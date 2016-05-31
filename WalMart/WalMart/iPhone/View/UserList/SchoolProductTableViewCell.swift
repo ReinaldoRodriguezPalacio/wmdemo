@@ -19,19 +19,7 @@ class SchoolProductTableViewCell: DetailListViewCell {
         } else if let imageUrlTxt = product["imageUrl"] as? String {
             imageUrl = imageUrlTxt
         }
-        
-        self.productImage!.contentMode = UIViewContentMode.Center
-        self.productImage!.setImageWithURLRequest(NSURLRequest(URL: NSURL(string: imageUrl!)!),
-                                                  placeholderImage: UIImage(named:"img_default_table"),
-                                                  success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
-                                                    self.productImage!.contentMode = self.contentModeOrig
-                                                    self.productImage!.image = image
-                                                    self.imageGrayScale = self.convertImageToGrayScale(image)
-                                                    self.imageNormal = image
-                                                    
-            }, failure: nil)
         self.promoDescription!.text = product["promoDescription"] as? String
-        self.productShortDescriptionLabel!.text = product["description"] as? String
         self.upcVal = product["upc"] as? String
         
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
@@ -69,12 +57,11 @@ class SchoolProductTableViewCell: DetailListViewCell {
             text = String(format: NSLocalizedString("shoppingcart.quantity.articles", comment:""), NSNumber(double:quantity))
         }
         total = (quantity * price.doubleValue)
-        
         self.quantityIndicator!.setTitle(text!, forState: .Normal)
-        
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
         self.total = formatedPrice
-        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+    
+        super.setValues(imageUrl!, productShortDescription: product["description"] as! String, productPrice: "\(total)")
     
         if let stock = product["stock"] as? NSString {
             if stock == "false" {

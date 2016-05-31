@@ -108,6 +108,15 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
     }
     
+    override func addViewLoad(){
+        if self.loading == nil {
+            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+            self.loading!.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(self.loading!)
+            self.loading!.startAnnimating(self.isVisibleTab)
+        }
+    }
+    
     //MARK: Actions
     
     override func shareList() {
