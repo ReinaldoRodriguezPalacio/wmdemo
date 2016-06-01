@@ -50,8 +50,11 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 let attrString =  ProductDetailCharacteristicsCollectionViewCell.buildAttributtedString(strLabel, value: strValue, colorKey:WMColor.gray, colorValue:WMColor.dark_gray, size: 14)
                 let rectSize = attrString.boundingRectWithSize(CGSizeMake(self.frame.width - 32, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
                 let bgView = UIView(frame: CGRectMake(0, currentY, self.frame.width, rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()))
-                let labelCharacteristic = UILabel(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
+                let labelCharacteristic = WMTCopyLable(frame: CGRectMake(16, 5, self.frame.width-32, rectSize.height))
                 labelCharacteristic.attributedText = attrString
+                labelCharacteristic.stringCopy = strValue
+                
+                
                 labelCharacteristic.numberOfLines = 0
                 index += 1
                 if index % 2 == 0 {
@@ -59,6 +62,9 @@ class ProductDetailCharacteristicsTableViewCell :UITableViewCell {
                 }else{
                     bgView.backgroundColor = WMColor.light_light_gray
                 }
+                bgView.userInteractionEnabled = true
+                descLabel.userInteractionEnabled = true
+                self.superview?.userInteractionEnabled = true
                 bgView.addSubview(labelCharacteristic)
                 descLabel.addSubview(bgView)
                 currentY += rectSize.height + ProductDetailCharacteristicsCollectionViewCell.heightCharacteristic()

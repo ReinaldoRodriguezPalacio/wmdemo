@@ -184,12 +184,14 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         } else {
             lineController.modalPresentationStyle = .FormSheet
         }
-        lineController.preferredContentSize = CGSizeMake(320, 322)
+        //lineController.preferredContentSize = CGSizeMake(320, 322)
         
         popover = UIPopoverController(contentViewController: lineController)
         popover!.delegate = self
         popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, pointPop.y - 254 + 40 , 0, 0), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         lineController.familyTable.reloadData()
+        lineController.familyTable.contentSize =  CGSize(width: self.view.bounds.width, height: CGFloat((((self.linesCamp?.count)! + 1) * 64) + 40))
+     
     }
     
     /**
