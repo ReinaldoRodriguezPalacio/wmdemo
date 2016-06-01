@@ -559,7 +559,8 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func userLogOut(not:NSNotification) {
         self.removeAllCookies()
-        
+        self.removeChildViewControllers(self.viewControllers[0].childViewControllers)
+        self.closeWishList()
         if let navController = self.viewControllers[0] as? UINavigationController {
             let vc = storyboard!.instantiateViewControllerWithIdentifier("homeVC")
             navController.popToRootViewControllerAnimated(false)
@@ -570,6 +571,20 @@ class IPACustomBarViewController :  CustomBarViewController {
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
         NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(CustomBarViewController.sendHomeNotification), userInfo: nil, repeats: false)
+    }
+    
+    func removeChildViewControllers(controllers:[UIViewController]) {
+        var count = 0
+        for controller in controllers {
+            if count == 0 {
+                count += 1
+                continue
+            }
+            count += 1
+            controller.willMoveToParentViewController(nil)
+            controller.view.removeFromSuperview()
+            controller.removeFromParentViewController()
+        }
     }
     
     override func sendHomeNotification(){
