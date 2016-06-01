@@ -32,6 +32,9 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         if indexPath.section == 0 {
             return
         }
+        if let _ = tableView.cellForRowAtIndexPath(indexPath) as? GRShoppingCartTotalsTableViewCell {
+        return
+        }
         
         let controller = IPAProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
