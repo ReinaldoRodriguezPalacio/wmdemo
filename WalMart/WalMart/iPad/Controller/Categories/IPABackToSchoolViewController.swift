@@ -68,7 +68,10 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
     
     override  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let school = self.filterList![indexPath.row]
-            self.btsDelegate?.schoolSelected(school["id"] as! String,schoolName:school["name"] as! String)
+        if school.count == 0 {
+            return
+        }
+        self.btsDelegate?.schoolSelected(school["id"] as! String,schoolName:school["name"] as! String)
     }
     
     override func invokeServiceFamilyByCategory(){
