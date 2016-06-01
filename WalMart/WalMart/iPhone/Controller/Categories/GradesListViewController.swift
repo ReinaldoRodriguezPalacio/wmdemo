@@ -72,7 +72,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
         cell.titleLabel?.text = grades["name"] as? String
         cell.showSeparator =  true
-        cell.newFrame = true
+        cell.oneLine = true
         return cell
     }
     
