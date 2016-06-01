@@ -29,6 +29,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.titleLabel?.text = self.schoolName
         self.tableView!.registerClass(SchoolListTableViewCell.self, forCellReuseIdentifier: "schoolCell")
         self.tableView!.registerClass(SchoolProductTableViewCell.self, forCellReuseIdentifier: "schoolProduct")
+        self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totalsCell")
         
         let y = (self.footerSection!.frame.height - 34.0)/2
         self.selectAllButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
@@ -90,7 +91,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         if section == 0 {
             return 1
         }
-        return  self.detailItems == nil ? 0 : self.detailItems!.count
+        return  self.detailItems == nil ? 0 : self.detailItems!.count + 1
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -107,6 +108,13 @@ class SchoolListViewController : DefaultListDetailViewController {
             schoolCell.setValues(self.schoolName, grade: grade, listPrice: self.listPrice!, numArticles:itemsCount, savingPrice: "Ahorras 245.89")
             schoolCell.selectionStyle = .None
             return schoolCell
+        }
+        
+        if indexPath.row == self.detailItems!.count {
+            let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
+            let total = self.calculateTotalAmount()
+            totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
+            return totalCell
         }
         
         let listCell = tableView.dequeueReusableCellWithIdentifier("schoolProduct", forIndexPath: indexPath) as! SchoolProductTableViewCell

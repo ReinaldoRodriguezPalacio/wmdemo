@@ -18,6 +18,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         numProducts = UILabel(frame: CGRectMake(16, 25, 75, 14))
         numProducts.font = WMFont.fontMyriadProSemiboldOfSize(14)
         numProducts.textColor = WMColor.gray
+        numProducts.numberOfLines = 2
         self.addSubview(numProducts)
         
         subtotalTitle.text = NSLocalizedString("shoppingcart.subtotal",comment:"")
@@ -45,5 +46,17 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
             numProducts.text = "\(numProds) \(articles)"
         }
     }
+    
+    func setValuesBTS(subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
+        let articles = NSLocalizedString("shoppingcart.articles",comment: "")
+        super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
+        self.valueTotal.label1?.textColor = WMColor.orange
+        self.valueTotal.label2?.textColor = WMColor.orange
+        self.total.textColor = WMColor.orange
+        if numProds != "" {
+            numProducts.text = "\(numProds) \(articles) \n seleccionados"
+        }
+    }
+    
     
 }
