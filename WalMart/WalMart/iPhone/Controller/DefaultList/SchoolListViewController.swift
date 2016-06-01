@@ -32,6 +32,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.tableView!.registerClass(SchoolListTableViewCell.self, forCellReuseIdentifier: "schoolCell")
         self.tableView!.registerClass(SchoolProductTableViewCell.self, forCellReuseIdentifier: "schoolProduct")
         self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totalsCell")
+        self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         
         let y = (self.footerSection!.frame.height - 34.0)/2
         self.selectAllButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
@@ -116,6 +117,7 @@ class SchoolListViewController : DefaultListDetailViewController {
             let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
             totalCell.setValuesBTS("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
+            totalCell.selectionStyle = .None
             return totalCell
         }
         
@@ -284,6 +286,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
         
         self.selectAllButton!.selected = !(self.selectedItems?.count == self.detailItems?.count)
+        self.tableView!.reloadRowsAtIndexPaths([NSIndexPath(forRow:self.detailItems!.count, inSection: 1)], withRowAnimation:UITableViewRowAnimation.None)
         self.updateTotalLabel()
     }
     

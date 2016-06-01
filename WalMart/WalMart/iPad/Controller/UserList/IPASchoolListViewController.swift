@@ -29,11 +29,8 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     
     //MARK: TableViewDelegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 0 {
+        if indexPath.section == 0 || indexPath.row == self.detailItems!.count {
             return
-        }
-        if let _ = tableView.cellForRowAtIndexPath(indexPath) as? GRShoppingCartTotalsTableViewCell {
-        return
         }
         
         let controller = IPAProductDetailPageViewController()

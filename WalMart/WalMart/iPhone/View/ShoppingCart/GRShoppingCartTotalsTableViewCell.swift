@@ -58,7 +58,7 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         if numProds != "" {
             numProducts.frame =  CGRectMake(16, 25, 100, 28)
             numProducts.textAlignment = .Left
-            numProducts.text = "\(numProds) \(articles) \n seleccionados"
+            numProducts.text = "\(numProds) \(articles) \nseleccionados"
         }
     }
     
