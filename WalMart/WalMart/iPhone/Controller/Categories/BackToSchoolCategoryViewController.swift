@@ -21,6 +21,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
     var separator: CALayer!
+    var searchFieldSpace: CGFloat = 0.0
     var startView: CGFloat = 0.0
     
     override func viewDidLoad() {
@@ -59,11 +60,11 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.searchView.addSubview(self.searchField)
         
         self.clearButton = UIButton(type: .Custom)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Normal)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Highlighted)
-        self.clearButton!.setImage(UIImage(named:"searchClear"), forState: .Selected)
+        self.clearButton!.setTitle("Cancelar", forState: .Normal)
+        self.clearButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
+        self.clearButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.clearButton!.addTarget(self, action: #selector(StoreLocatorViewController.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
-        self.searchField!.addSubview(self.clearButton!)
+        self.searchView!.addSubview(self.clearButton!)
         
         self.view.addSubview(imageBackground)
         self.view.addSubview(buttonClose)
@@ -93,8 +94,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.buttonClose.frame = CGRectMake(0, startView, 40, 40)
         self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
         self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
-        self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - 32, 40.0)
-        self.clearButton!.frame = CGRectMake(self.searchField.frame.width - 40 , 0, 48, 40)
+        self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
+        self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
         self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
     }
     
@@ -129,7 +130,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         let school = self.filterList![indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
         cell.titleLabel?.text = school["name"] as? String
-        cell.newFrame = true
+        cell.showSeparator = true
         cell.oneLine =  true
         return cell
     }
@@ -158,7 +159,8 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        self.hideImageHeader()
+        self.showImageHeader(false)
+        self.showClearSearchButton(true)
         self.searchField.layer.borderColor = WMColor.light_blue.CGColor
         self.searchField.layer.borderWidth = 0.5
     }
@@ -171,6 +173,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     func textFieldDidEndEditing(textField: UITextField) {
         self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         self.searchField.layer.borderWidth = 0.0
+        self.showClearSearchButton(false)
     }
     
     func searchForItems(textUpdate:String) -> [[String:AnyObject]]? {
@@ -183,35 +186,53 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         return filterList
     }
     
-    func hideImageHeader() {
-        self.startView = -98
-        UIView.animateWithDuration(0.3, animations: {
-            self.imageBackground.frame = CGRectMake(0,self.startView,self.view.frame.width , 98)
-            self.buttonClose.frame = CGRectMake(0, self.startView, 40, 40)
-            self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
-            self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
-            }, completion: {(finish) in
-        })
+    //MARK: Animations
+    func showImageHeader(didShow:Bool) {
+        if didShow {
+            self.startView = 0.0
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , 98)
+                self.buttonClose.frame = CGRectMake(0, 0, 40, 40)
+                self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
+                self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
+            })
+        }else{
+            self.startView = -98
+            UIView.animateWithDuration(0.3, animations: {
+                self.imageBackground.frame = CGRectMake(0,self.startView,self.view.frame.width , 98)
+                self.buttonClose.frame = CGRectMake(0, self.startView, 40, 40)
+                self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
+                self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
+                }, completion: {(finish) in
+            })
+        }
     }
     
-    func showImageHeader() {
-        self.startView = 0.0
-        UIView.animateWithDuration(0.3, animations: {() in
-            self.imageBackground.frame = CGRectMake(0,0 ,self.view.frame.width , 98)
-            self.buttonClose.frame = CGRectMake(0, 0, 40, 40)
-            self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
-            self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
-        })
+    func showClearSearchButton(didShow:Bool){
+        if didShow{
+            self.searchFieldSpace = 71
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
+                self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
+            })
+        }else{
+            self.searchFieldSpace = 0
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
+                self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
+            })
+        }
+        
     }
     
    override func willHideTabbar() {
         super.willHideTabbar()
-        self.hideImageHeader()
+        self.showImageHeader(false)
     }
     
     override func willShowTabbar() {
         super.willShowTabbar()
-        self.showImageHeader()
+        self.showImageHeader(true)
     }
     
     func clearSearch(){
@@ -220,7 +241,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         self.filterList = self.schoolsList
         self.schoolsTable!.reloadData()
-        self.showImageHeader()
+        self.showImageHeader(true)
     }
 
     //MARK: ScrollViewDelegate
