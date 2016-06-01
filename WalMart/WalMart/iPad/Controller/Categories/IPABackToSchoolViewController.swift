@@ -69,6 +69,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         if school.count == 0 {
             return
         }
+        self.searchField.resignFirstResponder()
         self.btsDelegate?.schoolSelected(school["id"] as! String,schoolName:school["name"] as! String)
     }
     

@@ -64,6 +64,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.clearButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
         self.clearButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.clearButton!.addTarget(self, action: #selector(StoreLocatorViewController.clearSearch), forControlEvents: UIControlEvents.TouchUpInside)
+        self.clearButton!.alpha = 0.0
         self.searchView!.addSubview(self.clearButton!)
         
         self.view.addSubview(imageBackground)
@@ -173,7 +174,9 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     func textFieldDidEndEditing(textField: UITextField) {
         self.searchField.layer.borderColor = WMColor.light_light_gray.CGColor
         self.searchField.layer.borderWidth = 0.0
-        self.showClearSearchButton(false)
+        if textField.text == "" {
+          self.showClearSearchButton(false)
+        }
     }
     
     func searchForItems(textUpdate:String) -> [[String:AnyObject]]? {
@@ -212,12 +215,14 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         if didShow{
             self.searchFieldSpace = 71
             UIView.animateWithDuration(0.3, animations: {() in
+                self.clearButton!.alpha = 1.0
                 self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
                 self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
             })
         }else{
             self.searchFieldSpace = 0
             UIView.animateWithDuration(0.3, animations: {() in
+                self.clearButton!.alpha = 0.0
                 self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
                 self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
             })
@@ -242,6 +247,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.filterList = self.schoolsList
         self.schoolsTable!.reloadData()
         self.showImageHeader(true)
+        self.showClearSearchButton(false)
     }
 
     //MARK: ScrollViewDelegate
