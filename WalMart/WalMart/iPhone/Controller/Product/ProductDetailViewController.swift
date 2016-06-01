@@ -720,7 +720,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 self.viewDetail.removeFromSuperview()
                 self.viewDetail = nil
                 self.productDetailButton?.deltailButton.selected = false
-                self.productDetailButton?.reloadButton()
+                //self.productDetailButton?.reloadButton()
                 }
         }
         }
