@@ -113,7 +113,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         if indexPath.row == self.detailItems!.count {
             let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
-            totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
+            totalCell.setValuesBTS("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
             return totalCell
         }
         
