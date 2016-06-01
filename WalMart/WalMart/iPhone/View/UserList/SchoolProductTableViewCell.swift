@@ -14,14 +14,26 @@ class SchoolProductTableViewCell: DetailListViewCell {
         var imageUrl: String? = ""
         if let imageArray = product["imageUrl"] as? NSArray {
             if imageArray.count > 0 {
-                imageUrl = imageArray[0] as? String
+                var imgSmall = NSString(string: imageArray[0] as! String)
+                imgSmall = imgSmall.stringByReplacingOccurrencesOfString("img_large", withString: "img_small")
+                let pathExtention = imgSmall.pathExtension
+                imageUrl = imgSmall.stringByReplacingOccurrencesOfString("L.\(pathExtention)", withString:"s.\(pathExtention)")
             }
         } else if let imageUrlTxt = product["imageUrl"] as? String {
             imageUrl = imageUrlTxt
         }
+    
+        self.productImage!.contentMode = UIViewContentMode.Center
+        self.productImage!.setImageWithURL(NSURL(string: imageUrl!), placeholderImage: UIImage(named:"img_default_table"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.productImage!.contentMode = self.contentModeOrig
+            self.productImage!.image = image
+            self.imageGrayScale = self.convertImageToGrayScale(image)
+            self.imageNormal = image
+            }, failure: nil)
+    
         self.promoDescription!.text = product["promoDescription"] as? String
         self.upcVal = product["upc"] as? String
-        
+    
         if let equivalence = product["equivalenceByPiece"] as? NSNumber {
             self.equivalenceByPiece = equivalence
         }
@@ -61,7 +73,8 @@ class SchoolProductTableViewCell: DetailListViewCell {
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")
         self.total = formatedPrice
     
-        super.setValues(imageUrl!, productShortDescription: product["description"] as! String, productPrice: "\(total)")
+        self.productShortDescriptionLabel!.text = product["description"] as? String
+        self.productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(14), color: WMColor.orange, interLine: false)
     
         if let stock = product["stock"] as? NSString {
             if stock == "false" {

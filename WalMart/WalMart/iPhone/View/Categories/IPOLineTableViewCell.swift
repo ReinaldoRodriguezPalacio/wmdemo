@@ -65,7 +65,7 @@ class IPOLineTableViewCell : UITableViewCell {
         super.layoutSubviews()
         self.viewBgSel!.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
 
-        titleLabel.frame = self.newFrame ? CGRectMake(16, 0, 182, self.bounds.height) : CGRectMake(40, 0, self.bounds.width - 40, self.bounds.height)
+        titleLabel.frame = self.newFrame ? CGRectMake(16, 0, self.bounds.width - 40, self.bounds.height) : CGRectMake(40, 0, self.bounds.width - 40, self.bounds.height)
         label.frame = CGRectMake(titleLabel.frame.maxX + 5, 0, 40, self.bounds.height)
         priceLabel?.frame =  CGRectMake(label.frame.maxX + 5, 0, 50, self.bounds.height)
 

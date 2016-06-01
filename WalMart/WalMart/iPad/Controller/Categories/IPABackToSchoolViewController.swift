@@ -53,7 +53,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         super.viewWillLayoutSubviews()
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
         self.titleLabel!.frame = CGRectMake(46, 0, self.header!.frame.width - 92, self.header!.frame.maxY)
-        self.backButton!.frame = CGRectMake(0, 0  ,46,46)
+        self.backButton!.frame = CGRectMake(8, 8,30,30)
         self.searchView.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 72)
         self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
     }

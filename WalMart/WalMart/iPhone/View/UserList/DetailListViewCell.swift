@@ -265,7 +265,7 @@ class DetailListViewCell: ProductTableViewCell {
             self.promoDescription!.frame = CGRectMake(x, self.productPriceLabel!.frame.maxY, 80.0, 26.0)
         }
 
-        self.separator!.frame = CGRectMake(16, 108,self.frame.width - 16, 1.0)
+        self.separator!.frame = CGRectMake(x, 108,self.frame.width - 16, 1.0)
         
         
     }
@@ -313,7 +313,6 @@ class DetailListViewCell: ProductTableViewCell {
     }
     
     func convertImageToGrayScale(image:UIImage) -> UIImage {
-        
         let imageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let colorSpace = CGColorSpaceCreateDeviceGray()
         let context = CGBitmapContextCreate(nil, Int(image.size.width),  Int(image.size.height), 8, 0, colorSpace, CGBitmapInfo().rawValue)

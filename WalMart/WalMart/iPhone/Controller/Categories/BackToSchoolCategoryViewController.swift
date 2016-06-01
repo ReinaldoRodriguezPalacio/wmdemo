@@ -129,6 +129,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         let school = self.filterList![indexPath.row]
         let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
         cell.titleLabel?.text = school["name"] as? String
+        cell.newFrame = true
         cell.showSeparator =  true
         return cell
     }

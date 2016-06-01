@@ -47,7 +47,11 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     
     override func viewWillAppear(animated: Bool) {
         if self.loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+            if IS_IPHONE {
+              self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+            }else{
+              self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, 682.0, 658.0))
+            }
             self.loading!.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
@@ -68,7 +72,7 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         let cell = tableView.dequeueReusableCellWithIdentifier("lineCell", forIndexPath: indexPath) as! IPOLineTableViewCell
         cell.titleLabel?.text = grades["name"] as? String
         cell.showSeparator =  true
-        
+        cell.newFrame = true
         return cell
     }
     

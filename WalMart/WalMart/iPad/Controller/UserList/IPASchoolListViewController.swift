@@ -17,12 +17,14 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         if !self.isSharing {
             tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
         }
-        self.footerSection!.frame = CGRectMake(146,  self.view.frame.maxY - 72 , 390, 72)
-        let x = self.shareButton!.frame.maxX + 16.0
+        self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , 682.0, 72)
         let y = (self.footerSection!.frame.height - 34.0)/2
-        self.addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0)
-        self.selectAllButton?.frame = CGRectMake(16.0, y, 34.0, 34.0)
-        self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + 16.0), 34.0)
+        self.selectAllButton?.frame = CGRectMake(162.0, y, 34.0, 34.0)
+        var x = self.selectAllButton!.frame.maxX + 16
+        self.shareButton!.frame = CGRectMake(x, y, 34.0, 34.0)
+         x = self.shareButton!.frame.maxX + 16
+        self.addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 146.0), 34.0)
+        self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + 146.0), 34.0)
     }
     
     //MARK: TableViewDelegate
@@ -110,7 +112,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     
     override func addViewLoad(){
         if self.loading == nil {
-            self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height - 46))
+            self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, 682.0, 658.0))
             self.loading!.backgroundColor = UIColor.whiteColor()
             self.view.addSubview(self.loading!)
             self.loading!.startAnnimating(self.isVisibleTab)
