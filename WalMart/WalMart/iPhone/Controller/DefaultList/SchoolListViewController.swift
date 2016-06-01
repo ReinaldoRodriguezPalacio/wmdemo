@@ -109,7 +109,6 @@ class SchoolListViewController : DefaultListDetailViewController {
             self.listPrice = self.listPrice ?? "0.0"
             schoolCell.selectionStyle = .None
             schoolCell.setValues(self.schoolName, grade: grade, listPrice: self.listPrice!, numArticles:itemsCount, savingPrice: "Ahorras 245.89")
-            schoolCell.selectionStyle = .None
             return schoolCell
         }
         
@@ -123,6 +122,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         let listCell = tableView.dequeueReusableCellWithIdentifier("schoolProduct", forIndexPath: indexPath) as! SchoolProductTableViewCell
         listCell.setValuesDictionary(self.detailItems![indexPath.row],disabled:!self.selectedItems!.containsObject(indexPath.row))
         listCell.detailDelegate = self
+        listCell.selectionStyle = .None
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
@@ -133,6 +133,12 @@ class SchoolListViewController : DefaultListDetailViewController {
         if indexPath.section == 0 {
             return
         }
+        if let _ = tableView.cellForRowAtIndexPath(indexPath) as? GRShoppingCartTotalsTableViewCell {
+          return
+        }
+        
+        
+        
         
         let controller = ProductDetailPageViewController()
         var productsToShow:[AnyObject] = []
