@@ -58,7 +58,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.emptyView!.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
-        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 156)
+        self.tableOrders.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
         //self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 64 , self.view.frame.width, 64)
         if isShowingTabBar {
             self.facturasToolBar.frame = CGRectMake(0, self.view.frame.height - 109 , self.view.frame.width, 64)
