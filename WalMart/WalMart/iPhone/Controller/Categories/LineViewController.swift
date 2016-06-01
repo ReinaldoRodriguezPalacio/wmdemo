@@ -24,11 +24,17 @@ class LineViewController : FamilyViewController {
         familyTable.dataSource = self
         familyTable.frame = self.view.bounds
         
+        
         self.view.addSubview(familyTable)
     }
     
     override func viewDidLayoutSubviews() {
-
+        if IS_IPAD {
+            familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(((self.families.count + 1 ) * 64) + 40))
+        }else{
+            familyTable.frame = CGRectMake(0,0,familyTable.frame.size.width,familyTable.frame.size.height - 80)
+            familyTable.contentSize =  CGSize(width: 322 , height: CGFloat(self.families.count * 46))
+        }
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int{
@@ -52,7 +58,7 @@ class LineViewController : FamilyViewController {
             let selectedSection = families[indexPath.row]
             let selectedItem = selectedSection["id"] as! String
             cellLine.setTitle(selectedSection["name"] as! String)
-            cellLine.setValues(selectedSection["price"] as! String)
+            cellLine.setValues(selectedSection["price"] == nil ? "0" :selectedSection["price"] as! String)
             cellLine.showSeparator =  true
         
             cell = cellLine
