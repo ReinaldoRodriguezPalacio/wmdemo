@@ -571,7 +571,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                     }
                 }
             }
-            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image":"list_alert_addToCart"])
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddItemsToShopingCart.rawValue, object: self, userInfo: ["allitems":upcs, "image": "alert_cart"])
         }
     
     }
