@@ -49,11 +49,15 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
     
     func setValuesBTS(subtotal: String, iva: String, total: String, totalSaving: String,numProds:String) {
         let articles = NSLocalizedString("shoppingcart.articles",comment: "")
+        self.valueTotal.frame = CGRectMake(self.frame.width - (self.valueTotal.frame.size.width + 16), 16 , self.valueTotal.frame.size.width, self.valueTotal.frame.size.height)
+        self.total.frame = CGRectMake(valueTotal.frame.minX - (self.total.frame.size.width + 8) , 16, self.total.frame.size.width, self.total.frame.size.height)
         super.setValues(subtotal, iva: iva, total: total, totalSaving: totalSaving)
         self.valueTotal.label1?.textColor = WMColor.orange
         self.valueTotal.label2?.textColor = WMColor.orange
         self.total.textColor = WMColor.orange
         if numProds != "" {
+            numProducts.frame =  CGRectMake(16, 25, 100, 28)
+            numProducts.textAlignment = .Left
             numProducts.text = "\(numProds) \(articles) \n seleccionados"
         }
     }

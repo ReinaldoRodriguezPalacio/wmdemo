@@ -82,7 +82,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         if indexPath.section == 0 {
             return 98
         }
-        return 109
+        return indexPath.row == self.detailItems!.count ? 64 : 109
     }
     
      func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -116,7 +116,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         if indexPath.row == self.detailItems!.count {
             let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
-            totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
+            totalCell.setValuesBTS("", iva: "", total: "\(total)", totalSaving: "", numProds:"\(self.selectedItems!.count)")
             return totalCell
         }
         
@@ -188,6 +188,7 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     override func calculateTotalAmount() -> Double {
         var total: Double = 0.0
+        //var totalSaving: Double = 0.0
         for idxVal  in selectedItems! {
             let idx = idxVal as! Int
             let item = self.detailItems![idx]
@@ -200,6 +201,7 @@ class SchoolListViewController : DefaultListDetailViewController {
                     quantity = quantityNumber.doubleValue
                 }
                 let price = item["price"] as! NSString
+                //totalSaving += (item["saving"] as! NSString).doubleValue
                 
                 if typeProd.integerValue == 0 {
                     total += (quantity * price.doubleValue)
