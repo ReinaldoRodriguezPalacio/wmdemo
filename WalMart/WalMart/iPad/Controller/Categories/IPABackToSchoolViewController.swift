@@ -62,9 +62,7 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
     
     override func willShowTabbar() {}
     
-    override func hideImageHeader() {}
-    
-    override func showImageHeader() {}
+    override func showImageHeader(didShow:Bool) {}
     
     override  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let school = self.filterList![indexPath.row]
