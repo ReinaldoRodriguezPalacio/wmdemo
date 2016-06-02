@@ -951,6 +951,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
         let cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath)
+        cellEmpty.frame =  CGRectMake(0, 0, 2, 2)
         var cell : UICollectionViewCell? = nil
         let point = (indexPath.section,indexPath.row)
         if isLoading {
@@ -977,10 +978,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             cell = nil
         }
       
+        
         if cell != nil {
             return cell!
         }
-        return cellEmpty
+    return cellEmpty
     }
     
     
@@ -999,16 +1001,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 view.lowStock?.hidden = false
             }
             
-            
             view.items = self.imageUrl
             view.delegate = self
             view.colors = self.colorItems
             view.sizes = self.sizesItems
             view.colorsViewDelegate = self
             view.collection.reloadData()
-            view.finishZoom = {() in
-                self.isLoading =  false
-            }
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
             currentHeaderView = view

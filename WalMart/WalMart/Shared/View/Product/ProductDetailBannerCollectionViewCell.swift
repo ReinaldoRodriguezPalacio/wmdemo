@@ -26,7 +26,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var freeShippingImage: UIImageView!
     var imageZoom: UIImageView!
     let contentModeOrig = UIViewContentMode.ScaleAspectFit
-    var finishZoom : (() -> Void)? = nil
     
     var priceBefore : CurrencyCustomLabel!
     var price : CurrencyCustomLabel!
@@ -244,7 +243,6 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.imageZoom.frame = collection.frame
                 
             }
-         self.finishZoom!()
         
         self.buildColorsAndSizesView()
         
