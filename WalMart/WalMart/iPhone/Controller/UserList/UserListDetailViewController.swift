@@ -633,6 +633,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let fmtTotal = CurrencyCustomLabel.formatString("\(total)")
         let amount = String(format: NSLocalizedString("list.detail.buy",comment:""), fmtTotal)
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
+        if self.selectedItems != nil {
+            self.tableView?.reloadRowsAtIndexPaths([NSIndexPath(forRow: self.products!.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+        }
     }
     
     
@@ -728,7 +731,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
             totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
-            totalCell.selectionStyle = .None
             return totalCell
         }
 
