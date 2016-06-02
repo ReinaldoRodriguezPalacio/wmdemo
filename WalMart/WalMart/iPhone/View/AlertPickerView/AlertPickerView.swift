@@ -113,7 +113,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height))
         
-        tableData = UITableView(frame: CGRectMake(0, 0, viewContentOptions.frame.width,viewContentOptions.frame.height - 64))
+        tableData = UITableView(frame: CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64))
         tableData.registerClass(SelectItemTableViewCell.self, forCellReuseIdentifier: "cellSelItem")
         tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self

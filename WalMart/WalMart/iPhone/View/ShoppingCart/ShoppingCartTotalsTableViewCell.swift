@@ -35,7 +35,7 @@ class ShoppingCartTotalsTableViewCell : UITableViewCell {
     }
     
     func setup() {
-        
+        self.selectionStyle = .None
         backgroundColor = WMColor.light_light_gray
         
 

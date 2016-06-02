@@ -728,6 +728,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
             totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
+            totalCell.selectionStyle = .None
             return totalCell
         }
 

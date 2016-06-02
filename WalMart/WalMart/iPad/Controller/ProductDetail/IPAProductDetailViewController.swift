@@ -522,7 +522,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         case (1,5) :
             if characteristics.count != 0 {
                 let size = ProductDetailCharacteristicsCollectionViewCell.sizeForCell(self.tabledetail.frame.width - 30,values:characteristics)
-                return size + 26
+                return size + 126
             }
             return sizeForIndexPath ((indexPath.section,7),indexPath: indexPath)
         default :
