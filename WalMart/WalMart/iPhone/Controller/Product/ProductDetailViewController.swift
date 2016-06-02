@@ -1110,7 +1110,6 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("msiCell", forIndexPath: indexPath) as! ProductDetailMSICollectionViewCell
                 cellPromotion.priceProduct = self.price
                 cellPromotion.setValues(msi)
-                cellPromotion.backgroundColor =  UIColor.blueColor()
                 cell = cellPromotion
             }else {
                 return cellForPoint((indexPath.section,2),indexPath: indexPath)
