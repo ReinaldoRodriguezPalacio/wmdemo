@@ -130,6 +130,46 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         totalsView.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
     }
     
+    override func loadShoppingCartService() {
+        
+        idexesPath = []
+        
+        self.itemsInShoppingCart =  []
+        if UserCurrentSession.sharedInstance().itemsMG != nil {
+            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+        }
+        
+        if  self.itemsInShoppingCart.count > 0 {
+            self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
+            self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
+            self.totalest = UserCurrentSession.sharedInstance().itemsMG!["totalEstimado"] as! NSNumber
+        }else{
+            self.subtotal = NSNumber(int: 0)
+            self.ivaprod = NSNumber(int: 0)
+            self.totalest = NSNumber(int: 0)
+        }
+        
+        
+        let totalsItems = self.totalItems()
+        let total = totalsItems["total"] as String!
+        let totalSaving = totalsItems["totalSaving"] as String!
+        let subTotalText = totalsItems["subtotal"] as String!
+        let iva = totalsItems["iva"] as String!
+        
+        self.updateShopButton(total)
+        
+        if self.totalsView != nil {
+            self.totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
+        }
+        
+        self.viewShoppingCart.delegate = self
+        self.viewShoppingCart.dataSource = self
+        self.viewShoppingCart.reloadData()
+        
+        self.loadCrossSell()
+        
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemsInShoppingCart.count
     }
