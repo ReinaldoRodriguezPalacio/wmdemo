@@ -950,7 +950,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath) 
+        let cellEmpty = detailCollectionView.dequeueReusableCellWithReuseIdentifier("emptyCell", forIndexPath: indexPath)
         var cell : UICollectionViewCell? = nil
         let point = (indexPath.section,indexPath.row)
         if isLoading {
@@ -1006,6 +1006,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             view.sizes = self.sizesItems
             view.colorsViewDelegate = self
             view.collection.reloadData()
+            view.finishZoom = {() in
+                self.isLoading =  false
+            }
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
             currentHeaderView = view
@@ -1107,6 +1110,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let cellPromotion = detailCollectionView.dequeueReusableCellWithReuseIdentifier("msiCell", forIndexPath: indexPath) as! ProductDetailMSICollectionViewCell
                 cellPromotion.priceProduct = self.price
                 cellPromotion.setValues(msi)
+                cellPromotion.backgroundColor =  UIColor.blueColor()
                 cell = cellPromotion
             }else {
                 return cellForPoint((indexPath.section,2),indexPath: indexPath)
