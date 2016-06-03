@@ -63,20 +63,14 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.buttomMail = UIButton()
         
         
+        
         let attrStringLab = NSAttributedString(string:NSLocalizedString("help.buttom.title.callto", comment: ""),
-            attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
-                NSForegroundColorAttributeName:WMColor.light_blue])
+                                               attributes: [NSFontAttributeName : WMFont.fontMyriadProLightOfSize(14),
+                                                NSForegroundColorAttributeName:WMColor.light_blue])
         
         let attrStringVal = NSAttributedString(string:PHONE_SUPPORT,
-            attributes: [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14),
-                NSForegroundColorAttributeName:WMColor.light_blue])
-        
-        let valuesDescItem = NSMutableAttributedString()
-        valuesDescItem.appendAttributedString(attrStringLab)
-         valuesDescItem.appendAttributedString(attrStringVal)
-        
-        self.labelQuestion1.text = NSLocalizedString("Support.label.question.comment" , comment: "")
-        self.labelQuestion2.attributedText = valuesDescItem
+                                               attributes: [NSFontAttributeName : WMFont.fontMyriadProBoldOfSize(14),
+                                                NSForegroundColorAttributeName:WMColor.light_blue])
         
         self.callme.text = NSLocalizedString("help.buttom.title.call" , comment: "")
         
@@ -94,6 +88,13 @@ class SupportViewController :  NavigationViewController, UIScrollViewDelegate, U
         self.labelQuestion2!.textColor = WMColor.light_blue
         self.labelQuestion2!.backgroundColor = UIColor.clearColor()
         self.labelQuestion2!.textAlignment = .Center
+        
+        let valuesDescItem = NSMutableAttributedString()
+        valuesDescItem.appendAttributedString(attrStringLab)
+        valuesDescItem.appendAttributedString(attrStringVal)
+        
+        self.labelQuestion1.text = NSLocalizedString("Support.label.question.comment" , comment: "")
+        self.labelQuestion2.attributedText = valuesDescItem
         
         self.callme!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.callme!.textColor = WMColor.gray
