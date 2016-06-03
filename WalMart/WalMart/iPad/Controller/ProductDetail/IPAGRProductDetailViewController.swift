@@ -24,6 +24,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     var nutrimentalsView : GRNutrimentalInfoView? = nil
     
     var equivalenceByPiece : NSNumber! = NSNumber(int:0)
+    var productDetailButtonGR: GRProductDetailButtonBarCollectionViewCell?
     
     override func viewDidLoad() {
         NSLog("viewDidLoad")
@@ -200,24 +201,24 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 return UIView()
             }
             
-            let productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 64.0),spaceBetweenButtons:13,widthButtons:63)
-            productDetailButtonGR.upc = self.upc as String
-            productDetailButtonGR.desc = self.name as String
-            productDetailButtonGR.price = self.price as String
-            productDetailButtonGR.isPesable  = self.isPesable
-            productDetailButtonGR.onHandInventory = self.onHandInventory as String
-            productDetailButtonGR.isActive = self.strisActive as String
-            productDetailButtonGR.isPreorderable = self.strisPreorderable as String
-            productDetailButtonGR.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
-            productDetailButtonGR.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
-            productDetailButtonGR.idListSelect =  self.idListSelected
+            self.productDetailButtonGR = GRProductDetailButtonBarCollectionViewCell(frame: CGRectMake(0, 0, self.view.frame.width, 64.0),spaceBetweenButtons:13,widthButtons:63)
+            productDetailButtonGR!.upc = self.upc as String
+            productDetailButtonGR!.desc = self.name as String
+            productDetailButtonGR!.price = self.price as String
+            productDetailButtonGR!.isPesable  = self.isPesable
+            productDetailButtonGR!.onHandInventory = self.onHandInventory as String
+            productDetailButtonGR!.isActive = self.strisActive as String
+            productDetailButtonGR!.isPreorderable = self.strisPreorderable as String
+            productDetailButtonGR!.isAviableToShoppingCart = isActive == true && onHandInventory.integerValue > 0 //&& isPreorderable == false
+            productDetailButtonGR!.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCWishlist(self.upc as String)
+            productDetailButtonGR!.idListSelect =  self.idListSelected
             var imageUrl = ""
             if self.imageUrl.count > 0 {
                 imageUrl = self.imageUrl[0] as! NSString as String
             }
-            productDetailButtonGR.image = imageUrl
-            productDetailButtonGR.delegate = self
-            productDetailButtonGR.validateIsInList(self.upc as String)
+            productDetailButtonGR!.image = imageUrl
+            productDetailButtonGR!.delegate = self
+            productDetailButtonGR!.validateIsInList(self.upc as String)
             
             productDetailButton = productDetailButtonGR
             return productDetailButton
@@ -333,9 +334,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         bg.backgroundColor = WMColor.light_blue
         self.listSelectorContainer!.insertSubview(bg, aboveSubview: self.listSelectorBackgroundView!)
         opencloseContainer(true,viewShow:self.listSelectorContainer!, additionalAnimationOpen: { () -> Void in
-            self.productDetailButton!.listButton.selected = true
+            self.productDetailButton?.listButton.selected = true
             },additionalAnimationClose:{ () -> Void in
-               
             },additionalAnimationFinish: { () -> Void in
         })
     }
@@ -598,6 +598,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                 print(error!.localizedDescription)
             }
             self.removeListSelector(action: nil, closeRow:true)
+            self.productDetailButtonGR!.listButton.selected = true
         }
         self.listSelectorContainer!.addSubview(self.selectQuantityGR!)
         UIView.animateWithDuration(0.5,
@@ -710,10 +711,45 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         }else {
             super.removeListSelector(action: action, closeRow:true)
         }
-        
     }
-
     
+    override func closeContainer(additionalAnimationClose:(() -> Void),completeClose:(() -> Void), closeRow: Bool) {
+        let finalFrameOfQuantity = CGRectMake(self.tabledetail.frame.minX, self.headerView.frame.maxY + heightDetail, self.tabledetail.frame.width, 0)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.containerinfo.frame = finalFrameOfQuantity
+            additionalAnimationClose()
+        }) { (comple:Bool) -> Void in
+            self.isContainerHide = true
+            CATransaction.begin()
+            CATransaction.setCompletionBlock({ () -> Void in
+                self.isShowShoppingCart = false
+                self.isShowProductDetail = false
+                self.productDetailButton!.deltailButton.selected = false
+                self.tabledetail.scrollEnabled = true
+                self.productDetailButtonGR?.validateIsInList(self.upc as String)
+                self.listSelectorController = nil
+                self.listSelectorBackgroundView = nil
+                
+                completeClose()
+                for viewInCont in self.containerinfo.subviews {
+                    viewInCont.removeFromSuperview()
+                }
+                self.selectQuantity = nil
+                self.viewDetail = nil
+                
+            })
+            
+            
+            if self.tabledetail.numberOfRowsInSection(0) >= 5 && closeRow {
+                self.tabledetail.beginUpdates()
+                self.tabledetail.deleteRowsAtIndexPaths([NSIndexPath(forRow: 5, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Top)
+                self.tabledetail.endUpdates()
+                
+                self.pagerController!.enabledGesture(true)
+            }
+            CATransaction.commit()
+        }
+    }
     
     func removeDetailListSelector(action action:(()->Void)?) {
         NSLog("27")
