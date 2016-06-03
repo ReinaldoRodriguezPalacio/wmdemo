@@ -127,9 +127,11 @@ class ShoppingCartButton : UIButton {
                 
                let y =  Double(quantity)
                 let kg = y/1000
-                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.kg", comment:""), NSNumber(double:  kg))
+                let value  = String(format:"%.2f",kg)
+                quantityStr = String(format: NSLocalizedString("shoppingcart.quantity.kg", comment:""),value)
             }
         }
+  
         return quantityStr
     }
     

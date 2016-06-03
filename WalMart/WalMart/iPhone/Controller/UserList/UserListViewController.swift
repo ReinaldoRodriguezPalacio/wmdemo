@@ -152,6 +152,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
         self.view.endEditing(true)
     }
+    var stateEdit =  false
+    override func viewDidDisappear(animated: Bool) {
+        if stateEdit{
+            self.cancelNewList()
+             stateEdit =  false
+        }
+       
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -480,6 +488,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.newListBtn!.enabled = false
             self.editBtn!.enabled = false
             if !self.newListEnabled {
+                stateEdit =  true
+
 
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
@@ -526,7 +536,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
             }
             else {
-                
+                stateEdit =  false
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
                 
                 self.showSearchField({
@@ -1114,6 +1124,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 listCell.showLeftUtilityButtonsAnimated(false)
                 listCell.enableEditList(self.isEditingUserList)
                 listCell.accessoryView = nil
+                listCell.selectionStyle = .None
                 return listCell
             }
             
@@ -1635,6 +1646,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         super.scrollViewWillBeginDragging(scrollView)
         self.view.endEditing(true)
+        
     }
     
     

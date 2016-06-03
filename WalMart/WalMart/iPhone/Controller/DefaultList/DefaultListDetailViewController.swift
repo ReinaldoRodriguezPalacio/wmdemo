@@ -297,7 +297,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
         var urlss  = ""
         if self.lineId != nil {
             let appLink  = NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_\(self.lineId! as String)")// NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
-            urlss = "\n Entra a nuestra aplicación:\n \(appLink!)"
+            urlss = "\n Entra a la aplicación:\n \(appLink!)"
         }
         
         let urlapp  = url?.absoluteURL
