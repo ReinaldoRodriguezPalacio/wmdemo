@@ -219,10 +219,12 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
         
         if indexPath.row == itemsInCart.count {
         let tblTotalCell = tableShoppingCart.dequeueReusableCellWithIdentifier("totals", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
-            tblTotalCell.setValues("", iva: "",
-                
-                total: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
-                totalSaving: "\(UserCurrentSession.sharedInstance().estimateSavingGR())",
+            let subtotal = UserCurrentSession.sharedInstance().estimateTotalGR()
+            let saving = UserCurrentSession.sharedInstance().estimateSavingGR()
+            
+            tblTotalCell.setValuesWithSubtotal("\(subtotal)", iva: "",
+                total: "\(subtotal - saving)",
+                totalSaving: "\(saving)",
                 numProds:"\(UserCurrentSession.sharedInstance().numberOfArticlesGR())")
             
             return tblTotalCell
