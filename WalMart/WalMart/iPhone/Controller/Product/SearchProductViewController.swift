@@ -451,11 +451,17 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 commonTotal =  (self.grResults!.totalResults == -1 ? 0:self.grResults!.totalResults)
         
                 commonTotal = commonTotal == 0 ? (self.grResults!.totalResults == -1 ? 0:(self.grResults!.totalResults == 0 && self.grResults!.resultsInResponse != 0 ? self.grResults!.resultsInResponse : self.grResults!.totalResults)) : commonTotal
+                if commonTotal > 0 {
+                    commonTotal =  self.grResults!.resultsInResponse > commonTotal ? self.grResults!.resultsInResponse :commonTotal
+                }
                 if count == commonTotal {
                     return count
                 }
             } else {
                 commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
+                if self.itemsUPCMG?.count > 0{
+                    commonTotal = commonTotal +  (self.itemsUPCMG?.count)!
+                }
                 
                 if count == commonTotal {
                     return count
@@ -475,6 +481,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         } else {
             commonTotal = (self.mgResults!.totalResults == -1 ? 0:self.mgResults!.totalResults)
         }
+        
         if indexPath.row == self.allProducts?.count && self.allProducts?.count <= commonTotal  {
             let loadCell = collectionView.dequeueReusableCellWithReuseIdentifier("loadCell", forIndexPath: indexPath)
             self.invokeServiceInError =  true
@@ -807,6 +814,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         let params = service.buildParamsForSearch(text: self.textToSearch, family: self.idFamily, line: self.idLine, sort: self.idSort, departament: self.idDepartment, start: startOffSet, maxResult: self.maxResult)
         service.callService(params,
             successBlock:{ (arrayProduct:NSArray?,facet:NSArray) in
+                
                 if arrayProduct != nil && arrayProduct!.count > 0 {
                     if let item = arrayProduct?[0] as? NSDictionary {
                         //println(item)
@@ -1005,6 +1013,10 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 } else {
                     
                     self.allProducts?.addObjectsFromArray(self.mgResults!.products as! [AnyObject])
+                }
+            }else{//new validate
+                if self.itemsUPCMG?.count > 0 {
+                    self.allProducts?.addObjectsFromArray(self.itemsUPCMG as! [AnyObject])
                 }
             }
         }
