@@ -161,6 +161,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
        
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.newListEnabled = false
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -478,40 +483,35 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func showNewListField() {
-        if self.itemsUserList!.count >= 12 {
-            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
-            self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
-            self.alertView!.showErrorIcon("Ok")
-        }
-        else {
-            
-            self.newListBtn!.enabled = false
-            self.editBtn!.enabled = false
-            if !self.newListEnabled {
-                stateEdit =  true
-
-
-                
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
-                
-                self.isShowingWishList = false
-                self.isShowingSuperlists = false
-                UIView.animateWithDuration(0.2, animations: { () -> Void in
-                    self.tableuserlist!.setContentOffset(CGPointZero, animated:false)
-                    self.editBtn!.alpha = 0
-                    //self.tableuserlist!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
-                    }, completion: { (complete:Bool) -> Void in
-                        self.hideSearchField({
-                            }, atFinished: { () -> Void in
-                                self.newListBtn!.backgroundColor = WMColor.light_gray
-                                
+        self.newListBtn!.enabled = false
+        self.editBtn!.enabled = false
+        if !self.newListEnabled {
+            if self.itemsUserList!.count >= 12{
+                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+                self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
+                self.alertView!.showErrorIcon("Ok")
+                self.newListBtn!.enabled = true
+                self.editBtn!.enabled = true
+                return
+            }
+            self.stateEdit =  true
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
+            self.isShowingWishList = false
+            self.isShowingSuperlists = false
+            UIView.animateWithDuration(0.2, animations: { () -> Void in
+                self.tableuserlist!.setContentOffset(CGPointZero, animated:false)
+                self.editBtn!.alpha = 0
+                //self.tableuserlist!.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: false)
+                }, completion: { (complete:Bool) -> Void in
+                    self.hideSearchField({
+                        }, atFinished: { () -> Void in
+                            self.newListBtn!.backgroundColor = WMColor.light_gray
+                            CATransaction.begin()
+                            CATransaction.setCompletionBlock({ () -> Void in
                                 CATransaction.begin()
                                 CATransaction.setCompletionBlock({ () -> Void in
-                                    
-                                    CATransaction.begin()
-                                    CATransaction.setCompletionBlock({ () -> Void in
-                                        var cells = self.tableuserlist!.visibleCells
-                                        for idx in 0 ..< cells.count {
+                                    var cells = self.tableuserlist!.visibleCells
+                                    for idx in 0 ..< cells.count {
                                             if let cell = cells[idx] as? ListTableViewCell {
                                                 cell.enableDuplicateList(true)
                                                 cell.canDelete = false
@@ -573,12 +573,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }, animated:true
                 )
             }
-        }
     }
     
     //MARK: - NewListTableViewCellDelegate
     
     func cancelNewList() {
+        self.newListEnabled = true
         self.showNewListField()
     }
     

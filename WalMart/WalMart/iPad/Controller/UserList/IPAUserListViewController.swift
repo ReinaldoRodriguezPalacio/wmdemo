@@ -55,7 +55,6 @@ class IPAUserListViewController: UserListViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.newListEnabled = false
     }
     
     override func didReceiveMemoryWarning() {
