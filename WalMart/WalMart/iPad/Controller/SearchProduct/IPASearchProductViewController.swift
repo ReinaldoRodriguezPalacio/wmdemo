@@ -397,15 +397,30 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         if upcs.count == 0 {
         if self.empty == nil {
             self.viewBgSelectorBtn.alpha = 0
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 0, self.view.bounds.width, self.view.bounds.height))
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
             self.empty.returnAction = { () in
                 self.viewBgSelectorBtn.alpha = 1
                 self.returnBack()
             }
         }
-        
-        self.view.addSubview(self.empty)
-            self.empty.descLabel.text = NSLocalizedString("empty.productdetail.recent", comment: "")
+            self.view.addSubview(self.empty)
+            let header = UIView()
+            header.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
+            header.backgroundColor = WMColor.light_light_gray
+            let backButton = UIButton()
+            backButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
+            backButton.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
+            header.addSubview(backButton)
+            backButton.frame = CGRectMake(0, 0  ,46,46)
+            let titleLabel = UILabel()
+            titleLabel.textColor =  WMColor.light_blue
+            titleLabel.font = WMFont.fontMyriadProRegularOfSize(14)
+            titleLabel.numberOfLines = 2
+            titleLabel.text = self.titleHeader
+            titleLabel.textAlignment = .Center
+            titleLabel.frame = CGRectMake(46, 0, header.frame.width - 92, header.frame.maxY)
+            header.addSubview(titleLabel)
+            self.view.addSubview(header)
         }
         
     }
