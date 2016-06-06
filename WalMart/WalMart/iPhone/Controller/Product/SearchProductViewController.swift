@@ -1118,11 +1118,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         //self.empty = IPOGenericEmptyView(frame:self.collection!.frame)
 
         if  self.empty == nil {
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, !IS_IPAD ? self.header!.frame.maxY : 0, self.view.bounds.width, self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - 46))
         }else{
             self.empty.removeFromSuperview()
             self.empty =  nil
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, !IS_IPAD ? self.header!.frame.maxY : 0, self.view.bounds.width, self.view.bounds.height - 46))
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - 46))
         }
         
     
