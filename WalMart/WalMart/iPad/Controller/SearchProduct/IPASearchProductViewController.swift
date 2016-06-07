@@ -395,15 +395,27 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     override func apply(order:String, upcs: [String]) {
         super.apply(order, upcs: upcs)
         if upcs.count == 0 {
-        if self.empty == nil {
-            self.viewBgSelectorBtn.alpha = 0
-            self.empty = IPOGenericEmptyView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
-            self.empty.returnAction = { () in
-                self.viewBgSelectorBtn.alpha = 1
-                self.returnBack()
-            }
+         self.showEmptyView()
         }
-            self.view.addSubview(self.empty)
+        
+    }
+    
+    override func showEmptyView(){
+        self.filterButton?.alpha = 0
+        let buidHeader =  self.header!.frame.maxY > 46
+        if  self.empty == nil {
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0,46, self.view.bounds.width, self.view.bounds.height - 46))
+        }else{
+            self.empty.removeFromSuperview()
+            self.empty =  nil
+            self.empty = IPOGenericEmptyView(frame:CGRectMake(0,46, self.view.bounds.width, self.view.bounds.height - 46))
+        }
+        
+        self.empty.returnAction = { () in
+         self.returnBack()
+        }
+        
+        if buidHeader {
             let header = UIView()
             header.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
             header.backgroundColor = WMColor.light_light_gray
@@ -422,7 +434,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             header.addSubview(titleLabel)
             self.view.addSubview(header)
         }
-        
+        self.view.addSubview(self.empty)
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     
     override func back() {
