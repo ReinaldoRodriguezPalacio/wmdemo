@@ -169,9 +169,9 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
         
         var lastSelected:Int? = nil
         if self.selectedElements != nil && self.selectedElements!.count > 0 {
-            for idx in 1 ..< self.selectedElements!.count {
-                if self.selectedElements![self.selectedElements!.count - idx] {
-                    lastSelected = self.selectedElements!.count - idx
+            for idx in 0 ..< self.selectedElements!.count {
+                if self.selectedElements![idx] {
+                    lastSelected = idx
                     break
                 }
             }
