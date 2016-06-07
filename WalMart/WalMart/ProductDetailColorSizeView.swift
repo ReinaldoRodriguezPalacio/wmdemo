@@ -129,6 +129,11 @@ class ProductDetailColorSizeView: UIView {
                 colorButton.layer.borderColor = UIColor.whiteColor().CGColor
                 colorButton.layer.borderWidth = 0.0
             }
+            
+            if item["selected"]! as! Bool {
+                backView.layer.borderWidth = 1
+                backView.layer.borderColor = WMColor.gray.CGColor
+            }
         
             backView.addSubview(colorButton)
             self.viewToInsert!.addSubview(backView)
@@ -160,6 +165,12 @@ class ProductDetailColorSizeView: UIView {
             sizeButton.enabled = item["enabled"] as! Bool
             sizeButton.tag = count
             backView.addSubview(sizeButton)
+            
+            if item["selected"]! as! Bool {
+                backView.layer.borderWidth = 1
+                backView.layer.borderColor = WMColor.gray.CGColor
+            }
+            
             self.viewToInsert!.addSubview(backView)
             position += CGFloat(backViewSizeWidth)
             count += 1
