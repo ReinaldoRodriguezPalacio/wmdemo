@@ -457,6 +457,9 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             vc.delegate = self
             vc.widthView = self.bannerImagesProducts.frame.width
             vc.addGestureLeft = true
+            vc.searchInList = {(controller) in
+              self.navigationController?.pushViewController(controller, animated: false)
+            }
             
             let frameDetail = CGRectMake(-self.bannerImagesProducts.frame.width, 0.0, self.bannerImagesProducts.frame.width, self.productCrossSell.frame.maxY )
             vc.view.frame = frameDetail
