@@ -310,6 +310,7 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         return detail != nil
     }
 
+    
     func retrieveProductInList(forProduct upc:String?, inList entity:List) -> Product? {
         var detail: Product? = nil
         if upc != nil {
@@ -324,6 +325,9 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
         return detail
     }
     
+    /**
+     Save context data base
+     */
     func saveContext() {
         var error: NSError? = nil
         do {
@@ -360,6 +364,11 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
     func cancelNewList() {
     }
     
+    /**
+     Create new from list selector, in DB or use service
+     
+     - parameter value: name new list
+     */
     func createNewList(value:String) {
         if self.delegate != nil {
             if self.delegate!.shouldDelegateListCreation() {

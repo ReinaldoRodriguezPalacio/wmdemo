@@ -438,6 +438,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
+                    print("-- removeDetailListSelector --")
+                    for  children in self.childViewControllers {
+                        if children.isKindOfClass(IPAUserListDetailViewController){
+                            children.view.removeFromSuperview()
+                            children.removeFromParentViewController()
+                        }
+                    }
+                    
                    self.listSelectorDidShowList(listId, andName: name)
             })
             return
@@ -641,8 +649,39 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         return instance
     }
 
+    var isOpenListDetail  =  false
     
+    /**
+     show list detail in product detail and validate if any list detail opnen
+     
+     - parameter list: id list open
+     */
     func listSelectorDidShowListLocally(list: List) {
+        
+        if self.isOpenListDetail {
+         self.removeDetailListSelector(action: {
+            for  children in self.childViewControllers {
+                if children.isKindOfClass(IPAUserListDetailViewController){
+                    children.view.removeFromSuperview()
+                    children.removeFromParentViewController()
+                }
+            }
+            self.listSelectorDidShowListLocallyAnimation(list)
+         })
+        }else{
+            self.listSelectorDidShowListLocallyAnimation(list)
+        }
+        
+      
+    }
+    
+    /**
+     show  list detail controller in product detail
+     
+     - parameter list: id list selected
+     */
+    func  listSelectorDidShowListLocallyAnimation(list: List) {
+        
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? IPAUserListDetailViewController {
             vc.listId = list.idList
             vc.listName = name as String
@@ -662,15 +701,16 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.view!.bringSubviewToFront(self.detailList!.view)
             
             UIView.animateWithDuration(0.5,
-                animations: { () -> Void in
-                   
-                      self.detailList!.view.frame = CGRectMake(0.0, 0.0, self.bannerImagesProducts.frame.width, self.productCrossSell.frame.maxY )
-                    
+                                       animations: { () -> Void in
+                                        self.isOpenListDetail =  true
+                                        self.detailList!.view.frame = CGRectMake(0.0, 0.0, self.bannerImagesProducts.frame.width, self.productCrossSell.frame.maxY )
+                                        
                 }, completion: { (finished:Bool) -> Void in
-                     self.visibleDetailList = true
+                    self.visibleDetailList = true
                 }
             )
         }
+        
     }
     
     
@@ -706,6 +746,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
+                    self.isOpenListDetail =  false
+                    for  children in self.childViewControllers {
+                        if children.isKindOfClass(IPAUserListDetailViewController){
+                            children.view.removeFromSuperview()
+                            children.removeFromParentViewController()
+                        }
+                    }
                     self.removeListSelector(action: action, closeRow:true)
                 })
         }else {
@@ -714,6 +761,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     }
     
     override func closeContainer(additionalAnimationClose:(() -> Void),completeClose:(() -> Void), closeRow: Bool) {
+                
+    
         let finalFrameOfQuantity = CGRectMake(self.tabledetail.frame.minX, self.headerView.frame.maxY + heightDetail, self.tabledetail.frame.width, 0)
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.containerinfo.frame = finalFrameOfQuantity
@@ -761,6 +810,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                     if finished {
                         if self.detailList != nil {
                             //self.detailList!.willMoveToParentViewController(nil)
+                            self.detailList!.willMoveToParentViewController(nil)
                             self.detailList!.view.removeFromSuperview()
                             self.detailList!.removeFromParentViewController()
                         }
