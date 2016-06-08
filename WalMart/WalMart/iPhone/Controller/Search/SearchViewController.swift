@@ -386,7 +386,7 @@ class SearchViewController: IPOBaseController, UITableViewDelegate, UITableViewD
         if textField.text != nil && textField.text!.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 0 {
             let toValidate : NSString = textField.text!
             let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-            if trimValidate.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < 6 {
+            if trimValidate.lengthOfBytesUsingEncoding(NSUTF16StringEncoding) < 4 {
                 showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
                 return true
             }

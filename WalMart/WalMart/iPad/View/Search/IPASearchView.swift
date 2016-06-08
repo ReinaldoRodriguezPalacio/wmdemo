@@ -226,7 +226,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let keyword = strNSString.stringByReplacingCharactersInRange(range, withString: string)
-        if keyword.length() >= 3 {
+        if keyword.length() >= 2 {
             setPopOver()
         }
         if !camfine{
@@ -470,7 +470,7 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
         if toValidate.isEqualToString(""){
             return false
         }
-        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
+        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
             showMessageValidation(NSLocalizedString("product.search.minimum",comment:""))
             return false
         }
