@@ -124,15 +124,15 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.indoornumber!.maxLength = 5
         self.indoornumber!.nameField = NSLocalizedString("profile.address.indoornumber",comment:"")
         
-        zipcode = FormFieldView()
+        self.zipcode = FormFieldView()
         self.zipcode!.isRequired = true
-        zipcode!.setCustomPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
+        self.zipcode!.setCustomPlaceholder(NSLocalizedString("profile.address.zipcode",comment:""))
         self.zipcode!.typeField = TypeField.Number
         self.zipcode!.minLength = 5
         self.zipcode!.maxLength = 5
         self.zipcode!.nameField = NSLocalizedString("profile.address.zipcode",comment:"")
-        zipcode!.delegate = self
-        zipcode!.keyboardType = UIKeyboardType.NumberPad
+        self.zipcode!.delegate = self
+        self.zipcode!.keyboardType = UIKeyboardType.NumberPad
         self.zipcode!.inputAccessoryView = self.keyboardBar
         
         suburb = FormFieldView()

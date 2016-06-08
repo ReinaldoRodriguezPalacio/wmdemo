@@ -108,6 +108,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         self.zipcode!.keyboardType = UIKeyboardType.NumberPad
         self.zipcode!.inputAccessoryView = viewAccess
         self.zipcode!.disablePaste = true
+        self.zipcode!.delegate = self
         
         self.titleLabelStore = UILabel()
         self.titleLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
@@ -435,6 +436,9 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if textField == self.zipcode {
+            if fieldString.characters.count > 5{
+                return false
+            }
             if fieldString != currentZipCode {
                 self.suburb!.text = ""
                 self.selectedNeighborhood = nil

@@ -144,6 +144,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         self.zipcode!.keyboardType = UIKeyboardType.NumberPad
         self.zipcode!.inputAccessoryView = viewAccess
         self.zipcode!.disablePaste = true
+        self.zipcode!.delegate = self
         
         self.store = FormFieldView()
         self.store!.isRequired = true
@@ -745,6 +746,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if textField == self.zipcode {
+            if fieldString.characters.count > 5{
+                return false
+            }
             if fieldString != currentZipCode {
                 self.suburb!.text = ""
                 self.selectedNeighborhood = nil
@@ -755,7 +759,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
         if textField == self.phoneHomeNumber{
             if fieldString.characters.count == 11{
-                return false }
+                return false
+            }
             
         }
         return true
