@@ -1264,7 +1264,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         self.productDetailButton?.reloadShoppinhgButton()
     }
     
-    // MARK Color Size Functions
+    //MARK: Color Size Functions
     /**
      Gets details objects from facets
      
@@ -1273,6 +1273,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     func getFacetsDetails() -> [String:AnyObject]{
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
         for product in self.facets! {
+            let productUpc =  product["upc"] as! String
+            let selected = productUpc == self.upc
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
@@ -1281,7 +1283,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
                 let label = detail["description"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label]
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":selected]
                 if !(values! as NSArray).containsObject(itemToAdd) {
                     values!.append(itemToAdd)
                 }

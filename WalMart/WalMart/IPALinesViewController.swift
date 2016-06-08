@@ -18,6 +18,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
     var linesCamp :[[String:AnyObject]]?
     var familyId : String!
     var loading: WMLoadingView?
+    var timmer: NSTimer?
  
 
     override func viewDidLoad() {
@@ -47,8 +48,9 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         viewImageContent.addSubview(titleLabel)
         viewImageContent.clipsToBounds = true
         
+        
         self.invokeServiceLine { () -> Void in
-            
+            self.buttonClose?.hidden = true
             let lineSelect  = self.linesCamp![0] as NSDictionary
             self.searchProduct = IPASearchCatProductViewController()
             self.searchProduct.searchContextType = self.searchContextType
@@ -137,8 +139,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         lineController.families = self.linesCamp!
         lineController.selectedFamily = nil
         lineController.delegate = self
-        
-        
+    
         if #available(iOS 8.0, *) {
             lineController.modalPresentationStyle = .Popover
         } else {
@@ -150,20 +151,28 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
             popover = UIPopoverController(contentViewController: lineController)
         }
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,250, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        timmer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(IPALinesViewController.openPopover), userInfo: nil, repeats: false)
         searchProduct.setSelectedHeaderCat()
         
         if lineController.familyTable != nil {
             lineController.familyTable.reloadData()
         }
-       self.loading?.stopAnnimating()
-        
+       //self.buttonClose?.hidden = false
     }
+    
+    func openPopover() {
+        self.popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,250, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        self.loading?.stopAnnimating()
+    }
+    
     /**
      Remove loading and popToRootViewController
      */
     override func closeCategory() {
+        self.timmer?.invalidate()
         self.loading?.stopAnnimating()
+        self.popover?.dismissPopoverAnimated(false)
+        self.popover = nil
         self.navigationController?.popToRootViewControllerAnimated(true)
         self.actionClose?()
         //self.removeFromParentViewController()
@@ -188,7 +197,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         popover = UIPopoverController(contentViewController: lineController)
         popover!.delegate = self
-        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2, pointPop.y - 254 + 40 , 0, 0), inView: self.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
+        popover!.presentPopoverFromRect(CGRectMake(self.frameEnd.width / 2,250, 0, 0), inView: self.searchProduct.view, permittedArrowDirections: UIPopoverArrowDirection.Up, animated: true)
         lineController.familyTable.reloadData()
         lineController.familyTable.contentSize =  CGSize(width: self.view.bounds.width, height: CGFloat((((self.linesCamp?.count)! + 1) * 64) + 40))
      
@@ -203,7 +212,6 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
      - parameter name:       Title
      */
     func didSelectLineList(department:String,family:String,line:String, name:String) {
-        
         lineController.departmentId = line
         let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2,  frameStart.height - 40 ), toView:self.view)
         searchProduct.loading = WMLoadingView(frame: CGRectMake(0, pointPop.y, self.view.bounds.width, self.view.bounds.height - pointPop.y))
@@ -224,7 +232,6 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         searchProduct.dismissCategory()
         popover!.dismissPopoverAnimated(false)
-        
     }
 
     

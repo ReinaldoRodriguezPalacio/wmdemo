@@ -1245,19 +1245,23 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     func getFacetsDetails() -> [String:AnyObject]{
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
         for product in self.facets! {
+            let productUpc =  product["upc"] as! String
+            let selected = productUpc == self.upc
             let details = product["details"] as! [AnyObject]
             var itemDetail = [String:String]()
             itemDetail["upc"] = product["upc"] as? String
+            var count = 0
             for detail in details{
                 let label = detail["description"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label]
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":selected]
                 if !(values! as NSArray).containsObject(itemToAdd) {
                     values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values
                 itemDetail[label] = detail["unit"] as? String
+                count += 1
             }
             var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
             if detailsValues == nil{ detailsValues = []}

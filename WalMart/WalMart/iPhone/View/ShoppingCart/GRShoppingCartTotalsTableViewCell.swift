@@ -35,15 +35,15 @@ class GRShoppingCartTotalsTableViewCell : ShoppingCartTotalsTableViewCell {
         subtotalTitle.frame = CGRectMake(146, self.subtotalY,subtotalTitle.frame.size.width , 12)
         valueSubtotal.frame = CGRectMake(subtotalTitle.frame.maxX + 8, subtotalTitle.frame.minY, 50, 12)
         if self.firstTotal {
+            valueTotal.frame = CGRectMake(self.frame.width - (valueTotal.frame.size.width + 16), subtotalTitle.frame.maxY + 4.0 , valueTotal.frame.size.width, valueTotal.frame.size.height)
             total.frame = CGRectMake(valueTotal.frame.minX - (total.frame.size.width + 8) ,subtotalTitle.frame.maxY + 4.0, total.frame.size.width, total.frame.size.height)
-            valueTotal.frame = CGRectMake(self.frame.width - (valueTotal.frame.size.width + 16), total.frame.minY , valueTotal.frame.size.width, valueTotal.frame.size.height)
-            valueTotalSaving.frame = CGRectMake(self.frame.width - 66,  totalSavingTitle.frame.minY , 50, 12)
+            valueTotalSaving.frame = CGRectMake(self.frame.width - 66,  total.frame.maxY + 4.0 , 50, 12)
             totalSavingTitle.frame = CGRectMake(valueTotalSaving.frame.minX - 109 , total.frame.maxY + 4.0 , 101, 12)
         }else{
+            self.valueTotalSaving.frame = CGRectMake(self.frame.width - 66,  self.subtotalTitle.frame.maxY + 4.0 , 50, 12)
             self.totalSavingTitle.frame = CGRectMake(self.valueTotalSaving.frame.minX - 109 , self.subtotalTitle.frame.maxY + 4.0 , 101, 12)
-            self.valueTotalSaving.frame = CGRectMake(self.frame.width - 66,  self.totalSavingTitle.frame.minY , 50, 12)
+            self.valueTotal.frame = CGRectMake(self.frame.width - (self.valueTotal.frame.size.width + 16), self.totalSavingTitle.frame.maxY + 4.0 , self.valueTotal.frame.size.width, self.valueTotal.frame.size.height)
             self.total.frame = CGRectMake(valueTotal.frame.minX - (self.total.frame.size.width + 8) ,self.totalSavingTitle.frame.maxY + 4.0, self.total.frame.size.width, self.total.frame.size.height)
-            self.valueTotal.frame = CGRectMake(self.frame.width - (self.valueTotal.frame.size.width + 16), self.total.frame.minY , self.valueTotal.frame.size.width, self.valueTotal.frame.size.height)
         }
         
     }
