@@ -1242,8 +1242,14 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
 
     
     // MARK Color Size Functions
+    /**
+     Gets details objects from facets
+     
+     - returns: dictionary wit facet details
+     */
     func getFacetsDetails() -> [String:AnyObject]{
         var facetsDetails : [String:AnyObject] = [String:AnyObject]()
+        self.selectedDetailItem = [:]
         for product in self.facets! {
             let productUpc =  product["upc"] as! String
             let selected = productUpc == self.upc
@@ -1253,23 +1259,97 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             var count = 0
             for detail in details{
                 let label = detail["description"] as! String
+                let unit = detail["unit"] as! String
                 var values = facetsDetails[label] as? [AnyObject]
                 if values == nil{ values = []}
-                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":selected]
+                let itemToAdd = ["value":detail["unit"] as! String, "enabled": (details.count == 1 || label == "Color") ? 1 : 0, "type": label,"selected":false]
                 if !(values! as NSArray).containsObject(itemToAdd) {
                     values!.append(itemToAdd)
                 }
                 facetsDetails[label] = values
                 itemDetail[label] = detail["unit"] as? String
                 count += 1
+                if selected {
+                    self.selectedDetailItem![label] = unit
+                }
             }
             var detailsValues = facetsDetails["itemDetails"] as? [AnyObject]
             if detailsValues == nil{ detailsValues = []}
             detailsValues!.append(itemDetail)
             facetsDetails["itemDetails"] = detailsValues
         }
-        return facetsDetails
+        return self.marckSelectedDetails(facetsDetails)
     }
+    
+    /**
+     Mark as selected the Details of the first upc
+     
+     - parameter facetsDetails: dictionary wit facet details
+     
+     - returns: dictionary wit facet details
+     */
+    func marckSelectedDetails(facetsDetails: [String:AnyObject]) -> [String:AnyObject] {
+        var selectedDetails: [String:AnyObject] = [:]
+        let filteredKeys = self.getFilteredKeys(facetsDetails)
+        // Primer elemento
+        let itemsFirst: [[String:AnyObject]] = facetsDetails[filteredKeys.first!] as! [[String:AnyObject]]
+        let selecteFirst =  self.selectedDetailItem![filteredKeys.first!]!
+        var values: [AnyObject] = []
+        for item in itemsFirst{
+            let label = item["type"] as! String
+            let unit = item["value"] as! String
+            values.append(["value":unit, "enabled": 1, "type": label,"selected": (unit == selecteFirst)])
+        }
+        selectedDetails[selecteFirst] = values
+        
+        if filteredKeys.count > 1 {
+            let itemsSecond: [[String:AnyObject]] = facetsDetails[filteredKeys.last!] as! [[String:AnyObject]]
+            let selectedSecond =  self.selectedDetailItem![filteredKeys.last!]!
+            
+            let itemDetails = facetsDetails["itemDetails"] as? [AnyObject]
+            var findObj: [String] = []
+            for item in itemDetails!{
+                if(item[filteredKeys.first!] as! String == selecteFirst)
+                {
+                    findObj.append(item[filteredKeys.last!] as! String)
+                }
+            }
+            
+            var valuesSecond: [AnyObject] = []
+            for item in itemsSecond{
+                let label = item["type"] as! String
+                let unit = item["value"] as! String
+                let enabled = findObj.contains(selectedSecond)
+                valuesSecond.append(["value":unit, "enabled": enabled ? 1 : 0, "type": label,"selected": (unit == selectedSecond)])
+            }
+            selectedDetails[selectedSecond] = valuesSecond
+        }
+        selectedDetails["itemDetails"] = facetsDetails["itemDetails"]
+        return selectedDetails
+    }
+    /**
+     Returns Dictionary keys in order
+     
+     - parameter facetsDetails: facetsDetails Dictionary
+     
+     - returns: String array with keys in order
+     */
+    func getFilteredKeys(facetsDetails: [String:AnyObject]) -> [String] {
+        let keys = Array(facetsDetails.keys)
+        var filteredKeys = keys.filter(){
+            return ($0 as String) != "itemDetails"
+        }
+        filteredKeys = filteredKeys.sort({
+            if $0 == "Color" {
+                return true
+            } else {
+                return  $0 < $1
+            }
+            
+        })
+        return filteredKeys
+    }
+
     
     func getUpc(itemsSelected: [String:String]) -> String
     {
