@@ -241,6 +241,14 @@ class UserCurrentSession : NSObject {
         UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
         UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
         
+        let homeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
+        if homeNumber !=  "" {
+            UserCurrentSession.sharedInstance().cellPhone = resultProfileJSONGR!["cellPhone"] as! String
+            UserCurrentSession.sharedInstance().workNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
+            UserCurrentSession.sharedInstance().phoneNumber = homeNumber
+        }
+
+        
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)
 
@@ -836,13 +844,15 @@ class UserCurrentSession : NSObject {
             
             svcProfile.callService(requestParams: profileParams, successBlock: { (result:NSDictionary) -> Void in
                 print("Se actualizo el perfil")
-                if !newProfile {
+                
+                
+                //if !newProfile {
                     if UserCurrentSession.hasLoggedUser() {
                         UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone
                         UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = self.workNumber
                         UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber
                     }
-                }
+                //}
                 }, errorBlock: { (error:NSError) -> Void in
                     print("Se actualizo el perfil")
             })

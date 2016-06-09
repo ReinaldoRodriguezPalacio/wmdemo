@@ -23,8 +23,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     var addGestureLeft = false
     var isShared =  false
     var showReminderController = true
-    
     var searchInList : (( controller:IPASearchProductViewController) -> Void)?
+
    
     override func viewDidLoad() {
         self.hiddenBack = true
@@ -496,13 +496,13 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         controller.textToSearch = text
         controller.searchFromContextType = searchServiceFromContext
         controller.idListFromSearch = self.listId
+        
         if self.searchInList != nil {
-              self.searchInList?(controller: controller)
+            self.searchInList?(controller: controller)
         }else{
-             self.navigationController?.pushViewController(controller, animated: true)
+            self.navigationController?.pushViewController(controller, animated: true)
         }
-       
-      
+
         
     }
     

@@ -90,7 +90,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.minLength = 10
         self.phoneField!.disablePaste = true
         self.phoneField!.enabled = false
-        self.phoneField!.text = "Teléfono: \(UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone == "" ? UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String : UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String)"
+        self.phoneField!.text = "Teléfono: \(UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone == "" ? UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber == "" ? UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String  : UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String : UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String )"
         self.content.addSubview(self.phoneField!)
         
         self.confirmCallOptionButton = UIButton()

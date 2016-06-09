@@ -1139,6 +1139,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func userLogOut(not:NSNotification) {
         self.removeAllCookies()
+        
+        UserCurrentSession.sharedInstance().phoneNumber = ""
+        UserCurrentSession.sharedInstance().workNumber =  ""
+        UserCurrentSession.sharedInstance().cellPhone = ""
+        
         self.viewControllers.removeRange(1..<self.viewControllers.count)
         self.createInstanceOfControllers()
         self.buttonSelected(self.buttonList[0])
