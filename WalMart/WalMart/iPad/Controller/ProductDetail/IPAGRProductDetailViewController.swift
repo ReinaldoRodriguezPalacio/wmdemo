@@ -438,6 +438,13 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
+                    print("-- removeDetailListSelector --")
+                    for  children in self.childViewControllers {
+                        if children.isKindOfClass(IPAUserListDetailViewController){
+                            children.view.removeFromSuperview()
+                            children.removeFromParentViewController()
+                        }
+                    }
                    self.listSelectorDidShowList(listId, andName: name)
             })
             return
@@ -449,6 +456,10 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             vc.delegate = self
             vc.widthView = self.bannerImagesProducts.frame.width
             vc.addGestureLeft = true
+            vc.searchInList = {(controller) in
+                self.navigationController?.pushViewController(controller, animated: false)
+            }
+
             
             let frameDetail = CGRectMake(-self.bannerImagesProducts.frame.width, 0.0, self.bannerImagesProducts.frame.width, self.productCrossSell.frame.maxY )
             vc.view.frame = frameDetail
@@ -640,8 +651,40 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         return instance
     }
 
+    var isOpenListDetail  =  false
     
+    /**
+     show list detail in product detail and validate if any list detail opnen
+     
+     - parameter list: id list open
+     */
     func listSelectorDidShowListLocally(list: List) {
+        
+        if self.isOpenListDetail {
+            self.removeDetailListSelector(action: {
+                for  children in self.childViewControllers {
+                    if children.isKindOfClass(IPAUserListDetailViewController){
+                        children.view.removeFromSuperview()
+                        children.removeFromParentViewController()
+                    }
+                }
+                self.listSelectorDidShowListLocallyAnimation(list)
+            })
+        }else{
+            self.listSelectorDidShowListLocallyAnimation(list)
+        }
+        
+        
+    }
+
+    
+    /**
+     show  list detail controller in product detail
+     
+     - parameter list: id list selected
+     */
+    func  listSelectorDidShowListLocallyAnimation(list: List) {
+
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? IPAUserListDetailViewController {
             vc.listId = list.idList
             vc.listName = name as String
@@ -662,7 +705,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
-                   
+                      self.isOpenListDetail =  true
                       self.detailList!.view.frame = CGRectMake(0.0, 0.0, self.bannerImagesProducts.frame.width, self.productCrossSell.frame.maxY )
                     
                 }, completion: { (finished:Bool) -> Void in
@@ -705,6 +748,14 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
         if visibleDetailList {
             self.removeDetailListSelector(
                 action: { () -> Void in
+                    self.isOpenListDetail =  false
+                    for  children in self.childViewControllers {
+                        if children.isKindOfClass(IPAUserListDetailViewController){
+                            children.view.removeFromSuperview()
+                            children.removeFromParentViewController()
+                        }
+                    }
+
                     self.removeListSelector(action: action, closeRow:true)
                 })
         }else {
