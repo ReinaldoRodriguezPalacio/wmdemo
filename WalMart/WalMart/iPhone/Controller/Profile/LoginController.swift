@@ -457,10 +457,15 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     })
                     return
                 }
+                
+                var strToUse = NSLocalizedString("password.incorrect",comment:"")
+                
+                if error.code == -3 {
+                    strToUse = error.localizedDescription
+                }
                 self.signInButton!.enabled = true
                 alertViewService!.okCancelCallBack = nil
                 if alertViewService != nil {
-                    let strToUse = NSLocalizedString("password.incorrect",comment:"")
                     alertViewService!.setMessage(strToUse)
                     alertViewService!.showErrorIcon("Ok")
                 }
