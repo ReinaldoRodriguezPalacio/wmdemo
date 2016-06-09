@@ -273,12 +273,12 @@ class FormFieldView : UIEdgeTextField {
     }
     
     func validateString() -> String{
-        let regString : String = "^[A-Za-z-.ñÑÁáÉéÍíÓóÚú \\@]{0,100}$";
+        let regString : String = "^[A-Za-z-.ñÑÁáÉéÍíÓóÚú \\@]{0,100}[._-]{0,2}$";
         return  regString
     }
     
     func validateAlphanumeric() -> String{
-        let regString : String = "^[A-Z0-9a-z-.ñÑÁáÉéÍíÓóÚú \\@]{0,100}$"
+        let regString : String = "^[A-Z0-9a-z-ñÑÁáÉéÍíÓóÚú \\@]{0,100}[._-]{0,2}$"
         return  regString
     }
     

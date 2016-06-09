@@ -20,6 +20,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     var searchView: UIView!
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
+    var errorView: FormFieldErrorView?
     var separator: CALayer!
     var searchFieldSpace: CGFloat = 0.0
     var startView: CGFloat = 0.0
@@ -154,8 +155,11 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
             return false
         }
         
-        self.filterList = self.searchForItems(txtAfterUpdate as String)
-        self.schoolsTable!.reloadData()
+        if self.validateSearch(txtAfterUpdate as String) {
+            self.filterList = self.searchForItems(txtAfterUpdate as String)
+            self.schoolsTable!.reloadData()
+        }
+        
         return true
     }
     
@@ -238,6 +242,38 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     override func willShowTabbar() {
         super.willShowTabbar()
         self.showImageHeader(true)
+    }
+    
+    func validateSearch(toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú ]{0,100}[._-]{0,2}$";
+        return validateRegEx(regString,toValidate:toValidate)
+    }
+    
+    func validateRegEx(pattern:String,toValidate:String) -> Bool {
+        
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
+        } catch {
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatchesInString(toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
+        
+        if matches > 0 {
+            if self.errorView?.superview != nil {
+                self.errorView?.removeFromSuperview()
+            }
+            self.errorView?.focusError = nil
+            self.errorView = nil
+            return true
+        }
+        
+        if self.errorView == nil{
+            self.errorView = FormFieldErrorView()
+        }
+        SignUpViewController.presentMessage(self.searchField!, nameField:"Busqueda", message: "No Válido" , errorView:self.errorView! , becomeFirstResponder: true)
+        
+        return false
     }
     
     func clearSearch(){

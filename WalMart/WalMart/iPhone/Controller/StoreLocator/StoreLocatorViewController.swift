@@ -49,6 +49,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
     var searchView: UIView!
     var clearButton : UIButton?
     var searchField: FormFieldSearch!
+    var errorView: FormFieldErrorView?
     var separator: CALayer!
     
     override func getScreenGAIName() -> String {
@@ -696,8 +697,10 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             return false
         }
         
-        self.items = self.searchForItems(txtAfterUpdate as String)
-        self.clubCollection!.reloadData()
+        if self.validateSearch(txtAfterUpdate  as String){
+            self.items = self.searchForItems(txtAfterUpdate as String)
+            self.clubCollection!.reloadData()
+        }
         return true
     }
     
@@ -729,6 +732,38 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
             print("searchForItems Error")
         }
         return result
+    }
+    
+    func validateSearch(toValidate:String) -> Bool{
+        let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú ]{0,100}[._-]{0,2}$";
+        return validateRegEx(regString,toValidate:toValidate)
+    }
+    
+    func validateRegEx(pattern:String,toValidate:String) -> Bool {
+        
+        var regExVal: NSRegularExpression?
+        do {
+            regExVal = try NSRegularExpression(pattern: pattern, options: NSRegularExpressionOptions.CaseInsensitive)
+        } catch {
+            regExVal = nil
+        }
+        let matches = regExVal!.numberOfMatchesInString(toValidate, options: [], range: NSMakeRange(0, toValidate.characters.count))
+        
+        if matches > 0 {
+            if self.errorView?.superview != nil {
+                self.errorView?.removeFromSuperview()
+            }
+            self.errorView?.focusError = nil
+            self.errorView = nil
+            return true
+        }
+        
+        if self.errorView == nil{
+            self.errorView = FormFieldErrorView()
+        }
+        SignUpViewController.presentMessage(self.searchField!, nameField:"Busqueda", message: "No Válido" , errorView:self.errorView! , becomeFirstResponder: true)
+        
+        return false
     }
     
     func clearSearch(){
