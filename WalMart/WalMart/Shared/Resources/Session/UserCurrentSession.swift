@@ -241,6 +241,14 @@ class UserCurrentSession : NSObject {
         UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
         UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
         
+        let homeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
+        if homeNumber !=  "" {
+            UserCurrentSession.sharedInstance().cellPhone = resultProfileJSONGR!["cellPhone"] as! String
+            UserCurrentSession.sharedInstance().workNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
+            UserCurrentSession.sharedInstance().phoneNumber = homeNumber
+        }
+
+        
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)
 
