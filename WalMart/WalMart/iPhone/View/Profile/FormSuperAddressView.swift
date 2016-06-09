@@ -667,17 +667,20 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             self.stores = []
             
             self.neighborhoodsDic = result["neighborhoods"] as! [NSDictionary]
+            var index = 0
             for dic in  self.neighborhoodsDic {
+                
                 self.neighborhoods.append(dic["name"] as! String!)
                 let idNeighborhood = dic["id"] as! String!
                 if neighborhoodID == idNeighborhood {
-                    self.suburb!.text = self.neighborhoods[0]
-                    self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
+                    self.suburb!.text = self.neighborhoods[index]
+                    self.selectedNeighborhood = NSIndexPath(forRow: index, inSection: 0)
                 }
                 if neighborhoodID == "" {
                     self.suburb!.text = self.neighborhoods[0]
                     self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
                 }
+                index++
             }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
             
             self.storesDic = result["stores"] as! [NSDictionary]
