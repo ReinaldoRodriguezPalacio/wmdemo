@@ -369,14 +369,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                             alertView!.showDoneIconWithoutClose()
                             alertView!.showOkButton("OK", colorButton: WMColor.green)
                         }
-                        self.showErrorLabel(true)
-//                        
-//                        if self.errorView == nil{
-//                            self.errorView = FormFieldErrorView()
-//                        }
-//                        let stringToShow : NSString = error.localizedDescription
-//                        let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
-//                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
+                        self.showErrorLabel(true)                     
+                        if self.errorView == nil{
+                            self.errorView = FormFieldErrorView()
+                        }
+                        let stringToShow : NSString = error.localizedDescription
+                        let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
+                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
                         
                         //self.delegateFormAdd?.showNoCPWarning()
                         return
