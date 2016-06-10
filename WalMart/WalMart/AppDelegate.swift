@@ -490,7 +490,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                     let srtType  = components[1].componentsSeparatedByString("_")[1]
                     let srtValue  = components[2].componentsSeparatedByString("_")[1]
                 //TODO validar como llegara los links
-                    customBar.handleNotification(srtType,name:"",value:srtValue,bussines:srtBussines)
+                    customBar.handleNotification(srtType.uppercaseString,name:"",value:srtValue,bussines:srtBussines.lowercaseString)
                 }
                 //TODO quitar en produccion 
 //                UIAlertView(title: "Received link:",
