@@ -58,6 +58,8 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var idFreeShepping : Int! = 0
     var idReferido : Int! = 0
     var shipmentAmount: Double!
+    //freshepping
+    var isFistShip = false
     
     var paymentOptionsView : PaymentOptionsView!
     var paymentId = "0"
@@ -342,12 +344,13 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         
         self.confirmOrderView  = GenerateOrderView.initDetail()
         self.confirmOrderView!.delegate  =  self
+        self.confirmOrderView?.isFreshepping =  self.isFistShip
         self.confirmOrderView?.showDetail()
         self.generateOrderPaymentType =  self.paymentString
         
         self.paramsToConfirm!["shipmentAmount"] = self.discountsFreeShippingAssociated ? "0.0" :self.paramsToConfirm!["shipmentAmount"]
         let amoutnShip = self.paramsToConfirm!["shipmentAmount"] as! String
-        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble()! + amoutnShip.toDouble()!)"
+        self.paramsToConfirm!["total"] = "\(generateOrderTotal.toDouble()! + (self.isFistShip ? 0 : amoutnShip.toDouble()!))"
         self.paramsToConfirm!["subtotal"] = generateOrderSubtotal
         self.paramsToConfirm!["Discounts"] = generateOrderDiscounts
         self.paramsToConfirm!["PaymentType"] = generateOrderPaymentType
@@ -689,6 +692,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                         
                     }
                 }
+                self.isFistShip = (self.idFreeShepping != 0)
                 
                 if self.idFreeShepping == 0 {
                     if let listReferidos = resultCall["listReferidos"] as? NSDictionary{
