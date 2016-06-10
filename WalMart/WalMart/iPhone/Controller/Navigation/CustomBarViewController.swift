@@ -438,9 +438,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let storyboard = self.loadStoryboardDefinition()
         
         //var   = "loginVC-profileItemVC" as String
-        if UserCurrentSession.sharedInstance().userSigned != nil{
+       // if UserCurrentSession.sharedInstance().userSigned != nil{
             //controllerProfile = "profileVC"
-        }
+        //}
         
         
         let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC" ,"userListsVC", "moreVC"]

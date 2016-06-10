@@ -54,7 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         FBSDKAppEvents.activateApp()
 
         
-        UserCurrentSession.sharedInstance().searchForCurrentUser()
+        //UserCurrentSession.sharedInstance().searchForCurrentUser()
         
         // Optional: automatically send uncaught exceptions to Google Analytics.
         GAI.sharedInstance().trackUncaughtExceptions = true
@@ -311,16 +311,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         print("Device token: \(deviceTokenString)")
         
         UserCurrentSession.sharedInstance().deviceToken = deviceTokenString
-
-   
+        
+        
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
         let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice)
-        notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
-            //println( "Registrado para notificaciones")
-
+        if UserCurrentSession.sharedInstance().finishConfig {
+            notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
+                //println( "Registrado para notificaciones")
+                
             }) { (error:NSError) -> Void in
-            print( "Error device token: \(error.localizedDescription)" )
+                print( "Error device token: \(error.localizedDescription)" )
+            }
         }
         
         print("deviceTokenString \(deviceTokenString)" )
