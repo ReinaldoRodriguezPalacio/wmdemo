@@ -35,6 +35,8 @@ class UserCurrentSession : NSObject {
     var porcentageAssociate : Double! =  0.0
     
     var deviceToken = ""
+    var finishConfig = false
+ 
 
     
     //Singleton init
@@ -67,6 +69,7 @@ class UserCurrentSession : NSObject {
     class func systemVersion() -> String{
         return "iOS \(UIDevice.currentDevice().systemVersion)"
     }
+    
     
     func searchForCurrentUser(){
         
