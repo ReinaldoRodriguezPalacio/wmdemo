@@ -76,7 +76,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         self.view.addSubview(webViewSplash)
         self.view.addSubview(splashDefault)
         
-        callUpdateServices()
+        
     }
     
     func retrieveParam(key:String) -> Param? {
@@ -339,6 +339,10 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         confServ.callService([:], successBlock: { (result:NSDictionary) -> Void in
             var error: NSError?
             self.configureWebView(result)
+            self.callUpdateServices()
+             UserCurrentSession.sharedInstance().finishConfig  = true
+            self.invokeServiceToken()
+            
             if error == nil{
                 self.webViewSplash.loadRequest(NSURLRequest(URL: NSURL(string:self.serviceUrl("WalmartMG.Splash"))!))
                 if let privateNot = result["privaceNotice"] as? NSArray {
@@ -386,10 +390,28 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                         downloadTask.resume()
                     }
                 }
-                
+                UserCurrentSession.sharedInstance().searchForCurrentUser()
             }
             }) { (error:NSError) -> Void in
                 self.gotohomecontroller()
+        }
+    }
+    
+    func invokeServiceToken(){
+
+        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let notService = NotificationService()
+        
+        if  UserCurrentSession.sharedInstance().deviceToken != "" {
+            
+            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice)
+            
+            notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
+                //println( "Registrado para notificaciones")
+                
+            }) { (error:NSError) -> Void in
+                print( "Error device token: \(error.localizedDescription)" )
+            }
         }
     }
     
