@@ -42,6 +42,7 @@ protocol GenerateOrderViewDelegate {
     
     var imgBgView : UIImageView!
     let marginViews : CGFloat = 16.0
+    var isFreshepping : Bool =  false
 
     
     override init(frame: CGRect) {
@@ -99,12 +100,13 @@ protocol GenerateOrderViewDelegate {
         lblTitledeliveryAmount.text = NSLocalizedString("gr.generate.deliveryAmount", comment: "")
         lblTitledeliveryAmount.textColor = WMColor.gray
         lblTitledeliveryAmount.font = WMFont.fontMyriadProRegularOfSize(14)
-        
+        lblTitledeliveryAmount.tag =  100
         
         let lbldiscounts = labelTitle(CGRectMake(marginViews, lblTitledeliveryAmount.frame.maxY + 8, lblTitleSubtotal.frame.width, 14))
         lbldiscounts.text = NSLocalizedString("gr.generate.discount", comment: "")
         lbldiscounts.textColor = WMColor.gray
         lbldiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
+        
         
         let lblTitleTotal = labelTitle(CGRectMake(marginViews, lbldiscounts.frame.maxY + 8, lblTitleSubtotal.frame.width , 14))
         lblTitleTotal.text = NSLocalizedString("gr.confirma.total", comment: "")
@@ -247,6 +249,7 @@ protocol GenerateOrderViewDelegate {
     
     func showGenerateOrder(paramsToOrder:NSDictionary) {
         //right
+        
         var stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["subtotal"] as! String)
         lblValueSubtotal.text = stringValue
         lblValueSubtotal.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -255,16 +258,13 @@ protocol GenerateOrderViewDelegate {
         
         stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["total"] as! String)
         lblValueTotal.text = stringValue
-        lblValueTotal.text = stringValue
         lblValueTotal.font = WMFont.fontMyriadProSemiboldOfSize(14)
         lblValueTotal.textColor = WMColor.blue
-        lblValueTotal.text = stringValue
         
         stringValue =  CurrencyCustomLabel.formatString(paramsToOrder["shipmentAmount"] as! String)
-        lblValueDeliveryAmount.text = stringValue
+        lblValueDeliveryAmount.text = self.isFreshepping ? "sin costo" :  stringValue
         lblValueDeliveryAmount.font = WMFont.fontMyriadProRegularOfSize(14)
         lblValueDeliveryAmount.textColor = WMColor.dark_gray
-        lblValueDeliveryAmount.text = stringValue
 
         stringValue =  CurrencyCustomLabel.formatNegativeString(paramsToOrder["Discounts"] as! String)
         lblValueDiscounts.font = WMFont.fontMyriadProRegularOfSize(14)
