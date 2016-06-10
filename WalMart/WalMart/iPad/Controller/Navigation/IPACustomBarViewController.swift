@@ -234,11 +234,12 @@ class IPACustomBarViewController :  CustomBarViewController {
             svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
-                if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
-                    controllernav?.popViewControllerAnimated(false)
-                    self.isEditingSearch = false
-                }
-                controllernav?.pushViewController(contDetail, animated: true)
+                //if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
+                //    controllernav?.popViewControllerAnimated(false)
+                //    self.isEditingSearch = false
+                //}
+                
+                  controllernav?.pushViewController(contDetail, animated: true)
                 }, errorBlock: { (error:NSError) -> Void in
                     
                     if upcDesc.length < 14 {
