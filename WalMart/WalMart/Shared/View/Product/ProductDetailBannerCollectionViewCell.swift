@@ -290,24 +290,21 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     func buildColorsAndSizesView(){
         if colors?.count != 0 || sizes?.count != 0{
             if colors?.count != 0 && sizes?.count != 0{
-                self.colorsView.items = self.colors
-                self.colorsView.buildViewForColors(self.colors as! [[String:AnyObject]])
+                self.colorsView.items = self.colors as! [[String:AnyObject]]
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 160)
                 self.pointSection.frame = CGRectMake(0, self.bounds.height - 174, self.bounds.width, 20)
                 self.colorsView.frame =  CGRectMake(0,  self.bounds.height - 154, self.frame.width, 40.0)
                 self.colorsView.buildItemsView()
-                self.sizesView.items = self.sizes
-                self.sizesView.buildViewForColors(self.sizes as! [[String:AnyObject]])
+                self.sizesView.items = self.sizes as! [[String:AnyObject]]
                 self.sizesView.alpha = 1.0
                 self.sizesView.frame =  CGRectMake(0,  self.bounds.height - 114, self.frame.width, 40.0)
                 self.sizesView.buildItemsView()
                 self.sizesView.deleteTopBorder()
             }else if colors?.count != 0 && sizes?.count == 0{
                 self.sizesView.alpha = 0
-                self.colorsView.items = self.colors
-                self.colorsView.buildViewForColors(self.colors as! [[String:AnyObject]])
+                self.colorsView.items = self.colors as! [[String:AnyObject]]
                 self.colorsView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
@@ -316,8 +313,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
                 self.colorsView.buildItemsView()
             }else if colors?.count == 0 && sizes?.count != 0{
                 self.colorsView.alpha = 0
-                self.sizesView.items = self.sizes
-                self.sizesView.buildViewForColors(self.sizes as! [[String:AnyObject]])
+                self.sizesView.items = self.sizes as! [[String:AnyObject]]
                 self.sizesView.alpha = 1.0
                 let frame = collection.frame
                 self.collection.frame = CGRectMake(frame.origin.x, frame.origin.y, frame.width, 200)
