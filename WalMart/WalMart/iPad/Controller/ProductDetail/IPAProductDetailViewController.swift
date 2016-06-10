@@ -1383,15 +1383,13 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         if colorItems.count != 0 || sizeItems.count != 0{
             if colorItems.count != 0 && sizeItems.count != 0{
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView?.items = self.colorItems
-                self.colorsView!.buildViewForColors(self.colorItems as! [[String:AnyObject]])
+                self.colorsView?.items = self.colorItems as! [[String:AnyObject]]
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRectMake(0,0, width, 40.0)
                 self.colorsView!.buildItemsView()
                 self.colorsView?.delegate = self
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems
-                self.sizesView!.buildViewForColors(self.sizeItems as! [[String:AnyObject]])
+                self.sizesView!.items = self.sizeItems as! [[String:AnyObject]]
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRectMake(0,40,width, 40.0)
                 self.sizesView!.buildItemsView()
@@ -1404,8 +1402,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count != 0 && sizeItems.count == 0{
                 self.sizesView?.alpha = 0
                 self.colorsView = ProductDetailColorSizeView()
-                self.colorsView!.items = self.colorItems
-                self.colorsView!.buildViewForColors(self.colorItems as! [[String:AnyObject]])
+                self.colorsView!.items = self.colorItems as! [[String:AnyObject]]
                 self.colorsView!.alpha = 1.0
                 self.colorsView!.frame =  CGRectMake(0,0, width, 40.0)
                 self.colorsView!.buildItemsView()
@@ -1416,8 +1413,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
             }else if colorItems.count == 0 && sizeItems.count != 0{
                 self.colorsView?.alpha = 0
                 self.sizesView = ProductDetailColorSizeView()
-                self.sizesView!.items = self.sizeItems
-                self.sizesView!.buildViewForColors(self.sizeItems as! [[String:AnyObject]])
+                self.sizesView!.items = self.sizeItems as! [[String:AnyObject]]
                 self.sizesView!.alpha = 1.0
                 self.sizesView!.frame =  CGRectMake(0,0,width, 40.0)
                 self.sizesView!.buildItemsView()
