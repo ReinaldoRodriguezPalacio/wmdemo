@@ -523,6 +523,16 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         sAddredssForm.allAddress = self.addressItems
         sAddredssForm.idAddress = ""
         self.picker!.closeButton!.hidden =  true
+        self.sAddredssForm.addressName.text = ""
+        self.sAddredssForm.outdoornumber.text = ""
+        self.sAddredssForm.indoornumber.text = ""
+        self.sAddredssForm.betweenFisrt.text = ""
+        self.sAddredssForm.betweenSecond.text = ""
+        self.sAddredssForm.zipcode.text = ""
+        self.sAddredssForm.street.text = ""
+        self.sAddredssForm.store.text = ""
+        self.sAddredssForm.suburb.text = ""
+
         if !self.selectedAddressHasStore{
             self.picker!.closeButton!.hidden =  false
             let serviceAddress = GRAddressesByIDService()
