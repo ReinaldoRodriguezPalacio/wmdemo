@@ -252,7 +252,7 @@ static const int kStateKey;
 }
 
 - (void)TPKeyboardAvoiding_initializeView:(UIView*)view {
-    if ([view isKindOfClass:[UITextView class]] != nil) {
+
         if ( ([view isKindOfClass:[UITextField class]] || [view isKindOfClass:[UITextView class]]) && (![(id)view delegate] || [(id)view delegate] == self) ) {
             [(id)view setDelegate:self];
             
@@ -268,7 +268,7 @@ static const int kStateKey;
                 }
             }
         }
-    }
+    
 }
 
 
