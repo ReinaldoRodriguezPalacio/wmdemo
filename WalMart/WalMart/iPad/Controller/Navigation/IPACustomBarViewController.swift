@@ -622,6 +622,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[4])
         case "URL": self.openURLNotification(trimValue)
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "Escuela Patito", andSearchContextType: .WithCategoryForMG)
         case "SH":
             if self.splashVC == nil {
                 self.openSearchProduct()
@@ -640,6 +641,21 @@ class IPACustomBarViewController :  CustomBarViewController {
          self.btnSearch?.selected =  false
         
         return true
+    }
+    
+    override func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
+        let controller = IPASchoolListViewController()
+        controller.familyId  = family == nil ? "_" :  family
+        controller.departmentId = depto == nil ? "_" :  depto
+        controller.lineId = line == nil ? "_" :  line
+        controller.schoolName = title
+        controller.gradeName = ""
+        let controllernav = self.currentController as? UINavigationController
+        let controllersInNavigation = controllernav?.viewControllers.count
+        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+        }
+        controllernav?.pushViewController(controller, animated: true)
     }
     
     func showHomeSelected(){
