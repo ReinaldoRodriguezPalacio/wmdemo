@@ -502,7 +502,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                 let targetUrl:NSURL =  parsedUrl.targetURL
                 
                 let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
-                var components = strAction.componentsSeparatedByString("/")
+                var components = strAction.componentsSeparatedByString("&")
                 
                 if let customBar = self.window!.rootViewController as? CustomBarViewController {
                     let srtBussines  = components[0].componentsSeparatedByString("_")[1]

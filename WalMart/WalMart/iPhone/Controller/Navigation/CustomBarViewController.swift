@@ -909,6 +909,21 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeSearch(false, sender: nil)
     }
     
+    func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
+        let controller = SchoolListViewController()
+        controller.familyId  = family == nil ? "_" :  family
+        controller.departmentId = depto == nil ? "_" :  depto
+        controller.lineId = line == nil ? "_" :  line
+        controller.schoolName = title
+        controller.gradeName = ""
+        let controllernav = self.currentController as? UINavigationController
+        let controllersInNavigation = controllernav?.viewControllers.count
+        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
+        }
+        controllernav?.pushViewController(controller, animated: true)
+    }
+    
     func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
         self.btnSearch!.selected =  false
         //self.clearSearch()
@@ -1292,7 +1307,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[3])
-            
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "Escuela Patito", andSearchContextType: .WithCategoryForMG)
         case "URL": self.openURLNotification(trimValue)
         case "SH":
             if self.splashVC == nil {
