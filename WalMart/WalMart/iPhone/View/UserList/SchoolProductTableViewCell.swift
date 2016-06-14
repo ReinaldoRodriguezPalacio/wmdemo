@@ -78,10 +78,12 @@ class SchoolProductTableViewCell: DetailListViewCell {
     
         if let stock = product["stock"] as? NSString {
             if stock == "false" {
+                self.check!.enabled = false
                 self.quantityIndicator!.enabled = false
                 self.quantityIndicator!.backgroundColor = WMColor.light_gray
                 self.hasStock = false
             } else {
+                 self.check!.enabled = true
                 self.quantityIndicator!.enabled = true
                 self.quantityIndicator!.backgroundColor = WMColor.yellow
                 self.hasStock = true
