@@ -499,8 +499,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
 //                    message:targetUrl.absoluteString, delegate: nil,
 //                    cancelButtonTitle: "ok").show()
             }else{
-                let targetUrl:NSURL =  parsedUrl.targetURL
-                
+                //let targetUrl:NSURL =  parsedUrl.targetURL
                 let strAction = stringCompare.stringByReplacingOccurrencesOfString("walmartmexicoapp://", withString: "") as NSString
                 var components = strAction.componentsSeparatedByString("&")
                 
@@ -508,7 +507,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                     let srtBussines  = components[0].componentsSeparatedByString("_")[1]
                     let srtType  = components[1].componentsSeparatedByString("_")[1]
                     let srtValue  = components[2].componentsSeparatedByString("_")[1]
-                    customBar.handleNotification(srtType,name:"",value:srtValue,bussines:srtBussines)
+                    var schoolName = ""
+                    var grade = ""
+                    
+                    if components.count > 3 {
+                        schoolName = components[3].componentsSeparatedByString("_")[1]
+                        schoolName = schoolName.stringByReplacingOccurrencesOfString("-", withString: " ")
+                        grade = components[4].componentsSeparatedByString("_")[1]
+                        grade = grade.stringByReplacingOccurrencesOfString("-", withString: " ")
+                    }
+                    customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }
 
             }

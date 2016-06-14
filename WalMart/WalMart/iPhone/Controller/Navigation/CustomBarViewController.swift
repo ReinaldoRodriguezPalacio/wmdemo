@@ -909,13 +909,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.closeSearch(false, sender: nil)
     }
     
-    func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
+    func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String, andGrade grade:String , andSearchContextType searchContextType:SearchServiceContextType){
         let controller = SchoolListViewController()
         controller.familyId  = family ?? "_"
         controller.departmentId = depto ??  "_"
         controller.lineId = line ?? "_"
         controller.schoolName = title
-        controller.gradeName = ""
+        controller.gradeName = grade
         controller.showWishList = true
         
         let controllernav = self.currentController as? UINavigationController
@@ -1286,8 +1286,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
-        
-        
+       return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
+    }
+    
+    func handleListNotification(type:String,name:String,value:String,bussines:String,schoolName:String,grade:String) -> Bool {
         let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         if type != "CF" {
@@ -1296,9 +1298,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 btnShopping!.selected = !btnShopping!.selected
             }
         }
-        
-        
-        
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
         case "": self.buttonSelected(self.buttonList[0])
@@ -1309,7 +1308,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         case "CAT": self.showProducts(forDepartmentId: trimValue, andFamilyId:nil, andLineId: nil, andTitleHeader:"Recomendados" , andSearchContextType:bussines == "gr" ? .WithCategoryForGR : .WithCategoryForMG)
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[3])
-        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "Escuela Patito", andSearchContextType: .WithCategoryForMG)
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: schoolName, andGrade:grade, andSearchContextType: .WithCategoryForMG)
         case "URL": self.openURLNotification(trimValue)
         case "SH":
             if self.splashVC == nil {
@@ -1325,9 +1324,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if splashVC != nil {
             self.view.bringSubviewToFront(splashVC.view)
         }
-        
-        
-        
         return true
     }
     
