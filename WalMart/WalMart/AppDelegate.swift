@@ -512,7 +512,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                     
                     if components.count > 3 {
                         schoolName = components[3].componentsSeparatedByString("_")[1]
+                        schoolName = schoolName.stringByReplacingOccurrencesOfString("-", withString: " ")
                         grade = components[4].componentsSeparatedByString("_")[1]
+                        grade = grade.stringByReplacingOccurrencesOfString("-", withString: " ")
                     }
                     customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }
