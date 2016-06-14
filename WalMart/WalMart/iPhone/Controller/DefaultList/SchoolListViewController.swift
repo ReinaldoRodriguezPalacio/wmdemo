@@ -57,12 +57,6 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         self.getDetailItems()
-        
-        if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
-            let tabBarHeight:CGFloat = 90.0
-            self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-            self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
-        }
     }
     
     
