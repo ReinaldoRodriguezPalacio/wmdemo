@@ -645,19 +645,21 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
         let controller = IPASchoolListViewController()
-        controller.familyId  = family == nil ? "_" :  family
-        controller.departmentId = depto == nil ? "_" :  depto
-        controller.lineId = line == nil ? "_" :  line
+        controller.familyId  = family ?? "_"
+        controller.departmentId = depto ??  "_"
+        controller.lineId = line ?? "_"
         controller.schoolName = title
         controller.gradeName = ""
+        controller.showInPopover = true
+        controller.showWishList = true
+        controller.view.backgroundColor = UIColor.whiteColor()
         let controllernav = self.currentController as? UINavigationController
-        let controllersInNavigation = controllernav?.viewControllers.count
-        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
-            controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
-        }
-        controllernav?.pushViewController(controller, animated: true)
+        controller.modalPresentationStyle = .FormSheet
+        controller.preferredContentSize = CGSizeMake(682.0, 635.0)
+        controllernav?.presentViewController(controller, animated: false, completion: nil)
+
     }
-    
+
     func showHomeSelected(){
         self.buttonList[0].selected = true
     }

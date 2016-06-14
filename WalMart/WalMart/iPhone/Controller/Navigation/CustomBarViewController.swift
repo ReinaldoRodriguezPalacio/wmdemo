@@ -911,14 +911,16 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
         let controller = SchoolListViewController()
-        controller.familyId  = family == nil ? "_" :  family
-        controller.departmentId = depto == nil ? "_" :  depto
-        controller.lineId = line == nil ? "_" :  line
+        controller.familyId  = family ?? "_"
+        controller.departmentId = depto ??  "_"
+        controller.lineId = line ?? "_"
         controller.schoolName = title
         controller.gradeName = ""
+        controller.showWishList = true
+        
         let controllernav = self.currentController as? UINavigationController
         let controllersInNavigation = controllernav?.viewControllers.count
-        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SearchProductViewController != nil){
+        if controllersInNavigation > 2 && (controllernav?.viewControllers[controllersInNavigation! - 2] as? SchoolListViewController != nil){
             controllernav?.viewControllers.removeAtIndex(controllersInNavigation! - 2)
         }
         controllernav?.pushViewController(controller, animated: true)
