@@ -57,6 +57,12 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         self.getDetailItems()
+        
+        if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
+            let tabBarHeight:CGFloat = 90.0
+            self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
+            self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
+        }
     }
     
     
@@ -116,6 +122,8 @@ class SchoolListViewController : DefaultListDetailViewController {
             return schoolCell
         }
         
+        
+        
         if indexPath.row == self.detailItems!.count {
             let totalCell = tableView.dequeueReusableCellWithIdentifier("totalsCell", forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
@@ -131,7 +139,19 @@ class SchoolListViewController : DefaultListDetailViewController {
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
+        self.removeDisabled(self.detailItems![indexPath.row],indexPath:indexPath)
         return listCell
+    }
+    
+    func removeDisabled(product:[String:AnyObject],indexPath:NSIndexPath){
+    
+        if let stock = product["stock"] as? NSString {
+            if stock == "false" {
+                self.selectedItems!.removeObject(indexPath.row)
+                 self.updateTotalLabel()
+            }
+        }
+        
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -176,7 +196,12 @@ class SchoolListViewController : DefaultListDetailViewController {
                                 else{
                                     self.selectedItems = NSMutableArray()
                                     for i in 0...self.detailItems!.count - 1 {
-                                        self.selectedItems?.addObject(i)
+                                        let product = self.detailItems![i]
+                                        if let stock = product["stock"] as? NSString {
+                                            if stock == "true" {
+                                                self.selectedItems?.addObject(i)
+                                            }
+                                        }
                                     }
                                 }
                                 self.tableView?.reloadData()
@@ -428,7 +453,13 @@ class SchoolListViewController : DefaultListDetailViewController {
         }else{
             self.selectedItems = NSMutableArray()
             for i in 0...self.detailItems!.count - 1 {
-                self.selectedItems?.addObject(i)
+                let product = self.detailItems![i]
+                if let stock = product["stock"] as? NSString {
+                    if stock == "true" {
+                        self.selectedItems?.addObject(i)
+                    }
+                }
+                
             }
             self.tableView?.reloadData()
             self.selectAllButton!.selected = false
@@ -439,6 +470,6 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
-    self.tabBarActions()
+        self.tabBarActions()
     }
 }
