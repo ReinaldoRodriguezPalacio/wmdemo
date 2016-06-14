@@ -54,12 +54,15 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     override func setup() {
         super.setup()
+        self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+        self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
         self.getDetailItems()
     }
     
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        super.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height))
     }
     
     func addViewLoad(){
