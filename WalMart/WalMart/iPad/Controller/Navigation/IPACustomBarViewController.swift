@@ -622,7 +622,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         case "CF": self.showShoppingCart(self.btnShopping!,closeIfNeedded: false)
         case "WF": self.buttonSelected(self.buttonList[4])
         case "URL": self.openURLNotification(trimValue)
-        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "Escuela Patito", andSearchContextType: .WithCategoryForMG)
+        case "LIST": self.showProductList(forDepartmentId: nil, andFamilyId: nil, andLineId: trimValue, andTitleHeader: "",andGrade:"", andSearchContextType: .WithCategoryForMG)
         case "SH":
             if self.splashVC == nil {
                 self.openSearchProduct()
@@ -643,13 +643,13 @@ class IPACustomBarViewController :  CustomBarViewController {
         return true
     }
     
-    override func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String , andSearchContextType searchContextType:SearchServiceContextType){
+    override func showProductList(forDepartmentId depto: String?, andFamilyId family: String?, andLineId line: String?, andTitleHeader title:String, andGrade grade:String, andSearchContextType searchContextType:SearchServiceContextType){
         let controller = IPASchoolListViewController()
         controller.familyId  = family ?? "_"
         controller.departmentId = depto ??  "_"
         controller.lineId = line ?? "_"
         controller.schoolName = title
-        controller.gradeName = ""
+        controller.gradeName = grade
         controller.showInPopover = true
         controller.showWishList = true
         controller.view.backgroundColor = UIColor.whiteColor()
