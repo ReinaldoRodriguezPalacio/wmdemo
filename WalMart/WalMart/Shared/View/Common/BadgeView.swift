@@ -12,23 +12,36 @@ import Foundation
 class BadgeView : UIView {
     
     let title = UILabel()
+    var colorbackground: UIColor?
+    var textColor: UIColor?
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        self.colorbackground = UIColor.whiteColor()
+        self.textColor = WMColor.light_blue
         setup()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.colorbackground = UIColor.whiteColor()
+        self.textColor = WMColor.light_blue
+        setup()
+    }
+    
+     init(frame: CGRect, backgroundColor: UIColor, textColor:UIColor){
+        super.init(frame: frame)
+        self.colorbackground = backgroundColor
+        self.textColor = textColor
         setup()
     }
     
     func setup() {
         
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor =  self.colorbackground!
         
         title.frame = CGRectMake(AppDelegate.separatorHeigth(),AppDelegate.separatorHeigth(),self.bounds.width,self.bounds.height)
-        title.textColor = WMColor.light_blue
+        title.textColor = self.textColor!
         title.textAlignment = .Center
         title.font = WMFont.fontMyriadProRegularOfSize(9)
         //self.layer.backgroundColor = UIColor.whiteColor().CGColor
@@ -43,7 +56,7 @@ class BadgeView : UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.backgroundColor = UIColor.whiteColor()
+        self.backgroundColor = self.colorbackground!
         self.layer.cornerRadius = self.bounds.width / 2
     }
     
