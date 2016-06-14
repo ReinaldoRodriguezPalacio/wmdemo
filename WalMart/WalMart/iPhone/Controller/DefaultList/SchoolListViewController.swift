@@ -10,8 +10,7 @@ import Foundation
 
 class SchoolListViewController : DefaultListDetailViewController {
     
-    var schoolName: String! = ""
-    var gradeName: String?
+   
     var familyId: String?
     
     var departmentId: String?
