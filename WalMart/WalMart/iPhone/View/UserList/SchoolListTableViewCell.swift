@@ -31,7 +31,7 @@ class SchoolListTableViewCell : UITableViewCell {
     
     override func layoutSubviews() {
         self.schoolLogo!.frame = CGRectMake(16, 16, 72, 66)
-        self.schoolNameLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, 16, 113, 14)
+        self.schoolNameLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, 16, self.frame.width - (self.schoolLogo!.frame.maxX + 32), 14)
         self.gradeDescLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, self.schoolNameLabel!.frame.maxY + 4, 113, 12)
         self.numElementsLabel!.frame = CGRectMake(self.schoolLogo!.frame.maxX + 16, self.gradeDescLabel!.frame.maxY + 4, 113, 12)
         self.total!.frame = CGRectMake(self.frame.width - 106, self.numElementsLabel!.frame.maxY - 5, 90, 18)
