@@ -16,9 +16,12 @@ class SchoolListViewController : DefaultListDetailViewController {
     
     var departmentId: String?
     var selectAllButton: UIButton?
+    var wishlistButton: UIButton?
     var listPrice: String?
     var quantitySelectorMg: ShoppingCartQuantitySelectorView?
     var loading: WMLoadingView?
+    var showWishList: Bool = false
+    var isWishListProcess: Bool = false
     
     var emptyView: IPOGenericEmptyView!
     
@@ -33,13 +36,26 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.tableView!.registerClass(SchoolProductTableViewCell.self, forCellReuseIdentifier: "schoolProduct")
         self.tableView!.registerClass(GRShoppingCartTotalsTableViewCell.self, forCellReuseIdentifier: "totalsCell")
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 0, 0)
-        
+    
         let y = (self.footerSection!.frame.height - 34.0)/2
         self.selectAllButton = UIButton(frame: CGRectMake(16.0, y, 34.0, 34.0))
         self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Normal)
         self.selectAllButton!.setImage(UIImage(named: "check_full_green"), forState: .Selected)
         self.selectAllButton!.setImage(UIImage(named: "check_off"), forState: .Disabled)
         self.selectAllButton!.addTarget(self, action: #selector(SchoolListViewController.selectAll as (SchoolListViewController) -> () -> ()), forControlEvents: .TouchUpInside)
+        
+        self.wishlistButton = UIButton(frame: CGRectMake(66.0, y, 34.0, 34.0))
+        self.wishlistButton!.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
+        self.wishlistButton!.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Selected)
+        self.wishlistButton!.setImage(UIImage(named:"detail_wishlist"), forState: UIControlState.Highlighted)
+        self.wishlistButton!.setImage(UIImage(named:"wish_list_deactivated"), forState: UIControlState.Disabled)
+        self.wishlistButton!.addTarget(self, action: #selector(SchoolListViewController.addToWishList), forControlEvents: .TouchUpInside)
+        
+        if self.showWishList {
+            self.footerSection!.addSubview(self.wishlistButton!)
+            self.shareButton?.removeFromSuperview()
+        }
+        
         self.footerSection!.addSubview(self.selectAllButton!)
         self.duplicateButton?.removeFromSuperview()
         self.addViewLoad()
@@ -461,6 +477,104 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.updateTotalLabel()
     }
     
+    func addToWishList () {
+        
+        if !self.isWishListProcess && selectedItems!.count >  0 {
+            self.isWishListProcess = true
+            let animation = UIImageView(frame: CGRectMake(0, 0,36, 36));
+            animation.center = self.wishlistButton!.center
+            animation.image = UIImage(named:"detail_addToList")
+            self.runSpinAnimationOnView(animation, duration: 100, rotations: 1, repeats: 100)
+            self.footerSection!.addSubview(animation)
+            var ixCount = 1
+            
+            //EVENT
+            BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue,categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue,action:WMGAIUtils.ACTION_ADD_ALL_WISHLIST.rawValue , label: "")
+            
+            for idxVal  in selectedItems! {
+                let idx = idxVal as! Int
+                let shoppingCartProduct = self.detailItems![idx]
+                let upc = shoppingCartProduct["upc"] as! String
+                let desc = shoppingCartProduct["description"] as! String
+                let price = shoppingCartProduct["price"] as! String
+                //let quantity = shoppingCartProduct["quantity"] as! String
+                
+                var onHandInventory = "0"
+                if let inventory = shoppingCartProduct["onHandInventory"] as? String {
+                    onHandInventory = inventory
+                }
+                
+                let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
+                var imageUrl = ""
+                if imageArray.count > 0 {
+                    imageUrl = imageArray.objectAtIndex(0) as! String
+                }
+                
+                var preorderable = "false"
+                if let preorder = shoppingCartProduct["isPreorderable"] as? String {
+                    preorderable = preorder
+                }
+                
+                var category = ""
+                if let categoryVal = shoppingCartProduct["category"] as? String {
+                    category = categoryVal
+                }
+                
+                
+                let serviceAdd = AddItemWishlistService()
+                if ixCount < self.selectedItems!.count {
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price as String, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category, mustUpdateWishList: false, successBlock: { (result:NSDictionary) -> Void in
+                        //let path = NSIndexPath(forRow: , inSection: 0)
+                        
+                        
+                        }, errorBlock: { (error:NSError) -> Void in
+                    })
+                }else {
+                    serviceAdd.callService(upc, quantity: "1", comments: "", desc: desc, imageurl: imageUrl, price: price, isActive: "true", onHandInventory: onHandInventory, isPreorderable: preorderable,category:category,mustUpdateWishList: true, successBlock: { (result:NSDictionary) -> Void in
+                        self.showMessageWishList(NSLocalizedString("shoppingcart.wishlist.ready",comment:""))
+                        animation.removeFromSuperview()
+                        }, errorBlock: { (error:NSError) -> Void in
+                            animation.removeFromSuperview()
+                    })
+                }
+                ixCount += 1
+                
+            }
+        }
+        
+    }
+    
+    func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
+        
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
+        rotationAnimation.toValue = CGFloat(M_PI) * CGFloat(2.0) * rotations * duration
+        rotationAnimation.duration = CFTimeInterval(duration)
+        rotationAnimation.cumulative = true
+        rotationAnimation.repeatCount = Float(repeats)
+        view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+        
+    }
+    
+    func showMessageWishList(message:String) {
+        let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(self.footerSection!.frame.minX, self.footerSection!.frame.minY , self.footerSection!.frame.width, 0))
+        addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(self.footerSection!.frame.minX, -96, self.footerSection!.frame.width, 96))
+        addedAlertWL.clipsToBounds = true
+        addedAlertWL.imageBlurView.frame = CGRectMake(self.footerSection!.frame.minX, -96, self.footerSection!.frame.width, 96)
+        addedAlertWL.textView.text = message
+        self.view.addSubview(addedAlertWL)
+        self.isWishListProcess = false
+        UIView.animateWithDuration(0.3, animations: { () -> Void in
+            addedAlertWL.frame = CGRectMake(self.footerSection!.frame.minX,self.footerSection!.frame.minY - 48, self.footerSection!.frame.width, 48)
+        }) { (complete:Bool) -> Void in
+            UIView.animateWithDuration(0.5, delay: 1, options: UIViewAnimationOptions.AllowUserInteraction, animations: { () -> Void in
+                addedAlertWL.frame = CGRectMake(addedAlertWL.frame.minX, self.footerSection!.frame.minY , addedAlertWL.frame.width, 0)
+            }) { (complete:Bool) -> Void in
+                addedAlertWL.removeFromSuperview()
+            }
+        }
+        
+        
+    }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)

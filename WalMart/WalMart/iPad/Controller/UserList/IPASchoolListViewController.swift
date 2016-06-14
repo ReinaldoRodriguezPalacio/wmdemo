@@ -11,20 +11,30 @@ import Foundation
 class IPASchoolListViewController: SchoolListViewController, UIPopoverControllerDelegate {
     
     var sharePopover: UIPopoverController?
+    var showInPopover:Bool = false
     
+    override func setup() {
+        super.setup()
+        if self.showInPopover {
+            self.backButton?.setImage(UIImage(named:"detail_close"), forState: .Normal)
+        }
+    }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         if !self.isSharing {
-            tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.maxY)
+            self.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height))
         }
         self.footerSection!.frame = CGRectMake(0,  self.view.frame.maxY - 72 , 682.0, 72)
         let y = (self.footerSection!.frame.height - 34.0)/2
-        self.selectAllButton?.frame = CGRectMake(162.0, y, 34.0, 34.0)
-        var x = self.selectAllButton!.frame.maxX + 16
+        var x: CGFloat = 162.0
+        self.selectAllButton?.frame = CGRectMake(x, y, 34.0, 34.0)
+         x = self.selectAllButton!.frame.maxX + 16
         self.shareButton!.frame = CGRectMake(x, y, 34.0, 34.0)
-         x = self.shareButton!.frame.maxX + 16
-        self.addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + 146.0), 34.0)
-        self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + 146.0), 34.0)
+        self.wishlistButton!.frame = CGRectMake(x, y, 34.0, 34.0)
+         x = self.wishlistButton!.frame.maxX + 16
+        let shopButtonSpace: CGFloat = 146.0
+        self.addToCartButton?.frame = CGRectMake(x, y, self.footerSection!.frame.width - (x + shopButtonSpace), 34.0)
+        self.customLabel!.frame = CGRectMake(0, 0, self.footerSection!.frame.width - (x + shopButtonSpace), 34.0)
     }
     
     //MARK: TableViewDelegate
@@ -143,4 +153,11 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     
     override func willShowTabbar() { }
     
+    override func back() {
+        if showInPopover {
+            self.dismissViewControllerAnimated(true, completion: nil)
+            return
+        }
+        super.back()
+    }
 }
