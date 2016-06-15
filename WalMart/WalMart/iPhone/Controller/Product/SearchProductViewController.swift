@@ -569,6 +569,12 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             productDeparment = category
         }
         
+        var equivalenceByPiece = "0"
+        if let equivalence = item["equivalenceByPiece"] as? String{
+            equivalenceByPiece = equivalence
+        }
+        
+        
         
         cell.setValues(upc,
             productImageURL: imageUrl!,
@@ -584,7 +590,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             isFormList: idListFromSearch != "" ?  true :  false,
             productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! ),
             isLowStock:isLowStock,
-            category:productDeparment
+            category:productDeparment,
+            equivalenceByPiece: equivalenceByPiece
         )
         cell.delegate = self
         return cell
@@ -1460,7 +1467,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         var prodQuantity = "1"
         if cell.pesable! {
             prodQuantity = "50"
-            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:0.0,upcProduct:cell.upc)
+            let equivalence =  cell.equivalenceByPiece == "" ? 0.0 : cell.equivalenceByPiece.toDouble()
+            
+            selectQuantityGR = GRShoppingCartWeightSelectorView(frame:viewFrame,priceProduct:NSNumber(double:(cell.price as NSString).doubleValue),quantity:Int(prodQuantity),equivalenceByPiece:Int(equivalence!),upcProduct:cell.upc)
             
         }else{
             prodQuantity = "1"
