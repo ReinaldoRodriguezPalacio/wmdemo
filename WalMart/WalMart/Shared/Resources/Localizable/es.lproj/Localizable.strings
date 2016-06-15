@@ -241,7 +241,7 @@
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
 "profile.login.welcome"= "Bienvenido a Walmart";
 "profile.login"= "Ingresa a tu cuenta";
-"field.validate.password.length" = "contraseña inválida";
+"field.validate.password.length" = "Texto no válido";
 "profile.change.legalinfo" = "Información legal";
 
 //Preious orders

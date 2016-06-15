@@ -100,6 +100,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.reloadButtonSession()
+        self.tableView?.reloadData()
     }
     
     override func viewWillLayoutSubviews() {

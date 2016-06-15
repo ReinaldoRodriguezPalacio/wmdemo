@@ -653,9 +653,11 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.showInPopover = true
         controller.showWishList = true
         controller.view.backgroundColor = UIColor.whiteColor()
+        
         let controllernav = self.currentController as? UINavigationController
         controller.modalPresentationStyle = .FormSheet
         controller.preferredContentSize = CGSizeMake(682.0, 635.0)
+        controller.parentNavigationController = controllernav
         controllernav?.presentViewController(controller, animated: false, completion: nil)
 
     }

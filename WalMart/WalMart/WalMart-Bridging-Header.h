@@ -65,6 +65,9 @@
 //Slider
 #import "NMRangeSlider.h"
 
+//SwitchView
+#import "CMSwitchView.h"
+
 //PayPal
 #import "PayPalMobile.h"
 
@@ -76,8 +79,3 @@
 //MERCURY
 // Stompkit
 #import "StompKit.h"
-
-
-
-
-

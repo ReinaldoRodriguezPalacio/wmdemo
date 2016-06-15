@@ -8,7 +8,7 @@
 
 import Foundation
 
-class NotificationViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate {
+class NotificationViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate, CMSwitchViewDelegate {
     
     
     
@@ -17,6 +17,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     var allNotifications = []
     var selectable = true
     var emptyView : IPOEmptyNotificationView?
+    var receiveNotificationButton: CMSwitchView?
+    var receiveNotificationLabel: UILabel?
     
     
     override func getScreenGAIName() -> String {
@@ -24,10 +26,6 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     }
     
     override func viewDidLoad() {
-        
-        
-        
-        
         if UIDevice.currentDevice().userInterfaceIdiom != .Phone  {
             self.hiddenBack = true
             if  self.navigationController != nil {
@@ -39,17 +37,35 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         
         super.viewDidLoad()
         
+        self.receiveNotificationLabel = UILabel()
+        self.receiveNotificationLabel?.textColor = WMColor.gray
+        self.receiveNotificationLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.receiveNotificationLabel?.text = "Permitir Notificaciones"
+        
+        self.receiveNotificationButton = CMSwitchView(frame: CGRectMake(0.0, 0.0, 54, 34))
+        self.receiveNotificationButton!.borderWidth = 1
+        self.receiveNotificationButton!.borderColor =  WMColor.green
+        self.receiveNotificationButton!.dotColor = UIColor.whiteColor()
+        self.receiveNotificationButton!.dotBorderColor = WMColor.light_gray
+        self.receiveNotificationButton!.color = UIColor.clearColor()
+        self.receiveNotificationButton!.tintColor = WMColor.green
+        self.receiveNotificationButton!.delegate =  self
+        self.receiveNotificationButton!.dotWeight = 32.0
+        self.receiveNotificationButton!.drawSelected(true)
+        
         self.titleLabel?.text = NSLocalizedString("more.notification.title", comment: "")
         
+        self.view.addSubview(self.receiveNotificationLabel!)
+        self.view.addSubview(self.receiveNotificationButton!)
         
         let pushNotificationService = PushNotificationService()
         pushNotificationService.callService({ (dict) -> Void in
             self.allNotifications = self.getNotificationsForDevice(dict)
             if self.allNotifications.count == 0 {
-                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY + 46, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
                 self.view.addSubview(self.emptyView!)
             } else {
-                self.notification = UITableView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.notification = UITableView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY + 46, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
                 self.notification.registerClass(NotificationTableViewCell.self, forCellReuseIdentifier: "cellNot")
                 self.notification.dataSource = self
                 self.notification.delegate = self
@@ -65,15 +81,17 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 })
         }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        let receiveNotification = false
+    }
+    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
-        notification?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
-        
-         emptyView?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
-        
-        notification?.frame = CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
-        
+        self.receiveNotificationLabel?.frame = CGRectMake(16, self.header!.frame.maxY, self.view.bounds.width - 32, 46)
+        receiveNotificationButton?.frame = CGRectMake(self.view.bounds.width - 70, self.header!.frame.maxY + 6, 54, 34)
+        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        notification?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -148,6 +166,23 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     override func back() {
         super.back()
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")
+    }
+    
+    //MARK: CMSwitchViewDelegate
+    
+    func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
+        self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.light_gray
+
+        let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let notService = NotificationService()
+        if  UserCurrentSession.sharedInstance().deviceToken != "" {
+            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: value)
+            notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
+                //println( "Registrado para notificaciones")
+            }) { (error:NSError) -> Void in
+                print( "Error device token: \(error.localizedDescription)" )
+            }
+        }
     }
     
 }

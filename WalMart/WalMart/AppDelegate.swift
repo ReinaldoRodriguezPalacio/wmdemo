@@ -315,7 +315,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
-        let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice)
+        let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: true)
         if UserCurrentSession.sharedInstance().finishConfig {
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")

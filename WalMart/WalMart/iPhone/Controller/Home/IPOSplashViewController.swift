@@ -404,7 +404,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             
-            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice)
+            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: true)
             
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")

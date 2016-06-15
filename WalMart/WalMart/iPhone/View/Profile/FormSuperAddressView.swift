@@ -375,7 +375,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                         }
                         let stringToShow : NSString = error.localizedDescription
                         let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
-                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: true )
+                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
                         
                         //self.delegateFormAdd?.showNoCPWarning()
                         return

@@ -12,6 +12,7 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     
     var sharePopover: UIPopoverController?
     var showInPopover:Bool = false
+    var parentNavigationController: UINavigationController?
     
     override func setup() {
         super.setup()
@@ -61,9 +62,16 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
         
-        if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
-            navCtrl.navigationController!.pushViewController(controller, animated: true)
+        if self.navigationController != nil {
+            if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
+                navCtrl.navigationController!.pushViewController(controller, animated: true)
+            }
+        }else{
+            self.parentNavigationController!.pushViewController(controller, animated: true)
+            self.back()
         }
+        
+        
     }
     
     //MARK: Delegate item cell
