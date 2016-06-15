@@ -56,6 +56,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     var btnCloseShopping: UIButton?
     
     var badgeShoppingCart : BadgeView!
+    var badgeNotification: BadgeView!
     var timmer : NSTimer? = nil
     var idListSelected = ""
     
@@ -338,7 +339,16 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 //var spacing: CGFloat = 1.0 // the space between the image and text
                 //var imageSize: CGSize = button.imageView!.frame.size
                 
-                
+                if image == "tabBar_menu" {
+                    self.badgeNotification = BadgeView(frame: CGRectMake(TABBAR_HEIGHT - 22, -8, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
+                    let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
+                    if  badgeNumber > 0 {
+                     self.badgeNotification.showBadge(false)
+                    }
+                    self.badgeNotification.updateTitle(badgeNumber)
+                    button.addSubview(self.badgeNotification)
+                }
+
                 x = CGRectGetMaxX(button.frame) + space
                 
                 self.buttonContainer!.addSubview(button)
@@ -492,6 +502,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                         self.buttonContainer!.frame.width, self.buttonContainer!.frame.height)
                     },
                     completion: {(value: Bool) in
+                        self.badgeNotification.hidden = hidden
                          NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
                 })
             }
@@ -499,10 +510,12 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             {
                 self.buttonContainer!.frame = CGRectMake(self.buttonContainer!.frame.minX, self.view.frame.maxY,
                 self.buttonContainer!.frame.width, self.buttonContainer!.frame.height)
+                self.badgeNotification.hidden = hidden
                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.TapBarFinish.rawValue, object: nil)
             }
         }
         else {
+            self.badgeNotification.hidden = hidden
             self.isTabBarHidden = false
             TabBarHidden.isTabBarHidden = false
             if(animated)
@@ -1286,6 +1299,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
+        //Se elimina el badge de notificaciones
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
        return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
     }
     
@@ -1324,6 +1339,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         if splashVC != nil {
             self.view.bringSubviewToFront(splashVC.view)
         }
+        
         return true
     }
     

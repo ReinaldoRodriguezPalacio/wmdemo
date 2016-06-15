@@ -70,6 +70,16 @@ class MoreMenuViewCell : UITableViewCell {
             self.imageProfile!.image = nil
             self.title!.frame = CGRectMake(16, 0.0, bounds.width, bounds.height)
         }
+        
+        if value == "Notification" {
+            let badgeNotification = BadgeView(frame: CGRectMake(self.frame.width - 32, (self.frame.height - 16) / 2, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
+            let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
+            if badgeNumber > 0 {
+                badgeNotification.showBadge(false)
+                badgeNotification.updateTitle(badgeNumber)
+            }
+            self.addSubview(badgeNotification)
+        }
 
     }
     

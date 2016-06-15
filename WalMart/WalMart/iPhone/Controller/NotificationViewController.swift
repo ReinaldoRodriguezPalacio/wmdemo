@@ -34,6 +34,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 self.navigationController!.setNavigationBarHidden(true, animated: true)
             }
         }
+        //Se elimina Badge de notificaciones
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         
         super.viewDidLoad()
         
