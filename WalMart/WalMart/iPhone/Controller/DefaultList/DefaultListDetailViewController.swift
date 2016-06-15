@@ -294,7 +294,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
         
      
-        let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+       
        
         var urlss  = ""
         if self.lineId != nil {
@@ -305,17 +305,16 @@ DetailListViewCellDelegate,UIActivityItemSource {
             //comentar para preubas finales
             appLink = "walmartmexicoapp://bussines_mg&type_LIST&value_\(self.lineId! as String)&name_\(name)&description_\(desc)"
             
-            urlss = "\n Entra a la aplicación:\n \(appLink)"
+            urlss = "\n Entra a la aplicación:\n \(appLink!)"
         }
         
-        let urlapp  = url?.absoluteURL
         
         if activityType == UIActivityTypeMail {
-            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss) \n-Descarga la aplicación en : \n\(urlapp!) \n \n"
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss)"
         }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
             return "Chequa esta lista de productos:  #walmartapp #wow "
         }
-        return "Chequa esta lista de productos: \(urlss) \n -Descarga la aplicación en : \n \(urlapp!)"
+        return "Chequa esta lista de productos: \(urlss) "
     }
     
     func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
