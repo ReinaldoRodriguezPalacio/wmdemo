@@ -22,6 +22,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var price : String!
     var imageURL : String!
     var onHandInventory : NSString = "0"
+    var equivalenceByPiece : String = "0"
     var isDisabled : Bool = false
     var type : String!
     var pesable : Bool!
@@ -93,7 +94,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
         
@@ -143,6 +144,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         self.pesable = pesable
         self.isPreorderable = "\(isPreorderable)"
         self.productDeparment = category
+        self.equivalenceByPiece = equivalenceByPiece
         
         if self.pesable! { self.onHandInventory = "20000"}
         
