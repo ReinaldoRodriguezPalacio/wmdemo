@@ -352,10 +352,17 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     let untilDate = dateFormatter.dateFromString(privateNot.objectAtIndex(0).objectForKey("untilDate") as! String)!
                     let version = privateNot.objectAtIndex(0).objectForKey("version") as! NSNumber
                     let versionAP = "AP\(version)" as String!
+                    var isReviewActive : NSString = "false"
+                    
+                    if let value = privateNot.objectAtIndex(0).objectForKey("isReviewActive") as? NSString{
+                        isReviewActive = value
+                    }
                     
                     UserCurrentSession.sharedInstance().dateStart = sinceDate
                     UserCurrentSession.sharedInstance().dateEnd = untilDate
                     UserCurrentSession.sharedInstance().version = versionAP
+                    
+                    UserCurrentSession.sharedInstance().isReviewActive = isReviewActive.boolValue
                     
                     var requiredAP = true
                     if let param = self.retrieveParam(versionAP) {

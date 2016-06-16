@@ -416,6 +416,16 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_CHANGE_DATE = "A_ChangeDate"
     case ACTION_SAVE_NEW_ADDRESS  =  "A_SaveNewAddress"
     
+    
+    case ACTION_RATING_I_LIKE_APP =  "A_RatingILikeApp"
+    case ACTION_RATING_I_DONT_LIKE_APP =  "A_RatingIDontLikeApp"
+    
+    case ACTION_RATING_OPEN_APP_STORE =  "A_RatingOpenAppStore"
+    case ACTION_RATING_MAYBE_LATER =  "A_RatingMaybeLater"
+    case ACTION_RATING_NO_THANKS =  "A_RatingNothanks"
+    
+    
+    
     //MARK EVENTOS ANTERIORES
 //    case EVENT_PUSHNOTIFICATION = "EVENT_PUSHNOTIFICATION"
 //    case EVENT_SEARCHPRESS = "EVENT_SEARCHPRESS"

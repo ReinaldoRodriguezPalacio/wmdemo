@@ -343,10 +343,61 @@ class OrderConfirmDetailView : UIView {
         
     }
     
-    func okAction() {
+    func finishSopping(){
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_FINIHS_ORDER.rawValue , label: "ok order")
         self.delegate.didFinishConfirm()
         self.removeFromSuperview()
+    }
+    
+    
+    func okAction(){
+        //Validar presentar mensaje
+        if UserCurrentSession.sharedInstance().isReviewActive {
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            alert!.spinImage.hidden =  true
+            alert!.setMessage("¿Te gusta nuestra aplicación?")
+            alert!.addActionButtonsWithCustomText("No", leftAction: {
+                alert?.close()
+                self.finishSopping()
+                print("Save in data base")
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
+                }, rightText: "Si", rightAction: {
+                    alert?.close()
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
+                    self.rankingApp()
+                }, isNewFrame: false)
+        }else{
+            self.finishSopping()
+        }
+        
+    }
+    
+    func rankingApp(){
+        
+        let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+        alert!.spinImage.hidden =  true
+        alert!.setMessage("Estamos Constantemente mejorando el app para brindarte la mejor experiencia, ¿Podrias calificarnos en el App Store?")
+        alert!.addActionButtonsWithCustomTextRating("Quíza más tarde", leftAction: {
+                        alert?.close()
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
+             self.finishSopping()
+            }, rightText: "No gracias", rightAction: {
+                alert?.close()
+                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+                
+            }, centerText: "Si claro",centerAction: {
+                alert?.close()
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
+                self.finishSopping()
+                let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+                if UIApplication.sharedApplication().canOpenURL(url!) == true  {
+                    UIApplication.sharedApplication().openURL(url!)
+                }
+                
+        })
+
+        
     }
     
     func noOkAction() {
