@@ -34,6 +34,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }
         //Se elimina Badge de notificaciones
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         
         super.viewDidLoad()
         

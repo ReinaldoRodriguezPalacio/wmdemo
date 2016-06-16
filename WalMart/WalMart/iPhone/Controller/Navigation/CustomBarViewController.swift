@@ -30,6 +30,7 @@ enum CustomBarNotification : String {
     case EditSearch = "kEditSearch"
     case CamFindSearch = "kCamFindSearch"
     case ScanBarCode = "kScanBarcode"
+    case UpdateNotificationBadge = "kUpdateNotificationBadge"
     
     case ShowGRLists = "kShowGRLists"
     case TapBarFinish = "kTapBarFinish"
@@ -133,6 +134,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.showListsGR), name: CustomBarNotification.ShowGRLists.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.camFindSearch(_:)), name: CustomBarNotification.CamFindSearch.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.scanBarcode(_:)), name: CustomBarNotification.ScanBarCode.rawValue, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(CustomBarViewController.updateNotificationBadge), name: CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         
         
         
@@ -339,7 +341,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 //var spacing: CGFloat = 1.0 // the space between the image and text
                 //var imageSize: CGSize = button.imageView!.frame.size
                 
-                if image == "tabBar_menu" {
+                if image == "tabBar_menu" || image == "more_menu_ipad" {
                     self.badgeNotification = BadgeView(frame: CGRectMake(TABBAR_HEIGHT - 22, -8, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
                     let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
                     if  badgeNumber > 0 {
@@ -1301,6 +1303,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
         //Se elimina el badge de notificaciones
         UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
        return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
     }
     
@@ -1403,6 +1406,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         
         
+    }
+    
+    func updateNotificationBadge(){
+        let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
+        if  badgeNumber > 0 {
+            self.badgeNotification.showBadge(false)
+        }
+        self.badgeNotification.updateTitle(badgeNumber)
     }
     
     func showHelp() {

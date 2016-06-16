@@ -14,6 +14,7 @@ class MoreMenuViewCell : UITableViewCell {
     var tsepInView: UIView?
     var imageProfile: UIImageView?
     var viewBgSel : UIView!
+    var badgeNotification: BadgeView!
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String!) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -23,6 +24,10 @@ class MoreMenuViewCell : UITableViewCell {
 //        viewBgSel.backgroundColor = UIColor.yellowColor()
 //        viewBgSel.alpha = 0.2
         viewBgSel.alpha = 1
+        
+        self.badgeNotification = BadgeView(frame: CGRectMake(self.frame.width - 32, (self.frame.height - 16) / 2, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
+        self.badgeNotification.hidden = true
+        self.addSubview(self.badgeNotification)
         
         self.backgroundColor = UIColor.clearColor()
         self.title = UILabel()
@@ -72,13 +77,13 @@ class MoreMenuViewCell : UITableViewCell {
         }
         
         if value == "Notification" {
-            let badgeNotification = BadgeView(frame: CGRectMake(self.frame.width - 32, (self.frame.height - 16) / 2, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
+            self.badgeNotification = BadgeView(frame: CGRectMake(self.frame.width - 32, (self.frame.height - 16) / 2, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
             let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
             if badgeNumber > 0 {
+                self.badgeNotification.hidden = false
                 badgeNotification.showBadge(false)
                 badgeNotification.updateTitle(badgeNumber)
             }
-            self.addSubview(badgeNotification)
         }
 
     }
