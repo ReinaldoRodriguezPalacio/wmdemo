@@ -56,7 +56,7 @@ class OrderConfirmDetailView : UIView {
     var imgBgView : UIImageView!
     
 
-    
+    let KEY_RATING = "ratingEnabled"
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -352,14 +352,19 @@ class OrderConfirmDetailView : UIView {
     
     func okAction(){
         //Validar presentar mensaje
-        if UserCurrentSession.sharedInstance().isReviewActive {
+       let showRating = CustomBarViewController.retrieveParam(self.KEY_RATING)
+        let velue = showRating == nil ? "" :showRating?.value
+        
+        if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
             alert!.spinImage.hidden =  true
             alert!.setMessage("¿Te gusta nuestra aplicación?")
             alert!.addActionButtonsWithCustomText("No", leftAction: {
+                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 self.finishSopping()
                 print("Save in data base")
+               
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
                 }, rightText: "Si", rightAction: {
@@ -379,14 +384,18 @@ class OrderConfirmDetailView : UIView {
         alert!.spinImage.hidden =  true
         alert!.setMessage("Estamos Constantemente mejorando el app para brindarte la mejor experiencia, ¿Podrias calificarnos en el App Store?")
         alert!.addActionButtonsWithCustomTextRating("Quíza más tarde", leftAction: {
+            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
                         alert?.close()
+            
                         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
              self.finishSopping()
             }, rightText: "No gracias", rightAction: {
+                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                  BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
-                
+                self.finishSopping()
             }, centerText: "Si claro",centerAction: {
+                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 self.finishSopping()

@@ -39,18 +39,22 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         super.viewWillLayoutSubviews()
          let bounds = self.view.bounds
         
-        ratingImage.frame = CGRectMake((bounds.width / 2) - 100 , 200, 200, 18)
-        
-        labelText.frame =  CGRectMake(16,  ratingImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
-        
-       
         if IS_IPAD {
+            
+            ratingImage.frame = CGRectMake((bounds.width / 2) - 100 , 200, 200, 18)
+            labelText.frame =  CGRectMake(16,  ratingImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
+            
             titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 16, 288, titleLabel!.frame.height)
             centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 16, centerButton.frame.width, centerButton.frame.height)
         }else{
-             titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
+            
+            ratingImage.frame = CGRectMake((bounds.width / 2) - 100 , 150, 200, 18)
+            labelText.frame =  CGRectMake(16,  ratingImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
+            
+            titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
             centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 16, centerButton.frame.width, centerButton.frame.height)
         }
+        
         leftButton.frame = CGRectMake(centerButton.frame.minX, self.centerButton.frame.maxY + 16, (centerButton.frame.width / 2) - 4, leftButton.frame.height)
         rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, self.centerButton.frame.maxY + 16, leftButton.frame.width, rightButton.frame.height)
         
