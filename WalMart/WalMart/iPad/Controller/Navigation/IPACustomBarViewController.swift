@@ -656,10 +656,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         
         
         let controllernav = self.currentController as? UINavigationController
-        //controller.modalPresentationStyle = .FormSheet
-        //controller.preferredContentSize = CGSizeMake(682.0, 635.0)
         controller.parentNavigationController = controllernav
-        //controllernav?.presentViewController(controller, animated: false, completion: nil)
         controller.view.frame = CGRectMake(0,0,682.0,635.0)
         
         let backgroundController = UIViewController()
@@ -671,8 +668,9 @@ class IPACustomBarViewController :  CustomBarViewController {
         controllernav!.topViewController!.addChildViewController(backgroundController)
         controllernav!.topViewController!.view.addSubview(backgroundController.view)
         backgroundController.didMoveToParentViewController(controllernav!.topViewController)
-        backgroundController.view.frame = controllernav!.parentViewController!.view.frame
-        controller.view.center = backgroundController.view.center
+        backgroundController.view.frame = controllernav!.view.bounds
+        controller.view.center = CGPointMake(backgroundController.view.center.x,backgroundController.view.center.y - 30)
+        
     }
 
     func showHomeSelected(){

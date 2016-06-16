@@ -693,7 +693,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
                         self.picker!.showPicker()
                     }
                 }
-                
+                self.selectedDate = NSDate()
                 self.buildSlotsPicker(self.selectedDate)
             })
         }

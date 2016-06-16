@@ -96,6 +96,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case CATEGORY_CAROUSEL =  "C_Carousel"
     case CATEGORY_SPECIAL_DETAILS =  "C_SpecialDetails"
     case CATEGORY_TAP_BAR =  "C_TabBar"
+    case CATEGORY_NOTIFICATION =  "C_Notification"
     case CATEGORY_PRODUCT_DETAIL_AUTH =  "C_ProductDetailAuth"
     case CATEGORY_PRODUCT_DETAIL_NO_AUTH =  "C_ProductDetailNoAuth"
     case CATEGORY_SEARCH_PRODUCT =  "C_SearchProduct"
@@ -423,6 +424,7 @@ case GAI_APP_KEY = "UA-68704781-1" // desarrollo
     case ACTION_RATING_OPEN_APP_STORE =  "A_RatingOpenAppStore"
     case ACTION_RATING_MAYBE_LATER =  "A_RatingMaybeLater"
     case ACTION_RATING_NO_THANKS =  "A_RatingNothanks"
+    case ACTION_PUSH_NOTIFICATION_OPEN = "A_Push_Notification_Open"
     
     
     
