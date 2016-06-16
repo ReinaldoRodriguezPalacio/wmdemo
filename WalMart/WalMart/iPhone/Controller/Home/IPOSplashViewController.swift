@@ -408,10 +408,11 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
 
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
-        
+        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification")
+        let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             
-            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: true)
+            let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: showNotification)
             
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")

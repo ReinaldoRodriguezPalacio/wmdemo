@@ -62,13 +62,12 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRACTILISTA_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRACTILISTA_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL_PRACTILISTA.rawValue, label: "\(description) - \(upc)")
         
-        if self.navigationController != nil {
+        if self.navigationController != nil && !self.showInPopover {
             if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
                 navCtrl.navigationController!.pushViewController(controller, animated: true)
             }
         }else{
             self.parentNavigationController!.pushViewController(controller, animated: true)
-            self.back()
         }
         
         
@@ -163,7 +162,13 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     
     override func back() {
         if showInPopover {
-            self.dismissViewControllerAnimated(true, completion: nil)
+            UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
+                self.view.frame = CGRectMake(0.0, self.view.bounds.maxY, self.view.bounds.width, self.view.bounds.height)
+                }, completion: {(finish) in
+                    self.parentViewController!.willMoveToParentViewController(nil)
+                    self.parentViewController!.view.removeFromSuperview()
+                    self.parentViewController!.removeFromParentViewController()
+            })
             return
         }
         super.back()

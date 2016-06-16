@@ -654,18 +654,25 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.showWishList = true
         controller.view.backgroundColor = UIColor.whiteColor()
         
+        
         let controllernav = self.currentController as? UINavigationController
         //controller.modalPresentationStyle = .FormSheet
         //controller.preferredContentSize = CGSizeMake(682.0, 635.0)
         controller.parentNavigationController = controllernav
         //controllernav?.presentViewController(controller, animated: false, completion: nil)
-        
         controller.view.frame = CGRectMake(0,0,682.0,635.0)
-        let navCOntroller = UINavigationController(rootViewController: controller)
-        navCOntroller.view.frame = CGRectMake(0,0,682.0,635.0)
         
-        let modalView = AlertModalView.initModalWithView(title, innerView: navCOntroller.view)
-        modalView.showPicker()
+        let backgroundController = UIViewController()
+        backgroundController.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+        backgroundController.addChildViewController(controller)
+        backgroundController.view.addSubview(controller.view)
+        controller.didMoveToParentViewController(backgroundController)
+        
+        controllernav!.topViewController!.addChildViewController(backgroundController)
+        controllernav!.topViewController!.view.addSubview(backgroundController.view)
+        backgroundController.didMoveToParentViewController(controllernav!.topViewController)
+        backgroundController.view.frame = controllernav!.parentViewController!.view.frame
+        controller.view.center = backgroundController.view.center
     }
 
     func showHomeSelected(){

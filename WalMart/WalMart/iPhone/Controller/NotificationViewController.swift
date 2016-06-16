@@ -46,16 +46,19 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.receiveNotificationLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.receiveNotificationLabel?.text = "Permitir Notificaciones"
         
+        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification")
+        let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
+        
         self.receiveNotificationButton = CMSwitchView(frame: CGRectMake(0.0, 0.0, 54, 34))
         self.receiveNotificationButton!.borderWidth = 1
-        self.receiveNotificationButton!.borderColor =  WMColor.green
+        self.receiveNotificationButton!.borderColor =  showNotification ? WMColor.green : WMColor.gray
         self.receiveNotificationButton!.dotColor = UIColor.whiteColor()
         self.receiveNotificationButton!.dotBorderColor = WMColor.light_gray
         self.receiveNotificationButton!.color = WMColor.gray
         self.receiveNotificationButton!.tintColor = WMColor.green
         self.receiveNotificationButton!.delegate =  self
         self.receiveNotificationButton!.dotWeight = 32.0
-        self.receiveNotificationButton!.drawSelected(true)
+        self.receiveNotificationButton!.drawSelected(showNotification)
         
         self.layerLine = CALayer()
         self.layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
@@ -185,7 +188,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: value)
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
-   
+                CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false")
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
             }
