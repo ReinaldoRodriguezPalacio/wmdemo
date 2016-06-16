@@ -237,13 +237,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let nowDate = dateFormatter.dateFromString(dateFormatter.stringFromDate(date))
         
         var requiredAP : String! = ""
-        if let param = self.retrieveParam(version) {
+        if let param = CustomBarViewController.retrieveParam(version) {
             requiredAP = param.value
         }
         
         if requiredAP != "true" {
             if (untilDate.compare(nowDate!) == NSComparisonResult.OrderedDescending && sinceDate.compare(nowDate!) == NSComparisonResult.OrderedAscending) || untilDate.compare(nowDate!) == NSComparisonResult.OrderedSame || sinceDate.compare(nowDate!) == NSComparisonResult.OrderedSame {
-                self.addOrUpdateParam(version, value: "false")
+                CustomBarViewController.addOrUpdateParam(version, value: "false")
                 let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"done"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"done"))
                 alertNot?.showDoneIconWithoutClose()
                 alertNot?.setMessage(NSLocalizedString("privace.notice.message", comment: ""))
@@ -259,14 +259,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                             navController.pushViewController(controllerToGo, animated: true)
                         }
                         
-                        self.addOrUpdateParam(version, value: "true")
+                        CustomBarViewController.addOrUpdateParam(version, value: "true")
                         alertNot?.close()
                 },isNewFrame: false)
             }
         }
     }
     
-    func retrieveParam(key:String) -> Param? {
+   static func retrieveParam(key:String) -> Param? {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -293,7 +293,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return parameter
     }
     
-    func addOrUpdateParam(key:String, value:String) {
+    static func addOrUpdateParam(key:String, value:String) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -747,7 +747,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func showHelpViewForSearchIfNeeded(controller:UIViewController) {
         var requiredHelp = true
-        if let param = self.retrieveParam("searchHelp") {
+        if let param = CustomBarViewController.retrieveParam("searchHelp") {
             requiredHelp = !(param.value == "false")
         }
         
@@ -778,7 +778,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             
             UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.helpView!.alpha = 1.0
-                self.addOrUpdateParam("searchHelp", value: "false")
+                CustomBarViewController.addOrUpdateParam("searchHelp", value: "false")
             })
         }
         else {
@@ -1381,7 +1381,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     //GRA: Help Validation
     func reviewHelp(force:Bool) {
         var requiredHelp = true
-        if let param = self.retrieveParam("mainHelp") {
+        if let param = CustomBarViewController.retrieveParam("mainHelp") {
             requiredHelp = !(param.value == "false")
         }
         
@@ -1399,7 +1399,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
             totuView!.onClose = {() in
                 self.removeHelpForSearchView()
-                self.addOrUpdateParam("mainHelp", value: "false")
+                CustomBarViewController.addOrUpdateParam("mainHelp", value: "false")
             }
             helpView?.addSubview(totuView!)
             

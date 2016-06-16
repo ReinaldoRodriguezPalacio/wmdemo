@@ -185,7 +185,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: value)
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
-                //println( "Registrado para notificaciones")
+   
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
             }
