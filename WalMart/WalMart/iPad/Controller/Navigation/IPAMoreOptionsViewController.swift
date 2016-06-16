@@ -49,6 +49,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .None)
+        
+        
     }
     override func viewDidDisappear(animated: Bool) {
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "RELOAD_PROFILE", object: nil)
@@ -58,8 +60,6 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.reloadButtonSession()
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "", object: nil)
     }
-
-
 
     // MARK: - TableView
     

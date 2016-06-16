@@ -182,14 +182,14 @@ class AlertModalView : UIView, UITextFieldDelegate {
     func startAnimating() {
         
         
-        let imgBgView = UIImageView(frame: self.bgView.bounds)
-        let imgBack = UIImage(fromView: self.superview!)
-        let imgBackBlur = imgBack.applyLightEffect()
-        imgBgView.image = imgBackBlur
-        self.bgView.addSubview(imgBgView)
+//        let imgBgView = UIImageView(frame: self.bgView.bounds)
+//        let imgBack = UIImage(fromView: self.superview!)
+//        let imgBackBlur = imgBack.applyLightEffect()
+//        imgBgView.image = imgBackBlur
+//        self.bgView.addSubview(imgBgView)
         
         let bgViewAlpha = UIView(frame: self.bgView.bounds)
-        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        bgViewAlpha.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
         self.bgView.addSubview(bgViewAlpha)
         
         

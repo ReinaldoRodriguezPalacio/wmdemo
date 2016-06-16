@@ -655,11 +655,17 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.view.backgroundColor = UIColor.whiteColor()
         
         let controllernav = self.currentController as? UINavigationController
-        controller.modalPresentationStyle = .FormSheet
-        controller.preferredContentSize = CGSizeMake(682.0, 635.0)
+        //controller.modalPresentationStyle = .FormSheet
+        //controller.preferredContentSize = CGSizeMake(682.0, 635.0)
         controller.parentNavigationController = controllernav
-        controllernav?.presentViewController(controller, animated: false, completion: nil)
-
+        //controllernav?.presentViewController(controller, animated: false, completion: nil)
+        
+        controller.view.frame = CGRectMake(0,0,682.0,635.0)
+        let navCOntroller = UINavigationController(rootViewController: controller)
+        navCOntroller.view.frame = CGRectMake(0,0,682.0,635.0)
+        
+        let modalView = AlertModalView.initModalWithView(title, innerView: navCOntroller.view)
+        modalView.showPicker()
     }
 
     func showHomeSelected(){

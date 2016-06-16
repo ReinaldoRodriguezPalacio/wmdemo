@@ -213,10 +213,13 @@ class SchoolListViewController : DefaultListDetailViewController {
                                         }
                                     }
                                 }
-                                self.tableView?.reloadData()
-                                self.listPrice = "\(self.calculateTotalAmount())"
-                                self.updateTotalLabel()
-                                self.removeViewLoad()
+                                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                    self.tableView?.reloadData()
+                                    self.listPrice = "\(self.calculateTotalAmount())"
+                                    self.updateTotalLabel()
+                                    self.removeViewLoad()
+                                })
+                                
             },
                             errorBlock: {(error: NSError) in
                                 self.showEmptyView()
