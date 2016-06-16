@@ -31,6 +31,8 @@ class UserCurrentSession : NSObject {
     var storeId: String? = nil
     var addressId: String? = nil
     
+    var isReviewActive : Bool = false
+    
     var isAssociated : Int! = 0
     var porcentageAssociate : Double! =  0.0
     
