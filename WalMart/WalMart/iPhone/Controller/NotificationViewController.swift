@@ -19,6 +19,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     var emptyView : IPOEmptyNotificationView?
     var receiveNotificationButton: CMSwitchView?
     var receiveNotificationLabel: UILabel?
+    var layerLine: CALayer!
     
     
     override func getScreenGAIName() -> String {
@@ -38,6 +39,8 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         
         super.viewDidLoad()
         
+        self.titleLabel?.text = NSLocalizedString("more.notification.title", comment: "")
+        
         self.receiveNotificationLabel = UILabel()
         self.receiveNotificationLabel?.textColor = WMColor.gray
         self.receiveNotificationLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -48,13 +51,15 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.receiveNotificationButton!.borderColor =  WMColor.green
         self.receiveNotificationButton!.dotColor = UIColor.whiteColor()
         self.receiveNotificationButton!.dotBorderColor = WMColor.light_gray
-        self.receiveNotificationButton!.color = UIColor.clearColor()
+        self.receiveNotificationButton!.color = WMColor.gray
         self.receiveNotificationButton!.tintColor = WMColor.green
         self.receiveNotificationButton!.delegate =  self
         self.receiveNotificationButton!.dotWeight = 32.0
         self.receiveNotificationButton!.drawSelected(true)
         
-        self.titleLabel?.text = NSLocalizedString("more.notification.title", comment: "")
+        self.layerLine = CALayer()
+        self.layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
+        self.view!.layer.insertSublayer(layerLine!, atIndex: 1000)
         
         self.view.addSubview(self.receiveNotificationLabel!)
         self.view.addSubview(self.receiveNotificationButton!)
@@ -84,15 +89,16 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let receiveNotification = false
+        //let receiveNotification = false
     }
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         self.receiveNotificationLabel?.frame = CGRectMake(16, self.header!.frame.maxY, self.view.bounds.width - 32, 46)
         receiveNotificationButton?.frame = CGRectMake(self.view.bounds.width - 70, self.header!.frame.maxY + 6, 54, 34)
-        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
-        notification?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY)
+        layerLine?.frame = CGRectMake(0, self.receiveNotificationLabel!.frame.maxY, self.view.frame.width, 1)
+        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY + 1, self.view.bounds.width, self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
+        notification?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY + 1, self.view.bounds.width, self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -172,7 +178,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     //MARK: CMSwitchViewDelegate
     
     func switchValueChanged(sender: AnyObject!, andNewValue value: Bool) {
-        self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.light_gray
+        self.receiveNotificationButton!.borderColor = value ? WMColor.green : WMColor.gray
 
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()

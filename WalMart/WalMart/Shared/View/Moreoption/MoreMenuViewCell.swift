@@ -59,7 +59,7 @@ class MoreMenuViewCell : UITableViewCell {
             self.title!.frame = CGRectMake(16, 0.0, bounds.width, bounds.height)
         }
 
-        
+        self.badgeNotification.frame = CGRectMake(self.frame.width - 32, (self.frame.height - 16) / 2, 16, 16)
     }
     
     func setValues(value:String, image:String?, size:CGFloat, colorText:UIColor, colorSeparate:UIColor) {
@@ -77,13 +77,14 @@ class MoreMenuViewCell : UITableViewCell {
         }
         
         if value == "Notification" {
-            self.badgeNotification = BadgeView(frame: CGRectMake(self.frame.width - 32, (self.frame.height - 16) / 2, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
             let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
+            self.badgeNotification.hidden = badgeNumber == 0
             if badgeNumber > 0 {
-                self.badgeNotification.hidden = false
                 badgeNotification.showBadge(false)
                 badgeNotification.updateTitle(badgeNumber)
             }
+        }else{
+           self.badgeNotification.hidden = true
         }
 
     }
