@@ -284,6 +284,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
         
+        if self.itemsInShoppingCart.count == 0 {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+        
         self.loadCrossSell()
 
     }
