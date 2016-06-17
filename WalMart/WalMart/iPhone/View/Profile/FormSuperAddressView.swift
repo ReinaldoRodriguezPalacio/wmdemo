@@ -750,6 +750,8 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         if textField == self.zipcode {
             if fieldString.characters.count > 5{
                 return false
+            }else{
+                self.delegateFormAdd?.showUpdate()
             }
             if fieldString != currentZipCode {
                 self.suburb!.text = ""
@@ -762,8 +764,9 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         if textField == self.phoneHomeNumber{
             if fieldString.characters.count == 11{
                 return false
+            }else{
+                self.delegateFormAdd?.showUpdate()
             }
-            
         }
         return true
     }
