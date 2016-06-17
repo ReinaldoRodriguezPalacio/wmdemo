@@ -170,15 +170,15 @@ class BaseService : NSObject {
     
     func callPOSTService(params:AnyObject,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) -> NSURLSessionDataTask {
         let afManager = getManager()
-        var url = serviceUrl()
+        let url = serviceUrl()
         
         //TODO: Quitar no debe de ir
-        if url == "http://192.168.43.192:8085/walmartmg/login/getItemByUpc" || url == "https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc" || url == "https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc" {
-            let upc = params["upc"] as! String
-            if upc == "00088846266031"{
-                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
-            }
-        }
+//        if url == "http://192.168.43.192:8085/walmartmg/login/getItemByUpc" || url == "https://www.aclaraciones.com.mx/walmartmg/login/getItemByUpc" || url == "https://www.walmartmobile.com.mx/walmartmg/login/2/getItemByUpc" {
+//            let upc = params["upc"] as! String
+//            if upc == "00088846266031"{
+//                url = "https://dl.dropboxusercontent.com/u/29004009/responseObject.txt"
+//            }
+//        }
    
         let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
