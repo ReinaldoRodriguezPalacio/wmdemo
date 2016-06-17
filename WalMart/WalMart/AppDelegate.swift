@@ -345,7 +345,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-       handleNotification(application,userInfo: userInfo)
+       UIApplication.sharedApplication().applicationIconBadgeNumber += 1
+       NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+        self.handleNotification(application,userInfo: userInfo)
         
         //MERCURY
         //TODO: Uncomment
@@ -451,7 +453,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                 }
             }
         }
-        UIApplication.sharedApplication().cancelAllLocalNotifications()
+        //UIApplication.sharedApplication().cancelAllLocalNotifications()
     
     }
   

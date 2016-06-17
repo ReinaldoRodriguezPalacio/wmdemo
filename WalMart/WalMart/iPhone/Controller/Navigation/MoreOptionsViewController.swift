@@ -95,6 +95,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.view.addSubview(tableView!)
             
        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: ProfileNotification.updateProfile.rawValue, object: nil)
+       NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -439,4 +440,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.reloadButtonSession()
     }
     
+    func reloadTable(){
+        self.tableView?.reloadData()
+    }
 }
