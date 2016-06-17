@@ -32,6 +32,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     var total : String?
     var stopTune =  true
     var useLancaster = false
+    let KEY_RATING = "ratingEnabled"
+    var isRateActive = false
     
     struct ConfigUrls {
         
@@ -252,6 +254,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 print(response)
                 }, errorBlock: { (error:NSError) -> Void in
             })
+            
+           
+            
         }
         
         if rangeEnd.location != NSNotFound && takeSnapshot {
@@ -268,6 +273,72 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         print("URL:::-- \(webView.request)")
         
     }
+    
+    
+    func rateFinishShopp(){
+        //Validar presentar mensaje
+        let showRating = CustomBarViewController.retrieveParam(self.KEY_RATING)
+        let velue = showRating == nil ? "" :showRating?.value
+        
+        if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
+            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            alert!.spinImage.hidden =  true
+            alert!.setMessage("¿Te gusta nuestra aplicación?")
+            alert!.addActionButtonsWithCustomText("No", leftAction: {
+                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                alert?.close()
+                //regresar a carrito
+               self.backFinish()
+                print("Save in data base")
+                
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
+                }, rightText: "Si", rightAction: {
+                    alert?.close()
+                    BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
+                    self.rankingApp()
+                }, isNewFrame: false)
+        }else{
+            //regresar a carrito
+           self.backFinish()
+        }
+        
+    }
+    
+    func rankingApp(){
+        
+        let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+        alert!.spinImage.hidden =  true
+        alert!.setMessage("Estamos Constantemente mejorando el app para brindarte la mejor experiencia, ¿Podrias calificarnos en el App Store?")
+        alert!.addActionButtonsWithCustomTextRating("Quíza más tarde", leftAction: {
+            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
+            alert?.close()
+            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
+            //regresar a carrito
+           self.backFinish()
+            }, rightText: "No gracias", rightAction: {
+                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                alert?.close()
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+                //regresar a carrito
+               self.backFinish()
+            }, centerText: "Si claro",centerAction: {
+                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                alert?.close()
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
+                //regresar a carrito
+              self.backFinish()
+                let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+                if UIApplication.sharedApplication().canOpenURL(url!) == true  {
+                    UIApplication.sharedApplication().openURL(url!)
+                }
+                
+        })
+        
+        
+    }
+
    
     func removeViewLoading(){
         print("removeViewLoading")
@@ -285,11 +356,22 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     override func back() {
         
+        if isRateActive {
+             self.rateFinishShopp()
+            
+        }else{
+            self.backFinish()
+         
+        }
+        
+    }
+    
+    func backFinish(){
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
         
         ShoppingCartService.shouldupdate = true
         
-
+        
         NSURLCache.sharedURLCache().removeAllCachedResponses()
         
         self.webCheckOut.loadHTMLString("",baseURL:nil)
@@ -304,7 +386,10 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         if afterclose != nil {
             afterclose!()
         }
+    
     }
+    
+   
     
     func screenShotMethod() {
         //Create the UIImage
@@ -323,6 +408,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
               
 
         }
+        //Presentar
+        isRateActive =  true
+       
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView) {
