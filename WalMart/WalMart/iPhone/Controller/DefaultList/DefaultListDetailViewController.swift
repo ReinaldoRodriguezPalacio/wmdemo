@@ -292,22 +292,22 @@ DetailListViewCellDelegate,UIActivityItemSource {
     func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
         
      
-        let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+        //let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
        
-        var urlss  = ""
-        if self.lineId != nil {
-            let appLink  = NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_\(self.lineId! as String)")// NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
-            urlss = "\n Entra a la aplicación:\n \(appLink!)"
-        }
+        //var urlss  = ""
+//        if self.lineId != nil {
+//            let appLink  = NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_\(self.lineId! as String)")// NSURL(string: "walmartmexicoapp://bussines_mg/type_LIN/value_l-lp-colegio-montesori-primero")
+//            urlss = "\n Entra a la aplicación:\n \(appLink!)"
+//        }
         
-        let urlapp  = url?.absoluteURL
+       // let urlapp  = url?.absoluteURL
         
         if activityType == UIActivityTypeMail {
-            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss) \n-Descarga la aplicación en : \n\(urlapp!) \n \n"
+            return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos."
         }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
             return "Chequa esta lista de productos:  #walmartapp #wow "
         }
-        return "Chequa esta lista de productos: \(urlss) \n -Descarga la aplicación en : \n \(urlapp!)"
+        return "Chequa esta lista de productos"
     }
     
     func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
