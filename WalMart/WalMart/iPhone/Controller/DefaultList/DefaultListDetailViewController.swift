@@ -301,9 +301,9 @@ DetailListViewCellDelegate,UIActivityItemSource {
             let name  = self.schoolName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
             let desc = self.gradeName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
             
-            var  appLink  = UserCurrentSession.urlWithRootPath("http://url.com.mx?os=1&idLine=\(self.lineId! as String)&nameLine=Mochilas&Escolares&name_\(name)&description=\(desc)")
+            let  appLink  = UserCurrentSession.urlWithRootPath("http://url.com.mx?os=1&idLine=\(self.lineId! as String)&nameLine=Mochilas&Escolares&name_\(name)&description=\(desc)")
             //comentar para preubas finales
-            appLink = "walmartmexicoapp://bussines_mg&type_LIST&value_\(self.lineId! as String)&name_\(name)&description_\(desc)"
+            //appLink = "walmartmexicoapp://bussines_mg&type_LIST&value_\(self.lineId! as String)&name_\(name)&description_\(desc)"
             
             urlss = "\n Entra a la aplicación:\n \(appLink!)"
         }

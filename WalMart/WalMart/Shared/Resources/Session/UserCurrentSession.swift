@@ -863,12 +863,15 @@ class UserCurrentSession : NSObject {
             })
         }
     }
-    
+  
 
     class func urlWithRootPath(urlCall:String) -> String? {
         let strUrlUsr = "superamaapp"
         let strApiKey = "R_a58bb67ba6a171692b80d85e05b89f17"
-        let urlChange = NSURL(string: "http://api.bit.ly/v3/shorten?login=\(strUrlUsr)&apikey=\(strApiKey)&longUrl=\(urlCall)&format=txt")!
+        let customAllowedSet =  NSCharacterSet(charactersInString:"=\"#%/<>?@\\^`{|}").invertedSet
+        var stringUrl  = urlCall as NSString
+        stringUrl = stringUrl.stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)!
+        let urlChange = NSURL(string: "http://api.bit.ly/v3/shorten?login=\(strUrlUsr)&apikey=\(strApiKey)&longUrl=\(stringUrl)&format=txt")!
         let strResult = try? String(contentsOfURL: urlChange, encoding: NSUTF8StringEncoding)
         return strResult
     }
