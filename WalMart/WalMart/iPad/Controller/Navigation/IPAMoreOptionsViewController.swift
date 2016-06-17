@@ -172,6 +172,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
            self.selected = NSIndexPath(forRow: 0, inSection: 2)
         }
         self.delegate.selectedDetail(currentOption)
+        
+        if currentOption == 6 {
+            //Se elimina Badge de notificaciones
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+        }
     }
     
    
@@ -228,6 +234,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         }
         
         return cell
+    }
+    
+    override func reloadTable(){
+        self.tableView?.reloadData()
+        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
+        cell?.selected = true
     }
     
     override func reloadProfileData(){

@@ -347,8 +347,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                     let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
                     if  badgeNumber > 0 {
                      self.badgeNotification.showBadge(false)
-                     self.badgeNotification.updateTitle(badgeNumber)
                     }
+                    self.badgeNotification.updateTitle(badgeNumber)
                     self.badgeNotification.clipsToBounds = false
                     button.clipsToBounds = false
                     button.addSubview(self.badgeNotification)

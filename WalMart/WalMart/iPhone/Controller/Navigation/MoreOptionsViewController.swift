@@ -274,6 +274,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 //            openRefered()
         }
         
+        if currentOption == 6 {
+            //Se elimina Badge de notificaciones
+            UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
+        }
+        
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
