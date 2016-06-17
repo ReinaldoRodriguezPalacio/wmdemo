@@ -716,7 +716,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: context)
         if textUpdate != "" {
              self.clearButton?.hidden = false
-            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR address CONTAINS[cd] %@ OR telephone CONTAINS[cd] %@",textUpdate,textUpdate,textUpdate)
+            fetchRequest.predicate = NSPredicate(format: "name CONTAINS[cd] %@ OR address CONTAINS[cd] %@ OR telephone CONTAINS[cd] %@ OR zipCode CONTAINS[cd] %@",textUpdate,textUpdate,textUpdate,textUpdate)
             self.searchField.layer.borderColor = WMColor.light_blue.CGColor
         }else{
             self.clearButton?.hidden = true
