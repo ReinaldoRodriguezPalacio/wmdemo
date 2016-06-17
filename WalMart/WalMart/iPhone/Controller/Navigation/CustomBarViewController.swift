@@ -1309,9 +1309,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
         //Se elimina el badge de notificaciones
-        var badge  = UIApplication.sharedApplication().applicationIconBadgeNumber
-        badge = (badge > 0) ? (badge - 1) : 0
-        UIApplication.sharedApplication().applicationIconBadgeNumber = badge
+        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION.rawValue, action: WMGAIUtils.ACTION_PUSH_NOTIFICATION_OPEN.rawValue, label: name)
        return self.handleListNotification(type, name: name, value: value, bussines: bussines, schoolName: "", grade: "")
