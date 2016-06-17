@@ -159,18 +159,4 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     }
     
     override func willShowTabbar() { }
-    
-    override func back() {
-        if showInPopover {
-            UIView.animateWithDuration(0.4, delay: 0.1, options: [], animations: {
-                self.view.frame = CGRectMake(0.0, self.view.bounds.maxY, self.view.bounds.width, self.view.bounds.height)
-                }, completion: {(finish) in
-                    self.parentViewController!.willMoveToParentViewController(nil)
-                    self.parentViewController!.view.removeFromSuperview()
-                    self.parentViewController!.removeFromParentViewController()
-            })
-            return
-        }
-        super.back()
-    }
 }

@@ -654,22 +654,9 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.showWishList = true
         controller.view.backgroundColor = UIColor.whiteColor()
         
-        
         let controllernav = self.currentController as? UINavigationController
         controller.parentNavigationController = controllernav
-        controller.view.frame = CGRectMake(0,0,682.0,635.0)
-        
-        let backgroundController = UIViewController()
-        backgroundController.view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
-        backgroundController.addChildViewController(controller)
-        backgroundController.view.addSubview(controller.view)
-        controller.didMoveToParentViewController(backgroundController)
-        
-        controllernav!.topViewController!.addChildViewController(backgroundController)
-        controllernav!.topViewController!.view.addSubview(backgroundController.view)
-        backgroundController.didMoveToParentViewController(controllernav!.topViewController)
-        backgroundController.view.frame = controllernav!.view.bounds
-        controller.view.center = CGPointMake(backgroundController.view.center.x,backgroundController.view.center.y - 30)
+        controllernav?.pushViewController(controller, animated: true)
         
     }
 
