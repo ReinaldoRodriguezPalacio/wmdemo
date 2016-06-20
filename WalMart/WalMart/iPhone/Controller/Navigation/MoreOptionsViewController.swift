@@ -41,6 +41,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     var signInOrClose: WMRoundButton?
     var editProfileButton : UIButton!
+    var showCamfind: Bool!
     
     var alertView: IPOWMAlertViewController?
     
@@ -93,6 +94,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         tableView?.separatorStyle = UITableViewCellSeparatorStyle.None
 
         self.view.addSubview(tableView!)
+        
+        self.showCamfind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
+        
+        if !self.showCamfind {
+           options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        }
             
        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: ProfileNotification.updateProfile.rawValue, object: nil)
        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadTable), name: CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
@@ -140,7 +147,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case 0:
                 return 3
             case 1:
-                return 5
+                let rows = self.showCamfind! ? 5 : 4
+                return rows
             case 2:
                 return 3
         default:
@@ -160,7 +168,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 8
+            currentOption = indexPath.row + (self.showCamfind! ? 8 : 7)
         default:
             print("")
         }
@@ -219,7 +227,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 8
+            currentOption = indexPath.row + (self.showCamfind! ? 8 : 7)
         default:
             print("")
         }
@@ -274,7 +282,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 //            openRefered()
         }
         
-        if currentOption == 7 {
+        let notificationOptions = (self.showCamfind! ? 7 : 6)
+        if currentOption == notificationOptions {
             //Se elimina Badge de notificaciones
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)

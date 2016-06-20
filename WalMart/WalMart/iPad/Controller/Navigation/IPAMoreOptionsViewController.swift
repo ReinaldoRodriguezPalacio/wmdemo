@@ -26,6 +26,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.emailLabel?.textAlignment = .Center
         
         options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        
+        if !self.showCamfind {
+            options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        }
        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadMenu), name:"MORE_OPTIONS_RELOAD", object: nil)
         print("Create MORE_OPTIONS_RELOAD")
@@ -73,7 +77,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 0:
             return 3
         case 1:
-            return 4
+            let rows = self.showCamfind! ? 4 : 3
+            return rows
         case 2:
             return 3
         default:
@@ -162,15 +167,21 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + 7
+            currentOption = indexPath.row + (self.showCamfind! ? 7 : 6)
         default:
             print("")
         }
 
         self.selected = indexPath
+        
+        if !self.showCamfind! && currentOption > 4 {
+            currentOption += 1
+        }
+        
         if currentOption >= 3 && currentOption <= 5{
            self.selected = NSIndexPath(forRow: 0, inSection: 2)
         }
+    
         self.delegate.selectedDetail(currentOption)
         
         if currentOption == 6 {
@@ -183,7 +194,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
    
 
     override func signOut(sender: UIButton?) {
-        self.delegate.selectedDetail(7)
+        self.delegate.selectedDetail((self.showCamfind! ? 7 : 6))
         self.selected = NSIndexPath(forRow: 0, inSection: 2)
         super.signOut(nil)
     }
@@ -213,12 +224,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                 self.tableView?.reloadData()
                 let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
                 cell?.selected = true
-                self.delegate?.selectedDetail(7)
+                self.delegate?.selectedDetail((self.showCamfind! ? 7 : 6))
                 //self.performSegueWithIdentifier("showProfile", sender: self)
                 //TODO: Poner acciones, cambio boton y nombre
             }
             self.selected = NSIndexPath(forRow: 0, inSection: 2)
-            self.delegate?.selectedDetail(7)
+            self.delegate?.selectedDetail((self.showCamfind! ? 7 : 6))
         }
         else {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
@@ -248,7 +259,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.tableView?.reloadData()
         let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
         cell?.selected = true
-        self.delegate?.selectedDetail(7)
+        self.delegate?.selectedDetail((self.showCamfind! ? 7 : 6))
     }
     
 }
