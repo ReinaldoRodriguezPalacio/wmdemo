@@ -271,7 +271,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         if self.errorView == nil{
             self.errorView = FormFieldErrorView()
         }
-        SignUpViewController.presentMessage(self.searchField!, nameField:"Busqueda", message: "No Válido" , errorView:self.errorView! , becomeFirstResponder: true)
+        SignUpViewController.presentMessage(self.searchField!, nameField:"Busqueda", message: "Texto no permitido" , errorView:self.errorView! , becomeFirstResponder: true)
         
         return false
     }

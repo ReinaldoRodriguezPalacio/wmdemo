@@ -509,7 +509,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 if self.errorView == nil{
                     self.errorView = FormFieldErrorView()
                 }
-                SignUpViewController.presentMessage(self.outdoornumber!, nameField:self.outdoornumber!.nameField, message: "No Válido" , errorView:self.errorView! ,  becomeFirstResponder: true)
+                SignUpViewController.presentMessage(self.outdoornumber!, nameField:self.outdoornumber!.nameField, message: "Texto no permitido" , errorView:self.errorView! ,  becomeFirstResponder: true)
                 return nil
             }
             
@@ -517,7 +517,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                 if self.errorView == nil{
                     self.errorView = FormFieldErrorView()
                 }
-                SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "No Válido" , errorView:self.errorView! ,  becomeFirstResponder: true)
+                SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "Texto no permitido" , errorView:self.errorView! ,  becomeFirstResponder: true)
                 return nil
             }
             
