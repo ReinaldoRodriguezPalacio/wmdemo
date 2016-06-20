@@ -92,7 +92,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.descLabel!.frame = CGRect(x: 8,y: 119,width: 130,height: 16)
+        self.descLabel!.frame = CGRect(x: 8,y: 119,width: 300,height: 16)
         self.iconCategory.frame = CGRectMake(16, 25, 48, 48)
         self.titleLabel.frame = CGRectMake(self.iconCategory.frame.maxX + 16, 40, 335, 24)
         self.imageBackground.frame = CGRectMake(0, 0, self.frame.width, 103)
