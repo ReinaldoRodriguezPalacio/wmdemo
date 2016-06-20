@@ -74,22 +74,28 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
     }
     
     override func layoutSubviews() {
+        let showCamfind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
+        
         if changeFrame {
-            
             self.camButtom.hidden =  true
             self.scannerButton.hidden =  true
             self.closeSearch.hidden =  false
             self.closeSearch.frame  = CGRectMake(0.0,8.0,44, 44)
             self.textFindProduct.frame = CGRectMake(self.closeSearch.frame.maxX,12 ,self.frame.width - 60, 40.0)
         }else{
+            let textFindProductWidth = showCamfind ? (self.frame.width - 144) : (self.frame.width - 88)
             self.closeSearch.hidden =  true
-            self.textFindProduct.frame = CGRectMake(16.0,12 ,self.frame.width - 144, 40.0)
-            self.camButtom.hidden =  false
+            self.textFindProduct.frame = CGRectMake(16.0,12 ,textFindProductWidth, 40.0)
+            self.camButtom.hidden = !showCamfind
             self.scannerButton.hidden =  false
         }
         
-        self.camButtom.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16, 12, 40, 40)
-        self.scannerButton.frame = CGRectMake(self.camButtom.frame.maxX + 16 , 12, 40, 40)
+        if showCamfind {
+            self.camButtom.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16, 12, 40, 40)
+            self.scannerButton.frame = CGRectMake(self.camButtom.frame.maxX + 16 , 12, 40, 40)
+        }else{
+            self.scannerButton.frame = CGRectMake(self.textFindProduct!.frame.maxX + 16 , 12, 40, 40)
+        }
         line.frame = CGRectMake(0,self.textFindProduct.frame.maxY + 11,self.frame.width, 1)
         
     }
