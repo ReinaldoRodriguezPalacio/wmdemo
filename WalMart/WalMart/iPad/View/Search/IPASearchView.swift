@@ -73,7 +73,19 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
     override func layoutSubviews() {
         super.layoutSubviews()
         
-       // self.setPopOver()
+        let showCamFind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
+        self.camButton!.hidden = !showCamFind
+        self.camLabel!.hidden = !showCamFind
+        
+        if showCamFind {
+            self.camButton!.frame = CGRectMake(128, 110.0, 64, 64)
+            self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28,  self.camButton!.frame.maxY + 16, 120, 34)
+            self.scanButton!.frame = CGRectMake(282, 110.0, 64, 64)
+            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.camButton!.frame.maxY + 16, 120, 34)
+        }else{
+            self.scanButton!.frame = CGRectMake((self.frame.width + 64) / 2, 110.0, 64, 64)
+            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.scanButton!.frame.maxY + 16, 120, 34)
+        }
     }
     
     func setPopOver() {
@@ -102,7 +114,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             let startY : CGFloat = 110.0
             
             self.camButton = UIButton(type: .Custom)
-            self.camButton!.frame = CGRectMake(128, startY, 64, 64)
             self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
             self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
             self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Selected)
@@ -110,7 +121,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             searchctrl.view!.addSubview(self.camButton!)
             
             self.camLabel = UILabel()
-            self.camLabel!.frame = CGRectMake(self.camButton!.frame.origin.x - 28,  self.camButton!.frame.maxY + 16, 120, 34)
             self.camLabel!.textAlignment = .Center
             self.camLabel!.numberOfLines = 2
             self.camLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -119,7 +129,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             searchctrl.view!.addSubview(self.camLabel!)
             
             self.scanButton = UIButton(type: .Custom)
-            self.scanButton!.frame = CGRectMake(282, startY, 64, 64)
             self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Normal)
             self.scanButton!.setImage(UIImage(named:"search_by_code_active"), forState: .Highlighted)
             self.scanButton!.setImage(UIImage(named:"search_by_code"), forState: .Selected)
@@ -127,7 +136,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
             searchctrl.view!.addSubview(self.scanButton!)
             
             self.scanLabel = UILabel()
-            self.scanLabel!.frame = CGRectMake(self.scanButton!.frame.origin.x - 28, self.camButton!.frame.maxY + 16, 120, 34)
             self.scanLabel!.textAlignment = .Center
             self.scanLabel!.numberOfLines = 2
             self.scanLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
