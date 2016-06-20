@@ -124,6 +124,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let item = items![rowforsearch] as! [String:AnyObject]
             var bgDepartment = item["idDepto"] as! String
             let families = JSON(item["family"] as! [[String:AnyObject]])
+            let descDepartment = item["description"] as! String
             bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
             
             
@@ -133,6 +134,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                 cellSpecials.withOutProducts()
             }
             
+            cellSpecials.descLabel?.text = "Lo más destacado de \(descDepartment)"
             cell = cellSpecials
             
         }

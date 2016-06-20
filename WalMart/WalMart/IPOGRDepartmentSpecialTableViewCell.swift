@@ -61,7 +61,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     }
     
     override func layoutSubviews() {
-        self.descLabel!.frame = CGRect(x: 8,y: 4,width: 90,height: 11)
+        self.descLabel!.frame = CGRect(x: 8,y: 4,width: 250,height: 11)
     }
 
     

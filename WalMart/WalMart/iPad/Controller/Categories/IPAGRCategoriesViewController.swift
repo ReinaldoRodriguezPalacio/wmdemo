@@ -72,7 +72,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         let descDepartment = item["description"] as! String
         var bgDepartment = item["idDepto"] as! String
         let families = JSON(item["family"] as! [[String:AnyObject]])
-        
+        cell.descLabel!.text = "Lo más destacado de \(descDepartment)"
         bgDepartment = bgDepartment.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         
