@@ -176,7 +176,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
         self.selected = indexPath
         
-        if !self.showCamfind! && currentOption > 4 {
+        if !self.showCamfind! && currentOption > 2 {
             currentOption += 1
         }
         
@@ -196,7 +196,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
    
 
     override func signOut(sender: UIButton?) {
-        self.delegate.selectedDetail((self.showCamfind! ? 7 : 6))
+        self.delegate.selectedDetail(7)
         self.selected = NSIndexPath(forRow: 0, inSection: 2)
         super.signOut(nil)
     }
@@ -226,12 +226,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
                 self.tableView?.reloadData()
                 let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
                 cell?.selected = true
-                self.delegate?.selectedDetail((self.showCamfind! ? 7 : 6))
+                self.delegate?.selectedDetail(7)
                 //self.performSegueWithIdentifier("showProfile", sender: self)
                 //TODO: Poner acciones, cambio boton y nombre
             }
             self.selected = NSIndexPath(forRow: 0, inSection: 2)
-            self.delegate?.selectedDetail((self.showCamfind! ? 7 : 6))
+            self.delegate?.selectedDetail(7)
         }
         else {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_APP_SESSION_END.rawValue, label: "")
@@ -261,7 +261,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         self.tableView?.reloadData()
         let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
         cell?.selected = true
-        self.delegate?.selectedDetail((self.showCamfind! ? 7 : 6))
+        self.delegate?.selectedDetail(7)
     }
     
 }

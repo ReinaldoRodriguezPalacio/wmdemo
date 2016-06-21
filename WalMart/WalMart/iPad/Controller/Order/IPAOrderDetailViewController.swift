@@ -61,6 +61,17 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         }
     }
     
+    override func listSelectorDidShowList(listId: String, andName name:String) {
+        let storyboard = self.loadStoryboardDefinition()
+        if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? IPAUserListDetailViewController {
+            vc.listId = listId
+            vc.listName = name
+            vc.enableScrollUpdateByTabBar = false
+            vc.hiddenBackButton = false
+            self.navigationController!.pushViewController(vc, animated: true)
+        }
+    }
+    
     //MARK: - ScrollDelegate
     
     override func willShowTabbar() {

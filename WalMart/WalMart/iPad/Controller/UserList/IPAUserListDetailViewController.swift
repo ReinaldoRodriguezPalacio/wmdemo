@@ -24,10 +24,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     var isShared =  false
     var showReminderController = true
     var searchInList : (( controller:IPASearchProductViewController) -> Void)?
-
+    var hiddenBackButton: Bool = true
    
     override func viewDidLoad() {
-        self.hiddenBack = true
+        self.hiddenBack = self.hiddenBackButton
 
         super.viewDidLoad()
 
