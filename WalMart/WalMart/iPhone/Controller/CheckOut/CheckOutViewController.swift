@@ -281,7 +281,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let velue = showRating == nil ? "" :showRating?.value
         
         if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
-            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            alert!.isCustomAlert = true
             alert!.spinImage.hidden =  true
             alert!.setMessage(NSLocalizedString("review.title.like.app", comment: ""))
             alert!.addActionButtonsWithCustomText("No", leftAction: {
@@ -298,6 +299,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
                     self.rankingApp()
                 }, isNewFrame: false)
+            
+            alert!.leftButton.layer.cornerRadius = 20
+            alert!.rightButton.layer.cornerRadius = 20
         }else{
             //regresar a carrito
            self.backFinish()

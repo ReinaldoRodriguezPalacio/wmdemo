@@ -354,7 +354,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     let versionAP = "AP\(version)" as String!
                     var isReviewActive : NSString = "false"
                     
-                    if let value = privateNot.objectAtIndex(0).objectForKey("isReviewActive") as? NSString{
+                    if let value = result["isReviewActive"] as? NSString {
                         isReviewActive = value
                     }
                     

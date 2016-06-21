@@ -16,6 +16,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
     //var ratingImage : UIImageView!
     var labelText : UILabel!
     var viewStarts: UIView!
+    var isCustomAlert =  false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,32 +39,52 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-         let bounds = self.view.bounds
+        let bounds = self.view.bounds
         
-        if IS_IPAD {
+        if !isCustomAlert {
+            if IS_IPAD {
+                viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 200, 160, 18)
+                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
+                
+                titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 29, 288, titleLabel!.frame.height)
+                centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
+            }else{
+                
+                viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 104, 160, 18)
+                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
+                
+                titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
+                centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
+            }
             
-            viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 200, 160, 18)
-            labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
+            leftButton.frame = CGRectMake(centerButton.frame.minX, self.centerButton.frame.maxY + 29, (centerButton.frame.width / 2) - 4, 40)
+            rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, self.centerButton.frame.maxY + 29, leftButton.frame.width, 40)
             
-            titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 29, 288, titleLabel!.frame.height)
-            centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
+            createStartImage()
         }else{
-            
-            viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 104, 160, 18)
-            labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
-            
-            titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
-            centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
+            viewBgImage.hidden =  false
+            titleLabel.frame = CGRectMake(titleLabel.frame.origin.x,  viewBgImage.frame.maxY + 24, titleLabel.frame.size.width, titleLabel.frame.size.height)
+            if IS_IPAD {
+                leftButton.frame = CGRectMake(self.view.frame.midX - 144, titleLabel.frame.maxY + 40, 140, 40)
+                rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, titleLabel.frame.maxY + 40, leftButton.frame.size.width, 40)
+            }else{
+                leftButton.frame = CGRectMake(16, titleLabel.frame.maxY + 40, 140, 40)
+                rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, titleLabel.frame.maxY + 40, leftButton.frame.size.width, 40)
+            }
         }
-        
-        leftButton.frame = CGRectMake(centerButton.frame.minX, self.centerButton.frame.maxY + 29, (centerButton.frame.width / 2) - 4, 40)
-        rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, self.centerButton.frame.maxY + 29, leftButton.frame.width, 40)
-        
-        createStartImage()
     }
     
     
-    
+    /**
+     Ceate custom buttons in alert
+     
+     - parameter leftText:     description button left
+     - parameter leftAction:   block action left
+     - parameter rightText:    description button right
+     - parameter rightAction:  block action right
+     - parameter centerText:   description button center
+     - parameter centerAction: block action center
+     */
     func addActionButtonsWithCustomTextRating(leftText:String,leftAction:(() -> Void),rightText:String,rightAction:(() -> Void),centerText:String,centerAction:(() -> Void)) {
     
         self.addActionButtonsWithCustomText(leftText, leftAction: leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
