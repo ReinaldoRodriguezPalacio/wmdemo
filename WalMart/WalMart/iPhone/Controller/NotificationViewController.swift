@@ -189,7 +189,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
                 //TODO: quitar
-                 //CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
+                 // CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }
         }
     }

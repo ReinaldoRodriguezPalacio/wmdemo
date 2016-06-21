@@ -948,7 +948,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.lineId = line ?? "_"
         controller.schoolName = title
         controller.gradeName = grade
-        controller.showWishList = true
+        controller.showWishList = false
         
         let controllernav = self.currentController as? UINavigationController
         let controllersInNavigation = controllernav?.viewControllers.count

@@ -215,8 +215,6 @@ class IPACustomBarViewController :  CustomBarViewController {
 
     override func selectKeyWord(keyWord:String, upc:String?, truncate:Bool,upcs:[String]?){
         if upc != nil {
-           
-            
             let contDetail = IPAProductDetailPageViewController()
             contDetail.idListSeleted = self.idListSelected
             //contDetail.upc = upc!
@@ -234,26 +232,20 @@ class IPACustomBarViewController :  CustomBarViewController {
             svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
                 contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
                 let controllernav = self.currentController as? UINavigationController
-                //if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
-                //    controllernav?.popViewControllerAnimated(false)
-                //    self.isEditingSearch = false
-                //}
-                
+                if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
+                    controllernav?.delegate = contDetail
+                }
                   controllernav?.pushViewController(contDetail, animated: true)
                 }, errorBlock: { (error:NSError) -> Void in
-                    
                     if upcDesc.length < 14 {
                         let toFill = "".stringByPaddingToLength(14 - upcDesc.length, withString: "0", startingAtIndex: 0)
                         paddedUPC = "\(toFill)\(upcDesc)"
                     }
-                    
                     contDetail.itemsToShow = [["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Mg.rawValue]]
                     let controllernav = self.currentController as? UINavigationController
-                    //if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
-                    //    controllernav?.popViewControllerAnimated(false)
-                    //    self.isEditingSearch = false
-                    //}
-
+                    if (controllernav?.topViewController as? IPAProductDetailPageViewController != nil){
+                        controllernav?.delegate = contDetail
+                    }
                     controllernav?.pushViewController(contDetail, animated: true)
             })
         }
@@ -651,7 +643,7 @@ class IPACustomBarViewController :  CustomBarViewController {
         controller.schoolName = title
         controller.gradeName = grade
         controller.showInPopover = true
-        controller.showWishList = true
+        controller.showWishList = false
         controller.view.backgroundColor = UIColor.whiteColor()
         
         let controllernav = self.currentController as? UINavigationController
