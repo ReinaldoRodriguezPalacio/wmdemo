@@ -43,7 +43,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.receiveNotificationLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         self.receiveNotificationLabel?.text = "Permitir Notificaciones"
         
-        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification")
+        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         
         self.receiveNotificationButton = CMSwitchView(frame: CGRectMake(0.0, 0.0, 54, 34))
@@ -185,9 +185,11 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             let params = notService.buildParams(UserCurrentSession.sharedInstance().deviceToken, identifierDevice: idDevice, enablePush: value)
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
-                CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false")
+                CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
+                //TODO: quitar
+                 //CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }
         }
     }

@@ -320,7 +320,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         if UserCurrentSession.sharedInstance().finishConfig {
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")
-                CustomBarViewController.addOrUpdateParam("showNotification", value: "true")
+                CustomBarViewController.addOrUpdateParam("showNotification", value: "true",forUser: false)
             }) { (error:NSError) -> Void in
                 print( "Error device token: \(error.localizedDescription)" )
             }

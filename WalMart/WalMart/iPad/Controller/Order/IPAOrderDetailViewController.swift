@@ -75,10 +75,10 @@ class IPAOrderDetailViewController: OrderDetailViewController {
     //MARK: - ScrollDelegate
     
     override func willShowTabbar() {
-           }
+    }
     
     override func willHideTabbar() {
-            }
+    }
 
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -97,9 +97,6 @@ class IPAOrderDetailViewController: OrderDetailViewController {
             }
         }
 
-
-  
-        
     }
-    }
+}
     

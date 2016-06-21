@@ -408,7 +408,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
 
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
-        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification")
+        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
         let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
         if  UserCurrentSession.sharedInstance().deviceToken != "" {
             

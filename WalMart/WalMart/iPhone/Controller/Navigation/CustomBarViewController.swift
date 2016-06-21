@@ -266,14 +266,18 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
-   static func retrieveParam(key:String) -> Param? {
+    static func retrieveParam(key:String) -> Param? {
+        return self.retrieveParam(key, forUser: true)
+    }
+    
+    static func retrieveParam(key:String, forUser: Bool) -> Param? {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         let user = UserCurrentSession.sharedInstance().userSigned
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Param", inManagedObjectContext: context)
-        if user != nil {
+        if user != nil && forUser {
             fetchRequest.predicate = NSPredicate(format: "key == %@ && user == %@", key, user!)
         }
         else {
@@ -293,7 +297,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return parameter
     }
     
-    static func addOrUpdateParam(key:String, value:String) {
+    static func addOrUpdateParam(key:String, value:String){
+        self.addOrUpdateParam(key, value: value, forUser: true)
+    }
+    
+    static func addOrUpdateParam(key:String, value:String, forUser:Bool) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
@@ -303,7 +311,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         else {
             let param = NSEntityDescription.insertNewObjectForEntityForName("Param", inManagedObjectContext: context) as? Param
             if let user = UserCurrentSession.sharedInstance().userSigned {
-                param!.user = user
+                if forUser {
+                    param!.user = user
+                }
             }
             param!.key = key
             param!.value = value
