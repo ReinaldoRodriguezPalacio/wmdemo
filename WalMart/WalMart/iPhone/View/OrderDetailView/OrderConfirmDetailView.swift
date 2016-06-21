@@ -352,7 +352,7 @@ class OrderConfirmDetailView : UIView {
     
     func okAction(){
         //Validar presentar mensaje
-       let showRating = CustomBarViewController.retrieveParam(self.KEY_RATING)
+       let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
         let velue = showRating == nil ? "" :showRating?.value
         
         if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
@@ -361,14 +361,14 @@ class OrderConfirmDetailView : UIView {
             alert!.spinImage.hidden =  true
             alert!.setMessage(NSLocalizedString("review.title.like.app", comment: ""))
             alert!.addActionButtonsWithCustomText("No", leftAction: {
-                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                 CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 self.finishSopping()
                 print("Save in data base")
                
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
-                }, rightText: "Si", rightAction: {
+                }, rightText: "Sí", rightAction: {
                     alert?.close()
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
                     self.rankingApp()
@@ -389,21 +389,21 @@ class OrderConfirmDetailView : UIView {
         alert!.addActionButtonsWithCustomTextRating(NSLocalizedString("review.no.thanks", comment: ""), leftAction: {
            
             //--
-            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+            CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
             alert?.close()
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
             self.finishSopping()
             
             }, rightText: NSLocalizedString("review.maybe.later", comment: ""), rightAction: {
 
-                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "true")
                 alert?.close()
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
                 self.finishSopping()
                 
             }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
-                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 self.finishSopping()
