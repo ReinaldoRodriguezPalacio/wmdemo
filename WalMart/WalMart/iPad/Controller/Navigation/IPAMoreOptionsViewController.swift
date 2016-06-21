@@ -62,6 +62,8 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
   
     func reloadMenu(){
         self.reloadButtonSession()
+        let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
+        cell?.selected = true
         NSNotificationCenter.defaultCenter().removeObserver(self, name: "", object: nil)
     }
 

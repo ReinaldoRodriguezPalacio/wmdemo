@@ -331,7 +331,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
             if self.errorView == nil{
                 self.errorView = FormFieldErrorView()
             }
-            SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "No Válido" , errorView:self.errorView! , becomeFirstResponder: true)
+            SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "Texto no permitido" , errorView:self.errorView! , becomeFirstResponder: true)
             
             return
         }
@@ -483,7 +483,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 if self.errorView == nil{
                     self.errorView = FormFieldErrorView()
                 }
-                SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "No Válido" , errorView:self.errorView! ,  becomeFirstResponder: true)
+                SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "Texto no permitido" , errorView:self.errorView! ,  becomeFirstResponder: true)
                 return false
             }
         }

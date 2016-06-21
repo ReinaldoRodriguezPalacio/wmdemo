@@ -241,7 +241,7 @@
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
 "profile.login.welcome"= "Bienvenido a Walmart";
 "profile.login"= "Ingresa a tu cuenta";
-"field.validate.password.length" = "Texto no válido";
+"field.validate.password.length" = "Texto no permitido";
 "profile.change.legalinfo" = "Información legal";
 
 //Preious orders
@@ -305,7 +305,7 @@
 
 //field
 "field.validate.required" = " Es requerido";
-"field.validate.text.invalid" = " Texto no válido";
+"field.validate.text.invalid" = " Texto no permitido";
 "field.validate.text.invalid.rfc" = " Formato inválido";
 "field.validate.password" = " La contraseña debería tener al menos 8 caracteres";
 "field.validate.password.empty" = " La contraseña es requerida";
