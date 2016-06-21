@@ -705,6 +705,7 @@
 		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
 		4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertRatingViewController.swift; path = Shared/Controller/Common/IPOWMAlertRatingViewController.swift; sourceTree = "<group>"; };
 		4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductTolistView.swift; sourceTree = "<group>"; };
+		4A9D327E1D19E4C800D2521F /* WalMart3.31. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 3.xcdatamodel"; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
@@ -4186,7 +4187,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "537fc67f-74b9-4a13-92af-2e2e99913087";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4225,7 +4226,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "537fc67f-74b9-4a13-92af-2e2e99913087";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4238,8 +4239,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4294,8 +4295,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4371,12 +4372,13 @@
 		56A6153019CC93D1006FFFE5 /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				4A9D327E1D19E4C800D2521F /* WalMart3.31. 3.xcdatamodel */,
 				6C62117E1CEA8ADA000874EA /* WalMart3.31. 2.xcdatamodel */,
 				562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */,
 				5697BD011A6F19A7007F9910 /* WalMart2.1.0.xcdatamodel */,
 				56A6153119CC93D1006FFFE5 /* WalMart.xcdatamodel */,
 			);
-			currentVersion = 6C62117E1CEA8ADA000874EA /* WalMart3.31. 2.xcdatamodel */;
+			currentVersion = 4A9D327E1D19E4C800D2521F /* WalMart3.31. 3.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
