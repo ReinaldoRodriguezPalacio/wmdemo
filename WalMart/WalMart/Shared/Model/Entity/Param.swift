@@ -14,5 +14,6 @@ class Param: NSManagedObject {
     @NSManaged var key: String
     @NSManaged var value: String
     @NSManaged var user: WalmartMG.User
+    @NSManaged var idUser: String
 
 }

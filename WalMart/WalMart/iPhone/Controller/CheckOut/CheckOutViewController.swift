@@ -277,7 +277,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     
     func rateFinishShopp(){
         //Validar presentar mensaje
-        let showRating = CustomBarViewController.retrieveParam(self.KEY_RATING)
+        let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
         let velue = showRating == nil ? "" :showRating?.value
         
         if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
@@ -286,7 +286,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             alert!.spinImage.hidden =  true
             alert!.setMessage(NSLocalizedString("review.title.like.app", comment: ""))
             alert!.addActionButtonsWithCustomText("No", leftAction: {
-                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 //regresar a carrito
                self.backFinish()
@@ -317,7 +317,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
        
         alert!.addActionButtonsWithCustomTextRating(NSLocalizedString("review.no.thanks", comment: ""), leftAction: {
             // --- 
-            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+            CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
             alert?.close()
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
             //regresar a carrito
@@ -325,7 +325,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             
             }, rightText: NSLocalizedString("review.maybe.later", comment: ""), rightAction: {
                 
-                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "true")
                 alert?.close()
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
@@ -334,7 +334,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
              
               
             }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
-                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                CustomBarViewController.addRateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 //regresar a carrito

@@ -17,6 +17,7 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="lists" inverseEntity="User" syncable="YES"/>
     </entity>
     <entity name="Param" representedClassName="WalmartMG.Param" syncable="YES">
+        <attribute name="idUser" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="key" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="params" inverseEntity="User" syncable="YES"/>
@@ -96,7 +97,7 @@
     <elements>
         <element name="Cart" positionX="-155" positionY="-180" width="128" height="135"/>
         <element name="List" positionX="-279" positionY="351" width="128" height="133"/>
-        <element name="Param" positionX="-180" positionY="218" width="128" height="90"/>
+        <element name="Param" positionX="-180" positionY="218" width="128" height="105"/>
         <element name="Product" positionX="169" positionY="-72" width="128" height="270"/>
         <element name="Profile" positionX="-657" positionY="-199" width="128" height="315"/>
         <element name="Store" positionX="-189" positionY="-27" width="128" height="223"/>

@@ -329,6 +329,78 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
+    
+    
+    /**
+        Find param in db by iduser an key
+     
+     - parameter key: key value
+     
+     - returns: param entity
+     */
+    static func retrieveRateParam(key:String) -> Param? {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        
+        let user = UserCurrentSession.sharedInstance().userSigned
+        
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName("Param", inManagedObjectContext: context)
+        if user != nil {
+            fetchRequest.predicate = NSPredicate(format: "key == %@ && idUser == %@", key, user!.idUser)
+        }
+      
+        var parameter: Param? = nil
+        
+        do {
+            let result = try context.executeFetchRequest(fetchRequest) as! [Param]
+            if  result.count > 0 {
+                parameter = result.first
+            }
+        } catch let error as NSError {
+            print("Fetch failed: \(error.localizedDescription)")
+        }
+        
+        return parameter
+    }
+    
+    /**
+     add param from review app
+     
+     - parameter key:   key param
+     - parameter value: value of params
+     */
+    static func addRateParam(key:String, value:String) {
+        let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let context: NSManagedObjectContext = appDelegate.managedObjectContext!
+        
+        if let param = self.retrieveRateParam(key) {
+            param.value = value
+        }
+        else {
+            let param = NSEntityDescription.insertNewObjectForEntityForName("Param", inManagedObjectContext: context) as? Param
+            if let user = UserCurrentSession.sharedInstance().userSigned {
+                param!.user = user
+                param!.idUser = user.idUser as String
+            }
+            param!.key = key
+            param!.value = value
+        }
+        
+        
+        var error: NSError? = nil
+        do {
+            try context.save()
+        } catch let error1 as NSError {
+            error = error1
+        }
+        if error != nil {
+            print("error at save context: \(error!.localizedDescription)")
+        }
+    }
+    
+    
     // MARK: - Create buttons
     func createTabBarButtons() {
         if isTabBarCreated == false {

@@ -44,14 +44,14 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         if !isCustomAlert {
             if IS_IPAD {
                 viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 200, 160, 18)
-                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
+                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, 20)
                 
                 titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 29, 288, titleLabel!.frame.height)
                 centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
             }else{
                 
                 viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 104, 160, 18)
-                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
+                labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, 20)
                 
                 titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
                 centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
@@ -64,6 +64,7 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         }else{
             viewBgImage.hidden =  false
             titleLabel.frame = CGRectMake(titleLabel.frame.origin.x,  viewBgImage.frame.maxY + 24, titleLabel.frame.size.width, titleLabel.frame.size.height)
+            
             if IS_IPAD {
                 leftButton.frame = CGRectMake(self.view.frame.midX - 144, titleLabel.frame.maxY + 40, 140, 40)
                 rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, titleLabel.frame.maxY + 40, leftButton.frame.size.width, 40)
