@@ -139,6 +139,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
         }
         
+        if self.itemsInShoppingCart.count == 0 {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+        
         if  self.itemsInShoppingCart.count > 0 {
             self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
             self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
@@ -165,6 +169,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         self.viewShoppingCart.delegate = self
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
+       
         
         self.loadCrossSell()
         

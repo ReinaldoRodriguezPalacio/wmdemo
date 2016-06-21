@@ -281,9 +281,10 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         let velue = showRating == nil ? "" :showRating?.value
         
         if UserCurrentSession.sharedInstance().isReviewActive && (velue == "" ||  velue == "true") {
-            let alert = IPOWMAlertViewController.showAlert(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
+            alert!.isCustomAlert = true
             alert!.spinImage.hidden =  true
-            alert!.setMessage("¿Te gusta nuestra aplicación?")
+            alert!.setMessage(NSLocalizedString("review.title.like.app", comment: ""))
             alert!.addActionButtonsWithCustomText("No", leftAction: {
                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
                 alert?.close()
@@ -298,6 +299,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
                     self.rankingApp()
                 }, isNewFrame: false)
+            
+            alert!.leftButton.layer.cornerRadius = 20
+            alert!.rightButton.layer.cornerRadius = 20
         }else{
             //regresar a carrito
            self.backFinish()
@@ -309,32 +313,45 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
         let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
         alert!.spinImage.hidden =  true
-        alert!.setMessage("Estamos Constantemente mejorando el app para brindarte la mejor experiencia, ¿Podrias calificarnos en el App Store?")
-        alert!.addActionButtonsWithCustomTextRating("Quíza más tarde", leftAction: {
-            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
+        alert!.setMessage(NSLocalizedString("review.description.ok.rate", comment: ""))
+       
+        alert!.addActionButtonsWithCustomTextRating(NSLocalizedString("review.no.thanks", comment: ""), leftAction: {
+            // --- 
+            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
             alert?.close()
-            
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
             //regresar a carrito
-           self.backFinish()
-            }, rightText: "No gracias", rightAction: {
-                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+            self.backFinish()
+            
+            }, rightText: NSLocalizedString("review.maybe.later", comment: ""), rightAction: {
+                
+                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
                 alert?.close()
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
                 //regresar a carrito
-               self.backFinish()
-            }, centerText: "Si claro",centerAction: {
+                self.backFinish()
+             
+              
+            }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 //regresar a carrito
-              self.backFinish()
+                self.backFinish()
                 let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
                 if UIApplication.sharedApplication().canOpenURL(url!) == true  {
                     UIApplication.sharedApplication().openURL(url!)
                 }
+               
                 
         })
+        
+        alert!.leftButton.backgroundColor = WMColor.regular_blue
+        alert!.leftButton.layer.cornerRadius = 20
+        
+        alert!.rightButton.backgroundColor = WMColor.dark_blue
+        alert!.rightButton.layer.cornerRadius = 20
         
         
     }

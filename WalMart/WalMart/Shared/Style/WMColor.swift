@@ -25,6 +25,7 @@ struct WMColor {
     static var green: UIColor{return UIColorFromRGB(0x8EBB36)}
     static var red: UIColor{return UIColorFromRGB(0xC9361C)}
     static var light_red: UIColor{return UIColorFromRGB(0xE43331)}
+     static var regular_blue: UIColor{return UIColorFromRGB(0x005AA5)}
     
 
     
