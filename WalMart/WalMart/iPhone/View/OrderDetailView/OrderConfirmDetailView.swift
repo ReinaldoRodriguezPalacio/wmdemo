@@ -382,20 +382,25 @@ class OrderConfirmDetailView : UIView {
         
         let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
         alert!.spinImage.hidden =  true
-        alert!.setMessage("Estamos Constantemente mejorando el app para brindarte la mejor experiencia, ¿Podrias calificarnos en el App Store?")
-        alert!.addActionButtonsWithCustomTextRating("Quíza más tarde", leftAction: {
-            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
-                        alert?.close()
+        alert!.setMessage(NSLocalizedString("review.description.ok.rate", comment: ""))
+        alert!.addActionButtonsWithCustomTextRating(NSLocalizedString("review.no.thanks", comment: ""), leftAction: {
+           
+            //--
+            CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+            alert?.close()
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+            self.finishSopping()
             
-                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
-             self.finishSopping()
-            }, rightText: "No gracias", rightAction: {
-                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+            }, rightText: NSLocalizedString("review.maybe.later", comment: ""), rightAction: {
+
+                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "true")
                 alert?.close()
-                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_NO_THANKS.rawValue , label: "No gracias")
+                
+                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_MAYBE_LATER.rawValue , label: "Más tarde")
                 self.finishSopping()
-            }, centerText: "Si claro",centerAction: {
-                 CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
+                
+            }, centerText: NSLocalizedString("review.yes.rate", comment: ""),centerAction: {
+                CustomBarViewController.addOrUpdateParam(self.KEY_RATING, value: "false")
                 alert?.close()
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_OPEN_APP_STORE.rawValue , label: "Si Claro")
                 self.finishSopping()
@@ -404,7 +409,13 @@ class OrderConfirmDetailView : UIView {
                     UIApplication.sharedApplication().openURL(url!)
                 }
                 
+            
         })
+        alert!.leftButton.backgroundColor = WMColor.regular_blue
+        alert!.leftButton.layer.cornerRadius = 20
+        
+        alert!.rightButton.backgroundColor = WMColor.dark_blue
+        alert!.rightButton.layer.cornerRadius = 20
 
         
     }

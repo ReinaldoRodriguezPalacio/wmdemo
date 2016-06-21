@@ -13,24 +13,25 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
     
     var centerButton :UIButton!
     var centerAction : (() -> Void)? = nil
-    var ratingImage : UIImageView!
+    //var ratingImage : UIImageView!
     var labelText : UILabel!
+    var viewStarts: UIView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         viewBgImage.hidden =  true
-        ratingImage = UIImageView()
-        ratingImage.image = UIImage(named: "ratingStars")
+        viewStarts = UIView()
+        //ratingImage.image = UIImage(named: "ratingStars")
         
         labelText = UILabel()
         labelText.font = WMFont.fontMyriadProRegularOfSize(18)
         labelText.textColor = WMColor.light_gray
         labelText.textAlignment = .Center
         labelText.numberOfLines = 0
-        labelText.text =  "¡Nos da mucho gusto!"
+        labelText.text = NSLocalizedString("review.title.ok_rate", comment: "")
         
         self.view.addSubview(labelText)
-        self.view.addSubview(ratingImage)
+        self.view.addSubview(viewStarts)
         
     }
 
@@ -41,24 +42,24 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         
         if IS_IPAD {
             
-            ratingImage.frame = CGRectMake((bounds.width / 2) - 100 , 200, 200, 18)
-            labelText.frame =  CGRectMake(16,  ratingImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
+            viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 200, 160, 18)
+            labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
             
-            titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 16, 288, titleLabel!.frame.height)
-            centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 16, centerButton.frame.width, centerButton.frame.height)
+            titleLabel.frame =  CGRectMake((bounds.width / 2) - 144,  labelText.frame.maxY + 29, 288, titleLabel!.frame.height)
+            centerButton.frame = CGRectMake((bounds.width / 2) - 144 , self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
         }else{
             
-            ratingImage.frame = CGRectMake((bounds.width / 2) - 100 , 150, 200, 18)
-            labelText.frame =  CGRectMake(16,  ratingImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
+            viewStarts.frame = CGRectMake((bounds.width / 2) - 80 , 104, 160, 18)
+            labelText.frame =  CGRectMake(16,  viewStarts.frame.maxY + 40, self.view.frame.width - 32, titleLabel!.frame.height)
             
             titleLabel.frame =  CGRectMake(16,  labelText.frame.maxY + 16, self.view.frame.width - 32, titleLabel!.frame.height)
-            centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 16, centerButton.frame.width, centerButton.frame.height)
+            centerButton.frame = CGRectMake(16, self.titleLabel.frame.maxY + 29, centerButton.frame.width, 40)
         }
         
-        leftButton.frame = CGRectMake(centerButton.frame.minX, self.centerButton.frame.maxY + 16, (centerButton.frame.width / 2) - 4, leftButton.frame.height)
-        rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, self.centerButton.frame.maxY + 16, leftButton.frame.width, rightButton.frame.height)
+        leftButton.frame = CGRectMake(centerButton.frame.minX, self.centerButton.frame.maxY + 29, (centerButton.frame.width / 2) - 4, 40)
+        rightButton.frame = CGRectMake(leftButton.frame.maxX + 8, self.centerButton.frame.maxY + 29, leftButton.frame.width, 40)
         
-
+        createStartImage()
     }
     
     
@@ -68,8 +69,8 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         self.addActionButtonsWithCustomText(leftText, leftAction: leftAction, rightText: rightText, rightAction: rightAction, isNewFrame: false)
         
         
-        centerButton = UIButton(frame:CGRectMake(16, self.titleLabel.frame.maxY + 29, 288,32))
-        centerButton.layer.cornerRadius = 16
+        centerButton = UIButton(frame:CGRectMake(16, self.titleLabel.frame.maxY + 29, 288,40))
+        centerButton.layer.cornerRadius = 20
         centerButton.setTitle(centerText, forState: UIControlState.Normal)
         centerButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         centerButton.backgroundColor = WMColor.green
@@ -84,13 +85,37 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
 
     }
     
+    /**
+     create stars image in alertview
+     */
+    func createStartImage(){
+        var left :CGFloat = 0.0
+        for _ in 0  ..< 5  {
+         let start  =  UIImageView(image: UIImage(named: "ratingStars"))
+            start.frame = CGRectMake(left ,0,16,16)
+            self.viewStarts.addSubview(start)
+            left = left + 36
+        }
+    }
     
+    /**
+     Action center button in this alert
+     */
     func centerTapInside() {
         if self.centerAction != nil {
             self.centerAction!()
         }
     }
     
+    /**
+     Create alert in controler
+     
+     - parameter imageWaiting: image show
+     - parameter imageDone:    image present when done
+     - parameter imageError:   image present when error
+     
+     - returns: alert rating
+     */
     class func showAlertRating(imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?)  -> IPOWMAlertRatingViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         if vc != nil {
@@ -100,6 +125,16 @@ class IPOWMAlertRatingViewController : IPOWMAlertViewController  {
         return nil
     }
     
+    /**
+     presenten alert
+     
+     - parameter controller: ciontroller to show alert
+     - parameter imageWaiting: image show
+     - parameter imageDone:    image present when done
+     - parameter imageError:   image present when error
+     
+     - returns: alert rating
+     */
     override class func showAlert(controller:UIViewController,imageWaiting:UIImage?,imageDone:UIImage?,imageError:UIImage?) -> IPOWMAlertRatingViewController? {
         let newAlert = IPOWMAlertRatingViewController()
         newAlert.imageWaiting = imageWaiting

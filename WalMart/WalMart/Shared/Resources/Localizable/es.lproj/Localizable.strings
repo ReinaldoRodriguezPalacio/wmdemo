@@ -662,6 +662,14 @@
 "payment.options.isnecessary.id" = "Es necesario mostrar identificación";
 "payment.options.cash" = "Llevamos cambio hasta de 500 pesos";
 
+//Review APP
+"review.title.like.app" = "¿Te gusta nuestra App?";
+"review.title.ok_rate" = "¡Nos da mucho gusto!";
+"review.description.ok.rate" = "Estamos constantemente mejorando el app para brindarte la mejor experiencia. ¿Podrías calificarnos en el App Store?";
+"review.yes.rate" = "Si, claro";
+"review.no.thanks" = "No, gracias";
+"review.maybe.later" = "Quízas más tarde";
+
 
 
 
