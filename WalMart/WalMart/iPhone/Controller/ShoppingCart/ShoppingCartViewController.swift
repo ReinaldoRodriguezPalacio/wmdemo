@@ -264,6 +264,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
         }
         
+        if self.itemsInShoppingCart.count == 0 {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+        
         if  self.itemsInShoppingCart.count > 0 {
             self.subtotal = UserCurrentSession.sharedInstance().itemsMG!["subtotal"] as! NSNumber
             self.ivaprod = UserCurrentSession.sharedInstance().itemsMG!["ivaSubtotal"] as! NSNumber
@@ -284,9 +288,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.viewShoppingCart.dataSource = self
         self.viewShoppingCart.reloadData()
         
-        if self.itemsInShoppingCart.count == 0 {
-            self.navigationController?.popToRootViewControllerAnimated(true)
-        }
+       
         
         self.loadCrossSell()
 
