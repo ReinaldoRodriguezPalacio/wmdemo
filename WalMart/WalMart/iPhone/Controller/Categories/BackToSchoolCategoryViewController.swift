@@ -50,7 +50,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.separator.frame = CGRectMake(0, self.searchView!.frame.maxY - 1, self.view.frame.width, 1)
         self.searchView.layer.insertSublayer(separator, atIndex: 0)
         
-        self.searchField = FormFieldSearch(frame: CGRectMake(16, 16, self.view.frame.width - 32, 40.0))
+        self.searchField = FormFieldSearch(frame: CGRectMake(16, 22, self.view.frame.width - 32, 40.0))
         self.searchField!.returnKeyType = .Search
         self.searchField!.autocapitalizationType = .None
         self.searchField!.autocorrectionType = .No
@@ -94,10 +94,10 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     override func viewWillLayoutSubviews() {
         self.imageBackground.frame = CGRectMake(0,startView ,self.view.frame.width , CELL_HEIGHT)
         self.buttonClose.frame = CGRectMake(0, startView, 40, 40)
-        self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 72)
+        self.searchView.frame = CGRectMake(0, self.imageBackground!.frame.maxY, self.view.frame.width, 84)
         self.separator.frame = CGRectMake(0, self.searchView!.bounds.maxY - 1, self.view.frame.width, 1)
-        self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
-        self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
+        self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 22, 55, 40)
+        self.searchField.frame = CGRectMake(16, 22, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
         self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
     }
     
@@ -220,15 +220,15 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
             self.searchFieldSpace = 71
             UIView.animateWithDuration(0.3, animations: {() in
                 self.clearButton!.alpha = 1.0
-                self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
-                self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
+                self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 22, 55, 40)
+                self.searchField.frame = CGRectMake(16, 22, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
             })
         }else{
             self.searchFieldSpace = 0
             UIView.animateWithDuration(0.3, animations: {() in
                 self.clearButton!.alpha = 0.0
-                self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 16, 55, 40)
-                self.searchField.frame = CGRectMake(16, 16, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
+                self.clearButton!.frame = CGRectMake(self.searchView.frame.width - self.searchFieldSpace, 22, 55, 40)
+                self.searchField.frame = CGRectMake(16, 22, self.view.frame.width - (self.searchFieldSpace + 32), 40.0)
             })
         }
         
