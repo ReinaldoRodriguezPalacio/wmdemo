@@ -270,6 +270,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return self.retrieveParam(key, forUser: true)
     }
     
+    /**
+     Find param for key and use user to validate query
+     
+     - parameter key:     param to seacrh
+     - parameter forUser: use user in query
+     
+     - returns: param entity
+     */
     static func retrieveParam(key:String, forUser: Bool) -> Param? {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -301,6 +309,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.addOrUpdateParam(key, value: value, forUser: true)
     }
     
+    
+    /**
+     Add or update params in data base
+     
+     - parameter key:     indentifier param
+     - parameter value:   value of pamam
+     - parameter forUser: valid if use User in query
+     */
     static func addOrUpdateParam(key:String, value:String, forUser:Bool) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

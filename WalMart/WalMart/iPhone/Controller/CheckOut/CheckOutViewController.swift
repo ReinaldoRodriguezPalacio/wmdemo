@@ -274,7 +274,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
     }
     
-    
+    /**
+     Show alert whidth options like or i dont like app
+     */
     func rateFinishShopp(){
         //Validar presentar mensaje
         let showRating = CustomBarViewController.retrieveRateParam(self.KEY_RATING)
@@ -294,7 +296,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
                 
                 
                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_DONT_LIKE_APP.rawValue , label: "No me gusta la app")
-                }, rightText: "Si", rightAction: {
+                }, rightText: "Sí", rightAction: {
                     alert?.close()
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_OK.rawValue, action:WMGAIUtils.ACTION_RATING_I_LIKE_APP.rawValue , label: "Me gusta la app")
                     self.rankingApp()
@@ -308,7 +310,11 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
         
     }
-    
+    /**
+     Show screen rate with options :
+     -review app
+     -later or no thanks
+     */
     func rankingApp(){
         
         let alert = IPOWMAlertRatingViewController.showAlertRating(UIImage(named:"rate_the_app"),imageDone:nil,imageError:UIImage(named:"rate_the_app"))
