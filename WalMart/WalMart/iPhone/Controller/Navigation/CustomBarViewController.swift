@@ -1034,8 +1034,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.familyId  = family ?? "_"
         controller.departmentId = depto ??  "_"
         controller.lineId = line ?? "_"
-        controller.schoolName = title
-        controller.gradeName = grade
+        controller.schoolName = title.stringByRemovingPercentEncoding
+        controller.gradeName = grade.stringByRemovingPercentEncoding
         controller.showWishList = false
         
         let controllernav = self.currentController as? UINavigationController

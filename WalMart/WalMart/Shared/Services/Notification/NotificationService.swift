@@ -11,7 +11,7 @@ import Foundation
 class NotificationService :  BaseService {
     
     func buildParams(token:String,identifierDevice:String,enablePush: Bool) -> NSDictionary {
-        return ["token":token,"identifierDevice":identifierDevice,"idDevice":IS_IPAD ? "2": "1" ,"idApp":"1","idDeviceOS":"2","userDevice":"","enablePush":enablePush ? "0" : "1"]
+        return ["token":token,"identifierDevice":identifierDevice,"idDevice":IS_IPAD ? "2": "1" ,"idApp":"1","idDeviceOS":"2","userDevice":"","status":"","idAuthorizedUser":"","enablePush":enablePush ? "0" : "1"]
     }
     
 }
