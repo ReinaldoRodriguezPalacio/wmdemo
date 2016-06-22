@@ -148,6 +148,8 @@ class SchoolListViewController : DefaultListDetailViewController {
         listCell.hideUtilityButtonsAnimated(false)
         listCell.setLeftUtilityButtons([], withButtonWidth: 0.0)
         listCell.setRightUtilityButtons([], withButtonWidth: 0.0)
+    
+        
         self.removeDisabled(self.detailItems![indexPath.row],indexPath:indexPath)
         return listCell
     }
@@ -161,6 +163,10 @@ class SchoolListViewController : DefaultListDetailViewController {
             }
         }
         
+            if let nameLines = product["nameLine"] as? NSString {
+                self.nameLine = nameLines as String
+            }
+       
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {

@@ -31,6 +31,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
     var lineId: String?
     var schoolName: String! = ""
     var gradeName: String?
+    var nameLine: String! = ""
     
     var alertView : IPOWMAlertViewController?
     
@@ -294,22 +295,27 @@ DetailListViewCellDelegate,UIActivityItemSource {
     func activityViewController(activityViewController: UIActivityViewController, itemForActivityType activityType: String) -> AnyObject? {
         
      
-       
-       
+       let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
+        var dominio = "https://www.walmart.com.mx"
+        if environment != "PORDUCCION"{
+            dominio = "http://192.168.43.192:8085"
+        }
         var urlss  = ""
         if self.lineId != nil {
             let name  = self.schoolName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
             let desc = self.gradeName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
+            let namelines = self.nameLine!.stringByReplacingOccurrencesOfString(" ", withString: "-")
             
-            var  appLink  = UserCurrentSession.urlWithRootPath("http://192.168.43.192:8085/walmartmg/site/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=Mochilas&Escolares&name_\(name)&description=\(desc)")
-            //comentar para preubas finales
-            appLink = "http://192.168.43.192:8085/walmartmg/site/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=Mochilas&Escolares&name=\(name)&description=\(desc)"
+            var  appLink  = UserCurrentSession.urlWithRootPath("\(dominio)/walmartmg/site/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name_\(name)&description=\(desc)")
+            
+            appLink = "\(dominio)/walmartmg/site/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name=\(name)&description=\(desc)"
             
             //appLink = "walmartmexicoapp://bussines_mg&type_LIST&value_\(self.lineId! as String)&name_\(name)&description_\(desc)"
             
             urlss = "\n Entra a la aplicación:\n \(appLink!)"
         }
-        //http://192.168.43.192:8085/walmartmg/site/linkbts.html?
+      
+        
         
         
         if activityType == UIActivityTypeMail {
