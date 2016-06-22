@@ -214,7 +214,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
+        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1 && self.showCamfind)) {
             //CAMBIO
             self.openLoginOrProfile()
             return
