@@ -190,7 +190,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         default :
             print("option don't exist")
         }
-         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1)) {
+         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1 && self.showCamfind)) {
             switch (OptionsController(rawValue: srtOption)!) {
             case .Profile : image = "Profile-disable-icon"
             case .Recents : image = "Recents-disable-icon"
