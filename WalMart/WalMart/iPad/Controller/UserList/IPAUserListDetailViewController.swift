@@ -51,6 +51,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         
         var framefooter : CGRect = self.footerSection!.frame
         framefooter.size.width = widthView
+        framefooter.origin = CGPoint(x: 0, y: 590.0)
         self.footerSection!.frame = framefooter
         
         if addGestureLeft {
