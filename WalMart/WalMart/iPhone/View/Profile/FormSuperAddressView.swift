@@ -748,6 +748,13 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
         if textField == self.zipcode {
+            
+            if fieldString.characters.count > 5{
+                return false
+            }else{
+                self.delegateFormAdd?.showUpdate()
+            }
+
             if fieldString != currentZipCode {
                 self.suburb!.text = ""
                 self.selectedNeighborhood = nil
@@ -758,7 +765,11 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         }
         if textField == self.phoneHomeNumber{
             if fieldString.characters.count == 11{
-                return false }
+                return false
+            }else{
+                self.delegateFormAdd?.showUpdate()
+            }
+
             
         }
         return true
