@@ -55,7 +55,7 @@
 "product.searh.all" = "Ver Todos";
 "product.searh.cancel" = "Cancelar";
 "product.search.scann.help" = "También puedes buscar escaneando un código de barras";
-"product.search.minimum" = "Ingrese mínimo 3 caracteres";
+"product.search.minimum" = "Ingrese mínimo 2 caracteres";
 "product.search.filterall" = "Seleccionar todos";
 
 //filter
