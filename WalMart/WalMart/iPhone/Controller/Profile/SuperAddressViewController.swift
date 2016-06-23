@@ -112,7 +112,7 @@ class SuperAddressViewController : NavigationViewController ,TPKeyboardAvoidingS
         UIView.animateWithDuration(0.4, animations: {
             self.saveButton!.alpha = 1.0
             if self.addressId != "" {
-                self.titleLabel!.frame = CGRectMake(37 , 0, self.titleLabel!.frame.width - 13, self.header!.frame.maxY)
+                self.titleLabel!.frame = CGRectMake(37 , 0, self.titleLabel!.frame.width , self.header!.frame.maxY)
                 self.titleLabel!.textAlignment = .Left
             }
             }, completion: {(bool : Bool) in
