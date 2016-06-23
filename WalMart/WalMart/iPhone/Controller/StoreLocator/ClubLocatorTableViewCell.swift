@@ -110,8 +110,8 @@ class ClubLocatorTableViewCell : UICollectionViewCell {
     func setValues(store:Store?, userLocation:CLLocation?) {
         self.store = store
 
-        self.titleLabel.text = "WALMART \(store!.name!)"
-        self.addressLabel.text = "\(store!.address!) CP: \(store!.zipCode!)"
+        self.titleLabel.text = "WALMART \(store!.name!)".capitalizedString
+        self.addressLabel.text = "\(store!.address!.capitalizedString) CP: \(store!.zipCode!)"
         self.phoneLabel.text = String(format: NSLocalizedString("store.telephone", comment:""), store!.telephone!)
         self.hoursOpenLabel!.text = String(format: NSLocalizedString("store.opens", comment:""), store!.opens!)
         
