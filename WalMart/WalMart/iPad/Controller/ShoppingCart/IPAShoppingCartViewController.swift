@@ -138,6 +138,10 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if UserCurrentSession.sharedInstance().itemsMG != nil {
             self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
         }
+        if self.itemsInShoppingCart.count == 0 {
+            self.navigationController?.popToRootViewControllerAnimated(true)
+        }
+
         
         if self.itemsInShoppingCart.count == 0 {
             self.navigationController?.popToRootViewControllerAnimated(true)

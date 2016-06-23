@@ -55,8 +55,8 @@ class IPAAddressViewController: AddressViewController {
             return
         }
         if self.validateZip  && self.idAddress == nil {
-            self.saveButton!.titleEdgeInsets = UIEdgeInsetsMake(self.saveButton!.titleEdgeInsets.top , self.saveButton!.titleEdgeInsets.left - 35.5 , self.saveButton!.titleEdgeInsets.bottom, self.saveButton!.titleEdgeInsets.right)
-            
+            let left = self.saveButton!.frame.size.width / 2.7
+            self.saveButton!.titleEdgeInsets =  UIEdgeInsetsMake(0, 0, 0, left )
         }
     }
 
