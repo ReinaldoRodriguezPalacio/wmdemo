@@ -77,8 +77,6 @@
 		4AEBFBB41C9B082C00A47C5B /* GRCheckOutPymentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBFBB31C9B082C00A47C5B /* GRCheckOutPymentViewController.swift */; };
 		5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716A1A9549590029786B /* GRSendOrderService.swift */; };
 		5601716D1A9554720029786B /* GRCheckOutConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */; };
-		560323391C2B4B3200361329 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 560323381C2B4B3200361329 /* iAd.framework */; };
-		5603233B1C2B4B5500361329 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5603233A1C2B4B5500361329 /* StoreKit.framework */; };
 		56054B871B20A7BB003F8536 /* BannerTermsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56054B861B20A7BB003F8536 /* BannerTermsView.swift */; };
 		56054B891B210E0C003F8536 /* WeightPiceKeyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 56054B881B210E0C003F8536 /* WeightPiceKeyboard.storyboard */; };
 		56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56054B8B1B211CCF003F8536 /* KeyboardWeightViewController.swift */; };
@@ -709,8 +707,6 @@
 		4AEBFBB31C9B082C00A47C5B /* GRCheckOutPymentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRCheckOutPymentViewController.swift; sourceTree = "<group>"; };
 		5601716A1A9549590029786B /* GRSendOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRSendOrderService.swift; path = Shared/Services/checkout/GRSendOrderService.swift; sourceTree = "<group>"; };
 		5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutConfirmViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutConfirmViewController.swift; sourceTree = "<group>"; };
-		560323381C2B4B3200361329 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
-		5603233A1C2B4B5500361329 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		56054B861B20A7BB003F8536 /* BannerTermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerTermsView.swift; path = Shared/View/Banner/BannerTermsView.swift; sourceTree = "<group>"; };
 		56054B881B210E0C003F8536 /* WeightPiceKeyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = WeightPiceKeyboard.storyboard; path = Shared/Resources/WeightPiceKeyboard.storyboard; sourceTree = "<group>"; };
 		56054B8B1B211CCF003F8536 /* KeyboardWeightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardWeightViewController.swift; path = Shared/Controller/Keyboard/KeyboardWeightViewController.swift; sourceTree = "<group>"; };
@@ -1332,8 +1328,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5603233B1C2B4B5500361329 /* StoreKit.framework in Frameworks */,
-				560323391C2B4B3200361329 /* iAd.framework in Frameworks */,
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
 				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
 				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
@@ -3421,8 +3415,6 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5603233A1C2B4B5500361329 /* StoreKit.framework */,
-				560323381C2B4B3200361329 /* iAd.framework */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
 				ACF20CAB1C063A74009709B5 /* libz.tbd */,
 				ACF20CA91C063A64009709B5 /* libc++.tbd */,
