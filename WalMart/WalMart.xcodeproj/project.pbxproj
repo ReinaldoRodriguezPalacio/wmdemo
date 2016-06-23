@@ -711,7 +711,6 @@
 		5601716C1A9554720029786B /* GRCheckOutConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutConfirmViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutConfirmViewController.swift; sourceTree = "<group>"; };
 		560323381C2B4B3200361329 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
 		5603233A1C2B4B5500361329 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		5603233F1C2B683400361329 /* Tune.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Tune.framework; sourceTree = SOURCE_ROOT; };
 		56054B861B20A7BB003F8536 /* BannerTermsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BannerTermsView.swift; path = Shared/View/Banner/BannerTermsView.swift; sourceTree = "<group>"; };
 		56054B881B210E0C003F8536 /* WeightPiceKeyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = WeightPiceKeyboard.storyboard; path = Shared/Resources/WeightPiceKeyboard.storyboard; sourceTree = "<group>"; };
 		56054B8B1B211CCF003F8536 /* KeyboardWeightViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardWeightViewController.swift; path = Shared/Controller/Keyboard/KeyboardWeightViewController.swift; sourceTree = "<group>"; };
@@ -3422,7 +3421,6 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5603233F1C2B683400361329 /* Tune.framework */,
 				5603233A1C2B4B5500361329 /* StoreKit.framework */,
 				560323381C2B4B3200361329 /* iAd.framework */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
@@ -4249,8 +4247,6 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
-					"$(PROJECT_DIR)/WalMart/Shared/Library/Dynatrace",
-					"$(PROJECT_DIR)/WalMart/DynatraceADK",
 					"$(DT_LIBRARY_PATH)",
 				);
 				OTHER_LDFLAGS = (
@@ -4305,8 +4301,6 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/GAnalitics",
 					"$(PROJECT_DIR)/WalMart/Lib/PayPalMobile",
 					"$(PROJECT_DIR)/WalMart/Shared/Library/PayPalMobile",
-					"$(PROJECT_DIR)/WalMart/Shared/Library/Dynatrace",
-					"$(PROJECT_DIR)/WalMart/DynatraceADK",
 					"$(DT_LIBRARY_PATH)",
 				);
 				OTHER_LDFLAGS = (
