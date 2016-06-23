@@ -184,13 +184,13 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
            self.selected = NSIndexPath(forRow: 0, inSection: 2)
         }
     
-        self.delegate.selectedDetail(currentOption)
-        
         if currentOption == 6 {
             //Se elimina Badge de notificaciones
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         }
+        
+        self.delegate.selectedDetail(currentOption)
     }
     
    

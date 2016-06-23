@@ -320,7 +320,7 @@
 "field.validate.telephone.invalid" = " Teléfono no válido";
 "field.validate.confirmpassword.equal" = " La contraseña no coincide con la confirmación";
 "field.validate.text.Email" = "Formato del correo no válido";
-"field.validate.text" = "Formato de texto no válido";
+"field.validate.text" = "Texto no permitido";
 
 
 //help

@@ -1515,12 +1515,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func updateNotificationBadge(){
-        let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
-        if  badgeNumber > 0 {
-            self.badgeNotification.showBadge(false)
-        }
-        self.badgeNotification.updateTitle(badgeNumber)
-        self.badgeNotification.hidden = (badgeNumber == 0)
+        dispatch_async(dispatch_get_main_queue(), {
+            let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
+            if  badgeNumber > 0 {
+                self.badgeNotification.showBadge(false)
+            }
+            self.badgeNotification.updateTitle(badgeNumber)
+            self.badgeNotification.hidden = (badgeNumber == 0)
+        })
     }
     
     func showHelp() {
