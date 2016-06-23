@@ -8,14 +8,7 @@
 
 import UIKit
 import CoreData
-//import Tune
-//import AdSupport
-import CoreTelephony
-import iAd
-import MobileCoreServices
-import Security
-import StoreKit
-import SystemConfiguration
+
 
 
 
@@ -28,8 +21,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-       //self.identifierForAdvertising()
         
         //White status bar
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
