@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 //import Tune
-import AdSupport
+//import AdSupport
 import CoreTelephony
 import iAd
 import MobileCoreServices
@@ -552,13 +552,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
     
     func writeNotificationFile() {
         
-    }
-    
-    func identifierForAdvertising() {
-        if ASIdentifierManager.sharedManager().advertisingTrackingEnabled {
-            let idFA = ASIdentifierManager.sharedManager().advertisingIdentifier
-            print("idFA::: \(idFA.UUIDString)")
-        }
     }
     
     

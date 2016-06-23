@@ -1216,23 +1216,23 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }else {
             toUseName = self.name as String
         }
-        let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
+        //let url  = NSURL(string: "itms-apps://itunes.apple.com/mx/app/walmart-mexico/id823947897?mt=8")
         //let adroidAPP = "https://play.google.com/store/apps/details?id=com.walmart.mg"
        
-        var urlss = ""
-        if self.upc != ""{
-            let url = NSURL(string: "walmartmexicoapp://bussines_mg/type_UPC/value_\(self.upc)")
-           urlss =  "\n Entra a la aplicación:\n \(url!)) "
-        }
+//        var urlss = ""
+//        if self.upc != ""{
+//            let url = NSURL(string: "walmartmexicoapp://bussines_mg/type_UPC/value_\(self.upc)")
+//           urlss =  "\n Entra a la aplicación:\n \(url!)) "
+//        }
 
-        let urlapp  = url?.absoluteURL
+        //let urlapp  = url?.absoluteURL
 
         if activityType == UIActivityTypeMail {
-            return "Hola, Me gustó este producto de Walmart.¡Te lo recomiendo!\n\(self.name) \nSiempre encuentra todo y pagas menos.\(urlss) \n -Descarga la aplicación en : \n \n \(urlapp!)"
+            return "Hola, Me gustó este producto de Walmart.¡Te lo recomiendo!\n\(self.name) \nSiempre encuentra todo y pagas menos."
         }else if activityType == UIActivityTypePostToTwitter ||  activityType == UIActivityTypePostToVimeo ||  activityType == UIActivityTypePostToFacebook  {
             return "Chequen este producto: \(toUseName) #walmartapp #wow"
         }
-        return "Checa este producto: \(toUseName) \n -Descarga la aplicación en : \n \(urlapp!)"
+        return "Checa este producto: \(toUseName)"
     }
     
     func activityViewController(activityViewController: UIActivityViewController, subjectForActivityType activityType: String?) -> String {
