@@ -155,16 +155,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func showEditionMode() {
         if !self.isEdditing {
-            
-            //Event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_EDIT.rawValue,
-//                    label: self.listName,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
-            
             self.deleteAllBtn!.hidden = false
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.deleteAllBtn!.alpha = 1.0
@@ -178,17 +168,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             }
         }
         else {
-            
-            //Event
-//            //TODOGAI
-//            if let tracker = GAI.sharedInstance().defaultTracker {
-//                tracker.send(GAIDictionaryBuilder.createEventWithCategory(WMGAIUtils.GR_SCREEN_DETAILLIST.rawValue,
-//                    action:WMGAIUtils.GR_EVENT_LISTS_SHOWLISTDETAIL_ENDEDIT.rawValue,
-//                    label: self.listName,
-//                    value: nil).build() as [NSObject : AnyObject])
-//            }
-
-            
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
                     self.deleteAllBtn!.alpha = 0.0
