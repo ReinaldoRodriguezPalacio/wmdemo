@@ -1174,6 +1174,6 @@
 	<key>useSignalsServices</key>
 	<true/>
 	<key>showCamFind</key>
-	<false/>
+	<true/>
 </dict>
 </plist>
