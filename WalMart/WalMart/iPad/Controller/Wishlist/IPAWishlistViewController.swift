@@ -475,7 +475,13 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
                     self.sendNewItemsToShoppingCart(paramsPreorderable)
                 }else{
                     
-                    let itemImage =  paramsPreorderable[0] as! NSDictionary
+                    var itemImage =  NSDictionary()
+                    if paramsPreorderable.count == 0{
+                        itemImage =  params[0] as! NSDictionary
+                    }else{
+                        itemImage =  paramsPreorderable[0] as! NSDictionary
+                    }
+
                     let alert = IPAWMAlertViewController.showAlert(WishListViewController.createImage(itemImage["imgUrl"] as! String),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
                     alert!.spinImage.hidden =  true
                     alert!.viewBgImage.backgroundColor = UIColor.whiteColor()
