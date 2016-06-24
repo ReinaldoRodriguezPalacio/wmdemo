@@ -217,6 +217,11 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
 
     func reloadTableListUser() {
         if (self.listController  != nil) {
+            if self.listController!.newListEnabled {
+               self.listController!.showNewListField()
+            }
+//            self.listController!.newListEnabled = false
+//            self.listController!.isEditingUserList = false
             self.listController!.reloadListFormUpdate()
         }
     }

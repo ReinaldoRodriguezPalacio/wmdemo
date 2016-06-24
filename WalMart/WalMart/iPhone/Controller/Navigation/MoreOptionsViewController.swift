@@ -223,7 +223,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
         
        
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         let optionTxt = self.options[currentOption]
 
         switch (OptionsController(rawValue: optionTxt)!) {
