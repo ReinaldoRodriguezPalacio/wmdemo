@@ -71,6 +71,7 @@
 		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
 		4A7DE2291D1224E900150C94 /* IPOWMAlertRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */; };
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
+		4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
 		4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */; };
@@ -430,7 +431,6 @@
 		6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */; };
 		6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */; };
 		6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */; };
-		6C836D841C15FB8C00C4BE16 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D811C15FB8C00C4BE16 /* FBSDKCoreKit.framework */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
@@ -703,7 +703,7 @@
 		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
 		4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertRatingViewController.swift; path = Shared/Controller/Common/IPOWMAlertRatingViewController.swift; sourceTree = "<group>"; };
 		4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductTolistView.swift; sourceTree = "<group>"; };
-		4A9D327E1D19E4C800D2521F /* WalMart3.31. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 3.xcdatamodel"; sourceTree = "<group>"; };
+		4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
 		4AE7FA911C802033007C43B3 /* IPALinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPALinesViewController.swift; sourceTree = "<group>"; };
@@ -1104,7 +1104,6 @@
 		6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Shared/Library/Facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Shared/Library/Facebook/Bolts.framework; sourceTree = "<group>"; };
 		6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = Shared/Library/Facebook/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
-		6C836D811C15FB8C00C4BE16 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = Shared/Library/Facebook/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
@@ -1347,8 +1346,8 @@
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
 				ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */,
+				4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */,
 				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
-				6C836D841C15FB8C00C4BE16 /* FBSDKCoreKit.framework in Frameworks */,
 				6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */,
 				6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
@@ -2927,9 +2926,9 @@
 		6C836D701C15F58A00C4BE16 /* Facebook */ = {
 			isa = PBXGroup;
 			children = (
+				4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */,
 				6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */,
 				6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */,
-				6C836D811C15FB8C00C4BE16 /* FBSDKCoreKit.framework */,
 				6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */,
 			);
 			name = Facebook;
@@ -4229,8 +4228,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4243,6 +4242,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/Facebook",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SAMS/Lib",
+					"$(PROJECT_DIR)/WalMart",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4283,8 +4283,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4297,6 +4297,7 @@
 					"$(PROJECT_DIR)/WalMart/Shared/Library/Facebook",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SAMS/Lib",
+					"$(PROJECT_DIR)/WalMart",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
