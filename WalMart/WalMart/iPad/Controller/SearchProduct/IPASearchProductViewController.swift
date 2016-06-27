@@ -17,13 +17,13 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
     var selectQuantityPopover:  UIPopoverController?
     var imageBackground : UIImage? = nil
     var viewHeader : IPASectionHeaderSearchReusable!
+    var emptyViewHeader: UIView?
     
     override func viewDidLoad() {
         self.maxResult = 23
         super.viewDidLoad()
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         collection?.registerClass(IPASearchProductCollectionViewCell.self, forCellWithReuseIdentifier: "iPAProductSearch")
-
         collection?.frame = self.view.bounds
     }
 
@@ -416,13 +416,13 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
         }
         
         if buidHeader {
-            let header = UIView()
-            header.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
-            header.backgroundColor = WMColor.light_light_gray
+            self.emptyViewHeader = UIView()
+            self.emptyViewHeader!.frame = CGRectMake(0, 0, self.view.bounds.width, 46)
+            self.emptyViewHeader!.backgroundColor = WMColor.light_light_gray
             let backButton = UIButton()
             backButton.setImage(UIImage(named: "BackProduct"), forState: UIControlState.Normal)
             backButton.addTarget(self, action: #selector(NavigationViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
-            header.addSubview(backButton)
+            self.emptyViewHeader!.addSubview(backButton)
             backButton.frame = CGRectMake(0, 0  ,46,46)
             let titleLabel = UILabel()
             titleLabel.textColor =  WMColor.light_blue
@@ -430,12 +430,19 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
             titleLabel.numberOfLines = 2
             titleLabel.text = self.titleHeader
             titleLabel.textAlignment = .Center
-            titleLabel.frame = CGRectMake(46, 0, header.frame.width - 92, header.frame.maxY)
-            header.addSubview(titleLabel)
-            self.view.addSubview(header)
+            titleLabel.frame = CGRectMake(46, 0, self.emptyViewHeader!.frame.width - 92, self.emptyViewHeader!.frame.maxY)
+            self.emptyViewHeader!.addSubview(titleLabel)
+            self.view.addSubview(self.emptyViewHeader!)
         }
         self.view.addSubview(self.empty)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
+    }
+    
+    override func removeEmptyView(){
+        self.empty.removeFromSuperview()
+        self.empty =  nil
+        self.emptyViewHeader?.removeFromSuperview()
+        self.emptyViewHeader = nil
     }
     
     override func back() {

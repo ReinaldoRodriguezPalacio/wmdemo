@@ -1094,7 +1094,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 self.emptyMGGR.removeFromSuperview()
             }
             if self.empty != nil {
-                self.empty.removeFromSuperview()
+                self.removeEmptyView()
             }
             dispatch_async(dispatch_get_main_queue()) {
                 self.showLoadingIfNeeded(true)
@@ -1119,6 +1119,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         return price
     }
     
+    func removeEmptyView(){
+         self.empty.removeFromSuperview()
+         self.empty =  nil
+    }
+    
     func showEmptyView(){
         //self.titleLabel?.text = NSLocalizedString("empty.productdetail.title",comment:"")
         self.filterButton?.alpha = 0
@@ -1127,8 +1132,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         if  self.empty == nil {
             self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - 46))
         }else{
-            self.empty.removeFromSuperview()
-            self.empty =  nil
+            self.removeEmptyView()
             self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - 46))
         }
         
@@ -1314,8 +1318,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             return
         } else {
             if self.empty != nil {
-                self.empty.removeFromSuperview()
-                self.empty = nil
+                self.removeEmptyView()
             }
         }
         
