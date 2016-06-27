@@ -370,13 +370,13 @@ class ListsSelectorViewController: BaseController, UITableViewDelegate, UITableV
      - parameter value: name new list
      */
     func createNewList(value:String) {
-        if self.delegate != nil {
-            if self.delegate!.shouldDelegateListCreation() {
-                self.delegate!.listSelectorDidCreateList(value)
-                return
-            }
-        }
         if self.list?.count < 12{
+            if self.delegate != nil {
+                if self.delegate!.shouldDelegateListCreation() {
+                    self.delegate!.listSelectorDidCreateList(value)
+                    return
+                }
+            }
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
 
