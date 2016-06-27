@@ -156,6 +156,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         reviewHelp(false)
         
+        
         let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         
@@ -269,6 +270,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     static func retrieveParam(key:String) -> Param? {
         return self.retrieveParam(key, forUser: true)
     }
+    
     
     /**
      Find param for key and use user to validate query

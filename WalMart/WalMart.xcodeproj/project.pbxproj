@@ -71,6 +71,7 @@
 		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
 		4A7DE2291D1224E900150C94 /* IPOWMAlertRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */; };
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
+		4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */; };
 		4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */; };
 		4AE78DF01C9CC43200751FAD /* PaymentOptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */; };
 		4AE7FA901C7FDB31007C43B3 /* LineService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */; };
@@ -369,7 +370,6 @@
 		56E806AF1B456612007D6C6D /* IPADefaultListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E806AE1B456612007D6C6D /* IPADefaultListDetailViewController.swift */; };
 		56E806B11B45943A007D6C6D /* IPADefaultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E806B01B45943A007D6C6D /* IPADefaultListViewController.swift */; };
 		56E953931BB2378500E9B9F8 /* IPOEmptyNotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E953921BB2378500E9B9F8 /* IPOEmptyNotificationView.swift */; };
-		56EB40291A02E4E700882097 /* WalMart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 56A6153019CC93D1006FFFE5 /* WalMart.xcdatamodeld */; };
 		56ED1B611A9FEB9400D561D6 /* IPAGRCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED1B601A9FEB9400D561D6 /* IPAGRCategoriesViewController.swift */; };
 		56ED1B631A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED1B621A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift */; };
 		56ED38F91B1D21DA0003E7AC /* IPACheckOutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56ED38F81B1D21DA0003E7AC /* IPACheckOutViewController.swift */; };
@@ -703,6 +703,11 @@
 		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
 		4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertRatingViewController.swift; path = Shared/Controller/Common/IPOWMAlertRatingViewController.swift; sourceTree = "<group>"; };
 		4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductTolistView.swift; sourceTree = "<group>"; };
+		4AA10BBF1D1DCAEE0068083A /* WalMart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart.xcdatamodel; sourceTree = "<group>"; };
+		4AA10BC01D1DCAEE0068083A /* WalMart2.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart2.1.0.xcdatamodel; sourceTree = "<group>"; };
+		4AA10BC11D1DCAEE0068083A /* WalMart3.31. 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 2.xcdatamodel"; sourceTree = "<group>"; };
+		4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 3.xcdatamodel"; sourceTree = "<group>"; };
+		4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
 		4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		4AE78DEF1C9CC43200751FAD /* PaymentOptionsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaymentOptionsView.swift; sourceTree = "<group>"; };
 		4AE7FA8F1C7FDB31007C43B3 /* LineService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineService.swift; sourceTree = "<group>"; };
@@ -759,7 +764,6 @@
 		562CAAF51A5C6D85007F8584 /* NumericKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NumericKeyboardView.swift; path = Shared/View/Keyboard/NumericKeyboardView.swift; sourceTree = "<group>"; };
 		562E2D641A7945B20048191A /* PreShoppingCartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartView.swift; path = iPhone/View/ShoppingCart/PreShoppingCartView.swift; sourceTree = "<group>"; };
 		562EB3691A5CC58400B0C176 /* WeightKeyboardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WeightKeyboardView.swift; path = Shared/View/Keyboard/WeightKeyboardView.swift; sourceTree = "<group>"; };
-		562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart3.31.1.xcdatamodel; sourceTree = "<group>"; };
 		5633AA621B5F33A7008006B0 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraViewController.swift; path = Shared/Controller/CameraViewController.swift; sourceTree = "<group>"; };
 		5633AA651B5F3456008006B0 /* CamFindService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CamFindService.swift; path = Shared/Services/CamFind/CamFindService.swift; sourceTree = "<group>"; };
 		563666381A9688CA00BE2711 /* CommentBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentBubbleView.swift; path = Shared/View/Common/CommentBubbleView.swift; sourceTree = "<group>"; };
@@ -937,7 +941,6 @@
 		569607AE19B53619005D20DC /* ProductDetailCrossSellTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailCrossSellTableViewCell.swift; path = Shared/View/Product/ProductDetailCrossSellTableViewCell.swift; sourceTree = "<group>"; };
 		569733E31A71765600C9A09F /* GRCheckOutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCheckOutViewController.swift; path = iPhone/Controller/CheckOut/GRCheckOutViewController.swift; sourceTree = "<group>"; };
 		569733E71A71A62600C9A09F /* MoreMenuViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreMenuViewCell.swift; path = Shared/View/Moreoption/MoreMenuViewCell.swift; sourceTree = "<group>"; };
-		5697BD011A6F19A7007F9910 /* WalMart2.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart2.1.0.xcdatamodel; sourceTree = "<group>"; };
 		5698842C1BE1B1A700FEF4FA /* PromotionsMgService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PromotionsMgService.swift; path = Shared/Services/checkout/PromotionsMgService.swift; sourceTree = "<group>"; };
 		569AB9F21AAA226D0036D5AB /* GRFormAddressAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRFormAddressAlertView.swift; path = iPhone/View/Profile/GRFormAddressAlertView.swift; sourceTree = "<group>"; };
 		569BB3101B06352600E8A657 /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
@@ -952,7 +955,6 @@
 		569FCA0F1BCEB6BF0018B13B /* SectionHeaderSearchHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SectionHeaderSearchHeader.swift; path = iPhone/View/SearhResult/SectionHeaderSearchHeader.swift; sourceTree = "<group>"; };
 		56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartAnimationController.swift; path = iPhone/Controller/ShoppingCart/PreShoppingCartAnimationController.swift; sourceTree = "<group>"; };
 		56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardGramsKgViewController.swift; path = Shared/Controller/Keyboard/KeyboardGramsKgViewController.swift; sourceTree = "<group>"; };
-		56A6153119CC93D1006FFFE5 /* WalMart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart.xcdatamodel; sourceTree = "<group>"; };
 		56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartUpdateProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartUpdateProductsService.swift; sourceTree = "<group>"; };
 		56AAFF941A9257F1007B8D91 /* SuperAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuperAddressViewController.swift; path = iPhone/Controller/Profile/SuperAddressViewController.swift; sourceTree = "<group>"; };
 		56AAFF961A92584B007B8D91 /* FormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormSuperAddressView.swift; path = iPhone/View/Profile/FormSuperAddressView.swift; sourceTree = "<group>"; };
@@ -1083,7 +1085,6 @@
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
-		6C62117E1CEA8ADA000874EA /* WalMart3.31. 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "WalMart3.31. 2.xcdatamodel"; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyByCategoryService.swift; path = Shared/Services/BackToSchool/FamilyByCategoryService.swift; sourceTree = "<group>"; };
 		6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackToSchoolCategoryViewController.swift; path = iPhone/Controller/Categories/BackToSchoolCategoryViewController.swift; sourceTree = "<group>"; };
@@ -2012,7 +2013,7 @@
 			isa = PBXGroup;
 			children = (
 				565E5A7019C0BD5E00444DF7 /* Entity */,
-				56A6153019CC93D1006FFFE5 /* WalMart.xcdatamodeld */,
+				4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -3785,7 +3786,6 @@
 				56ED1B611A9FEB9400D561D6 /* IPAGRCategoriesViewController.swift in Sources */,
 				5608AF7A1A0AAE4E00176CB0 /* CSStickyHeaderFlowLayoutAttributes.m in Sources */,
 				56DE026819DE08C100FA2042 /* IPOShoppingCartEmptyView.swift in Sources */,
-				56EB40291A02E4E700882097 /* WalMart.xcdatamodeld in Sources */,
 				0477EA911A707094008142D7 /* List.swift in Sources */,
 				6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */,
 				56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */,
@@ -3965,6 +3965,7 @@
 				561657D919B1423900DA056A /* FamilyViewController.swift in Sources */,
 				5608AF711A0AA24D00176CB0 /* IPASearchCatProductViewController.swift in Sources */,
 				04C711CA1A856C800095090E /* NewListSelectorViewCell.swift in Sources */,
+				4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */,
 				5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */,
 				85A40B911C223AE40036C78A /* Response.swift in Sources */,
 				5606BC3019BA6594002A70ED /* UIImage+ImageEffects.m in Sources */,
@@ -4176,7 +4177,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "537fc67f-74b9-4a13-92af-2e2e99913087";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4215,7 +4216,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "537fc67f-74b9-4a13-92af-2e2e99913087";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4356,16 +4357,16 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		56A6153019CC93D1006FFFE5 /* WalMart.xcdatamodeld */ = {
+		4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				4A9D327E1D19E4C800D2521F /* WalMart3.31. 3.xcdatamodel */,
-				6C62117E1CEA8ADA000874EA /* WalMart3.31. 2.xcdatamodel */,
-				562EFB0D1B5EED2200958104 /* WalMart3.31.1.xcdatamodel */,
-				5697BD011A6F19A7007F9910 /* WalMart2.1.0.xcdatamodel */,
-				56A6153119CC93D1006FFFE5 /* WalMart.xcdatamodel */,
+				4AA10BBF1D1DCAEE0068083A /* WalMart.xcdatamodel */,
+				4AA10BC01D1DCAEE0068083A /* WalMart2.1.0.xcdatamodel */,
+				4AA10BC11D1DCAEE0068083A /* WalMart3.31. 2.xcdatamodel */,
+				4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */,
+				4AA10BC31D1DCAEE0068083A /* WalMart3.31.1.xcdatamodel */,
 			);
-			currentVersion = 4A9D327E1D19E4C800D2521F /* WalMart3.31. 3.xcdatamodel */;
+			currentVersion = 4AA10BC21D1DCAEE0068083A /* WalMart3.31. 3.xcdatamodel */;
 			path = WalMart.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
