@@ -323,7 +323,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
-        if let param = self.retrieveParam(key) {
+        if let param = self.retrieveParam(key,forUser: forUser) {
             param.value = value
         }
         else {
@@ -335,6 +335,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             }
             param!.key = key
             param!.value = value
+            param!.idUser = ""
         }
         var error: NSError? = nil
         do {
