@@ -19,6 +19,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
     var currentListId: String?
     var currentEntity: List?
     var currentName: String?
+    var backgroundView: UIView?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +29,12 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         self.separatorView = UIView()
         self.separatorView!.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(self.separatorView!)
+        
+        self.backgroundView = UIView()
+        self.backgroundView?.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
+        self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(IPAUserListViewContainerController.hideBackground))
+        self.backgroundView?.addGestureRecognizer(tap)
     }
 
     override func didReceiveMemoryWarning() {
@@ -153,6 +160,25 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
          self.viewLoad = nil
     }
     
+    func showBackground(show:Bool){
+        if show {
+            self.view.addSubview(self.backgroundView!)
+        }else{
+            self.backgroundView!.removeFromSuperview()
+        }
+    }
+    
+    func hideBackground() {
+        if self.listController!.newListEnabled {
+            self.listController!.showNewListField()
+        }
+        if self.listController!.isEditingUserList {
+            self.listController!.showEditionMode()
+        }
+
+        self.showBackground(false)
+    }
+    
     func showEmptyViewForLists() {
         let bounds = self.view.frame
         let width = bounds.width - 342
@@ -220,8 +246,10 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
             if self.listController!.newListEnabled {
                self.listController!.showNewListField()
             }
-//            self.listController!.newListEnabled = false
-//            self.listController!.isEditingUserList = false
+            if self.listController!.isEditingUserList {
+               self.listController!.showEditionMode()
+            }
+
             self.listController!.reloadListFormUpdate()
         }
     }

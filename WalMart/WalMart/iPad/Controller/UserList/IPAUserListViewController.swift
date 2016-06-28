@@ -17,6 +17,7 @@ protocol IPAUserListDelegate {
     func showEmptyViewForLists()
     func removeEmptyViewForLists()
     func showPractilistViewController()
+    func showBackground(show:Bool)
 }
 
 class IPAUserListViewController: UserListViewController {
@@ -88,6 +89,7 @@ class IPAUserListViewController: UserListViewController {
                     self.view.layoutIfNeeded()
                     self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
                     self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
+                    self.delegate?.showBackground(false)
                     aditionalAnimations?()
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
@@ -101,6 +103,7 @@ class IPAUserListViewController: UserListViewController {
             self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
             self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
             self.isToggleBarEnabled = true
+            self.delegate?.showBackground(false)
         }
     }
     
@@ -115,6 +118,7 @@ class IPAUserListViewController: UserListViewController {
                 self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
                 aditionalAnimations?()
             }, completion: { (finished:Bool) -> Void in
+                self.delegate?.showBackground(true)
                 if finished {
                     self.searchContainer!.hidden = true
                     action?()
