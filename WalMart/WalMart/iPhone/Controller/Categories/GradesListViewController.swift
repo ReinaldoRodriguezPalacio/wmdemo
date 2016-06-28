@@ -88,13 +88,22 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
         self.navigationController?.pushViewController(listController, animated: true)
     }
     
+    /**
+     Call lines service , to paint the grades in BST section
+     */
     func invokeServiceLines(){
         let service =  LineService()
         service.callService(requestParams: self.familyId, successBlock: { (response:NSDictionary) -> Void in
             let grades  =  response["responseArray"] as! NSArray
             self.gradesList = grades as? [[String : AnyObject]]
-            self.gradesTable.reloadData()
-            self.loading?.stopAnnimating()
+            if  self.gradesList.count == 0 {
+                self.loading?.stopAnnimating()
+                self.showEmptyView()
+            }else{
+                self.gradesTable.reloadData()
+                self.loading?.stopAnnimating()
+            }
+            
             }, errorBlock: { (error:NSError) -> Void in
                 print("Error")
                 self.loading?.stopAnnimating()
@@ -103,6 +112,9 @@ class GradesListViewController: NavigationViewController,UITableViewDelegate,UIT
     }
     
     //MARK: Utils
+    /**
+     Present Empty View in case necesary
+     */
     func showEmptyView(){
 
         if  self.emptyView == nil {
