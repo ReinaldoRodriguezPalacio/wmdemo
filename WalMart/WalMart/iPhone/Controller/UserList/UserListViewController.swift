@@ -1649,7 +1649,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
     }
     
-    
     func searchForItems(textUpdate:String) -> [List]? {
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("List", inManagedObjectContext: self.managedContext!)

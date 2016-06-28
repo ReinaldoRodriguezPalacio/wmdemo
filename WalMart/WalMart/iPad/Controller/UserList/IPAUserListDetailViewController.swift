@@ -67,8 +67,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
     
     override func viewWillLayoutSubviews() {
-        
-        
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
 //        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {
 //            self.layoutTitleLabel()

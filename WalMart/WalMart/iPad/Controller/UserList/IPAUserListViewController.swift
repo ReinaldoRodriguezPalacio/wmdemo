@@ -26,7 +26,7 @@ class IPAUserListViewController: UserListViewController {
     var delegate: IPAUserListDelegate?
     var rowSelected : NSIndexPath?
     var isTableNewFrame  =  false
-    
+    var heightTable: CGFloat = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,13 +43,14 @@ class IPAUserListViewController: UserListViewController {
         self.needsToShowWishList = false
         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
         self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: false, scrollPosition: .None)
+        self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
         self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-        self.tableuserlist!.frame = CGRectMake(0.0, isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
+        self.tableuserlist!.frame = CGRectMake(0.0, isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
         
     }
     
@@ -79,12 +80,14 @@ class IPAUserListViewController: UserListViewController {
         self.isToggleBarEnabled = false
         self.searchContainer!.hidden = false
         self.searchConstraint?.constant = self.SC_HEIGHT
+        self.isTableNewFrame =  false
+        self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
         if animated {
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
                     self.view.layoutIfNeeded()
                     self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-                    self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
+                    self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
                     aditionalAnimations?()
                 }, completion: { (finished:Bool) -> Void in
                     if finished {
@@ -96,19 +99,20 @@ class IPAUserListViewController: UserListViewController {
         } else {
             //self.view.layoutIfNeeded()
             self.searchContainer!.frame = CGRectMake(0.0, self.header!.frame.height, self.view.frame.width, 64.0)
-            self.tableuserlist!.frame = CGRectMake(0.0, self.searchContainer!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + 64.0))
+            self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
             self.isToggleBarEnabled = true
         }
     }
     
     override func hideSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
         self.isToggleBarEnabled = false
-        isTableNewFrame =  true
+        self.isTableNewFrame =  true
+        self.heightTable = self.view.frame.height
         //self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
         UIView.animateWithDuration(0.5,
             animations: { () -> Void in
                 self.searchContainer!.frame = CGRectMake(0.0, -0.5, self.view.frame.width, 64.0)
-                self.tableuserlist!.frame = CGRectMake(0.0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - self.header!.frame.height)
+                self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
                 aditionalAnimations?()
             }, completion: { (finished:Bool) -> Void in
                 if finished {
@@ -444,6 +448,5 @@ class IPAUserListViewController: UserListViewController {
             print("other pressed")
         }
     }
-
     
 }
