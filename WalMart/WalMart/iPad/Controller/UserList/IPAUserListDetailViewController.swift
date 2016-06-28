@@ -217,6 +217,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func showEmptyView() {
          self.openEmpty = true
         
+        self.titleLabel?.text = self.listName
         if self.emptyView == nil {
             self.emptyView = UIView()
         }
