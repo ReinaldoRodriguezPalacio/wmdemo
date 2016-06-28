@@ -158,12 +158,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         self.reminderImage = UIImageView(image: UIImage(named: "white_arrow"))
         
-        if self.enableScrollUpdateByTabBar && !TabBarHidden.isTabBarHidden {
+        if !TabBarHidden.isTabBarHidden {
             let tabBarHeight:CGFloat = 45.0
             self.footerConstraint?.constant = tabBarHeight
             self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
             self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height + tabBarHeight, 0)
+        }else if !self.enableScrollUpdateByTabBar && TabBarHidden.isTabBarHidden {
+            self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
+            self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         }
+        
         self.isSharing = false
         buildEditNameSection()
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp() && self.listId != nil && self.listName != nil

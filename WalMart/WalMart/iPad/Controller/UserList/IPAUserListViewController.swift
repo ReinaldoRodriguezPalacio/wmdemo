@@ -28,6 +28,7 @@ class IPAUserListViewController: UserListViewController {
     var rowSelected : NSIndexPath?
     var isTableNewFrame  =  false
     var heightTable: CGFloat = 0.0
+    var didShowBackground: Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,6 +84,7 @@ class IPAUserListViewController: UserListViewController {
         self.searchConstraint?.constant = self.SC_HEIGHT
         self.isTableNewFrame =  false
         self.heightTable = self.view.frame.height - (self.header!.frame.height + 64.0)
+        self.didShowBackground = false
         if animated {
             UIView.animateWithDuration(0.5,
                 animations: { () -> Void in
@@ -111,6 +113,7 @@ class IPAUserListViewController: UserListViewController {
         self.isToggleBarEnabled = false
         self.isTableNewFrame =  true
         self.heightTable = self.view.frame.height
+        self.didShowBackground = true
         //self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
         UIView.animateWithDuration(0.5,
             animations: { () -> Void in
@@ -197,6 +200,17 @@ class IPAUserListViewController: UserListViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if self.selectedItem == indexPath &&  indexPath != NSIndexPath(forRow: 0, inSection: 0) {
+            return
+        }
+        
+        if self.didShowBackground {
+            let cell = tableView.cellForRowAtIndexPath(indexPath)
+            cell?.selected = false
+            return
+        }
+        
         self.rowSelected = self.rowSelected ?? NSIndexPath(forRow: 0, inSection: 0)
         let cell = self.tableuserlist?.cellForRowAtIndexPath(self.rowSelected!)
         cell?.selected = false
