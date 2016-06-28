@@ -120,6 +120,11 @@ class IPOWMAlertViewController : UIViewController {
         
     }
     
+    /**
+     Set message to alert view
+     
+     - parameter message: message to present
+     */
     func setMessage(message:NSString){
         let size =  message.boundingRectWithSize(CGSizeMake(titleLabel.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
         titleLabel.frame = CGRectMake(titleLabel.frame.minX, titleLabel.frame.minY, 232, size.height)
@@ -146,20 +151,36 @@ class IPOWMAlertViewController : UIViewController {
         return newAlert
     }
     
+    /**
+     Prsent icon in alertview and close the alert after time.
+     */
     func showDoneIcon() {
         showicon(self.imageDone)
         NSTimer.scheduledTimerWithTimeInterval(1.4, target: self, selector: #selector(IPOWMAlertViewController.close), userInfo: nil, repeats: false)
     }
     
+    /**
+     Present done icon
+     */
     func showDoneIconWithoutClose() {
         showicon(self.imageDone)
     }
     
+    /**
+     Present error icon
+     
+     - parameter titleDone: title error
+     */
     func showErrorIcon(titleDone:String) {
        showicon(self.imageError)
         showOkButton(titleDone, colorButton:WMColor.green)
     }
     
+    /**
+     Crete animation icon image
+     
+     - parameter image: image icon
+     */
     func showicon(image:UIImage?) {
         self.spinImage.layer.removeAllAnimations()
         self.spinImage.hidden = true
@@ -180,7 +201,12 @@ class IPOWMAlertViewController : UIViewController {
         })
     }
     
-    
+    /**
+     Create button done if requiered
+     
+     - parameter titleDone:   title button
+     - parameter colorButton: color button
+     */
     func showOkButton(titleDone:String, colorButton: UIColor) {
         if  self.doneButton != nil{
             self.doneButton.removeFromSuperview()
@@ -206,6 +232,9 @@ class IPOWMAlertViewController : UIViewController {
         self.view.addSubview(doneButton)
     }
     
+    /**
+     Create button default, create tagets actions and adds to view alert.
+     */
     func addActionButtons() {
         let leftButton = UIButton(frame:CGRectMake(26, 288, 128, 32))
         leftButton.layer.cornerRadius =  16
@@ -226,6 +255,15 @@ class IPOWMAlertViewController : UIViewController {
         self.view.addSubview(rightButton)
     }
     
+    /**
+     Create butoms custom , change frame, titles and actions.
+     
+     - parameter leftText:    title left button.
+     - parameter leftAction:  acction left button.
+     - parameter rightText:   title right button
+     - parameter rightAction: acction right button
+     - parameter isNewFrame:  if change frames buttons is true
+     */
     func addActionButtonsWithCustomText(leftText:String,leftAction:(() -> Void),rightText:String,rightAction:(() -> Void),isNewFrame:Bool) {
         self.isOtherFame = isNewFrame
         
@@ -259,19 +297,27 @@ class IPOWMAlertViewController : UIViewController {
         self.view.addSubview(rightButton)
     }
     
+    /**
+     Action if tap left button.
+     */
     func leftTapInside() {
         if self.leftAction != nil {
             self.leftAction!()
         }
     }
     
+    /**
+     Actionn if tap rigth button.
+     */
     func righTapInside() {
         if self.rightAction != nil {
             self.rightAction!()
         }
     }
 
-    
+    /**
+     Create image blur it presented width alert view
+     */
     func generateBlurImage() {
         var cloneImage : UIImage? = nil
         autoreleasepool {
@@ -302,6 +348,9 @@ class IPOWMAlertViewController : UIViewController {
         view.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
     }
     
+    /**
+     Action close button, close alert.
+     */
     func closebtn(){
         if okCancelCallBack != nil {
             self.okCancelCallBack!()
@@ -309,6 +358,9 @@ class IPOWMAlertViewController : UIViewController {
         self.close()
     }
     
+    /**
+     Close alert view
+     */
     func close() {
         if successCallBack != nil {
             self.successCallBack!()

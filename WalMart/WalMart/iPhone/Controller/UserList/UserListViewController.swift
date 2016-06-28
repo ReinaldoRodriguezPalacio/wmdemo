@@ -189,7 +189,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.reloadList(success: nil, failure: nil)
         print("Lista actualizada correctamente")
     }
-    // va
+    
+    /**
+     change editing mode, the seccion list
+     */
     func checkEditBtn(){
         if self.itemsUserList == nil || self.itemsUserList!.count == 0{
             if self.isEditingUserList {
@@ -213,6 +216,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     //MARK: - List Utilities
     var listSelectedDuplicate : NSIndexPath?
     
+    /**
+        valid if the function duplicate list execute.
+     */
     func duplicateList(){
         
         let indexpath = self.selectedIndex // NSIndexPath(forRow: 1, inSection: 1)
@@ -230,12 +236,24 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 
     }
     
+    /**
+     change visibility button
+     
+     - parameter button:     button change
+     - parameter visibility: alpha visibility
+     */
     func changeVisibilityBtn(button: UIButton, visibility: CGFloat) {
         UIView.animateWithDuration(0.3, animations: {
             button.alpha = visibility
         })
     }
     
+    /**
+     Change frame button
+     
+     - parameter front: position to button
+     - parameter side:  button position in frame
+     */
     func changeFrameEditBtn(front: Bool, side: String) {
         if front == true {
             self.header!.bringSubviewToFront(self.editBtn!)
@@ -253,6 +271,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         })
     }
     
+    /**
+     call servie user list, in case necesary, update add, or remove
+     
+     - parameter success: succes block return
+     - parameter failure: faild block return
+     */
     func reloadList(success success:(()->Void)?, failure:((error:NSError)->Void)?){
         if let _ = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()
@@ -335,6 +359,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
+    /**
+     Call user list Service.
+     
+     - parameter success: succes block return
+     - parameter failure: faild block return
+     */
     func reloadWithoutTableReload(success success:(()->Void)?, failure:((error:NSError)->Void)?){
         if let _ = UserCurrentSession.sharedInstance().userSigned {
             let userListsService = GRUserListService()
@@ -386,9 +416,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     //MARK: - Edit
     
+    /**
+        show enable edit mode or disable edit mode.
+     */
     func showEditionMode() {
         
-//ale
         self.cellEditing = nil
         self.newListBtn?.enabled = false
         self.editBtn?.enabled = false
@@ -482,6 +514,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func selectRowIfNeeded() {
     }
     
+    /**
+        Present field to add new list, valid if can add more
+     */
     func showNewListField() {
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false
@@ -577,11 +612,19 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     //MARK: - NewListTableViewCellDelegate
     
+    /**
+        Remove field to add more list
+     */
     func cancelNewList() {
         self.newListEnabled = true
         self.showNewListField()
     }
     
+    /**
+     Call Service to add new list, and reload user list
+     
+     - parameter value: name new list
+     */
     func createNewList(value:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
@@ -618,6 +661,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         )
     }
     
+    /**
+     Present barcode controller, to scan ticket
+     */
     func scanTicket() {
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
@@ -628,7 +674,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     //MARK: - ListTableViewCellDelegate
-    
+    /**
+        Call service to doubles list from cell selected
+     
+     - parameter cell: cell or list doubles,
+     */
     func duplicateList(cell:ListTableViewCell) {
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
             if self.itemsUserList!.count >= 12 {
@@ -720,6 +770,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.listSelectedDuplicate = NSIndexPath(forRow: 0, inSection: 0)
     }
     
+    /**
+     change name to list
+     
+     - parameter cell: cell to edit
+     - parameter text: name list
+     */
     func didListChangeName(cell:ListTableViewCell, text:String?) {
         if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
             if self.listToUpdate == nil {
@@ -800,7 +856,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    
+    /**
+     create query to delete list fromid list in db
+     
+     - parameter idList: id list
+     */
     func deleteListInDB(idList:String){
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
@@ -856,12 +916,19 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     // MARK: - Actions
     
+    /**
+     Present view to search in to list
+     
+     - parameter aditionalAnimations: animation return
+     - parameter action:                when finish animation return action
+     - parameter animated:            if anitamete send true
+     */
     func showSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?,animated:Bool) {
         self.isToggleBarEnabled = false
         self.searchContainer!.hidden = false
         self.searchConstraint!.constant = self.SC_HEIGHT
         if animated {
-            //            UIView.animateWithDuration(0.5,
+            
             UIView.animateWithDuration(0.4,
                 animations: { () -> Void in
                     self.view.layoutIfNeeded()
@@ -879,6 +946,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
+    /**
+     remove field search in list
+     
+     - parameter aditionalAnimations: block animation
+     - parameter action:              when finish animation return action
+     */
     func hideSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?) {
         self.isToggleBarEnabled = false
         self.searchConstraint!.constant = -5.0 //La seccion de busqueda es mas grande que el header
@@ -968,6 +1041,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
+    /**
+     Open WishList and generate tag of Analytics
+     */
     func showWishlist() {
         WishlistService.shouldupdate = true
         let vc = storyboard!.instantiateViewControllerWithIdentifier("wishlitsItemVC")
@@ -977,6 +1053,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
     }
     
+    /**
+     Open super list controller and generate tag of Analytics
+     */
     func showDefaultLists() {
         let vc = storyboard!.instantiateViewControllerWithIdentifier("defaultListVC")
         self.navigationController!.pushViewController(vc, animated: true)
@@ -985,54 +1064,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
     }
     
-    
-    
-    //    func showWishlistHelpIfNeeded() {
-    //        var requiredHelp = true
-    //        if let param = self.retrieveParam("wishlistHelp") {
-    //            requiredHelp = !(param.value == "false")
-    //        }
-    //
-    //        if requiredHelp && self.viewTapHelp == nil {
-    //            var bounds = self.view.frame.size
-    //
-    //            self.viewTapHelp = UIView(frame: self.view.frame)
-    //            self.viewTapHelp!.addGestureRecognizer(UITapGestureRecognizer(target:self, action:"removeWishlistHelp:"))
-    //            self.viewTapHelp!.backgroundColor = UIColor.clearColor()
-    //            self.view.addSubview(self.viewTapHelp!)
-    //
-    //            let bgHelp = UIView(frame: self.viewTapHelp!.bounds)
-    //            bgHelp.backgroundColor = UIColor.blackColor()
-    //            bgHelp.alpha = 0.6
-    //            self.viewTapHelp!.addSubview(bgHelp)
-    //
-    //            self.iconImageHelp = UIImageView()
-    //            self.iconImageHelp.image = UIImage(named:"wishlist_help")
-    //            if self.isShowingTabBar {
-    //                self.iconImageHelp!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 101.0, 40.0, 40.0)
-    //            }
-    //            else {
-    //                self.iconImageHelp!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 56.0, 40.0, 40.0)
-    //            }
-    //            self.viewTapHelp!.addSubview(self.iconImageHelp!)
-    //
-    //            self.arrowImageHelp = UIImageView()
-    //            self.arrowImageHelp.image = UIImage(named:"wishlist_arrow_help")
-    //            self.arrowImageHelp.frame = CGRectMake(self.iconImageHelp.frame.minX - 62 , self.iconImageHelp.frame.minY - 17.0, 70.0, 48.0)
-    //            self.viewTapHelp!.addSubview(arrowImageHelp)
-    //
-    //            self.helpLabel = UILabel()
-    //            self.helpLabel!.textColor = UIColor.whiteColor()
-    //            self.helpLabel!.textAlignment = .Center
-    //            self.helpLabel!.numberOfLines = 2
-    //            self.helpLabel!.font = WMFont.fontMyriadProRegularOfSize(16.0)
-    //            self.helpLabel!.backgroundColor = UIColor.clearColor()
-    //            self.helpLabel!.attributedText = SearchSingleViewCell.attributedText("WishList", value: NSLocalizedString("wishlist.message.help", comment:""), fontKey: WMFont.fontMyriadProBoldOfSize(16.0), fontValue: WMFont.fontMyriadProRegularOfSize(16.0))
-    //            self.helpLabel?.frame = CGRectMake(51 , self.iconImageHelp!.frame.minY - 44.0, bounds.width - 102, 35.0)
-    //            self.viewTapHelp!.addSubview(self.helpLabel!)
-    //        }
-    //
-    //    }
+
     
     func removeWishlistHelp(recognizer:UITapGestureRecognizer){
         UIView.animateWithDuration(0.5,
@@ -1049,6 +1081,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         )
     }
     
+    /**
+     Present loader in screen list
+     */
     func showLoadingView() {
         if self.viewLoad != nil {
             self.viewLoad!.removeFromSuperview()
@@ -1061,6 +1096,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.viewLoad!.startAnnimating(self.isVisibleTab)
     }
     
+    /**
+     Remove loader from screen list
+     */
     func removeLoadingView() {
         if self.viewLoad != nil {
             self.viewLoad!.stopAnnimating()
@@ -1240,7 +1278,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     
     //MARK: - Utils
-  
+    /**
+     Change name list and validete if name exist.
+     */
     func changeEntityNames() {
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
             let array = Array(self.listToUpdate!.keys)
@@ -1279,7 +1319,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     //MARK: - Services
-    
+    /**
+     Invoke delete list service
+     
+     - parameter listId: id list to remove.
+     */
     func invokeDeleteListService(listId:String) {
         if !self.deleteListServiceInvoked {
             self.deleteListServiceInvoked = true
@@ -1315,7 +1359,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
    
-    
+    /**
+     validate name and call sevices update and get list detail
+     */
     func invokeUpdateListService() {
         if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
             if  self.alertView == nil {
@@ -1423,6 +1469,14 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
+    /**
+     Validate if name list exist
+     
+     - parameter idLits:   id list change name
+     - parameter nameList: name list
+     
+     - returns: exist or no list
+     */
     func validateListName(idLits:String,nameList:String) -> Bool {
         //Validate list exist
         if let itemsList = self.itemsUserList {

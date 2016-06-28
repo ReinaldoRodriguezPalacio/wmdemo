@@ -67,12 +67,22 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         
     }
     
+    /**
+    change frame to label mesage in alert info and set message
+     
+     - parameter message: message in alert info
+     */
     func setAttributedMessage(message:NSMutableAttributedString){
         let size =  message.boundingRectWithSize(CGSizeMake(self.view.bounds.width - 50, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
         messageLabel.frame = CGRectMake(24, 130, self.view.bounds.width - 50, size.height)
         messageLabel.attributedText = message
     }
     
+    /**
+     center message info
+     
+     - parameter labelWidth: Width message
+     */
     func setMessageLabelToCenter(labelWidth: CGFloat){
         self.messageLabel.frame.size = CGSize(width: labelWidth, height: self.messageLabel.frame.height)
         let x = (self.view.frame.width - self.messageLabel.frame.width)/2
@@ -80,6 +90,15 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         messageLabel.frame.origin = CGPoint(x: x,y: y - 50)
     }
     
+    /**
+     Create alertViewcontroller.
+     
+     - parameter controller: controller where will present the alert
+     - parameter title:      title alert
+     - parameter message:    message alert
+     
+     - returns: alert view controller type info.
+     */
     class func showAttributedAlert(controller:UIViewController, title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
         let newAlert = IPOWMAlertInfoViewController()
         controller.addChildViewController(newAlert)
@@ -90,7 +109,15 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         return newAlert
 
     }
-    
+    /**
+     Create alertViewcontroller.
+     
+     - parameter controller: controller where will present the alert
+     - parameter title:       title alert
+     - parameter message:    message alert
+     
+     - returns: Alert view controller type info.
+     */
      class func showAlert(controller:UIViewController, title: String, message:String)  -> IPOWMAlertInfoViewController? {
         let newAlert = IPOWMAlertInfoViewController()
         controller.addChildViewController(newAlert)
@@ -102,7 +129,14 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         
     }
     
-    
+    /**
+     call func to create alertView
+     
+     - parameter title:   Title alert
+     - parameter message: Message in alert
+     
+     - returns: Alert view controller type info.
+     */
     class func showAlert(title: String, message:String)  -> IPOWMAlertInfoViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         if vc != nil {
@@ -111,7 +145,14 @@ class IPOWMAlertInfoViewController : IPOWMAlertViewController  {
         return nil
     }
 
-    
+    /**
+      call func to create alertView
+     
+     - parameter title:    Title alert
+     - parameter message: Message in alert.
+     
+     - returns: Alert view controller type info.
+     */
     class func showAttributedAlert(title: String, message:NSMutableAttributedString)  -> IPOWMAlertInfoViewController? {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         if vc != nil {
