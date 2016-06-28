@@ -192,7 +192,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 self.receiveNotificationButton!.borderColor = !value ? WMColor.green : WMColor.gray
                 self.receiveNotificationButton!.drawSelected(!value)
                 //TODO: quitar
-                 // CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
+               //CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }
         }
     }

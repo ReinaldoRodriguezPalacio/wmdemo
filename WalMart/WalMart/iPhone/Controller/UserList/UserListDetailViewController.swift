@@ -292,9 +292,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func showEditionMode() {
         if !self.isEdditing {
-            
-             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
-            
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.tableConstraint?.constant = 110
                 self.containerEditName!.alpha = 1
@@ -303,10 +301,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.reminderImage?.alpha = 0.0
                 self.addProductsView?.alpha = 0
             }, completion: { (complete:Bool) -> Void in
-                
-                
                 self.deleteAllBtn!.hidden = false
-                
                 UIView.animateWithDuration(0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 0.0
@@ -325,13 +320,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             })
         }
         else {
-            
-            
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                
                 self.updateLustName()
-                
-                
                 UIView.animateWithDuration(0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 1.0

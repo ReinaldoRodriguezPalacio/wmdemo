@@ -30,7 +30,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.hiddenBack = self.hiddenBackButton
 
         super.viewDidLoad()
-
         let shareWidth:CGFloat = 34.0
         let separation:CGFloat = 16.0
         var x = (self.footerSection!.frame.width - (shareWidth + separation + 254.0))/2
@@ -102,10 +101,18 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         }
 
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.showLoadingView()
+    }
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        super.viewWillAppear(animated)
+        if self.loading != nil {
+            self.loading!.stopAnnimating()
+        }
+        //super.viewWillAppear(animated)
         if UserCurrentSession.hasLoggedUser() {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in
@@ -253,8 +260,8 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     }
 
     override func showLoadingView() {
-        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, self.tableView!.bounds.height + self.header!.frame.height + 88))
-        self.loading!.startAnnimating(false)
+        self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.tableView!.bounds.width, 746))
+        self.loading!.startAnnimating(true)
         self.view.addSubview(self.loading!)
     }
     
