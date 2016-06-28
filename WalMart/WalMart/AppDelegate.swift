@@ -357,29 +357,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         let bussines = notification.userInfo!["business"] as! String
         let listName =  notification.userInfo![REMINDER_PARAM_LISTNAME] as! String
         
-        if let customBar = self.window?.rootViewController as? CustomBarViewController{
-            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
-            {
-                customBar.handleNotification(value,name:name,value:value,bussines:bussines)
-            }else{
-                let alertNot = IPOWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
-                alertNot?.showDoneIconWithoutClose()
-                alertNot?.setMessage(String(format: NSLocalizedString("list.reminder.alert.content", comment:""), listName))
-                alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
-                    alertNot?.close()
-                    }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
-                        
-                        //Obtiene vista de login
-                        if let viewLogin =  customBar.view.viewWithTag(5000) {
-                            viewLogin.removeFromSuperview()
-                        }
-                        
-                        customBar.handleNotification(value,name:name,value:value,bussines:bussines)
-                        alertNot?.close()
-                    },isNewFrame: false)
-            }
-        }
-        
         if let ipaCustomBar = self.window?.rootViewController as? IPACustomBarViewController{
             if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
             {
@@ -398,6 +375,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                         }
                         
                         ipaCustomBar.handleNotification(value,name:name,value:value,bussines:bussines)
+                        alertNot?.close()
+                    },isNewFrame: false)
+            }
+        }
+        
+        else if let customBar = self.window?.rootViewController as? CustomBarViewController{
+            if (application.applicationState == UIApplicationState.Background ||  application.applicationState == UIApplicationState.Inactive)
+            {
+                customBar.handleNotification(value,name:name,value:value,bussines:bussines)
+            }else{
+                let alertNot = IPOWMAlertViewController.showAlert(UIImage(named:"reminder_alert"),imageDone:UIImage(named:"reminder_alert"),imageError:UIImage(named:"reminder_alert"))
+                alertNot?.showDoneIconWithoutClose()
+                alertNot?.setMessage(String(format: NSLocalizedString("list.reminder.alert.content", comment:""), listName))
+                alertNot?.addActionButtonsWithCustomText(NSLocalizedString("noti.keepshopping",comment:""), leftAction: { () -> Void in
+                    alertNot?.close()
+                    }, rightText: NSLocalizedString("noti.godetail",comment:""), rightAction: { () -> Void in
+                        
+                        //Obtiene vista de login
+                        if let viewLogin =  customBar.view.viewWithTag(5000) {
+                            viewLogin.removeFromSuperview()
+                        }
+                        
+                        customBar.handleNotification(value,name:name,value:value,bussines:bussines)
                         alertNot?.close()
                     },isNewFrame: false)
             }

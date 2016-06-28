@@ -141,9 +141,9 @@ class StoreView: UIView {
 //                value: nil).build() as [NSObject : AnyObject])
 //        }
         
-        self.titleLabel!.text = self.store!.name
+        self.titleLabel!.text = "WALMART \(store!.name!)".capitalizedString
         self.distanceLabel!.text = String(format: NSLocalizedString("store.distance", comment:""), distanceTxt!)
-        self.addressLabel!.text = "\(self.store!.address!) CP: \(self.store!.zipCode!)"
+        self.addressLabel!.text = "\(store!.address!.capitalizedString) CP: \(store!.zipCode!)"
         self.phoneLabel!.text = String(format: NSLocalizedString("store.telephone", comment:""), self.store!.telephone!)
         self.hoursOpenLabel!.text = String(format: NSLocalizedString("store.opens", comment:""), self.store!.opens!)
         
