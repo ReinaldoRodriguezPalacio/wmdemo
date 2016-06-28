@@ -101,6 +101,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         notification?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY + 1, self.view.bounds.width, self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
     }
     
+    //MARK : TableViewDelegate
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allNotifications.count
     }
@@ -147,6 +148,19 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         }
     }
     
+    override func viewWillAppear(animated: Bool) {
+        self.selectable = true
+    }
+    
+    //MARK: Actions
+    
+    /**
+    notificatios group from servce, acording to device
+     
+     - parameter dict: all notifiction from service
+     
+     - returns: array notificatios acording to device
+     */
     func getNotificationsForDevice(dict: NSDictionary) -> [AnyObject]{
         var showNotifications: [AnyObject] = []
         if let notifications = dict["notifications"] as? [AnyObject]{
@@ -166,10 +180,9 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
        return showNotifications
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.selectable = true
-    }
-    
+    /**
+     close notification controller
+     */
     override func back() {
         super.back()
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_NOTIFICATION_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_NOTIFICATION_NO_AUTH.rawValue , action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue , label:"")

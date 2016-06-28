@@ -118,16 +118,30 @@ class GRNutrimentalInfoView : UIView {
 
     }
     
+    /**
+     Set text to deailview
+     
+     - parameter detail: Message text
+     */
     func setTextDetail(detail:String) {
         self.textView.text = detail
     }
+    
+    /**
+     Cloase view detail
+     */
     func closeProductDetail() {
         if closeDetail != nil  {
             closeDetail!()
         }
     }
     
-    
+    /**
+     Create image blur it presented width alert view
+     
+     - parameter viewBg: view present
+     - parameter frame:  frame view
+     */
     func generateBlurImage(viewBg:UIView,frame:CGRect) {
         var cloneImage : UIImage? = nil
         UIGraphicsBeginImageContextWithOptions(frame.size, false, 1.0);

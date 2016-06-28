@@ -118,6 +118,12 @@ class ChangeInfoLegalViewController : NavigationViewController {
         self.titleLabel!.frame = CGRectMake(80 , 0, self.view.bounds.width - 160, self.header!.frame.maxY)
     }
     
+    
+    /**
+     call service to update profile info
+     
+     - parameter sender: button send action
+     */
     func save(sender:UIButton) {
         
         let service = UpdateUserProfileService()
@@ -164,7 +170,11 @@ class ChangeInfoLegalViewController : NavigationViewController {
     }
     
     
-    
+    /**
+     Active or disactive send promotion.
+     
+     - parameter sender: button send action.
+     */
     func checkSelected(sender:UIButton) {
         sender.selected = !(sender.selected)
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action:sender.selected ? WMGAIUtils.ACTION_ENABLE_PROMO.rawValue : WMGAIUtils.ACTION_DISBALE_PROMO.rawValue, label: "")
@@ -187,6 +197,11 @@ class ChangeInfoLegalViewController : NavigationViewController {
         }
     }
     
+    /**
+    Enable or disable user personal info.
+     
+     - parameter sender: button send action.
+     */
     func changeCons(sender:UIButton) {
         if sender == self.acceptSharePersonal {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LEGAL_INFORMATION.rawValue, action: WMGAIUtils.ACTION_LEGAL_ACEPT.rawValue, label: "")
