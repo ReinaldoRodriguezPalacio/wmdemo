@@ -60,7 +60,7 @@ class IPAStoreView: StoreView {
             distanceTxt = self.distanceFmt!.stringFromNumber(NSNumber(double: distance/1000))
         }
         
-        self.titleLabel!.text = self.store!.name
+        self.titleLabel!.text = "WALMART \(store!.name!)".capitalizedString
         self.distanceLabel!.text = String(format: NSLocalizedString("store.distance", comment:""), distanceTxt!)
         
         self.setNeedsLayout()
