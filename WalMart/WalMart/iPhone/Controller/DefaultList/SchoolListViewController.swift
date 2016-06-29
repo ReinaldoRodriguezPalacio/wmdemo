@@ -80,6 +80,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         super.tableView?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, self.view.frame.height - (self.header!.frame.height + self.footerSection!.frame.height))
     }
     
+    /**
+     Shows loadding view
+     */
     func addViewLoad(){
         if self.loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(0, 0, self.view.frame.width, self.view.frame.height - 46))
@@ -89,6 +92,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
     }
     
+    /**
+     Removes loading view
+     */
     func removeViewLoad(){
         if self.loading != nil {
             self.loading!.stopAnnimating()
@@ -154,21 +160,6 @@ class SchoolListViewController : DefaultListDetailViewController {
         return listCell
     }
     
-    func removeDisabled(product:[String:AnyObject],indexPath:NSIndexPath){
-    
-        if let stock = product["stock"] as? NSString {
-            if stock == "false" {
-                self.selectedItems!.removeObject(indexPath.row)
-                 self.updateTotalLabel()
-            }
-        }
-        
-            if let nameLines = product["nameLine"] as? NSString {
-                self.nameLine = nameLines as String
-            }
-       
-    }
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.section == 0 || indexPath.row == self.detailItems!.count {
             return
@@ -195,6 +186,30 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
+    /**
+     Removes disabled products
+     
+     - parameter product:   product
+     - parameter indexPath: indexpath
+     */
+    func removeDisabled(product:[String:AnyObject],indexPath:NSIndexPath){
+        
+        if let stock = product["stock"] as? NSString {
+            if stock == "false" {
+                self.selectedItems!.removeObject(indexPath.row)
+                self.updateTotalLabel()
+            }
+        }
+        
+        if let nameLines = product["nameLine"] as? NSString {
+            self.nameLine = nameLines as String
+        }
+        
+    }
+    
+    /**
+     Get products list
+     */
     func getDetailItems(){
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" :GRBaseService.getUseSignalServices()])
         let service = ProductbySearchService(dictionary:signalsDictionary)
@@ -234,6 +249,11 @@ class SchoolListViewController : DefaultListDetailViewController {
         })
     }
     
+    /**
+     Calculates total amount of list
+     
+     - returns: returns total amount
+     */
     override func calculateTotalAmount() -> Double {
         var total: Double = 0.0
         //var totalSaving: Double = 0.0
@@ -323,6 +343,12 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
     }
     
+    /**
+     Disable or enable cell
+     
+     - parameter disaable: bool
+     - parameter cell:     product cell
+     */
     override func didDisable(disaable:Bool, cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPathForCell(cell)
         if disaable {
@@ -336,7 +362,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.updateTotalLabel()
     }
     
-    
+    /**
+     Removes quantitySelector 
+     */
     override func removeSelector() {
         if   self.quantitySelectorMg != nil {
             UIView.animateWithDuration(0.5,
@@ -355,6 +383,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         }
     }
     
+    /**
+     Add selected products to cart
+     */
     override func addListToCart() {
         
         //ValidateActives
@@ -461,7 +492,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.view.addSubview(self.emptyView)
     }
     
-    
+    /**
+     Selects all products
+     */
     func selectAll() {
         let selected = !self.selectAllButton!.selected
         if selected {
@@ -485,6 +518,9 @@ class SchoolListViewController : DefaultListDetailViewController {
         self.updateTotalLabel()
     }
     
+    /**
+     Add selected products to WishList
+     */
     func addToWishList () {
         
         if !self.isWishListProcess && selectedItems!.count >  0 {
@@ -552,6 +588,14 @@ class SchoolListViewController : DefaultListDetailViewController {
         
     }
     
+    /**
+     Add Spin Animation in alert view
+     
+     - parameter view:      alert view
+     - parameter duration:  time duration
+     - parameter rotations: rotation
+     - parameter repeats:   repeats
+     */
     func runSpinAnimationOnView(view:UIView,duration:CGFloat,rotations:CGFloat,repeats:CGFloat) {
         
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
@@ -563,6 +607,11 @@ class SchoolListViewController : DefaultListDetailViewController {
         
     }
     
+    /**
+     Shows wish list mesage
+     
+     - parameter message: message to show
+     */
     func showMessageWishList(message:String) {
         let addedAlertWL = WishlistAddProductStatus(frame: CGRectMake(self.footerSection!.frame.minX, self.footerSection!.frame.minY , self.footerSection!.frame.width, 0))
         addedAlertWL.generateBlurImage(self.view,frame:CGRectMake(self.footerSection!.frame.minX, -96, self.footerSection!.frame.width, 96))
@@ -584,6 +633,7 @@ class SchoolListViewController : DefaultListDetailViewController {
         
     }
     
+    //MARK: ScrollViewDelegate
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         super.scrollViewDidScroll(scrollView)
         self.tabBarActions()
