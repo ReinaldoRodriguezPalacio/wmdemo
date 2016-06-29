@@ -164,6 +164,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         self.newListEnabled = false
+        if self.isEditingUserList {
+           self.showEditionMode()
+        }
     }
     
     override func viewDidLayoutSubviews() {
