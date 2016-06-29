@@ -11,6 +11,11 @@ import Foundation
 class IPACheckOutViewController : CheckOutViewController {
     
     
+    /**
+     iyect info to webview to login user
+     
+     - parameter webView:  Web inyect info
+     */
     override func writeDeviceInfo(webView:UIWebView){
         
         let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String

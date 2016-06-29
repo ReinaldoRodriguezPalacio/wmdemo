@@ -91,7 +91,9 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
     }
     
-    
+    /**
+     send all items to list selected.
+     */
     func addCartToList() {
         if self.listSelectorController == nil {
             self.addToListButton!.selected = true
@@ -136,6 +138,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         }
     }
     
+    /**
+     Remove list lselector in view cart
+     
+     - parameter action: actiton finish anumation
+     */
     func removeListSelector(action action:(()->Void)?) {
         if self.listSelectorController != nil {
             UIView.animateWithDuration(0.5,
@@ -163,11 +170,18 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     //MARK: - ListSelectorDelegate
-    
+    /**
+     Close list selector
+     */
     func listSelectorDidClose() {
         self.removeListSelector(action: nil)
     }
     
+    /**
+     Add items to list selected , and call service Add Item List Service
+     
+     - parameter listId: id list Selected.
+     */
     func listSelectorDidAddProduct(inList listId:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
@@ -217,6 +231,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         )
     }
     
+    /**
+     Add items to list selected , and call service Add Item List Service
+     
+     - parameter list: <#list description#>
+     */
     func listSelectorDidAddProductLocally(inList list:List) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!

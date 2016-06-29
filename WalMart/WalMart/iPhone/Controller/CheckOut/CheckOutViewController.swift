@@ -120,6 +120,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
           webCheckOut.frame = CGRectMake(0, self.header!.frame.maxY , self.view.bounds.width , self.view.bounds.height - self.header!.frame.height)
     }
     
+    /**
+     remove cookies in webview.
+     */
     func removeAllCookies() {
         let storage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
         var cookies = storage.cookiesForURL(NSURL(string: ConfigUrls.WmComMX)!)
@@ -128,6 +131,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             storage.deleteCookie(cookie)
         }
     }
+    
+    //MARK: UIWebViewDelegate
     
     func webView(webView: UIWebView, shouldStartLoadWithRequest request: NSURLRequest, navigationType: UIWebViewNavigationType) -> Bool {
             print("URL shouldStartLoadWithRequest ::: \(request.URL!.absoluteString)")
@@ -205,6 +210,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         return true
     }
     
+    
     func webViewDidFinishLoad(webView: UIWebView) {
         print("URL::: FinishLoad --\(webView.request?.URL!.absoluteString)")
         let string = webView.request!.URL!.absoluteString as NSString
@@ -274,6 +280,8 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
     }
     
+    //MARK: Actions
+    
     /**
      Show alert whidth options like or i dont like app
      */
@@ -310,6 +318,7 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         }
         
     }
+    
     /**
      Show screen rate with options :
      -review app
@@ -362,7 +371,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
     }
 
-   
+    /**
+     Remove loading view from chekout
+     */
     func removeViewLoading(){
         print("removeViewLoading")
         self.viewLoad?.stopAnnimating()
@@ -377,18 +388,20 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
         
     }
     
+    /**
+     validate if present rate app or finish chekout.
+     */
     override func back() {
-        
         if isRateActive {
-             self.rateFinishShopp()
-            
+            self.rateFinishShopp()
         }else{
             self.backFinish()
-         
         }
-        
     }
     
+    /**
+     close Checkout when finish shopp or cancel
+     */
     func backFinish(){
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_GENERATE_ORDER_AUTH.rawValue, action:WMGAIUtils.ACTION_BACK_TO_SHOPPING_CART.rawValue , label: "")
         
@@ -413,7 +426,9 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     }
     
    
-    
+    /**
+     Create Image from webview and save image in device fotos, when finish order.
+     */
     func screenShotMethod() {
         //Create the UIImage
         UIGraphicsBeginImageContext(CGSizeMake(self.webCheckOut.frame.width, self.webCheckOut.frame.height))
@@ -439,6 +454,12 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
     override func scrollViewDidScroll(scrollView: UIScrollView) {
     }
     
+    
+    /**
+     iyect info to webview to login user
+     
+     - parameter webView:  Web inyect info
+     */
     func writeDeviceInfo(webView:UIWebView){
         
         let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
