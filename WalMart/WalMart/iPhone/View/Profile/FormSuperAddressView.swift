@@ -680,7 +680,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
                     self.suburb!.text = self.neighborhoods[0]
                     self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
                 }
-                index++
+                index += 1
             }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
             
             self.storesDic = result["stores"] as! [NSDictionary]

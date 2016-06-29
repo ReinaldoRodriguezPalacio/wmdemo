@@ -271,18 +271,14 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         var productsToShow:[AnyObject] = []
         if !tableView.cellForRowAtIndexPath(indexPath)!.isKindOfClass(GRShoppingCartTotalsTableViewCell){
-            for product  in self.products! {
-                for idx in 0 ..< self.products!.count {
-                    if let product = self.products![idx] as? [String:AnyObject] {
-                        let upc = product["upc"] as! String
-                        let description = product["description"] as! String
-                        
-                        productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                    }
-                    else if let product = self.products![idx] as? Product {
-                        
-                        productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
-                    }
+            for productObj  in self.products! {
+                if let product = productObj as? [String:AnyObject] {
+                    let upc = product["upc"] as! String
+                    let description = product["description"] as! String
+                    productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
+                }
+                else if let product = productObj as? Product {
+                    productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
             }
             self.delegate?.showProductListDetail(fromProducts: productsToShow, indexSelected: indexPath.row)

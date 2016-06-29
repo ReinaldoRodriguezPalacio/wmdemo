@@ -37,7 +37,7 @@ class IPAStoreView: StoreView {
         self.showDirectionsButton!.setImage(UIImage(named: "directions"), forState: .Normal)
         self.showDirectionsButton!.setImage(UIImage(named: "directions_selected"), forState: .Selected)
         self.showDirectionsButton!.setImage(UIImage(named: "directions_selected"), forState: .Highlighted)
-        self.showDirectionsButton!.addTarget(self, action: "showCarRoute", forControlEvents: .TouchUpInside)
+        self.showDirectionsButton!.addTarget(self, action: Selector("showCarRoute"), forControlEvents: .TouchUpInside)
         self.footerView!.addSubview(self.showDirectionsButton!)
         self.buttons!.append(self.showDirectionsButton!)
         

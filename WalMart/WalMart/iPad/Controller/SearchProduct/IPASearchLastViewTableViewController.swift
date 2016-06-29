@@ -263,7 +263,7 @@ class IPASearchLastViewTableViewController : UIViewController, UITableViewDelega
             return
         }
         
-        var success = { () -> Void in
+        _ = { () -> Void in
             dispatch_async(dispatch_get_main_queue(), {
                 self.table.reloadData()
                 self.showTableIfNeeded()
