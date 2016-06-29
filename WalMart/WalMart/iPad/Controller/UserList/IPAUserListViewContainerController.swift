@@ -32,7 +32,7 @@ class IPAUserListViewContainerController: UIViewController, IPAUserListDelegate,
         
         self.backgroundView = UIView()
         self.backgroundView?.frame = CGRectMake(342.0, 0.0, 682.0, 658.0)
-        self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+        self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
         let tap = UITapGestureRecognizer(target: self, action: #selector(IPAUserListViewContainerController.hideBackground))
         self.backgroundView?.addGestureRecognizer(tap)
     }

@@ -61,12 +61,25 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
     }
     
+    /**
+     Hides tap bar only in iPhone
+     */
     override func willHideTabbar() {}
     
+    /**
+     Shows tap bar only in iPhone
+     */
     override func willShowTabbar() {}
     
+    /**
+     Shows or hides image header only in iPhone
+     
+     - parameter didShow: Bool
+     */
     override func showImageHeader(didShow:Bool) {}
     
+    
+    //MARK: TableViewDelegate
     override  func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let school = self.filterList![indexPath.row]
         if school.count == 0 {
@@ -76,6 +89,9 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         self.btsDelegate?.schoolSelected(school["id"] as! String,schoolName:school["name"] as! String)
     }
     
+    /**
+     Invoke Family service
+     */
     override func invokeServiceFamilyByCategory(){
         let service =  FamilyByCategoryService()
         service.callService(requestParams: ["id":self.departmentId], successBlock: { (response:NSDictionary) -> Void in

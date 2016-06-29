@@ -183,6 +183,13 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         }
     }
     
+    /**
+     Filters school results by text
+     
+     - parameter textUpdate: text by searching
+     
+     - returns: Array of Schools
+     */
     func searchForItems(textUpdate:String) -> [[String:AnyObject]]? {
         if textUpdate == "" {
             return self.schoolsList
@@ -194,6 +201,11 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
     }
     
     //MARK: Animations
+    /**
+     Show or hides image Header
+     
+     - parameter didShow: Bool
+     */
     func showImageHeader(didShow:Bool) {
         if didShow {
             self.startView = 0.0
@@ -215,6 +227,11 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         }
     }
     
+    /**
+     Shows or hides cancel button in searchView
+     
+     - parameter didShow: Bool
+     */
     func showClearSearchButton(didShow:Bool){
         if didShow{
             self.searchFieldSpace = 71
@@ -234,21 +251,42 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         
     }
     
+    /**
+     Hides tap bar and hides image header
+     */
    override func willHideTabbar() {
         super.willHideTabbar()
         self.showImageHeader(false)
     }
     
+    /**
+     Shows tap bar and hiddes image header
+     */
     override func willShowTabbar() {
         super.willShowTabbar()
         self.showImageHeader(true)
     }
     
+    /**
+     Validates search text with regular expression
+     
+     - parameter toValidate: text to validate
+     
+     - returns: true or false if the expression is valid
+     */
     func validateSearch(toValidate:String) -> Bool{
         let regString : String = "^[A-Z0-9a-zñÑÁáÉéÍíÓóÚú ]{0,100}[._-]{0,2}$";
         return validateRegEx(regString,toValidate:toValidate)
     }
     
+    /**
+     Validates text with a regular expression
+     
+     - parameter pattern:    regular expression
+     - parameter toValidate: text to validate
+     
+     - returns: true or false if the expression is valid
+     */
     func validateRegEx(pattern:String,toValidate:String) -> Bool {
         
         var regExVal: NSRegularExpression?
@@ -276,6 +314,9 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         return false
     }
     
+    /**
+     Clear search field
+     */
     func clearSearch(){
         self.searchField!.text = ""
         self.searchField.resignFirstResponder()
