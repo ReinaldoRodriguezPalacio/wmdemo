@@ -204,6 +204,10 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
+        if self.viewLoad == nil {
+            self.showLoadingView()
+        }
+        
         self.emptyView!.hidden = self.itemsInShoppingCart.count > 0
         self.editButton.hidden = self.itemsInShoppingCart.count == 0
         
@@ -300,6 +304,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         
         self.loadCrossSell()
+        
+        self.removeLoadingView()
 
     }
     
@@ -1353,13 +1359,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             let upc = itemSClist["upc"] as! String
             upcs.append(upc)
         }
-        
-        if viewLoad == nil {
-            viewLoad = WMLoadingView(frame: self.view.bounds)
-            viewLoad.backgroundColor = UIColor.whiteColor()
-            viewLoad.startAnnimating(false)
-            self.view.addSubview(viewLoad)
-        }
+        self.showLoadingView()
+   
         
         serviceSCDelete.callService(serviceSCDelete.builParamsMultiple(upcs), successBlock: { (result:NSDictionary) -> Void in
            /* println("Error not done")
@@ -1369,11 +1370,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             */
             UserCurrentSession.sharedInstance().loadMGShoppingCart({ () -> Void in
                 //self.reloadShoppingCart()
-                
-                if self.viewLoad != nil {
-                    self.viewLoad.stopAnnimating()
-                    self.viewLoad = nil
-                }
+                self.removeLoadingView()
+              
                 
                 print("done")
                 
@@ -1559,8 +1557,33 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.lblError = nil
                     self.imageIco = nil
                 }
-                
         })
-        
     }
+    
+    /**
+     Present loader in screen car
+     */
+    func showLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
+        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(false)
+    }
+    
+    /**
+     Remove loader from screen car
+     */
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
+    }
+    
+    
 }
