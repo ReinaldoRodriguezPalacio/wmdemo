@@ -237,8 +237,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
 
-    
-    
+    /**
+     Load items from service
+     
+     - parameter complete: complete block
+     */
     func loadServiceItems(complete:(()->Void)?) {
         if let _ = UserCurrentSession.sharedInstance().userSigned {
             self.showLoadingView()
@@ -293,7 +296,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     */
     
     //MARK: - Actions
-    
+    /**
+     Show cells in edition mode
+     */
     func showEditionMode() {
         if !self.isEdditing {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_EDIT_MY_LIST.rawValue, label: "")
@@ -363,6 +368,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
 
+    /**
+     Share products list
+     */
     func shareList() {
         if self.isEdditing {
             return
@@ -380,9 +388,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
     }
 
+    /**
+     Builds view image to share
+     
+     - returns: UIImage
+     */
     func buildImageToShare() -> UIImage? {
-        
-    
         self.isSharing = true
         let oldFrame : CGRect = self.tableView!.frame
         var frame : CGRect = self.tableView!.frame
@@ -399,7 +410,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return saveImage
     }
 
-
+    /**
+     Adds list products to shopping cart
+     */
     func addListToCart() {
         if self.isEdditing {
             return
@@ -496,6 +509,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
+    /**
+     No Products Available Alert
+     */
     func noProductsAvailableAlert(){
         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
         let msgInventory = "No existen productos disponibles para agregar al carrito"
@@ -503,11 +519,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
     }
     
+    /**
+     Delete all products
+     */
     func deleteAll() {
         if self.products != nil && self.products!.count > 0 {
-            
-            
-            
             var upcs: [String] = []
             var entities: [Product] = []
             for idx in 0 ..< self.products!.count {
@@ -540,6 +556,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
+    /**
+     Show Empty View
+     */
     func showEmptyView() {
         self.openEmpty = true
         let bounds = self.view.bounds
@@ -594,6 +613,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.emptyView!.addSubview(button)
     }
     
+    /**
+     Remove empty view
+     */
     func removeEmpyView() {
         if self.emptyView != nil {
             UIView.animateWithDuration(0.5,
@@ -610,6 +632,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
+    /**
+     Shows Loading View
+     */
     func showLoadingView() {
         self.loading = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
         self.loading!.startAnnimating(self.isVisibleTab)
@@ -617,7 +642,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - Utils
-    
+    /**
+     Update total label
+     */
     func updateTotalLabel() {
         var total: Double = 0.0
         if self.products != nil && self.products!.count > 0 {
@@ -629,7 +656,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.customLabel!.updateMount(amount, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
     }
     
-    
+    /**
+     Calculates the total amount of product list
+     
+     - returns: Total Amount
+     */
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
         if selectedItems != nil {
@@ -665,6 +696,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return total
     }
     
+    /**
+     Total of products
+     
+     - returns: return total
+     */
     func calculateTotalCount() -> Int {
         var count = 0
         for idxVal  in selectedItems! {
@@ -704,7 +740,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //    }
     
     //MARK: - UITableViewDataSource
-    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
         if self.products != nil {
@@ -847,7 +882,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - DetailListViewCellDelegate
-
     func didChangeQuantity(cell:DetailListViewCell) {
         if self.isEdditing {
             return
@@ -932,7 +966,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     //MARK: - Services
-
     func invokeDetailListService(action:(()->Void)? , reloadList : Bool) {
         let detailService = GRUserListDetailService()
         detailService.buildParams(self.listId)
@@ -1112,7 +1145,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     //MARK: - DB
-    
     func retrieveProductsLocally(reloadList : Bool) {
         var products: [Product]? = nil
         let dateList =  self.listEntity?.registryDate
@@ -1199,8 +1231,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-    //MARK: - IPOBaseController
-    
+    //MARK: - IPOBaseController scrollViewDelegate
     override func scrollViewDidScroll(scrollView: UIScrollView) {
         self.addProductsView?.textFindProduct?.resignFirstResponder()
         

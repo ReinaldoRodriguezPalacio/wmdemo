@@ -187,6 +187,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.viewSeparator.frame = CGRectMake(0, searchContainer!.frame.height  - AppDelegate.separatorHeigth() , searchContainer!.frame.width,   AppDelegate.separatorHeigth())
     }
     
+    /**
+     Reload list in Notifications
+     */
     func reloadListFormUpdate (){
         print("Notificacion para actualizar lista")
         self.reloadList(success: nil, failure: nil)
