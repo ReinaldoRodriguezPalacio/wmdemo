@@ -1715,7 +1715,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
     
     func getDeviceNum() -> String {
-        return  "24"
+        return  IS_IPAD ? "25" : "24"
     }
     
     func validate() -> Bool{
