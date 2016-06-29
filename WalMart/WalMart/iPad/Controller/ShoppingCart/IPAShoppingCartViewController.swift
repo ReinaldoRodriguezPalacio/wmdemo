@@ -176,6 +176,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
        
         
         self.loadCrossSell()
+        self.removeLoadingView()
         
     }
     
