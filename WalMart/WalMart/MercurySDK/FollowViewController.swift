@@ -296,7 +296,7 @@ class FollowViewController : UIViewController, MKMapViewDelegate, UIAlertViewDel
         }
     }
     
-    func mapView(mapView: MKMapView!, viewForAnnotation annotation: MKAnnotation!) -> MKAnnotationView! {
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation.isKindOfClass(MKUserLocation.self) {
             return nil
         }

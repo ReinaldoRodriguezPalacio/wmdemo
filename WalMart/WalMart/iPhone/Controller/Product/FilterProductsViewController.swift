@@ -556,7 +556,7 @@ class FilterProductsViewController: NavigationViewController, UITableViewDelegat
             var currentVal = true
             var countselected = 0
             var ixSelected : NSIndexPath? = nil
-            for var items in self.selectedElementsFacet! {
+            for items in self.selectedElementsFacet! {
                 if items.1 == true{
                     countselected += 1
                     ixSelected  = items.0

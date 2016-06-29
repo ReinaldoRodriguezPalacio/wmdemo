@@ -111,8 +111,6 @@ class IPASearchView : UIView,UITextFieldDelegate,CameraViewControllerDelegate,UI
                 self.searchctrl.preferredContentSize = CGSizeMake(474, 500)
             }
             
-            let startY : CGFloat = 110.0
-            
             self.camButton = UIButton(type: .Custom)
             self.camButton!.setImage(UIImage(named:"search_by_photo"), forState: .Normal)
             self.camButton!.setImage(UIImage(named:"search_by_photo_active"), forState: .Highlighted)
