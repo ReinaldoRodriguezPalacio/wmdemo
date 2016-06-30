@@ -337,6 +337,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let presented = controller!.presentedViewController
+        presented?.dismissViewControllerAnimated(false, completion: nil)
        UIApplication.sharedApplication().applicationIconBadgeNumber = 1
        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateNotificationBadge.rawValue, object: nil)
         self.handleNotification(application,userInfo: userInfo)
@@ -348,6 +351,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
     }
     
     func application(application: UIApplication, didReceiveLocalNotification notification: UILocalNotification) {
+        let controller = UIApplication.sharedApplication().keyWindow!.rootViewController
+        let presented = controller!.presentedViewController
+        presented?.dismissViewControllerAnimated(false, completion: nil)
         self.handleLocalNotification(application, localNotification: notification)
     }
     
