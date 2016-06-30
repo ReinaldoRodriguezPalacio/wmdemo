@@ -121,12 +121,11 @@ class UIEdgeTextFieldImage : UITextField {
                     //message = NSLocalizedString("field.validate.password",comment:"")
                 }
                 
-                var error: NSError?
                 var regExVal: NSRegularExpression?
                 do {
                     regExVal = try NSRegularExpression(pattern: validatePass() as String, options: NSRegularExpressionOptions.CaseInsensitive)
                 } catch let error1 as NSError {
-                    error = error1
+                    print(error1.description)
                     regExVal = nil
                 }
                 let matches = regExVal!.numberOfMatchesInString(self.text!, options: [], range: NSMakeRange(0, self.text!.characters.count))

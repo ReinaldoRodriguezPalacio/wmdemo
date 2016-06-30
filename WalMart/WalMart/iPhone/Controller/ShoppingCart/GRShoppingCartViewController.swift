@@ -270,20 +270,20 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             typeProdVal = typeProd.integerValue
         }
         
-        var stock = 0
-        if let stockProd = itemProduct["stock"] as? NSNumber {
-            stock = stockProd.integerValue
-        }
-        
-        if let stockProd = itemProduct["stock"] as? NSNumber {
-            stock = stockProd.integerValue
-        }
+//        var stock = 0
+//        if let stockProd = itemProduct["stock"] as? NSNumber {
+//            stock = stockProd.integerValue
+//        }
+//        
+//        if let stockProd = itemProduct["stock"] as? NSNumber {
+//            stock = stockProd.integerValue
+//        }
 
-        if let _ = itemProduct["stock"] as?  Bool {
+//        if let _ = itemProduct["stock"] as?  Bool {
 //            if self.isActive == true  {
 //                self.isActive  = stockSvc
 //            }
-        }
+//        }
 
         
         
