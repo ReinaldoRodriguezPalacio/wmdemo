@@ -35,7 +35,7 @@ class DefaultListTableViewCell : UITableViewCell {
         self.nameView!.frame = CGRectMake(self.iconView.frame.maxX + 16, 16, self.frame.width - (self.iconView.frame.maxX + 32), 32)
         self.articlesView!.frame = CGRectMake(self.iconView.frame.maxX + 16,self.nameView!.frame.maxY +  2, 81, 14)
         self.priceView!.frame = CGRectMake(self.iconView.frame.maxX + 16, self.articlesView!.frame.maxY + 8, 81, 18)
-        self.separator!.frame = CGRectMake(16, self.bounds.height - 1,self.frame.width - 16, 1)
+        self.separator!.frame = CGRectMake(self.iconView.frame.maxX, self.bounds.height - 1,self.frame.width - 16, 1)
         
     
     
