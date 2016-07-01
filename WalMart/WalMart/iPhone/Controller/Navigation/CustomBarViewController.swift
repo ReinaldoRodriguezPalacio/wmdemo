@@ -443,7 +443,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 //var imageSize: CGSize = button.imageView!.frame.size
                 
                 if image == "tabBar_menu" || image == "more_menu_ipad" {
-                    var posY: CGFloat = IS_IPAD ? 0.0 : -8.0
+                    let posY: CGFloat = IS_IPAD ? 0.0 : -8.0
                     self.badgeNotification = BadgeView(frame: CGRectMake(TABBAR_HEIGHT - 22, posY, 16, 16), backgroundColor: WMColor.red, textColor: UIColor.whiteColor())
                     let badgeNumber = UIApplication.sharedApplication().applicationIconBadgeNumber
                     if  badgeNumber > 0 {

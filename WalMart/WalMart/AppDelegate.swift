@@ -414,7 +414,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
     func handleNotification(application: UIApplication,userInfo: [NSObject : AnyObject]) {
         if let notiicationInfo = userInfo["notification"] as? NSDictionary {
             
-            let notiicationInfo = userInfo["notification"] as! NSDictionary
+            //let notiicationInfo = userInfo["notification"] as! NSDictionary
             let notiicationAPS = userInfo["aps"] as! NSDictionary
             let type = notiicationInfo["type"] as! String
             let name = notiicationInfo["name"] as! String
