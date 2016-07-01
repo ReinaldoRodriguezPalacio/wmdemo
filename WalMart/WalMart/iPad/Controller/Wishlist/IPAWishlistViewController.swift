@@ -217,8 +217,9 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
             
             var total : Double = 0
             for itemWishList in self.items {
-                if let priceStrUse = itemWishList["price"] as? String {
-                    let price = priceStrUse as NSString
+                let price = itemWishList["price"] as! NSString
+                let active  = itemWishList["isActive"] as! NSString
+                if  active == "true"{
                     total = total + price.doubleValue
                 }
             }
@@ -248,7 +249,10 @@ class IPAWishlistViewController : UIViewController,UICollectionViewDataSource,UI
         var total : Double = 0
         for itemWishList in self.items {
             let price = itemWishList["price"] as! NSString
-            total = total + price.doubleValue
+            let active  = itemWishList["isActive"] as! NSString
+            if  active == "true"{
+                total = total + price.doubleValue
+            }
         }
         let totalStr = String(format: "%.2f",total)
         self.updateShopButton(totalStr)
