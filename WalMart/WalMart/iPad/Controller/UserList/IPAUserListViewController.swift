@@ -316,7 +316,6 @@ class IPAUserListViewController: UserListViewController {
                         if !self.isEditingUserList {
                             if self.selectedItem != nil {
                                 self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
-
                             }
                         }
                         
@@ -350,8 +349,6 @@ class IPAUserListViewController: UserListViewController {
             //println(self.itemsUserList)
             self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList
-            self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
-            
 
             self.tableuserlist!.reloadData()
             self.checkEditBtn()
@@ -373,14 +370,60 @@ class IPAUserListViewController: UserListViewController {
                 }
             }
             
-            if self.itemsUserList != nil && self.itemsUserList!.count >= 0 {
-                self.delegate?.showPractilistViewController()
+            if self.itemsUserList != nil && self.itemsUserList!.count > 0 {
+                if !self.isEditingUserList {
+                    if self.selectedItem != nil {
+                        self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: (self.rowSelected != nil ? self.rowSelected! : self.selectedItem!))
+                    }
+                }
+                
             }
             else {
-                self.delegate?.showEmptyViewForLists()
+                self.delegate?.showPractilistViewController()
+                self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
             }
             success?()
         }
+    }
+    
+    /**
+     Call Service to add new list, and reload user list
+     
+     - parameter value: name new list
+     */
+    override func createNewList(value:String) {
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
+        self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
+        let svcList = GRSaveUserListService()
+        svcList.callService(svcList.buildParams(value),
+                            successBlock: { (result:NSDictionary) -> Void in
+                                
+                                
+                                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
+                                
+                                self.checkEditBtn()
+                                self.newListEnabled = false
+                                self.isShowingWishList  = true
+                                self.isShowingSuperlists = true
+                                
+                                self.newListBtn!.selected = false
+                                self.newListBtn!.backgroundColor = WMColor.green
+                                self.reloadList(
+                                    success: { () -> Void in
+                                        self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
+                                        self.alertView!.showDoneIcon()
+                                },
+                                    failure: { (error) -> Void in
+                                        self.alertView!.setMessage(error.localizedDescription)
+                                        self.alertView!.showErrorIcon("Ok")
+                                    }
+                                )
+            },
+                            errorBlock: { (error:NSError) -> Void in
+                                self.alertView!.setMessage(error.localizedDescription)
+                                self.alertView!.showErrorIcon("Ok")
+            }
+        )
     }
     
     //MARK: - TabBar
