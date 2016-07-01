@@ -102,7 +102,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         editButton.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         editButton.layer.cornerRadius = 11
         editButton.addTarget(self, action: #selector(ShoppingCartViewController.editAction(_:)), forControlEvents: UIControlEvents.TouchUpInside)
-        editButton.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0.0, 0.0, 0.0)
+        editButton.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0.0, 1.0, 0.0)
         
         deleteall = UIButton(frame: CGRectMake(editButton.frame.minX - 72, 12, 75, 22))
         deleteall.setTitle(NSLocalizedString("wishlist.deleteall",comment:""), forState: UIControlState.Normal)
@@ -111,7 +111,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         deleteall.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         deleteall.layer.cornerRadius = 11
         deleteall.alpha = 0
-        deleteall.titleEdgeInsets = UIEdgeInsetsMake(2.0, 2.0, 0.0, 0.0)
+        deleteall.titleEdgeInsets = UIEdgeInsetsMake(1.0, 1.0, 0.0, 0.0)
         deleteall.addTarget(self, action: #selector(ShoppingCartViewController.deleteAll), forControlEvents: UIControlEvents.TouchUpInside)
         
         closeButton = UIButton(frame:CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height))
@@ -143,15 +143,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             }
         }
         
-        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 40, 40))
+        buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
         buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
         buttonWishlist.addTarget(self, action: #selector(ShoppingCartViewController.addToWishList), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonWishlist)
-        
-        buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 40))
+        buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, buttonWishlist.frame.minY  , self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
         buttonShop.backgroundColor = WMColor.green
         //buttonShop.setTitle(NSLocalizedString("shoppingcart.shop",comment:""), forState: UIControlState.Normal)
-        buttonShop.layer.cornerRadius = 20
+        buttonShop.layer.cornerRadius = 17
         buttonShop.addTarget(self, action: #selector(ShoppingCartViewController.showloginshop), forControlEvents: UIControlEvents.TouchUpInside)
         viewFooter.addSubview(buttonShop)
         
@@ -243,7 +242,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         super.viewDidLayoutSubviews()
        
         
-        self.buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 40))
+       // self.buttonShop = UIButton(frame: CGRectMake(buttonWishlist.frame.maxX + 16, 16, self.view.frame.width - (buttonWishlist.frame.maxX + 32), 34))
         
         self.viewContent.frame = self.view.bounds
         self.viewFooter.frame = CGRectMake(0, viewContent.frame.height - 72 , self.viewContent.frame.width, 72)

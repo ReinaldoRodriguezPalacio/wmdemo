@@ -86,7 +86,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.newListBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.newListBtn!.backgroundColor = WMColor.green
         self.newListBtn!.layer.cornerRadius = 11.0
-        self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
+        self.newListBtn!.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0, 1, 0.0)
         self.header!.addSubview(self.newListBtn!)
         
 
@@ -98,7 +98,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.editBtn!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         self.editBtn!.backgroundColor = WMColor.light_blue
         self.editBtn!.layer.cornerRadius = 11.0
-        self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0)
+        self.editBtn!.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0, 1, 0.0)
         self.header!.addSubview(self.editBtn!)
 
         
@@ -174,7 +174,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         if CGRectEqualToRect(self.newListBtn!.frame, CGRectZero) {
             let headerBounds = self.header!.frame.size
-            let buttonWidth: CGFloat = 55.0
+            let buttonWidth: CGFloat = 56.0
             let buttonHeight: CGFloat = 22.0
             self.titleLabel!.frame = CGRectMake(16.0, 0.0, (headerBounds.width/2) - 16.0, headerBounds.height)
             self.newListBtn!.frame = CGRectMake(headerBounds.width - (buttonWidth   + 16.0), (headerBounds.height - buttonHeight)/2, buttonWidth, buttonHeight)

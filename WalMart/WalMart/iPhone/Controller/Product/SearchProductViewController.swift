@@ -219,6 +219,11 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.selectQuantityGR?.closeAction()
     }
 
+    /**
+     Change titlte tiltle
+     
+     - returns: new title label
+     */
     func setTitleWithEdit() -> UILabel {
         
         let titleLabelEdit = UILabel()
