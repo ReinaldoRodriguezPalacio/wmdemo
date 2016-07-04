@@ -9,7 +9,7 @@
 import Foundation
 //import Tune
 
-class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate,UITextViewDelegate {
+class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvoidingScrollViewDelegate, UIScrollViewDelegate,UITextViewDelegate,UITextFieldDelegate {
 
     let secSep: CGFloat = 30.0
     let titleSep: CGFloat = 15.0
@@ -32,6 +32,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var paramsToConfirm : NSMutableDictionary?
     var confirmSelected: Int! = 3
     var confirmText: String! = ""
+    var savePhoneButton: UIButton?
+    var phoneFieldSpace: CGFloat! = 0
+    var defaultPhone: String! = ""
+    var defaultPhoneType: Int! = 0
+    var errorView: FormFieldErrorView?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -82,16 +87,26 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.content.addSubview(self.confirmCallButton!)
         
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
-        self.phoneField!.setCustomPlaceholder("Teléfono: 5529000117")
-        self.phoneField!.isRequired = false
+        let phone = self.getDefaultPhone()
+        self.phoneField!.setCustomPlaceholder("Teléfono: \(phone)")
+        self.phoneField!.isRequired = true
         self.phoneField!.typeField = TypeField.Phone
-        self.phoneField!.nameField = "phone"
+        self.phoneField!.nameField = "Teléfono"
         self.phoneField!.maxLength = 10
         self.phoneField!.minLength = 10
         self.phoneField!.disablePaste = true
-        self.phoneField!.enabled = false
-        self.phoneField!.text = "Teléfono: \(UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber == "" ? UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone == "" ? UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String  : UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String : UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String )"
+        self.phoneField!.text = phone
+        self.phoneField!.keyboardType = .PhonePad
+        self.phoneField!.delegate = self
         self.content.addSubview(self.phoneField!)
+        
+        self.savePhoneButton = UIButton(type: .Custom)
+        self.savePhoneButton!.setTitle("Guardar", forState: .Normal)
+        self.savePhoneButton!.setTitleColor(WMColor.light_blue, forState: .Normal)
+        self.savePhoneButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.savePhoneButton!.addTarget(self, action: #selector(GRCheckOutCommentsViewController.savePhone), forControlEvents: UIControlEvents.TouchUpInside)
+        self.savePhoneButton!.alpha = 0.0
+        self.content!.addSubview(self.savePhoneButton!)
         
         self.confirmCallOptionButton = UIButton()
         self.confirmCallOptionButton!.setImage(UIImage(named:"checkTermOff"), forState: UIControlState.Normal)
@@ -173,6 +188,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
         self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
+        self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
         self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,checkButtonHeight)
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
@@ -246,7 +262,122 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         if confirmSelected == 3{
              self.confirmText = "\(self.confirmText)\n\(self.phoneField!.text!)"
+             self.phoneField?.enabled = true
+             self.phoneField?.textColor = UIColor.blackColor()
+        }else{
+            self.phoneField?.enabled = false
+            self.phoneField?.textColor = WMColor.gray
         }
+    }
+    
+    /**
+     Shows or hides cancel button in searchView
+     
+     - parameter didShow: Bool
+     */
+    func showSavePhoneButton(didShow:Bool){
+        if didShow{
+            self.phoneFieldSpace = 71
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.savePhoneButton!.alpha = 1.0
+                self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, self.confirmCallButton!.frame.maxY + 8.0, 55, 40)
+                self.phoneField!.frame = CGRectMake(16, self.confirmCallButton!.frame.maxY + 8.0, self.view.frame.width - (self.phoneFieldSpace + 32), 40.0)
+            })
+        }else{
+            self.phoneFieldSpace = 0
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.savePhoneButton!.alpha = 0.0
+                self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, self.confirmCallButton!.frame.maxY + 8.0, 55, 40)
+                self.phoneField!.frame = CGRectMake(16, self.confirmCallButton!.frame.maxY + 8.0, self.view.frame.width - (self.phoneFieldSpace + 32), 40.0)
+            })
+        }
+        
+    }
+    
+    /**
+     Set default phone numbre
+     */
+    
+    func getDefaultPhone() -> String{
+        var phone = ""
+        if UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber == "" {
+            if UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone == "" {
+                phone =  UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String
+                self.defaultPhoneType = 2
+                self.defaultPhone = phone
+            }else{
+              phone =  UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String
+              self.defaultPhoneType = 1
+              self.defaultPhone = phone
+            }
+        }else{
+            phone = UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String
+            self.defaultPhoneType = 0
+            self.defaultPhone = phone
+        }
+        
+        return phone
+    }
+    
+    /**
+     Reset phone field
+     */
+    func resetPhoneField(){
+        self.phoneField?.text = self.defaultPhone
+        if self.errorView?.superview != nil {
+            self.errorView?.removeFromSuperview()
+        }
+        self.errorView?.focusError = nil
+        self.errorView = nil
+        self.showSavePhoneButton(false)
+    }
+    
+    func validatePhone() -> Bool {
+        
+        let message = self.phoneField!.validate()
+        if message == nil {
+            if self.errorView?.superview != nil {
+                self.errorView?.removeFromSuperview()
+            }
+            self.errorView?.focusError = nil
+            self.errorView = nil
+            return true
+        }
+        
+        if self.errorView == nil{
+            self.errorView = FormFieldErrorView()
+        }
+        SignUpViewController.presentMessage(self.phoneField!, nameField:self.phoneField!.nameField, message: message! , errorView:self.errorView! , becomeFirstResponder: true)
+        return false
+    }
+    
+    /**
+     Saves new phone in user profile
+     */
+    func savePhone(){
+        
+        if !self.validatePhone() {
+            return
+        }
+        
+        let phoneDefault = self.phoneField!.text!
+        let home = self.defaultPhoneType == 0 ? phoneDefault : UserCurrentSession.sharedInstance().userSigned?.profile.phoneHomeNumber as! String
+        let work = self.defaultPhoneType == 2 ? phoneDefault :UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String
+        let cellphone = self.defaultPhoneType == 1 ? phoneDefault :UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String
+        
+        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"userProfile"), imageError: UIImage(named:"userProfile"))
+        alert?.showicon(UIImage(named:"userProfile"))
+        alert?.setMessage("Mensaje mensaje mensaje mensaje mensaje mensaje")
+        alert?.addActionButtonsWithCustomText("Cancelar", leftAction: {
+            self.resetPhoneField()
+            alert?.close()
+            }, rightText: "Aceptar", rightAction: {
+                UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
+                self.defaultPhone = phoneDefault
+                self.phoneField?.text = phoneDefault
+                alert?.close()
+            }, isNewFrame: false)
+        
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
@@ -289,6 +420,33 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             textView.textColor = UIColor.grayColor()
         }
         self.content!.contentOffset = CGPointZero
+    }
+    
+    //MARK: - UITextFieldDelegate
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        var txtAfterUpdate : NSString = textField.text! as String
+        txtAfterUpdate = txtAfterUpdate.stringByReplacingCharactersInRange(range, withString: string)
+        if txtAfterUpdate.length >= 11 {
+            return false
+        }
+        return true
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        self.showSavePhoneButton(true)
+        self.phoneField!.layer.borderColor = WMColor.light_blue.CGColor
+        self.phoneField!.layer.borderWidth = 0.5
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField) {
+        self.phoneField!.layer.borderColor = WMColor.light_light_gray.CGColor
+        self.phoneField!.layer.borderWidth = 0.0
+        self.resetPhoneField()
     }
     
     //MARK: -Scroll
