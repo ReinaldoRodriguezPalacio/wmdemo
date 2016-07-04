@@ -653,6 +653,16 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     success: { () -> Void in
                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                         self.alertView!.showDoneIcon()
+                        var count = 0
+                        if UserCurrentSession.hasLoggedUser() {
+                            for itemList in self.itemsUserList! {
+                                if (itemList["name"] as! String) == value {
+                                    self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: NSIndexPath(forRow:count,inSection:1))
+                                    return
+                                }
+                                count += 1
+                            }
+                        }
                     },
                     failure: { (error) -> Void in
                         self.alertView!.setMessage(error.localizedDescription)

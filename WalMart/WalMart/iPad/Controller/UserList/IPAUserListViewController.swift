@@ -397,8 +397,6 @@ class IPAUserListViewController: UserListViewController {
         let svcList = GRSaveUserListService()
         svcList.callService(svcList.buildParams(value),
                             successBlock: { (result:NSDictionary) -> Void in
-                                
-                                
                                 BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CREATE_NEW_LIST.rawValue, label: value)
                                 
                                 self.checkEditBtn()
@@ -412,6 +410,25 @@ class IPAUserListViewController: UserListViewController {
                                     success: { () -> Void in
                                         self.alertView!.setMessage(NSLocalizedString("list.message.listDone", comment:""))
                                         self.alertView!.showDoneIcon()
+                                        var count = 0
+                                        for itemList in self.itemsUserList! {
+                                            if UserCurrentSession.hasLoggedUser() {
+                                                if (itemList["name"] as! String) == value {
+                                                    self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: NSIndexPath(forRow:count,inSection:1))
+                                                    let cell = self.tableuserlist!.cellForRowAtIndexPath(NSIndexPath(forRow:count,inSection:1))
+                                                    cell?.selected = true
+                                                    return
+                                                }
+                                            }else{
+                                                if itemList.name == value {
+                                                    self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: NSIndexPath(forRow:count,inSection:1))
+                                                    let cell = self.tableuserlist!.cellForRowAtIndexPath(NSIndexPath(forRow:count,inSection:1))
+                                                    cell?.selected = true
+                                                    return
+                                                }
+                                            }
+                                            count += 1
+                                        }
                                 },
                                     failure: { (error) -> Void in
                                         self.alertView!.setMessage(error.localizedDescription)
