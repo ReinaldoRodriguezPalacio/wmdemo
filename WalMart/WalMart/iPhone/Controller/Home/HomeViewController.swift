@@ -35,8 +35,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     //var carouselItems : [[String:String]]
     var timmerPleca : NSTimer!
     var itntervalPleca : NSTimeInterval = 5.0
-
     
+    var valueTerms = ""
+    var typeAction =  ""
+    var bussinesTerms = ""
+    
+
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -132,7 +136,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
             detailsButton.backgroundColor = WMColor.green
             detailsButton!.layer.cornerRadius = 11.0
             detailsButton!.setTitle("Detalles", forState:.Normal)
-            detailsButton!.addTarget(self, action: #selector(HomeViewController.openUrl), forControlEvents: .TouchUpInside)
+            detailsButton!.addTarget(self, action: #selector(HomeViewController.openDetailPleca), forControlEvents: .TouchUpInside)
             detailsButton!.setTitleColor(WMColor.light_light_gray, forState: .Normal)
             detailsButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
             detailsButton?.alpha = 0
@@ -167,6 +171,26 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
      self.alertBank!.alpha = 0
     
     }
+    
+    func openDetailPleca(){
+        if let type  = plecaItems?["type"] as? String{
+         self.typeAction = type
+        }
+        if let value  = plecaItems?["eventUrl"] as? String{
+            self.valueTerms = value
+        }
+        if let business  = plecaItems?["business"] as? String{
+            self.bussinesTerms = business
+        }
+   
+        let window = UIApplication.sharedApplication().keyWindow
+        if let customBar = window!.rootViewController as? CustomBarViewController {
+            customBar.handleNotification(self.typeAction,name:"",value:self.valueTerms,bussines:self.bussinesTerms)
+            self.alertBank!.alpha = 0
+        }
+        
+    }
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
@@ -185,9 +209,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-
-
-       
     }
     
     override func viewDidLayoutSubviews() {

@@ -31,6 +31,8 @@ class GRProductDetailViewController : ProductDetailViewController, ListSelectorD
     
     override func loadDataFromService() {
         
+        print("parametro para signals GR Iphone :::\(self.indexRowSelected)")
+        
         self.type = ResultObjectType.Groceries
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = GRProductDetailService(dictionary:signalsDictionary )

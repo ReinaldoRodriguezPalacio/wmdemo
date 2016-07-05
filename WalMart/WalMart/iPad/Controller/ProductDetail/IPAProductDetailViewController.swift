@@ -75,6 +75,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var stringSearch = ""
     var defaultLoadingImg: UIImageView?
     
+    var indexRowSelected : Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -975,6 +977,8 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     
     
     func loadDataFromService() {
+        
+        print("parametro para signals MG :::\(self.indexRowSelected)")
         
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = ProductDetailService(dictionary: signalsDictionary)
