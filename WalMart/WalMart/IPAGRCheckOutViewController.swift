@@ -12,6 +12,7 @@ import CoreData
 protocol IPAGRCheckOutViewControllerDelegate {
     func shareShoppingCart()
     func closeIPAGRCheckOutViewController()
+    func showViewBackground(show:Bool)
 }
 
 class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelectorDelegate {
@@ -89,6 +90,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             self.viewLoad.startAnnimating(true)
         }
         
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        self.delegateCheckOut?.showViewBackground(false)
     }
     
     /**
@@ -432,5 +438,10 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     func didFinishConfirm() {
         self.delegateCheckOut.closeIPAGRCheckOutViewController()
+    }
+    
+    override func next() {
+        self.delegateCheckOut?.showViewBackground(true)
+        super.next()
     }
 }

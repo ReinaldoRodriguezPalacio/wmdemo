@@ -365,16 +365,17 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let work = self.defaultPhoneType == 2 ? phoneDefault :UserCurrentSession.sharedInstance().userSigned?.profile.phoneWorkNumber as! String
         let cellphone = self.defaultPhoneType == 1 ? phoneDefault :UserCurrentSession.sharedInstance().userSigned?.profile.cellPhone as! String
         
-        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"userProfile"), imageError: UIImage(named:"userProfile"))
+        let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"userProfile"))
         alert?.showicon(UIImage(named:"userProfile"))
-        alert?.setMessage("Mensaje mensaje mensaje mensaje mensaje mensaje")
+        alert?.setMessage("Si editas este número telefónico se actualizará en tus direcciones.")
         alert?.addActionButtonsWithCustomText("Cancelar", leftAction: {
             self.resetPhoneField()
             alert?.close()
-            }, rightText: "Aceptar", rightAction: {
+            }, rightText: "Continuar", rightAction: {
                 UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
                 self.defaultPhone = phoneDefault
                 self.phoneField?.text = phoneDefault
+                alert?.showDoneIcon()
                 alert?.close()
             }, isNewFrame: false)
         

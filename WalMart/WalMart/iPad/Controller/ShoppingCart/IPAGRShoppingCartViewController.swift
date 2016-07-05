@@ -20,10 +20,9 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     var popup : UIPopoverController?
     var viewSeparator : UIView!
     var viewTitleCheckout : UILabel!
-    
-    
-    
-    
+    var backgroundView: UIView?
+
+    //MARK: - ViewCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +60,11 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         viewSeparator.backgroundColor = WMColor.light_light_gray
         self.view.addSubview(viewSeparator!)
         
+        self.backgroundView = UIView()
+        self.backgroundView?.frame = CGRectMake(0.0, 0.0, 682.0, self.view.frame.height)
+        self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
+        self.backgroundView?.addGestureRecognizer(tap)
     }
     
     func openclose(){
@@ -94,6 +98,30 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return itemsInCart.count
+    }
+    
+    
+    func showBackgroundView(show:Bool){
+        if show {
+            self.backgroundView?.alpha = 0.0
+            self.view.addSubview(self.backgroundView!)
+            UIView.animateWithDuration(0.3, animations: {
+                self.backgroundView?.alpha = 1
+                }, completion: nil)
+        }else{
+            UIView.animateWithDuration(0.3, animations: {
+                self.backgroundView?.alpha = 0.0
+                }, completion: {(complete) in
+                 self.backgroundView!.removeFromSuperview()
+            })
+
+            
+        }
+    }
+    
+    func hideBackgroundView() {
+        self.showBackgroundView(false)
+        self.checkoutVC?.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     override func closeShoppingCart() {
@@ -368,10 +396,15 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
 
     }
     
+    //MARK: - IPAGRCheckOutViewControllerDelegate
     func closeIPAGRCheckOutViewController() {
         if onSuccessOrder != nil {
             onSuccessOrder?()
         }
+    }
+    
+    func showViewBackground(show:Bool){
+        self.showBackgroundView(show)
     }
     
     override func addCartToList(){

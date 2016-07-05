@@ -17,10 +17,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     var viewSeparator : UIView!
     var popup : UIPopoverController?
     var onClose : ((isClose:Bool) -> Void)? = nil
-    
 
-   
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.viewFooter.backgroundColor  =  WMColor.light_light_gray
