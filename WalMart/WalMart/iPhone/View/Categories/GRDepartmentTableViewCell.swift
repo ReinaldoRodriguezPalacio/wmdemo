@@ -96,7 +96,27 @@ class GRDepartmentTableViewCell : UITableViewCell {
         }
         
         self.titleLabel.text = title
-        imageBackground.frame = self.bounds
+        self.imageBackground.frame = self.bounds
+        self.imageBackground.hidden = false
+        self.titleLabel.hidden = false
+        self.imageIcon.hidden = false
+    }
+    
+    func setValuesLanding(imageBackgroundURL:String) {
+        
+        
+        //println("Imagen del header en: \(imageBackgroundURL) ")
+        self.imageBackground.setImageWithURL(NSURL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.image = image
+            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+            print(error)
+        }
+        //self.titleLabel.text = title
+        self.imageBackground.hidden = false
+        self.titleLabel.hidden = true
+        self.imageIcon.hidden = true
+        
     }
     
     func loadImageFromDisk(fileName:String,defaultStr:String,succesBlock:((Bool) -> Void)) -> UIImage! {

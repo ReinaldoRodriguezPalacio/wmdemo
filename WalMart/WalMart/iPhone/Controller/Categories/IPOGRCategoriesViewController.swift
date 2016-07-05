@@ -12,6 +12,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
 
     let CELL_HEIGHT : CGFloat = 98
     var viewFamily: UIView!
+    var landingItem : [String:String]? = nil
 
     @IBOutlet var categoriesTable : UITableView!
     var items : [AnyObject]? = []
@@ -32,6 +33,14 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     override func viewDidLoad() {
+        
+        let serviceBanner = BannerService()
+        if let landingUse = serviceBanner.getLanding() {
+            if landingUse.count > 0 {
+                landingItem = landingUse[0]
+            }
+        }
+        
         super.viewDidLoad()
 
         self.categoriesTable.registerClass(IPOGRDepartmentSpecialTableViewCell.self, forCellReuseIdentifier: "cellspecials")
@@ -92,20 +101,38 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if collapsed {
-            return self.items!.count
+        var items = collapsed ? self.items!.count : self.items!.count * 2
+        if landingItem != nil {
+            items += 1
         }
-        return self.items!.count * 2
+        return items
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell
-        if indexPath.row % 2 == 0 || collapsed {
+        var currentItem = indexPath.row
+        if indexPath.item == 0 && landingItem != nil  {
             let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: indexPath) as! GRDepartmentTableViewCell
-            var rowforsearch = indexPath.row
+            let scale = UIScreen.mainScreen().scale
+            var itemBannerPhone = landingItem!["bannerUrlPhone"]
+            itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString("@2x.jpg", withString: ".jpg" )
+            itemBannerPhone = itemBannerPhone!.stringByReplacingOccurrencesOfString(".jpg", withString: "@\(Int(scale))x.jpg" )
+            cellDept.setValuesLanding("https://\(itemBannerPhone!)")
+            return cellDept
+        }
+        
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
+        
+        let currentIndexPath = NSIndexPath(forRow: currentItem, inSection: indexPath.section)
+        
+        if currentItem % 2 == 0 || collapsed {
+            let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: currentIndexPath) as! GRDepartmentTableViewCell
+            var rowforsearch = currentItem
             if !collapsed {
-                rowforsearch = Int(indexPath.row / 2)
+                rowforsearch = Int(currentItem / 2)
             }
             
             let item = items![rowforsearch] as! [String:AnyObject]
@@ -117,10 +144,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             cell = cellDept
 
         } else {
-            let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: indexPath) as! IPOGRDepartmentSpecialTableViewCell
+            let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: currentIndexPath) as! IPOGRDepartmentSpecialTableViewCell
             cellSpecials.delegate = self
             
-            let rowforsearch = Int(indexPath.row / 2)
+            let rowforsearch = Int(currentItem / 2)
             let item = items![rowforsearch] as! [String:AnyObject]
             var bgDepartment = item["idDepto"] as! String
             let families = JSON(item["family"] as! [[String:AnyObject]])
@@ -144,7 +171,14 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row % 2 == 0 || collapsed {
+        
+        var currentItem = indexPath.row
+        
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
+        
+        if currentItem % 2 == 0 || collapsed || currentItem == -1 {
             return 102
         }else {
             return 125
