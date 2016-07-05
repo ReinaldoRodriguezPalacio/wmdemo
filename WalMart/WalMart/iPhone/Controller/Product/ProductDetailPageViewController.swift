@@ -67,6 +67,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         case ResultObjectType.Mg.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? ProductDetailViewController {
                 vc.upc = upc
+                vc.indexRowSelected = ixSelected
                 vc.stringSearching = self.stringSearching
                 vc.name = descr
                 vc.fromSearch =  self.isForSeach
@@ -78,6 +79,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         case ResultObjectType.Groceries.rawValue :
                 if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? ProductDetailViewController {
                     vc.upc = upc
+                    vc.indexRowSelected = ixSelected
                     vc.stringSearching =  self.stringSearching
                     vc.fromSearch =  self.isForSeach
                     vc.name = descr

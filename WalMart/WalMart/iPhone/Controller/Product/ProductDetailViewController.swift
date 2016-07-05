@@ -68,6 +68,8 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
     var idListFromlistFind = ""
     var productDeparment:String = ""
     
+    var indexRowSelected : Int = 0
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_PRODUCTDETAIL.rawValue
     }
@@ -765,6 +767,10 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
      Gets product detail info from service
      */
     func loadDataFromService() {
+        
+        
+        print("parametro para signals MG Iphone :::\(self.indexRowSelected)")
+        
         self.type = ResultObjectType.Mg
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRODUCT_DETAIL_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_PRODUCT_DETAIL_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue, label: "\(name) - \(upc)")
             //TODO signals

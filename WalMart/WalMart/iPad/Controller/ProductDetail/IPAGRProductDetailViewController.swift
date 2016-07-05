@@ -36,6 +36,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     
     override func loadDataFromService() {
         
+        print("parametro para signals GR:::\(self.indexRowSelected)")
+        
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = GRProductDetailService(dictionary:signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"

@@ -70,6 +70,8 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
    // }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+       print("Articulo seleccionado \(indexPath.row)")
+        
         let cell = self.collection?.cellForItemAtIndexPath(indexPath)
         if cell!.isKindOfClass(SearchProductCollectionViewCell){
             if indexPath.row < self.allProducts!.count {
