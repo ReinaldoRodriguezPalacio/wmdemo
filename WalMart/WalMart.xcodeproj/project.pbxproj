@@ -432,6 +432,7 @@
 		6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */; };
 		6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */; };
 		6C838B711BA242BB0050E4F7 /* ProductDetailColorSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */; };
+		6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */; };
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
@@ -1106,6 +1107,7 @@
 		6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Shared/Library/Facebook/Bolts.framework; sourceTree = "<group>"; };
 		6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = Shared/Library/Facebook/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
 		6C838B701BA242BB0050E4F7 /* ProductDetailColorSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailColorSizeView.swift; sourceTree = "<group>"; };
+		6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HelpHomeView.swift; path = iPhone/View/Home/HelpHomeView.swift; sourceTree = "<group>"; };
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
@@ -2044,6 +2046,7 @@
 				56527DE719AFEE38008032C6 /* CategorySelectorItemView.swift */,
 				5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */,
 				560BE7A41A5E3C6A00A099F2 /* GRProductSpecialCollectionViewCell.swift */,
+				6C8913B21D2C6F23005DC27F /* HelpHomeView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -3913,6 +3916,7 @@
 				85A40B991C223AE40036C78A /* StoreMerc.swift in Sources */,
 				5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */,
 				4AEBFBB41C9B082C00A47C5B /* GRCheckOutPymentViewController.swift in Sources */,
+				6C8913B31D2C6F23005DC27F /* HelpHomeView.swift in Sources */,
 				56AD99151BED1CA600B0EB5D /* AddReferedCustumerService.swift in Sources */,
 				6C31B41D1CB7FF0600AB7670 /* GRAddAddressView.swift in Sources */,
 				AC88FA7719CA48D6003BD859 /* SignUpViewController.swift in Sources */,

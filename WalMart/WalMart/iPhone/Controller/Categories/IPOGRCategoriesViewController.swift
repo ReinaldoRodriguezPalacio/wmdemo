@@ -171,13 +171,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
         var currentItem = indexPath.row
-        
         if landingItem != nil {
             currentItem = currentItem - 1
         }
-        
         if currentItem % 2 == 0 || collapsed || currentItem == -1 {
             return 102
         }else {
@@ -206,12 +203,23 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         self.categoriesTable.contentInset = UIEdgeInsetsMake(0, 0, self.categoriesTable.frame.height, 0)
-        var rowforsearch = indexPath.row
+        var currentItem = indexPath.row
+        if indexPath.row == 0  && landingItem != nil  {
+            let eventUrl = landingItem!["eventUrl"]
+            self.handleLandingEvent(eventUrl!)
+            return
+        }
+        
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
+        
+        var rowforsearch = currentItem
         var newIndex = indexPath
         
-        if !(indexPath.row % 2 == 0) && !self.collapsed {
-            rowforsearch = indexPath.row - 1
-            newIndex = NSIndexPath(forRow:  indexPath.row - 1, inSection: indexPath.section)
+        if !(currentItem % 2 == 0) && !self.collapsed {
+            rowforsearch = currentItem - 1
+            newIndex = NSIndexPath(forRow:  currentItem - 1, inSection: indexPath.section)
         }
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -221,10 +229,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             //Open Family
                // self.familyController.view.hidden = false
                 if rowforsearch % 2 == 0 || self.collapsed {
-                    
-                    
                     if !self.collapsed {
-                        rowforsearch = Int(indexPath.row / 2)
+                        rowforsearch = Int(currentItem / 2)
                     }
                     
                     let item = self.items![rowforsearch] as! [String:AnyObject]
@@ -248,40 +254,28 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     newView.imageBackground.alpha = 0
                     newView.buttonClose.alpha = 0
                     newView.imageIcon.alpha = 0
-
-
                     self.view.addSubview(newView)
-                    
                     newView.onclose = {() in
                         print("Close")
-                        
                         if self.collapsed {
-                            
                             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                
                                 newView.imageBackground.alpha = 0
                                 newView.imageIcon.alpha = 0
                                 newView.buttonClose.alpha = 0
                                 self.viewFamily.alpha = 0
-                                
                                 }, completion: { (complete:Bool) -> Void in
-                                    
                                     newView.removeFromSuperview()
                                     self.categoriesTable.contentInset = UIEdgeInsetsZero
 
                             })
                             
                         } else {
-                        
                             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                                
                                 newView.imageBackground.alpha = 0
                                 newView.imageIcon.alpha = 0
                                 newView.buttonClose.alpha = 0
                                 self.viewFamily.alpha = 0
-                                
                                 }, completion: { (complete:Bool) -> Void in
-                                    
                                     newView.removeFromSuperview()
                                     self.categoriesTable.contentInset = UIEdgeInsetsZero
                                     
@@ -301,8 +295,6 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     newView.addGestureTiImage()
 
                     newView.titleLabel.attributedText!.boundingRectWithSize(CGSizeMake(self.view.frame.width, CGFloat.max), options:NSStringDrawingOptions.UsesLineFragmentOrigin, context: nil)
-                    
-                    //newView.titleLabel.frame = CGRectMake(46, newView.titleLabel.frame.minY, rectSize.width, newView.titleLabel.frame.height)
                     newView.titleLabel.frame = CGRectMake((newView.bounds.width / 2) - (newView.titleLabel.frame.width / 2), newView.titleLabel.frame.minY, newView.titleLabel.frame.width, newView.titleLabel.frame.height)
                     self.viewFamily.alpha = 0
                     
@@ -344,6 +336,31 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
     }
     
+    func handleLandingEvent(strAction:String) {
+        var components = strAction.componentsSeparatedByString("_")
+        if(components.count > 1){
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                let cmpStr  = components[0] as String
+                let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                var strAction = ""
+                switch components[0] {
+                case "f":
+                    strAction =  "FAM"
+                case "c":
+                    strAction =  "CAT"
+                case "l":
+                    strAction =  "LIN"
+                case "UPC":
+                    strAction =  "UPC"
+                default:
+                    return
+                }
+                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"")
+            }
+        }
+    }
+    
     
     //MARK: Delegate
     
@@ -368,7 +385,11 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func didTapMore(index: NSIndexPath) {
-        self.tableView(self.categoriesTable, didSelectRowAtIndexPath: index)
+        var newIndex = index
+        if self.landingItem != nil {
+            newIndex = NSIndexPath(forRow: index.row - 1, inSection: index.section)
+        }
+        self.tableView(self.categoriesTable, didSelectRowAtIndexPath: newIndex)
     }
     
     func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {

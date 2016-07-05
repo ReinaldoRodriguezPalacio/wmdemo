@@ -73,7 +73,6 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
             sView.removeFromSuperview()
         }
         
-        
         var currentX : CGFloat = 0.0
         for  lineToShow in jsonLines.arrayValue {
             let product = GRProductSpecialCollectionViewCell(frame: CGRectMake(currentX, 12, width, 111))
@@ -100,18 +99,8 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         
         let tapOnMore =  UITapGestureRecognizer(target: self, action: #selector(IPOGRDepartmentSpecialTableViewCell.moreTap))
         descLabel!.addGestureRecognizer(tapOnMore)
-        
-        let separator = UIView()
-        separator.backgroundColor = WMColor.light_light_gray
-        let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
-        separator.frame = CGRectMake(0, self.frame.height - widthAndHeightSeparator, self.frame.width, widthAndHeightSeparator)
-        
-        self.contentView.addSubview(separator)
-        
         self.viewLoadingProduct ()
-        
         NSTimer.scheduledTimerWithTimeInterval(0.3, target: self, selector: #selector(IPOGRDepartmentSpecialTableViewCell.removeViewLoading), userInfo: nil, repeats: false)
-        
     }
     
     func removeViewLoading(){
@@ -123,7 +112,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
     
     func viewLoadingProduct(){
         viewLoading =  UIView()
-        viewLoading!.frame = CGRectMake(0,0,self.frame.width,self.frame.height - 2)
+        viewLoading!.frame = CGRectMake(0,0,self.frame.width,125)
         viewLoading!.backgroundColor =  UIColor.whiteColor()
         
         let imageIndicator =  UIImageView(frame: CGRectMake(self.frame.midX - 16, 20,32,32))
@@ -135,10 +124,7 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         labelLoading.textAlignment =  .Center
         labelLoading.font =  WMFont.fontMyriadProRegularOfSize(14)
         labelLoading.textColor = WMColor.light_blue
-
-        
         viewLoading!.addSubview(labelLoading)
-        
         self.contentView.addSubview(viewLoading!)
     }
     
@@ -153,7 +139,6 @@ class IPOGRDepartmentSpecialTableViewCell : UITableViewCell {
         //let viewC = sender.view as! GRProductSpecialCollectionViewCell
 //        
 //        delegate.didTapProduct(viewC.upcProduct!,descProduct:viewC.productShortDescriptionLabel!.text!)
-
         let viewC = sender.view as! GRProductSpecialCollectionViewCell
         delegate.didTapLine(viewC.jsonItemSelected["name"].stringValue, department: viewC.jsonItemSelected["department"].stringValue, family:  viewC.jsonItemSelected["family"].stringValue, line:viewC.jsonItemSelected["line"].stringValue)
     }

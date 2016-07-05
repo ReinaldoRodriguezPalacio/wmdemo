@@ -103,8 +103,6 @@ class GRDepartmentTableViewCell : UITableViewCell {
     }
     
     func setValuesLanding(imageBackgroundURL:String) {
-        
-        
         //println("Imagen del header en: \(imageBackgroundURL) ")
         self.imageBackground.setImageWithURL(NSURL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
             self.imageBackground.image = image

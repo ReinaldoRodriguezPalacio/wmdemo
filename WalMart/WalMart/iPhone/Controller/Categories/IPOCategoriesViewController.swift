@@ -21,15 +21,13 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     }
     
     override func viewDidLoad() {
-        
         let serviceBanner = BannerService()
         if let landingUse = serviceBanner.getLanding() {
             if landingUse.count > 0 {
                 landingItem = landingUse[0]
             }
         }
-        
-        
+
         self.datasource = self
         self.delegate = self
         
