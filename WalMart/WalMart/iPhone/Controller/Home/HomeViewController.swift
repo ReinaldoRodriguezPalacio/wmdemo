@@ -72,15 +72,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         
         let servicecarousel = CarouselService()
         self.recommendItems = servicecarousel.getCarouselContent()
-        
-        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
-        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
-        
-        if param != nil {
-            self.showHelpView = (appVersion != param!.value)
-        }else{
-            self.showHelpView = true
-        }
     }
     
     func removePleca(){
@@ -224,6 +215,13 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     func showHelpHomeView(){
+        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
+        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
+        if param != nil {
+            self.showHelpView = (appVersion != param!.value)
+        }else{
+            self.showHelpView = true
+        }
         if self.showHelpView {
             let helpView = HelpHomeView.initView()
             helpView.showView()

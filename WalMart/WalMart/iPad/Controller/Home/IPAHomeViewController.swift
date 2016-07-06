@@ -23,6 +23,13 @@ class IPAHomeViewController : HomeViewController {
     }
     
     override func showHelpHomeView(){
+        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
+        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
+        if param != nil {
+            self.showHelpView = (appVersion != param!.value)
+        }else{
+            self.showHelpView = true
+        }
         if self.showHelpView {
             let helpView = IPAHelpHomeView.initView()
             helpView.showView()
