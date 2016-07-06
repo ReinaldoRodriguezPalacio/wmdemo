@@ -41,7 +41,7 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     
     func setup() {
-        
+        self.backgroundColor = WMColor.light_light_gray
         imageBackground = UIImageView()
         imageBackground.contentMode = UIViewContentMode.Left
         imageBackground.clipsToBounds = true
@@ -148,6 +148,9 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         buttonDepartment.setTitle(categoryTitle, forState: UIControlState.Normal)
         self.buttonDepartment.frame = CGRectMake(startx, 10, sizeDep, 28)
         
+        self.imageBackground.hidden = false
+        self.titleLabel.hidden = false
+        self.iconCategory.hidden = false
        // setProducts(products, width: 162)
     }
 
@@ -305,5 +308,20 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
         }
         let getImagePath = (paths as NSString).stringByAppendingPathComponent(fileName)
         return getImagePath
+    }
+    
+    func setValuesLanding(imageBackgroundURL:String) {
+        //println("Imagen del header en: \(imageBackgroundURL) ")
+        self.imageBackground.setImageWithURL(NSURL(string: imageBackgroundURL), placeholderImage:nil, success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
+            self.imageBackground.image = image
+            //self.saveImageToDisk(imageBackgroundURL, image: image,defaultImage:imageHeader)
+        }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
+            print(error)
+        }
+        
+        self.imageBackground.hidden = false
+        self.titleLabel.hidden = true
+        self.iconCategory.hidden = true
+        self.imageBackground.frame = self.bounds
     }
 }

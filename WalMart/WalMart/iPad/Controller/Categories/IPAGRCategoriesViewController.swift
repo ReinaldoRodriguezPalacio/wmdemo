@@ -18,6 +18,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     var controllerAnimateView : IPACategoriesResultViewController!
     var newModalView: AlertModalView? = nil
     var addressView: GRAddressView?
+    var landingItem : [String:String]? = nil
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SUPER.rawValue
@@ -40,13 +41,22 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.titleLabel?.text = "Walmart Buenavista"
         self.titleLabel?.textAlignment = .Center
         
-        colCategories.backgroundColor = WMColor.light_light_gray
+        colCategories.backgroundColor = UIColor.whiteColor()
         
         loadDepartments()
         
         let svcConfig = ConfigService()
         canfigData = svcConfig.getConfoigContent()
         
+        colCategories.registerClass(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "cellLanding")
+        
+        let serviceBanner = BannerService()
+        if let landingUse = serviceBanner.getLanding() {
+            if landingUse.count > 0 {
+                landingItem = landingUse[0]
+            }
+            
+        }
     }
     
     func loadDepartments() -> [AnyObject]? {
@@ -58,17 +68,29 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.items!.count
+        return ((landingItem != nil) ? self.items!.count + 1: self.items!.count)
     }
     
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
+        var currentItem = indexPath.row
+        if indexPath.item == 0 && landingItem != nil  {
+            let cellLanding = colCategories.dequeueReusableCellWithReuseIdentifier("cellLanding", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
+            let itemBannerPhone = landingItem!["bannerUrlTablet"]
+            cellLanding.setValuesLanding("https://\(itemBannerPhone!)")
+            return cellLanding
+        }
+        
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
+        
         let cell = colCategories.dequeueReusableCellWithReuseIdentifier("cellCategory", forIndexPath: indexPath) as! IPAGRCategoryCollectionViewCell
         cell.delegate =  self // new 
-        cell.index = indexPath
+        cell.index = NSIndexPath(forRow: currentItem, inSection: indexPath.section)
         
-        let item = items![indexPath.row] as! [String:AnyObject]
+        let item = items![currentItem] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         var bgDepartment = item["idDepto"] as! String
         let families = JSON(item["family"] as! [[String:AnyObject]])
@@ -88,17 +110,34 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func collectionView(collectionView : UICollectionView,layout collectionViewLayout:UICollectionViewLayout,sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
     {
+        if landingItem != nil {
+            if indexPath.row == 0 {
+                return CGSizeMake(self.view.frame.width - 32, 216)
+            }
+        }
         return  CGSizeMake(488,313)
     }
     
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        var currentItem = indexPath.row
+        if indexPath.row == 0  && landingItem != nil  {
+            let eventUrl = landingItem!["eventUrl"]
+            self.handleLandingEvent(eventUrl!)
+            return
+        }
         
-        let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as! IPAGRCategoryCollectionViewCell!
+        if landingItem != nil {
+            currentItem = currentItem - 1
+        }
+        
+        let newIndexPath = NSIndexPath(forRow: currentItem, inSection: indexPath.section)
+        
+        let cellSelected = collectionView.cellForItemAtIndexPath(newIndexPath) as! IPAGRCategoryCollectionViewCell!
         let pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
         pontInViewNuew = pontInView
 
-        let item = self.items![indexPath.row] as! [String:AnyObject]
+        let item = self.items![currentItem] as! [String:AnyObject]
         let idDepartment = item["idDepto"] as! String
         let famArray : AnyObject = item["family"] as AnyObject!
         let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
@@ -241,6 +280,33 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func didTapMore(index:NSIndexPath) {
         self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAtIndexPath: index)
+    }
+    
+    func handleLandingEvent(strAction:String) {
+        var components = strAction.componentsSeparatedByString("_")
+        if(components.count > 1){
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? IPACustomBarViewController {
+                let cmpStr  = components[0] as String
+                let strValue = strAction.stringByReplacingOccurrencesOfString("\(cmpStr)_", withString: "")
+                var strAction = ""
+                switch components[0] {
+                case "f":
+                    strAction =  "FAM"
+                case "c":
+                    strAction =  "CAT"
+                case "l":
+                    strAction =  "LIN"
+                case "UPC":
+                    strAction =  "UPC"
+                default:
+                    return
+                }
+                
+                
+                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
+            }
+        }
     }
     
     //MARK changeStore
