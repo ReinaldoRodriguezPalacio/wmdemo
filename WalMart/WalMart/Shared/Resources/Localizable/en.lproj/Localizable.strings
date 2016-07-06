@@ -676,9 +676,17 @@
 "review.maybe.later" = "Quizá más tarde";
 
 
-
-
-
+//HomeHelp
+"tabbar.tabBar_home" = "Inicio";
+"tabbar.tabBar_mg" = "Tecnología, hogar y más...";
+"tabbar.tabBar_super" = "Súper";
+"tabbar.tabBar_wishlist_list" = "Mis Listas";
+"tabbar.tabBar_menu" = "Más...";
+"home_help.hello" = "¡Hola!";
+"home_help.description" = "Conoce tu neva App";
+"home_help.logo" = "Toca para regresar a inicio";
+"home_help.search" = "Buscar";
+"home_help.shoppingCart" = "Carrito";
 
 
 
