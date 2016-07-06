@@ -70,7 +70,10 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
         labelTitle.text = first["details"] as String!
         self.currentItem = 0
         
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(TutorialHelpView.removeHelp), name:"OPEN_TUTORIAL", object: nil)
     }
+    
+  
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -144,6 +147,7 @@ class TutorialHelpView : UIView, UIScrollViewDelegate{
     
     func removeHelp() {
         if onClose != nil {
+              NSNotificationCenter.defaultCenter().removeObserver(self, name: "OPEN_TUTORIAL", object: nil)
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TUTORIAL_AUTH.rawValue,categoryNoAuth:WMGAIUtils.CATEGORY_TUTORIAL_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_CLOSE_TUTORIAL.rawValue, label: "")
             onClose()
         }

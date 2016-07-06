@@ -16,6 +16,7 @@
 "moreoptions.title.Orders" = "Pedidos anteriores";
 "moreoptions.title.Invoice" = "Facturación electrónica";
 "moreoptions.title.ReferedList" = "Referidos";
+"moreoptions.title.Promotions" = "Centro de promociones";
 
 "moreoptions.title.StoreLocator" = "Localizador de Tiendas";
 "moreoptions.title.CamFind" = "Busca un artículo por foto";

@@ -32,7 +32,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
 
         let recent = IPAHelpViewController()
         self.navigation.pushViewController(recent, animated: true)
-        selected = 7
+        selected = 8 // 7
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {
@@ -48,11 +48,11 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     
     func selectedDetail(row: Int) {
         
-        if selected == row && selected != 3 && selected != 5 {
+        if selected == row && selected != 3 && selected != 5 && selected != 6  {//add
             return
         }
     
-        if selected == row && selected != 3 && selected != 5 {
+        if selected == row && selected != 3 && selected != 5 && selected != 6  {
             self.navigation.popToRootViewControllerAnimated(true)
             return
         }
@@ -98,27 +98,36 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
         case 6:
+            //Promotios
+            print("Open promotions")
+            self.openPromotios()
+            let recent = IPAHelpViewController()
+            self.navigation.pushViewController(recent, animated: false)
+            
+        case 7:
             //Notifica
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_NOTIFICATIONS.rawValue, label: "")
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("notificationVC")
             self.navigation.pushViewController(controller, animated: true)
-        case 7:
+        case 8:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_HELP.rawValue, label: "")
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 8:
+        case 9:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_TERMS_AND_CONDITIONS.rawValue, label: "")
             let recent = IPATermViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 9:
+        case 10:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SUPPORT.rawValue, label: "")
             let recent = IPASupportViewController()
             self.navigation.pushViewController(recent, animated: true)
-        case 10:
+        case 11:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action:WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label:"")
             let edit = IPAEditProfileViewController()
             //var indexPath = NSIndexPath(forItem:Int(selected!), inSection:0)
             self.navigation.pushViewController(edit, animated: true)
+            
+            
         default :
             print("other pressed")
             
@@ -172,12 +181,25 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     }
     
     
-    //Ticket
-    
+    /**
+     Open scan barcode Controller
+     */
     func scanTicket() {
         let barCodeController = IPABarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
         barCodeController.searchProduct = false
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
+    
+    
+    func openPromotios(){
+        
+        let window = UIApplication.sharedApplication().keyWindow
+        if let customBar = window!.rootViewController as? IPACustomBarViewController {
+            customBar.handleNotification("LIN",name:"l-whisky",value:"l-whisky",bussines:"gr")
+        }
+        
+    }
+    
+    
 }

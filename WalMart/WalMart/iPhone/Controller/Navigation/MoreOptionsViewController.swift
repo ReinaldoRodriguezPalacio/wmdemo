@@ -20,6 +20,9 @@ enum OptionsController : String {
     case TicketList = "TicketList"
     case Invoice = "Invoice"
     case Notification  = "Notification"
+    
+    case Promotions  = "Promotions"
+    
 
     case Help = "Help"
     case Terms = "Terms"
@@ -31,7 +34,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Promotions.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -147,7 +150,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             case 0:
                 return 3
             case 1:
-                let rows = self.showCamfind! ? 5 : 4
+                let rows = self.showCamfind! ? 6 : 5
                 return rows
             case 2:
                 return 3
@@ -168,7 +171,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + (self.showCamfind! ? 8 : 7)
+            currentOption = indexPath.row + (self.showCamfind! ? 9 : 8)
         default:
             print("")
         }
@@ -187,6 +190,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case .CamFind : image = "Camfind-icon"
         case .TicketList : image = "menu_scanTicket"
         //case .Refered : image = "referidos_on"
+        case.Promotions : image = "promotions_icon"
+            
         default :
             print("option don't exist")
         }
@@ -227,7 +232,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         case 1:
             currentOption = indexPath.row + 3
         case 2:
-            currentOption = indexPath.row + (self.showCamfind! ? 8 : 7)
+            currentOption = indexPath.row + (self.showCamfind! ? 9 : 8)
         default:
             print("")
         }
@@ -280,6 +285,10 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
 //        case .Refered:
 //            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MORE_OPTIONS_NO_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_REFERED.rawValue, label: "")
 //            openRefered()
+        case .Promotions:
+            self.openPromotios()
+                print("Abrir promosiones")
+            
         }
         
         let notificationOptions = (self.showCamfind! ? 7 : 6)
@@ -347,7 +356,6 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
     }
     
-    
     func signOut(sender:UIButton?) {
         
         if sender == nil {
@@ -404,7 +412,9 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         }
     }
     
-    
+    /**
+     change state butons in menu options, when user is login
+     */
     func reloadButtonSession() {
         if UserCurrentSession.sharedInstance().userSigned == nil {
             self.editProfileButton.alpha = 0
@@ -429,14 +439,20 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.tableView?.reloadData()
     }
     
+    /**
+     Open for edit profile
+     
+     - parameter sender: button send action
+     */
     func editProfile(sender:UIButton) {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_EDIT_PROFILE.rawValue, label: "")
         let controller = EditProfileViewController()
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
-    //Ticket
-    
+    /**
+     Open controller Sacan Barcode
+     */
     func scanTicket() {
         let barCodeController = BarCodeViewController()
         barCodeController.helpText = NSLocalizedString("list.message.help.barcode", comment:"")
@@ -444,18 +460,35 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
+    /**
+     open controller Refered
+     */
     func openRefered (){
         let referedController = ReferedViewController()
         self.navigationController!.pushViewController(referedController, animated: true)
     
     }
     
-    
+    /**
+     Update menu Option
+     */
     func reloadProfileData(){
         self.reloadButtonSession()
     }
     
     func reloadTable(){
         self.tableView?.reloadData()
+    }
+    
+    /**
+     Call service line promotions
+     */
+    func openPromotios(){
+        
+        let window = UIApplication.sharedApplication().keyWindow
+        if let customBar = window!.rootViewController as? CustomBarViewController {
+            customBar.handleNotification("LIN",name:"l-whisky",value:"l-whisky",bussines:"gr")
+        }
+    
     }
 }

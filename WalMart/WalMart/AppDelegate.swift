@@ -432,7 +432,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                     customBar.helpView?.removeFromSuperview()
                     customBar.handleNotification(type,name:name,value:value,bussines:bussines)
                 }else{
-                    
+                    NSNotificationCenter.defaultCenter().postNotificationName("OPEN_TUTORIAL", object: nil)
                     let alertNot = IPAWMAlertViewController.showAlert(UIImage(named:"special"),imageDone:UIImage(named:"special"),imageError:UIImage(named:"special"))
                     alertNot?.showDoneIconWithoutClose()
                     alertNot?.setMessage(message)

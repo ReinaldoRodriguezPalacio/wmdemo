@@ -18,7 +18,6 @@ class NotificationTableViewCell : UITableViewCell {
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setup()
     }
 
@@ -54,8 +53,8 @@ class NotificationTableViewCell : UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         hourLabel?.frame =  CGRectMake(self.frame.width - 51, 16, 35, 16)
-         descLabel!.frame = CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40)
-        line.frame = CGRectMake(16,self.bounds.maxY - 1,self.bounds.width, 1)
+        descLabel!.frame = CGRectMake(16, hourLabel!.frame.maxY + 8, self.frame.size.width - 32, 40)
+        line.frame = CGRectMake(0,self.bounds.maxY - 1,self.bounds.width, 1)
 
     }
     
