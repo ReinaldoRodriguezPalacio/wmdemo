@@ -41,7 +41,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         self.titleLabel?.text = "Walmart Buenavista"
         self.titleLabel?.textAlignment = .Center
         
-        colCategories.backgroundColor = UIColor.whiteColor()
+        colCategories.backgroundColor = WMColor.light_light_gray
         
         loadDepartments()
         
@@ -103,8 +103,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         }else {
             cell.setValues(bgDepartment, categoryTitle: descDepartment)
         }
-        
-        
         return cell
     }
     

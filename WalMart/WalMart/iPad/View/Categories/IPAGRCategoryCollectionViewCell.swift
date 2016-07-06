@@ -41,7 +41,6 @@ class IPAGRCategoryCollectionViewCell : UICollectionViewCell {
     
     
     func setup() {
-        self.backgroundColor = WMColor.light_light_gray
         imageBackground = UIImageView()
         imageBackground.contentMode = UIViewContentMode.Left
         imageBackground.clipsToBounds = true
