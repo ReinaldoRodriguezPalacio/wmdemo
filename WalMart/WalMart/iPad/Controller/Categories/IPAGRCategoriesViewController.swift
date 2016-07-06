@@ -129,9 +129,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             currentItem = currentItem - 1
         }
         
-        let newIndexPath = NSIndexPath(forRow: currentItem, inSection: indexPath.section)
-        
-        let cellSelected = collectionView.cellForItemAtIndexPath(newIndexPath) as! IPAGRCategoryCollectionViewCell!
+        let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as! IPAGRCategoryCollectionViewCell!
         let pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
         pontInViewNuew = pontInView
 
@@ -277,7 +275,11 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func didTapMore(index:NSIndexPath) {
-        self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAtIndexPath: index)
+        var newIndex = index
+        if self.landingItem != nil {
+            newIndex = NSIndexPath(forRow: index.row + 1, inSection: index.section)
+        }
+        self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAtIndexPath: newIndex)
     }
     
     func handleLandingEvent(strAction:String) {
