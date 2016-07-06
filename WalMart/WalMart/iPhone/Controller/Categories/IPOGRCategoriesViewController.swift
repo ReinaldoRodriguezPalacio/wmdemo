@@ -37,7 +37,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         let serviceBanner = BannerService()
         if let landingUse = serviceBanner.getLanding() {
             if landingUse.count > 0 {
-                landingItem = landingUse[0]
+                for landing in landingUse {
+                    let landingType = landing["type"]
+                    if landingType != nil && landingType! == "groceries" {
+                        landingItem = landing
+                    }
+                }
             }
         }
         

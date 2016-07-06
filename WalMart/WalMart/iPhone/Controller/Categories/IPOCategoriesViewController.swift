@@ -24,7 +24,12 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
         let serviceBanner = BannerService()
         if let landingUse = serviceBanner.getLanding() {
             if landingUse.count > 0 {
-                landingItem = landingUse[0]
+                for landing in landingUse {
+                    let landingType = landing["type"]
+                    if landingType != nil && landingType! == "mg" {
+                        landingItem = landing
+                    }
+                }
             }
         }
 

@@ -112,7 +112,7 @@ class IPASupportViewController: SupportViewController {
         
         let bounds = self.view.bounds
         
-        self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 48 , bounds.width, 15 )
+        self.labelQuestion1.frame = CGRectMake(0,  self.header!.frame.maxY + 48 , bounds.width, 18 )
         self.labelQuestion2.frame = CGRectMake(0,  self.labelQuestion1.frame.maxY + 5  , bounds.width, 15 )
         
        // callmeNumber.frame =  CGRectMake(32 , bounds.maxY - 114 , 130, 15)

@@ -55,6 +55,10 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.backButton?.hidden = true
         }
         
+        let viewAccess = FieldInputView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.width, 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
+            self.savePhone()
+        })
+        
         self.content = TPKeyboardAvoidingScrollView()
         self.content.frame = CGRectMake(0.0, headerHeight, self.view.bounds.width, self.view.bounds.height - (headerHeight + 120))
         self.content.delegate = self
@@ -99,7 +103,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.phoneField!.minLength = 10
         self.phoneField!.disablePaste = true
         self.phoneField!.text = phone
-        self.phoneField!.keyboardType = .PhonePad
+        self.phoneField!.keyboardType = UIKeyboardType.NumberPad
+        self.phoneField!.inputAccessoryView = viewAccess
         self.phoneField!.delegate = self
         self.content.addSubview(self.phoneField!)
         
@@ -193,8 +198,8 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
-        let checkImageBottom: CGFloat = IS_IPAD && !IS_IPAD_MINI ? 28 : 14
-        let checkButtonHeight: CGFloat = IS_IPAD && !IS_IPAD_MINI ? 45 : 30
+        let checkImageBottom: CGFloat = 14//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
+        let checkButtonHeight: CGFloat = 30//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
@@ -478,5 +483,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
         super.scrollViewWillBeginDragging(scrollView)
         self.comments!.resignFirstResponder()
+        self.phoneField!.resignFirstResponder()
     }
 }
