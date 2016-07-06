@@ -61,7 +61,7 @@ class IPAGRShoppingCartViewController : GRShoppingCartViewController,IPAGRCheckO
         self.view.addSubview(viewSeparator!)
         
         self.backgroundView = UIView()
-        self.backgroundView?.frame = CGRectMake(0.0, 0.0, 682.0, self.view.frame.height)
+        self.backgroundView?.frame = CGRectMake(0.0, 0.0, 684.0, self.view.frame.height)
         self.backgroundView?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
         let tap = UITapGestureRecognizer(target: self, action: #selector(IPAGRShoppingCartViewController.hideBackgroundView))
         self.backgroundView?.addGestureRecognizer(tap)

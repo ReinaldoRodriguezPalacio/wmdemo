@@ -19,8 +19,8 @@ class IPAHelpHomeView: HelpHomeView {
     
     override func layoutSubviews() {
         self.logo?.frame = CGRectMake(457,29,112,28)
-        self.arrowImage?.frame = CGRectMake(self.logo!.frame.maxX,self.logo!.frame.minY + 7,30,10)
-        self.logoLabel?.frame = CGRectMake(self.logo!.frame.maxX + 58,self.logo!.frame.minY + 8,128,14)
+        self.arrowImage?.frame = CGRectMake(self.logo!.frame.maxX + 8,self.logo!.frame.minY + 7,30,10)
+        self.logoLabel?.frame = CGRectMake(self.logo!.frame.maxX + 48,self.logo!.frame.minY + 6,128,14)
         self.searchIcon?.frame = CGRectMake(12,33,20,20)
         self.searchLabel?.frame = CGRectMake(8,self.searchIcon!.frame.maxY + 15,35,14)
         self.shoppingCartIcon?.frame = CGRectMake(self.frame.width - 51,26,35,35)
