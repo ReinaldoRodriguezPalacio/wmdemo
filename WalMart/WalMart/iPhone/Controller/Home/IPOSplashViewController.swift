@@ -364,6 +364,11 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     
                     UserCurrentSession.sharedInstance().isReviewActive = isReviewActive.boolValue
                     
+                    //TODO send data from Config
+                    UserCurrentSession.sharedInstance().upcSearch = "0750105530007"
+                    UserCurrentSession.sharedInstance().messageInCommens = "PROMOCIÓN ESPECIAL PARA TU COCA COLA!! \n Personaliza tus latas de Coca Cola. Escribe Aqui los nombres que desees. Esto es cuando el texto es muy grande porque la promosion es buenisima y queremos que se vea mas y mas esa promo."
+                    
+                    
                     var requiredAP = true
                     if let param = self.retrieveParam(versionAP) {
                         requiredAP = !(param.value == "false")

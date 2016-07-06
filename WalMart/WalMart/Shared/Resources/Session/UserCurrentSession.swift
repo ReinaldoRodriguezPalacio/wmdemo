@@ -38,7 +38,11 @@ class UserCurrentSession : NSObject {
     
     var deviceToken = ""
     var finishConfig = false
- 
+    
+    //Action in check out
+    
+    var upcSearch : String! = ""
+    var messageInCommens : String! = ""
 
     
     //Singleton init

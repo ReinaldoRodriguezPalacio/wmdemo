@@ -38,6 +38,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var defaultPhoneType: Int! = 0
     var errorView: FormFieldErrorView?
     
+    var messageInCommens = ""
+    var commentsString : NSMutableAttributedString?
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
     }
@@ -149,6 +152,14 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.backgroundColor = WMColor.light_light_gray
         self.comments!.delegate = self
         self.content.addSubview(self.comments!)
+        
+        commentsString = NSMutableAttributedString(string: UserCurrentSession.sharedInstance().messageInCommens)
+        commentsString!.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsString!.length))
+        commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProLightSemiExtItOfSize(12), range:NSMakeRange(0,commentsString!.length))
+      
+        if UserCurrentSession.sharedInstance().messageInCommens != "" {
+            self.comments?.attributedText = commentsString
+        }
         
         self.layerLine = CALayer()
         layerLine.backgroundColor = WMColor.light_light_gray.CGColor
@@ -391,15 +402,22 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     func textView(textView: UITextView, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool
     {
         if NSString(string:textView.text).length + (NSString(string:text).length - range.length) ==  0{
-            textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
+            textView.text = NSLocalizedString("checkout.field.comments", comment:"")
             textView.resignFirstResponder()
             textView.textColor = UIColor.grayColor()
+            
+            if UserCurrentSession.sharedInstance().messageInCommens != "" {
+                textView.attributedText =  commentsString
+            }
+            
         }
+        
         return NSString(string:textView.text).length + (NSString(string:text).length - range.length) <= 200
     }
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
-        if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") {
+        
+        if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") || textView.text == UserCurrentSession.sharedInstance().messageInCommens {
             textView.text = ""
             textView.textColor = WMColor.dark_gray
         }
@@ -419,7 +437,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         if textView.text == "" {
             textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
             textView.textColor = UIColor.grayColor()
+            if UserCurrentSession.sharedInstance().messageInCommens != "" {
+                textView.attributedText =  commentsString
+            }
         }
+        
+        
         self.content!.contentOffset = CGPointZero
     }
     

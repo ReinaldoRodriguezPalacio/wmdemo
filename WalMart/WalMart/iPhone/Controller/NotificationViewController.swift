@@ -10,16 +10,14 @@ import Foundation
 
 class NotificationViewController : NavigationViewController, UITableViewDataSource, UITableViewDelegate, CMSwitchViewDelegate {
     
-    
-    
     var notification: UITableView!
-    
     var allNotifications = []
     var selectable = true
     var emptyView : IPOEmptyNotificationView?
     var receiveNotificationButton: CMSwitchView?
     var receiveNotificationLabel: UILabel?
-   var layerLine: CALayer!
+    var layerLine: CALayer!
+    var viewLoad: WMLoadingView?
 
     var headerNotification : UIView?
     
@@ -78,7 +76,7 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
         self.layerLine = CALayer()
         self.layerLine!.backgroundColor = WMColor.light_light_gray.CGColor
         self.headerNotification!.layer.insertSublayer(layerLine!, atIndex: 1000)
-        
+        self.showLoadingView()
         self.invokeNotificationService()
         
     }
@@ -91,13 +89,13 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        self.headerNotification?.frame = CGRectMake(0,self.header!.frame.maxY ,self.view.frame.width,  self.header!.frame.maxY + 46 )
+        self.headerNotification?.frame = CGRectMake(0,self.header!.frame.maxY ,self.view.frame.width,  self.header!.frame.maxY)
         
         self.receiveNotificationLabel?.frame = CGRectMake(16, 0,200, 46)
         receiveNotificationButton?.frame = CGRectMake(self.view.bounds.width - 70, 6, 54, 34)
         self.layerLine?.frame = CGRectMake(0, 45, self.view.frame.width, 1)
         
-        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.receiveNotificationLabel!.frame.maxY + 1, self.view.bounds.width, self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
+        emptyView?.frame = CGRectMake(self.view.bounds.minX, self.headerNotification!.frame.maxY , self.view.bounds.width, self.view.bounds.height - self.receiveNotificationLabel!.frame.maxY)
         
         notification?.frame = CGRectMake(self.view.bounds.minX,self.header!.frame.maxY + 46,
                                          self.view.bounds.width,
@@ -112,15 +110,16 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
             self.allNotifications = self.getNotificationsForDevice(dict)
             
             if self.allNotifications.count == 0 {
-                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY + 46, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
                 self.view.addSubview(self.emptyView!)
             } else {
                 self.notification.reloadData()
             }
-            
+            self.removeLoadingView()
             }, errorBlock: {
                 (error) -> Void in print("Error pushNotificationService")
-                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
+                self.removeLoadingView()
+                self.emptyView = IPOEmptyNotificationView(frame:CGRectMake(self.view.bounds.minX, self.header!.frame.maxY , self.view.bounds.width, self.view.bounds.height - self.header!.frame.maxY))
                 self.view.addSubview(self.emptyView!)
         })
         
@@ -231,6 +230,31 @@ class NotificationViewController : NavigationViewController, UITableViewDataSour
                 //TODO: quitar
                //CustomBarViewController.addOrUpdateParam("showNotification", value: value ? "true" : "false",forUser: false)
             }
+        }
+    }
+    
+    /**
+     Present loader in screen list
+     */
+    func showLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
+        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(self.isVisibleTab)
+    }
+    
+    /**
+     Remove loader from screen list
+     */
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
         }
     }
     
