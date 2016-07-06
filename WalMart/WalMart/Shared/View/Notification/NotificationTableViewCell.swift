@@ -42,6 +42,9 @@ class NotificationTableViewCell : UITableViewCell {
         descLabel?.textColor = WMColor.gray
         descLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
         descLabel?.numberOfLines = 3
+        descLabel?.lineBreakMode =  .ByClipping
+        descLabel?.adjustsFontSizeToFitWidth =  true
+        
         self.addSubview(descLabel!)
         
         line = CALayer()
