@@ -409,6 +409,7 @@
 		6C31B41F1CB81C6800AB7670 /* GRAddressNoStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C31B41E1CB81C6800AB7670 /* GRAddressNoStoreView.swift */; };
 		6C3448931BDED9AB00092965 /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448921BDED9AB00092965 /* InvoiceViewController.swift */; };
 		6C3448951BDEE29700092965 /* IPOWMAlertInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */; };
+		6C4DAC851D2D7817005CFE22 /* IPAHelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */; };
 		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
@@ -1083,6 +1084,7 @@
 		6C31B41E1CB81C6800AB7670 /* GRAddressNoStoreView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressNoStoreView.swift; path = iPhone/View/Categories/GRAddressNoStoreView.swift; sourceTree = "<group>"; };
 		6C3448921BDED9AB00092965 /* InvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceViewController.swift; path = iPhone/Controller/Invoice/InvoiceViewController.swift; sourceTree = "<group>"; };
 		6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertInfoViewController.swift; path = iPhone/Controller/Common/IPOWMAlertInfoViewController.swift; sourceTree = "<group>"; };
+		6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpHomeView.swift; path = iPad/View/Home/IPAHelpHomeView.swift; sourceTree = "<group>"; };
 		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
@@ -2788,6 +2790,7 @@
 				56E54E5219EC882B0004161C /* IPABannerCollectionViewCell.swift */,
 				5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */,
 				56C211891A25049F002D1C91 /* IPAGroceriesView.swift */,
+				6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -3886,6 +3889,7 @@
 				AC37F6C519B917C7000BB80D /* AddFiscalAddressService.swift in Sources */,
 				AC37F6B619B907D9000BB80D /* SignUpService.swift in Sources */,
 				04B3BA091A93C720008FDD56 /* GRProductByTicket.swift in Sources */,
+				6C4DAC851D2D7817005CFE22 /* IPAHelpHomeView.swift in Sources */,
 				56527DE219AFE7BB008032C6 /* CategoryCollectionViewCell .swift in Sources */,
 				569607A719B52ADF005D20DC /* ProductDetailPromotionsCollectionViewCell.swift in Sources */,
 				56E1DFA41B5560EC001F42DF /* SliderTableViewCell.swift in Sources */,

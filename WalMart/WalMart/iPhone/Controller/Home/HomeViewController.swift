@@ -79,7 +79,7 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         if param != nil {
             self.showHelpView = (appVersion != param!.value)
         }else{
-            self.showHelpView = false
+            self.showHelpView = true
         }
     }
     
@@ -100,14 +100,12 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     }
     
     func startTimmerPleca() {
-        
-            if timmerPleca != nil {
-                timmerPleca.invalidate()
-            }
-            timmerPleca = NSTimer.scheduledTimerWithTimeInterval(itntervalPleca, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: true)
-        
-        
+        if timmerPleca != nil {
+            timmerPleca.invalidate()
+        }
+        timmerPleca = NSTimer.scheduledTimerWithTimeInterval(itntervalPleca, target: self, selector: #selector(HomeViewController.removePleca), userInfo: nil, repeats: true)
     }
+    
     func stopTimmerPleca() {
         if timmerPleca != nil {
             timmerPleca.invalidate()
@@ -202,13 +200,8 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.bannerCell?.startTimmer()
         self.showPleca()
-        if self.showHelpView {
-            let helpView = HelpHomeView.initView()
-            helpView.showView()
-            helpView.onClose = {(Void) -> Void in
-                CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
-            }
-        }
+        self.showHelpHomeView()
+        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -228,6 +221,16 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
 
         
+    }
+    
+    func showHelpHomeView(){
+        if self.showHelpView {
+            let helpView = HelpHomeView.initView()
+            helpView.showView()
+            helpView.onClose = {(Void) -> Void in
+                CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
+            }
+        }
     }
     // MARK: - UICollectionViewDataSource
     

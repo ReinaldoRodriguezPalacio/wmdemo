@@ -677,6 +677,13 @@
 
 
 //HomeHelp
+"tabbar.home_ipad" = "Inicio";
+"tabbar.mg_ipad" = "Tecnología, hogar y más...";
+"tabbar.wishlist_ipad" = "Wishlist";
+"tabbar.super_ipad" = "Súper";
+"tabbar.ubicacion_ipad" = "Localizador de Tiendas";
+"tabbar.list_ipad" = "Mis Listas";
+"tabbar.more_menu_ipad" = "Más...";
 "tabbar.tabBar_home" = "Inicio";
 "tabbar.tabBar_mg" = "Tecnología, hogar y más...";
 "tabbar.tabBar_super" = "Súper";
