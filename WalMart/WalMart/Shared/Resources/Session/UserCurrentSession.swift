@@ -40,8 +40,8 @@ class UserCurrentSession : NSObject {
     var finishConfig = false
     
     //Action in check out
-    
-    var upcSearch : String! = ""
+    var activeCommens : Bool! = false
+    var upcSearch : NSArray! = []
     var messageInCommens : String! = ""
 
     
