@@ -94,6 +94,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     var waitToSplash = false
     var contextSearch : SearchServiceContextType!
+    var showHelpHome: Bool = false
     
     
     
@@ -154,19 +155,14 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         self.view.bringSubviewToFront(headerView)
         
-        reviewHelp(false)
-        
-        
         let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
-        
         splashVC = IPOSplashViewController()
         splashVC.didHideSplash = { () in
             
             if self.waitToSplash {
                 self.openSearchProduct()
             }
-            
             self.splashVC = nil
             self.checkPrivaceNotice()
         }
@@ -187,7 +183,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 vcRoot.delegate = self
             }
         }
-        
+        self.reviewHelp(false)
         
         createTabBarButtons()
         
@@ -1504,17 +1500,32 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             totuView!.onClose = {() in
                 self.removeHelpForSearchView()
                 CustomBarViewController.addOrUpdateParam("mainHelp", value: "false")
+                self.showHelpHomeView()
             }
             helpView?.addSubview(totuView!)
-            
-            
-            
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
+            //UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.helpView!.alpha = 1.0
-            })
+            //})
+        }else{
+             self.showHelpHomeView()
         }
-        
-        
+    }
+    
+    func showHelpHomeView(){
+        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
+        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
+        if param != nil {
+            self.showHelpHome = (appVersion != param!.value)
+        }else{
+            self.showHelpHome = true
+        }
+        if self.showHelpHome {
+            let helpView = HelpHomeView(frame:CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
+            self.view.addSubview(helpView)
+            helpView.onClose = {(Void) -> Void in
+                CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
+            }
+        }
     }
     
     func updateNotificationBadge(){

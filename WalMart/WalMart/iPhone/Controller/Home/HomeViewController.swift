@@ -39,7 +39,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     var valueTerms = ""
     var typeAction =  ""
     var bussinesTerms = ""
-    var showHelpView: Bool = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_HOME.rawValue
@@ -191,8 +190,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         self.bannerCell?.startTimmer()
         self.showPleca()
-        self.showHelpHomeView()
-        
     }
     
     override func viewDidDisappear(animated: Bool) {
@@ -212,23 +209,6 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
 
 
         
-    }
-    
-    func showHelpHomeView(){
-        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
-        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
-        if param != nil {
-            self.showHelpView = (appVersion != param!.value)
-        }else{
-            self.showHelpView = true
-        }
-        if self.showHelpView {
-            let helpView = HelpHomeView.initView()
-            helpView.showView()
-            helpView.onClose = {(Void) -> Void in
-                CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
-            }
-        }
     }
     // MARK: - UICollectionViewDataSource
     
