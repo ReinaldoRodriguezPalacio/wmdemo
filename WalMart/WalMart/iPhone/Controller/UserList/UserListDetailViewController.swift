@@ -1507,7 +1507,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let toFill = "".stringByPaddingToLength(13 - upcDesc.length, withString: "0", startingAtIndex: 0)
             paddedUPC = "\(toFill)\(paddedUPC)"
         }
-        let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "")
+        let params = svcValidate.buildParams(paddedUPC as String, eventtype: "pdpview",stringSearch: "",position: "")//position
         svcValidate.callService(requestParams:params, successBlock: { (result:NSDictionary) -> Void in
             //[["upc":paddedUPC,"description":keyWord,"type":ResultObjectType.Groceries.rawValue]]
             print("Correcto el producto es::::")

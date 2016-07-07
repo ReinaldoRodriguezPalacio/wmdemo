@@ -208,7 +208,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,checkButtonHeight)
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
-        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,70)
+        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,85)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
         self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 65,  self.view.frame.width, 1)
