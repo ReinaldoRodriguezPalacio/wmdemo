@@ -33,6 +33,9 @@ class GRProductDetailButtonBarCollectionViewCell: ProductDetailButtonBarCollecti
         self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
     }
     
+    /**
+     Send product to wishList
+     */
     override func addProductToWishlist() {
         self.listButton.selected = UserCurrentSession.sharedInstance().userHasUPCUserlist(upc)
         //event
