@@ -78,7 +78,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         self.familyController.categoriesType = .CategoryForGR
         self.addChildViewController(self.familyController)
         self.viewFamily.addSubview(self.familyController.view)
-        
+        self.header?.removeFromSuperview()
         
         loadDepartments()
 
@@ -96,7 +96,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         super.viewWillLayoutSubviews()
         viewFamily.frame = CGRectMake(0, CELL_HEIGHT, self.view.bounds.width, self.view.bounds.height - CELL_HEIGHT)
         familyController.view.frame = viewFamily.bounds
-        self.titleLabel!.frame = CGRectMake(10, 0, self.header!.frame.width - 110, self.header!.frame.maxY)
+        self.titleLabel!.frame.origin = CGPoint(x: 10, y: 0)
     }
     
     func loadDepartments() -> [AnyObject]? {
@@ -105,19 +105,45 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         return self.items
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var items = collapsed ? self.items!.count : self.items!.count * 2
+    //MARK: TableViewDelegate
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         if landingItem != nil {
-            items += 1
+            return 2
         }
-        return items
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if landingItem != nil && section == 1 {
+            return self.header
+        }else if landingItem == nil && section == 0 {
+            return self.header
+        }
+        return nil
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if landingItem != nil && section == 1 {
+            return 46.0
+        }else if landingItem == nil && section == 0 {
+            return 46.0
+        }
+        return 0.0
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if landingItem != nil && section == 0 {
+            return 1
+        }
+        return collapsed ? self.items!.count : self.items!.count * 2
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell
-        var currentItem = indexPath.row
-        if indexPath.item == 0 && landingItem != nil  {
+        
+        if indexPath.section == 0 && landingItem != nil  {
             let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: indexPath) as! GRDepartmentTableViewCell
             let scale = UIScreen.mainScreen().scale
             var itemBannerPhone = landingItem!["bannerUrlPhone"]
@@ -127,17 +153,11 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             return cellDept
         }
         
-        if landingItem != nil {
-            currentItem = currentItem - 1
-        }
-        
-        let currentIndexPath = NSIndexPath(forRow: currentItem, inSection: indexPath.section)
-        
-        if currentItem % 2 == 0 || collapsed {
-            let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: currentIndexPath) as! GRDepartmentTableViewCell
-            var rowforsearch = currentItem
+        if indexPath.row % 2 == 0 || collapsed {
+            let cellDept = tableView.dequeueReusableCellWithIdentifier("celldepartment", forIndexPath: indexPath) as! GRDepartmentTableViewCell
+            var rowforsearch = indexPath.row
             if !collapsed {
-                rowforsearch = Int(currentItem / 2)
+                rowforsearch = Int(indexPath.row / 2)
             }
             
             let item = items![rowforsearch] as! [String:AnyObject]
@@ -149,10 +169,10 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             cell = cellDept
 
         } else {
-            let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: currentIndexPath) as! IPOGRDepartmentSpecialTableViewCell
+            let cellSpecials = tableView.dequeueReusableCellWithIdentifier("cellspecials", forIndexPath: indexPath) as! IPOGRDepartmentSpecialTableViewCell
             cellSpecials.delegate = self
             
-            let rowforsearch = Int(currentItem / 2)
+            let rowforsearch = Int(indexPath.row / 2)
             let item = items![rowforsearch] as! [String:AnyObject]
             var bgDepartment = item["idDepto"] as! String
             let families = JSON(item["family"] as! [[String:AnyObject]])
@@ -176,11 +196,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        var currentItem = indexPath.row
-        if landingItem != nil {
-            currentItem = currentItem - 1
+        
+        if landingItem != nil && indexPath.section == 0 {
+            return 102
         }
-        if currentItem % 2 == 0 || collapsed || currentItem == -1 {
+        
+        if indexPath.row % 2 == 0 || collapsed {
             return 102
         }else {
             return 125
@@ -194,7 +215,12 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         if self.collapsed{
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SUPER.rawValue, action: WMGAIUtils.ACTION_HIDE_HIGHLIGHTS.rawValue, label: "")
         }
-        self.categoriesTable.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+        
+        if landingItem != nil  {
+            self.categoriesTable.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+        }else{
+            self.categoriesTable.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
       
     }
 
@@ -206,25 +232,19 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         self.categoriesTable.contentInset = UIEdgeInsetsMake(0, 0, self.categoriesTable.frame.height, 0)
-        var currentItem = indexPath.row
-        if indexPath.row == 0  && landingItem != nil  {
+        if indexPath.section == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
             self.handleLandingEvent(eventUrl!)
             return
         }
         
-        if landingItem != nil {
-            currentItem = currentItem - 1
-        }
-        
-        var rowforsearch = currentItem
+        var rowforsearch = indexPath.row
         var newIndex = indexPath
         
-        if !(currentItem % 2 == 0) && !self.collapsed {
-            rowforsearch = currentItem - 1
-            newIndex = NSIndexPath(forRow:  currentItem - 1, inSection: indexPath.section)
+        if !(indexPath.row % 2 == 0) && !self.collapsed {
+            rowforsearch = indexPath.row - 1
+            newIndex = NSIndexPath(forRow:  indexPath.row - 1, inSection: indexPath.section)
         }
         
         UIView.animateWithDuration(0.3, animations: { () -> Void in
@@ -235,7 +255,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                // self.familyController.view.hidden = false
                 if rowforsearch % 2 == 0 || self.collapsed {
                     if !self.collapsed {
-                        rowforsearch = Int(currentItem / 2)
+                        rowforsearch = Int(indexPath.row / 2)
                     }
                     
                     let item = self.items![rowforsearch] as! [String:AnyObject]
@@ -390,11 +410,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func didTapMore(index: NSIndexPath) {
-        var newIndex = index
-        if self.landingItem != nil {
-            newIndex = NSIndexPath(forRow: index.row - 1, inSection: index.section)
-        }
-        self.tableView(self.categoriesTable, didSelectRowAtIndexPath: newIndex)
+        self.tableView(self.categoriesTable, didSelectRowAtIndexPath: index)
     }
     
     func fillConfigData(depto:String,families:JSON) -> [[String:AnyObject]]? {

@@ -1026,7 +1026,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="cJ0-fc-QKq">
-                                <rect key="frame" x="0.0" y="66" width="320" height="395"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="461"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="celldepartment" rowHeight="56" id="vTY-hZ-KCp" customClass="GRDepartmentTableViewCell" customModule="WalmartMG" customModuleProvider="target">
@@ -1046,10 +1046,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="cJ0-fc-QKq" firstAttribute="top" secondItem="qMq-90-EAA" secondAttribute="bottom" constant="46" id="5d8-1o-FsP"/>
-                            <constraint firstItem="cJ0-fc-QKq" firstAttribute="bottom" secondItem="bk1-JQ-wPi" secondAttribute="top" id="6u7-1a-eEM"/>
-                            <constraint firstItem="cJ0-fc-QKq" firstAttribute="leading" secondItem="2bi-qc-mdr" secondAttribute="leading" id="Q0C-FD-vJ0"/>
-                            <constraint firstAttribute="trailing" secondItem="cJ0-fc-QKq" secondAttribute="trailing" id="iW9-2p-vC1"/>
+                            <constraint firstItem="cJ0-fc-QKq" firstAttribute="leading" secondItem="2bi-qc-mdr" secondAttribute="leading" id="3Zd-nx-tcM"/>
+                            <constraint firstItem="cJ0-fc-QKq" firstAttribute="bottom" secondItem="bk1-JQ-wPi" secondAttribute="top" id="HvU-GS-hBk"/>
+                            <constraint firstAttribute="trailing" secondItem="cJ0-fc-QKq" secondAttribute="trailing" id="ieR-sF-16b"/>
+                            <constraint firstItem="cJ0-fc-QKq" firstAttribute="top" secondItem="2bi-qc-mdr" secondAttribute="top" id="ydr-A0-SfR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="cct-sf-fmW"/>

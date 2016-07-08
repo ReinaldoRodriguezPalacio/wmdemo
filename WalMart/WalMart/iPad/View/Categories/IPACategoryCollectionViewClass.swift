@@ -54,13 +54,8 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
     }
     
     func setValues(title:String,imageBackgroundURL:String,imageIconURL:String) {
-        
-        
         //self.imageBackground.image = UIImage(named: imageBackgroundURL)
         //self.imageIcon.image = UIImage(named: imageIconURL)
-
-        
-        
         let svcUrl = serviceUrl("WalmartMG.CategoryIconIpad")
         let imgURLName = "\(svcUrl)\(imageIconURL)"
         //self.imageIcon.setImageWithURL(NSURL(string: imgURLName), placeholderImage: UIImage(named: imageIconURL))
@@ -197,13 +192,10 @@ class IPACategoryCollectionViewClass : UICollectionViewCell {
             }) { (request:NSURLRequest!, response:NSHTTPURLResponse!, error:NSError!) -> Void in
                 print(error)
         }
-        
         self.imageBackground.hidden = false
         self.titleLabel.hidden = true
         self.imageIcon.hidden = true
-        
-        imageBackground.frame = self.bounds
-        
+        self.imageBackground.frame = self.bounds
     }
     
 }
