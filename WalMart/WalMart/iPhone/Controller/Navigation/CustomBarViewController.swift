@@ -155,11 +155,15 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
         self.view.bringSubviewToFront(headerView)
         
+        let showTutorial = self.reviewHelp(false)
+        
         let tapGestureLogo =  UITapGestureRecognizer(target: self, action: #selector(CustomBarViewController.logoTap))
         viewLogo.addGestureRecognizer(tapGestureLogo)
         splashVC = IPOSplashViewController()
         splashVC.didHideSplash = { () in
-            
+            if !showTutorial {
+                self.showHelpHomeView()
+            }
             if self.waitToSplash {
                 self.openSearchProduct()
             }
@@ -183,7 +187,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 vcRoot.delegate = self
             }
         }
-        self.reviewHelp(false)
         
         createTabBarButtons()
         
@@ -1479,13 +1482,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     //GRA: Help Validation
-    func reviewHelp(force:Bool) {
+    func reviewHelp(force:Bool) -> Bool {
         var requiredHelp = true
         if let param = CustomBarViewController.retrieveParam("mainHelp") {
             requiredHelp = !(param.value == "false")
         }
-        
-        if (requiredHelp && self.helpView == nil ) || force {
+        let showTurial = (requiredHelp && self.helpView == nil ) || force
+        if showTurial {
             let bounds = self.view.bounds
             
             self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
@@ -1506,12 +1509,8 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
             //UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.helpView!.alpha = 1.0
             //})
-        }else{
-            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3.5 * Double(NSEC_PER_SEC)))
-            dispatch_after(delayTime, dispatch_get_main_queue()) {
-             self.showHelpHomeView()
-            }
         }
+        return showTurial
     }
     
     func showHelpHomeView(){
@@ -1524,6 +1523,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
         if self.showHelpHome {
             let helpView = HelpHomeView(frame:CGRectMake(0.0, 0.0, self.view.bounds.width, self.view.bounds.height))
+            helpView.alpha = 0.0
+            UIView.animateWithDuration(0.4, animations: {
+                helpView.alpha = 1.0
+                }, completion: nil)
             self.view.addSubview(helpView)
             helpView.onClose = {(Void) -> Void in
                 CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)

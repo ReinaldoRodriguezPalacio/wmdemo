@@ -119,7 +119,11 @@ class HelpHomeView: UIView {
     
     func showView() {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+        self.alpha = 0.0
         vc!.view.addSubview(self)
+        UIView.animateWithDuration(0.4, animations: {
+            self.alpha = 1.0
+            }, completion: nil)
     }
     
     func closeView(){
