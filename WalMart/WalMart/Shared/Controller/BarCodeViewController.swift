@@ -198,7 +198,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                         if UserCurrentSession.hasLoggedUser(){
                             let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"searchScan"),imageDone:UIImage(named:"searchScan"),imageError:UIImage(named:"searchScan"))
                             alertView?.showicon(UIImage(named: "searchScan"))
-                            alertView?.setMessage("Este código de barras pertenece a un Ticket, ¿Deseas crear una lista con estos artículos.")
+                            alertView?.setMessage("Este código de barras pertenece a un Ticket, ¿Deseas crear una lista con estos artículos?.")
                             alertView?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel",comment:""), leftAction: {(void) in
                                 alertView?.close()
                                 }, rightText: NSLocalizedString("invoice.message.continue",comment:""), rightAction: { (void) in
