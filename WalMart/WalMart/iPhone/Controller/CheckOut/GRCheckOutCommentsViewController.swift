@@ -460,8 +460,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             }
         }
         print(showMessageInCommens)
-        
-    
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate

@@ -198,7 +198,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         if landingItem != nil && indexPath.section == 0 {
-            return 102
+            return 215
         }
         
         if indexPath.row % 2 == 0 || collapsed {
