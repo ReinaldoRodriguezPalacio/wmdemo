@@ -34,7 +34,7 @@ enum OptionsController : String {
 
 class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITableViewDataSource, CameraViewControllerDelegate {
 
-    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Promotions.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+    var options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
     
     @IBOutlet var profileView: UIImageView?
     @IBOutlet var tableView: UITableView?
@@ -101,7 +101,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         self.showCamfind = NSBundle.mainBundle().objectForInfoDictionaryKey("showCamFind") as! Bool
         
         if !self.showCamfind {
-           options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+           options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.TicketList.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         }
             
        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MoreOptionsViewController.reloadProfileData), name: ProfileNotification.updateProfile.rawValue, object: nil)
@@ -195,7 +195,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         default :
             print("option don't exist")
         }
-         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1 && self.showCamfind)) {
+         if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
             switch (OptionsController(rawValue: srtOption)!) {
             case .Profile : image = "Profile-disable-icon"
             case .Recents : image = "Recents-disable-icon"
@@ -209,7 +209,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             }
             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.light_gray)
         } else  {
-             cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
+            cell.setValues(srtOption, image: image, size:16, colorText: WMColor.light_blue, colorSeparate: WMColor.light_gray)
+            
+            if UserCurrentSession.sharedInstance().userSigned == nil && !self.showCamfind && indexPath.section == 1 && indexPath.row == 1   {
+                image = "menu_scanTicket_disable"
+                cell.setValues(srtOption, image: image, size:16, colorText: WMColor.gray, colorSeparate: WMColor.light_gray)
+            }
         }
         
 
@@ -219,8 +224,12 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1 && self.showCamfind)) {
+        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
             //CAMBIO
+            self.openLoginOrProfile()
+            return
+        }
+        else if UserCurrentSession.sharedInstance().userSigned == nil &&  !self.showCamfind && indexPath.section == 1 && indexPath.row == 1{
             self.openLoginOrProfile()
             return
         }
