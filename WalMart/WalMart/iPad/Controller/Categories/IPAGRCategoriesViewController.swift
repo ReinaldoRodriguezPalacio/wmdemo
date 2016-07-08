@@ -298,7 +298,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                 }
                 
                 
-                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"mg")
+                customBar.handleNotification(strAction,name:"",value:strValue,bussines:"gr")
             }
         }
     }
