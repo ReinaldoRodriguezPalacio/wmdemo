@@ -159,11 +159,15 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.comments!.backgroundColor = WMColor.light_light_gray
         self.comments!.delegate = self
         self.content.addSubview(self.comments!)
+        let  commentsDefault = NSMutableAttributedString(string: UserCurrentSession.sharedInstance().messageInCommens )
+        commentsDefault.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsDefault.length))
+        commentsDefault.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsDefault.length))
         
-        commentsString = NSMutableAttributedString(string: UserCurrentSession.sharedInstance().messageInCommens)
-        commentsString!.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsString!.length))
-        commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProLightSemiExtItOfSize(12), range:NSMakeRange(0,commentsString!.length))
-      
+        commentsString = NSMutableAttributedString(string: NSLocalizedString("checkout.field.comments", comment:""))
+        commentsString!.addAttribute(NSForegroundColorAttributeName, value: UIColor.grayColor(), range:NSMakeRange(0,commentsString!.length))
+        commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsString!.length))
+        commentsString!.appendAttributedString(commentsDefault)
+        
         self.findproductInCar()
         
         if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
@@ -489,7 +493,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     func textViewShouldBeginEditing(textView: UITextView) -> Bool {
         
-        if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") || textView.text == UserCurrentSession.sharedInstance().messageInCommens {
+        if textView.text ==  NSLocalizedString("checkout.field.comments", comment:"") || textView.text == self.commentsString?.string {
             textView.text = ""
             textView.textColor = WMColor.dark_gray
         }
