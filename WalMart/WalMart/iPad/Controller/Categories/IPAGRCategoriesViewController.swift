@@ -47,7 +47,6 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         
         let svcConfig = ConfigService()
         canfigData = svcConfig.getConfoigContent()
-        
         colCategories.registerClass(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "cellLanding")
         
         let serviceBanner = BannerService()
@@ -71,30 +70,32 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         return self.items
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return ((landingItem != nil) ? self.items!.count + 1: self.items!.count)
+    //MARK: - collectionViewDelegate
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return ((landingItem != nil) ? 2: 1)
     }
     
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if (landingItem != nil && section == 0) {
+            return 1
+        }
+        return self.items!.count
+    }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        var currentItem = indexPath.row
-        if indexPath.item == 0 && landingItem != nil  {
+
+        if indexPath.section == 0 && landingItem != nil  {
             let cellLanding = colCategories.dequeueReusableCellWithReuseIdentifier("cellLanding", forIndexPath: indexPath) as! IPACategoryCollectionViewClass
             let itemBannerPhone = landingItem!["bannerUrlTablet"]
             cellLanding.setValuesLanding("https://\(itemBannerPhone!)")
             return cellLanding
         }
         
-        if landingItem != nil {
-            currentItem = currentItem - 1
-        }
-        
         let cell = colCategories.dequeueReusableCellWithReuseIdentifier("cellCategory", forIndexPath: indexPath) as! IPAGRCategoryCollectionViewCell
         cell.delegate =  self // new 
-        cell.index = NSIndexPath(forRow: currentItem, inSection: indexPath.section)
+        cell.index = NSIndexPath(forRow: indexPath.row, inSection: indexPath.section)
         
-        let item = items![currentItem] as! [String:AnyObject]
+        let item = items![indexPath.row] as! [String:AnyObject]
         let descDepartment = item["description"] as! String
         var bgDepartment = item["idDepto"] as! String
         let families = JSON(item["family"] as! [[String:AnyObject]])
@@ -112,32 +113,25 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     func collectionView(collectionView : UICollectionView,layout collectionViewLayout:UICollectionViewLayout,sizeForItemAtIndexPath indexPath:NSIndexPath) -> CGSize
     {
-        if landingItem != nil {
-            if indexPath.row == 0 {
-                return CGSizeMake(self.view.frame.width - 32, 216)
-            }
+        if landingItem != nil && indexPath.section == 0 {
+            return CGSizeMake(self.view.frame.width - 32, 216)
         }
         return  CGSizeMake(488,313)
     }
     
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        var currentItem = indexPath.row
-        if indexPath.row == 0  && landingItem != nil  {
+        if indexPath.section == 0  && landingItem != nil  {
             let eventUrl = landingItem!["eventUrl"]
             self.handleLandingEvent(eventUrl!)
             return
-        }
-        
-        if landingItem != nil {
-            currentItem = currentItem - 1
         }
         
         let cellSelected = collectionView.cellForItemAtIndexPath(indexPath) as! IPAGRCategoryCollectionViewCell!
         let pontInView = cellSelected.superview!.convertRect(cellSelected!.frame, toView: self.view)
         pontInViewNuew = pontInView
 
-        let item = self.items![currentItem] as! [String:AnyObject]
+        let item = self.items![indexPath.row] as! [String:AnyObject]
         let idDepartment = item["idDepto"] as! String
         let famArray : AnyObject = item["family"] as AnyObject!
         let itemsFam : [[String:AnyObject]] = famArray as! [[String:AnyObject]]
@@ -279,11 +273,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func didTapMore(index:NSIndexPath) {
-        var newIndex = index
-        if self.landingItem != nil {
-            newIndex = NSIndexPath(forRow: index.row + 1, inSection: index.section)
-        }
-        self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAtIndexPath: newIndex)
+        self.colCategories.delegate?.collectionView!(colCategories, didSelectItemAtIndexPath: index)
     }
     
     func handleLandingEvent(strAction:String) {

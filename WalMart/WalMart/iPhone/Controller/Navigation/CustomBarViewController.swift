@@ -1507,7 +1507,10 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
                 self.helpView!.alpha = 1.0
             //})
         }else{
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3.5 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
              self.showHelpHomeView()
+            }
         }
     }
     
