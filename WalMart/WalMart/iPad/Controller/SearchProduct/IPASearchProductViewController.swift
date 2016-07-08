@@ -79,6 +79,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 let paginatedProductDetail = IPAProductDetailPageViewController()
                 paginatedProductDetail.idListSeleted = self.idListFromSearch
                 paginatedProductDetail.ixSelected = indexPath.row
+                paginatedProductDetail.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
                 paginatedProductDetail.itemsToShow = []
                 paginatedProductDetail.stringSearching = self.titleHeader!
                 
@@ -353,7 +354,7 @@ class IPASearchProductViewController : SearchProductViewController, UIPopoverCon
                 //let quantity : Int = quantity.toInt()!
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position:cell.positionSelected)//position
                     
                     BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     

@@ -21,7 +21,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         case ResultObjectType.Mg.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("productDetailVC") as? IPAProductDetailViewController {
                 vc.upc = upc
-                vc.indexRowSelected = ixSelected
+                vc.indexRowSelected = self.itemSelectedSolar // ixSelected
                 vc.name = descr
                 vc.stringSearch = self.stringSearching
                 vc.view.tag = ixSelected
@@ -31,7 +31,7 @@ class IPAProductDetailPageViewController : ProductDetailPageViewController,UINav
         case ResultObjectType.Groceries.rawValue :
             if let vc = storyBoard!.instantiateViewControllerWithIdentifier("grProductDetailVC") as? IPAGRProductDetailViewController {
                 vc.upc = upc
-                vc.indexRowSelected = ixSelected
+                vc.indexRowSelected = self.itemSelectedSolar//ixSelected
                 vc.stringSearch = self.stringSearching
                 vc.name = descr
                 vc.view.tag = ixSelected

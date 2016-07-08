@@ -41,6 +41,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     var messageInCommens = ""
     var commentsString : NSMutableAttributedString?
+    var showMessageInCommens =  false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_GRCHECKOUT.rawValue
@@ -163,7 +164,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         commentsString!.addAttribute(NSForegroundColorAttributeName, value: WMColor.light_blue, range:NSMakeRange(0,commentsString!.length))
         commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProLightSemiExtItOfSize(12), range:NSMakeRange(0,commentsString!.length))
       
-        if UserCurrentSession.sharedInstance().messageInCommens != "" {
+        self.findproductInCar()
+        
+        if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
             self.comments?.attributedText = commentsString
         }
         
@@ -441,6 +444,26 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
     }
     
+    
+    
+    func findproductInCar(){
+      let products =  UserCurrentSession.sharedInstance().itemsGR
+        let upcsIncart : NSMutableArray =  []
+        let itemsInShoppingCart = products!["items"] as? NSArray
+        for items in itemsInShoppingCart! {
+            upcsIncart.addObject(items["upc"] as! String)
+        }
+        for upc in UserCurrentSession.sharedInstance().upcSearch {
+            if upcsIncart.containsObject(upc) {
+                showMessageInCommens =  true
+                break
+            }
+        }
+        print(showMessageInCommens)
+        
+    
+    }
+    
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
     
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
@@ -455,7 +478,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             textView.resignFirstResponder()
             textView.textColor = UIColor.grayColor()
             
-            if UserCurrentSession.sharedInstance().messageInCommens != "" {
+            if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
                 textView.attributedText =  commentsString
             }
             
@@ -486,7 +509,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         if textView.text == "" {
             textView.text =  NSLocalizedString("checkout.field.comments", comment:"")
             textView.textColor = UIColor.grayColor()
-            if UserCurrentSession.sharedInstance().messageInCommens != "" {
+            if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
                 textView.attributedText =  commentsString
             }
         }

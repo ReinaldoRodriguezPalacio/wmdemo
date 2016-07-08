@@ -75,7 +75,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
     var stringSearch = ""
     var defaultLoadingImg: UIImageView?
     
-    var indexRowSelected : Int = 0
+    var indexRowSelected : String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -983,7 +983,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let productService = ProductDetailService(dictionary: signalsDictionary)
         let eventType = self.fromSearch ? "clickdetails" : "pdpview"
-        let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch)
+        let params = productService.buildParams(upc as String,eventtype: eventType,stringSearching: self.stringSearch,position: self.indexRowSelected)//position
         productService.callService(requestParams:params, successBlock: { (result: NSDictionary) -> Void in
             self.reloadViewWithData(result)
             if let facets = result["facets"] as? [[String:AnyObject]] {

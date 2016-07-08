@@ -32,6 +32,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var productDeparment:String = ""
     
     var delegate: SearchProductCollectionViewCellDelegate?
+    
+    var positionSelected : String = ""
 
     
     override func setup() {
@@ -94,10 +96,10 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
         }
     }
     
-    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String) {
+    func setValues(upc:String,productImageURL:String,productShortDescription:String,productPrice:String,productPriceThrough:String,isActive:Bool,onHandInventory:Int,isPreorderable:Bool,isInShoppingCart:Bool,type:String ,pesable:Bool,isFormList:Bool,productInlist:Bool,isLowStock:Bool, category: String,equivalenceByPiece:String,position:String) {
         
         super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
-        
+        self.positionSelected = position
         imagePresale.hidden = !isPreorderable
         imagePresale.frame = CGRectMake(-1, 0, imagePresale.frame.width, imagePresale.frame.height)
         
