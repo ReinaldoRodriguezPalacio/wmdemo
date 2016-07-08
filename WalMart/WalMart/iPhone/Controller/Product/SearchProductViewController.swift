@@ -105,6 +105,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
     var idListFromSearch : String? = ""
     var invokeServiceInError = false
     var viewEmptyImage =  false
+    
+    var  isAplyFilter : Bool =  false
 
 
     
@@ -596,7 +598,8 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             productInlist:idListFromSearch == "" ? false : self.validateProductInList(forProduct: upc, inListWithId: self.idListFromSearch! ),
             isLowStock:isLowStock,
             category:productDeparment,
-            equivalenceByPiece: equivalenceByPiece
+            equivalenceByPiece: equivalenceByPiece,
+            position:self.isAplyFilter ? "" : "\(indexPath.row)"
         )
         cell.delegate = self
         return cell
@@ -694,6 +697,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             controller.isForSeach =  (self.textToSearch != nil && self.textToSearch != "") || (self.idLine != nil && self.idLine != "")
             controller.itemsToShow = productsToShow
             controller.ixSelected = indexPath.row
+            controller.itemSelectedSolar = self.isAplyFilter ? "" : "\(indexPath.row)"
             controller.idListSeleted =  self.idListFromSearch!
             controller.stringSearching =  self.titleHeader!
             self.navigationController!.pushViewController(controller, animated: true)
@@ -1242,6 +1246,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
 
     
     func apply(order:String, filters:[String:AnyObject]?, isForGroceries flag:Bool) {
+        
+        self.isAplyFilter =  true
+        
         if IS_IPHONE {
             self.isLoading = true
         } else {
@@ -1497,7 +1504,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             if cell.onHandInventory.integerValue >= Int(quantity) {
                 self.selectQuantityGR?.closeAction()
                 if self.idListFromSearch == ""{
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position:cell.positionSelected)
                     //CAMBIA IMAGEN CARRO SELECCIONADO
                     //cell.addProductToShopingCart!.setImage(UIImage(named: "products_done"), forState: UIControlState.Normal)
                     
@@ -1548,7 +1555,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //let quantity : Int = quantity.toInt()!
                 let maxProducts = (cell.onHandInventory.integerValue <= 5 || cell.productDeparment == "d-papeleria") ? cell.onHandInventory.integerValue : 5
                 if maxProducts >= Int(quantity) {
-                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity,position: cell.positionSelected)//
                     
                     BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth:WMGAIUtils.MG_CATEGORY_SHOPPING_CART_NO_AUTH.rawValue , action: WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue, label:"\(cell.upc) - \(cell.desc)")
                     
@@ -1582,20 +1589,20 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         self.view.addSubview(selectQuantity)
     }
     
-    func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String) -> [String:AnyObject] {
+    func buildParamsUpdateShoppingCart(cell:SearchProductCollectionViewCell,quantity:String,position:String) -> [String:AnyObject] {
         let pesable = cell.pesable! ? "1" : "0"
         let searchText = self.textToSearch ?? ""
         let channel = IS_IPAD ? "ipad" : "iphone"
         if cell.type == ResultObjectType.Groceries.rawValue {
             if searchText != ""{
-                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel]]
+                return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable,"parameter":["q":searchText,"eventtype": "addtocart","collection":"dah","channel": channel,"position":position]]
             }
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"comments":"","onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
         }
         else {
             
             if searchText != ""{
-            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment,"parameter":["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel]]
+            return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment,"parameter":["q":searchText,"eventtype": "addtocart","collection":"mg","channel": channel,"position":position]]
             }
             return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageURL,"price":cell.price,"quantity":quantity,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Mg.rawValue,"pesable":pesable,"isPreorderable":cell.isPreorderable,"category": cell.productDeparment]
         }
@@ -1616,7 +1623,7 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
                 //self.itemsUPCMG = result.arrayObject
                 let upcs : NSArray = result.arrayObject!
                 if upcs.count > 0 {
-                self.allProducts?.addObjectsFromArray(upcs as! [AnyObject])
+                self.allProducts?.addObjectsFromArray(upcs as [AnyObject])
                 self.finsihService =  true
                 self.invokeServiceUpc =  true
                 self.collection?.reloadData()
