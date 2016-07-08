@@ -227,7 +227,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
                     
                     self.removeFromParentViewController()
                     self.view.removeFromSuperview()
-                    
                     if self.didHideSplash != nil {
                         self.didHideSplash!()
                     }

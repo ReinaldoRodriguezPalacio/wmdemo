@@ -655,5 +655,59 @@ class IPACustomBarViewController :  CustomBarViewController {
     func showHomeSelected(){
         self.buttonList[0].selected = true
     }
+    
+    override func reviewHelp(force:Bool) {
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("mainHelp") {
+            requiredHelp = !(param.value == "false")
+        }
+        
+        if (requiredHelp && self.helpView == nil ) || force {
+            let bounds = self.view.bounds
+            
+            self.helpView = UIView(frame: CGRectMake(0.0, 0.0, bounds.width, bounds.height))
+            self.helpView!.backgroundColor = WMColor.light_blue
+            self.helpView!.alpha = 0.0
+            
+            self.view.addSubview(self.helpView!)
+            
+            
+            let imageArray = [["image":"ahora_todo_walmart","details":NSLocalizedString("help.walmart.nowallWM",comment:"")],["image":"busca_por_codigo","details":NSLocalizedString("help.walmart.search",comment:"")],["image":"consulta_pedidos_articulos","details":NSLocalizedString("help.walmart.backup",comment:"")],["image":"haz_una_lista","details":NSLocalizedString("help.walmart.list",comment:"")]]
+            totuView = TutorialHelpView(frame: self.helpView!.bounds, properties: imageArray)
+            totuView!.onClose = {() in
+                self.removeHelpForSearchView()
+                CustomBarViewController.addOrUpdateParam("mainHelp", value: "false")
+                self.showHelpHomeView()
+            }
+            helpView?.addSubview(totuView!)
+            //UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.helpView!.alpha = 1.0
+            //})
+        }else{
+            let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(3.2 * Double(NSEC_PER_SEC)))
+            dispatch_after(delayTime, dispatch_get_main_queue()) {
+                self.showHelpHomeView()
+            }
+        }
+    }
+    
+    override func showHelpHomeView(){
+        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
+        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
+        if param != nil {
+            self.showHelpHome = (appVersion != param!.value)
+        }else{
+            self.showHelpHome = true
+        }
+        if self.showHelpHome {
+            dispatch_async(dispatch_get_main_queue(), {
+                let helpView = IPAHelpHomeView.initView()
+                helpView.showView()
+                helpView.onClose = {(Void) -> Void in
+                    CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
+                }
+            })
+        }
+    }
 
 }

@@ -37,6 +37,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     var defaultPhone: String! = ""
     var defaultPhoneType: Int! = 0
     var errorView: FormFieldErrorView?
+    var showPhoneField: Bool = true
     
     var messageInCommens = ""
     var commentsString : NSMutableAttributedString?
@@ -197,18 +198,30 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
+        self.buildSubViews()
+    }
+    
+    /**
+     Build view components
+     */
+    func buildSubViews() {
         let margin: CGFloat = 16.0
         let width = self.view.frame.width - (2*margin)
         let fheight: CGFloat = 44.0
         let lheight: CGFloat = 15.0
         let checkImageBottom: CGFloat = 14//IS_IPAD && !IS_IPAD_MINI ? 28 : 14
         let checkButtonHeight: CGFloat = 30//IS_IPAD && !IS_IPAD_MINI ? 45 : 30
+        
         self.stepLabel!.frame = CGRectMake(self.view.bounds.width - 51.0,8.0, self.titleLabel!.bounds.height, 35)
         self.sectionTitle!.frame = CGRectMake(margin, margin, width, lheight)
         self.confirmCallButton!.frame = CGRectMake(margin,self.sectionTitle!.frame.maxY + margin,width,20)
-        self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
-        self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
-        self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,checkButtonHeight)
+        if self.showPhoneField {
+            self.phoneField!.frame = CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight)
+            self.savePhoneButton!.frame = CGRectMake(self.view.frame.width - self.phoneFieldSpace, confirmCallButton!.frame.maxY + 8.0, 55, 40)
+            self.notConfirmCallButton!.frame = CGRectMake(margin,phoneField!.frame.maxY + margin,width,checkButtonHeight)
+        }else{
+            self.notConfirmCallButton!.frame = CGRectMake(margin,confirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
+        }
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
         self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,85)
@@ -220,6 +233,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.confirmCallOptionButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
         self.notConfirmCallButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: checkImageBottom, right:0 )
     }
+    
     /**
      Builds an UILabel with the title of section
      
@@ -273,19 +287,25 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      - parameter button: selected button
      */
     func confirmCallSelected(button:UIButton){
-        self.confirmCallButton?.selected = (self.confirmCallButton == button)
-        self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
-        self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
-        self.confirmSelected = button.tag
-        self.confirmText = button.titleLabel!.text!
+        if self.confirmSelected != button.tag {
+            self.confirmCallButton?.selected = (self.confirmCallButton == button)
+            self.notConfirmCallButton?.selected = (self.notConfirmCallButton == button)
+            self.confirmCallOptionButton?.selected = (self.confirmCallOptionButton == button)
+            self.confirmSelected = button.tag
+            self.confirmText = button.titleLabel!.text!
         
-        if confirmSelected == 3{
-             self.confirmText = "\(self.confirmText)\n\(self.phoneField!.text!)"
-             self.phoneField?.enabled = true
-             self.phoneField?.textColor = UIColor.blackColor()
-        }else{
-            self.phoneField?.enabled = false
-            self.phoneField?.textColor = WMColor.gray
+            if confirmSelected == 3{
+                self.confirmText = "\(self.confirmText)\n\(self.phoneField!.text!)"
+                self.phoneField?.enabled = true
+                self.phoneField?.textColor = UIColor.blackColor()
+                self.showPhoneField = true
+            }else{
+                self.phoneField?.enabled = false
+                self.phoneField?.textColor = WMColor.gray
+                self.showPhoneField = false
+            }
+        
+            self.showPhoneFieldAnimated()
         }
     }
     
@@ -311,6 +331,30 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             })
         }
         
+    }
+    
+    /**
+     Shows or hide PhoneField
+     */
+    
+    func showPhoneFieldAnimated(){
+        let margin: CGFloat = 16.0
+        let width = self.view.frame.width - (2*margin)
+        let fheight: CGFloat = 44.0
+        let checkButtonHeight: CGFloat = 30
+        if self.showPhoneField{
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.phoneField!.alpha = 1.0
+                self.savePhoneButton!.alpha = 1.0
+                self.buildSubViews()
+            })
+        }else{
+            UIView.animateWithDuration(0.3, animations: {() in
+                self.phoneField!.alpha = 0.0
+                self.savePhoneButton!.alpha = 0.0
+                self.buildSubViews()
+            })
+        }
     }
     
     /**

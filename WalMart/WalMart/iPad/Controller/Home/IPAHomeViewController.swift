@@ -22,23 +22,6 @@ class IPAHomeViewController : HomeViewController {
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowHomeSelected.rawValue, object: nil)
     }
     
-    override func showHelpHomeView(){
-        let param = CustomBarViewController.retrieveParam("appVersion", forUser: false)
-        let appVersion = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String
-        if param != nil {
-            self.showHelpView = (appVersion != param!.value)
-        }else{
-            self.showHelpView = true
-        }
-        if self.showHelpView {
-            let helpView = IPAHelpHomeView.initView()
-            helpView.showView()
-            helpView.onClose = {(Void) -> Void in
-                CustomBarViewController.addOrUpdateParam("appVersion", value:"\(NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"]! as! String)",forUser: false)
-            }
-        }
-    }
-    
     override func showPleca(){
         print("::::showPleca:::")
         if plecaItems !=  nil  && plecaItems!.count > 0{
