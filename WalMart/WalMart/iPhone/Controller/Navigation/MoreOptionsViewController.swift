@@ -496,7 +496,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         
         let window = UIApplication.sharedApplication().keyWindow
         if let customBar = window!.rootViewController as? CustomBarViewController {
-            customBar.handleNotification("LIN",name:"l-whisky",value:"l-whisky",bussines:"gr")
+            customBar.handleNotification("LIN",name:"Centro de promociones",value:"cl-promociones-mobile",bussines:"gr")
         }
     
     }
