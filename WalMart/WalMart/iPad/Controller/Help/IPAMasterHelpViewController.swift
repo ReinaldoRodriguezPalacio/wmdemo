@@ -80,29 +80,30 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
             refered.navigationController!.setNavigationBarHidden(true, animated: true)
             refered.hiddenBack = true*/
         case 3:
+            //Promotios
+            print("Open promotions")
+            self.openPromotios()
+            let recent = IPAHelpViewController()
+            self.navigation.pushViewController(recent, animated: false)
+        case 4:
               BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue , action:WMGAIUtils.ACTION_OPEN_SEARCH_BY_TAKING_A_PHOTO.rawValue , label: "" )
             let cameraController = CameraViewController()
             cameraController.delegate = self
             self.presentViewController(cameraController, animated: true, completion: nil)
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
-        case 4:
+        case 5:
              BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_SCANNED_TICKET.rawValue, label: "")
             scanTicket()
             return
-        case 5:
+        case 6:
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, categoryNoAuth:WMGAIUtils.CATEGORY_MORE_OPTIONS_AUTH.rawValue, action: WMGAIUtils.ACTION_OPEN_ELECTRONIC_BILLING.rawValue, label: "")
             let webCtrl = IPOWebViewController()
             webCtrl.openURLFactura()
             self.presentViewController(webCtrl,animated:true,completion:nil)
             let recent = IPAHelpViewController()
             self.navigation.pushViewController(recent, animated: false)
-        case 6:
-            //Promotios
-            print("Open promotions")
-            self.openPromotios()
-            let recent = IPAHelpViewController()
-            self.navigation.pushViewController(recent, animated: false)
+      
             
         case 7:
             //Notifica

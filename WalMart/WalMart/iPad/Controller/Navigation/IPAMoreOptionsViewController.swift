@@ -25,10 +25,10 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
         
         self.emailLabel?.textAlignment = .Center
         
-        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Promotions.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+        options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.CamFind.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         
         if !self.showCamfind {
-            options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Promotions.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
+            options = [OptionsController.Address.rawValue,OptionsController.Recents.rawValue,OptionsController.Orders.rawValue,OptionsController.Promotions.rawValue,OptionsController.TicketList.rawValue,OptionsController.Invoice.rawValue,OptionsController.Notification.rawValue,OptionsController.StoreLocator.rawValue,OptionsController.Help.rawValue,OptionsController.Terms.rawValue,OptionsController.Contact.rawValue]
         }
        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(IPAMoreOptionsViewController.reloadMenu), name:"MORE_OPTIONS_RELOAD", object: nil)
@@ -153,7 +153,12 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = self.tableView?.cellForRowAtIndexPath(self.selected!)
         cell?.selected = false
-        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 1 && self.showCamfind)) {
+        if UserCurrentSession.sharedInstance().userSigned == nil && (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row == 2 && self.showCamfind)) {
+            self.openLoginOrProfile()
+            self.selected = NSIndexPath(forRow: 0, inSection: 2)
+            self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
+            return
+        } else if UserCurrentSession.sharedInstance().userSigned == nil && ((indexPath.section == 1 && indexPath.row == 1 && !self.showCamfind)) {
             self.openLoginOrProfile()
             self.selected = NSIndexPath(forRow: 0, inSection: 2)
             self.tableView?.selectRowAtIndexPath(self.selected!, animated: false, scrollPosition: .Bottom)
@@ -176,7 +181,7 @@ class IPAMoreOptionsViewController: MoreOptionsViewController{
 
         self.selected = indexPath
         
-        if !self.showCamfind! && currentOption > 2 {
+        if !self.showCamfind! && currentOption > 3 {//2
             currentOption += 1
         }
         
