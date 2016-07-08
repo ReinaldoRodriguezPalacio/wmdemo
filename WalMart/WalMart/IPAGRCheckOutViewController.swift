@@ -22,7 +22,6 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     var itemsInCart: NSArray!
     var listSelectorController: ListsSelectorViewController?
     var delegateCheckOut : IPAGRCheckOutViewControllerDelegate!
-    var backgroundView: UIView?
     var footer: UIView?
     var buttonShop: UIButton?
     var totalView : IPOCheckOutTotalView!
@@ -30,12 +29,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.timeSlotsTable?.hidden = true
-        self.backgroundView = UIView()
-        self.backgroundView!.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
-        self.view.addSubview(backgroundView!)
-        
+    
         self.footer = UIView()
         self.footer!.backgroundColor = UIColor.whiteColor()
         self.view.addSubview(self.footer!)
@@ -45,7 +39,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         self.buttonShop!.frame = CGRectMake(16, (footerHeight / 2) - 17, bounds.width - 32, 34)
         self.buttonShop!.backgroundColor = WMColor.green
         self.buttonShop!.layer.cornerRadius = 17
-        self.buttonShop!.addTarget(self, action: #selector(IPAGRCheckOutViewController.shopButtonTaped), forControlEvents: UIControlEvents.TouchUpInside)
+        self.buttonShop!.addTarget(self, action: #selector(IPAGRCheckOutViewController.next), forControlEvents: UIControlEvents.TouchUpInside)
         self.buttonShop!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0)
         self.footer!.addSubview(self.buttonShop!)
         
@@ -66,30 +60,30 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             subtotal: "\(UserCurrentSession.sharedInstance().estimateTotalGR())",
             saving: UserCurrentSession.sharedInstance().estimateSavingGR() == 0 ? "" : "\(UserCurrentSession.sharedInstance().estimateSavingGR())")
         self.updateShopButton("\(UserCurrentSession.sharedInstance().estimateTotalGR()-UserCurrentSession.sharedInstance().estimateSavingGR())")
-        self.backgroundView!.addSubview(totalView)
-        self.backgroundView!.addSubview(footer!)
+        self.view.addSubview(totalView)
+        self.view.addSubview(footer!)
         
+        self.cancelButton?.removeFromSuperview()
+        self.saveButton?.removeFromSuperview()
+        self.removeViewLoad()
+        self.addViewLoad()
     }
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds.size
         let footerHeight:CGFloat = 65.0
         
-        self.backgroundView!.frame = CGRectMake(0,46,self.view.bounds.width,self.view.bounds.height - 46)
-        self.totalView.frame = CGRectMake(0, self.backgroundView!.frame.height - 160, self.view.bounds.width, 95)
+        self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view!.frame.height - 206)
+        self.layerLine.frame = CGRectMake(0, self.content!.frame.maxY,  self.view.frame.width, 1)
+        self.totalView.frame = CGRectMake(0, self.view!.frame.height - 160, self.view.bounds.width, 95)
         var width = bounds.width - 32.0
         width = (width/2) - 75.0
-        self.footer!.frame = CGRectMake(0.0, self.backgroundView!.bounds.height - footerHeight, bounds.width, footerHeight)
+        self.footer!.frame = CGRectMake(0.0, self.view!.bounds.height - footerHeight, bounds.width, footerHeight)
         self.addToListButton.frame = CGRectMake(8 ,0, 50, footer!.frame.height)
         self.buttonShare.frame = CGRectMake(self.addToListButton!.frame.maxX, 0, 50, footer!.frame.height)
         self.buttonShop!.frame = CGRectMake(buttonShare.frame.maxX + 8, (footer!.frame.height / 2) - 17, self.view.frame.width - buttonShare.frame.maxX - 24, 34)
         
         self.customlabel.frame = self.buttonShop!.bounds
-        if self.viewLoad != nil {
-            self.viewLoad.frame = self.view.bounds
-            self.viewLoad.startAnnimating(true)
-        }
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -382,38 +376,6 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
                 self.alertView!.showErrorIcon("Ok")
             }
         )
-    }
-    
-    func shopButtonTaped(){
-        if self.selectedAddressHasStore {
-        self.backgroundView?.removeFromSuperview()
-        self.timeSlotsTable?.hidden = false
-        }else{
-            self.showAddressPicker()
-            self.picker!.newItemForm()
-            self.picker!.viewButtonClose.hidden = true
-            let delay = 0.7 * Double(NSEC_PER_SEC)
-            let time = dispatch_time(DISPATCH_TIME_NOW, Int64(delay))
-            dispatch_after(time, dispatch_get_main_queue()) {
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
-                self.alertView!.setMessage(NSLocalizedString("gr.address.field.addressNotOk",comment:""))
-                self.alertView!.showDoneIconWithoutClose()
-                self.alertView!.showOkButton("Ok", colorButton: WMColor.green)
-            }
-        
-        }
-    }
-    
-    override func back() {
-        self.content.setContentOffset(CGPointZero, animated: true)
-        self.view.addSubview(self.backgroundView!)
-        self.timeSlotsTable?.hidden = true
-        if self.errorView != nil {
-            self.errorView!.removeFromSuperview()
-            self.errorView!.focusError = nil
-            self.errorView = nil
-            self.address?.layer.borderColor =   UIColor.whiteColor().CGColor
-        }
     }
     
     //Share

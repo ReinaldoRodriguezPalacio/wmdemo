@@ -231,7 +231,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     
     func addViewLoad(){
         if viewLoad == nil {
-            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 705) : self.view.bounds
+            let bounds = IS_IPAD ? CGRectMake(0, 0, 341, 768) : self.view.bounds
             viewLoad = WMLoadingView(frame: bounds)
             viewLoad.backgroundColor = UIColor.whiteColor()
             viewLoad.startAnnimating(true)
