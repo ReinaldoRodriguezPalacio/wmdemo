@@ -54,7 +54,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var showReminderButton: Bool = false
     
     var addProductsView : AddProductTolistView?
-    var fromDelete  =  false
+    var fromDelete  =  true
     var openEmpty =  false
     
     
@@ -971,13 +971,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         detailService.buildParams(self.listId)
         detailService.callService([:],
             successBlock: { (result:NSDictionary) -> Void in
-                
-                
-                
                 self.products = result["items"] as? [AnyObject]
                 self.titleLabel?.text = result["name"] as? String
-                
-                
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {
