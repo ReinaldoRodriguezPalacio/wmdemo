@@ -48,7 +48,8 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
         }
         
-        viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        //viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        
         self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.bounds.width, 46))
         
         self.view.backgroundColor = UIColor.whiteColor()
@@ -102,7 +103,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
         self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
         self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
         
-        
+        showLoadingView()
     }
     
     
@@ -452,11 +453,11 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
                 self.itemDetailProducts = itemsFedex
                 
                 self.tableDetailOrder.reloadData()
-                self.viewLoad.stopAnnimating()
+                self.removeLoadingView()
                 }) { (error:NSError) -> Void in
                     //
                     self.back()
-                    self.viewLoad.stopAnnimating()
+                    self.removeLoadingView()
             }
         }else {
             
@@ -494,7 +495,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.detailsOrder = details
             self.itemDetailProducts = detailsOrderGroceries["items"] as! NSArray
             self.tableDetailOrder.reloadData()
-            self.viewLoad.stopAnnimating()
+            self.removeLoadingView()
             
         }
     }
@@ -692,6 +693,32 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
             self.tableDetailOrder!.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             self.tableDetailOrder!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, 64, 0)
         })
+    }
+    
+    
+    /**
+     Present loader in screen list
+     */
+    func showLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+        
+        self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
+        self.viewLoad!.backgroundColor = UIColor.whiteColor()
+        self.view.addSubview(self.viewLoad!)
+        self.viewLoad!.startAnnimating(self.isVisibleTab)
+    }
+    
+    /**
+     Remove loader from screen list
+     */
+    func removeLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.stopAnnimating()
+            self.viewLoad = nil
+        }
     }
 
 

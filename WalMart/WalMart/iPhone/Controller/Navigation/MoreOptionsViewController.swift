@@ -493,11 +493,41 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
      Call service line promotions
      */
     func openPromotios(){
-        
-        let window = UIApplication.sharedApplication().keyWindow
-        if let customBar = window!.rootViewController as? CustomBarViewController {
-            customBar.handleNotification("LIN",name:"Centro de promociones",value:"cl-promociones-mobile",bussines:"gr")
+
+        NSLog("Inicia llamado de  Servicios:::::")
+        self.loadGRServices { (bussines:String) in
+            NSLog("termina llamado de Servicios:::")
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-audio-casa-barras",bussines:bussines)
+            }
         }
-    
     }
+    /**
+     validate number items line contains
+     
+     - parameter successBlock: finish service an retun bussines
+     */
+    func loadGRServices(successBlock:((String) -> Void)?){
+       
+        let signalsDictionary : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
+        let service = GRProductBySearchService(dictionary: signalsDictionary)
+        let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
+        service.callService(params, successBlock: { (respose:NSArray) in
+            print("temina")
+            if respose.count > 20 {
+                successBlock!("gr")
+            }else{
+                successBlock!("mg")
+            }
+           
+        }, errorBlock: { (error:NSError) in
+            successBlock!("mg")
+            print("llama al mg")
+        })
+    }
+    
+    
+    
 }
