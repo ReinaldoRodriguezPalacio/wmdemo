@@ -72,6 +72,17 @@ class IPAOrderDetailViewController: OrderDetailViewController {
         }
     }
     
+    override func showLoadingView() {
+        if self.viewLoad != nil {
+            self.viewLoad!.removeFromSuperview()
+            self.viewLoad = nil
+        }
+            self.viewLoad = WMLoadingView(frame: CGRectMake(0, 46, 681.5, self.view.frame.height - 46))
+            self.viewLoad!.backgroundColor = UIColor.whiteColor()
+            self.view.addSubview(self.viewLoad!)
+            self.viewLoad!.startAnnimating(self.isVisibleTab)
+    }
+    
     //MARK: - ScrollDelegate
     
     override func willShowTabbar() {
