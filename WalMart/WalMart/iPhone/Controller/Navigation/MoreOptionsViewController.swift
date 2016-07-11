@@ -300,7 +300,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             
         }
         
-        let notificationOptions = (self.showCamfind! ? 7 : 6)
+        let notificationOptions = (self.showCamfind! ? 8 : 7)
         if currentOption == notificationOptions {
             //Se elimina Badge de notificaciones
             UIApplication.sharedApplication().applicationIconBadgeNumber = 0
