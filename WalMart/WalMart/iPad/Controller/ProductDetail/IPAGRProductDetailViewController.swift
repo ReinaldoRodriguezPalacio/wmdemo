@@ -168,6 +168,8 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             self.defaultLoadingImg?.hidden = true 
             self.titlelbl.text = self.name as String
             
+            self.bannerImagesProducts.imageIconView.hidden = !ProductDetailViewController.validateUpcPromotion(self.upc as String)
+            
             NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
             
             //FACEBOOKLOG

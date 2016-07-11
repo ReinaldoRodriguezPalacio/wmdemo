@@ -141,6 +141,7 @@ class IPAProductDetailViewController : UIViewController, UITableViewDelegate , U
         self.view.addSubview(separator)
         self.view.addSubview(defaultLoadingImg!)
         loadDataFromService()
+        bannerImagesProducts.imageIconView.hidden = true
     }
     
     override func viewWillAppear(animated: Bool) {
