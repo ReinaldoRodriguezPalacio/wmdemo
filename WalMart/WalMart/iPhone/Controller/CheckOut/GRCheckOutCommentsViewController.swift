@@ -443,11 +443,14 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
                 self.defaultPhone = phoneDefault
                 self.phoneField?.text = phoneDefault
+                
+                if self.confirmSelected == 3{
+                    self.confirmText = "\(self.confirmText)\n\(phoneDefault)"
+                }
+                
                 alert?.showDoneIcon()
                 alert?.close()
             }, isNewFrame: false)
-
-        
     }
     
     

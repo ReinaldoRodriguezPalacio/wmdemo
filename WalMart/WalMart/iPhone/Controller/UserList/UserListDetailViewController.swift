@@ -1048,9 +1048,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             } else {
                                 self.editBtn!.hidden = false
                             }
-                            
-                            
-                            
                             }, reloadList: true)
                         succesDelete()
                     },
@@ -1525,7 +1522,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         controller.searchContextType = searchContextType
         controller.titleHeader = text
         controller.textToSearch = text
-        controller.searchFromContextType = searchServiceFromContext
+        controller.searchFromContextType = .FromSearchTextList
         controller.idListFromSearch =  self.listId
         self.navigationController?.pushViewController(controller, animated: true)
         

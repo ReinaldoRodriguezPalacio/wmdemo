@@ -45,7 +45,7 @@ enum SearchServiceContextType {
     case FromSearchText
     case FromSearchCamFind
     case FromSearchTextSelect
-
+    case FromSearchTextList
  }
 
 class SearchProductViewController: NavigationViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, FilterProductsViewControllerDelegate, SearchProductCollectionViewCellDelegate {
@@ -1043,9 +1043,9 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
         }
         
         self.showLoadingIfNeeded(true)
-        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch {
+        if (self.allProducts == nil || self.allProducts!.count == 0) && self.isTextSearch && self.searchFromContextType != .FromSearchTextList{
            self.showEmptyMGGRView()
-        } else if self.allProducts == nil || self.allProducts!.count == 0 {
+        } else if (self.allProducts == nil || self.allProducts!.count == 0) &&  self.searchFromContextType == .FromSearchTextList{
            self.showEmptyView()
         }
         else {
@@ -1145,6 +1145,13 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.empty = IPOGenericEmptyView(frame:CGRectMake(0, self.header!.frame.maxY, self.view.bounds.width, self.view.bounds.height - 46))
         }
         
+        if self.searchFromContextType == .FromSearchTextList {
+            self.empty.descLabel.text = "No existe ese artículo en Súper"
+            self.empty.descLabel.numberOfLines = 1
+        }else{
+            self.empty.descLabel.text = NSLocalizedString(IPOGenericEmptyViewSelected.Selected,comment:"")
+            self.empty.descLabel.numberOfLines = 3
+        }
     
         self.empty.returnAction = { () in
             self.returnBack()
@@ -1169,9 +1176,6 @@ class SearchProductViewController: NavigationViewController, UICollectionViewDat
             self.emptyMGGR.returnAction = { () in
                 self.returnBack()
             }
-            
-            
-            
         }
         if btnSuper.selected {
             self.emptyMGGR.descLabel.text = "No existe ese artículo en Súper"
