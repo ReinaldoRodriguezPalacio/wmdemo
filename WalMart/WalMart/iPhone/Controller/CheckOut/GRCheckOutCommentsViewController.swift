@@ -445,7 +445,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 self.phoneField?.text = phoneDefault
                 
                 if self.confirmSelected == 3{
-                    self.confirmText = "\(self.confirmText)\n\(phoneDefault)"
+                    self.confirmText = "\(self.confirmCallButton!.titleLabel!.text!)\n\(phoneDefault)"
                 }
                 
                 alert?.showDoneIcon()
