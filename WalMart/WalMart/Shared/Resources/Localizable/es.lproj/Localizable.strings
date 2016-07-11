@@ -474,6 +474,7 @@
 "gr.confirma.costodeenvio" = "Costo de envio";
 "gr.confirma.descuentodeasociado" = "Descuento de asociado";
 "gr.addtolist.super" = "Añadir todo a una lista de súper";
+"gr.alert.phone" = "Si editas este número telefónico se actualizará en tus direcciones.";
 
 //Estatus pedidos groceries
 "gr.order.status.1" = "Enviado a tienda";

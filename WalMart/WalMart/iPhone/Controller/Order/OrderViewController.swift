@@ -53,6 +53,7 @@ class OrderViewController: NavigationViewController,UITableViewDataSource,UITabl
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         isShowingTabBar = !TabBarHidden.isTabBarHidden
+        
     }
     
     override func viewWillLayoutSubviews() {
