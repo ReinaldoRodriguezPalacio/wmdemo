@@ -42,12 +42,6 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_MGPREVIOUSORDERSDETAIL.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-        
         //viewLoad = WMLoadingView(frame:CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46))
         
         self.viewFooter = UIView(frame:CGRectMake(0, self.view.bounds.maxY - 72, self.view.bounds.width, 46))
@@ -137,8 +131,7 @@ class OrderDetailViewController : NavigationViewController,UITableViewDataSource
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        isShowingTabBar = !TabBarHidden.isTabBarHidden
-        
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ShowBar.rawValue, object: nil)
         reloadPreviousOrderDetail()
     }
  

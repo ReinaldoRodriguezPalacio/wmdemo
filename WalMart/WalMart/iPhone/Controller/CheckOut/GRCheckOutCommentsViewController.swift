@@ -97,7 +97,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         self.phoneField = FormFieldView(frame: CGRectMake(margin, confirmCallButton!.frame.maxY + 8.0, width, fheight))
         let phone = self.getDefaultPhone()
-        self.phoneField!.setCustomPlaceholder("Teléfono: \(phone)")
+        //self.phoneField!.setCustomPlaceholder("Teléfono: \(phone)")
         self.phoneField!.isRequired = true
         self.phoneField!.typeField = TypeField.Phone
         self.phoneField!.nameField = "Teléfono"
@@ -342,10 +342,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
      */
     
     func showPhoneFieldAnimated(){
-        let margin: CGFloat = 16.0
-        let width = self.view.frame.width - (2*margin)
-        let fheight: CGFloat = 44.0
-        let checkButtonHeight: CGFloat = 30
         if self.showPhoneField{
             UIView.animateWithDuration(0.3, animations: {() in
                 self.phoneField!.alpha = 1.0

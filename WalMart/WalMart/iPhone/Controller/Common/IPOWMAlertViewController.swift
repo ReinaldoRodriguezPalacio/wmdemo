@@ -85,10 +85,9 @@ class IPOWMAlertViewController : UIViewController {
 
         titleLabel!.sizeToFit()
         if  self.btnFrame {
-
              titleLabel.frame =  CGRectMake(16,  viewBgImage.frame.maxY + 24, self.view.frame.width - 32, titleLabel!.frame.height)
         }else{
-              titleLabel.frame = self.isOtherFame ? CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height) : CGRectMake((bounds.width - 232) / 2,  viewBgImage.frame.maxY + 16, 232, titleLabel!.frame.height)
+              titleLabel.frame = CGRectMake((bounds.width - 321),  viewBgImage.frame.maxY + 24, 321, titleLabel!.frame.height)
         }
       
         
@@ -126,8 +125,9 @@ class IPOWMAlertViewController : UIViewController {
      - parameter message: message to present
      */
     func setMessage(message:NSString){
-        let size =  message.boundingRectWithSize(CGSizeMake(titleLabel.frame.width, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
-        titleLabel.frame = CGRectMake(titleLabel.frame.minX, titleLabel.frame.minY, 232, size.height)
+        let size =  message.boundingRectWithSize(CGSizeMake(self.view.frame.width - 64, CGFloat.max), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: titleLabel.font], context: nil)
+        
+        titleLabel.frame = CGRectMake(32, titleLabel.frame.minY, self.view.frame.width - 64, size.height)
         titleLabel.text = message as String
     }
     
