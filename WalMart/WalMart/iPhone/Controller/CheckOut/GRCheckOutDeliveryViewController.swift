@@ -811,6 +811,9 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         }) { (error:NSError) -> Void in
             self.removeViewLoad()
             self.slotsItems = []
+            let aviableDate = self.returnAviableDate(self.parseDateString(date))
+            self.deliveryDate!.text = aviableDate["dateString"] as? String
+            self.selectedDate = aviableDate["date"] as! NSDate
             endCallTypeService()
         }
     }
