@@ -228,7 +228,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         }
         self.confirmCallOptionButton!.frame = CGRectMake(margin,notConfirmCallButton!.frame.maxY + margin,width,checkButtonHeight)
         self.sectionTitleComments!.frame = CGRectMake(margin, confirmCallOptionButton!.frame.maxY + 28.0, width, lheight)
-        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,85)
+        self.comments!.frame = CGRectMake(margin,self.sectionTitleComments!.frame.maxY + margin,width,95)
         self.content!.frame = CGRectMake(0.0, 46.0, self.view.bounds.width, self.view.bounds.height - 111)
         self.content!.contentSize = CGSizeMake(self.view.frame.width, self.comments!.frame.maxY + 10)
         self.layerLine.frame = CGRectMake(0, self.view.bounds.height - 65,  self.view.frame.width, 1)
@@ -395,6 +395,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         self.showSavePhoneButton(false)
     }
     
+    /**
+     Validathe phone datda
+     
+     - returns: bool
+     */
     func validatePhone() -> Bool {
         
         let message = self.phoneField!.validate()
@@ -430,11 +435,11 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         
         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"userProfile"))
         alert?.showicon(UIImage(named:"userProfile"))
-        alert?.setMessage("Si editas este número telefónico se actualizará en tus direcciones.")
-        alert?.addActionButtonsWithCustomText("Cancelar", leftAction: {
+        alert?.setMessage(NSLocalizedString("gr.alert.phone", comment: ""))
+        alert?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel", comment: ""), leftAction: {
             self.resetPhoneField()
             alert?.close()
-            }, rightText: "Continuar", rightAction: {
+            }, rightText: NSLocalizedString("invoice.message.continue", comment: ""), rightAction: {
                 UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
                 self.defaultPhone = phoneDefault
                 self.phoneField?.text = phoneDefault
@@ -511,8 +516,6 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 textView.attributedText =  commentsString
             }
         }
-        
-        
         self.content!.contentOffset = CGPointZero
     }
     
