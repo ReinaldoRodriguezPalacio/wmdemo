@@ -436,7 +436,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"userProfile"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"userProfile"))
         alert?.showicon(UIImage(named:"userProfile"))
         alert?.setMessage(NSLocalizedString("gr.alert.phone", comment: ""))
-        alert?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel", comment: ""), leftAction: {
+            alert?.addActionButtonsWithCustomText(NSLocalizedString("invoice.button.cancel", comment: ""), leftAction: {
             self.resetPhoneField()
             alert?.close()
             }, rightText: NSLocalizedString("invoice.message.continue", comment: ""), rightAction: {
@@ -446,6 +446,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
                 alert?.showDoneIcon()
                 alert?.close()
             }, isNewFrame: false)
+
         
     }
     
