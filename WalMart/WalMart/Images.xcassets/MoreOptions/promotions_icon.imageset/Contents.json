@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "support_icon.png",
+      "filename" : "promociones.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "support_icon@2x.png",
+      "filename" : "promociones@2x.png",
       "scale" : "2x"
     },
     {
