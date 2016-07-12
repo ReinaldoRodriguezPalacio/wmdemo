@@ -534,11 +534,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         if txtAfterUpdate.length >= 11 {
             return false
         }
+        
+        self.showSavePhoneButton((txtAfterUpdate != self.defaultPhone))
         return true
     }
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        self.showSavePhoneButton(true)
         self.phoneField!.layer.borderColor = WMColor.light_blue.CGColor
         self.phoneField!.layer.borderWidth = 0.5
     }

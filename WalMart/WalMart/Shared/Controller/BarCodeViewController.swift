@@ -34,6 +34,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
     var searchProduct = false
     var useDelegate = false
     var isAnyActionFromCode =  false
+    var onlyCreateList = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_SCANBARCODE.rawValue
@@ -186,10 +187,14 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
         for obj in metadataObjects {
             if let metaObj = obj as? AVMetadataMachineReadableCodeObject {
                 self.dismissViewControllerAnimated(true, completion:{ (Void) -> Void in
-                    if self.isAnyActionFromCode {
-                        self.searchProduct(metaObj)
-                        return
-                    }
+                if self.isAnyActionFromCode {
+                    self.searchProduct(metaObj)
+                    return
+                }
+                if self.onlyCreateList {
+                    self.createList(metaObj)
+                }
+                    
                 if self.searchProduct {
                     if metaObj.type! == "org.gs1.EAN-13"
                     {

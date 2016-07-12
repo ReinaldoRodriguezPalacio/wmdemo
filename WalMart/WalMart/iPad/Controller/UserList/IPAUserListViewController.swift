@@ -448,6 +448,7 @@ class IPAUserListViewController: UserListViewController {
         barCodeController.delegate = self
         barCodeController.searchProduct = false
         barCodeController.useDelegate = true
+        barCodeController.onlyCreateList = true
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
@@ -478,12 +479,13 @@ class IPAUserListViewController: UserListViewController {
                         
                         self.invokeDeleteListService(listId)
                         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+                        self.rowSelected = NSIndexPath(forRow: 0, inSection: 0)
                         self.selectRowIfNeeded()
                     }
                 }
                     //Si existe como entidad solo debe eliminarse de la BD
                 else if let listEntity = self.itemsUserList![indexPath.row] as? List {
-                    
+                    self.rowSelected = NSIndexPath(forRow: 0, inSection: 0)
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.deletingList", comment:""))
                     self.managedContext!.deleteObject(listEntity)

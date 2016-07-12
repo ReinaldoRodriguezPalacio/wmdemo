@@ -686,6 +686,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         barCodeController.delegate = self
         barCodeController.searchProduct = false
         barCodeController.useDelegate = true
+        barCodeController.onlyCreateList = true
         self.presentViewController(barCodeController, animated: true, completion: nil)
     }
     
