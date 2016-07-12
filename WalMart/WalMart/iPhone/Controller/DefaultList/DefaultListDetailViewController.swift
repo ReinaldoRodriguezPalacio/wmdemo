@@ -297,7 +297,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
      
        let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
         var dominio = "https://www.walmart.com.mx"
-        if environment != "PORDUCCION"{
+        if environment != "PRODUCTION"{
             dominio = "http://192.168.43.192:8085"
         }
         var urlss  = ""
@@ -306,17 +306,15 @@ DetailListViewCellDelegate,UIActivityItemSource {
             let desc = self.gradeName!.stringByReplacingOccurrencesOfString(" ", withString: "-")
             let namelines = self.nameLine!.stringByReplacingOccurrencesOfString(" ", withString: "-")
             
-            var  appLink  = UserCurrentSession.urlWithRootPath("\(dominio)/walmartmg/site/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name_\(name)&description=\(desc)")
+            var  appLink  = UserCurrentSession.urlWithRootPath("\(dominio)/images/m_webParts/banners/Carrusel/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name_\(name)&description=\(desc)")
             
-            appLink = "\(dominio)/walmartmg/site/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name=\(name)&description=\(desc)"
+            appLink = "\(dominio)/images/m_webParts/banners/Carrusel/linkbts.html?os=1&idLine=\(self.lineId! as String)&nameLine=\(namelines)&name=\(name)&description=\(desc)"
             
             //appLink = "walmartmexicoapp://bussines_mg&type_LIST&value_\(self.lineId! as String)&name_\(name)&description_\(desc)"
             
             urlss = "\n Entra a la aplicación:\n \(appLink!)"
         }
       
-        
-        
         
         if activityType == UIActivityTypeMail {
             return "Hola, encontré estos productos en Walmart.¡Te los recomiendo! \n \n Siempre encuentra todo y pagas menos.\(urlss)"
