@@ -500,7 +500,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
             
             let window = UIApplication.sharedApplication().keyWindow
             if let customBar = window!.rootViewController as? CustomBarViewController {
-                customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-audio-casa-barras",bussines:bussines)
+                customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
             }
         }
     }
@@ -516,7 +516,7 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
         let params = service.buildParamsForSearch(text: "", family: "_", line: "cl-promociones-mobile", sort: "", departament: "_", start: 0, maxResult: 20,brand:"")
         service.callService(params, successBlock: { (respose:NSArray) in
             print("temina")
-            if respose.count > 20 {
+            if respose.count > 0 {
                 successBlock!("gr")
             }else{
                 successBlock!("mg")

@@ -1005,6 +1005,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
+            view.activePromotions(self.validateUpcPromotion())
             currentHeaderView = view
             return view
         }
@@ -1085,6 +1086,11 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
 
     }*/
+    
+    func validateUpcPromotion() -> Bool{
+        let upcs =  UserCurrentSession.sharedInstance().upcSearch
+        return upcs.containsObject(self.upc)
+    }
     
     func cellForPoint(point:(Int,Int),indexPath: NSIndexPath) -> UICollectionViewCell? {
         var cell : UICollectionViewCell? = nil

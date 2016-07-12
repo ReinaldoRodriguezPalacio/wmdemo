@@ -168,10 +168,12 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
         commentsString!.addAttribute(NSFontAttributeName, value: WMFont.fontMyriadProItOfSize(12), range:NSMakeRange(0,commentsString!.length))
         commentsString!.appendAttributedString(commentsDefault)
         
-        self.findproductInCar()
         
-        if self.showMessageInCommens && UserCurrentSession.sharedInstance().activeCommens {
-            self.comments?.attributedText = commentsString
+        if UserCurrentSession.sharedInstance().activeCommens {
+            self.findproductInCar()
+            if self.showMessageInCommens {
+                self.comments?.attributedText = commentsString
+            }
         }
         
         self.layerLine = CALayer()
@@ -454,7 +456,9 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
     }
     
     
-    
+    /**
+        Find products in car for paint promotions in commens
+     */
     func findproductInCar(){
       let products =  UserCurrentSession.sharedInstance().itemsGR
         let upcsIncart : NSMutableArray =  []

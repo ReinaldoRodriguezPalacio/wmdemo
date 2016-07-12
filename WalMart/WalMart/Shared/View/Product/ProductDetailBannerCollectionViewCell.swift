@@ -35,6 +35,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
     var imagePresale : UIImageView!
     //var imageLowStock : UIImageView!
     var lowStock : UILabel?
+    
+    var imageIconView: UIImageView!
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -111,6 +113,16 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         saving = CurrencyCustomLabel(frame: CGRectMake(0, self.price.frame.maxY  , self.frame.width, 15.0))
         self.addSubview(saving)
         
+        imageIconView = UIImageView()
+        imageIconView.image = UIImage(named:"promocion_detail")
+        imageIconView.frame =  CGRectMake(100, 100, 70, 70)
+        
+        self.addSubview(imageIconView)
+        
+    }
+    
+    func activePromotions(isActive:Bool){
+        self.imageIconView.hidden = !isActive
     }
     
     func setAdditionalValues(listPrice:String,price:String,saving:String){
@@ -250,6 +262,8 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
         self.price.frame = CGRectMake(0, self.bounds.height - 39  , self.frame.width, 24.0)
         self.saving.frame = CGRectMake(0, self.bounds.height - 15  , self.frame.width, 15.0)
         self.lowStock?.frame = CGRectMake(16, 8, self.frame.width - 32, 14.0)
+        
+        self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 144 ,70 ,70)
     }
 
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -268,6 +282,7 @@ class ProductDetailBannerCollectionViewCell : UICollectionReusableView, UICollec
             cell.imageView!.image = image
             self.imagesRef.insert(image, atIndex: indexPath.row)
             }, failure: nil)
+    
         return cell
     }
     
