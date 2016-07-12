@@ -1005,7 +1005,7 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
             view.collection.reloadData()
             
             view.setAdditionalValues(listPrice as String, price: price as String, saving: saving as String)
-            view.activePromotions(self.validateUpcPromotion())
+            view.activePromotions(ProductDetailViewController.validateUpcPromotion(self.upc as String))
             currentHeaderView = view
             return view
         }
@@ -1087,9 +1087,9 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
 
     }*/
     
-    func validateUpcPromotion() -> Bool{
+    class func validateUpcPromotion(upc:String) -> Bool{
         let upcs =  UserCurrentSession.sharedInstance().upcSearch
-        return upcs.containsObject(self.upc)
+        return upcs.containsObject(upc)
     }
     
     func cellForPoint(point:(Int,Int),indexPath: NSIndexPath) -> UICollectionViewCell? {
