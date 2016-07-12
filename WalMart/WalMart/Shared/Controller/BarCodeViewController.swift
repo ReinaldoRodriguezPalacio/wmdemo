@@ -193,6 +193,7 @@ class BarCodeViewController : BaseController, AVCaptureMetadataOutputObjectsDele
                 }
                 if self.onlyCreateList {
                     self.createList(metaObj)
+                    return
                 }
                     
                 if self.searchProduct {
