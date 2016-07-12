@@ -160,7 +160,7 @@ class IPAProductDetailBannerView: UIView,UICollectionViewDataSource,UICollection
         self.collection.frame  = CGRectMake(self.bounds.origin.x + 14,self.bounds.origin.y,self.bounds.size.width - 14,self.bounds.size.height - 24 )//self.bounds
         self.pointSection?.frame = CGRectMake(0, self.collection.frame.height - 20 , self.collection.frame.width, 20)
         self.lowStock?.frame =  CGRectMake(16, 8 , self.frame.width - 32, 14)
-        self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 90 ,70 ,70)
+        self.imageIconView.frame =  CGRectMake(self.bounds.width - 86, self.bounds.height - 110 ,70 ,70)
 
     }
     

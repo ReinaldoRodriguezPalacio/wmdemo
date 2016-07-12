@@ -1138,7 +1138,14 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         return cell
     }
     
-    
+    /**
+     validate open Container info from product
+     
+     - parameter open:                     is open
+     - parameter viewShow:                 view where present container
+     - parameter additionalAnimationOpen:  animation open block
+     - parameter additionalAnimationClose: anipation close block
+     */
     func opencloseContainer(open:Bool,viewShow:UIView,additionalAnimationOpen:(() -> Void),additionalAnimationClose:(() -> Void)) {
         if isContainerHide && open {
             openContainer(viewShow, additionalAnimationOpen: additionalAnimationOpen)
@@ -1148,6 +1155,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         
     }
     
+    /**
+     Anumation where container info open
+     
+     - parameter viewShow:                view where present info
+     - parameter additionalAnimationOpen: other animation block
+     */
     func openContainer(viewShow:UIView,additionalAnimationOpen:(() -> Void)) {
         self.isContainerHide = false
         
@@ -1168,6 +1181,12 @@ class ProductDetailViewController : IPOBaseController,UICollectionViewDataSource
         }
     }
     
+    /**
+     Animation where container info closed
+     
+     - parameter additionalAnimationClose: <#additionalAnimationClose description#>
+     - parameter completeClose:            <#completeClose description#>
+     */
     func closeContainer(additionalAnimationClose:(() -> Void),completeClose:(() -> Void)) {
         let finalFrameOfQuantity = CGRectMake(self.detailCollectionView.frame.minX,  heightDetail, self.detailCollectionView.frame.width, 0)
         UIView.animateWithDuration(0.5,
