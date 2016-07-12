@@ -419,13 +419,6 @@ class IPAUserListViewController: UserListViewController {
                                                     cell?.selected = true
                                                     return
                                                 }
-                                            }else{
-                                                if itemList.name == value {
-                                                    self.tableView(self.tableuserlist!, didSelectRowAtIndexPath: NSIndexPath(forRow:count,inSection:1))
-                                                    let cell = self.tableuserlist!.cellForRowAtIndexPath(NSIndexPath(forRow:count,inSection:1))
-                                                    cell?.selected = true
-                                                    return
-                                                }
                                             }
                                             count += 1
                                         }
