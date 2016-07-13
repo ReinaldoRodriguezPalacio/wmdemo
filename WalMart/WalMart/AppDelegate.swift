@@ -43,10 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         FBSDKAppEvents.activateApp()
-
-        
         //UserCurrentSession.sharedInstance().searchForCurrentUser()
-        
         // Optional: automatically send uncaught exceptions to Google Analytics.
         GAI.sharedInstance().trackUncaughtExceptions = true
         // Optional: set Google Analytics dispatch interval to e.g. 20 seconds.
@@ -54,8 +51,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         // Optional: set Logger to VERBOSE for debug information.
         GAI.sharedInstance().logger.logLevel = .None
         // Initialize tracker. Replace with your tracking ID.
-        
-        
         GAI.sharedInstance().trackerWithTrackingId(WMGAIUtils.GAI_APP_KEY.rawValue)
         
         let fbDeferredAppLink: FBSDKDeferredAppLinkHandler = {(url: NSURL?, error: NSError?) in
@@ -473,6 +468,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         //return true
     }
+    
     func handleURLFacebook(url: NSURL,sourceApplication:String){
         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
         let stringCompare = parsedUrl.targetURL.absoluteString as NSString
