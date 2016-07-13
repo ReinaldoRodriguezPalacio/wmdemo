@@ -61,11 +61,6 @@ class IPABackToSchoolViewController: BackToSchoolCategoryViewController {
         self.schoolsTable.frame = CGRectMake(0, self.searchView!.frame.maxY, self.view.bounds.width, self.view.bounds.height - self.searchView!.frame.maxY)
     }
     
-    override func closeDepartment() {
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
-        super.closeDepartment()
-    }
-    
     /**
      Hides tap bar only in iPhone
      */

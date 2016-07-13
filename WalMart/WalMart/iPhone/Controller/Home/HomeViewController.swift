@@ -545,16 +545,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
     func updatecontent(sender:AnyObject) {
         //Read a banner list
         let serviceBanner = BannerService()
-      
         self.bannerItems = serviceBanner.getBannerContent()
         self.plecaItems = serviceBanner.getPleca()
-        
         let servicecarousel = CarouselService()
         self.recommendItems = servicecarousel.getCarouselContent()
-        
-        
         self.categories = getCategories()
-        
         collection.reloadData()
     }
     

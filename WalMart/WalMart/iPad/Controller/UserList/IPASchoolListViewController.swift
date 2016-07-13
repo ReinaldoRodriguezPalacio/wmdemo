@@ -127,6 +127,9 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
         self.sharePopover!.presentPopoverFromRect(rect, inView: self.view.superview!, permittedArrowDirections: .Any, animated: true)
     }
     
+    /**
+     Add loading view
+     */
     override func addViewLoad(){
         if self.loading == nil {
             self.loading = WMLoadingView(frame: CGRectMake(0.0, 0.0, 682.0, 658.0))
@@ -140,7 +143,9 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     }
     
     //MARK: Actions
-    
+    /**
+     Share view
+     */
     override func shareList() {
         //isShared = true
         if let image = self.buildImageToShare() {
@@ -162,4 +167,11 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     }
     
     override func willShowTabbar() { }
+    /**
+     Return to last view
+     */
+    override func back() {
+        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
+        super.back()
+    }
 }
