@@ -1626,7 +1626,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if toValidate.isEqualToString(""){
             message = "Escriba una palabra a buscar"
         }
-        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 3 {
+        if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
             message = NSLocalizedString("product.search.minimum",comment:"")
         }
         if !validateSearch(search)  {
