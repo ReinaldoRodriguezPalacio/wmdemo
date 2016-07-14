@@ -167,11 +167,4 @@ class IPASchoolListViewController: SchoolListViewController, UIPopoverController
     }
     
     override func willShowTabbar() { }
-    /**
-     Return to last view
-     */
-    override func back() {
-        NSNotificationCenter.defaultCenter().postNotificationName(UpdateNotification.HomeUpdateServiceEnd.rawValue, object: nil)
-        super.back()
-    }
 }

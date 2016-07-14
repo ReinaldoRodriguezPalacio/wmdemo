@@ -512,6 +512,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
                         grade = components[4].componentsSeparatedByString("_")[1]
                         grade = grade.stringByReplacingOccurrencesOfString("-", withString: " ").stringByRemovingPercentEncoding!
                     }
+                    IPOSplashViewController.updateUserData(true)
                     customBar.handleListNotification(srtType,name:"",value:srtValue,bussines:srtBussines,schoolName: schoolName,grade:grade)
                 }
 
