@@ -590,8 +590,6 @@ class IPACustomBarViewController :  CustomBarViewController {
     }
    
     override func handleNotification(type:String,name:String,value:String,bussines:String) -> Bool {
-        
-        
         let trimValue = value.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         if type != "CF" {
@@ -600,9 +598,6 @@ class IPACustomBarViewController :  CustomBarViewController {
                 btnShopping!.selected = !btnShopping!.selected
             }
         }
-        
-        
-        
         //TODO: Es necesario ver el manejo de groceries para las notificaciones.
         switch(type.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())) {
         case "": self.buttonSelected(self.buttonList[0])

@@ -11,9 +11,9 @@ import Foundation
 enum WMGAIUtils : String {
 
 
-//case GAI_APP_KEY = "UA-52615607-1" // productivo
+case GAI_APP_KEY = "UA-52615607-1" // productivo
 //case GAI_APP_KEY = "UA-68704781-1" // desarrollo
-case GAI_APP_KEY = "UA-79544417-1" // QA - AT
+//case GAI_APP_KEY = "UA-79544417-1" // QA - AT
 
 
     
