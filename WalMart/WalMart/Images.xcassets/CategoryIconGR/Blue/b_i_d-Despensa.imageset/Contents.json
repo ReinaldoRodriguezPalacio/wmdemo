@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "b_i_d-Despensa.png"
+      "filename" : "b_i_d-despensa-2.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "b_i_d-Despensa@2x.png"
+      "filename" : "b_i_d-despensa@2x-2.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -16,13 +16,13 @@
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "b_i_d-Despensa-1.png"
+      "filename" : "b_i_d-despensa.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "b_i_d-Despensa@2x-1.png"
+      "filename" : "b_i_d-despensa@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {

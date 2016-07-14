@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "i_d-Congelados.png"
+      "filename" : "i_d-congelados.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "i_d-Congelados@2x.png"
+      "filename" : "i_d-congelados@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

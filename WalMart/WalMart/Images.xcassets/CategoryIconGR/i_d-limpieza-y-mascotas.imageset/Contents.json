@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "i_d-Limpieza-y-Mascotas.png"
+      "filename" : "i_d-limpieza-y-mascotas.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
-      "filename" : "i_d-Limpieza-y-Mascotas@2x.png"
+      "filename" : "i_d-limpieza-y-mascotas@2x.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",

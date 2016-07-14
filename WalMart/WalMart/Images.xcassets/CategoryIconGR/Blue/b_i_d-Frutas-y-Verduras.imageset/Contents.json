@@ -2,13 +2,13 @@
   "images" : [
     {
       "idiom" : "iphone",
-      "scale" : "1x",
-      "filename" : "b_i_d-Frutas-y-Verduras.png"
+      "filename" : "b_i_d-frutas-y-verduras-2.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "b_i_d-Frutas-y-Verduras@2x.png"
+      "filename" : "b_i_d-frutas-y-verduras@2x-2.png",
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
@@ -16,13 +16,13 @@
     },
     {
       "idiom" : "ipad",
-      "scale" : "1x",
-      "filename" : "b_i_d-Frutas-y-Verduras-1.png"
+      "filename" : "b_i_d-frutas-y-verduras.png",
+      "scale" : "1x"
     },
     {
       "idiom" : "ipad",
-      "scale" : "2x",
-      "filename" : "b_i_d-Frutas-y-Verduras@2x-1.png"
+      "filename" : "b_i_d-frutas-y-verduras@2x.png",
+      "scale" : "2x"
     }
   ],
   "info" : {
