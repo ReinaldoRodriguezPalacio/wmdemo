@@ -34,6 +34,8 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     var delegate: SearchProductCollectionViewCellDelegate?
     
     var positionSelected : String = ""
+    
+    var serachFromList : Bool = false
 
     
     override func setup() {
@@ -161,7 +163,7 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
                 self.addProductToShopingCart!.setImage(UIImage(named: "ProductToShopingCart"), forState: UIControlState.Normal)
             }
         }
-        
+        serachFromList = isFormList
         if isFormList {
             if productInlist {
                 self.addProductToShopingCart!.setImage(UIImage(named: "addedtolist_icon"), forState: UIControlState.Normal)
@@ -177,7 +179,10 @@ class SearchProductCollectionViewCell: ProductCollectionViewCell  {
     
     func addProductToShoping(){
         if !isDisabled {
-            let hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            var hasUPC = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
+            if serachFromList {
+                hasUPC =  false
+            }
             if !hasUPC {
                 if self.type == ResultObjectType.Groceries.rawValue {
                     self.delegate?.selectGRQuantityForItem(self)
