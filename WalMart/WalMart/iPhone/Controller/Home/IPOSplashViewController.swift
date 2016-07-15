@@ -244,7 +244,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     
     
-    func callUpdateServices() {
+    class func callUpdateServices() {
                 
         let categoryService = CategoryService()
         categoryService.callService(Dictionary<String, String>(),
@@ -338,7 +338,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         confServ.callService([:], successBlock: { (result:NSDictionary) -> Void in
             var error: NSError?
             self.configureWebView(result)
-            self.callUpdateServices()
+            IPOSplashViewController.callUpdateServices()
              UserCurrentSession.sharedInstance().finishConfig  = true
             self.invokeServiceToken()
             

@@ -516,6 +516,11 @@ class HomeViewController : IPOBaseController,UICollectionViewDataSource,UICollec
         var categories : [String] = []
         self.recommendCategoryItems = [:]
         
+        if  self.recommendItems!.count == 0 {
+            let servicecarousel = CarouselService()
+            self.recommendItems = servicecarousel.getCarouselContent()
+        }
+        
         for itemRec in self.recommendItems! {
             var nameCategory = "Otros"
             let categoryname = itemRec["name"] as! String
