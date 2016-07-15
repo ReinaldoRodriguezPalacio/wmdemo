@@ -448,7 +448,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             UIView.animateWithDuration(0.3, animations: { () -> Void in
                 self.deleteall.alpha = 1
                 self.titleLabel!.frame = CGRectMake(self.titleLabel!.frame.minX - 30, self.titleLabel!.frame.minY, self.titleLabel!.frame.width, self.titleLabel!.frame.height)
-            })
+                })
             
         }else{
             
@@ -501,16 +501,16 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     func swipeableTableViewCell(cell: SWTableViewCell!, canSwipeToState state: SWCellState) -> Bool {
         switch state {
         case SWCellState.CellStateLeft:
-            return isEdditing
+            return self.isEdditing
         case SWCellState.CellStateRight:
-            return true
+            return !self.isEdditing
         case SWCellState.CellStateCenter:
-            return !isEdditing
+            return !self.isEdditing
         }
     }
     
     func swipeableTableViewCellShouldHideUtilityButtonsOnSwipe(cell: SWTableViewCell!) -> Bool {
-        return !isEdditing
+        return !self.isEdditing
     }
 
     
