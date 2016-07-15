@@ -478,7 +478,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         controller.textToSearch = text
         controller.searchFromContextType = searchServiceFromContext
         controller.idListFromSearch = self.listId
-        
+        self.retunrFromSearch =  true
         if self.searchInList != nil {
             self.searchInList?(controller: controller)
         }else{

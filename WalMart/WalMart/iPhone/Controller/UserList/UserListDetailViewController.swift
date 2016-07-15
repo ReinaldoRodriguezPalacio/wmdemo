@@ -57,6 +57,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var fromDelete  =  true
     var openEmpty =  false
     
+    var retunrFromSearch =  false
+    
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -767,7 +769,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.detailDelegate = self
         listCell.delegate = self
         if let item = self.products![indexPath.row] as? [String : AnyObject] {
-            listCell.setValuesDictionary(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
+            listCell.setValuesDictionary(item,disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(indexPath.row))
         }
         else if let item = self.products![indexPath.row] as? Product {
             listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
