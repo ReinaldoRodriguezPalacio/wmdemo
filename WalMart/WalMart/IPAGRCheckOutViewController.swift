@@ -119,14 +119,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
                     self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
                     self.listSelectorController!.imageBlurView!.frame = CGRectMake(0, 0, frame.width, frame.height)
                 },
-                completion: { (finished:Bool) -> Void in
-                    if finished {
-//                        var footerFrame = self.viewFooter!.frame
-//                        self.listSelectorController!.tableView!.contentInset = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
-//                        self.listSelectorController!.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, footerFrame.height, 0)
-                    }
-                }
-            )
+                completion: nil)
             
             UIView.animateWithDuration(0.5, animations: { () -> Void in
                 self.listSelectorController!.view.frame = CGRectMake(0, 0, frame.width, frame.height)
@@ -232,9 +225,9 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
     }
     
     /**
-     Add items to list selected , and call service Add Item List Service
+     Add items to list selected, and call service Add Item List Service
      
-     - parameter list: <#list description#>
+     - parameter list: list object to add product
      */
     func listSelectorDidAddProductLocally(inList list:List) {
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
@@ -302,12 +295,29 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
     }
     
+    /**
+     Delete product Locally
+     
+     - parameter product: product object to delete
+     - parameter list:    list object to delete product
+     */
     func listSelectorDidDeleteProductLocally(product:Product, inList list:List) {
     }
     
+    /**
+     Delete prtoduct with service
+     
+     - parameter listId: idList
+     */
     func listSelectorDidDeleteProduct(inList listId:String) {
     }
     
+    /**
+     Shows List
+     
+     - parameter listId: listId
+     - parameter name:   List Name
+     */
     func listSelectorDidShowList(listId: String, andName name:String) {
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
             vc.listId = listId
@@ -317,6 +327,11 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         }
     }
     
+    /**
+     Shows list locally
+     
+     - parameter list: List object
+     */
     func listSelectorDidShowListLocally(list: List) {
         if let vc = storyboard!.instantiateViewControllerWithIdentifier("listDetailVC") as? UserListDetailViewController {
             vc.listEntity = list
@@ -326,10 +341,20 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         }
     }
     
+    /**
+     Can delegate create a list
+     
+     - returns: Bool
+     */
     func shouldDelegateListCreation() -> Bool {
         return true
     }
     
+    /**
+     Creates list
+     
+     - parameter name: list name
+     */
     func listSelectorDidCreateList(name:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.addingProductInCartToList", comment:""))
@@ -378,12 +403,18 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         )
     }
     
-    //Share
+    /**
+     Share shoppingCart
+     */
     func shareShoppingCart() {
         self.delegateCheckOut?.shareShoppingCart()
     }
     
- 
+    /**
+     Update total in shop button
+     
+     - parameter total: total in string
+     */
     func updateShopButton(total:String) {
         if customlabel == nil {
             customlabel = CurrencyCustomLabel(frame: self.buttonShop!.bounds)
@@ -397,11 +428,18 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
     }
+    //MARK: - IPAGRCheckOutViewControllerDelegate
     
+    /**
+     Close IPAGRCheckout delegate
+     */
     func didFinishConfirm() {
         self.delegateCheckOut.closeIPAGRCheckOutViewController()
     }
     
+    /**
+     Go to next checkout pass
+     */
     override func next() {
         self.delegateCheckOut?.showViewBackground(true)
         super.next()
