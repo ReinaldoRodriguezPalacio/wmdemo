@@ -38,10 +38,10 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         
     }
    
+     //MARK: CollectionViewDelegate
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return items!.count
     }
-    
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let categoryCell = categories!.dequeueReusableCellWithReuseIdentifier("DepartmentCell", forIndexPath: indexPath) as! DepartmentCollectionViewCell
@@ -61,8 +61,6 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
         
         categoryCell.setValues(descDepartment,imageBackgroundURL: bgDepartment + ".png",keyBgUrl:svcUrlCar!,imageIconURL:"i_" + bgDepartment + ".png",keyIconUrl:svcUrl!,hideImage:hideView)
         
-        
-        
         return categoryCell
     }
     
@@ -71,7 +69,6 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
             self.delegate?.didSelectDeparmentAtIndex(indexPath)
             return
         }
-        
         
         self.currentIndexSelected = indexPath
         self.categories!.scrollEnabled = false
@@ -92,7 +89,9 @@ class BaseCategoryViewController : IPOBaseController,UICollectionViewDelegate,UI
     func closeSelectedDepartment() {
     }
     
-    
+    /**
+     Animation at close category 
+     */
     func closeDepartment() {
         self.currentIndexSelected = nil
         self.categories!.reloadData()

@@ -61,7 +61,16 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     func getControllerToShow(upc:String,descr:String,type:String) -> UIViewController? {
        return self.getControllerToShow(upc, descr: descr, type: type, saving: "")
     }
-    
+    /**
+     validate type product and present detail gr or mg, recived parameters necesary
+     
+     - parameter upc:    upc to search
+     - parameter descr:  description product
+     - parameter type:   typye product mg or gr
+     - parameter saving: saving
+     
+     - returns: ProductDetailViewController mg or gr
+     */
     func getControllerToShow(upc:String,descr:String,type:String,saving:String?) -> UIViewController? {
         storyBoard = loadStoryboardDefinition()
         switch(type) {
@@ -109,6 +118,7 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
         
     }
     
+    //MARK: PageViewControllerDataSource
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         ixSelected =  viewController.view.tag
         if ixSelected > 0 {
@@ -147,7 +157,11 @@ class ProductDetailPageViewController : IPOBaseController,UIPageViewControllerDa
     
     
     
-    
+    /**
+     enable or disable gesture
+     
+     - parameter enabled: active or no gesture true/false
+     */
     func enabledGesture(enabled:  Bool ) {
         for recognizer in pageController.gestureRecognizers {
              let rec = recognizer

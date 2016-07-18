@@ -92,6 +92,13 @@ class DetailListViewCell: ProductTableViewCell {
         
     }
 
+    /**
+      Values from listedailviewcontroller, validate type product and if is checket,
+      and if present promotios, type keyboards
+     
+     - parameter product:  array products
+     - parameter disabled: validate if row is active
+     */
     func setValuesDictionary(product:[String:AnyObject],disabled:Bool) {
         let imageUrl = product["imageUrl"] as! String
         self.productImage!.contentMode = UIViewContentMode.Center
@@ -186,6 +193,12 @@ class DetailListViewCell: ProductTableViewCell {
          checkDisabled(disabled)
     }
     
+    /**
+     Values from listedailviewcontroller, validate type product and if is checket
+     
+     - parameter product:  entity product
+     - parameter disabled: validate if row is active
+     */
     func setValues(product:Product,disabled:Bool) {
         let imageUrl = product.img
         let description = product.desc
@@ -270,6 +283,12 @@ class DetailListViewCell: ProductTableViewCell {
         
     }
     
+    /**
+     calculate size button from text resent
+     
+     - parameter button: buttom change
+     - returns: new size button
+     */
     func sizeForButton(button:UIButton) -> CGSize {
         let text = button.titleForState(.Normal)
         let font = button.titleLabel!.font
@@ -279,7 +298,9 @@ class DetailListViewCell: ProductTableViewCell {
     }
 
     //MARK: - Actions
-    
+    /**
+     Open keboard to change quantity in product
+     */
     func changeQuantity() {
         self.detailDelegate?.didChangeQuantity(self)
         if defaultList {
@@ -289,7 +310,11 @@ class DetailListViewCell: ProductTableViewCell {
         }
         
     }
-    
+    /**
+     Action check button and send analitycs if list or default list
+     
+     - parameter sender: action button
+     */
     func checked(sender:UIButton) {
         if defaultList {
         if sender.selected {
@@ -312,6 +337,12 @@ class DetailListViewCell: ProductTableViewCell {
         
     }
     
+    /**
+     Convert image from cell to grayScale
+     
+     - parameter image: image to change
+     - returns: image in grayScale
+     */
     func convertImageToGrayScale(image:UIImage) -> UIImage {
         let imageRect = CGRectMake(0, 0, image.size.width, image.size.height)
         let colorSpace = CGColorSpaceCreateDeviceGray()
@@ -323,7 +354,11 @@ class DetailListViewCell: ProductTableViewCell {
         
     }
     
-    
+    /**
+     Change colors to row properties if check button
+     
+     - parameter disabled: enable or disable value
+     */
     func checkDisabled(disabled:Bool) {
         self.check!.selected = !disabled
         if disabled {
