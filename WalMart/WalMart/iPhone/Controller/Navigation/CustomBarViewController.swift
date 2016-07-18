@@ -225,6 +225,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     // MARK: - Check PrivaceNotice Dates
+    /**
+     Validate if present privace notice, find param in db and valid date
+     */
     func checkPrivaceNotice(){
         
         let sinceDate : NSDate = UserCurrentSession.sharedInstance().dateStart
@@ -467,6 +470,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     func retrieveTabBarOptions() -> [String] {
         return ["tabBar_home", "tabBar_mg","tabBar_super", "tabBar_wishlist_list","tabBar_menu"]
     }
+ 
     func layoutButtons() {
         let space = (320 - (5 * TABBAR_HEIGHT))/6
         var x: CGFloat = ((self.view.bounds.width / 2) - (320 / 2))  + CGFloat(space)
@@ -496,7 +500,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     
     
     //MARK: -
-    
+    /**
+     Action when pressing a button from home,send analitycs
+     
+     - parameter sender: button tap
+     */
     func buttonSelected(sender:UIButton) {
         
         WishlistService.shouldupdate = true
@@ -550,6 +558,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
+    /**
+     Create instance of controllers,for each option of menu
+     */
     func createInstanceOfControllers() {
         let storyboard = self.loadStoryboardDefinition()
         
@@ -586,13 +597,18 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.container?.addSubview(content.view)
         content.didMoveToParentViewController(self)
     }
-    
+    /**
+     Remove curren controller from content
+     
+     - parameter content: view controller at remove
+     */
     func hideContentController(content: UIViewController) {
         content.willMoveToParentViewController(nil)
         content.view.removeFromSuperview()
         content.removeFromParentViewController()
     }
     
+
     func setTabBarHidden(hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
         //self.badgeNotification.hidden = hidden
         //let bounds: CGRect = self.view.frame
@@ -677,6 +693,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         return ["upc":upc,"desc":desc,"imgUrl":imageURL,"price":price, "quantity":quantity,"onHandInventory":onHandInventory,"pesable":pesable, "type" : type,"isPreorderable":isPreorderable]
     }
     
+    /**
+     add item to shopping cart from notification
+     
+     - parameter notification: notification
+     */
     func addItemToShoppingCart(notification:NSNotification){
         
         let addShopping = ShoppingCartUpdateController()
@@ -712,7 +733,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     
-    
+    /**
+     add items to shopping cart from notification
+     
+     - parameter notification: notification
+     */
     func addItemsToShoppingCart(notification:NSNotification) {
         let addShopping = ShoppingCartUpdateController()
         
@@ -749,7 +774,13 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         addShopping.startAddingToShoppingCart()
     }
     
-//MARK: Search functions
+    //MARK: Search functions
+    
+    /**
+        open or close options searching
+     
+     - parameter btn: button action
+     */
     func search(btn: UIButton){
         openSearch = false
         if (!btn.selected){
@@ -769,6 +800,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         }
     }
     
+    /**
+        Open edito searching
+     
+     - parameter notification: notification
+     */
     func editSearch(notification:NSNotification){
         let searchKey = notification.object as! String
         self.openSearchProduct()
@@ -776,6 +812,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         self.isEditingSearch = true
     }
     
+    /**
+      Open controller in order to look for by photo
+     
+     - parameter notification: notification
+     */
     func camFindSearch(notification:NSNotification){
         let searchDic = notification.object as! [String:AnyObject]
         let upcs = searchDic["upcs"] as! [String]
@@ -793,7 +834,9 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         controller.textToSearch = keyWord
         controllernav?.pushViewController(controller, animated: true)
     }
-    
+    /**
+     
+     */
     func openSearchProduct(){
         if let _ = self.currentController! as? UINavigationController {
             if self.searchController == nil  {
@@ -846,6 +889,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     var helpView: UIView?
+    
     
     func showHelpViewForSearchIfNeeded(controller:UIViewController) {
         var requiredHelp = true
@@ -1350,44 +1394,6 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
         
     }
     
-    //MARK: Before adding groceries
-    /*func apearSuperView (){
-    isShowingGroceriesView = true
-    supperIndicator.image = UIImage(named: "home_switch_On")
-    if timmer != nil {
-    timmer?.invalidate()
-    timmer = nil
-    }
-    
-    self.viewSuper.generateBlurImageWithView(self.currentController?.view)
-    UIView.animateWithDuration(0.5, animations: { () -> Void in
-    self.viewSuper.frame = CGRectMake(0,self.headerView.frame.maxY, self.viewSuper.frame.width, self.viewSuper.frame.height)
-    }) { (complete:Bool) -> Void in
-    
-    }
-    
-    
-    }
-    
-    func disapearSuperView (){
-    isShowingGroceriesView = false
-    supperIndicator.image = UIImage(named: "home_switch_Off")
-    if timmer != nil {
-    timmer?.invalidate()
-    timmer = nil
-    }
-    UIView.animateWithDuration(0.5, animations: { () -> Void in
-    self.viewSuper.frame = CGRectMake(0,-self.viewSuper.frame.height, self.viewSuper.frame.width, self.viewSuper.frame.height)
-    }) { (complete:Bool) -> Void in
-    
-    }
-    }
-    
-    func initViewSuper(){
-    viewSuper = IPOGroceriesView(frame: CGRectMake(0, self.headerView.frame.maxY, self.view.bounds.width, 48))
-    self.view.addSubview(viewSuper)
-    }
-    */
     
     func logoTap(){
         self.buttonSelected(self.buttonList[0])

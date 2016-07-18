@@ -50,7 +50,13 @@ class ProductTableViewCell : SWTableViewCell {
         self.contentView.addSubview(productShortDescriptionLabel!)
         self.contentView.addSubview(productPriceLabel!)
     }
-    
+    /**
+     Set image in cell from url, price and product description
+     
+     - parameter productImageURL:         url image
+     - parameter productShortDescription: product description
+     - parameter productPrice:            product price
+     */
     func setValues(productImageURL:String,productShortDescription:String,productPrice:String) {
         
         let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
