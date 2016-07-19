@@ -8,8 +8,8 @@
 
 import UIKit
 import CoreData
-
-
+import Fabric
+import TwitterKit
 
 
 @UIApplicationMain
@@ -38,6 +38,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
            application.registerForRemoteNotificationTypes( [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert] )
         }
         
+        //Twitter
+        Fabric.with([Twitter.self])
         
         //Facebook
         FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
@@ -66,7 +68,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
       
         
         //Google Login
-        GIDSignIn.sharedInstance().clientID = "219152779773-ns3bi9cjn9a0sd8nam0ikf3gh4kon0j0.apps.googleusercontent.com"
+        GIDSignIn.sharedInstance().clientID = NSBundle.mainBundle().objectForInfoDictionaryKey("GoogleClientId") as! String
         
 
         //Set url image cache to application
