@@ -51,10 +51,31 @@
 	<string>2</string>
 	<key>DTXAgentStartupPath</key>
 	<string>https://www.walmartmobile.com.mx/</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>9b0d22d3404acd30b8fde2901ed4a4e6069caeff</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict>
+					<key>consumerKey</key>
+					<string>rqIegP0TmpTpjx0Vuya7AsU7r</string>
+					<key>consumerSecret</key>
+					<string>GgLzA63nCSgt1peiy6NDCEgg5CCGTp6yorzcoxZCZo9Y1lSHkI</string>
+				</dict>
+				<key>KitName</key>
+				<string>Twitter</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
 	<string>713976458739956</string>
 	<key>FacebookDisplayName</key>
 	<string>Walmart México</string>
+	<key>GoogleClientId</key>
+	<string>219152779773-ns3bi9cjn9a0sd8nam0ikf3gh4kon0j0.apps.googleusercontent.com</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -209,8 +230,6 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/updateUserAddress</string>
-			<key>WalmartMG.GRAddressByUserService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getAddressByUser</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
@@ -302,8 +321,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserAddress</string>
-			<key>WalmartMG.GRAddressByUserService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getAddressByUser</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>

@@ -20,7 +20,8 @@ class LinesForSearchService: BaseService {
         self.jsonFromObject(params)
         self.getManager().POST(serviceUrl(), parameters: params,
             success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
-                //println(json)
+                print(json)
+                self.jsonFromObject(json)
                 self.printTimestamp("success LinesForSearchService")
                 if let response = json["responseArray"] as? [AnyObject] {
                     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in

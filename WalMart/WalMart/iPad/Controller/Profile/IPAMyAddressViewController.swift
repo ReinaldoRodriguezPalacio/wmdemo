@@ -25,8 +25,8 @@ class IPAMyAddressViewController: MyAddressViewController {
         super.tableView(tableView, didSelectRowAtIndexPath:indexPath)
     }
     
-    override func deleteAddress(idAddress:String){
+    override func deleteAddress(idAddress:String, isFisicalAddress:Bool){
         self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
-        super.deleteAddress(idAddress)
+        super.deleteAddress(idAddress, isFisicalAddress:isFisicalAddress)
     }
 }

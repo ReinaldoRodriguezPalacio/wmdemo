@@ -52,12 +52,12 @@ class ProductbySearchService : BaseService {
     
     
     func callService(params:NSDictionary, successBlock:((NSArray,facet:NSArray) -> Void)?, errorBlock:((NSError) -> Void)? ) {
-        print("PARAMS FOR ProductbySearchService")
+        print("PARAMS FOR ProductbySearchService walmartmg/login/getItemsBySearchingWithFacets")
         self.jsonFromObject(params)
         self.callPOSTService(params,
             successBlock: { (resultJSON:NSDictionary) -> Void in
-//                println("RESULT FOR ProductbySearchService")
-//                self.jsonFromObject(resultJSON)
+                print("RESULT FOR ProductbySearchService walmartmg/login/getItemsBySearchingWithFacets")
+                self.jsonFromObject(resultJSON)
                 if let error = self.validateCodeMessage(resultJSON) {
                     errorBlock?(error)
                     return

@@ -9,7 +9,7 @@
 import UIKit
 
 protocol AddressViewCellDelegate {
-    func applyPrefered (addressID:String )
+    func applyPrefered (addressID:String , isFisicalAddress: Bool)
 }
 
 
@@ -23,7 +23,8 @@ class AddressViewCell: SWTableViewCell {
     var imageDisclousure : UIImageView!
     var imageErrorField: UIImageView!
     var showPreferedButton: Bool = true
-
+    var isFisicalAddress: Bool = true
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -80,7 +81,7 @@ class AddressViewCell: SWTableViewCell {
         
     }
     
-    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment,isViewLine:Bool, isPrefered:Bool,addressID: String ){
+    func setValues(title:String,font:UIFont,numberOfLines:Int,textColor:UIColor,padding:CGFloat,align:NSTextAlignment,isViewLine:Bool, isPrefered:Bool,addressID: String , isFisicalAddress: Bool){
         
         viewLine.frame =  CGRectMake(padding, self.bounds.height - AppDelegate.separatorHeigth() , self.bounds.width - padding, AppDelegate.separatorHeigth() )
         titleLabel.text  = title
@@ -96,12 +97,13 @@ class AddressViewCell: SWTableViewCell {
             viewLine.backgroundColor = UIColor.clearColor()
         }
        
+        self.isFisicalAddress = isFisicalAddress
         self.preferedButton.selected = isPrefered
     }
     
     func applyPrefered (){
         if !self.preferedButton.selected {
-            delegateAddres.applyPrefered(self.addressID)
+            delegateAddres.applyPrefered(self.addressID, isFisicalAddress: self.isFisicalAddress)
         }
     }
     

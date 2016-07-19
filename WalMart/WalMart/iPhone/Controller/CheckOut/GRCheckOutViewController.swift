@@ -977,7 +977,8 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
         //--self.addViewLoad()
-        let service = GRAddressByUserService()
+        // Implementar validacion de direccion
+        let service = AddressByUserService()
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
@@ -2044,7 +2045,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func sendOrderMercury() {
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = self.selectedAddress!
-        
         
         serviceDetail = OrderConfirmDetailView.initDetail()
         serviceDetail?.delegate = self

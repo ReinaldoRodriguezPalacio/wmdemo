@@ -104,7 +104,6 @@
 		5614A6551A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6541A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift */; };
 		5614A6571A6841430048B71A /* GRShoppingCartUpdateProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6561A6841430048B71A /* GRShoppingCartUpdateProductsService.swift */; };
 		5614A65A1A68674B0048B71A /* GRAddressesByIDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6591A68674B0048B71A /* GRAddressesByIDService.swift */; };
-		5614A65C1A6872E20048B71A /* GRAddressByUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A65B1A6872E20048B71A /* GRAddressByUserService.swift */; };
 		5614A65F1A68826E0048B71A /* GRPurchaseOrdersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */; };
 		5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */; };
 		5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */; };
@@ -294,7 +293,6 @@
 		56A242D41A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */; };
 		56A491081B26450C0030A730 /* KeyboardGramsKgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */; };
 		56A6153419CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */; };
-		56AAFF951A9257F1007B8D91 /* SuperAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AAFF941A9257F1007B8D91 /* SuperAddressViewController.swift */; };
 		56AAFF971A92584B007B8D91 /* FormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AAFF961A92584B007B8D91 /* FormSuperAddressView.swift */; };
 		56AAFF9A1A929E73007B8D91 /* GRZipCodeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AAFF991A929E73007B8D91 /* GRZipCodeService.swift */; };
 		56AAFF9C1A92A468007B8D91 /* GRAddressAddService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56AAFF9B1A92A468007B8D91 /* GRAddressAddService.swift */; };
@@ -393,6 +391,10 @@
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
+		6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */; };
+		6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */; };
+		6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */; };
+		6C1E26421D3EA4AA00D3B606 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */; };
 		6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */; };
 		6C3092D61B990CD900D00349 /* GRPayPalFuturePaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */; };
 		6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31808E1B87C9B30015FC2E /* Accelerate.framework */; };
@@ -410,7 +412,6 @@
 		6C3448931BDED9AB00092965 /* InvoiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448921BDED9AB00092965 /* InvoiceViewController.swift */; };
 		6C3448951BDEE29700092965 /* IPOWMAlertInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */; };
 		6C4DAC851D2D7817005CFE22 /* IPAHelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */; };
-		6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
 		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
@@ -618,6 +619,8 @@
 		AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */; };
 		AC88FA7419CA3FCD003BD859 /* UIEdgeTextFieldImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */; };
 		AC88FA7719CA48D6003BD859 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */; };
+		AC96C94A1D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC96C9491D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift */; };
+		AC96C94C1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC96C94B1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift */; };
 		AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AC9AF41C1BE2B1B700C7638B /* Images.xcassets */; };
 		ACAFDB0419ED8E970040A8C8 /* IPAMyAddressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */; };
 		ACAFDB0619ED924D0040A8C8 /* IPAEditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */; };
@@ -755,7 +758,6 @@
 		5614A6541A683CC60048B71A /* GRShoppingCartDeleteProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartDeleteProductsService.swift; path = Shared/Services/ShoppingCart/GRShoppingCartDeleteProductsService.swift; sourceTree = "<group>"; };
 		5614A6561A6841430048B71A /* GRShoppingCartUpdateProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartUpdateProductsService.swift; path = Shared/Services/ShoppingCart/GRShoppingCartUpdateProductsService.swift; sourceTree = "<group>"; };
 		5614A6591A68674B0048B71A /* GRAddressesByIDService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressesByIDService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressesByIDService.swift; sourceTree = "<group>"; };
-		5614A65B1A6872E20048B71A /* GRAddressByUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressByUserService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressByUserService.swift; sourceTree = "<group>"; };
 		5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPurchaseOrdersService.swift; path = Shared/Services/Profile/GRPurchaseOrdersService.swift; sourceTree = "<group>"; };
 		5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRItemByTicketService.swift; path = Shared/Services/Profile/GRItemByTicketService.swift; sourceTree = "<group>"; };
 		5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRDeliveryTypeService.swift; path = Shared/Services/checkout/GRDeliveryTypeService.swift; sourceTree = "<group>"; };
@@ -968,7 +970,6 @@
 		56A242D31A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreShoppingCartAnimationController.swift; path = iPhone/Controller/ShoppingCart/PreShoppingCartAnimationController.swift; sourceTree = "<group>"; };
 		56A491071B26450C0030A730 /* KeyboardGramsKgViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyboardGramsKgViewController.swift; path = Shared/Controller/Keyboard/KeyboardGramsKgViewController.swift; sourceTree = "<group>"; };
 		56A6153319CCE6C6006FFFE5 /* ShoppingCartUpdateProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartUpdateProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartUpdateProductsService.swift; sourceTree = "<group>"; };
-		56AAFF941A9257F1007B8D91 /* SuperAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SuperAddressViewController.swift; path = iPhone/Controller/Profile/SuperAddressViewController.swift; sourceTree = "<group>"; };
 		56AAFF961A92584B007B8D91 /* FormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FormSuperAddressView.swift; path = iPhone/View/Profile/FormSuperAddressView.swift; sourceTree = "<group>"; };
 		56AAFF991A929E73007B8D91 /* GRZipCodeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRZipCodeService.swift; path = Shared/Services/Profile/GRZipCodeService.swift; sourceTree = "<group>"; };
 		56AAFF9B1A92A468007B8D91 /* GRAddressAddService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressAddService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressAddService.swift; sourceTree = "<group>"; };
@@ -1078,6 +1079,10 @@
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
+		6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
+		6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
+		6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPayPalUpdateOrderService.swift; sourceTree = "<group>"; };
 		6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPayPalFuturePaymentService.swift; sourceTree = "<group>"; };
 		6C31808E1B87C9B30015FC2E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -1095,7 +1100,6 @@
 		6C3448921BDED9AB00092965 /* InvoiceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceViewController.swift; path = iPhone/Controller/Invoice/InvoiceViewController.swift; sourceTree = "<group>"; };
 		6C3448941BDEE29700092965 /* IPOWMAlertInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertInfoViewController.swift; path = iPhone/Controller/Common/IPOWMAlertInfoViewController.swift; sourceTree = "<group>"; };
 		6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpHomeView.swift; path = iPad/View/Home/IPAHelpHomeView.swift; sourceTree = "<group>"; };
-		6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRMyAddressViewController.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
@@ -1339,6 +1343,8 @@
 		AC88FA6A19C9FB2A003BD859 /* UIEdgeTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextField.swift; path = Shared/View/Field/UIEdgeTextField.swift; sourceTree = "<group>"; };
 		AC88FA7319CA3FCD003BD859 /* UIEdgeTextFieldImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIEdgeTextFieldImage.swift; path = Shared/View/Field/UIEdgeTextFieldImage.swift; sourceTree = "<group>"; };
 		AC88FA7619CA48D6003BD859 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = iPhone/Controller/Profile/SignUpViewController.swift; sourceTree = "<group>"; };
+		AC96C9491D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddPreferedAddressInvoice.swift; path = Shared/Services/LoginSignUp/Address/AddPreferedAddressInvoice.swift; sourceTree = "<group>"; };
+		AC96C94B1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteAddressesInvoiceService.swift; path = Shared/Services/LoginSignUp/Address/DeleteAddressesInvoiceService.swift; sourceTree = "<group>"; };
 		AC9AF41C1BE2B1B700C7638B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACAFDB0319ED8E970040A8C8 /* IPAMyAddressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAMyAddressViewController.swift; path = iPad/Controller/Profile/IPAMyAddressViewController.swift; sourceTree = "<group>"; };
 		ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAEditProfileViewController.swift; path = iPad/Controller/Profile/IPAEditProfileViewController.swift; sourceTree = "<group>"; };
@@ -1364,15 +1370,18 @@
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
 				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
 				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
+				6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */,
 				6CA068951D3D8ACA0051200E /* GoogleAuthUtilities.framework in Frameworks */,
 				ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */,
 				ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
 				6CA068981D3D8ACA0051200E /* GoogleSymbolUtilities.framework in Frameworks */,
 				6CA068971D3D8ACA0051200E /* GoogleSignIn.framework in Frameworks */,
+				6C1E26421D3EA4AA00D3B606 /* TwitterCore.framework in Frameworks */,
 				6CA068961D3D8ACA0051200E /* GoogleNetworkingUtilities.framework in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
+				6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
@@ -1623,7 +1632,6 @@
 			isa = PBXGroup;
 			children = (
 				5614A6591A68674B0048B71A /* GRAddressesByIDService.swift */,
-				5614A65B1A6872E20048B71A /* GRAddressByUserService.swift */,
 				5614A6671A688EB60048B71A /* GRAddressUpdateService.swift */,
 				56AAFF9B1A92A468007B8D91 /* GRAddressAddService.swift */,
 			);
@@ -2703,10 +2711,8 @@
 				AC6AAE9819CCB648004081C4 /* MyAddressViewController.swift */,
 				AC6AAE9F19CCF3A5004081C4 /* AddressViewController.swift */,
 				ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */,
-				56AAFF941A9257F1007B8D91 /* SuperAddressViewController.swift */,
 				5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */,
 				5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */,
-				6C512F4E1BC2C68200EA47ED /* GRMyAddressViewController.swift */,
 				5636DCE61C12581000E14473 /* SignUpMGViewController.swift */,
 			);
 			name = Profile;
@@ -3202,6 +3208,8 @@
 				AC37F6C419B917C7000BB80D /* AddFiscalAddressService.swift */,
 				AC37F6C619B91907000BB80D /* UpdateFiscalAddressService.swift */,
 				AC7A0BED19D9D99B004ED6CC /* AddPreferedAddress.swift */,
+				AC96C9491D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift */,
+				AC96C94B1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift */,
 			);
 			name = Address;
 			sourceTree = "<group>";
@@ -3483,6 +3491,10 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */,
+				6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */,
+				6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */,
+				6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */,
 				6CA0688C1D3D82B60051200E /* SafariServices.framework */,
 				6CA0688A1D3D82AA0051200E /* AddressBook.framework */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
@@ -3518,6 +3530,7 @@
 				5645789219AE2E00006A7152 /* Sources */,
 				5645789319AE2E00006A7152 /* Frameworks */,
 				5645789419AE2E00006A7152 /* Resources */,
+				6C1E263A1D3EA47A00D3B606 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3602,6 +3615,7 @@
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
+				6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */,
 				AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */,
 				AC59115C19DDEEB700EB095C /* privacy.pdf in Resources */,
 				56527DCC19AFA8C2008032C6 /* MyriadPro-BoldCond.otf in Resources */,
@@ -3635,6 +3649,22 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6C1E263A1D3EA47A00D3B606 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 9b0d22d3404acd30b8fde2901ed4a4e6069caeff 2bbd29a31a892c3b12d11c29d89fd299d553b740cbff42d3cfe2e38536ea17c3";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		5645789219AE2E00006A7152 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -3644,7 +3674,6 @@
 				56ED1B631A9FF4FA00D561D6 /* IPAGRCategoryCollectionViewCell.swift in Sources */,
 				4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */,
 				564578F019AE33AB006A7152 /* AFURLConnectionOperation.m in Sources */,
-				5614A65C1A6872E20048B71A /* GRAddressByUserService.swift in Sources */,
 				AC6AAE9E19CCD408004081C4 /* AddressViewCell.swift in Sources */,
 				04D5E9421A30CD390043437C /* StoreView.swift in Sources */,
 				4A7DE2291D1224E900150C94 /* IPOWMAlertRatingViewController.swift in Sources */,
@@ -3784,6 +3813,7 @@
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
 				85A40B741C223AE40036C78A /* EVObjectDescription.swift in Sources */,
 				85A40B8B1C223AE40036C78A /* Error.swift in Sources */,
+				AC96C94A1D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift in Sources */,
 				56E1DFA81B5561A6001F42DF /* NMRangeSlider.m in Sources */,
 				04B538A11A8D2B6200B9F340 /* GRUpdateItemListService.swift in Sources */,
 				AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
@@ -3813,6 +3843,7 @@
 				85A40BA21C223AE40036C78A /* DDDispatchQueueLogFormatter.m in Sources */,
 				4A5A9D4B1C84A99B00A2A7F4 /* ABCalendarPickerDefaultDaysProvider.m in Sources */,
 				56AAFF9C1A92A468007B8D91 /* GRAddressAddService.swift in Sources */,
+				AC96C94C1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift in Sources */,
 				5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */,
 				56ED38F91B1D21DA0003E7AC /* IPACheckOutViewController.swift in Sources */,
 				5608AF731A0AA7BE00176CB0 /* IPASectionHeaderSearchReusable.swift in Sources */,
@@ -3857,7 +3888,6 @@
 				AC0918C619D1D99300BF48CA /* ShippingAddress.swift in Sources */,
 				56B045491A6EF04D00BA173A /* PreShoppingCartViewController.swift in Sources */,
 				569607A919B53042005D20DC /* ProductDetailMSITableViewCell.swift in Sources */,
-				6C512F4F1BC2C68200EA47ED /* GRMyAddressViewController.swift in Sources */,
 				56DE026E19DE1C6600FA2042 /* IPOWishlistEmptyView.swift in Sources */,
 				565E5A7419C0BDC300444DF7 /* Cart.swift in Sources */,
 				56527DE819AFEE38008032C6 /* CategorySelectorItemView.swift in Sources */,
@@ -3994,7 +4024,6 @@
 				6C6AC2001CF8F5860072FBB7 /* IPASchoolListViewController.swift in Sources */,
 				569607AB19B53091005D20DC /* ProductDetailCharacteristicsTableViewCell.swift in Sources */,
 				5673D1441A9D500400DCD20B /* StringExtension.swift in Sources */,
-				56AAFF951A9257F1007B8D91 /* SuperAddressViewController.swift in Sources */,
 				56527DB419AFA2F2008032C6 /* BannerDetailCollectionViewCell.swift in Sources */,
 				56603D2919B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift in Sources */,
 				85A40B9B1C223AE40036C78A /* UserMerc.swift in Sources */,
@@ -4285,8 +4314,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4327,7 +4356,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "7555d2cf-577b-4684-a05b-55d3b71dfbc4";
+				PROVISIONING_PROFILE = "";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";
@@ -4342,8 +4371,8 @@
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Luis Cabrera (B6523Z9JX3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DT_ENABLED = "";
 				DT_ENABLED_UPLOAD = NO;
 				DT_HEADER_PATH = "";
@@ -4384,7 +4413,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
-				PROVISIONING_PROFILE = "7555d2cf-577b-4684-a05b-55d3b71dfbc4";
+				PROVISIONING_PROFILE = "";
 				STRIP_STYLE = debugging;
 				SWIFT_INSTALL_OBJC_HEADER = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "$(PROJECT_DIR)/WalMart/WalMart-Bridging-Header.h";

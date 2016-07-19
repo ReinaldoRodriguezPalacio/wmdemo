@@ -194,7 +194,7 @@ class GRAddressView: UIView, UITableViewDelegate, UITableViewDataSource {
      */
     func callServiceAddressGR(){
         self.addViewLoad()
-        let addressService = GRAddressByUserService()
+        let addressService = AddressByUserService()
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_UPDATE_ADDRESS.rawValue, label:"")
             

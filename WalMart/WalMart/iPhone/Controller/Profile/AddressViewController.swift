@@ -63,8 +63,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.content.scrollDelegate = self
         self.view.addSubview(self.content)
        
-        //let iconImage = UIImage(named:"button_bg")
-        //let iconSelected = UIImage(named:"button_bg_active")
         
         self.saveButton = WMRoundButton()
         self.saveButton?.setFontTitle(WMFont.fontMyriadProRegularOfSize(11))
@@ -79,9 +77,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.header?.addSubview(self.saveButton!)
         }
         else {
-//            self.saveButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-//            self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-//            self.saveButton!.layer.cornerRadius = 4.0
             self.content?.addSubview(self.saveButton!)
         }
        
@@ -107,8 +102,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             self.viewAddressMoral?.defaultPrefered = self.defaultPrefered
             self.content!.addSubview(self.viewAddressMoral!)
             self.viewAddressMoral!.delegate = self
-       // default:
-       //     break
         }
     
         
@@ -134,8 +127,6 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
                 self.viewAddressFisical!.setItemWithDictionary(self.item!)
             case .FiscalMoral:
                 self.viewAddressMoral!.setItemWithDictionary(self.item!)
-          //  default:
-          //      break
             }
         }
         if addFRomMg {
@@ -678,8 +669,17 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
     }
     
     func deleteAddress(sender:UIButton){
-        let service = DeleteAddressesByUserService()
-        service.buildParams(self.idAddress! as String)
+        var service : DeleteAddressesByUserService? = nil
+        
+        if self.typeAddress == TypeAddress.Shiping  {
+            service = DeleteAddressesByUserService()
+            
+        }else {
+            service = DeleteAddressesInvoiceService()
+        }
+        
+       
+        service!.buildParams(self.idAddress! as String)
         self.view.endEditing(true)
         if sender.tag == 100 {
             self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
@@ -688,7 +688,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
         
         self.alertView!.setMessage(NSLocalizedString("profile.message.delete",comment:""))
-        service.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
+        service!.callService(NSDictionary(), successBlock:{ (resultCall:NSDictionary?) in
             if let message = resultCall!["message"] as? String {
                 self.alertView!.setMessage("\(message)")
                 self.alertView!.showDoneIcon()

@@ -147,11 +147,30 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
      - parameter addressID: identifier of the address to save
      */
     func applyPrefered (addressID: String){
+        //TODO: validar cambio de prefereida
+        
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"address_error"))
         self.alertView?.setMessage("Cambiando tienda ...")
+
+        
         //addViewLoad()
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_ADDRES.rawValue, action:WMGAIUtils.ACTION_GR_SET_ADDRESS_PREFERRED.rawValue, label: "")
-        let service = GRAddressAddService()
+        
+        let service = AddPreferedAddress()
+        service.buildParams(addressID)
+        service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
+            print("success")
+            self.alertView?.setMessage("Hemos guardado esta dirección y tienda como tu favorita.\n\n Únicamente se mostrarán los productos disponibles de esta tienda.")
+            self.alertView?.showDoneIconWithoutClose()
+            self.alertView?.showOkButton("Ok", colorButton: WMColor.green)
+            self.onClose?()
+            }, errorBlock: {(error: NSError) in
+                self.viewLoad.stopAnnimating()
+                self.viewLoad = nil
+                print("error")
+        })
+        
+       /* let service = GRAddressAddService()
         let serviceAddress = GRAddressesByIDService()
         serviceAddress.addressId = addressID
         serviceAddress.callService([:], successBlock: { (result:NSDictionary) -> Void in
@@ -185,7 +204,12 @@ class GRAddressStoreView: UIView, UITableViewDelegate, UITableViewDataSource {
                     print("error")
             })
             }, errorBlock: { (error:NSError) -> Void in
-            })
+            })*/
+        
+ 
+        
     }
+    
+    
 
 }

@@ -16,7 +16,6 @@ class DeleteAddressesByUserService : BaseService {
         self.idAddress = idAddressParam
     }
     
-    
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             successBlock!(resultCall)
