@@ -11,7 +11,6 @@ import Foundation
 class GRAddressesByIDService : GRBaseService {
     
     
-    
     var addressId : String? = nil
     
     func buildParams(addressId:String) {

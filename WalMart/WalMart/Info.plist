@@ -209,8 +209,6 @@
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/updateUserAddress</string>
-			<key>WalmartMG.GRAddressByUserService</key>
-			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/getAddressByUser</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
 			<string>http://192.168.43.192:8085/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
@@ -302,8 +300,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserAddress</string>
-			<key>WalmartMG.GRAddressByUserService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getAddressByUser</string>
 			<key>WalmartMG.GRAddressUpdateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserAddress</string>
 			<key>WalmartMG.GRAddressesByIDService</key>
