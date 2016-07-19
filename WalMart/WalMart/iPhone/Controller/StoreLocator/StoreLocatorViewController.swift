@@ -714,7 +714,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         let fetchRequest = NSFetchRequest()
         fetchRequest.entity = NSEntityDescription.entityForName("Store", inManagedObjectContext: context)
-        if textUpdate != "" && !"walmart ".contains(textUpdate.lowercaseString){
+        if textUpdate != "" && "walmart ".lowercaseString.rangeOfString(textUpdate) == nil {
             var textToSearch = textUpdate.lowercaseString
             textToSearch = textToSearch.stringByReplacingOccurrencesOfString("walmart ", withString: "")
             self.clearButton?.hidden = false
