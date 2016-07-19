@@ -15,6 +15,7 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     var selected : Int? = nil
     var navigation : UINavigationController!
     var navController = UIViewController()
+    var showPromos: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -194,14 +195,16 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
     
     
     func openPromotios(){
-        
-        NSLog("Inicia llamado de  Servicios:::::")
-        self.loadGRServices { (bussines:String) in
+        if self.showPromos {
+            self.showPromos = false
+            NSLog("Inicia llamado de  Servicios:::::")
+            self.loadGRServices { (bussines:String) in
             NSLog("termina llamado de Servicios:::")
-            
             let window = UIApplication.sharedApplication().keyWindow
-            if let customBar = window!.rootViewController as? CustomBarViewController {
-                customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+                if let customBar = window!.rootViewController as? CustomBarViewController {
+                    customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+                    self.showPromos = true
+                }
             }
         }
     }
