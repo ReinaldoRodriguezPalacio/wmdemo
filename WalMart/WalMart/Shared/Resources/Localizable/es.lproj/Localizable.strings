@@ -229,7 +229,7 @@
 "profile.misarticulos" = "Mis Artículos Más Comprados";
 "profile.myAddress" = "Mis Direcciones";
 "profile.myOrders" = "Pedidos Anteriores";
-"profile.no.account" = "¿No Tienes Cuenta?";
+"profile.no.account" = "Inicia sesión o crea una cuenta con:";
 "profile.shipping" = "Direcciones de Entrega";
 "profile.fiscal" = "Direcciones de Facturación";
 "profile.address.new" = "nueva";

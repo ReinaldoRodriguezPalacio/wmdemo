@@ -437,6 +437,16 @@
 		6C8D5C271BF2518F0020962E /* ReferedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C261BF2518F0020962E /* ReferedViewController.swift */; };
 		6C8D5C2A1BF26FF70020962E /* ReferedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */; };
 		6C8D5C2C1BF27D410020962E /* ReferedDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */; };
+		6CA068861D3D7D4D0051200E /* GoogleSignIn.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6CA068841D3D7D4C0051200E /* GoogleSignIn.bundle */; };
+		6CA068871D3D7D4D0051200E /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068851D3D7D4D0051200E /* GoogleSignIn.framework */; };
+		6CA0688B1D3D82AA0051200E /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA0688A1D3D82AA0051200E /* AddressBook.framework */; };
+		6CA0688D1D3D82B60051200E /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA0688C1D3D82B60051200E /* SafariServices.framework */; };
+		6CA068941D3D8ACA0051200E /* GoogleAppUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA0688E1D3D8ACA0051200E /* GoogleAppUtilities.framework */; };
+		6CA068951D3D8ACA0051200E /* GoogleAuthUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA0688F1D3D8ACA0051200E /* GoogleAuthUtilities.framework */; };
+		6CA068961D3D8ACA0051200E /* GoogleNetworkingUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068901D3D8ACA0051200E /* GoogleNetworkingUtilities.framework */; };
+		6CA068971D3D8ACA0051200E /* GoogleSignIn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068911D3D8ACA0051200E /* GoogleSignIn.framework */; };
+		6CA068981D3D8ACA0051200E /* GoogleSymbolUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068921D3D8ACA0051200E /* GoogleSymbolUtilities.framework */; };
+		6CA068991D3D8ACA0051200E /* GoogleUtilities.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CA068931D3D8ACA0051200E /* GoogleUtilities.framework */; };
 		6CBCCFAC1C84C2E3002D7717 /* ReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */; };
 		6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */; };
 		6CCCB1A61C7F6365008CF3EC /* ReminderNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */; };
@@ -1113,6 +1123,16 @@
 		6C8D5C261BF2518F0020962E /* ReferedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedViewController.swift; path = iPhone/Controller/Refered/ReferedViewController.swift; sourceTree = "<group>"; };
 		6C8D5C291BF26FF70020962E /* ReferedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedTableViewCell.swift; path = iPhone/View/Refered/ReferedTableViewCell.swift; sourceTree = "<group>"; };
 		6C8D5C2B1BF27D410020962E /* ReferedDetailTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReferedDetailTableViewCell.swift; path = iPhone/View/Refered/ReferedDetailTableViewCell.swift; sourceTree = "<group>"; };
+		6CA068841D3D7D4C0051200E /* GoogleSignIn.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleSignIn.bundle; path = Shared/Library/GoogleSignIn/GoogleSignIn.bundle; sourceTree = "<group>"; };
+		6CA068851D3D7D4D0051200E /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Shared/Library/GoogleSignIn/GoogleSignIn.framework; sourceTree = "<group>"; };
+		6CA0688A1D3D82AA0051200E /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		6CA0688C1D3D82B60051200E /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
+		6CA0688E1D3D8ACA0051200E /* GoogleAppUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAppUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleAppUtilities.framework; sourceTree = "<group>"; };
+		6CA0688F1D3D8ACA0051200E /* GoogleAuthUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleAuthUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleAuthUtilities.framework; sourceTree = "<group>"; };
+		6CA068901D3D8ACA0051200E /* GoogleNetworkingUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleNetworkingUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleNetworkingUtilities.framework; sourceTree = "<group>"; };
+		6CA068911D3D8ACA0051200E /* GoogleSignIn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSignIn.framework; path = Shared/Library/GoogleSignIn/GoogleSignIn.framework; sourceTree = "<group>"; };
+		6CA068921D3D8ACA0051200E /* GoogleSymbolUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleSymbolUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleSymbolUtilities.framework; sourceTree = "<group>"; };
+		6CA068931D3D8ACA0051200E /* GoogleUtilities.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleUtilities.framework; path = Shared/Library/GoogleSignIn/GoogleUtilities.framework; sourceTree = "<group>"; };
 		6CBCCFAB1C84C2E3002D7717 /* ReminderViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderViewController.swift; path = iPhone/Controller/Reminder/ReminderViewController.swift; sourceTree = "<group>"; };
 		6CBCCFAE1C8795EF002D7717 /* CalendarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CalendarView.swift; path = iPhone/View/Reminder/CalendarView.swift; sourceTree = "<group>"; };
 		6CCCB1A51C7F6365008CF3EC /* ReminderNotificationService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ReminderNotificationService.swift; path = Shared/Services/Notification/ReminderNotificationService.swift; sourceTree = "<group>"; };
@@ -1338,25 +1358,34 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
+				6CA0688D1D3D82B60051200E /* SafariServices.framework in Frameworks */,
+				6CA0688B1D3D82AA0051200E /* AddressBook.framework in Frameworks */,
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
 				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
 				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
+				6CA068951D3D8ACA0051200E /* GoogleAuthUtilities.framework in Frameworks */,
 				ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */,
 				ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
+				6CA068981D3D8ACA0051200E /* GoogleSymbolUtilities.framework in Frameworks */,
+				6CA068971D3D8ACA0051200E /* GoogleSignIn.framework in Frameworks */,
+				6CA068961D3D8ACA0051200E /* GoogleNetworkingUtilities.framework in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
-				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
 				ACEB8D341BFE824900063E3B /* Security.framework in Frameworks */,
 				4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */,
 				6CEB11821B8B6AF00013FE44 /* libPayPalMobile.a in Frameworks */,
+				6CA068991D3D8ACA0051200E /* GoogleUtilities.framework in Frameworks */,
 				6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */,
+				6CA068941D3D8ACA0051200E /* GoogleAppUtilities.framework in Frameworks */,
 				6C3180911B87C9C10015FC2E /* AudioToolbox.framework in Frameworks */,
 				6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */,
 				6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */,
+				6CA068871D3D7D4D0051200E /* GoogleSignIn.framework in Frameworks */,
 				569BB3161B0635E000E8A657 /* MobileCoreServices.framework in Frameworks */,
 				569BB3141B0635CE00E8A657 /* AssetsLibrary.framework in Frameworks */,
 				AC59119719DE0D6100EB095C /* libAdIdAccess.a in Frameworks */,
@@ -1766,6 +1795,7 @@
 		564578BF19AE2F9C006A7152 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				6CA068831D3D7C3B0051200E /* GoogleSignIn */,
 				6C836D701C15F58A00C4BE16 /* Facebook */,
 				6CEB11831B8B74D30013FE44 /* PayPalMobile */,
 				56E1DFA51B556171001F42DF /* NMRangeSlider */,
@@ -2959,6 +2989,21 @@
 			name = Refered;
 			sourceTree = "<group>";
 		};
+		6CA068831D3D7C3B0051200E /* GoogleSignIn */ = {
+			isa = PBXGroup;
+			children = (
+				6CA0688E1D3D8ACA0051200E /* GoogleAppUtilities.framework */,
+				6CA0688F1D3D8ACA0051200E /* GoogleAuthUtilities.framework */,
+				6CA068901D3D8ACA0051200E /* GoogleNetworkingUtilities.framework */,
+				6CA068911D3D8ACA0051200E /* GoogleSignIn.framework */,
+				6CA068921D3D8ACA0051200E /* GoogleSymbolUtilities.framework */,
+				6CA068931D3D8ACA0051200E /* GoogleUtilities.framework */,
+				6CA068841D3D7D4C0051200E /* GoogleSignIn.bundle */,
+				6CA068851D3D7D4D0051200E /* GoogleSignIn.framework */,
+			);
+			name = GoogleSignIn;
+			sourceTree = "<group>";
+		};
 		6CBCCFA81C84C284002D7717 /* Reminder */ = {
 			isa = PBXGroup;
 			children = (
@@ -3438,6 +3483,8 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6CA0688C1D3D82B60051200E /* SafariServices.framework */,
+				6CA0688A1D3D82AA0051200E /* AddressBook.framework */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
 				ACF20CAB1C063A74009709B5 /* libz.tbd */,
 				ACF20CA91C063A64009709B5 /* libc++.tbd */,
@@ -3527,6 +3574,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6CA068861D3D7D4D0051200E /* GoogleSignIn.bundle in Resources */,
 				56527DC919AFA8C2008032C6 /* MyriadPro-BlackCondIt.otf in Resources */,
 				56527DCA19AFA8C2008032C6 /* MyriadPro-BlackSemiExtIt.otf in Resources */,
 				8B44A1BC1AA7E16C008E3CC0 /* PagoSeguro.pdf in Resources */,
@@ -4252,6 +4300,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SAMS/Lib",
 					"$(PROJECT_DIR)/WalMart",
+					"$(PROJECT_DIR)/WalMart/Shared/Library/GoogleSignIn",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4274,6 +4323,7 @@
 					"-lc++",
 					"-lz",
 					"$(DT_LDFLAGS)",
+					"$(OTHER_LDFLAGS)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
@@ -4307,6 +4357,7 @@
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/SAMS/Lib",
 					"$(PROJECT_DIR)/WalMart",
+					"$(PROJECT_DIR)/WalMart/Shared/Library/GoogleSignIn",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4329,6 +4380,7 @@
 					"-lc++",
 					"-lz",
 					"$(DT_LDFLAGS)",
+					"$(OTHER_LDFLAGS)",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;

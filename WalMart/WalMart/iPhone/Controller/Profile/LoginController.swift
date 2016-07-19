@@ -9,7 +9,7 @@
 import Foundation
 //import Tune
 
-class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate {
+class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate, GIDSignInUIDelegate,GIDSignInDelegate {
     var close: UIButton?
     var viewCenter : UIView!
     var content: TPKeyboardAvoidingScrollView!
@@ -36,9 +36,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-    //var loginFacebookButton: UIButton!
 	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
+    var loginFacebookButton: UIButton!
+    var loginGoogleButton: UIButton!
+    var loginTwitterButton: UIButton!
     
     var okCancelCallBack : (() -> Void)? = nil
     
@@ -88,14 +90,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.viewbg!.backgroundColor = WMColor.light_light_gray
        
         //Login button setup
-        registryButton = UIButton()
-        registryButton!.setTitle(NSLocalizedString("profile.create.an.account", comment: ""), forState: UIControlState.Normal)
-        registryButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        registryButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        registryButton!.backgroundColor = WMColor.blue
-        registryButton!.layer.cornerRadius = 20.0
-        registryButton?.addTarget(self, action: #selector(LoginController.registryUser), forControlEvents: .TouchUpInside)
-  
         signInButton = UIButton()
         signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
         signInButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
@@ -139,7 +133,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.content?.addSubview(email!)
         self.content?.addSubview(password!)
         self.content?.addSubview(signInButton!)
-        self.content?.addSubview(registryButton!)
         self.content?.addSubview(noAccount!)
         self.content?.addSubview(viewLine!)
         
@@ -157,17 +150,33 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.addSubview(self.viewCenter!)
         self.view.addSubview(self.close!)
         
-        /*self.loginFacebookButton = UIButton(type: .Custom)
+        self.loginFacebookButton = UIButton(type: .Custom)
         self.loginFacebookButton.layer.cornerRadius =  20.0
-        self.loginFacebookButton!.backgroundColor = WMColor.blue
-        self.loginFacebookButton!.addTarget(self, action: "facebookLogin", forControlEvents: .TouchUpInside)
-        self.loginFacebookButton!.setTitle("Ingresar con Facebook", forState: UIControlState.Normal)
-        self.loginFacebookButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.loginFacebookButton!.backgroundColor = UIColor.whiteColor()
+        self.loginFacebookButton!.addTarget(self, action: #selector(LoginController.facebookLogin), forControlEvents: .TouchUpInside)
         self.loginFacebookButton!.setImage(UIImage(named: "facebook_login"), forState: .Normal)
-        self.loginFacebookButton!.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 2, 16)
-        self.loginFacebookButton!.imageView?.sizeThatFits(CGSizeMake(20.0, 20.0))
-        self.loginFacebookButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.content!.addSubview(self.loginFacebookButton)*/
+        self.content!.addSubview(self.loginFacebookButton)
+        
+        self.loginGoogleButton = UIButton(type: .Custom)
+        self.loginGoogleButton.layer.cornerRadius =  20.0
+        self.loginGoogleButton!.backgroundColor = UIColor.whiteColor()
+        self.loginGoogleButton!.addTarget(self, action: #selector(LoginController.googleSignIn), forControlEvents: .TouchUpInside)
+        self.loginGoogleButton!.setImage(UIImage(named: "google_login"), forState: .Normal)
+        self.content!.addSubview(self.loginGoogleButton)
+        
+        self.loginTwitterButton = UIButton(type: .Custom)
+        self.loginTwitterButton.layer.cornerRadius =  20.0
+        self.loginTwitterButton!.backgroundColor = UIColor.whiteColor()
+        self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.googleSignIn), forControlEvents: .TouchUpInside)
+        self.loginTwitterButton!.setImage(UIImage(named: "twitter_login"), forState: .Normal)
+        self.content!.addSubview(self.loginTwitterButton)
+        
+        self.registryButton = UIButton(type: .Custom)
+        self.registryButton!.backgroundColor = UIColor.whiteColor()
+        self.registryButton!.setImage(UIImage(named: "walmart_login"), forState: .Normal)
+        self.registryButton!.addTarget(self, action: #selector(LoginController.registryUser), forControlEvents: .TouchUpInside)
+        self.registryButton!.layer.cornerRadius = 20.0
+        self.content?.addSubview(registryButton!)
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -209,12 +218,14 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
             }else{
                 self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-                //self.loginFacebookButton?.frame = CGRectMake(leftRightPadding,  self.signInButton!.frame.maxY + 24 , self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+                self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 24, self.password!.frame.width, 20)
+                self.loginFacebookButton?.frame = CGRectMake(32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+                self.loginGoogleButton?.frame = CGRectMake(self.loginFacebookButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+                self.loginTwitterButton?.frame = CGRectMake(self.loginGoogleButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
             }
             
             self.bgView!.frame = self.view.bounds
-            self.registryButton?.frame = CGRectMake(self.password!.frame.minX,  self.noAccount!.frame.maxY + 20 , self.password!.frame.width, 40)
+            self.registryButton?.frame = CGRectMake(self.loginTwitterButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
             
         }
@@ -680,7 +691,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
                 self.signUp.dateVal = date
             }
-                
                 if(gender == "male"){
                    self.signUp.maleButton?.selected = true
                 }else{
@@ -689,4 +699,42 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             })
     }
     
+    //MARK: -Google SignIn
+    func googleSignIn(){
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        if !self.closeAlertOnSuccess {
+            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
+        }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
+        
+        self.alertView?.okCancelCallBack = self.okCancelCallBack
+        self.alertView!.afterRemove = {() -> Void in
+            self.alertView = nil
+        }
+        self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
+        GIDSignIn.sharedInstance().delegate = self
+        GIDSignIn.sharedInstance().uiDelegate = self
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
+    func signIn(signIn: GIDSignIn!,
+                presentViewController viewController: UIViewController!) {
+        self.presentViewController(viewController, animated: true, completion: nil)
+    }
+    
+    func signIn(signIn: GIDSignIn!,
+                dismissViewController viewController: UIViewController!) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func signIn(signIn: GIDSignIn!, didSignInForUser user: GIDGoogleUser!,
+                withError error: NSError!) {
+        if (error == nil) {
+            self.loginWithEmail(user.profile.email, firstName: user.profile.givenName, lastName: user.profile.familyName, gender: "", birthDay: "")
+        } else {
+            self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+            self.alertView!.showErrorIcon("Aceptar")
+        }
+    }
 }

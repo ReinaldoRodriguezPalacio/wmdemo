@@ -13,7 +13,7 @@ import CoreData
 
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
+class AppDelegate: UIResponder, UIApplicationDelegate{
                             
     var window: UIWindow?
     var imgView: UIImageView? = nil
@@ -64,6 +64,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         
         FBSDKAppLinkUtility.fetchDeferredAppLink(fbDeferredAppLink)
       
+        
+        //Google Login
+        GIDSignIn.sharedInstance().clientID = "219152779773-ns3bi9cjn9a0sd8nam0ikf3gh4kon0j0.apps.googleusercontent.com"
+        
 
         //Set url image cache to application
         let sharedCache  = NSURLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
@@ -462,11 +466,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         //Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         //Quitar para produccion
         handleURLFacebook(url,sourceApplication:sourceApplication!)
-        
-        
         handleURL(url)
-        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
-        //return true
+        let fb = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
+        
+        //var options: [String: AnyObject] = [UIApplicationOpenURLOptionsSourceApplicationKey: sourceApplication!,UIApplicationOpenURLOptionsAnnotationKey: annotation]
+        let gid = GIDSignIn.sharedInstance().handleURL(url,
+                                                    sourceApplication: sourceApplication,
+                                                    annotation: annotation)
+        return fb || gid
+    }
+    
+    @available(iOS 9.0, *)
+    func application(application: UIApplication,
+                     openURL url: NSURL, options: [String: AnyObject]) -> Bool {
+        
+            return GIDSignIn.sharedInstance().handleURL(url,
+                                                        sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String,
+                                                        annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
     }
     
     func handleURLFacebook(url: NSURL,sourceApplication:String){
@@ -586,7 +602,4 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
     func tuneDidFailWithError(error: NSError!) {
         NSLog("Tune.failure: %@", error);
     }
-    
-    
-
 }  

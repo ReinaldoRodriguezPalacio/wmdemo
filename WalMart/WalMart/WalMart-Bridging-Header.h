@@ -76,6 +76,9 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import <Bolts/Bolts.h>
 
+//Google
+#import <GoogleSignIn/GoogleSignIn.h>
+
 //MERCURY
 // Stompkit
 #import "StompKit.h"
