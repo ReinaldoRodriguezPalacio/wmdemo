@@ -45,8 +45,8 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
     var signInOrClose: WMRoundButton?
     var editProfileButton : UIButton!
     var showCamfind: Bool!
-    
     var alertView: IPOWMAlertViewController?
+    var showPromos: Bool = true
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MOREOPTIONS.rawValue
@@ -493,14 +493,16 @@ class MoreOptionsViewController: IPOBaseController, UITableViewDelegate, UITable
      Call service line promotions
      */
     func openPromotios(){
-
-        NSLog("Inicia llamado de  Servicios:::::")
-        self.loadGRServices { (bussines:String) in
-            NSLog("termina llamado de Servicios:::")
-            
-            let window = UIApplication.sharedApplication().keyWindow
-            if let customBar = window!.rootViewController as? CustomBarViewController {
-                customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+        if self.showPromos {
+            self.showPromos = false
+            NSLog("Inicia llamado de  Servicios:::::")
+            self.loadGRServices { (bussines:String) in
+                NSLog("termina llamado de Servicios:::")
+                let window = UIApplication.sharedApplication().keyWindow
+                if let customBar = window!.rootViewController as? CustomBarViewController {
+                    customBar.handleNotification("LIN",name:"CP",value: bussines == "gr" ? "cl-promociones-mobile" :"l-lp-app-promociones",bussines:bussines)
+                    self.showPromos = true
+                }
             }
         }
     }

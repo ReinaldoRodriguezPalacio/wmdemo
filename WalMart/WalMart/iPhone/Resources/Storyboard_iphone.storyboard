@@ -679,8 +679,8 @@
                                     <outlet property="delegate" destination="txc-PP-m5R" id="6mV-s7-k3w"/>
                                 </connections>
                             </mapView>
-                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
-                                <rect key="frame" x="270" y="411" width="34" height="34"/>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sdz-to-nCq">
+                                <rect key="frame" x="270" y="410" width="34" height="34"/>
                                 <state key="normal" image="location"/>
                                 <state key="selected" image="location_selected"/>
                                 <connections>
@@ -692,12 +692,10 @@
                         <constraints>
                             <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="XDH-7a-zhZ" secondAttribute="bottom" id="BOQ-MC-dd8"/>
                             <constraint firstItem="XDH-7a-zhZ" firstAttribute="top" secondItem="5Sq-ML-6dD" secondAttribute="bottom" constant="46" id="P6J-ya-QH8"/>
-                            <constraint firstItem="FMq-V3-Szx" firstAttribute="top" secondItem="sdz-to-nCq" secondAttribute="bottom" constant="16" id="rIC-00-zad"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Btq-m1-Xv9"/>
                     <connections>
-                        <outlet property="bottomSpaceButton" destination="rIC-00-zad" id="gLc-ra-RCY"/>
                         <outlet property="bottomSpaceMap" destination="BOQ-MC-dd8" id="S83-NP-eiX"/>
                         <outlet property="clubMap" destination="XDH-7a-zhZ" id="JHv-7a-0OM"/>
                         <outlet property="usrPositionBtn" destination="sdz-to-nCq" id="cJP-3A-lWA"/>
