@@ -80,11 +80,11 @@ class BaseService : NSObject {
     
     func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        var serviceConfigDictionary = ConfigServices.ConfigIdMG
+        let serviceConfigDictionary = ConfigServices.ConfigIdMG
         
-        if useSignalsServices {
-            serviceConfigDictionary =  ConfigServices.ConfigIdMGSignals
-        }
+//        if useSignalsServices {
+//            //serviceConfigDictionary =  ConfigServices.ConfigIdMGSignals
+//        }
         
         let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary
         let environmentServices = services.objectForKey(environment) as! NSDictionary

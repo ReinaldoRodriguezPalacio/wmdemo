@@ -18,13 +18,13 @@ class GRBaseService : BaseService {
             serviceConfigDictionary = UserCurrentSession.hasLoggedUser() ? ConfigServices.ConfigIdGRSign : ConfigServices.ConfigIdGR
         }
         
-        if useSignalsServices {
-            if UserCurrentSession.hasLoggedUser() &&  self.urlForSession {
-                serviceConfigDictionary = ConfigServices.ConfigIdGRSignalsSing
-            }else{
-                serviceConfigDictionary = ConfigServices.ConfigIdGRSignals
-            }
-        }
+//        if useSignalsServices {
+//            if UserCurrentSession.hasLoggedUser() &&  self.urlForSession {
+//                //serviceConfigDictionary = ConfigServices.ConfigIdGRSignalsSing
+//            }else{
+//                //serviceConfigDictionary = ConfigServices.ConfigIdGRSignals
+//            }
+//        }
         
         
         let services = NSBundle.mainBundle().objectForInfoDictionaryKey(serviceConfigDictionary) as! NSDictionary

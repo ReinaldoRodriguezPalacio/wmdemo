@@ -171,18 +171,18 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if let maxproducts = itemsconfig["maxproducts"] as? Int {
             ShoppingCartParams.maxProducts = maxproducts
         }
-        
-        if let serviceapp = itemsconfig["serviceUrl"] as? String {
-            if serviceapp == "cluster" {
-                ConfigServices.ConfigIdMG = "clusterWMURLServices"
-                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
-                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
-                
-                ConfigServices.ConfigIdMGSignals = "clusterWMURLSignalsServices"
-                ConfigServices.ConfigIdGRSignals = "clusterWMGroceriesURLSignalsServices"
-                ConfigServices.ConfigIdGRSignalsSing = "clusterWMGroceriesURLSignalsServicesSession"
-            }
-        }
+        //Se quita por mustang
+//        if let serviceapp = itemsconfig["serviceUrl"] as? String {
+//            if serviceapp == "cluster" {
+//                ConfigServices.ConfigIdMG = "clusterWMURLServices"
+//                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
+//                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
+//                
+//                ConfigServices.ConfigIdMGSignals = "clusterWMURLSignalsServices"
+//                ConfigServices.ConfigIdGRSignals = "clusterWMGroceriesURLSignalsServices"
+//                ConfigServices.ConfigIdGRSignalsSing = "clusterWMGroceriesURLSignalsServicesSession"
+//            }
+//        }
         
         if let camfindparams = itemsconfig["camfindparams"] as? String {
                 ConfigServices.camfindparams = camfindparams
