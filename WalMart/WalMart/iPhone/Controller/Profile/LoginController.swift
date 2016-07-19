@@ -7,7 +7,7 @@
 //
 
 import Foundation
-//import Tune
+import TwitterKit
 
 class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, UITextFieldDelegate, GIDSignInUIDelegate,GIDSignInDelegate {
     var close: UIButton?
@@ -83,29 +83,27 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.password!.nameField = NSLocalizedString("profile.password",comment:"")
         self.password!.delegate = self
         self.password!.returnKeyType = .Done
-        //self.password!.minLength = 5
-        //self.password!.maxLength = 15
         
         self.viewbg = UIView()
         self.viewbg!.backgroundColor = WMColor.light_light_gray
        
         //Login button setup
-        signInButton = UIButton()
-        signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
-        signInButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        signInButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        signInButton!.backgroundColor = WMColor.green
-        signInButton!.addTarget(self, action: #selector(LoginController.signIn(_:)), forControlEvents: .TouchUpInside)
-        signInButton!.layer.cornerRadius = 20.0
+        self.signInButton = UIButton()
+        self.signInButton!.setTitle(NSLocalizedString("profile.signIn", comment: ""), forState: UIControlState.Normal)
+        self.signInButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.signInButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.signInButton!.backgroundColor = WMColor.green
+        self.signInButton!.addTarget(self, action: #selector(LoginController.signIn(_:)), forControlEvents: .TouchUpInside)
+        self.signInButton!.layer.cornerRadius = 20.0
 
         //Button forgot password setup
-        forgotPasswordButton = UIButton()
-        forgotPasswordButton!.setTitle(NSLocalizedString("profile.forgot.password", comment: ""), forState: UIControlState.Normal)
-        forgotPasswordButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        forgotPasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        forgotPasswordButton!.titleLabel!.textAlignment = .Right
-        forgotPasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-        forgotPasswordButton?.addTarget(self, action: #selector(LoginController.forgot(_:)), forControlEvents: .TouchUpInside)
+        self.forgotPasswordButton = UIButton()
+        self.forgotPasswordButton!.setTitle(NSLocalizedString("profile.forgot.password", comment: ""), forState: UIControlState.Normal)
+        self.forgotPasswordButton!.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.forgotPasswordButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.forgotPasswordButton!.titleLabel!.textAlignment = .Right
+        self.forgotPasswordButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
+        self.forgotPasswordButton?.addTarget(self, action: #selector(LoginController.forgot(_:)), forControlEvents: .TouchUpInside)
        
         self.noAccount = UILabel()
         self.noAccount!.text = NSLocalizedString("profile.no.account",comment:"")
@@ -122,8 +120,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.titleLabel!.text = "Ingresa a tu cuenta"
         self.titleLabel!.textAlignment = NSTextAlignment.Center
         
-        viewLine = UIView()
-        viewLine!.backgroundColor = WMColor.light_gray
+        self.viewLine = UIView()
+        self.viewLine!.backgroundColor = WMColor.light_gray
         
         self.content!.addSubview(self.titleLabel!)
         self.content.backgroundColor = UIColor.clearColor()
@@ -167,7 +165,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginTwitterButton = UIButton(type: .Custom)
         self.loginTwitterButton.layer.cornerRadius =  20.0
         self.loginTwitterButton!.backgroundColor = UIColor.whiteColor()
-        self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.googleSignIn), forControlEvents: .TouchUpInside)
+        self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.twitterSignIn), forControlEvents: .TouchUpInside)
         self.loginTwitterButton!.setImage(UIImage(named: "twitter_login"), forState: .Normal)
         self.content!.addSubview(self.loginTwitterButton)
         
@@ -682,20 +680,21 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 self.signUp.email?.text = email
                 self.signUp.name?.text = firstName
                 self.signUp.lastName?.text = lastName
-                let dateFormatter = NSDateFormatter()
-                dateFormatter.dateFormat = "MM/dd/yyyy"
-            if birthDay != ""{
-                let date = dateFormatter.dateFromString(birthDay)
-                self.signUp.inputBirthdateView?.date = date!
-                dateFormatter.dateFormat = "d MMMM yyyy"
-                self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
-                self.signUp.dateVal = date
-            }
-                if(gender == "male"){
-                   self.signUp.maleButton?.selected = true
-                }else{
-                    self.signUp.femaleButton?.selected = true
-                }
+//   Se eliminan temporalmente
+//                let dateFormatter = NSDateFormatter()
+//                dateFormatter.dateFormat = "MM/dd/yyyy"
+//                if birthDay != ""{
+//                    let date = dateFormatter.dateFromString(birthDay)
+//                    self.signUp.inputBirthdateView?.date = date!
+//                    dateFormatter.dateFormat = "d MMMM yyyy"
+//                    self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
+//                    self.signUp.dateVal = date
+//                }
+//                if(gender == "male"){
+//                   self.signUp.maleButton?.selected = true
+//                }else{
+//                    self.signUp.femaleButton?.selected = true
+//                }
             })
     }
     
@@ -735,6 +734,49 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         } else {
             self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
             self.alertView!.showErrorIcon("Aceptar")
+        }
+    }
+    
+    //MARK: - Twitter Login
+    
+    func twitterSignIn(sender: UIButton) {
+        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
+        if !self.closeAlertOnSuccess {
+            self.alertView?.showOkButton("Cancelar",  colorButton:WMColor.blue)
+        }
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_LOGIN.rawValue, action:WMGAIUtils.ACTION_LOGIN_USER.rawValue, label:"")
+        
+        self.alertView?.okCancelCallBack = self.okCancelCallBack
+        self.alertView!.afterRemove = {() -> Void in
+            self.alertView = nil
+        }
+        self.alertView!.setMessage(NSLocalizedString("profile.message.entering",comment:""))
+        Twitter.sharedInstance().logInWithMethods([.WebBased]) { session, error in
+            if (session != nil) {
+                print("signed in as \(session!.userName)");
+                let client = TWTRAPIClient.clientWithCurrentUser()
+                let request = client.URLRequestWithMethod("GET",
+                    URL: "https://api.twitter.com/1.1/account/verify_credentials.json",
+                    parameters: ["include_email": "true", "skip_status": "true"],
+                    error: nil)
+                
+                client.sendTwitterRequest(request) { response, data, connectionError in
+                    do {
+                        let json = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [String:AnyObject]
+                        let name = json["name"] as! String
+                        let email = json["email"] as? String ?? ""
+                        self.loginWithEmail(email, firstName: name, lastName: "", gender: "", birthDay: "")
+                    } catch {
+                        print("json error: \(error)")
+                        self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                        self.alertView!.showErrorIcon("Aceptar")
+                    }
+                }
+            } else {
+                self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                self.alertView!.showErrorIcon("Aceptar")
+            }
         }
     }
 }

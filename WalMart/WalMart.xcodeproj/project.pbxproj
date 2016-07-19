@@ -393,6 +393,10 @@
 		5A9911DF1BAC827A00849485 /* NotificationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */; };
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
+		6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */; };
+		6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */; };
+		6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */; };
+		6C1E26421D3EA4AA00D3B606 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */; };
 		6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */; };
 		6C3092D61B990CD900D00349 /* GRPayPalFuturePaymentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */; };
 		6C31808F1B87C9B30015FC2E /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C31808E1B87C9B30015FC2E /* Accelerate.framework */; };
@@ -1078,6 +1082,10 @@
 		5A9911DE1BAC827A00849485 /* NotificationTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationTableViewCell.swift; path = Shared/View/Notification/NotificationTableViewCell.swift; sourceTree = "<group>"; };
 		5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NotificationViewController.swift; path = iPhone/Controller/NotificationViewController.swift; sourceTree = "<group>"; };
 		5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationFileService.swift; sourceTree = "<group>"; };
+		6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterKit.framework; sourceTree = "<group>"; };
+		6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = TwitterKitResources.bundle; path = TwitterKit.framework/Versions/A/Resources/TwitterKitResources.bundle; sourceTree = "<group>"; };
+		6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = TwitterCore.framework; sourceTree = "<group>"; };
 		6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPayPalUpdateOrderService.swift; sourceTree = "<group>"; };
 		6C3092D51B990CD900D00349 /* GRPayPalFuturePaymentService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRPayPalFuturePaymentService.swift; sourceTree = "<group>"; };
 		6C31808E1B87C9B30015FC2E /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -1364,15 +1372,18 @@
 				ACF20CAE1C063A8D009709B5 /* libsqlite3.tbd in Frameworks */,
 				ACF20CAC1C063A74009709B5 /* libz.tbd in Frameworks */,
 				ACF20CAA1C063A64009709B5 /* libc++.tbd in Frameworks */,
+				6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */,
 				6CA068951D3D8ACA0051200E /* GoogleAuthUtilities.framework in Frameworks */,
 				ACF20CA81C063A51009709B5 /* libsqlite3.0.tbd in Frameworks */,
 				ACC8914C1BFE84D700EB98DE /* CoreTelephony.framework in Frameworks */,
 				6CEB11861B8B7D880013FE44 /* AdSupport.framework in Frameworks */,
 				6CA068981D3D8ACA0051200E /* GoogleSymbolUtilities.framework in Frameworks */,
 				6CA068971D3D8ACA0051200E /* GoogleSignIn.framework in Frameworks */,
+				6C1E26421D3EA4AA00D3B606 /* TwitterCore.framework in Frameworks */,
 				6CA068961D3D8ACA0051200E /* GoogleNetworkingUtilities.framework in Frameworks */,
 				6C3180991B87CA150015FC2E /* MessageUI.framework in Frameworks */,
 				6C3180951B87C9E80015FC2E /* CoreLocation.framework in Frameworks */,
+				6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */,
 				04D2A3981A2FD4FF008DAE37 /* MapKit.framework in Frameworks */,
 				6C3180931B87C9CF0015FC2E /* AVFoundation.framework in Frameworks */,
 				6C3180971B87C9FC0015FC2E /* CoreMedia.framework in Frameworks */,
@@ -3483,6 +3494,10 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */,
+				6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */,
+				6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */,
+				6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */,
 				6CA0688C1D3D82B60051200E /* SafariServices.framework */,
 				6CA0688A1D3D82AA0051200E /* AddressBook.framework */,
 				ACF20CAD1C063A8D009709B5 /* libsqlite3.tbd */,
@@ -3518,6 +3533,7 @@
 				5645789219AE2E00006A7152 /* Sources */,
 				5645789319AE2E00006A7152 /* Frameworks */,
 				5645789419AE2E00006A7152 /* Resources */,
+				6C1E263A1D3EA47A00D3B606 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -3602,6 +3618,7 @@
 				AC59115E19DDEEDD00EB095C /* termsOfUse.html in Resources */,
 				8B5B7ED61AC0B48B00F880D1 /* PreguntasFrecuentes.pdf in Resources */,
 				56527DD519AFA8C2008032C6 /* MyriadPro-SemiboldCond.otf in Resources */,
+				6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */,
 				AC9AF41D1BE2B1B700C7638B /* Images.xcassets in Resources */,
 				AC59115C19DDEEB700EB095C /* privacy.pdf in Resources */,
 				56527DCC19AFA8C2008032C6 /* MyriadPro-BoldCond.otf in Resources */,
@@ -3634,6 +3651,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6C1E263A1D3EA47A00D3B606 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 9b0d22d3404acd30b8fde2901ed4a4e6069caeff 2bbd29a31a892c3b12d11c29d89fd299d553b740cbff42d3cfe2e38536ea17c3";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		5645789219AE2E00006A7152 /* Sources */ = {
