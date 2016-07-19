@@ -38,10 +38,9 @@ class IPAUserListViewController: UserListViewController {
         
         self.tableuserlist!.registerClass(IPAListTableViewCell.self, forCellReuseIdentifier: self.CELL_ID)
         
-        self.showWishlistBtn?.removeFromSuperview()
-        self.showWishlistBtn = nil
+        //self.showWishlistBtn?.removeFromSuperview()
+        //self.showWishlistBtn = nil
         
-        self.isShowingWishList = false
         self.needsToShowWishList = false
         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
         self.tableuserlist?.selectRowAtIndexPath(self.selectedItem, animated: false, scrollPosition: .None)
@@ -178,7 +177,6 @@ class IPAUserListViewController: UserListViewController {
         }
     }
 
-    //override func showWishlistHelpIfNeeded() { }
     
     override func showLoadingView() {
         self.delegate?.showLoadingView()
@@ -293,7 +291,6 @@ class IPAUserListViewController: UserListViewController {
                         
                     })
                     
-                    self.isShowingWishList = false
                     self.isShowingSuperlists = !self.isEditingUserList
                     self.checkEditBtn()
                     self.tableuserlist!.reloadData()
@@ -347,7 +344,6 @@ class IPAUserListViewController: UserListViewController {
                 
             })
             //println(self.itemsUserList)
-            self.isShowingWishList = false
             self.isShowingSuperlists = !self.isEditingUserList
 
             self.tableuserlist!.reloadData()
@@ -401,7 +397,6 @@ class IPAUserListViewController: UserListViewController {
                                 
                                 self.checkEditBtn()
                                 self.newListEnabled = false
-                                self.isShowingWishList  = true
                                 self.isShowingSuperlists = true
                                 
                                 self.newListBtn!.selected = false

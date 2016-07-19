@@ -507,7 +507,7 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
      */
     func buttonSelected(sender:UIButton) {
         
-        WishlistService.shouldupdate = true
+        //WishlistService.shouldupdate = true
         if self.btnSearch!.selected {
             self.closeSearch(false,sender:sender)
         }

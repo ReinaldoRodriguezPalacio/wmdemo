@@ -16,18 +16,10 @@ enum IPACustomBarNotification : String {
 class IPACustomBarViewController :  CustomBarViewController {
     @IBOutlet var logoImageView: UIImageView!
     
-    var vcWishlist : IPAWishlistViewController!
-    var viewBgWishlist : UIView!
-    
     var selectedBeforeWishlistIx : Int = 0
-    
-    var isOpenWishlist : Bool = false
-    
     var searchView : IPASearchView!
     var searchBackView: UIView!
-   
     var camFind : Bool = false
-
     
     
     override func viewDidLoad() {
@@ -72,7 +64,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func retrieveTabBarOptions() -> [String] {
         //return ["tabBar_home", "tabBar_mg","tabBar_super", "tabBar_wishlist_list","tabBar_menu"]
-        return ["home_ipad", "mg_ipad","wishlist_ipad","super_ipad",  "list_ipad","ubicacion_ipad","more_menu_ipad"]
+        return ["home_ipad", "mg_ipad","super_ipad","list_ipad","ubicacion_ipad","more_menu_ipad"]
     }
     
     override func setTabBarHidden(hidden:Bool, animated:Bool, delegate:CustomBarDelegate?) -> Void {
@@ -138,20 +130,7 @@ class IPACustomBarViewController :  CustomBarViewController {
             
             isEditingSearch = false
         }
-        if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
-            isOpenWishlist = false
-            self.buttonList[2].selected = isOpenWishlist
-            if  self.vcWishlist != nil {
-                self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
-                self.viewBgWishlist.alpha = 0
-                self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
-                self.vcWishlist.view.removeFromSuperview()
-                self.vcWishlist.removeFromParentViewController()
-                self.viewBgWishlist.removeFromSuperview()
-                self.vcWishlist = nil
-            }
-            
-        }
+        //TODO: se quita valicación de wishlist
         if controllernav != nil {
             if controllernav!.delegate != nil {
                 controllernav!.delegate = nil
@@ -260,20 +239,7 @@ class IPACustomBarViewController :  CustomBarViewController {
 
                 isEditingSearch = false
             }
-            if ((controllernav?.topViewController as? IPAWishlistViewController) != nil) {
-                isOpenWishlist = false
-                self.buttonList[2].selected = isOpenWishlist
-                if  self.vcWishlist != nil {
-                    self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
-                    self.viewBgWishlist.alpha = 0
-                    self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
-                    self.vcWishlist.view.removeFromSuperview()
-                    self.vcWishlist.removeFromParentViewController()
-                    self.viewBgWishlist.removeFromSuperview()
-                    self.vcWishlist = nil
-                }
-
-            }
+           //TODO: se quita valicación de wishlist
             if controllernav != nil {
                 if controllernav!.delegate != nil {
                     controllernav!.delegate = nil
@@ -312,7 +278,7 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func createInstanceOfControllers() {
         let storyboard = self.loadStoryboardDefinition()
      
-         let controllerIdentifiers : [String] = ["categoriesVC", "wishlistVC","GRCategoriesVC", "userListsVC", "storeLocatorVC","moreVC"] // "profileVC",
+         let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC", "userListsVC", "storeLocatorVC","moreVC"] // "profileVC",
         
         for item in controllerIdentifiers {
             let components = item.componentsSeparatedByString("-")
@@ -335,76 +301,14 @@ class IPACustomBarViewController :  CustomBarViewController {
     
     override func buttonSelected(sender:UIButton) {
         let index = self.buttonList.indexOf(sender)
-        if index == 2 {
-            sender.selected = !isOpenWishlist
-            if !self.isOpenWishlist {
-                if self.viewBgWishlist == nil {
-                    self.viewBgWishlist = UIView(frame: self.currentController!.view.bounds)
-                    self.viewBgWishlist.userInteractionEnabled = true
-                    self.viewBgWishlist.alpha = 0
-                    self.viewBgWishlist.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
-                    
-                    self.viewBgWishlist.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList)))
-                    
-                    let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList))
-                    gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
-                    self.viewBgWishlist.addGestureRecognizer(gestureSwipeUp)
-                }
-                
-                if let vcwishlist = storyboard!.instantiateViewControllerWithIdentifier("wishlistVC") as? IPAWishlistViewController {
-                    vcWishlist = vcwishlist
-                    vcWishlist.closewl = {() in
-                        self.closeWishList()
-                    }
-                    self.currentController?.addChildViewController(vcWishlist)
-                    vcWishlist.view.frame = CGRectMake(0, -270, 1024,334)
-                    self.currentController?.view.addSubview(vcWishlist.view)
-                    vcWishlist.registerNotification()
-                    let gestureSwipeUp = UISwipeGestureRecognizer(target: self, action: #selector(IPACustomBarViewController.didTapHideWhishList))
-                    gestureSwipeUp.direction = UISwipeGestureRecognizerDirection.Up
-                    vcWishlist.view.addGestureRecognizer(gestureSwipeUp)
-                }
-                
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.vcWishlist.view.frame = CGRectMake(0, 0, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
-                    self.viewBgWishlist.alpha = 1
-                    self.currentController?.view.addSubview(self.viewBgWishlist)
-                    self.currentController?.view.bringSubviewToFront(self.vcWishlist.view)
-                    self.isOpenWishlist = true
-                    self.buttonList[self.selectedBeforeWishlistIx].selected = !self.isOpenWishlist
-                })
-            }
-            else {
-                self.closeWishList()
-            }
-            
-            return
-        }
-        
-        if self.isOpenWishlist {
-            self.closeWishList()
-        }
+        //TODO: se quita valicación de wishlist
         
         self.selectedBeforeWishlistIx = index!
-       
-//        if index == 5 &&  UserCurrentSession.sharedInstance().userSigned == nil{
-//            var cont = IPALoginController.showLogin()
-//            cont!.successCallBack = {() in
-//                if cont.alertView != nil {
-//                    cont!.closeAlert(true, messageSucesss: true)
-//                }else {
-//                    cont!.closeModal()
-//                }
-//                self.buttonSelected(sender)
-//                cont = nil
-//            }
-//            return
-//        }
         
         let controller = self.viewControllers[index!]
         if controller === self.currentController {
-            //let controllerIdentifiers : [String] = ["categoriesVC","wishlitsVC","profileVC","moreVC"]
-            let controllerIdentifiers : [String] = ["categoriesVC","wishlistVC","GRCategoriesVC",  "userListsVC","storeLocatorVC","moreVC"]//, "profileVC"
+            
+            let controllerIdentifiers : [String] = ["categoriesVC","GRCategoriesVC",  "userListsVC","storeLocatorVC","moreVC"]//, "profileVC"
             
             if let navController = self.currentController as? UINavigationController {
                 if index! > 0 {
@@ -433,27 +337,6 @@ class IPACustomBarViewController :  CustomBarViewController {
         
     }
     
-   
-    func closeWishList() {
-
-        self.buttonList[2].selected = !isOpenWishlist
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            if  self.vcWishlist != nil {
-                self.vcWishlist.view.frame = CGRectMake(0, -self.vcWishlist.view.frame.height, self.vcWishlist.view.frame.width, self.vcWishlist.view.frame.height)
-                self.viewBgWishlist.alpha = 0
-                self.buttonList[self.selectedBeforeWishlistIx].selected = self.isOpenWishlist
-            }
-            }, completion: { (complete:Bool) -> Void in
-                if  self.vcWishlist != nil {
-                    self.vcWishlist.removeNotification()
-                    self.vcWishlist.view.removeFromSuperview()
-                    self.vcWishlist.removeFromParentViewController()
-                    self.viewBgWishlist.removeFromSuperview()
-                    self.vcWishlist = nil
-                    self.isOpenWishlist = false
-                }
-        })
-    }
     
     func didTapHideWhishList() {
         buttonSelected(self.buttonList[2])
@@ -553,7 +436,6 @@ class IPACustomBarViewController :  CustomBarViewController {
     override func userLogOut(not:NSNotification) {
         self.removeAllCookies()
         self.removeChildViewControllers(self.viewControllers[0].childViewControllers)
-        self.closeWishList()
         if let navController = self.viewControllers[0] as? UINavigationController {
             let vc = storyboard!.instantiateViewControllerWithIdentifier("homeVC")
             navController.popToRootViewControllerAnimated(false)

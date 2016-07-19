@@ -26,7 +26,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 
     var editBtn: UIButton?
     var newListBtn: UIButton?
-    var showWishlistBtn: UIButton?
     var viewSeparator : UIView!
     
     var helpView: UIView?
@@ -34,7 +33,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     var newListEnabled = false
     var isEditingUserList  = false
-    var isShowingWishList  = true
+    //var isShowingWishList  = true
     var isShowingSuperlists = true
     var isShowingTabBar = true
     var isToggleBarEnabled = true
@@ -331,7 +330,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             )
         }
         else {
-            self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
@@ -376,7 +374,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             let userListsService = GRUserListService()
             userListsService.callService([:],
                 successBlock: { (result:NSDictionary) -> Void in
-                    self.isShowingWishList = !self.isEditingUserList
                     self.isShowingSuperlists = !self.isEditingUserList
                     self.itemsUserList = result["responseArray"] as? [AnyObject]
                     if !self.newListEnabled && !self.isEditingUserList {
@@ -396,7 +393,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             )
         }
         else {
-            self.isShowingWishList = !self.isEditingUserList
             self.isShowingSuperlists = !self.isEditingUserList
             let service = GRUserListService()
             self.itemsUserList = service.retrieveNotSyncList()
@@ -443,7 +439,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.changeFrameEditBtn(true, side: "right")
                 },
                 atFinished: { () -> Void in
-                    self.isShowingWishList = false
                     self.isShowingSuperlists = false
                     CATransaction.begin()
                     CATransaction.setCompletionBlock({ () -> Void in
@@ -481,7 +476,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                         self.changeEntityNames()
                     }
                     
-                    self.isShowingWishList = true
                     self.isShowingSuperlists = true
                     CATransaction.begin()
                     CATransaction.setCompletionBlock({ () -> Void in
@@ -537,7 +531,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             }
             self.stateEdit =  true
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")
-            self.isShowingWishList = false
             self.isShowingSuperlists = false
             UIView.animateWithDuration(0.2, animations: { () -> Void in
                 self.tableuserlist!.setContentOffset(CGPointZero, animated:false)
@@ -599,7 +592,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             }
                             self.newListBtn!.enabled = true
                         })
-                        self.isShowingWishList = true
                         self.isShowingSuperlists = true
                         self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
                         CATransaction.commit()
@@ -644,7 +636,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 
                 self.checkEditBtn()
                 self.newListEnabled = false
-                self.isShowingWishList  = true
                 self.isShowingSuperlists = true
                 
                 self.newListBtn!.selected = false
@@ -716,7 +707,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
                 self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
                     self.newListEnabled = false
-                    self.isShowingWishList  = true
                     self.isShowingSuperlists = true
                     self.newListBtn!.selected = false
                     self.newListBtn!.backgroundColor = WMColor.green
@@ -767,7 +757,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     
                     self.saveContext()
                     self.newListEnabled = false
-                    self.isShowingWishList  = true
                     self.isShowingSuperlists = true
                     
                     self.newListBtn!.selected = false
@@ -1058,17 +1047,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
     }
     
-    /**
-     Open WishList and generate tag of Analytics
-     */
-    func showWishlist() {
-        WishlistService.shouldupdate = true
-        let vc = storyboard!.instantiateViewControllerWithIdentifier("wishlitsItemVC")
-        self.navigationController!.pushViewController(vc, animated: true)
-        
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_WISHLIST.rawValue, label: "")
-        
-    }
+
     
     /**
      Open super list controller and generate tag of Analytics
@@ -1081,22 +1060,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
     }
     
-
-    
-    func removeWishlistHelp(recognizer:UITapGestureRecognizer){
-        UIView.animateWithDuration(0.5,
-            animations: { () -> Void in
-                self.viewTapHelp!.alpha = 0.0
-            },
-            completion: { (finished:Bool) -> Void in
-                if finished {
-                    self.viewTapHelp!.removeFromSuperview()
-                    self.viewTapHelp = nil
-                    self.addOrUpdateParam("wishlistHelp", value: "false")
-                }
-            }
-        )
-    }
     
     /**
      Present loader in screen list
@@ -1148,7 +1111,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             return self.itemsUserList!.count
         }
         var size = (self.newListEnabled ? 1 : 0)
-        size = size + (self.isShowingWishList && needsToShowWishList ? 1 : 0)
         size = size + (self.isShowingSuperlists ? 1 : 0)
         return size
     }
@@ -1164,26 +1126,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 listCell.accessoryView = nil
                 return listCell
             }
-            var currentRow = (self.newListEnabled ? 1 : 0)
+            let currentRow = (self.newListEnabled ? 1 : 0)
             
             let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListTableViewCell
             listCell.delegate = self
             listCell.listDelegate = self
             
-            if (indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList)  {
-                listCell.setValues(name: "WishList", count: "\(UserCurrentSession.sharedInstance().userItemsInWishlist())", icon: UIImage(named: "wishlist")!,enableEditing: false)
-                listCell.canDelete = false
-                listCell.enableDuplicateList(self.newListEnabled)
-                listCell.shouldChangeState = !self.isEditingUserList
-                listCell.setEditing(self.isEditingUserList, animated: false)
-                listCell.showLeftUtilityButtonsAnimated(false)
-                listCell.enableEditList(self.isEditingUserList)
-                listCell.accessoryView = nil
-                listCell.selectionStyle = .None
-                return listCell
-            }
             
-            currentRow = currentRow + (self.isShowingWishList ? 1 : 0)
             if (indexPath.row == 0 && self.isShowingSuperlists ) || (indexPath.row == 1 && self.isShowingSuperlists && self.needsToShowWishList) || (indexPath.row == 1 && self.isShowingSuperlists && self.newListEnabled && !self.needsToShowWishList) || (indexPath.row == 2 && self.isShowingSuperlists && self.newListEnabled)  {
                 listCell.setValues(name: "Superlistas", count: "\(numberOfDefaultLists)", icon: UIImage(named: "superlist_list")!,enableEditing: false)
                 listCell.articlesTitle!.text = String(format: "%@ listas", "\(numberOfDefaultLists)")
@@ -1235,22 +1184,18 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 return
             }
             if !self.newListEnabled {
-                if indexPath.row == 0 && self.isShowingWishList && self.needsToShowWishList {
-                    showWishlist()
-                    return
-                }
-                else if indexPath.row == 1 && self.isShowingSuperlists {
+                if indexPath.row == 0 && self.isShowingSuperlists {
                     showDefaultLists()
                     return
                 }
             }
             return
         }
-        if indexPath.section != 0  && !self.isShowingWishList {
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            cell?.selected = false
-            return
-        }
+//        if indexPath.section != 0   {
+//            let cell = tableView.cellForRowAtIndexPath(indexPath)
+//            cell?.selected = false
+//            return
+//        }
         
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
         
@@ -1575,7 +1520,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                 cell.scanning = false
                             }
                             self.newListEnabled = false
-                            self.isShowingWishList  = true
                             self.isShowingSuperlists = true
                             
                             self.newListBtn!.selected = false
@@ -1611,18 +1555,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     override func willShowTabbar() {
         self.isShowingTabBar = true
-        /*UIView.animateWithDuration(0.2, animations: { () -> Void in
-            var bounds = self.view.frame.size
-            self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 101.0, 40.0, 40.0)
-        })*/
     }
     
     override func willHideTabbar() {
         self.isShowingTabBar = false
-        /*UIView.animateWithDuration(0.2, animations: { () -> Void in
-            var bounds = self.view.frame.size
-            self.showWishlistBtn!.frame = CGRectMake(bounds.width - 56.0, bounds.height - 56.0, 40.0, 40.0)
-        })*/
+
     }
     
     //MARK: - UITextFieldDelegate

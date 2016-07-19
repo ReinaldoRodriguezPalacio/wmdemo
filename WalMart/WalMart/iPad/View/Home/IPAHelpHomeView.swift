@@ -31,7 +31,7 @@ class IPAHelpHomeView: HelpHomeView {
     }
     
     override func retrieveTabBarOptions() -> [String] {
-        return ["home_ipad", "mg_ipad","wishlist_ipad","super_ipad","list_ipad","ubicacion_ipad","more_menu_ipad"]
+        return ["home_ipad", "mg_ipad","super_ipad","list_ipad","ubicacion_ipad","more_menu_ipad"]
     }
     
     override func createTabBarButtons() {
