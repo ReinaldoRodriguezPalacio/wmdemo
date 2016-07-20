@@ -32,6 +32,8 @@ class DetailListViewCell: ProductTableViewCell {
     var onHandInventory: Int = 0
     var productDeparment: String = ""
     
+    var imagePresale : UIImageView!
+    
     
     override func setup() {
         super.setup()
@@ -88,6 +90,10 @@ class DetailListViewCell: ProductTableViewCell {
        
         
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
+        
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
         
         
     }
@@ -189,6 +195,12 @@ class DetailListViewCell: ProductTableViewCell {
                 self.hasStock = false
             }
         }
+        var isPreorderable = false
+        if  let preordeable  = product["isPreorderable"] as? Bool {
+            isPreorderable = preordeable
+        }
+        
+        imagePresale.hidden = !isPreorderable
         
          checkDisabled(disabled)
     }

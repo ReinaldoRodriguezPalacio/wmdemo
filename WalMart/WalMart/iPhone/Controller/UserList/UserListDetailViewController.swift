@@ -754,7 +754,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-         print("\(self.products!.count)")
         if indexPath.row == self.products!.count {
             let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
@@ -799,8 +798,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     productsToShow.append(["upc":upc, "description":description, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }
                 else if let product = self.products![idx] as? Product {
-                    
-                   
                     
                     productsToShow.append(["upc":product.upc, "description":product.desc, "type":ResultObjectType.Groceries.rawValue, "saving":""])
                 }

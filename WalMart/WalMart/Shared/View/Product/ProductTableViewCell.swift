@@ -41,6 +41,7 @@ class ProductTableViewCell : SWTableViewCell {
         productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(11)
         productShortDescriptionLabel!.numberOfLines = 2
         productShortDescriptionLabel!.textColor =  WMColor.gray
+        productShortDescriptionLabel!.textAlignment = .Left
         
         productPriceLabel = CurrencyCustomLabel(frame: CGRectZero)
         //productPriceLabel!.font = WMFont.fontMyriadProSemiboldSize(14)

@@ -18,7 +18,7 @@ class GRUserListDetailService: GRBaseService {
     
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         super.callGETService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-                //self.jsonFromObject(resultCall)
+                self.jsonFromObject(resultCall)
                 successBlock?(resultCall)
                 return
             },
@@ -30,7 +30,7 @@ class GRUserListDetailService: GRBaseService {
     }
     
     override func serviceUrl() -> String {
-        return super.serviceUrl() + "/"  + (self.listId == nil ? "" : self.listId!)
+        return super.serviceUrl() //+ "/"  + (self.listId == nil ? "" : self.listId!) TODO pruebas mustang
     }
 
 /*

@@ -392,7 +392,7 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListById</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/detalleLista.txt</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>

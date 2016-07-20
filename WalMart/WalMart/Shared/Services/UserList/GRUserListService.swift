@@ -152,12 +152,14 @@ class GRUserListService : GRBaseService {
         if let userList = self.retrieveUserList() {
             for entity in userList {
                 var exist = false
-                if arryListLocal.containsObject(entity.idList!){
-                    print("EXISTE")
-                }else{
-                    print("NO EXISTE")
-                    //self.removeNotificationsFromList(list.idList)
-                    self.managedContext!.deleteObject(entity)
+                if entity.idList != nil {
+                    if arryListLocal.containsObject(entity.idList!){
+                        print("EXISTE")
+                    }else{
+                        print("NO EXISTE")
+                        //self.removeNotificationsFromList(list.idList)
+                        self.managedContext!.deleteObject(entity)
+                    }
                 }
                 
                 
@@ -169,10 +171,8 @@ class GRUserListService : GRBaseService {
                     }
                 }
                 if !exist {
-                    //print("Remover lista::::")
-                    //print(":::::::")
                     //self.removeNotificationsFromList(list.idList)
-                   // self.managedContext!.deleteObject(entity)
+                    // self.managedContext!.deleteObject(entity)
                 }
             }
         }
