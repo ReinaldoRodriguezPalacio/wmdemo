@@ -581,7 +581,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func loginWithEmail(email:String, firstName: String, lastName: String, gender: String, birthDay: String){
         self.email?.text = email
         let service = LoginWithEmailService()
-        service.callServiceForFacebook(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+        service.callServiceForSocialApps(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
 
             self.signInButton!.enabled = true
             if self.successCallBack == nil {

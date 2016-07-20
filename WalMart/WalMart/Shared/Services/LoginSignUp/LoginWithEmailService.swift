@@ -62,7 +62,7 @@ class LoginWithEmailService : BaseService {
     }
 
     
-    func callServiceForFacebook(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
+    func callServiceForSocialApps(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {

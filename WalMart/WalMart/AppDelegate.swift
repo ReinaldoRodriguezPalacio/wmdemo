@@ -467,7 +467,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
        
         //Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         //Quitar para produccion
-        handleURLFacebook(url,sourceApplication:sourceApplication!)
+        handleURLFacebookTag(url,sourceApplication:sourceApplication!)
         handleURL(url)
         let fb = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
         
@@ -482,12 +482,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     func application(application: UIApplication,
                      openURL url: NSURL, options: [String: AnyObject]) -> Bool {
         
-            return GIDSignIn.sharedInstance().handleURL(url,
+            let gid = GIDSignIn.sharedInstance().handleURL(url,
                                                         sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String,
                                                         annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
+            let fb = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String, annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
+        
+        return fb || gid
     }
     
-    func handleURLFacebook(url: NSURL,sourceApplication:String){
+    func handleURLFacebookTag(url: NSURL,sourceApplication:String){
         let parsedUrl = BFURL(inboundURL:url, sourceApplication:sourceApplication)
         let stringCompare = parsedUrl.targetURL.absoluteString as NSString
         let rangeEnd = stringCompare.rangeOfString("walmartmexicoapp://")
