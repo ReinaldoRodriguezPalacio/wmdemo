@@ -287,9 +287,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         if self.signUp == nil{
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
-
             self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
-            
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
             
             self.signUp.viewClose = {(hidden : Bool) in
@@ -310,12 +308,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 })
             }
             self.signUp.successCallBack =  {() in
-                              
                 let service = LoginService()
                 let params  = service.buildParams(self.signUp.email!.text!, password: self.signUp.password!.text!)
                 self.alertView = self.signUp.alertView!
                 self.callService(params, alertViewService:self.signUp.alertView!)
-
             }// self.successCallBack
             self.signUp.closeModal = {() in
                 self.closeModal()
@@ -339,15 +335,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     }
    
     func closeModal() {
-        /*UIView.animateWithDuration(0.3, animations: { () -> Void in
-            self.view.alpha = 0.0
-            }) { (complete:Bool) -> Void in
-                self.imageblur!.image = nil
-                self.removeFromParentViewController()
-                self.successCallBack = nil
-                self.okCancelCallBack  = nil
-                self.view.removeFromSuperview()
-        }*/
         self.imageblur?.image = nil
         self.removeFromParentViewController()
         self.successCallBack = nil
@@ -390,15 +377,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     func callService(params:NSDictionary, alertViewService : IPOWMAlertViewController?) {
         let service = LoginService()
         service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
-            
-//            let profile = resultCall!["profile"] as? NSDictionary
-//            let gender = profile!["gender"] as? String
-//            let email = resultCall!["email"] as? String
-//            let idUser = resultCall!["idUser"] as? String
-            
-            //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email!, userName: email!, gender: gender!, idUser: idUser!, itesShop: nil,total:0,refId:"")
-            
-            self.signInButton!.enabled = true
+           self.signInButton!.enabled = true
             if self.successCallBack == nil {
                 if self.controllerTo != nil  {
                     let storyboard = self.loadStoryboardDefinition()
@@ -415,60 +394,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 }
                 self.successCallBack!()
             }
-            
             }
             , errorBlock: {(error: NSError) in
                 print("error")
-                if error.code == -300 {
-                    self.signInButton!.enabled = true
-                    let addressService = AddressByUserService()
-                    addressService.setManagerTempHeader()
-                    addressService.callService({ (address:NSDictionary) -> Void in
-                        if let shippingAddress = address["shippingAddresses"] as? NSArray
-                        {
-                            if shippingAddress.count > 0 {
-                                let alertAddress = GRFormAddressAlertView.initAddressAlert()!
-                                for dictAddress in shippingAddress {
-                                    if let pref = dictAddress["preferred"] as? NSNumber{
-                                        if pref == 1{
-                                            alertAddress.setData(dictAddress as! NSDictionary)
-                                        }
-                                    }
-                                }
-                                alertAddress.showAddressAlert()
-                                alertAddress.alertSaveSuccess = {() in
-                                    self.callService(params, alertViewService: alertViewService)
-                                    
-                                    
-                                    if self.successCallBack == nil {
-                                        self.successCallBack!()
-                                        
-                                    }
-                                    alertAddress.removeFromSuperview()
-                                }
-                                
-                                alertAddress.cancelPress = {() in
-                                    alertAddress.removeFromSuperview()
-                                    if alertViewService != nil {
-                                        alertViewService!.setMessage("Es necesario capturar una dirección")
-                                        alertViewService!.showErrorIcon("Ok")
-                                    }
-                                }
-                                
-                            }else {
-                                self.showAddressForm(params, alertViewService: alertViewService)
-                            }
-                        }else {
-                            self.showAddressForm(params, alertViewService: alertViewService)
-                        }
-                        }, errorBlock: { (error:NSError) -> Void in
-                           self.showAddressForm(params, alertViewService: alertViewService)
-                    })
-                    return
-                }
-                
                 var strToUse = NSLocalizedString("password.incorrect",comment:"")
-                
                 if error.code == -3 {
                     strToUse = error.localizedDescription
                 }
@@ -617,8 +546,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
                 } else if result.isCancelled {
-                    self.alertView!.close()
+                    //self.alertView!.close()
                     self.fbLoginMannager.logOut()
+                    self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
+                    self.alertView!.showErrorIcon("Aceptar")
                 } else {
                     if(result.grantedPermissions.contains("email"))
                     {

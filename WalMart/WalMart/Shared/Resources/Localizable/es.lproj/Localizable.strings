@@ -240,7 +240,8 @@
 "profile.save" = "guardar";
 "profile.password.current" = "Contraseña Actual";
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
-"profile.login.welcome"= "Bienvenido a Walmart";
+"profile.login.welcome"= "¡Bienvenido a Walmart!";
+"profile.login.addAddress" = "Para realizar una compra es necesario registrar una dirección. Puedes crearla en cualquier momento desde tu perfil.";
 "profile.login"= "Ingresa a tu cuenta";
 "field.validate.password.length" = "Texto no permitido";
 "profile.change.legalinfo" = "Información legal";
