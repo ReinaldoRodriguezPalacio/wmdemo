@@ -181,8 +181,9 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
         
         let service = GRAddItemListService()
         var products: [AnyObject] = []
-        for idx in 0 ..< self.itemsInCart.count {
-            let item = self.itemsInCart[idx] as! [String:AnyObject]
+        let itemsCart =  UserCurrentSession.sharedInstance().itemsGR!["items"] as! [AnyObject]
+        for idx in 0 ..< itemsCart.count {
+            let item = itemsCart[idx] as! [String:AnyObject]
             
             let upc = item["upc"] as! String
             var quantity: Int = 0
