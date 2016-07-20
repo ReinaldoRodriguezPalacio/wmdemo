@@ -142,9 +142,25 @@ class GRUserListService : GRBaseService {
             return
         }
 
+        let arryListLocal:NSMutableArray = []
+        
+        //Delete list deleting in other
+        for serviceList in list {
+            arryListLocal.addObject(serviceList["id"] as! String)
+        }
+        
         if let userList = self.retrieveUserList() {
             for entity in userList {
                 var exist = false
+                if arryListLocal.containsObject(entity.idList!){
+                    print("EXISTE")
+                }else{
+                    print("NO EXISTE")
+                    //self.removeNotificationsFromList(list.idList)
+                    self.managedContext!.deleteObject(entity)
+                }
+                
+                
                 for serviceList in list {
                     let listId = serviceList["id"] as! String
                     if entity.idList == listId {
@@ -153,11 +169,16 @@ class GRUserListService : GRBaseService {
                     }
                 }
                 if !exist {
+                    //print("Remover lista::::")
+                    //print(":::::::")
                     //self.removeNotificationsFromList(list.idList)
                    // self.managedContext!.deleteObject(entity)
                 }
             }
         }
+      
+        
+        
 
         for serviceList in list {
             let listId = serviceList["id"] as! String
