@@ -545,8 +545,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 if error != nil {
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
-                } else if result.isCancelled {
-                    //self.alertView!.close()
+               }else if result.isCancelled {
                     self.fbLoginMannager.logOut()
                     self.alertView!.setMessage(NSLocalizedString("Intenta nuevamente",comment:""))
                     self.alertView!.showErrorIcon("Aceptar")
@@ -593,8 +592,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 }
             }else {
                 if self.closeAlertOnSuccess {
-                    //BaseController.sendTuneAnalytics(TUNE_EVENT_LOGIN, email: email, userName: email, gender: gender, idUser: idUser!, itesShop: nil,total:0,refId:"")
-                    
                     if self.alertView != nil {
                         self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
                         self.alertView!.showDoneIcon()

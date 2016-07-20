@@ -385,7 +385,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         
         alertAddress?.alertSaveSuccess = {() in
             self.alertAddress?.removeFromSuperview()
-            //self.alertView!.showDoneIcon()
             self.successCallBack?()
             self.backRegistry(self.backButton!)
         }
