@@ -58,7 +58,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     var openEmpty =  false
     
     var retunrFromSearch =  false
-    
+    var isDeleting = false
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -559,6 +559,49 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
     
     /**
+     Delete element from cell
+     
+     - parameter cell: cell to delete
+     */
+    func deleteFromCellUtilityButton(cell: SWTableViewCell!) {
+        
+        if self.isDeleting {
+            return
+        }
+        
+        self.isDeleting = true
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
+        if let indexPath = self.tableView!.indexPathForCell(cell) {
+            if let item = self.products![indexPath.row] as? NSDictionary {
+                if let upc = item["upc"] as? String {
+                    //Event
+                    if self.selectedItems!.containsObject(indexPath.row) {
+                        self.selectedItems?.removeObject(indexPath.row)
+                    }
+                    self.fromDelete =  true
+                    self.invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
+                        self.isDeleting = false
+                        print("succesDelete")
+                    })
+                }
+            }
+            else if let item = self.products![indexPath.row] as? Product {
+                self.managedContext!.deleteObject(item)
+                self.saveContext()
+                let count:Int = self.listEntity!.products.count
+                self.listEntity!.countItem = NSNumber(integer: count)
+                self.saveContext()
+                self.fromDelete =  true
+                self.retrieveProductsLocally(true)
+                self.editBtn!.hidden = count == 0
+                self.deleteAllBtn!.hidden = count == 0
+                self.isDeleting = false
+                //self.editBtn!.hidden = true
+            }
+        }
+    }
+    
+    /**
      Show Empty View
      */
     func showEmptyView() {
@@ -819,49 +862,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK: - SWTableViewCellDelegate
     
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerRightUtilityButtonWithIndex index: Int) {
-        switch index {
-        case 0:
-            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LIST.rawValue, action:WMGAIUtils.ACTION_DELETE_PRODUCT_MYLIST.rawValue, label: "")
-            if let indexPath = self.tableView!.indexPathForCell(cell) {
-                if let item = self.products![indexPath.row] as? NSDictionary {
-                    if let upc = item["upc"] as? String {
-                        //Event
-                      
-                        if self.selectedItems!.containsObject(indexPath.row) {
-                            self.selectedItems?.removeObject(indexPath.row)
-                        }
-                         self.fromDelete =  true
-                        self.invokeDeleteProductFromListService(upc, succesDelete: { () -> Void in
-                            print("succesDelete")
-                        })
-                    }
-                }
-                else if let item = self.products![indexPath.row] as? Product {
-                    self.managedContext!.deleteObject(item)
-                    self.saveContext()
-                    let count:Int = self.listEntity!.products.count
-                    self.listEntity!.countItem = NSNumber(integer: count)
-                    self.saveContext()
-                    self.fromDelete =  true
-                    self.retrieveProductsLocally(true)
-                    self.editBtn!.hidden = count == 0
-                    self.deleteAllBtn!.hidden = count == 0
-                    //self.editBtn!.hidden = true
-                }
-            }
-        default :
-            print("other pressed")
+        if index == 0{
+            self.deleteFromCellUtilityButton(cell)
         }
     }
     
     func swipeableTableViewCell(cell: SWTableViewCell!, didTriggerLeftUtilityButtonWithIndex index: Int) {
-        switch index {
-        case 0:
-            //let indexPath : NSIndexPath = self.viewShoppingCart.indexPathForCell(cell)!
-            //deleteRowAtIndexPath(indexPath)
+        if index == 0{
             cell.showRightUtilityButtonsAnimated(true)
-        default :
-            print("other pressed")
         }
     }
     

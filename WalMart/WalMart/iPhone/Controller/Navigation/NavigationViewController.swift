@@ -63,6 +63,7 @@ class NavigationViewController: IPOBaseController {
         if self.navigationController != nil {
             self.navigationController!.popViewControllerAnimated(true)
         }
+        NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
     }
     
     
