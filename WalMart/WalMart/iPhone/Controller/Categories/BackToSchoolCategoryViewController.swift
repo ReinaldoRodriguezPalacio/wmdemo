@@ -29,7 +29,7 @@ class BackToSchoolCategoryViewController: IPOCategoriesViewController,UITableVie
         self.view.backgroundColor =  UIColor.whiteColor()
         
         imageBackground = UIImageView()
-        imageBackground.contentMode = UIViewContentMode.Left
+        imageBackground.contentMode = UIViewContentMode.ScaleAspectFill
         imageBackground.clipsToBounds = true
         
         self.imageBackground.setImageWithURL(NSURL(string: "http://\(urlTicer)"), placeholderImage:UIImage(named: "header_default"), success: { (request:NSURLRequest!, response:NSHTTPURLResponse!, image:UIImage!) -> Void in
