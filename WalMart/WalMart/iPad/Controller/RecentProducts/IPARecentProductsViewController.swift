@@ -22,16 +22,19 @@ class IPARecentProductsViewController: RecentProductsViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height-46)
+        self.recentProducts.frame = CGRectMake(0, 66, self.view.bounds.width, self.view.bounds.height-66)
     }
     
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: self.recentProductItems[0]["description"] as! String)
+        let line = self.recentProductItems[indexPath.section]
+        let productsline = line["products"]
+        
+        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
         
         let controller = IPAProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems()
+        controller.itemsToShow = getUPCItems(indexPath.section)
         controller.ixSelected = indexPath.row
        
         if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
