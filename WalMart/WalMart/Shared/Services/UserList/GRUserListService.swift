@@ -158,6 +158,7 @@ class GRUserListService : GRBaseService {
                     }else{
                         print("NO EXISTE")
                         //self.removeNotificationsFromList(list.idList)
+                        self.deleteItemInDB(entity.idList!)
                         self.managedContext!.deleteObject(entity)
                     }
                 }
@@ -309,6 +310,34 @@ class GRUserListService : GRBaseService {
             
         }
         
+    }
+    
+    /**
+     Delete items from DB where list is delete in other place.
+     
+     - parameter toUseList: list id
+     */
+    func deleteItemInDB(toUseList:String){
+        
+        let fetchRequest = NSFetchRequest()
+        fetchRequest.entity = NSEntityDescription.entityForName("Product", inManagedObjectContext: self.managedContext!)
+        fetchRequest.predicate = NSPredicate(format: "list == %@", toUseList)
+        let result: [Product] = (try! self.managedContext!.executeFetchRequest(fetchRequest)) as! [Product]
+        if result.count > 0 {
+            for listDetail in result {
+                //println("Delete product list \(listDetail.upc)")
+                self.managedContext!.deleteObject(listDetail)
+            }
+            var error: NSError? = nil
+            do {
+                try self.managedContext!.save()
+            } catch let error1 as NSError {
+                error = error1
+            }
+            if error != nil {
+                print("error at delete details: \(error!.localizedDescription)")
+            }
+        }
     }
     
     //MARK: - DB
