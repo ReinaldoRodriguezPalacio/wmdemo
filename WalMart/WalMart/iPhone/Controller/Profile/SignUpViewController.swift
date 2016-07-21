@@ -354,14 +354,25 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                             self.showAddressView()
                         }, isNewFrame: false)
                     }, errorBlock: { (error:NSError) -> Void in
-                        self.backRegistry(self.backButton!)
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
+//                        self.backRegistry(self.backButton!)
+//                        self.alertView!.setMessage(error.localizedDescription)
+//                        self.alertView!.showErrorIcon("Ok")
+                        //TODO: quitar
+                        let message = "\(NSLocalizedString("profile.login.welcome",comment:""))\n\n\(NSLocalizedString("profile.login.addAddress",comment:""))"
+                        self.alertView!.setMessage(message)
+                        self.alertView!.showDoneIconWithoutClose()
+                        self.alertView!.addActionButtonsWithCustomText("Más tarde", leftAction: {
+                            self.successCallBack?()
+                            self.backRegistry(self.backButton!)
+                            }, rightText: "Crear Dirección", rightAction: {
+                                self.showAddressView()
+                            }, isNewFrame: false)
                     })
                 }
                 , errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
+                    
             })
         }
     }

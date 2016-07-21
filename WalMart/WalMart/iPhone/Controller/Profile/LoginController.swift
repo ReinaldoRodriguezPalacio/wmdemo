@@ -34,7 +34,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var imageblur : UIImageView? = nil
     var viewAnimated : Bool = false
     var bgView : UIView!
-    var addressViewController : AddressViewController!
     var fbLoginMannager: FBSDKLoginManager!
     var loginFacebookButton: UIButton!
     var loginGoogleButton: UIButton!
