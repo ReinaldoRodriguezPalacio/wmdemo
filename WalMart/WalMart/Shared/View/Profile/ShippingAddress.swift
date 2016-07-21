@@ -16,8 +16,8 @@ class ShippingAddress: AddressView {
     var titleLabelShiping: UILabel!
     //var lineViewShiping : UIView!
 
-    override init(frame: CGRect, isLogin: Bool, isIpad:Bool) {
-        super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
+    override init(frame: CGRect, isLogin: Bool, isIpad:Bool, typeAddress: TypeAddress) {
+        super.init(frame: frame, isLogin: isLogin, isIpad: isIpad, typeAddress: typeAddress )
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,7 +76,7 @@ class ShippingAddress: AddressView {
         self.name?.frame = CGRectMake(leftRightPadding,  self.titleLabelShiping!.frame.maxY , self.bounds.width - (leftRightPadding*2), fieldHeight)
         self.lastName?.frame = CGRectMake(leftRightPadding, self.name!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
          self.telephone?.frame = CGRectMake(leftRightPadding,  lastName!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
-        self.viewAddress.frame = CGRectMake(0, self.telephone!.frame.maxY + 8, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
+        self.viewAddress.frame = CGRectMake(0, self.telephone!.frame.maxY + 8, self.bounds.width, showSuburb == true ? self.store!.frame.maxY : self.zipcode!.frame.maxY )
     }
     
     

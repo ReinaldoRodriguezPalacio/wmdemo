@@ -15,8 +15,8 @@ class FiscalAddressPersonF: AddressView {
     var lastName2 : FormFieldView!
     var rfc : FormFieldView!
     
-    override init(frame: CGRect, isLogin: Bool, isIpad:Bool) {
-        super.init(frame: frame, isLogin: isLogin, isIpad: isIpad )
+    override init(frame: CGRect, isLogin: Bool, isIpad:Bool, typeAddress: TypeAddress) {
+        super.init(frame: frame, isLogin: isLogin, isIpad: isIpad, typeAddress: typeAddress )
     }
     
     required init?(coder aDecoder: NSCoder) {
