@@ -124,6 +124,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .None
+        hiddenSearchField()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -308,6 +309,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             }, animated:false)
                     }
                     
+                    if self.itemsUserList?.count == 0 {
+                        self.hiddenSearchField()
+                     
+                    }
+                    
                     if !self.isEditingUserList {
                         self.changeFrameEditBtn(true, side: "left")
                         if self.itemsUserList!.count == 0{
@@ -348,7 +354,10 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     }, atFinished: {
                     }, animated:false)
             }
-            
+            if self.itemsUserList?.count == 0 {
+                self.hiddenSearchField()
+                
+            }
             if !self.isEditingUserList {
                 self.changeFrameEditBtn(true, side: "left")
                 if self.itemsUserList!.count == 0{
@@ -974,6 +983,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 }
             }
         )
+    }
+    
+    func hiddenSearchField(){
+        self.isToggleBarEnabled = false
+        self.searchConstraint?.constant = -5.0
+        self.searchContainer!.hidden = true
+        self.isToggleBarEnabled = true
     }
     
     func showHelpTicketView() {

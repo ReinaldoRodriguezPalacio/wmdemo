@@ -27,6 +27,7 @@ let IS_IPHONE_6 = (IS_IPHONE && SCREEN_MAX_LENGTH == 667.0)
 let IS_IPHONE_6P = (IS_IPHONE && SCREEN_MAX_LENGTH == 736.0)
 
 let IS_IOS8_OR_LESS = (NSString(string: UIDevice.currentDevice().systemVersion).doubleValue < 9.0)
+let IS_IOS7_OR_LESS = (NSString(string: UIDevice.currentDevice().systemVersion).doubleValue < 8.0)
 
 
 class IPOEmptyView : UIView {

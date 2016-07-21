@@ -127,7 +127,6 @@
 		5633AA631B5F33A7008006B0 /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5633AA621B5F33A7008006B0 /* CameraViewController.swift */; };
 		5633AA661B5F3457008006B0 /* CamFindService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5633AA651B5F3456008006B0 /* CamFindService.swift */; };
 		563666391A9688CA00BE2711 /* CommentBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 563666381A9688CA00BE2711 /* CommentBubbleView.swift */; };
-		5636DCE71C12581000E14473 /* SignUpMGViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5636DCE61C12581000E14473 /* SignUpMGViewController.swift */; };
 		5637DE781A01BE76000E5CD7 /* IPOGroceriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */; };
 		5639DF3919ED95B80026780E /* IPAProductDetailPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */; };
 		5639DF3B19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */; };
@@ -380,10 +379,8 @@
 		56F86FD11A8BD8F1002181D2 /* SelectItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */; };
 		56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */; };
 		56F960721B1E0025004D420F /* HomeBannerImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */; };
-		56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */; };
 		56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */; };
 		56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */; };
-		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
 		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
 		5A3AA78D1C9C74A3002F2886 /* GenerateOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
@@ -781,7 +778,6 @@
 		5633AA621B5F33A7008006B0 /* CameraViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraViewController.swift; path = Shared/Controller/CameraViewController.swift; sourceTree = "<group>"; };
 		5633AA651B5F3456008006B0 /* CamFindService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CamFindService.swift; path = Shared/Services/CamFind/CamFindService.swift; sourceTree = "<group>"; };
 		563666381A9688CA00BE2711 /* CommentBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CommentBubbleView.swift; path = Shared/View/Common/CommentBubbleView.swift; sourceTree = "<group>"; };
-		5636DCE61C12581000E14473 /* SignUpMGViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpMGViewController.swift; path = iPhone/Controller/Profile/SignUpMGViewController.swift; sourceTree = "<group>"; };
 		5637DE771A01BE76000E5CD7 /* IPOGroceriesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOGroceriesView.swift; path = iPhone/View/Home/IPOGroceriesView.swift; sourceTree = "<group>"; };
 		5639DF3819ED95B80026780E /* IPAProductDetailPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductDetailPriceView.swift; path = iPad/View/ProductDetail/IPAProductDetailPriceView.swift; sourceTree = "<group>"; };
 		5639DF3A19EDC3130026780E /* IPAProductHomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAProductHomeCollectionViewCell.swift; path = iPad/View/Home/IPAProductHomeCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1068,10 +1064,8 @@
 		56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectItemTableViewCell.swift; path = iPhone/View/AlertPickerView/SelectItemTableViewCell.swift; sourceTree = "<group>"; };
 		56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOCheckOutTotalView.swift; path = iPhone/View/ShoppingCart/IPOCheckOutTotalView.swift; sourceTree = "<group>"; };
 		56F960711B1E0025004D420F /* HomeBannerImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeBannerImageViewController.swift; sourceTree = "<group>"; };
-		56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASignMGUpViewController.swift; path = iPad/Controller/Profile/IPASignMGUpViewController.swift; sourceTree = "<group>"; };
 		56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALineTableViewCell.swift; path = iPad/View/Categories/IPALineTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishListViewController.swift; path = iPhone/Controller/WishList/WishListViewController.swift; sourceTree = "<group>"; };
-		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
 		5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateOrderView.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
@@ -2713,7 +2707,6 @@
 				ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */,
 				5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */,
 				5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */,
-				5636DCE61C12581000E14473 /* SignUpMGViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -2889,7 +2882,6 @@
 		56FE0EE119C0E75900C8687C /* Wishlist */ = {
 			isa = PBXGroup;
 			children = (
-				56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */,
 				5681998119E3460A00362D3C /* WishlistAddProductStatus.swift */,
 			);
 			name = Wishlist;
@@ -3179,7 +3171,6 @@
 				ACAFDB0519ED924D0040A8C8 /* IPAEditProfileViewController.swift */,
 				AC6BC2C719EEC89C00835D03 /* IPAAddressViewController.swift */,
 				AC87F45719F6CA2C00E66D47 /* IPASignUpViewController.swift */,
-				56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */,
 			);
 			name = Profile;
 			sourceTree = "<group>";
@@ -3809,7 +3800,6 @@
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
 				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
-				56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
 				85A40B741C223AE40036C78A /* EVObjectDescription.swift in Sources */,
 				85A40B8B1C223AE40036C78A /* Error.swift in Sources */,
@@ -3832,7 +3822,6 @@
 				56DFE4D019D057C9001811F5 /* SWLongPressGestureRecognizer.m in Sources */,
 				564578F119AE33AB006A7152 /* AFURLRequestSerialization.m in Sources */,
 				56253D9119D2242B002E128A /* OrderProductTableViewCell.swift in Sources */,
-				5636DCE71C12581000E14473 /* SignUpMGViewController.swift in Sources */,
 				85A40B7D1C223AE40036C78A /* Order.swift in Sources */,
 				567AB65B1A005EE9007ADF50 /* IPAWishListProductCollectionViewCell.swift in Sources */,
 				04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */,
@@ -4262,7 +4251,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "7555d2cf-577b-4684-a05b-55d3b71dfbc4";
+				PROVISIONING_PROFILE = "73fee5d1-6f16-4054-a181-16b64f747b0a";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4301,7 +4290,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "7555d2cf-577b-4684-a05b-55d3b71dfbc4";
+				PROVISIONING_PROFILE = "73fee5d1-6f16-4054-a181-16b64f747b0a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4353,6 +4342,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 					"$(OTHER_LDFLAGS)",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
@@ -4410,6 +4400,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 					"$(OTHER_LDFLAGS)",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
