@@ -31,12 +31,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var alertView : IPOWMAlertViewController? = nil
     var successCallBack : (() -> Void)? = nil
     var signUp : SignUpViewController!
-    var signUpMG : SignUpMGViewController!
     var imageblur : UIImageView? = nil
     var viewAnimated : Bool = false
     var bgView : UIView!
     var addressViewController : AddressViewController!
-	var isMGLogin =  false
     var fbLoginMannager: FBSDKLoginManager!
     var loginFacebookButton: UIButton!
     var loginGoogleButton: UIButton!
@@ -47,7 +45,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_LOGIN.rawValue
     }
-
+    
+    //MARK: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         self.bgView = UIView()
@@ -58,11 +57,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.content.delegate = self
         self.content.scrollDelegate = self
         
-        if let tracker = GAI.sharedInstance().defaultTracker {
-            tracker.set(kGAIScreenName, value: WMGAIUtils.SCREEN_LOGIN.rawValue)
-            tracker.send(GAIDictionaryBuilder.createScreenView().build() as [NSObject : AnyObject])
-        }
-
         self.email = UIEdgeTextFieldImage()
         self.email?.imageSelected = UIImage(named: "fieldEmailOn")
         self.email?.imageNotSelected = UIImage(named: "fieldEmailOn")
@@ -167,7 +161,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginTwitterButton!.backgroundColor = UIColor.whiteColor()
         self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.twitterSignIn), forControlEvents: .TouchUpInside)
         self.loginTwitterButton!.setImage(UIImage(named: "twitter_login"), forState: .Normal)
-        self.content!.addSubview(self.loginTwitterButton)
+        
+        if !IS_IOS7_OR_LESS {
+            self.content!.addSubview(self.loginTwitterButton)
+        }
         
         self.registryButton = UIButton(type: .Custom)
         self.registryButton!.backgroundColor = UIColor.whiteColor()
@@ -177,15 +174,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.content?.addSubview(registryButton!)
     }
     
+    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         if valueEmail != nil {
             self.email?.text = valueEmail
             self.password?.becomeFirstResponder()
         }
-       /* else {
-            self.email?.becomeFirstResponder()
-        }*/
     }
     
     
@@ -208,22 +203,22 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.password?.frame = CGRectMake(leftRightPadding, email!.frame.maxY+1, self.email!.frame.width , fieldHeight)
             self.viewLine?.frame = CGRectMake(leftRightPadding, email!.frame.maxY, self.email!.frame.width, 1)
             self.viewbg?.frame = CGRectMake(leftRightPadding, email!.frame.maxY-5, self.email!.frame.width, 10)
-            
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
+            self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
+            self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 24, self.password!.frame.width, 20)
             
-            if UserCurrentSession.hasLoggedUser(){
-                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, signInButton!.frame.maxY + 20, self.password!.frame.width, 20)
+            if IS_IOS7_OR_LESS {
+                self.loginFacebookButton?.frame = CGRectMake(68,  self.noAccount!.frame.maxY + 24 , 40, 40)
+                self.loginGoogleButton?.frame = CGRectMake(self.loginFacebookButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+                self.registryButton?.frame = CGRectMake(self.loginGoogleButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
             }else{
-                self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
-                self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 24, self.password!.frame.width, 20)
                 self.loginFacebookButton?.frame = CGRectMake(32,  self.noAccount!.frame.maxY + 24 , 40, 40)
                 self.loginGoogleButton?.frame = CGRectMake(self.loginFacebookButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
                 self.loginTwitterButton?.frame = CGRectMake(self.loginGoogleButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+                self.registryButton?.frame = CGRectMake(self.loginTwitterButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
             }
             
             self.bgView!.frame = self.view.bounds
-            self.registryButton?.frame = CGRectMake(self.loginTwitterButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
             
         }
@@ -238,6 +233,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
+    //MARK: Special functions
+    
+    /**
+     Shows a LoginController on top pf the application view
+     
+     - returns: new LoginCorntroller
+     */
     class func showLogin() -> LoginController! {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = LoginController()
@@ -250,6 +252,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return newAlert
     }
     
+    /**
+     Generates blur image
+     */
     func generateBlurImage() {
         var cloneImage : UIImage? = nil
         autoreleasepool {
@@ -267,27 +272,15 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.addSubview(self.imageblur!)
         self.view.sendSubviewToBack(self.imageblur!)
     }
-
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize{
-         return CGSizeMake( content.contentSize.width, content.contentSize.height)
-    }
-   
-    func textFieldDidEndEditing(textField: UITextField) {
-        if errorView != nil{
-            if errorView!.focusError == textField &&  errorView?.superview != nil {
-                errorView?.removeFromSuperview()
-                errorView!.focusError = nil
-                errorView = nil
-            }
-        }
-    }
     
+    /**
+     Shows SignUpViewController for users registration
+     */
     func registryUser() {
-        
         if self.signUp == nil{
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
-            self.signUp =  isMGLogin ? SignUpMGViewController() : SignUpViewController()
+            self.signUp = SignUpViewController()
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.content!.frame.width, self.content!.frame.height)
             
             self.signUp.viewClose = {(hidden : Bool) in
@@ -334,6 +327,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         })
     }
    
+    /**
+     Close LoginController and removes it from parent view
+     */
     func closeModal() {
         self.imageblur?.image = nil
         self.removeFromParentViewController()
@@ -342,6 +338,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.view.removeFromSuperview()
     }
     
+    /**
+     Sign user
+     
+     - parameter sender: UIButton
+     */
     func signIn(sender:UIButton) {
         signInButton!.enabled = false
         if validateUser() {
@@ -373,7 +374,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    
+    /**
+     Calls login service
+     
+     - parameter params:           params to login
+     - parameter alertViewService: alert view
+     */
     func callService(params:NSDictionary, alertViewService : IPOWMAlertViewController?) {
         let service = LoginService()
         service.callService(params, successBlock:{ (resultCall:NSDictionary?) in
@@ -410,6 +416,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         })
     }
     
+    /**
+     Shows address form
+     
+     - parameter params:           params to login
+     - parameter alertViewService: alert view
+     */
     func showAddressForm(params:NSDictionary,  alertViewService : IPOWMAlertViewController?) {
         let alertAddress = GRFormAddressAlertView.initAddressAlert()!
         alertAddress.showAddressAlert()
@@ -433,6 +445,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
+    /**
+     Closes alert view and modal view
+     
+     - parameter closeModal:     Bool
+     - parameter messageSucesss: Bool
+     */
     func closeAlert(closeModal: Bool, messageSucesss: Bool){
         if self.alertView != nil {
             if messageSucesss {
@@ -444,7 +462,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             }
         }
     }
-
+    
+    /**
+     Validates user data
+     
+     - returns: Bool
+     */
     func validateUser () -> Bool{
         self.view.bringSubviewToFront(self.content)
         var error = viewError(self.email!)
@@ -457,6 +480,13 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
     
+    /**
+     Shows view error
+     
+     - parameter field: field from show error
+     
+     - returns: Bool
+     */
     func viewError(field: UIEdgeTextFieldImage)-> Bool{
         let message = field.validate()
         if message.characters.count > 0 {
@@ -469,6 +499,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return false
     }
     
+    /**
+     Calls forgot password service
+     
+     - parameter sender: UIButton
+     */
     func forgot(sender:UIButton) {
         self.textFieldDidEndEditing(self.email!)
         let error = viewError(self.email!)
@@ -500,6 +535,70 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         
     }
     
+    /**
+     Logs user with email
+     
+     - parameter email:     user email
+     - parameter firstName: user first name
+     - parameter lastName:  user last name
+     - parameter gender:    user gender
+     - parameter birthDay:  user birth day
+     */
+    func loginWithEmail(email:String, firstName: String, lastName: String, gender: String, birthDay: String){
+        self.email?.text = email
+        let service = LoginWithEmailService()
+        service.callServiceForSocialApps(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
+            
+            self.signInButton!.enabled = true
+            if self.successCallBack == nil {
+                if self.controllerTo != nil  {
+                    let storyboard = self.loadStoryboardDefinition()
+                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
+                    self.navigationController!.pushViewController(vc, animated: true)
+                }
+            }else {
+                if self.closeAlertOnSuccess {
+                    if self.alertView != nil {
+                        self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
+                        self.alertView!.showDoneIcon()
+                    }
+                }
+                self.successCallBack?()
+            }
+            
+            }, errorBlock: {(error: NSError) in
+                self.fbLoginMannager = FBSDKLoginManager()
+                self.fbLoginMannager.logOut()
+                self.alertView!.close()
+                self.registryUser()
+                self.signUp.email?.text = email
+                self.signUp.name?.text = firstName
+                self.signUp.lastName?.text = lastName
+                //   Se eliminan temporalmente
+                //                let dateFormatter = NSDateFormatter()
+                //                dateFormatter.dateFormat = "MM/dd/yyyy"
+                //                if birthDay != ""{
+                //                    let date = dateFormatter.dateFromString(birthDay)
+                //                    self.signUp.inputBirthdateView?.date = date!
+                //                    dateFormatter.dateFormat = "d MMMM yyyy"
+                //                    self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
+                //                    self.signUp.dateVal = date
+                //                }
+                //                if(gender == "male"){
+                //                   self.signUp.maleButton?.selected = true
+                //                }else{
+                //                    self.signUp.femaleButton?.selected = true
+                //                }
+        })
+    }
+    
+    //MARK: - TPKeyboardAvoidingScrollViewDelegate
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize{
+        return CGSizeMake( content.contentSize.width, content.contentSize.height)
+    }
+    
+    
+    //MARK:- TextFieldDelegate
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let text = textField.text! as NSString
         let resultingString = text.stringByReplacingCharactersInRange(range, withString: string) as NSString
@@ -524,7 +623,20 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         return true
     }
     
-    //MARK: Facebook
+    func textFieldDidEndEditing(textField: UITextField) {
+        if errorView != nil{
+            if errorView!.focusError == textField &&  errorView?.superview != nil {
+                errorView?.removeFromSuperview()
+                errorView!.focusError = nil
+                errorView = nil
+            }
+        }
+    }
+    //MARK: - Facebook
+    
+    /**
+     Facebook login
+     */
     func facebookLogin(){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         if !self.closeAlertOnSuccess {
@@ -564,6 +676,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
+    /**
+     Gets user data from Facebook
+     */
     func getFBUserData(){
         if((FBSDKAccessToken.currentAccessToken()) != nil){
             FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "name, first_name, last_name, gender, birthday, email"]).startWithCompletionHandler({ (connection, result, error) -> Void in
@@ -578,55 +693,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         }
     }
     
-    func loginWithEmail(email:String, firstName: String, lastName: String, gender: String, birthDay: String){
-        self.email?.text = email
-        let service = LoginWithEmailService()
-        service.callServiceForSocialApps(service.buildParams(email, password: ""), successBlock:{ (resultCall:NSDictionary?) in
-
-            self.signInButton!.enabled = true
-            if self.successCallBack == nil {
-                if self.controllerTo != nil  {
-                    let storyboard = self.loadStoryboardDefinition()
-                    let vc = storyboard!.instantiateViewControllerWithIdentifier(self.controllerTo)
-                    self.navigationController!.pushViewController(vc, animated: true)
-                }
-            }else {
-                if self.closeAlertOnSuccess {
-                    if self.alertView != nil {
-                        self.alertView!.setMessage(NSLocalizedString("profile.login.welcome",comment:""))
-                        self.alertView!.showDoneIcon()
-                    }
-                }
-                self.successCallBack?()
-            }
-            
-            }, errorBlock: {(error: NSError) in
-                self.fbLoginMannager = FBSDKLoginManager()
-                self.fbLoginMannager.logOut()
-                self.alertView!.close()
-                self.registryUser()
-                self.signUp.email?.text = email
-                self.signUp.name?.text = firstName
-                self.signUp.lastName?.text = lastName
-//   Se eliminan temporalmente
-//                let dateFormatter = NSDateFormatter()
-//                dateFormatter.dateFormat = "MM/dd/yyyy"
-//                if birthDay != ""{
-//                    let date = dateFormatter.dateFromString(birthDay)
-//                    self.signUp.inputBirthdateView?.date = date!
-//                    dateFormatter.dateFormat = "d MMMM yyyy"
-//                    self.signUp.birthDate!.text = dateFormatter.stringFromDate(date!)
-//                    self.signUp.dateVal = date
-//                }
-//                if(gender == "male"){
-//                   self.signUp.maleButton?.selected = true
-//                }else{
-//                    self.signUp.femaleButton?.selected = true
-//                }
-            })
-    }
+    //MARK: - Google SignIn
     
-    //MARK: -Google SignIn
+    /**
+     Google login
+     */
     func googleSignIn(){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         if !self.closeAlertOnSuccess {
@@ -667,6 +738,11 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     //MARK: - Twitter Login
     
+    /**
+     Twitter Login
+     
+     - parameter sender: UIButton
+     */
     func twitterSignIn(sender: UIButton) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
         if !self.closeAlertOnSuccess {

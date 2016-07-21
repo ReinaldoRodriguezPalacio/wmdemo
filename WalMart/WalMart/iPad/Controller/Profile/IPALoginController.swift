@@ -10,6 +10,7 @@ import UIKit
 
 class IPALoginController: LoginController {
    
+    //MARK: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -22,8 +23,13 @@ class IPALoginController: LoginController {
         super.viewWillLayoutSubviews()
     }
     
+    //MARK: Special functions
     
-    
+    /**
+     Shows a LoginController on top pf the application view
+     
+     - returns: new LoginCorntroller
+     */
     override class func showLogin() -> IPALoginController! {
         let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
         let newAlert = IPALoginController()
@@ -36,17 +42,15 @@ class IPALoginController: LoginController {
         return newAlert
     }
     
-    
+    /**
+     Shows SignUpViewController for users registration
+     */
     override func registryUser() {
         if self.signUp == nil{
             
-            self.signUp = isMGLogin ? IPASignMGUpViewController() : IPASignUpViewController()
+            self.signUp = IPASignUpViewController()
             self.view.backgroundColor = UIColor.greenColor()
             self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height)
-            if isMGLogin {
-                self.signUp!.view.frame = CGRectMake(self.viewCenter!.frame.width - 100, self.content!.frame.minY, self.viewCenter!.frame.width, self.content!.frame.height + 100)
-            }
-    
             self.signUp.viewClose = {(hidden : Bool) in
                 self.close!.hidden = hidden
             }
@@ -93,7 +97,12 @@ class IPALoginController: LoginController {
         })
     }
 
-    
+    /**
+     Shows address form
+     
+     - parameter params:           params to login
+     - parameter alertViewService: alert view
+     */
     func showAddres() {
         if self.addressViewController == nil && self.viewCenter!.frame.width > 0 {
             self.addressViewController = IPAAddressViewController()
