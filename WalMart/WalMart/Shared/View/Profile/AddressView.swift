@@ -12,9 +12,15 @@ import UIKit
     func textModify(textField: UITextField!)
     func setContentSize()
     optional func validateZip(isvalidate:Bool)
+    
+    optional func showUpdate()
+    optional func showNoCPWarning()
+    
 }
 
-class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerViewDelegate{
+class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
+    
+     var errorLabelStore: UILabel!
     
     var item: NSDictionary? = nil
     var idAddress : String? = nil
@@ -33,6 +39,9 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     var telephone : FormFieldView? = nil
     var ieps : FormFieldView!
     var email : FormFieldView!
+    
+    var store : FormFieldView!
+    
     var allAddress: NSArray!
     
     var preferedLabel : UILabel? = nil
@@ -41,25 +50,37 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     var viewAddress: UIView!
     var fieldHeight  : CGFloat = CGFloat(40)
     var leftRightPadding  : CGFloat = CGFloat(15)
-    var pickerSuburb : UIPickerView? = nil
-    var listSuburb : [NSDictionary] = []
-    var titleLabel: UILabel!
+    
+    var neighborhoodsDic : [NSDictionary]! = []
+    var storesDic : [NSDictionary]! = []
+    var resultDict : NSDictionary! = [:]
+    var neighborhoods : [String]! = []
+    var stores : [String]! = []
+    
+    var selectedStore : NSIndexPath!
+    var selectedNeighborhood : NSIndexPath!
     
     var viewLoad : WMLoadingView!
     var delegate:AddressViewDelegate!
     var showSuburb : Bool! = false
     var isLogin : Bool! = false
     var isIpad : Bool! = false
+    var picker : AlertPickerView!
+    var titleLabel: UILabel!
+    var currentZipCode = ""
+    var typeAddress: TypeAddress = TypeAddress.Shiping
+  
     
     var keyboardBar: FieldInputView? {
         didSet {
         }
     }
     
-    init(frame: CGRect, isLogin: Bool, isIpad: Bool) {
+    init(frame: CGRect, isLogin: Bool, isIpad: Bool, typeAddress: TypeAddress) {
         super.init(frame: frame)
         self.isLogin! = isLogin
         self.isIpad! = isIpad
+        self.typeAddress = typeAddress
         self.setup()
     }
     
@@ -68,6 +89,8 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
     }
     
     func setup(){
+        picker = AlertPickerView.initPickerWithDefault()
+
         viewAddress = UIView()
         var width = self.bounds.width
         
@@ -140,7 +163,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         suburb!.setCustomPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
         self.suburb!.typeField = TypeField.List
         self.suburb!.nameField = NSLocalizedString("profile.address.suburb",comment:"")
-        suburb!.delegate = self
+        //suburb!.delegate = self
         self.suburb!.inputAccessoryView = self.keyboardBar
         self.suburb!.hidden = true
         
@@ -201,6 +224,31 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.telephone!.delegate = self
         self.telephone!.inputAccessoryView = self.keyboardBar
         
+        
+        /*self.store = FormFieldView()
+        self.store!.isRequired = true
+        self.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
+        self.store!.typeField = TypeField.List
+        self.store!.nameField = NSLocalizedString("gr.address.field.store",comment:"")
+        */
+ 
+        store = FormFieldView()
+        self.store!.isRequired = true
+        store!.setCustomPlaceholder(NSLocalizedString("profile.address.suburb",comment:""))
+        self.store!.typeField = TypeField.List
+        self.store!.nameField = NSLocalizedString("profile.address.suburb",comment:"")
+        //suburb!.delegate = self
+        self.store!.inputAccessoryView = self.keyboardBar
+        self.store!.hidden = true
+        
+        self.errorLabelStore = UILabel()
+        self.errorLabelStore!.font = WMFont.fontMyriadProLightOfSize(14)
+        self.errorLabelStore!.text =  NSLocalizedString("gr.address.section.errorLabelStore", comment: "")
+        self.errorLabelStore!.textColor = UIColor.redColor()
+        self.errorLabelStore!.numberOfLines = 3
+        self.errorLabelStore!.textAlignment = NSTextAlignment.Right
+        self.errorLabelStore!.hidden = true
+
         self.viewAddress!.addSubview(titleLabel!)
         self.viewAddress!.addSubview(preferedLabel!)
         self.viewAddress!.addSubview(shortNameField!)
@@ -212,15 +260,168 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.viewAddress!.addSubview(municipality!)
         self.viewAddress!.addSubview(city!)
         self.viewAddress!.addSubview(state!)
-        //self.viewAddress!.addSubview(lineView!)
         
-        pickerSuburb = UIPickerView(frame: CGRectZero)
-        pickerSuburb!.delegate = self
-        pickerSuburb!.dataSource = self
-        pickerSuburb!.showsSelectionIndicator = true
-        suburb!.inputView = pickerSuburb!
+      
+        if self.typeAddress == TypeAddress.Shiping {
+            self.viewAddress!.addSubview(self.store)
+            self.viewAddress.addSubview(self.errorLabelStore)
+        
+            self.store.onBecomeFirstResponder = { () in
+                if self.currentZipCode != self.zipcode!.text {
+                    self.callServiceZip(self.zipcode!.text!, showError: true)
+                    self.currentZipCode = self.zipcode!.text!
+                /*var zipCode = self.zipcode!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+                
+                self.neighborhoods = []
+                self.stores = []
+                
+                self.suburb!.text = ""
+                self.selectedNeighborhood = nil
+                
+                self.store!.text = ""
+                self.selectedStore = nil
+                
+                var padding : String = ""
+                
+                let textZipcode = String(format: "%05d",(zipCode as NSString).integerValue)
+                zipCode = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
+                
+                if zipCode.characters.count < 5 {
+                    padding =  padding.stringByPaddingToLength( 5 - zipCode.characters.count , withString: "0", startingAtIndex: 0)
+                }
+                
+                if (padding + zipCode ==  "00000") {
+                    if self.errorView == nil{
+                        self.errorView = FormFieldErrorView()
+                    }
+                    SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: "No Valido" , errorView:self.errorView! ,  becomeFirstResponder: true)
+                    return
+                }
+                
+                let serviceZip = GRZipCodeService()
+                serviceZip.buildParams(padding + zipCode )
+                serviceZip.callService([:], successBlock: { (result:NSDictionary) -> Void in
+                    
+                    self.resultDict = result
+                    self.neighborhoods = []
+                    self.stores = []
+                    
+                    let zipreturned = result["zipCode"] as! String
+                    self.zipcode!.text = zipreturned
+                    
+                    self.neighborhoodsDic = result["neighborhoods"] as! [NSDictionary]
+                    for dic in  self.neighborhoodsDic {
+                        self.neighborhoods.append(dic["name"] as! String!)
+                    }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                    self.storesDic = result["stores"] as! [NSDictionary]
+                    for dic in  self.storesDic {
+                        let name = dic["name"] as! String!
+                        let cost = dic["cost"] as! String!
+                        self.stores.append("\(name) - \(cost)")
+                    }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                    
+                    if self.stores.count == 0 && !self.store.isRequired
+                    {
+                        let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                        alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
+                        alertView!.showDoneIconWithoutClose()
+                        alertView!.showOkButton("OK", colorButton: WMColor.green)
+                    }
+                    
+                    self.showErrorLabel(self.stores.count == 0)
+                    
+                    //Default Values
+                    if self.neighborhoods.count > 0 {
+                        self.suburb!.text = self.neighborhoods[0]
+                        self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
+                        if  self.errorView?.focusError == self.suburb {
+                            self.errorView?.removeFromSuperview()
+                            self.errorView = nil
+                        }
+                    }
+                    
+                    if self.stores.count > 0 {
+                        self.store!.text = self.stores[0]
+                        self.selectedStore = NSIndexPath(forRow: 0, inSection: 0)
+                        if  self.errorView?.focusError == self.store {
+                            self.errorView?.removeFromSuperview()
+                            self.errorView = nil
+                        }
+                        self.picker!.selected = self.selectedStore
+                        self.picker!.sender = self.store!
+                        self.picker!.delegate = self
+                        self.picker!.setValues(self.store!.nameField, values: self.stores)
+                        self.picker!.showPicker()
+                    }
+                    
+                    self.endEditing(true)
+                    
+                    if self.errorView != nil {
+                        if  self.errorView?.focusError == self.zipcode {
+                            self.errorView?.removeFromSuperview()
+                            self.errorView = nil
+                        }
+                    }
+                    
+                    
+                    
+                    }, errorBlock: { (error:NSError) -> Void in
+                        
+                        //self.zipcode.text = ""
+                        //self.currentZipCode  = ""
+                        self.store.text = ""
+                        self.suburb!.text = ""
+                        self.storesDic = []
+                        self.neighborhoods = []
+                        self.stores = []
+                        
+                        if !self.store.isRequired
+                        {
+                            let alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"),imageDone:UIImage(named:"user_error"),imageError:UIImage(named:"user_error"))
+                            alertView!.setMessage(NSLocalizedString("gr.address.field.notStore",comment:""))
+                            alertView!.showDoneIconWithoutClose()
+                            alertView!.showOkButton("OK", colorButton: WMColor.green)
+                        }
+                        self.showErrorLabel(true)
+                        if self.errorView == nil{
+                            self.errorView = FormFieldErrorView()
+                        }
+                        let stringToShow : NSString = error.localizedDescription
+                        let withoutName = stringToShow.stringByReplacingOccurrencesOfString(self.zipcode!.nameField, withString: "")
+                        SignUpViewController.presentMessage(self.zipcode!, nameField:self.zipcode!.nameField, message: withoutName , errorView:self.errorView!,  becomeFirstResponder: false )
+                        
+                        //self.delegateFormAdd?.showNoCPWarning()
+                        return
+                })*/
+                
+                } else {
+                    self.endEditing(true)
+                
+                    if (self.stores.count > 0){
+                        self.picker!.selected = self.selectedStore
+                        self.picker!.sender = self.store!
+                        self.picker!.delegate = self
+                        self.picker!.setValues(self.store!.nameField, values: self.stores)
+                        self.picker!.showPicker()
+                    }
+                }
+            
+            }
+        }
+        
+        self.suburb!.onBecomeFirstResponder = { () in
+            if self.neighborhoods.count > 0 {
+                self.endEditing(true)
+                self.picker!.selected = self.selectedNeighborhood
+                self.picker!.sender = self.suburb!
+                self.picker!.delegate = self
+                self.picker!.setValues(self.suburb!.nameField, values: self.neighborhoods)
+                self.picker!.showPicker()
+            }
+        }
         
         self.viewAddress!.backgroundColor = UIColor.clearColor()
+
     }
     
     override func layoutSubviews() {
@@ -238,10 +439,15 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         self.municipality?.frame = CGRectMake(leftRightPadding,  suburb!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
         self.city?.frame = CGRectMake(leftRightPadding,  municipality!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
         self.state?.frame = CGRectMake(leftRightPadding,  city!.frame.maxY + 8, self.shortNameField!.frame.width, fieldHeight)
+    
+        if self.typeAddress == TypeAddress.Shiping {
+            self.store.frame = CGRectMake(leftRightPadding, self.state!.frame.maxY + 8, self.shortNameField!.frame.width , fieldHeight)
+            self.viewAddress.frame = CGRectMake(0,0, self.bounds.width, showSuburb == true ? self.store!.frame.maxY : self.zipcode!.frame.maxY )
         
-        
-        self.viewAddress.frame = CGRectMake(0,0, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
-        
+        }
+        else {
+            self.viewAddress.frame = CGRectMake(0,0, self.bounds.width, showSuburb == true ? self.state!.frame.maxY : self.zipcode!.frame.maxY )
+        }
     }
     
     func setItemWithDictionary(itemValues: NSDictionary) {
@@ -263,12 +469,15 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                         self.preferedLabel!.text = NSLocalizedString("profile.address.prefered",comment:"")
                     }
                 }
-                textFieldDidEndEditing(self.zipcode!)
+               // if self.zipcode?.text == zipcode{
+                    self.callServiceZip(self.zipcode!.text!, showError: true)
+                //}
+                //textFieldDidEndEditing(self.zipcode!)
             }
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField) {
+    /*func textFieldDidEndEditing(textField: UITextField) {
         if textField == zipcode{
             self.callServiceZip(textField.text!, showError: true)
         }
@@ -279,7 +488,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 errorView = nil
             }
         }
-    }
+    }*/
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
@@ -342,7 +551,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
         
         
-        let service = ZipCodeService()
+        let service = GRZipCodeService()
         //self.addSubview(viewLoad)
         self.superview?.addSubview(viewLoad)
         viewLoad.startAnnimating(false)
@@ -357,27 +566,59 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.state!.text = resultCall!["state"] as? String
                 self.zipcode!.text = resultCall!["zipCode"] as? String
                 var setElement = false
-                if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.listSuburb.count == 0  {
+              
+                if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.neighborhoodsDic.count == 0  {
                     for dic in  resultCall!["neighborhoods"] as! [NSDictionary]{
                         if dic["id"] as? String ==  self.idSuburb{
                             self.suburb!.text = dic["name"] as? String
                             setElement = true
-                            break
                         }// if dic["id"] as? String ==  self.idSuburb{
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 }//if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.listSuburb.count == 0  {
-                self.listSuburb = resultCall!["neighborhoods"] as! [NSDictionary]
+                
+                self.neighborhoodsDic = resultCall!["neighborhoods"] as! [NSDictionary]
+                self.neighborhoods =  []
+                
+                for dic in  resultCall!["neighborhoods"] as! [NSDictionary]{
+                    self.neighborhoods.append(dic["name"] as! String!)
+                }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                
+                self.storesDic = resultCall!["stores"] as! [NSDictionary]
+                for dic in  self.storesDic {
+                    let name = dic["name"] as! String!
+                    let cost = dic["cost"] as! String!
+                    self.stores.append("\(name) - \(cost)")
+                }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
+                
+                
                 self.validateShowField()
-                if !setElement && self.listSuburb.count > 0  {
+                if !setElement && self.neighborhoodsDic.count > 0  {
                     self.suburb?.becomeFirstResponder()
-                    self.suburb!.text = self.listSuburb[0].objectForKey("name") as? String
-                    self.idSuburb = self.listSuburb[0].objectForKey("id") as? String
+                    self.suburb!.text = self.neighborhoodsDic[0].objectForKey("name") as? String
+                    self.idSuburb = self.neighborhoodsDic[0].objectForKey("id") as? String
                 }//if setElement && self.listSuburb.count > 0  {
-                self.pickerSuburb!.reloadAllComponents()
+                
+                /*if  !setElement && self.stores.count > 0 {
+                    self.store!.text = self.stores[0]
+                    self.selectedStore = NSIndexPath(forRow: 0, inSection: 0)
+                    if  self.errorView?.focusError == self.store {
+                        self.errorView?.removeFromSuperview()
+                        self.errorView = nil
+                    }
+                    self.picker!.selected = self.selectedStore
+                    self.picker!.sender = self.store!
+                    self.picker!.delegate = self
+                    self.picker!.setValues(self.store!.nameField, values: self.stores)
+                    self.picker!.showPicker()
+                }*/
+                
+                
+                
+              //  self.pickerSuburb!.reloadAllComponents()
             }
             }, errorBlock: {(error: NSError) in
-                self.listSuburb = []
-                self.pickerSuburb!.reloadAllComponents()
+                self.neighborhoodsDic = []
+               // self.pickerSuburb!.reloadAllComponents()
                 self.idSuburb = ""
                 self.city!.text = ""
                 self.municipality!.text = ""
@@ -401,24 +642,17 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         })
     }
     
-    // returns the number of 'columns' to display.
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    // returns the # of rows in each component..
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return listSuburb.count
-    }
+   
     
     func validateShowField() {
-        if self.listSuburb.count > 0{
+        if self.neighborhoodsDic.count > 0{
             if !showSuburb {
                 self.viewAddress.frame = CGRectMake(0,0, self.bounds.width,self.state!.frame.maxY)
                 self.suburb!.hidden = false
                 self.municipality!.hidden = false
                 self.city!.hidden = false
                 self.state!.hidden = false
+                self.store!.hidden = false
                 showSuburb = true
                 delegate.validateZip!(true)
                 delegate.setContentSize()
@@ -430,6 +664,7 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
                 self.municipality!.hidden = true
                 self.city!.hidden = true
                 self.state!.hidden = true
+                self.store!.hidden = true
                 showSuburb = false
                 delegate.setContentSize()
             }
@@ -437,24 +672,13 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if listSuburb.count > 0 {
-            if row == 0 {
-                self.idSuburb = listSuburb[row].objectForKey("id") as? String
-                suburb!.text = listSuburb[row].objectForKey("name") as? String
-            }
-            return listSuburb[row].objectForKey("name") as? String
-        }
-        return ""
+    func showErrorLabel(show: Bool)
+    {
+        self.errorLabelStore!.hidden = !show
     }
+
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if listSuburb.count > 0 {
-            delegate.textModify(suburb!)
-            self.idSuburb = listSuburb[row].objectForKey("id") as? String
-            suburb!.text = listSuburb[row].objectForKey("name") as? String
-        }
-    }
+   
     
     func validateAddress() -> Bool{
         var error = viewError(shortNameField!)
@@ -539,5 +763,52 @@ class AddressView: UIView , UITextFieldDelegate,UIPickerViewDataSource,UIPickerV
         }
         return paramsAddress
     }
+    
+    
+    //MARK: - AlertPickerView
+    
+    func didSelectOption(picker:AlertPickerView, indexPath:NSIndexPath ,selectedStr:String) {
+        if let formFieldObj = picker.sender as? FormFieldView {
+            if formFieldObj ==  self.store! {
+                self.store!.text = selectedStr
+                self.selectedStore = indexPath
+                /*if delegate != nil {
+                    self.delegate.showUpdate!()
+                }*/
+            }
+            if formFieldObj ==  self.suburb! {
+                self.suburb!.text = selectedStr
+                self.selectedNeighborhood = indexPath
+                /*if delegate != nil {
+                    self.delegate.showUpdate!()
+                }*/
+            }
+        }
+    }
+    
+    func didDeSelectOption(picker:AlertPickerView) {
+        if let formFieldObj = picker.sender as? FormFieldView {
+            if formFieldObj ==  self.store! {
+                self.store!.text = ""
+                
+            }
+            if formFieldObj ==  self.suburb! {
+                self.suburb!.text = ""
+            }
+        }
+    }
+    
+    func viewReplaceContent(frame:CGRect) -> UIView! {
+        return UIView()
+    }
+    
+    func saveReplaceViewSelected() {
+    }
+
+    func buttomViewSelected(sender: UIButton) {
+        
+    }
+    
+    
     
 }

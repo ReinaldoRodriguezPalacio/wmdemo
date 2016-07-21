@@ -84,23 +84,26 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         self.bounds = self.view.bounds
         switch (typeAddress ) {
         case .Shiping:
-            self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad)
+            self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeAddress)
             self.viewAddress!.allAddress = self.allAddress
             self.viewAddress?.defaultPrefered = self.defaultPrefered
             self.viewAddress!.delegate = self
+            self.viewAddress!.typeAddress = typeAddress
             self.content!.addSubview(self.viewAddress!)
         case .FiscalPerson:
-            self.viewAddressFisical = FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin , isIpad: isIpad)
+            self.viewAddressFisical = FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin , isIpad: isIpad, typeAddress: typeAddress)
             self.viewAddressFisical!.allAddress = self.allAddress
             self.content!.addSubview(self.viewAddressFisical!)
             self.viewAddressFisical?.defaultPrefered = self.defaultPrefered
+            self.viewAddressFisical!.typeAddress = typeAddress
             self.viewAddressFisical!.delegate = self
            
         case .FiscalMoral:
-            self.viewAddressMoral = FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:isIpad)
+            self.viewAddressMoral = FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:isIpad, typeAddress: typeAddress)
             self.viewAddressMoral!.allAddress = self.allAddress
             self.viewAddressMoral?.defaultPrefered = self.defaultPrefered
             self.content!.addSubview(self.viewAddressMoral!)
+            self.viewAddressMoral!.typeAddress = typeAddress
             self.viewAddressMoral!.delegate = self
         }
     
@@ -274,7 +277,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         }
     }
     
-    func textFieldDidEndEditing(textField: UITextField!) {
+   /* func textFieldDidEndEditing(textField: UITextField!) {
         switch (typeAddress ) {
         case .Shiping:
             self.viewAddress!.textFieldDidEndEditing(textField)
@@ -285,7 +288,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         //default:
         //    break
         }
-    }
+    }*/
     
     func textModify(textField: UITextField!) {
         if self.saveButton!.hidden {
@@ -375,9 +378,10 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         switch (typeDest ) {
         case .Shiping:
             if  self.viewAddress == nil{
-                self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad)
+                self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeDest)
                  self.viewAddress!.isLogin = self.isLogin
                 self.viewAddress!.delegate = self
+                self.viewAddress!.typeAddress = typeDest
             }
             self.viewAddress!.allAddress = self.allAddress
             self.viewAddress!.frame = CGRectMake(0,  self.viewTypeAdress!.frame.maxY  , self.view.bounds.width , 600)
@@ -420,8 +424,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             })
         case .FiscalPerson:
             if self.viewAddressFisical == nil{
-                self.viewAddressFisical =   FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad)
+                self.viewAddressFisical =   FiscalAddressPersonF(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeDest)
                 self.viewAddressFisical!.delegate = self
+                self.viewAddressFisical!.typeAddress = typeDest
             }
              self.viewAddressFisical!.allAddress = self.allAddress
             self.setupViewFiscal()
@@ -457,8 +462,9 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
             }
         case .FiscalMoral:
             if self.viewAddressMoral == nil{
-                self.viewAddressMoral =   FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:self.isIpad)
+                self.viewAddressMoral =   FiscalAddressPersonM(frame:self.bounds,  isLogin: self.isLogin, isIpad:self.isIpad, typeAddress: typeDest)
                 self.viewAddressMoral!.delegate = self
+                self.viewAddressMoral!.typeAddress = typeDest
             }
             self.viewAddressMoral!.allAddress = self.allAddress
             self.viewAddressMoral!.frame = CGRectMake(self.view.bounds.width,  self.viewTypeAdressFiscal!.frame.maxY  , self.view.bounds.width , 610)
@@ -483,7 +489,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         let bounds = self.view.bounds
         switch (typeAddress ) {
         case .Shiping:
-            let height : CGFloat = self.viewAddress!.showSuburb == true ? 600 : 600-190
+            let height : CGFloat = self.viewAddress!.showSuburb == true ? 650 : 650-190
             self.viewAddress?.frame = CGRectMake(0.0, self.viewTypeAdress != nil ? 45 : 0 , bounds.width , height)
             self.content.contentSize = CGSize(width: bounds.width, height: self.viewAddress!.frame.maxY + 40 )
             self.content.bringSubviewToFront(self.viewAddress!)

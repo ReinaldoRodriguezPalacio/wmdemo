@@ -431,11 +431,11 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     }
     
     func getFisicalPersonForm(frame:CGRect) -> FiscalAddressPersonF{
-        return FiscalAddressPersonF(frame: frame, isLogin: false, isIpad: false)
+        return FiscalAddressPersonF(frame: frame, isLogin: false, isIpad: false, typeAddress: TypeAddress.FiscalPerson )
     }
     
     func getMoralPersonForm(frame:CGRect) -> FiscalAddressPersonM{
-        return FiscalAddressPersonM(frame: frame, isLogin: false, isIpad: false)
+        return FiscalAddressPersonM(frame: frame, isLogin: false, isIpad: false, typeAddress: TypeAddress.FiscalMoral)
     }
     
     func addViewLoad(){

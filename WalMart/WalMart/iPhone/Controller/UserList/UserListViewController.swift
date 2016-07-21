@@ -987,7 +987,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func hiddenSearchField(){
         self.isToggleBarEnabled = false
-        self.searchConstraint!.constant = -5.0
+        self.searchConstraint?.constant = -5.0
         self.searchContainer!.hidden = true
         self.isToggleBarEnabled = true
     }
