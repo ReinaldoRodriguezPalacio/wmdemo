@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class WishListViewController : NavigationViewController, UITableViewDataSource,UITableViewDelegate, WishlistProductTableViewCellDelegate, SWTableViewCellDelegate,UIActivityItemSource {
+class WishListViewController : NavigationViewController, UITableViewDataSource,UITableViewDelegate, RecentProductsTableViewCellDelegate, SWTableViewCellDelegate,UIActivityItemSource {
     
     var startUrlUPCWalmart = "https://www.walmart.com.mx/Busqueda.aspx?Text="
     
@@ -69,7 +69,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         self.header!.addSubview(self.deleteall)
 
         
-        wishlist.registerClass(WishlistProductTableViewCell.self, forCellReuseIdentifier: "product")
+        //wishlist.registerClass(WishlistProductTableViewCell.self, forCellReuseIdentifier: "product")
         
         wishlist.delegate = self
         wishlist.dataSource = self
@@ -149,7 +149,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-       let cell = wishlist.dequeueReusableCellWithIdentifier("product", forIndexPath: indexPath) as! WishlistProductTableViewCell
+       let cell = wishlist.dequeueReusableCellWithIdentifier("product", forIndexPath: indexPath) as! RecentProductsTableViewCell
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         cell.rightUtilityButtons = getRightButtonDelete()
@@ -205,7 +205,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         let onHandInventory = itemWishlist["onHandInventory"] as! NSString
 
         let isInShoppingCart = UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc)
-        cell.moveRightImagePresale(isPreorderable)
+        
         cell.setValues(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price as String, saving: savingVal, isActive: isActive, onHandInventory: onHandInventory.integerValue, isPreorderable: isPreorderable,isInShoppingCart:isInShoppingCart,pesable:pesable)
        
         //cell.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving:savingVal )
@@ -215,12 +215,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
         if isEdditing {
             cell.setEditing(true, animated: false)
             cell.showLeftUtilityButtonsAnimated(false)
-            cell.moveRightImagePresale(true)
 
         }else {
             cell.setEditing(false, animated: false)
             cell.hideUtilityButtonsAnimated(false)
-            cell.moveRightImagePresale(false)
 
         }
         
@@ -434,10 +432,9 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_WISHLIST.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_WISHLIST.rawValue, action: WMGAIUtils.ACTION_EDIT_WISHLIST.rawValue, label: "")
             
-            let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
+            let currentCells = self.wishlist.visibleCells as! [RecentProductsTableViewCell]
             for cell in currentCells {
                 cell.showLeftUtilityButtonsAnimated(true)
-                cell.moveRightImagePresale(true)
                 cell.setEditing(true, animated: false)
 
                 //cell.shouldChangeState = !isEdditing
@@ -452,11 +449,10 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             
         }else{
             
-            let currentCells = self.wishlist.visibleCells as! [WishlistProductTableViewCell]
+            let currentCells = self.wishlist.visibleCells as! [RecentProductsTableViewCell]
             for cell in currentCells {
                 cell.hideUtilityButtonsAnimated(false)
                 cell.setEditing(false, animated: false)
-                cell.moveRightImagePresale(false)
             }
             edit.hidden = self.items.count == 0
             edit.selected = false
@@ -490,8 +486,7 @@ class WishListViewController : NavigationViewController, UITableViewDataSource,U
             //let indexPath : NSIndexPath = self.wishlist.indexPathForCell(cell)!
             //deleteRowAtIndexPath(indexPath)
             let index = self.wishlist.indexPathForCell(cell)
-            let superCell = self.wishlist.cellForRowAtIndexPath(index!) as! WishlistProductTableViewCell
-            superCell.moveRightImagePresale(false)
+            let superCell = self.wishlist.cellForRowAtIndexPath(index!) as! RecentProductsTableViewCell
             cell.showRightUtilityButtonsAnimated(true)
         default :
             print("other pressed")

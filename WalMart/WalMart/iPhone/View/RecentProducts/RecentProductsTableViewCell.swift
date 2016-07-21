@@ -8,15 +8,74 @@
 
 import Foundation
 
+protocol RecentProductsTableViewCellDelegate {
+    func deleteFromWishlist(UPC:String)
+}
 
-class RecentProductsTableViewCell : WishlistProductTableViewCell {
+class RecentProductsTableViewCell : ProductTableViewCell {
     
     var emptyView : IPOWishlistEmptyView!
     var productPriceSavingLabelGR : UILabel!
     
+    var delegateProduct : RecentProductsTableViewCellDelegate!
+    var resultObjectType : ResultObjectType! = ResultObjectType.Mg
+    var separatorView : UIView?
+    var btnShoppingCart : UIButton!
+    var upc : String!
+    var desc : String!
+    var price : String!
+    var imageURL : String!
+    var isDisabled : Bool = false
+    var onHandInventory : NSString = "0"
+    var isPesable : String!
+    var isPreorderable : String!
+    
+    var imagePresale : UIImageView!
+    var borderViewTop : UIView!
+    var iconDiscount : UIImageView!
+    let widthAndHeightSeparator = 1 / AppDelegate.scaleFactor()
+    var presale : UILabel!
+    
+    
     override func setup() {
         super.setup()
         
+        productShortDescriptionLabel!.textColor = WMColor.gray
+        productShortDescriptionLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        productShortDescriptionLabel!.numberOfLines = 2
+        productShortDescriptionLabel!.adjustsFontSizeToFitWidth = true
+        productShortDescriptionLabel!.minimumScaleFactor = 9 / 12
+        
+        
+        productImage!.frame = CGRectMake(16, 0, 80, 109)
+        //productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
+        
+        
+        //self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
+        self.productPriceLabel!.textAlignment = NSTextAlignment.Left
+        
+        self.productPriceLabel!.hidden = false
+        
+        
+        btnShoppingCart = UIButton(frame: CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32))
+        btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
+        btnShoppingCart.addTarget(self, action: #selector(RecentProductsTableViewCell.addToShoppingCart), forControlEvents: UIControlEvents.TouchUpInside)
+        
+        self.separatorView = UIView(frame:CGRectMake(16, 108,self.frame.width - 16, 1.0))
+        
+        self.separatorView!.backgroundColor = WMColor.light_light_gray
+        
+        self.contentView.addSubview(btnShoppingCart)
+       // self.contentView.addSubview(productPriceSavingLabel)
+        self.contentView.addSubview(self.separatorView!)
+        
+        
+        imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
+        imagePresale.hidden =  true
+        self.addSubview(imagePresale)
+        
+
+        //--
         productPriceSavingLabelGR = UILabel(frame: CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19))
         productPriceSavingLabelGR!.font = WMFont.fontMyriadProSemiboldSize(14)
         productPriceSavingLabelGR!.textColor = WMColor.green
@@ -26,12 +85,20 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
+        
+        self.productShortDescriptionLabel!.frame = CGRectMake(productImage!.frame.maxX + 16, 16, self.frame.width - (productImage!.frame.maxX + 16) - 16, 28)
+        
+        self.productPriceLabel!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productShortDescriptionLabel!.frame.maxY + 16 , 100 , 19)
+
+        self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
+        
+        self.btnShoppingCart.frame = CGRectMake(self.frame.width - 16 - 32, productShortDescriptionLabel!.frame.maxY + 16, 32, 32)
         self.separatorView!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, 108,self.frame.width - productShortDescriptionLabel!.frame.minX, AppDelegate.separatorHeigth())
         self.productPriceSavingLabelGR!.frame = CGRectMake(productShortDescriptionLabel!.frame.minX, productPriceLabel!.frame.maxY  , 100 , 19)
     }
     
     
-    override func addToShoppingCart() {
+    func addToShoppingCart() {
         if !isDisabled {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_ADD_TO_SHOPPING_CART.rawValue , label:"\(self.desc)\(self.upc)")
             
@@ -60,9 +127,36 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
         }
     }
     
-    override func setValues(upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString) {
-        super.setValues(upc, productImageURL: productImageURL, productShortDescription: productShortDescription, productPrice: productPrice, saving: "", isActive: isActive, onHandInventory: onHandInventory, isPreorderable: isPreorderable, isInShoppingCart: isInShoppingCart, pesable: pesable)
+    func setValues(upc: String, productImageURL: String, productShortDescription: String, productPrice: String, saving: NSString, isActive: Bool, onHandInventory: Int, isPreorderable: Bool, isInShoppingCart: Bool, pesable: NSString) {
         
+        imagePresale.hidden = !isPreorderable
+        
+        self.upc = upc
+        self.desc = productShortDescription
+        self.imageURL = productImageURL
+        self.price = productPrice
+        self.onHandInventory = String(onHandInventory)
+        self.isPesable = pesable as String
+        self.isPreorderable = "\(isPreorderable)"
+        
+        super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: productPrice)
+        let formatedPrice = CurrencyCustomLabel.formatString(productPrice)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+        
+      
+        
+        isDisabled = false
+        if isActive == false || onHandInventory == 0  {
+            self.btnShoppingCart.setImage(UIImage(named: "wishlist_cart_disabled"), forState: UIControlState.Normal)
+            isDisabled = true
+        }else{
+            if isInShoppingCart {
+                btnShoppingCart.setImage(UIImage(named: "wishlist_done"), forState:UIControlState.Normal)
+            }else {
+                btnShoppingCart.setImage(UIImage(named: "wishlist_cart"), forState:UIControlState.Normal)
+            }
+        }
+    //....
         if saving != "" {
             productPriceSavingLabelGR.text = saving as String
             productPriceSavingLabelGR.hidden = false
@@ -72,6 +166,9 @@ class RecentProductsTableViewCell : WishlistProductTableViewCell {
         }
     }
     
+    func deleteUPCWishlist() {
+        delegateProduct.deleteFromWishlist("")
+    }
     
     
 }

@@ -383,7 +383,6 @@
 		56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */; };
 		56FC31C51A097C1B003B195C /* IPALineTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */; };
 		56FE0EE019C0E47E00C8687C /* WishListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */; };
-		56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */; };
 		56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */; };
 		5A3AA78D1C9C74A3002F2886 /* GenerateOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */; };
 		5A4FEE511B3B1A6A002B9C12 /* DefaultListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */; };
@@ -1071,7 +1070,6 @@
 		56FBF7C71C1A97D9000A2810 /* IPASignMGUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASignMGUpViewController.swift; path = iPad/Controller/Profile/IPASignMGUpViewController.swift; sourceTree = "<group>"; };
 		56FC31C41A097C1B003B195C /* IPALineTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPALineTableViewCell.swift; path = iPad/View/Categories/IPALineTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EDF19C0E47E00C8687C /* WishListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishListViewController.swift; path = iPhone/Controller/WishList/WishListViewController.swift; sourceTree = "<group>"; };
-		56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WishlistProductTableViewCell.swift; path = iPhone/View/Wishlist/WishlistProductTableViewCell.swift; sourceTree = "<group>"; };
 		56FE0EE519C0E8CC00C8687C /* UserWishlistService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserWishlistService.swift; path = Shared/Services/Wishlist/UserWishlistService.swift; sourceTree = "<group>"; };
 		5A3AA78C1C9C74A3002F2886 /* GenerateOrderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenerateOrderView.swift; sourceTree = "<group>"; };
 		5A4FEE501B3B1A6A002B9C12 /* DefaultListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DefaultListTableViewCell.swift; path = iPhone/View/DefaultListTableViewCell.swift; sourceTree = "<group>"; };
@@ -2889,7 +2887,6 @@
 		56FE0EE119C0E75900C8687C /* Wishlist */ = {
 			isa = PBXGroup;
 			children = (
-				56FE0EE219C0E79100C8687C /* WishlistProductTableViewCell.swift */,
 				5681998119E3460A00362D3C /* WishlistAddProductStatus.swift */,
 			);
 			name = Wishlist;
@@ -3809,7 +3806,6 @@
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
 				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
-				56FE0EE319C0E79100C8687C /* WishlistProductTableViewCell.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
 				85A40B741C223AE40036C78A /* EVObjectDescription.swift in Sources */,
 				85A40B8B1C223AE40036C78A /* Error.swift in Sources */,
@@ -4262,7 +4258,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "7555d2cf-577b-4684-a05b-55d3b71dfbc4";
+				PROVISIONING_PROFILE = "73fee5d1-6f16-4054-a181-16b64f747b0a";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -4301,7 +4297,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "7555d2cf-577b-4684-a05b-55d3b71dfbc4";
+				PROVISIONING_PROFILE = "73fee5d1-6f16-4054-a181-16b64f747b0a";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4353,6 +4349,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 					"$(OTHER_LDFLAGS)",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
@@ -4410,6 +4407,7 @@
 					"-lz",
 					"$(DT_LDFLAGS)",
 					"$(OTHER_LDFLAGS)",
+					"-w",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.bcg.Walmart;
 				PRODUCT_NAME = WalmartMG;
