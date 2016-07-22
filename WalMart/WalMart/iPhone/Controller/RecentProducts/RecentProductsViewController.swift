@@ -23,6 +23,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 20.0
     var headerView : UIView!
     var headerLabel : UILabel!
+    var itemSelect = 0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
@@ -162,6 +163,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             //Order Ascending array final
             let sortedArray = self.recentLineItems.sort {$0.localizedCaseInsensitiveCompare($1 as! String) == NSComparisonResult.OrderedAscending }
             self.recentLineItems = sortedArray
+            
             if flagOther{
                 //self.recentLineItems.append(["id" : 0, "name" : "Otros"])
                 self.recentLineItems.append("Otros")
@@ -257,7 +259,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             isActive = active
         }
         
-        
         cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
@@ -275,21 +276,27 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section)
-        controller.ixSelected = indexPath.row
+        controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+        controller.ixSelected = self.itemSelect //indexPath.row
         self.navigationController!.pushViewController(controller, animated: true)
-        
-        
     }
 
-    func getUPCItems(section: Int) -> [[String:String]] {
+    func getUPCItems(section: Int, row: Int) -> [[String:String]] {
         var upcItems : [[String:String]] = []
-        let lineItems = self.recentProductItems[section]
-        let productsline = lineItems["products"]
-        for idx in 0 ..< productsline!.count {
-            let upc = productsline![idx]["upc"] as! String
-            let desc = productsline![idx]["description"] as! String
-            upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Groceries.rawValue])
+        var countItems = 0
+        //Get UPC of All items
+        for sect in 0 ..< self.recentProductItems.count {
+            let lineItems = self.recentProductItems[sect]
+            let productsline = lineItems["products"]
+            for idx in 0 ..< productsline!.count {
+                if section == sect && row == idx {
+                    self.itemSelect = countItems
+                }
+                let upc = productsline![idx]["upc"] as! String
+                let desc = productsline![idx]["description"] as! String
+                upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Groceries.rawValue])
+                countItems = countItems + 1
+            }
         }
         return upcItems
     }
