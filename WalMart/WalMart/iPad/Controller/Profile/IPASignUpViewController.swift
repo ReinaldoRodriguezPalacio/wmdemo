@@ -14,6 +14,7 @@ class IPASignUpViewController: SignUpViewController {
         super.viewDidLoad()
     }
 
+    //MARK: UIViewController
     override func viewWillLayoutSubviews() {
         //super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
@@ -32,10 +33,6 @@ class IPASignUpViewController: SignUpViewController {
 //        self.labelTerms?.frame =  CGRectMake(acceptTerms!.frame.maxX + 12, self.acceptTerms!.frame.minY ,  self.email!.frame.width - (acceptTerms!.frame.width + 20)  , 75 )
         
         self.birthDate?.frame = CGRectMake(leftRightPadding,  confirmPassword!.frame.maxY + 8, self.view.bounds.width - (leftRightPadding*2), fieldHeight)
-        
-        
-        
-        
         self.femaleButton!.frame = CGRectMake(144,  birthDate!.frame.maxY + 15,  76 , fieldHeight)
         self.maleButton!.frame = CGRectMake(self.femaleButton!.frame.maxX,  birthDate!.frame.maxY + 15, 76 , fieldHeight)
         
