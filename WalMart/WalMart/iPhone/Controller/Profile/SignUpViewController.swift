@@ -56,7 +56,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return WMGAIUtils.SCREEN_SIGNUP.rawValue
     }
 
-    
+    //MARK: - UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
         self.dateFmt = NSDateFormatter()
@@ -203,18 +203,6 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.content.clipsToBounds = false
     }
     
-    
-    func changeMF(sender:UIButton) {
-        if sender == self.maleButton {
-            self.maleButton?.selected = true
-            self.femaleButton?.selected = false
-        } else if sender == self.femaleButton  {
-            self.maleButton?.selected = false
-            self.femaleButton?.selected = true
-        }
-        
-    }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         let bounds = self.view.bounds
@@ -236,21 +224,12 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.content.contentSize = CGSize(width: bounds.width, height:  self.continueButton!.frame.maxY + 40)
     }
     
-    func checkSelected(sender:UIButton) {
-        sender.selected = !(sender.selected)
-        if errorView != nil{
-            if errorView?.superview != nil {
-                errorView?.removeFromSuperview()
-            }
-            errorView!.focusError = nil
-            errorView = nil
-        }
-    }
-    
+    //MARK: - TPKeyboardAvoidingScrollViewDelegate
     func  contentSizeForScrollView(sender:AnyObject) -> CGSize {
           return CGSizeMake(self.view.frame.width, content.contentSize.height)
     }
     
+    //MARK: - TextFieldDelegate
     func textFieldDidEndEditingSW(textField: UITextField!) {
         if errorView != nil{
             if (errorView!.focusError == textField || errorView!.focusError == nil ) &&  errorView?.superview != nil {
@@ -269,6 +248,44 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         }
     }
     
+    //MARK: - Functions
+    /**
+     Changes the gender between male and female
+     
+     - parameter sender: UIButton
+     */
+    func changeMF(sender:UIButton) {
+        if sender == self.maleButton {
+            self.maleButton?.selected = true
+            self.femaleButton?.selected = false
+        } else if sender == self.femaleButton  {
+            self.maleButton?.selected = false
+            self.femaleButton?.selected = true
+        }
+        
+    }
+    
+    /**
+     Checks selected buttons
+     
+     - parameter sender: UIButton
+     */
+    func checkSelected(sender:UIButton) {
+        sender.selected = !(sender.selected)
+        if errorView != nil{
+            if errorView?.superview != nil {
+                errorView?.removeFromSuperview()
+            }
+            errorView!.focusError = nil
+            errorView = nil
+        }
+    }
+    
+    /**
+     Shows Privacy Notice
+     
+     - parameter recognizer: UITapGestureRecognizer
+     */
     func noticePrivacy(recognizer:UITapGestureRecognizer) {
         if errorView != nil{
             if errorView?.superview != nil {
@@ -299,6 +316,9 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         self.cancelButton!.hidden = true
     }
     
+    /**
+     Closes Privacy Notice
+     */
     func closeNoticePrivacy() {
         self.previewHelp!.view.removeFromSuperview()
         self.close!.removeFromSuperview()
@@ -308,11 +328,18 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 
     }
     
+    /**
+     Returns to login view
+     
+     - parameter sender: UIButton
+     */
     func cancelRegistry(sender:UIButton) {
         self.cancelSignUp!()
     }
     
-    
+    /**
+     Shows info view
+     */
     func continueToInfo() {
         self.view.endEditing(true)
         //birthDate!.resignFirstResponder()
@@ -325,6 +352,9 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
      
     }
     
+    /**
+     Calls registry user service
+     */
     func registryUser() {
         self.view.endEditing(true)
         if validateTerms() {
@@ -354,18 +384,32 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                             self.showAddressView()
                         }, isNewFrame: false)
                     }, errorBlock: { (error:NSError) -> Void in
-                        self.backRegistry(self.backButton!)
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
+//                        self.backRegistry(self.backButton!)
+//                        self.alertView!.setMessage(error.localizedDescription)
+//                        self.alertView!.showErrorIcon("Ok")
+                        //TODO: quitar
+                        let message = "\(NSLocalizedString("profile.login.welcome",comment:""))\n\n\(NSLocalizedString("profile.login.addAddress",comment:""))"
+                        self.alertView!.setMessage(message)
+                        self.alertView!.showDoneIconWithoutClose()
+                        self.alertView!.addActionButtonsWithCustomText("Más tarde", leftAction: {
+                            self.successCallBack?()
+                            self.backRegistry(self.backButton!)
+                            }, rightText: "Crear Dirección", rightAction: {
+                                self.showAddressView()
+                            }, isNewFrame: false)
                     })
                 }
                 , errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
+                    
             })
         }
     }
     
+    /**
+     Shows address view form
+     */
     func showAddressView() {
         if alertAddress == nil {
             alertAddress = GRFormAddressAlertView.initAddressAlert()!
@@ -388,6 +432,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         }
     }
     
+    /**
+     Validates user data
+     
+     - returns: Bool
+     */
     func validateUser () -> Bool{
         var error = viewError(name!)
         if !error{
@@ -433,6 +482,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return true
     }
     
+    /**
+     Validates terms and conditions
+     
+     - returns: Bool
+     */
     func validateTerms() -> Bool {
         if !acceptSharePersonal!.selected && !declineSharePersonal!.selected {
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"user_error"))
@@ -453,6 +507,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return true
     }
     
+    /**
+     Shows view error in field
+     
+     - parameter field: field to show error
+     
+     - returns: Bool
+     */
     func viewError(field: FormFieldView)-> Bool{
         let message = field.validate()
         if message != nil  {
@@ -465,6 +526,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return false
     }
 
+    /**
+     Shows terms message
+     
+     - parameter view:      view to show
+     - parameter message:   message
+     - parameter errorView: erroeView
+     */
     func presentMessageTerms(view: UIView,  message: String, errorView : FormFieldErrorView){
         errorView.frame =  CGRectMake(10, 0, view.frame.width, view.frame.height )
         errorView.focusError = nil
@@ -483,6 +551,15 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         })
     }
     
+    /**
+     Presents error message and error view
+     
+     - parameter field:                field to show error
+     - parameter nameField:            field name
+     - parameter message:              error message
+     - parameter errorView:            error view
+     - parameter becomeFirstResponder: bool to indicates to become or not first responder
+     */
     class func presentMessage(field: UITextField, nameField:String,  message: String , errorView : FormFieldErrorView, becomeFirstResponder: Bool){
         errorView.frame = CGRectMake(field.frame.minX - 5, 0, field.frame.width, field.frame.height )
         errorView.focusError = field
@@ -510,7 +587,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         })
     }
     
-    
+    /**
+     Validates  user email
+     
+     - parameter email: string email
+     
+     - returns: Bool
+     */
     class func isValidEmail(email: String ) -> Bool{
 
         let alphanumericset = NSCharacterSet(charactersInString: "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZ1234567890._%+-@").invertedSet
@@ -531,11 +614,11 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
             return true
         }
         return false
-
+    }
     
-    
-}
-    
+    /**
+     Changes date value
+     */
     func dateChanged() {
         let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
@@ -545,6 +628,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
    
     
     //MARK: Info view
+    /**
+     Generates and shows info view
+     
+     - parameter frame: info view frame
+     
+     - returns: UIView
+     */
     func generateInfoView(frame:CGRect) -> UIView {
         if infoContainer == nil {
             
@@ -657,14 +747,17 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
         return infoContainer!
     }
     
+    /**
+     Back to registry
+     
+     - parameter sender: UIButton
+     */
     func backRegistry(sender:AnyObject) {
         let infoView = self.generateInfoView(self.content.frame)
         self.content.alpha = 1
         infoView.alpha = 0
         
     }
-    
-    
     
     func changeCons(sender:UIButton) {
         if sender == self.acceptSharePersonal {

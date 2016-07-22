@@ -10,6 +10,7 @@ import UIKit
 
 class IPALoginController: LoginController {
    
+    var  addressViewController: IPAAddressViewController!
     //MARK: UIViewController
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,7 +101,7 @@ class IPALoginController: LoginController {
     /**
      Shows address form
      
-     - parameter params:           params to login
+     - parameter params: params to login
      - parameter alertViewService: alert view
      */
     func showAddres() {
