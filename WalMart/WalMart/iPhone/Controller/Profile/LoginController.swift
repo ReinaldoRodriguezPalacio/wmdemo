@@ -160,6 +160,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginTwitterButton!.backgroundColor = UIColor.whiteColor()
         self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.twitterSignIn), forControlEvents: .TouchUpInside)
         self.loginTwitterButton!.setImage(UIImage(named: "twitter_login"), forState: .Normal)
+        self.content?.addSubview(loginTwitterButton!)
         
         self.registryButton = UIButton(type: .Custom)
         self.registryButton!.backgroundColor = UIColor.whiteColor()
