@@ -131,6 +131,19 @@ class IPAUserListViewController: UserListViewController {
         )
     }
 
+    
+    override func hiddenSearchField(){
+        self.isToggleBarEnabled = false
+        self.isTableNewFrame =  true
+        self.heightTable = self.view.frame.height
+        self.didShowBackground = true
+        self.searchContainer!.frame = CGRectMake(0.0, -0.5, self.view.frame.width, 64.0)
+        self.tableuserlist!.frame = CGRectMake(0.0, self.isTableNewFrame ? self.header!.frame.height : self.searchContainer!.frame.maxY, self.view.frame.width,self.heightTable )
+        self.searchContainer!.hidden = true
+        
+    }
+    
+    
     //TODO:Delete wishlist help
     override func showHelpTicketView() {
         if self.helpView != nil {
@@ -316,10 +329,14 @@ class IPAUserListViewController: UserListViewController {
                             }
                         }
                         
+                        
                     }
                     else {
                         self.delegate?.showPractilistViewController()
                         self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+                    }
+                    if self.itemsUserList!.count == 0 {
+                        self.hiddenSearchField()
                     }
                
                     success?()
@@ -377,6 +394,10 @@ class IPAUserListViewController: UserListViewController {
             else {
                 self.delegate?.showPractilistViewController()
                 self.selectedItem = NSIndexPath(forRow: 0, inSection: 0)
+            }
+            
+            if self.itemsUserList!.count == 0 {
+                self.hiddenSearchField()
             }
             success?()
         }

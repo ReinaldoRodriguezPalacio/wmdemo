@@ -555,66 +555,69 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                 CATransaction.setCompletionBlock({ () -> Void in
                                     var cells = self.tableuserlist!.visibleCells
                                     for idx in 0 ..< cells.count {
-                                            if let cell = cells[idx] as? ListTableViewCell {
-                                                cell.enableDuplicateList(true)
-                                                cell.canDelete = false
-                                            }
+                                        if let cell = cells[idx] as? ListTableViewCell {
+                                            cell.enableDuplicateList(true)
+                                            cell.canDelete = false
                                         }
-                                        self.newListBtn!.enabled = true
-                                        self.editBtn!.enabled = true
-                                    })
-                                    CATransaction.commit()
-                                    
-                                    self.newListEnabled = !self.newListEnabled
-                                    self.newListBtn!.selected = self.newListEnabled
-                                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
+                                    }
+                                    self.newListBtn!.enabled = true
+                                    self.editBtn!.enabled = true
                                 })
-                                self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                                 CATransaction.commit()
                                 
-                                //                        self.enabledHelpView = true
-                                //                        self.editBtn!.enabled = false
-                        })
-                })
+                                self.newListEnabled = !self.newListEnabled
+                                self.newListBtn!.selected = self.newListEnabled
+                                self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
+                            })
+                            self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                            CATransaction.commit()
+                            
+                            //                        self.enabledHelpView = true
+                            //                        self.editBtn!.enabled = false
+                    })
+            })
+            
+        }
+        else {
+            stateEdit =  false
+            BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
+            
+            self.showSearchField({
+                self.editBtn!.alpha = 1
                 
-            }
-            else {
-                stateEdit =  false
-                BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_CANCEL_NEW_LIST.rawValue, label: "")
+                self.newListEnabled = !self.newListEnabled
+                self.newListBtn!.selected = self.newListEnabled
                 
-                self.showSearchField({
-                    self.editBtn!.alpha = 1
-                    
-                    self.newListEnabled = !self.newListEnabled
-                    self.newListBtn!.selected = self.newListEnabled
-                    
+                CATransaction.begin()
+                CATransaction.setCompletionBlock({ () -> Void in
                     CATransaction.begin()
                     CATransaction.setCompletionBlock({ () -> Void in
-                        CATransaction.begin()
-                        CATransaction.setCompletionBlock({ () -> Void in
-                            var cells = self.tableuserlist!.visibleCells
-                            for idx in 0 ..< cells.count {
-                                if let cell = cells[idx] as? ListTableViewCell {
-                                    cell.enableDuplicateList(false)
-                                    cell.canDelete = true
-                                }
+                        var cells = self.tableuserlist!.visibleCells
+                        for idx in 0 ..< cells.count {
+                            if let cell = cells[idx] as? ListTableViewCell {
+                                cell.enableDuplicateList(false)
+                                cell.canDelete = true
                             }
-                            self.newListBtn!.enabled = true
-                        })
-                        self.isShowingSuperlists = true
-                        self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
-                        CATransaction.commit()
+                        }
+                        self.newListBtn!.enabled = true
                     })
-                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                    self.isShowingSuperlists = true
+                    self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Bottom)
                     CATransaction.commit()
+                })
+                self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
+                CATransaction.commit()
+                
+                self.newListBtn!.backgroundColor = WMColor.green
+                }, atFinished: {
+                    self.editBtn!.enabled = true
                     
-                    self.newListBtn!.backgroundColor = WMColor.green
-                    }, atFinished: {
-                        self.editBtn!.enabled = true
-                        
-                    }, animated:true
-                )
-            }
+                }, animated:true
+            )
+        }
+        if self.itemsUserList?.count == 0 {
+            self.hiddenSearchField()
+        }
     }
     
     //MARK: - NewListTableViewCellDelegate
@@ -625,6 +628,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     func cancelNewList() {
         self.newListEnabled = true
         self.showNewListField()
+     
     }
     
     /**
