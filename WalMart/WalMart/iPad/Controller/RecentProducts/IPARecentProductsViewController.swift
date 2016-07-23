@@ -22,7 +22,7 @@ class IPARecentProductsViewController: RecentProductsViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.recentProducts.frame = CGRectMake(0, 66, self.view.bounds.width, self.view.bounds.height-66)
+        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height-46)
     }
     
     
