@@ -21,8 +21,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
     var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 20.0
-    var headerView : UIView!
-    var headerLabel : UILabel!
+    var itemSelect = 0
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_TOPPURCHASED.rawValue
@@ -30,7 +29,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let titleProducts = NSLocalizedString("profile.misarticulos",comment: "")
+        let titleProducts = NSLocalizedString("profile.misbasicos.title",comment: "")
         self.titleLabel?.text = titleProducts
         
         recentProducts = UITableView()
@@ -40,19 +39,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.dataSource = self
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.None
         self.view.addSubview(recentProducts)
-        
-        headerView = UIView()
-        headerView.backgroundColor = WMColor.light_light_blue
-        
-        headerLabel = UILabel()
-        headerLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        headerLabel!.textAlignment = .Left
-        headerLabel!.textColor = WMColor.light_red
-        headerLabel!.text = "0 artículos"
-        headerLabel!.backgroundColor = UIColor.clearColor()
-        
-        self.headerView.addSubview(headerLabel)
-        self.view.addSubview(headerView)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
         emptyView = IPOGenericEmptyView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109))
@@ -65,9 +51,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.headerView.frame = CGRectMake(0.0, 46, self.view.bounds.width, 20)
-        self.headerLabel.frame = CGRectMake(15.0, 0.0, self.view.bounds.width, 20)
-        self.recentProducts.frame = CGRectMake(0, 66, self.view.bounds.width, self.view.bounds.height - 66)
+        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -121,7 +105,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         //search different lines and add in NSDictionary
         if productItemsOriginal.count > 0 {
             
-            self.headerLabel.text = productItemsOriginal.count == 1 ? "\(productItemsOriginal.count) artículo" :"\(productItemsOriginal.count) artículos"
+            let titleBasic = self.titleLabel?.text
+            self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
+            
             var flagOther = false
             
             for idx in 0 ..< productItemsOriginal.count {
@@ -162,6 +148,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             //Order Ascending array final
             let sortedArray = self.recentLineItems.sort {$0.localizedCaseInsensitiveCompare($1 as! String) == NSComparisonResult.OrderedAscending }
             self.recentLineItems = sortedArray
+            
             if flagOther{
                 //self.recentLineItems.append(["id" : 0, "name" : "Otros"])
                 self.recentLineItems.append("Otros")
@@ -257,7 +244,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             isActive = active
         }
         
-        
         cellRecentProducts.setValues(upc, productImageURL: img, productShortDescription: description, productPrice: price.stringValue, saving: promoDescription, isActive: isActive, onHandInventory: 99, isPreorderable: false, isInShoppingCart: UserCurrentSession.sharedInstance().userHasUPCShoppingCart(upc),pesable:pesable)
         cellRecentProducts.resultObjectType = ResultObjectType.Groceries
         return cellRecentProducts
@@ -275,21 +261,27 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
         
         let controller = ProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section)
-        controller.ixSelected = indexPath.row
+        controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+        controller.ixSelected = self.itemSelect //indexPath.row
         self.navigationController!.pushViewController(controller, animated: true)
-        
-        
     }
 
-    func getUPCItems(section: Int) -> [[String:String]] {
+    func getUPCItems(section: Int, row: Int) -> [[String:String]] {
         var upcItems : [[String:String]] = []
-        let lineItems = self.recentProductItems[section]
-        let productsline = lineItems["products"]
-        for idx in 0 ..< productsline!.count {
-            let upc = productsline![idx]["upc"] as! String
-            let desc = productsline![idx]["description"] as! String
-            upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Groceries.rawValue])
+        var countItems = 0
+        //Get UPC of All items
+        for sect in 0 ..< self.recentProductItems.count {
+            let lineItems = self.recentProductItems[sect]
+            let productsline = lineItems["products"]
+            for idx in 0 ..< productsline!.count {
+                if section == sect && row == idx {
+                    self.itemSelect = countItems
+                }
+                let upc = productsline![idx]["upc"] as! String
+                let desc = productsline![idx]["description"] as! String
+                upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Groceries.rawValue])
+                countItems = countItems + 1
+            }
         }
         return upcItems
     }

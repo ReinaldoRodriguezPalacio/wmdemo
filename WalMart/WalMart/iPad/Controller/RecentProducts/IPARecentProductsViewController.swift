@@ -22,7 +22,7 @@ class IPARecentProductsViewController: RecentProductsViewController {
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.recentProducts.frame = CGRectMake(0, 66, self.view.bounds.width, self.view.bounds.height-66)
+        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height-46)
     }
     
     
@@ -34,8 +34,8 @@ class IPARecentProductsViewController: RecentProductsViewController {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_TOP_PURCHASED.rawValue, action:WMGAIUtils.ACTION_OPEN_PRODUCT_DETAIL.rawValue , label: productsline![indexPath.row]["description"] as! String)
         
         let controller = IPAProductDetailPageViewController()
-        controller.itemsToShow = getUPCItems(indexPath.section)
-        controller.ixSelected = indexPath.row
+        controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+        controller.ixSelected = self.itemSelect //indexPath.row
        
         if let navCtrl = self.navigationController!.parentViewController as UIViewController! {
             navCtrl.navigationController!.pushViewController(controller, animated: true)

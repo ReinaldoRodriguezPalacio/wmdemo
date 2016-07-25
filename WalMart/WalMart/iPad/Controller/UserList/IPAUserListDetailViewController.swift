@@ -88,7 +88,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if !isShared {
             if showReminderButton{
                 self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
-                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
+                //self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
                 
                 self.addProductsView!.frame = CGRectMake(0,self.openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
                 
