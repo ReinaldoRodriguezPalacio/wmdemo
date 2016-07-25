@@ -391,7 +391,7 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/detalleLista.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
@@ -795,7 +795,7 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/detalleLista.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
@@ -982,7 +982,7 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/detalleLista.txt</string>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
@@ -1000,7 +1000,7 @@
 			<key>WalmartMG.AddressByUserService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
 			<key>WalmartMG.BannerService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/getBannersMGSuper</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/bannerTerms.txt</string>
 			<key>WalmartMG.CamFindService</key>
 			<string>https://api.cloudsightapi.com/image_requests</string>
 			<key>WalmartMG.CarouselService</key>

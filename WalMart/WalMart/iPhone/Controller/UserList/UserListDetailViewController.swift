@@ -580,15 +580,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, bounds.width, 16))
+        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, bounds.width, 48))
         labelTwo.textAlignment = .Center
         labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
+        
+        labelTwo.numberOfLines =  5
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRectMake(98.0, labelOne.frame.maxY + 12.0, 16.0, 16.0)
+        icon.frame = CGRectMake(63.0, labelTwo.frame.maxY - 18 , 16.0, 16.0)
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .Custom)
