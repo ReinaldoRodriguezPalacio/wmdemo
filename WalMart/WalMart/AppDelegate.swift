@@ -75,7 +75,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let twitterSecret = kitInfo["consumerSecret"] as! String
         Twitter.sharedInstance().startWithConsumerKey(twitterKey, consumerSecret: twitterSecret)
         Fabric.with([Twitter.self()])
-        //Fabric.with([Twitter.self])
         
         //Set url image cache to application
         let sharedCache  = NSURLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
@@ -470,7 +469,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
-       
         //Tune.applicationDidOpenURL(url.absoluteString, sourceApplication: sourceApplication)
         //Quitar para produccion
         handleURLFacebookTag(url,sourceApplication:sourceApplication!)
@@ -482,7 +480,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                                                     sourceApplication: sourceApplication,
                                                     annotation: annotation)
         
-        let twitter = true //Twitter.sharedInstance().application(application, openURL:url, options: options)
+        let twitter = Twitter.sharedInstance().application(application, openURL:url, options: annotation as! [NSObject : AnyObject])
         
         return fb || gid || twitter
     }
