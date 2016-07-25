@@ -49,7 +49,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     var containerEditName: UIView?
     var reminderButton: UIButton?
-    var reminderImage: UIImageView?
     var reminderService: ReminderNotificationService?
     var showReminderButton: Bool = false
     
@@ -130,6 +129,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.footerSection!.addSubview(self.shareButton!)
         
         x = self.shareButton!.frame.maxX + 16.0
+        self.reminderButton = UIButton(frame: CGRectMake(x, y, 34.0, 34.0))
+        self.reminderButton!.setImage(UIImage(named: "reminder_icon"), forState: .Normal)
+        self.reminderButton!.backgroundColor = WMColor.orange
+        self.reminderButton!.addTarget(self, action: #selector(UserListDetailViewController.addReminder), forControlEvents: UIControlEvents.TouchUpInside)
+        self.reminderButton!.hidden = true
+        self.reminderButton!.layer.cornerRadius = 11
+        self.footerSection!.addSubview(self.reminderButton!)
+        
+        x = self.reminderButton!.frame.maxX + 16.0
         self.addToCartButton = UIButton(frame: CGRectMake(x, y, self.footerSection!.frame.width - (x + 16.0), 34.0))
         self.addToCartButton!.backgroundColor = WMColor.green
         self.addToCartButton!.layer.cornerRadius = 17.0
@@ -146,19 +154,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.tableView!.contentInset = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         self.tableView!.scrollIndicatorInsets = UIEdgeInsetsMake(0, 0, self.footerSection!.frame.height, 0)
         
-        self.reminderButton = UIButton()
-        self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
-        self.reminderButton!.setImage(UIImage(named: "reminder_icon"), forState: .Normal)
-        self.reminderButton!.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.reminderButton!.backgroundColor = WMColor.orange
-        self.reminderButton!.addTarget(self, action: #selector(UserListDetailViewController.addReminder), forControlEvents: UIControlEvents.TouchUpInside)
-        self.reminderButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(12.0)
-        self.reminderButton!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
-        self.reminderButton!.titleEdgeInsets = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
-        self.reminderButton!.imageEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 2, right:0 )
-        self.reminderButton!.hidden = true
-        
-        self.reminderImage = UIImageView(image: UIImage(named: "white_arrow"))
+       
         
         if !TabBarHidden.isTabBarHidden {
             let tabBarHeight:CGFloat = 45.0
@@ -173,13 +169,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.isSharing = false
         buildEditNameSection()
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp() && self.listId != nil && self.listName != nil
-        self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : 46.0)
+        self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : 46.0)
         self.addProductsView = AddProductTolistView()
         self.addProductsView!.backgroundColor =  UIColor.whiteColor()
         self.addProductsView!.delegate =  self
         if showReminderButton{
-            self.view.addSubview(reminderButton!)
-            self.view.addSubview(reminderImage!)
+            x = self.reminderButton!.frame.maxX + 16.0
+            self.addToCartButton!.frame =  CGRectMake(x,y, self.addToCartButton!.frame.width, self.addToCartButton!.frame.height)
+            
+            
             self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
             self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
             self.view.addSubview(self.addProductsView!)
@@ -211,10 +209,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if !self.isSharing {
             if showReminderButton {
-                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 23.0)
-                self.reminderImage?.frame = CGRectMake(self.view.frame.width - 27, self.header!.frame.maxY + 6, 11.0, 11.0)
-             
-                self.addProductsView!.frame = CGRectMake(0,openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                self.reminderButton?.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, self.shareButton!.frame.minY, 34, 34)
+                
+                self.addProductsView!.frame = CGRectMake(0,self.header!.frame.maxY, self.view.frame.width, 64.0)
                 
                 self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
 
@@ -309,7 +306,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.containerEditName!.alpha = 1
                 self.footerSection!.alpha = 0
                 self.reminderButton?.alpha = 0.0
-                self.reminderImage?.alpha = 0.0
                 self.addProductsView?.alpha = 0
             }, completion: { (complete:Bool) -> Void in
                 self.deleteAllBtn!.hidden = false
@@ -352,10 +348,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
                 }, completion: { (completition:Bool) -> Void in
-                    self.tableConstraint?.constant = (self.showReminderButton ? 134.0 : self.header!.frame.maxY)
+                    self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : self.header!.frame.maxY)
                     self.containerEditName!.alpha = 0
                     self.reminderButton?.alpha = 1.0
-                    self.reminderImage?.alpha = 1.0
                     self.footerSection!.alpha = 1
                     self.addProductsView?.alpha = 1
                     
@@ -1393,11 +1388,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func setReminderSelected(selected:Bool){
         self.reminderButton?.selected = selected
+        
         if selected{
-            self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
-            self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Normal)
+            //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
+            //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Normal)
         }else{
-            self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
+            //self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
         }
     }
     

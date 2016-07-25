@@ -18,10 +18,9 @@ struct ShoppingCartParams {
 struct ConfigServices {
     static var ConfigIdMG : String = "WMURLServices"
     static var ConfigIdGRSign : String = "WMGroceriesURLServicesSession"
-    static var ConfigIdGR : String = "WMGroceriesURLServices"
     
     static var ConfigIdMGSignals : String = "WMURLSignalsServices"
-    static var ConfigIdGRSignals : String = "WMGroceriesURLSignalsServices"
+    //static var ConfigIdGRSignals : String = "WMGroceriesURLSignalsServices"
     static var ConfigIdGRSignalsSing : String = "WMGroceriesURLSignalsServicesSession"
     
     
@@ -49,6 +48,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     var blockScreen :Bool = false
     var splashTTL : Double = 1.0
+    var labelVersion : UILabel!
     
     var didHideSplash : (() -> Void)? = nil
     var validateVersion : ((force:Bool) -> Void)? = nil
@@ -73,8 +73,21 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
       
         configSplashAndGoToHome()
         
+        
         self.view.addSubview(webViewSplash)
         self.view.addSubview(splashDefault)
+        
+        let majorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString") as! String
+        let minorVersion =  NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleVersion") as! String
+        
+        let nameFamily = "Versión \(majorVersion) (\(minorVersion))"
+        
+        labelVersion = UILabel(frame: CGRectMake(0.0, 28.0, 100, 16.0))
+        labelVersion.textAlignment = .Center
+        labelVersion.textColor = UIColor.whiteColor()
+        labelVersion.font = WMFont.fontMyriadProBoldOfSize(14.0)
+        labelVersion.text = nameFamily
+        webViewSplash.addSubview(labelVersion)
         
         
     }
@@ -171,21 +184,18 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         if let maxproducts = itemsconfig["maxproducts"] as? Int {
             ShoppingCartParams.maxProducts = maxproducts
         }
-        //Se quita por mustang
-//        if let serviceapp = itemsconfig["serviceUrl"] as? String {
-//            if serviceapp == "cluster" {
-//                ConfigServices.ConfigIdMG = "clusterWMURLServices"
-//                ConfigServices.ConfigIdGRSign = "clusterWMGroceriesURLServicesSession"
-//                ConfigServices.ConfigIdGR = "clusterWMGroceriesURLServices"
-//                
-//                ConfigServices.ConfigIdMGSignals = "clusterWMURLSignalsServices"
-//                ConfigServices.ConfigIdGRSignals = "clusterWMGroceriesURLSignalsServices"
-//                ConfigServices.ConfigIdGRSignalsSing = "clusterWMGroceriesURLSignalsServicesSession"
-//            }
-//        }
+
+        
+        ConfigServices.ConfigIdMG = "WMMustangURLServices"
+        ConfigServices.ConfigIdGRSign = "WMMustangURLServicesSession"
+        
+        ConfigServices.ConfigIdMGSignals = "WMMustangURLServices"
+        ConfigServices.ConfigIdGRSignalsSing = "WMMustangURLServicesSession"
+        
+        
         
         if let camfindparams = itemsconfig["camfindparams"] as? String {
-                ConfigServices.camfindparams = camfindparams
+            ConfigServices.camfindparams = camfindparams
         }
         
         
