@@ -47,13 +47,13 @@ class ShippingAddress: AddressView {
         self.titleLabelShiping!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabelShiping!.text =  NSLocalizedString("profile.address.personal.data", comment: "")
         
-        if !isLogin {
+        //if !isLogin {
             self.titleLabelShiping!.textColor = WMColor.light_blue
             self.titleLabelShiping!.backgroundColor = UIColor.whiteColor()
-        }else {
+        /*}else {
             self.titleLabelShiping!.backgroundColor = UIColor.clearColor()
             self.titleLabelShiping.textColor = UIColor.whiteColor()
-        }
+        }*/
         
         self.addSubview(name!)
         self.addSubview(lastName!)

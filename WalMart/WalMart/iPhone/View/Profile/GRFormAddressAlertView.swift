@@ -9,8 +9,7 @@
 import Foundation
 
 
-class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,FormSuperAddressViewDelegate {
-    
+class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,AddressViewDelegate {
     
     var itemsToShow : [String] = []
     
@@ -28,16 +27,14 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     var viewReplace : UIView!
     
     var scrollForm : TPKeyboardAvoidingScrollView!
-    var sAddredssForm : FormSuperAddressView!
+    var sAddredssForm : AddressView!
     var alertView : IPOWMAlertViewController? = nil
-    
     
     var alertSaveSuccess : (() -> Void)? = nil
     var alertClose : (() -> Void)? = nil
     var cancelPress : (() -> Void)? = nil
     var beforeAddAddress :  ((dictSend:NSDictionary?) -> Void)? = nil
     var showMessageCP : (() -> Void)? = nil
-    
     
     
     override init(frame: CGRect) {
@@ -61,7 +58,6 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         viewButton.addTarget(self, action: #selector(GRFormAddressAlertView.closeAlertButton), forControlEvents: UIControlEvents.TouchUpInside)
         viewButton.setImage(UIImage(named: "detail_close"), forState: UIControlState.Normal)
     
-        
         viewContent = UIView(frame: CGRectMake(8, 40, self.frame.width - 16, self.frame.height - 80))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
@@ -95,14 +91,17 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         scrollForm = TPKeyboardAvoidingScrollView()
         self.scrollForm.scrollDelegate = self
         self.scrollForm.frame = viewContentOptions.bounds
-        self.scrollForm.contentSize = CGSizeMake(self.viewContent.frame.width, 720)
+        self.scrollForm.contentSize = CGSizeMake(self.viewContent.frame.width, 600)
 
+        self.sAddredssForm = ShippingAddress(frame:CGRectMake(viewContentOptions.bounds.minX , viewContentOptions.bounds.minY, viewContentOptions.bounds.width, 600), isLogin: true, isIpad: false, typeAddress: TypeAddress.Shiping)
+       // self.sAddredssForm!.allAddress = self.allAddress
+        self.sAddredssForm?.defaultPrefered = true
+        self.sAddredssForm!.delegate = self
+        self.sAddredssForm!.item =  NSDictionary()
         
-        sAddredssForm = FormSuperAddressView(frame: CGRectMake(viewContentOptions.bounds.minX , viewContentOptions.bounds.minY, viewContentOptions.bounds.width, 720))
-       //     viewContentOptions.bounds)
-        sAddredssForm.store!.isRequired = false
-        sAddredssForm.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
-        sAddredssForm.delegateFormAdd = self
+       // viewContentOptions.bounds)
+        self.sAddredssForm.store!.isRequired = false
+    self.sAddredssForm.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
         scrollForm.addSubview(sAddredssForm)
         viewContentOptions.addSubview(scrollForm)
         
@@ -111,7 +110,6 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         self.headerView.addSubview(viewButton)
         self.headerView.addSubview(buttonRight)
         self.addSubview(viewContent)
-        
         
     }
     
@@ -126,6 +124,8 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
             buttonRight.frame = CGRectMake(self.viewContent.frame.width - 80, 12, 64, 22)
             buttonRight.layer.cornerRadius =  11
         }
+        
+        self.setContentSize()
         
     }
     
@@ -229,7 +229,9 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
 
     // TPKeyboardAvoidingScrollViewDelegate
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-        return  CGSizeMake(self.viewContent.frame.width, 720)
+          let height : CGFloat = self.sAddredssForm!.showSuburb == true ? 710 : 710 - 190
+        
+        return  CGSizeMake(self.viewContent.frame.width, height)
     }
     
     func textFieldDidBeginEditing(sender: UITextField!) {
@@ -253,10 +255,10 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
                 self.sAddredssForm.selectedStore = nil
             }
             if zipCode.nameField == NSLocalizedString("gr.address.field.zipcode",comment:"") && zipCode.text! != self.sAddredssForm!.currentZipCode &&  zipCode.text!.characters.count == 5{
-                if self.sAddredssForm!.zipcode.text!.utf16.count > 0 {
-                    let xipStr = self.sAddredssForm!.zipcode.text! as NSString
+                if self.sAddredssForm!.zipcode!.text!.utf16.count > 0 {
+                    let xipStr = self.sAddredssForm!.zipcode!.text! as NSString
                     let textZipcode = String(format: "%05d",xipStr.integerValue)
-                    self.sAddredssForm!.zipcode.text = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
+                    self.sAddredssForm!.zipcode!.text = textZipcode.substringToIndex(textZipcode.startIndex.advancedBy(5))
                     self.sAddredssForm!.store.becomeFirstResponder()
                 }
             }
@@ -270,13 +272,13 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
     }
     
     func newItemForm() {
-        let dictSend = sAddredssForm.getAddressDictionary("", delete:false,preferred:true)
-        if dictSend != nil {
+        if self.sAddredssForm!.validateAddress(){
+           let dictSend  = self.sAddredssForm!.getParams()
             if self.beforeAddAddress == nil {
                 self.registryAddress(dictSend)
             } else {
                 self.beforeAddAddress?(dictSend: dictSend)
-        }
+            }
         }
         
         self.sAddredssForm.endEditing(true)
@@ -289,7 +291,28 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
         
         
         if dictSend != nil {
-            let service = GRAddressAddService()
+            
+            let service = AddShippingAddressService()
+             self.scrollForm.resignFirstResponder()
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
+            self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
+         
+            service.callPOSTService(dictSend!, successBlock:{ (resultCall:NSDictionary?) in
+                
+                print("Se realizo la direccion")
+                if let message = resultCall!["message"] as? String {
+                    self.alertView!.setMessage("\(message)")
+                }
+                self.alertView!.showDoneIcon()
+                
+                self.alertSaveSuccess?()
+            }) { (error:NSError) -> Void in
+                self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.showErrorIcon("Ok")
+            }
+            
+            
+            /*let service = GRAddressAddService()
             let dictSend = sAddredssForm.getAddressDictionary("", delete:false,preferred:true)
             self.scrollForm.resignFirstResponder()
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"address_waiting"), imageDone:UIImage(named:"done"), imageError:UIImage(named:"address_error"))
@@ -305,22 +328,40 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Form
                 }) { (error:NSError) -> Void in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
-            }
+            }*/
+            
         }
 
     }
     
-    func setData(addressPreferred:NSDictionary) {
-        self.sAddredssForm.addressName.text = addressPreferred["name"] as! String!
-        self.sAddredssForm.outdoornumber.text = addressPreferred["outerNumber"] as! String!
-        self.sAddredssForm.indoornumber.text = addressPreferred["innerNumber"] as! String!
-        self.sAddredssForm.zipcode.text = addressPreferred["zipCode"] as! String!
-        self.sAddredssForm.street.text = addressPreferred["street"] as! String!
-        self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: "", storeID: "")
+   /* func setData(addressPreferred:NSDictionary) {
+        self.sAddredssForm.shortNameField!.text = addressPreferred["name"] as! String!
+        self.sAddredssForm.outdoornumber!.text = addressPreferred["outerNumber"] as! String!
+        self.sAddredssForm.indoornumber!.text = addressPreferred["innerNumber"] as! String!
+        self.sAddredssForm.zipcode!.text = addressPreferred["zipCode"] as! String!
+        self.sAddredssForm.street!.text = addressPreferred["street"] as! String!
+      //  self.sAddredssForm.setZipCodeAnfFillFields(self.sAddredssForm.zipcode.text!, neighborhoodID: "", storeID: "")
+    }*/
+    
+    
+    func setContentSize(){
+             let height : CGFloat = self.sAddredssForm!.showSuburb == true ? 710 : 710 - 190
+        
+            self.sAddredssForm?.frame = CGRectMake( viewContentOptions.bounds.minX ,  viewContentOptions.bounds.minY , viewContentOptions.frame.width , height)
+        
+            self.scrollForm.contentSize = CGSize(width: viewContentOptions.frame.width, height:  height)
+        
+        
     }
     
     
     func showNoCPWarning() {
         self.showMessageCP?()
     }
+    
+    func validateZip(isvalidate: Bool) {
+        //self.validateZip = isvalidate
+    }
+    
+        
 }

@@ -379,7 +379,7 @@ class AddressViewController: NavigationViewController, UICollectionViewDelegate 
         case .Shiping:
             if  self.viewAddress == nil{
                 self.viewAddress = ShippingAddress(frame:self.bounds, isLogin: self.isLogin, isIpad: self.isIpad, typeAddress: typeDest)
-                 self.viewAddress!.isLogin = self.isLogin
+                //self.viewAddress!.isLogin = self.isLogin
                 self.viewAddress!.delegate = self
                 self.viewAddress!.typeAddress = typeDest
             }

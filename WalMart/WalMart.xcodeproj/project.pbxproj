@@ -3799,7 +3799,6 @@
 				85A40B981C223AE40036C78A /* StompKit.m in Sources */,
 				04D2A39F1A2FE2D6008DAE37 /* StoreAnnotation.swift in Sources */,
 				5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */,
-				56FBF7C81C1A97D9000A2810 /* IPASignMGUpViewController.swift in Sources */,
 				5606BC3719BA782C002A70ED /* PriceSelectorBandCell.swift in Sources */,
 				85A40B741C223AE40036C78A /* EVObjectDescription.swift in Sources */,
 				85A40B8B1C223AE40036C78A /* Error.swift in Sources */,

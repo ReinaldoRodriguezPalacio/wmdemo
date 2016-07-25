@@ -63,7 +63,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     var viewLoad : WMLoadingView!
     var delegate:AddressViewDelegate!
     var showSuburb : Bool! = false
-    var isLogin : Bool! = false
+    //var isLogin : Bool! = false
     var isIpad : Bool! = false
     var picker : AlertPickerView!
     var titleLabel: UILabel!
@@ -78,7 +78,7 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     
     init(frame: CGRect, isLogin: Bool, isIpad: Bool, typeAddress: TypeAddress) {
         super.init(frame: frame)
-        self.isLogin! = isLogin
+        //self.isLogin! = isLogin
         self.isIpad! = isIpad
         self.typeAddress = typeAddress
         self.setup()
@@ -197,15 +197,16 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         
         self.titleLabel!.font = WMFont.fontMyriadProLightOfSize(14)
         self.titleLabel!.text =  NSLocalizedString("profile.address", comment: "")
-        if !isLogin {
+        //if !isLogin {
             self.titleLabel!.textColor = WMColor.light_blue
             self.titleLabel!.backgroundColor = UIColor.whiteColor()
             self.backgroundColor = UIColor.whiteColor()
-        }else {
+        /*}else {
             self.backgroundColor = UIColor.clearColor()
             self.titleLabel.backgroundColor = UIColor.clearColor()
             self.titleLabel.textColor = UIColor.whiteColor()
-        }
+        }*/
+        
         
         self.addSubview(viewAddress!)
         
@@ -790,7 +791,6 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.store! {
                 self.store!.text = ""
-                
             }
             if formFieldObj ==  self.suburb! {
                 self.suburb!.text = ""
