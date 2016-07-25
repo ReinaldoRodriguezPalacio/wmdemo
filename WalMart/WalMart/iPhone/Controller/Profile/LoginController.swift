@@ -266,6 +266,8 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
      Shows SignUpViewController for users registration
      */
     func registryUser() {
+        //self.showAddressView()
+        
         if self.signUp == nil{
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
@@ -316,6 +318,35 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         })
     }
    
+    
+    
+    //TODO: Borrar 
+    
+    func showAddressView() {
+        var alertAddress: GRFormAddressAlertView? = nil
+        
+        if alertAddress == nil {
+            alertAddress = GRFormAddressAlertView.initAddressAlert()!
+        }
+        alertAddress?.showAddressAlert()
+        alertAddress?.beforeAddAddress = {(dictSend:NSDictionary?) in
+            alertAddress?.registryAddress(dictSend)
+            self.alertView!.close()
+        }
+        
+        alertAddress?.alertSaveSuccess = {() in
+            alertAddress!.removeFromSuperview()
+            self.successCallBack?()
+           // backRegistry(self.backButton!)
+        }
+        
+        alertAddress?.cancelPress = {() in
+            print("")
+            alertAddress!.closePicker()
+        }
+    }
+
+    
     /**
      Close LoginController and removes it from parent view
      */
