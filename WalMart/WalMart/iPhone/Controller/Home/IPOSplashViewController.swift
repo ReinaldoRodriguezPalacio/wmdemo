@@ -16,12 +16,11 @@ struct ShoppingCartParams {
 
 
 struct ConfigServices {
-    static var ConfigIdMG : String = "WMURLServices"
-    static var ConfigIdGRSign : String = "WMGroceriesURLServicesSession"
+    static var ConfigIdMG : String = "WMMustangURLServices"
+    static var ConfigIdGRSign : String = "WMMustangURLServicesSession"
     
-    static var ConfigIdMGSignals : String = "WMURLSignalsServices"
-    //static var ConfigIdGRSignals : String = "WMGroceriesURLSignalsServices"
-    static var ConfigIdGRSignalsSing : String = "WMGroceriesURLSignalsServicesSession"
+    static var ConfigIdMGSignals : String = "WMMustangURLServices"
+    static var ConfigIdGRSignalsSing : String = "WMMustangURLServicesSession"
     
     
     static var camfindparams : String = ""
@@ -185,14 +184,6 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             ShoppingCartParams.maxProducts = maxproducts
         }
 
-        
-        ConfigServices.ConfigIdMG = "WMMustangURLServices"
-        ConfigServices.ConfigIdGRSign = "WMMustangURLServicesSession"
-        
-        ConfigServices.ConfigIdMGSignals = "WMMustangURLServices"
-        ConfigServices.ConfigIdGRSignalsSing = "WMMustangURLServicesSession"
-        
-        
         
         if let camfindparams = itemsconfig["camfindparams"] as? String {
             ConfigServices.camfindparams = camfindparams
