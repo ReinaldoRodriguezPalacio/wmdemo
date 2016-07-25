@@ -38,7 +38,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     var loginFacebookButton: UIButton!
     var loginGoogleButton: UIButton!
     var loginTwitterButton: UIButton!
-    var addressViewController : AddressViewController!
     
     var okCancelCallBack : (() -> Void)? = nil
     
@@ -267,9 +266,9 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
      Shows SignUpViewController for users registration
      */
     func registryUser() {
-        self.showAddressView()
+        //self.showAddressView()
         
-        /*if self.signUp == nil{
+        if self.signUp == nil{
             
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_CREATE_ACOUNT.rawValue, action:WMGAIUtils.ACTION_OPEN_CREATE_ACOUNT.rawValue , label: "")
             self.signUp = SignUpViewController()
@@ -316,7 +315,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                 if bool {
                     self.viewAnimated = false
                 }
-        })*/
+        })
     }
    
     
