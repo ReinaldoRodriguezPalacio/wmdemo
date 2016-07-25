@@ -227,6 +227,7 @@
 "profile.forgot.password" = "Olvidé mi contraseña";
 "profile.privacy.notice" = "Aviso de privacidad";
 "profile.misarticulos" = "Mis Artículos Más Comprados";
+"profile.misbasicos.title" = "Mis Básicos";
 "profile.myAddress" = "Mis Direcciones";
 "profile.myOrders" = "Pedidos Anteriores";
 "profile.no.account" = "Inicia sesión o crea una cuenta con:";

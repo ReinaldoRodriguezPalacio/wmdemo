@@ -21,8 +21,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
     var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 20.0
-    var headerView : UIView!
-    var headerLabel : UILabel!
     var itemSelect = 0
     
     override func getScreenGAIName() -> String {
@@ -31,7 +29,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let titleProducts = NSLocalizedString("profile.misarticulos",comment: "")
+        let titleProducts = NSLocalizedString("profile.misbasicos.title",comment: "")
         self.titleLabel?.text = titleProducts
         
         recentProducts = UITableView()
@@ -41,19 +39,6 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         recentProducts.dataSource = self
         recentProducts.separatorStyle = UITableViewCellSeparatorStyle.None
         self.view.addSubview(recentProducts)
-        
-        headerView = UIView()
-        headerView.backgroundColor = WMColor.light_light_blue
-        
-        headerLabel = UILabel()
-        headerLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
-        headerLabel!.textAlignment = .Left
-        headerLabel!.textColor = WMColor.light_red
-        headerLabel!.text = "0 artículos"
-        headerLabel!.backgroundColor = UIColor.clearColor()
-        
-        self.headerView.addSubview(headerLabel)
-        self.view.addSubview(headerView)
         
         IPOGenericEmptyViewSelected.Selected = IPOGenericEmptyViewKey.Recent.rawValue
         emptyView = IPOGenericEmptyView(frame: CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 109))
@@ -66,9 +51,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
-        self.headerView.frame = CGRectMake(0.0, 46, self.view.bounds.width, 20)
-        self.headerLabel.frame = CGRectMake(15.0, 0.0, self.view.bounds.width, 20)
-        self.recentProducts.frame = CGRectMake(0, 66, self.view.bounds.width, self.view.bounds.height - 66)
+        self.recentProducts.frame = CGRectMake(0, 46, self.view.bounds.width, self.view.bounds.height - 46)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -122,7 +105,9 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         //search different lines and add in NSDictionary
         if productItemsOriginal.count > 0 {
             
-            self.headerLabel.text = productItemsOriginal.count == 1 ? "\(productItemsOriginal.count) artículo" :"\(productItemsOriginal.count) artículos"
+            let titleBasic = self.titleLabel?.text
+            self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
+            
             var flagOther = false
             
             for idx in 0 ..< productItemsOriginal.count {
