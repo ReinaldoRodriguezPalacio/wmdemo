@@ -38,9 +38,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
            application.registerForRemoteNotificationTypes( [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert] )
         }
         
-        //Twitter
-        Fabric.with([Twitter.self])
-        
         //Facebook
         FBSDKProfile.enableUpdatesOnAccessTokenChange(true)
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -70,7 +67,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         //Google Login
         GIDSignIn.sharedInstance().clientID = NSBundle.mainBundle().objectForInfoDictionaryKey("GoogleClientId") as! String
         
-
+        //Twitter
+        let fabric =  NSBundle.mainBundle().objectForInfoDictionaryKey("Fabric") as! NSDictionary
+        let kits = (fabric["Kits"] as! NSArray)[0] as! NSDictionary
+        let kitInfo = kits["KitInfo"] as! NSDictionary
+        let twitterKey = kitInfo["consumerKey"] as! String
+        let twitterSecret = kitInfo["consumerSecret"] as! String
+        Twitter.sharedInstance().startWithConsumerKey(twitterKey, consumerSecret: twitterSecret)
+        Fabric.with([Twitter.self()])
+        //Fabric.with([Twitter.self])
+        
         //Set url image cache to application
         let sharedCache  = NSURLCache(memoryCapacity: 0, diskCapacity: 100 * 1024 * 1024 , diskPath: nil)
         NSURLCache.setSharedURLCache(sharedCache)
@@ -475,7 +481,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         let gid = GIDSignIn.sharedInstance().handleURL(url,
                                                     sourceApplication: sourceApplication,
                                                     annotation: annotation)
-        return fb || gid
+        
+        let twitter = true //Twitter.sharedInstance().application(application, openURL:url, options: options)
+        
+        return fb || gid || twitter
     }
     
     @available(iOS 9.0, *)
@@ -487,7 +496,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
                                                         annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
             let fb = FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: options[UIApplicationOpenURLOptionsSourceApplicationKey] as? String, annotation: options[UIApplicationOpenURLOptionsAnnotationKey])
         
-        return fb || gid
+            let twitter = Twitter.sharedInstance().application(application, openURL:url, options: options)
+        
+        return fb || gid || twitter
     }
     
     func handleURLFacebookTag(url: NSURL,sourceApplication:String){
