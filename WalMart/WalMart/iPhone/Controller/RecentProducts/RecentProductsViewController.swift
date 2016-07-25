@@ -20,7 +20,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
-    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 20.0
+    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26.0
     var itemSelect = 0
     
     override func getScreenGAIName() -> String {
