@@ -160,10 +160,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.loginTwitterButton!.backgroundColor = UIColor.whiteColor()
         self.loginTwitterButton!.addTarget(self, action: #selector(LoginController.twitterSignIn), forControlEvents: .TouchUpInside)
         self.loginTwitterButton!.setImage(UIImage(named: "twitter_login"), forState: .Normal)
-        
-        if !IS_IOS7_OR_LESS {
-            self.content!.addSubview(self.loginTwitterButton)
-        }
+        self.content?.addSubview(loginTwitterButton!)
         
         self.registryButton = UIButton(type: .Custom)
         self.registryButton!.backgroundColor = UIColor.whiteColor()
@@ -205,17 +202,10 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
             self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
             self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 24, self.password!.frame.width, 20)
-            
-            if IS_IOS7_OR_LESS {
-                self.loginFacebookButton?.frame = CGRectMake(68,  self.noAccount!.frame.maxY + 24 , 40, 40)
-                self.loginGoogleButton?.frame = CGRectMake(self.loginFacebookButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
-                self.registryButton?.frame = CGRectMake(self.loginGoogleButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
-            }else{
-                self.loginFacebookButton?.frame = CGRectMake(32,  self.noAccount!.frame.maxY + 24 , 40, 40)
-                self.loginGoogleButton?.frame = CGRectMake(self.loginFacebookButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
-                self.loginTwitterButton?.frame = CGRectMake(self.loginGoogleButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
-                self.registryButton?.frame = CGRectMake(self.loginTwitterButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
-            }
+            self.loginFacebookButton?.frame = CGRectMake(32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+            self.loginGoogleButton?.frame = CGRectMake(self.loginFacebookButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+            self.loginTwitterButton?.frame = CGRectMake(self.loginGoogleButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
+            self.registryButton?.frame = CGRectMake(self.loginTwitterButton!.frame.maxX + 32,  self.noAccount!.frame.maxY + 24 , 40, 40)
             
             self.bgView!.frame = self.view.bounds
             self.close!.frame = CGRectMake(0, 20, 40.0, 40.0)
