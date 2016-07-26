@@ -442,7 +442,7 @@ class GRCheckOutCommentsViewController : NavigationViewController, TPKeyboardAvo
             self.resetPhoneField()
             alert?.close()
             }, rightText: NSLocalizedString("invoice.message.continue", comment: ""), rightAction: {
-                UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, work: work, cellPhone: cellphone)
+                UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(home, cellPhone: cellphone)
                 self.defaultPhone = phoneDefault
                 self.phoneField?.text = phoneDefault
                 

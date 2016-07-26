@@ -235,7 +235,6 @@
 		5680A0901A48C4ED009C5515 /* GRBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A08F1A48C4ED009C5515 /* GRBaseService.swift */; };
 		5680A0971A48CCAE009C5515 /* GRProductDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A0961A48CCAE009C5515 /* GRProductDetailService.swift */; };
 		5680A0991A48CF50009C5515 /* GRProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A0981A48CF50009C5515 /* GRProductDetailViewController.swift */; };
-		5680A09E1A48DD33009C5515 /* GRLoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680A09D1A48DD33009C5515 /* GRLoginService.swift */; };
 		5680B7D619C397A700108F34 /* LoadingIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5680B7D519C397A700108F34 /* LoadingIconView.m */; };
 		5680B7D919C3A2DC00108F34 /* WMLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5680B7D819C3A2DC00108F34 /* WMLoadingView.swift */; };
 		5681998219E3460A00362D3C /* WishlistAddProductStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5681998119E3460A00362D3C /* WishlistAddProductStatus.swift */; };
@@ -427,6 +426,7 @@
 		6C7E3FC91D11B74C00E814AC /* CMSwitchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6C7E3FC81D11B74C00E814AC /* CMSwitchView.m */; };
 		6C8074F21BE2DEF800055C2C /* InvoiceComplementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */; };
 		6C8074F41BE3E3ED00055C2C /* GRGetPromotionsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */; };
+		6C822EA01D46D3EC006A098C /* UserProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C822E9F1D46D3EC006A098C /* UserProfileService.swift */; };
 		6C836D7C1C15F5F200C4BE16 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */; };
 		6C836D821C15FB8C00C4BE16 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */; };
 		6C836D831C15FB8C00C4BE16 /* FacebookSDKStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */; };
@@ -906,7 +906,6 @@
 		5680A08F1A48C4ED009C5515 /* GRBaseService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRBaseService.swift; path = Shared/Services/GRBaseService.swift; sourceTree = "<group>"; };
 		5680A0961A48CCAE009C5515 /* GRProductDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRProductDetailService.swift; path = Shared/Services/Product/GRProductDetailService.swift; sourceTree = "<group>"; };
 		5680A0981A48CF50009C5515 /* GRProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRProductDetailViewController.swift; path = iPhone/Controller/Product/GRProductDetailViewController.swift; sourceTree = "<group>"; };
-		5680A09D1A48DD33009C5515 /* GRLoginService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRLoginService.swift; path = Shared/Services/LoginSignUp/GRLoginService.swift; sourceTree = "<group>"; };
 		5680B7D419C397A700108F34 /* LoadingIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoadingIconView.h; path = Shared/Library/LoadingView/LoadingIconView.h; sourceTree = "<group>"; };
 		5680B7D519C397A700108F34 /* LoadingIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoadingIconView.m; path = Shared/Library/LoadingView/LoadingIconView.m; sourceTree = "<group>"; };
 		5680B7D819C3A2DC00108F34 /* WMLoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WMLoadingView.swift; path = Shared/View/LoadingView/WMLoadingView.swift; sourceTree = "<group>"; };
@@ -1113,6 +1112,7 @@
 		6C7E3FC81D11B74C00E814AC /* CMSwitchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMSwitchView.m; path = Lib/CMSwitchView/CMSwitchView.m; sourceTree = "<group>"; };
 		6C8074F11BE2DEF800055C2C /* InvoiceComplementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceComplementViewController.swift; path = iPhone/Controller/Invoice/InvoiceComplementViewController.swift; sourceTree = "<group>"; };
 		6C8074F31BE3E3ED00055C2C /* GRGetPromotionsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRGetPromotionsService.swift; sourceTree = "<group>"; };
+		6C822E9F1D46D3EC006A098C /* UserProfileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserProfileService.swift; path = Shared/Services/LoginSignUp/UserProfileService.swift; sourceTree = "<group>"; };
 		6C836D751C15F5F200C4BE16 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = Shared/Library/Facebook/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		6C836D7F1C15FB8C00C4BE16 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = Shared/Library/Facebook/Bolts.framework; sourceTree = "<group>"; };
 		6C836D801C15FB8C00C4BE16 /* FacebookSDKStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = FacebookSDKStrings.bundle; path = Shared/Library/Facebook/FacebookSDKStrings.bundle; sourceTree = "<group>"; };
@@ -2414,7 +2414,6 @@
 			isa = PBXGroup;
 			children = (
 				5614A6581A6864000048B71A /* Address */,
-				5680A09D1A48DD33009C5515 /* GRLoginService.swift */,
 				56EF81381A706F8900B81D09 /* GRLoginWithEmailService.swift */,
 			);
 			name = Login;
@@ -2538,6 +2537,7 @@
 				AC37F6B719B90932000BB80D /* UpdateUserProfileService.swift */,
 				AC536D4519DB4DB6007D2D42 /* ForgotPasswordService.swift */,
 				56CCEA0219DB33840071D990 /* LoginWithEmailService.swift */,
+				6C822E9F1D46D3EC006A098C /* UserProfileService.swift */,
 			);
 			name = LoginSignUp;
 			sourceTree = "<group>";
@@ -4054,7 +4054,6 @@
 				6C7E3FC91D11B74C00E814AC /* CMSwitchView.m in Sources */,
 				5606BC3819BA782C002A70ED /* PriceSelectorBandHandler.swift in Sources */,
 				AC87A4091AA8CC7700165CE1 /* IPARecentProductsViewController.swift in Sources */,
-				5680A09E1A48DD33009C5515 /* GRLoginService.swift in Sources */,
 				AC1CF41719EC7AFB006F1BC6 /* IPALoginController.swift in Sources */,
 				6C6AC1FE1CF7A5DB0072FBB7 /* SchoolProductTableViewCell.swift in Sources */,
 				AC37F6BD19B90E48000BB80D /* AddShippingAddressService.swift in Sources */,
@@ -4188,6 +4187,7 @@
 				56AAFF971A92584B007B8D91 /* FormSuperAddressView.swift in Sources */,
 				56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */,
 				56E54E4919EC6B570004161C /* IPASearchProductViewController.swift in Sources */,
+				6C822EA01D46D3EC006A098C /* UserProfileService.swift in Sources */,
 				85A40B6C1C223AE40036C78A /* Consumer.swift in Sources */,
 				4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */,
 				567AC2031A5DA18F00B6BC28 /* ProductDetailBannerCollectionViewCell.swift in Sources */,

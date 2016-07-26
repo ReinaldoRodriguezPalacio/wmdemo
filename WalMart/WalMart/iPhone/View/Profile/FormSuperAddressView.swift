@@ -584,7 +584,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
         }
         
-        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text!, work: self.phoneWorkNumber.text!, cellPhone: self.cellPhone.text!)
+        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text!, cellPhone: self.cellPhone.text!)
         
         let resultDictVal = JSON(resultDict)
         

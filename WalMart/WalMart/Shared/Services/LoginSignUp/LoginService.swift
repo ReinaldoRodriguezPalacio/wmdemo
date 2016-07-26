@@ -21,11 +21,10 @@ class LoginService : BaseService {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {
-                    let resultCallMG = resultCall
-
-                    let grLoginService = GRLoginService()
-                    grLoginService.callService(params, successBlock: { (resultCallGR:NSDictionary) -> Void in
-                         UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCallGR)
+                    let resultLogin = resultCall
+                    let profileService = UserProfileService()
+                    profileService.callService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+                         UserCurrentSession.sharedInstance().createUpdateUser(resultLogin, profileResult: resultCall)
                         successBlock!(resultCall)
                         }, errorBlock: { (errorGR:NSError) -> Void in
                             errorBlock!(errorGR)
