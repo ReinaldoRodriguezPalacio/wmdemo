@@ -28,7 +28,7 @@ class LoginWithEmailService : BaseService {
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUser
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
                             let profileService = UserProfileService()
-                            profileService.callService(["email":"","idUser":loginResult["idUser"] as! String], successBlock:{ (resultCall:NSDictionary?) in
+                            profileService.callService(profileService.buildParams(loginResult["profileId"] as! String), successBlock:{ (resultCall:NSDictionary?) in
                                 UserCurrentSession.sharedInstance().createUpdateUser(loginResult, profileResult: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance().userSignedOnService = false
@@ -64,7 +64,7 @@ class LoginWithEmailService : BaseService {
                 if codeMessage.integerValue == 0 {
                     let resultLogin = resultCall
                     let profileService = UserProfileService()
-                    profileService.callService(["email":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:NSDictionary?) in
+                    profileService.callService(profileService.buildParams(resultLogin["profileId"] as! String), successBlock:{ (resultCall:NSDictionary?) in
                         UserCurrentSession.sharedInstance().createUpdateUser(resultLogin, profileResult: resultCall!)
                         successBlock!(resultCall!)
                         UserCurrentSession.sharedInstance().userSignedOnService = false

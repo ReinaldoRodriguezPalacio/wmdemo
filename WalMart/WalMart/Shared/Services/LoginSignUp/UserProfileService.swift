@@ -11,8 +11,8 @@ import CoreData
 
 class UserProfileService : BaseService {
     
-    func buildParams(email:String,idUser:String) -> NSDictionary {
-        return ["email":email,"idUser":idUser]
+    func buildParams(idProfile:String) -> NSDictionary {
+        return ["profileId":idProfile]
     }
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

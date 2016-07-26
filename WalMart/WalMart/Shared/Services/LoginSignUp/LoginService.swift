@@ -23,7 +23,7 @@ class LoginService : BaseService {
                 if codeMessage.integerValue == 0 {
                     let resultLogin = resultCall
                     let profileService = UserProfileService()
-                    profileService.callService(params, successBlock: { (resultCall:NSDictionary) -> Void in
+                    profileService.callService(profileService.buildParams(resultLogin["profileId"] as! String), successBlock: { (resultCall:NSDictionary) -> Void in
                          UserCurrentSession.sharedInstance().createUpdateUser(resultLogin, profileResult: resultCall)
                         successBlock!(resultCall)
                         }, errorBlock: { (errorGR:NSError) -> Void in
