@@ -302,15 +302,13 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         let formField = textField as! FormFieldView
         var text = formField.text
         
-        if NSLocalizedString("checkout.discount.dateAdmission", comment:"") == formField.nameField! && !text!.isEmpty
-        {
+        if NSLocalizedString("checkout.discount.dateAdmission", comment:"") == formField.nameField! && !text!.isEmpty{
             text = TextboxTableViewCell.parseDateString(text!,format:"d MMMM yyyy")
         }
         
         text?.trim()
         
-        if text == ""
-        {
+        if text == ""{
             textboxValues?.removeValueForKey(formField.nameField)
         }
         else{

@@ -269,8 +269,10 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         
             self.store.onBecomeFirstResponder = { () in
                 if self.currentZipCode != self.zipcode!.text {
+                    
                     self.callServiceZip(self.zipcode!.text!, showError: true)
-                    self.currentZipCode = self.zipcode!.text!
+                    
+                 //   self.currentZipCode = self.zipcode!.text!
                 /*var zipCode = self.zipcode!.text!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
                 
                 self.neighborhoods = []
@@ -567,7 +569,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 self.state!.text = resultCall!["state"] as? String
                 self.zipcode!.text = resultCall!["zipCode"] as? String
                 var setElement = false
-              
+                self.currentZipCode = self.zipcode!.text!
+                
                 if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.neighborhoodsDic.count == 0  {
                     for dic in  resultCall!["neighborhoods"] as! [NSDictionary]{
                         if dic["id"] as? String ==  self.idSuburb{
@@ -594,10 +597,19 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                 
                 self.validateShowField()
                 if !setElement && self.neighborhoodsDic.count > 0  {
+                    self.selectedNeighborhood = NSIndexPath(forRow: 0, inSection: 0)
                     self.suburb?.becomeFirstResponder()
                     self.suburb!.text = self.neighborhoodsDic[0].objectForKey("name") as? String
                     self.idSuburb = self.neighborhoodsDic[0].objectForKey("id") as? String
                 }//if setElement && self.listSuburb.count > 0  {
+                
+                if !setElement && self.storesDic.count > 0  {
+                    self.selectedStore = NSIndexPath(forRow: 0, inSection: 0)
+                    let name = self.storesDic[0].objectForKey("name") as! String!
+                    let cost = self.storesDic[0].objectForKey("cost") as! String!
+                    self.store!.text = "\(name) - \(cost)"
+                }//if setElement && self.listSuburb.count > 0  {
+                
                 
                 /*if  !setElement && self.stores.count > 0 {
                     self.store!.text = self.stores[0]
@@ -767,7 +779,6 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     
     
     //MARK: - AlertPickerView
-    
     func didSelectOption(picker:AlertPickerView, indexPath:NSIndexPath ,selectedStr:String) {
         if let formFieldObj = picker.sender as? FormFieldView {
             if formFieldObj ==  self.store! {
