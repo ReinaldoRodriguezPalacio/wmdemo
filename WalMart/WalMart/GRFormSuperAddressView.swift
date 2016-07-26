@@ -186,7 +186,7 @@ class GRFormSuperAddressView: FormSuperAddressView, UITableViewDataSource, UITab
         
         if UserCurrentSession.hasLoggedUser() {
             self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
-            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
+            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
             self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
         }
         

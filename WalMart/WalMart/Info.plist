@@ -230,6 +230,8 @@
 		<dict>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
+			<key>WalmartMG.UserProfileService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/profile</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -264,8 +266,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login</string>
-			<key>WalmartMG.GRLoginWithEmailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/loginByEmail</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
@@ -415,6 +415,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.UserProfileService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/profile</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -451,8 +453,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login</string>
-			<key>WalmartMG.GRLoginWithEmailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/loginByEmail</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>

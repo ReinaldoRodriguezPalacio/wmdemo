@@ -101,7 +101,7 @@ class UserCurrentSession : NSObject {
             
             if let userSigned = fetchedResult?[0] as? User {
                 
-                let cadUserId : NSString? = userSigned.idUserGR
+                let cadUserId : NSString? = userSigned.idUser
                 if cadUserId == nil || cadUserId == "" || cadUserId?.length == 0 {
                     UserCurrentSession.sharedInstance().userSigned = nil
                     UserCurrentSession.sharedInstance().deleteAllUsers()
@@ -163,7 +163,9 @@ class UserCurrentSession : NSObject {
             for address in addressArray{
                 let prefered = address["preferred"] as! String
                 if prefered == "true"{
-                    self.getStoreByAddress(address as! NSDictionary)
+                    self.addressId = address["id"] as? String
+                    self.storeId = userProfile["storeId"] as? String
+                    self.storeName = profileResult["nameStore"] as? String
                     break
                 }
             }
@@ -205,6 +207,12 @@ class UserCurrentSession : NSObject {
         } else {
             profile.sex = "Male"
         }
+        
+        //Associate
+        profile.associateNumber = userProfile["associateNumber"] as? String ?? ""
+        profile.associateStore = userProfile["associateStore"] as? String ?? ""
+        profile.joinDate = userProfile["joinDate"] as? String ?? ""
+        profile.locale = userProfile["locale"] as? String ?? ""
         
         do {
             try context.save()

@@ -373,7 +373,6 @@
 		56EF144B1BE05CEF00F3A874 /* ValidateAssociateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF144A1BE05CEF00F3A874 /* ValidateAssociateService.swift */; };
 		56EF81351A702FF600B81D09 /* GRShoppingCartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF81341A702FF600B81D09 /* GRShoppingCartViewController.swift */; };
 		56EF81371A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF81361A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift */; };
-		56EF81391A706F8900B81D09 /* GRLoginWithEmailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56EF81381A706F8900B81D09 /* GRLoginWithEmailService.swift */; };
 		56F86FCF1A8BD464002181D2 /* AlertPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FCE1A8BD464002181D2 /* AlertPickerView.swift */; };
 		56F86FD11A8BD8F1002181D2 /* SelectItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */; };
 		56F86FD51A8C1097002181D2 /* IPOCheckOutTotalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */; };
@@ -1059,7 +1058,6 @@
 		56EF144A1BE05CEF00F3A874 /* ValidateAssociateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ValidateAssociateService.swift; path = Shared/Services/checkout/ValidateAssociateService.swift; sourceTree = "<group>"; };
 		56EF81341A702FF600B81D09 /* GRShoppingCartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRShoppingCartViewController.swift; path = iPhone/Controller/ShoppingCart/GRShoppingCartViewController.swift; sourceTree = "<group>"; };
 		56EF81361A70563F00B81D09 /* GRProductShoppingCartTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRProductShoppingCartTableViewCell.swift; path = iPhone/View/ShoppingCart/GRProductShoppingCartTableViewCell.swift; sourceTree = "<group>"; };
-		56EF81381A706F8900B81D09 /* GRLoginWithEmailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRLoginWithEmailService.swift; path = Shared/Services/LoginSignUp/GRLoginWithEmailService.swift; sourceTree = "<group>"; };
 		56F86FCE1A8BD464002181D2 /* AlertPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertPickerView.swift; path = iPhone/View/AlertPickerView/AlertPickerView.swift; sourceTree = "<group>"; };
 		56F86FD01A8BD8F1002181D2 /* SelectItemTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SelectItemTableViewCell.swift; path = iPhone/View/AlertPickerView/SelectItemTableViewCell.swift; sourceTree = "<group>"; };
 		56F86FD41A8C1097002181D2 /* IPOCheckOutTotalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOCheckOutTotalView.swift; path = iPhone/View/ShoppingCart/IPOCheckOutTotalView.swift; sourceTree = "<group>"; };
@@ -2415,7 +2413,6 @@
 			isa = PBXGroup;
 			children = (
 				5614A6581A6864000048B71A /* Address */,
-				56EF81381A706F8900B81D09 /* GRLoginWithEmailService.swift */,
 			);
 			name = Login;
 			sourceTree = "<group>";
@@ -4006,7 +4003,6 @@
 				8BCA19701AA91D2700065072 /* SupportViewController.swift in Sources */,
 				85A40B791C223AE40036C78A /* GCDAsyncUdpSocket.m in Sources */,
 				04678D061A48D30500190685 /* IPOGRCategoriesViewController.swift in Sources */,
-				56EF81391A706F8900B81D09 /* GRLoginWithEmailService.swift in Sources */,
 				049CC7CC1A9BAAE000DE2C8D /* LinesForSearchService.swift in Sources */,
 				AC5F646E19BF51670098BE43 /* WalMartSqliteDB.swift in Sources */,
 				04D2A38F1A2FBE8E008DAE37 /* MoreOptionsViewController.swift in Sources */,

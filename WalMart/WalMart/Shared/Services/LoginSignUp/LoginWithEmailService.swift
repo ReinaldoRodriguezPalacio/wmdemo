@@ -25,7 +25,7 @@ class LoginWithEmailService : BaseService {
             self.callPOSTService(params, successBlock: { (loginResult:NSDictionary) -> Void in
                 if let codeMessage = loginResult["codeMessage"] as? NSNumber {
                     if codeMessage.integerValue == 0 &&  UserCurrentSession.hasLoggedUser(){
-                        let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+                        let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUser
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
                             let profileService = UserProfileService()
                             profileService.callService(["email":"","idUser":loginResult["idUser"] as! String], successBlock:{ (resultCall:NSDictionary?) in
