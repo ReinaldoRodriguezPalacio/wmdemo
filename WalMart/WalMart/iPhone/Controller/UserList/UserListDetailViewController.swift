@@ -130,8 +130,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         x = self.shareButton!.frame.maxX + 16.0
         self.reminderButton = UIButton(frame: CGRectMake(x, y, 34.0, 34.0))
-        self.reminderButton!.setImage(UIImage(named: "reminder_icon"), forState: .Normal)
-        self.reminderButton!.backgroundColor = WMColor.orange
+        self.reminderButton!.setImage(UIImage(named: "reminder"), forState: .Normal)
         self.reminderButton!.addTarget(self, action: #selector(UserListDetailViewController.addReminder), forControlEvents: UIControlEvents.TouchUpInside)
         self.reminderButton!.hidden = true
         self.reminderButton!.layer.cornerRadius = 11
@@ -580,15 +579,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, bounds.width, 16))
+        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, bounds.width, 48))
         labelTwo.textAlignment = .Center
         labelTwo.textColor = WMColor.light_blue
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
+        
+        labelTwo.numberOfLines =  5
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRectMake(98.0, labelOne.frame.maxY + 12.0, 16.0, 16.0)
+        icon.frame = CGRectMake(63.0, labelTwo.frame.maxY - 18 , 16.0, 16.0)
         self.emptyView!.addSubview(icon)
         
         let button = UIButton(type: .Custom)
@@ -1390,9 +1391,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton?.selected = selected
         
         if selected{
+            self.reminderButton?.setImage(UIImage(named: "reminder_full"), forState: .Normal)
             //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
             //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Normal)
         }else{
+            self.reminderButton?.setImage(UIImage(named: "reminder"), forState: .Normal)
             //self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
         }
     }
