@@ -27,8 +27,9 @@ class LoginWithEmailService : BaseService {
                     if codeMessage.integerValue == 0 &&  UserCurrentSession.hasLoggedUser(){
                         let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUser
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
+                            let loginProfile = loginResult["profile"] as! NSDictionary
                             let profileService = UserProfileService()
-                            profileService.callService(profileService.buildParams(loginResult["profileId"] as! String), successBlock:{ (resultCall:NSDictionary?) in
+                            profileService.callService(profileService.buildParams(loginProfile["idUser"] as! String), successBlock:{ (resultCall:NSDictionary?) in
                                 UserCurrentSession.sharedInstance().createUpdateUser(loginResult, profileResult: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance().userSignedOnService = false
@@ -63,8 +64,9 @@ class LoginWithEmailService : BaseService {
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {
                     let resultLogin = resultCall
+                    let loginProfile = resultLogin["profile"] as! NSDictionary
                     let profileService = UserProfileService()
-                    profileService.callService(profileService.buildParams(resultLogin["profileId"] as! String), successBlock:{ (resultCall:NSDictionary?) in
+                    profileService.callService(profileService.buildParams(loginProfile["idUser"] as! String), successBlock:{ (resultCall:NSDictionary?) in
                         UserCurrentSession.sharedInstance().createUpdateUser(resultLogin, profileResult: resultCall!)
                         successBlock!(resultCall!)
                         UserCurrentSession.sharedInstance().userSignedOnService = false

@@ -107,7 +107,6 @@
 		5614A65F1A68826E0048B71A /* GRPurchaseOrdersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */; };
 		5614A6611A6883EB0048B71A /* GRItemByTicketService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */; };
 		5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */; };
-		5614A6661A688CDC0048B71A /* GRUpdateUserProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6651A688CDC0048B71A /* GRUpdateUserProfileService.swift */; };
 		5614A6681A688EB60048B71A /* GRAddressUpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6671A688EB60048B71A /* GRAddressUpdateService.swift */; };
 		5614A66A1A69CA740048B71A /* GROrderByEmailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5614A6691A69CA740048B71A /* GROrderByEmailService.swift */; };
 		56152F7D19BF724C009F50E4 /* ShoppingCartAddProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56152F7C19BF724C009F50E4 /* ShoppingCartAddProductsService.swift */; };
@@ -758,7 +757,6 @@
 		5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPurchaseOrdersService.swift; path = Shared/Services/Profile/GRPurchaseOrdersService.swift; sourceTree = "<group>"; };
 		5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRItemByTicketService.swift; path = Shared/Services/Profile/GRItemByTicketService.swift; sourceTree = "<group>"; };
 		5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRDeliveryTypeService.swift; path = Shared/Services/checkout/GRDeliveryTypeService.swift; sourceTree = "<group>"; };
-		5614A6651A688CDC0048B71A /* GRUpdateUserProfileService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRUpdateUserProfileService.swift; path = Shared/Services/Profile/GRUpdateUserProfileService.swift; sourceTree = "<group>"; };
 		5614A6671A688EB60048B71A /* GRAddressUpdateService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRAddressUpdateService.swift; path = Shared/Services/LoginSignUp/Address/GRAddressUpdateService.swift; sourceTree = "<group>"; };
 		5614A6691A69CA740048B71A /* GROrderByEmailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GROrderByEmailService.swift; path = Shared/Services/Home/GROrderByEmailService.swift; sourceTree = "<group>"; };
 		56152F7C19BF724C009F50E4 /* ShoppingCartAddProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartAddProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartAddProductsService.swift; sourceTree = "<group>"; };
@@ -1636,7 +1634,6 @@
 			children = (
 				5614A65E1A68826E0048B71A /* GRPurchaseOrdersService.swift */,
 				5614A6601A6883EB0048B71A /* GRItemByTicketService.swift */,
-				5614A6651A688CDC0048B71A /* GRUpdateUserProfileService.swift */,
 				56AAFF991A929E73007B8D91 /* GRZipCodeService.swift */,
 				566902301A9431B7000D6FA6 /* GRRecentProductsService.swift */,
 				5673D11E1A9D278D00DCD20B /* GRPreviousOrdersService.swift */,
@@ -3688,7 +3685,6 @@
 				AC62C9B819B6980A00FFFC74 /* LoadingViewBk.swift in Sources */,
 				5696079519B4EC6B005D20DC /* ProductDetailViewController.swift in Sources */,
 				5673D13F1A9D500400DCD20B /* RSFocusMarkLayer.swift in Sources */,
-				5614A6661A688CDC0048B71A /* GRUpdateUserProfileService.swift in Sources */,
 				4A5A9D511C84A99B00A2A7F4 /* ABCalendarPickerDefaultWeekdaysProvider.m in Sources */,
 				04D88CAD1A4B27CD00DB836B /* GRProductBySearchService.swift in Sources */,
 				5614A6641A6887860048B71A /* GRDeliveryTypeService.swift in Sources */,

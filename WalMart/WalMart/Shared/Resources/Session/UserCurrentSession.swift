@@ -174,8 +174,7 @@ class UserCurrentSession : NSObject {
         
         let date = NSDate()
         usr.lastLogin = date
-        //TODO: checar el idProfile si se va a usar 
-        if let idProfile = profileResult["id"] as? String{
+        if let idProfile = loginProfile["idUser"] as? String{
             profile.idProfile = idProfile
         }
         profile.name = loginProfile["name"] as! String
@@ -799,26 +798,10 @@ class UserCurrentSession : NSObject {
     
     func updatePhoneProfile(newProfile:Bool) {
         if self.mustUpdatePhone {
-            
-            let svcProfile = GRUpdateUserProfileService()
-            let profileParams = svcProfile.buildParams(
-                UserCurrentSession.sharedInstance().userSigned!.profile.name as String,
-                lastName: UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String,
-                sex: "",
-                birthDate: UserCurrentSession.sharedInstance().userSigned!.profile.birthDate as String,
-                maritalStatus: "",
-                profession: "",
-                workNumberExtension: "",
-                phoneHomeNumber: self.phoneNumber,
-                homeNumberExtension: "",
-                cellPhone: self.cellPhone ,
-                allowMarketingEmail: "false",
-                user: "",
-                password: "",
-                newPassword: "",
-                maximumAmount: 0,device:IS_IPAD ? "25" : "24")
-            
-            svcProfile.callService(requestParams: profileParams, successBlock: { (result:NSDictionary) -> Void in
+            //TODO: Meter los datos del update
+            let svcProfile = UpdateUserProfileService()
+            let profileParams = [:]
+            svcProfile.callService(profileParams, successBlock: { (result:NSDictionary) -> Void in
                 print("Se actualizo el perfil")
                 
                 
