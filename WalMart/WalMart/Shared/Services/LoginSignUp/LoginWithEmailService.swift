@@ -22,15 +22,15 @@ class LoginWithEmailService : BaseService {
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !UserCurrentSession.sharedInstance().userSignedOnService {
             UserCurrentSession.sharedInstance().userSignedOnService = true
-            self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
-                if let codeMessage = resultCall["codeMessage"] as? NSNumber {
+            self.callPOSTService(params, successBlock: { (loginResult:NSDictionary) -> Void in
+                if let codeMessage = loginResult["codeMessage"] as? NSNumber {
                     if codeMessage.integerValue == 0 &&  UserCurrentSession.hasLoggedUser(){
-                        let resultCallMG = resultCall
-                        let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUserGR
+                        let cadUserId : NSString? = UserCurrentSession.sharedInstance().userSigned!.idUser
                         if cadUserId != nil && cadUserId != "" && cadUserId?.length > 0 {
-                            let serviceGr = GRLoginService()
-                            serviceGr.callService(serviceGr.buildParamsUserId(), successBlock:{ (resultCall:NSDictionary?) in
-                                UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                            let loginProfile = loginResult["profile"] as! NSDictionary
+                            let profileService = UserProfileService()
+                            profileService.callService(profileService.buildParams(loginProfile["idUser"] as! String), successBlock:{ (resultCall:NSDictionary?) in
+                                UserCurrentSession.sharedInstance().createUpdateUser(loginResult, profileResult: resultCall!)
                                 successBlock!(resultCall!)
                                 UserCurrentSession.sharedInstance().userSignedOnService = false
                                 }
@@ -45,9 +45,6 @@ class LoginWithEmailService : BaseService {
                     }
                     else{
                         let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                        //let message = resultCall["message"] as! String
-                        //let error = NSError()
-                        //error.setValue(message, forKey:codeMessage)
                         errorBlock!(errorDom)
                     }
                 }
@@ -66,10 +63,11 @@ class LoginWithEmailService : BaseService {
         self.callPOSTService(params, successBlock: { (resultCall:NSDictionary) -> Void in
             if let codeMessage = resultCall["codeMessage"] as? NSNumber {
                 if codeMessage.integerValue == 0 {
-                    let resultCallMG = resultCall
-                    let serviceGr = GRLoginService()
-                    serviceGr.callService(["email":"","password":"","idUser":resultCall["idUser"] as! String], successBlock:{ (resultCall:NSDictionary?) in
-                        UserCurrentSession.sharedInstance().createUpdateUser(resultCallMG, userDictionaryGR: resultCall!)
+                    let resultLogin = resultCall
+                    let loginProfile = resultLogin["profile"] as! NSDictionary
+                    let profileService = UserProfileService()
+                    profileService.callService(profileService.buildParams(loginProfile["idUser"] as! String), successBlock:{ (resultCall:NSDictionary?) in
+                        UserCurrentSession.sharedInstance().createUpdateUser(resultLogin, profileResult: resultCall!)
                         successBlock!(resultCall!)
                         UserCurrentSession.sharedInstance().userSignedOnService = false
                         }

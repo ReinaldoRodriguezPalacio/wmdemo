@@ -84,10 +84,9 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         labelVersion = UILabel(frame: CGRectMake(0.0, 28.0, 100, 16.0))
         labelVersion.textAlignment = .Center
         labelVersion.textColor = UIColor.whiteColor()
-        labelVersion.font = WMFont.fontMyriadProBoldOfSize(14.0)
+        labelVersion.font = WMFont.fontMyriadProLightOfSize(12.0)
         labelVersion.text = nameFamily
-        webViewSplash.addSubview(labelVersion)
-        
+        splashDefault.addSubview(labelVersion)
         
     }
     
@@ -138,6 +137,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
         super.viewWillLayoutSubviews()
         splashDefault.frame = self.view.bounds
         webViewSplash.frame = self.view.bounds
+        labelVersion.frame =  CGRectMake(self.webViewSplash.frame.midX - 50,self.webViewSplash.frame.height - 80 , 100, 16)
     }
     
     
@@ -237,7 +237,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
     
     func serviceUrl(serviceName:String) -> String {
         let environment =  NSBundle.mainBundle().objectForInfoDictionaryKey("WMEnvironment") as! String
-        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMURLServices") as! NSDictionary
+        let services = NSBundle.mainBundle().objectForInfoDictionaryKey("WMMustangURLServices") as! NSDictionary
         let environmentServices = services.objectForKey(environment) as! NSDictionary
         let serviceURL =  environmentServices.objectForKey(serviceName) as! String
         return serviceURL

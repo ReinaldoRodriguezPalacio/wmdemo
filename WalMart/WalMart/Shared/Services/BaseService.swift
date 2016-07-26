@@ -178,7 +178,7 @@ class BaseService : NSObject {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithEmailService()
-                        loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
+                        loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUser as String
                         let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
                         loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
@@ -463,7 +463,7 @@ class BaseService : NSObject {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
                             let loginService = LoginWithEmailService()
-                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR as String
+                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUser as String
                             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
                             loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
