@@ -94,14 +94,14 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
         self.scrollForm.contentSize = CGSizeMake(self.viewContent.frame.width, 600)
 
         self.sAddredssForm = ShippingAddress(frame:CGRectMake(viewContentOptions.bounds.minX , viewContentOptions.bounds.minY, viewContentOptions.bounds.width, 600), isLogin: true, isIpad: false, typeAddress: TypeAddress.Shiping)
-       // self.sAddredssForm!.allAddress = self.allAddress
+        self.sAddredssForm!.allAddress = []
         self.sAddredssForm?.defaultPrefered = true
         self.sAddredssForm!.delegate = self
         self.sAddredssForm!.item =  NSDictionary()
         
        // viewContentOptions.bounds)
         self.sAddredssForm.store!.isRequired = false
-    self.sAddredssForm.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
+        self.sAddredssForm.store!.setCustomPlaceholder(NSLocalizedString("gr.address.field.store",comment:""))
         scrollForm.addSubview(sAddredssForm)
         viewContentOptions.addSubview(scrollForm)
         
@@ -229,7 +229,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
 
     // TPKeyboardAvoidingScrollViewDelegate
     func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-          let height : CGFloat = self.sAddredssForm!.showSuburb == true ? 710 : 710 - 190
+          let height : CGFloat = self.sAddredssForm!.showSuburb == true ? 710 : 710 - 270
         
         return  CGSizeMake(self.viewContent.frame.width, height)
     }
@@ -345,7 +345,7 @@ class GRFormAddressAlertView : UIView, TPKeyboardAvoidingScrollViewDelegate,Addr
     
     
     func setContentSize(){
-             let height : CGFloat = self.sAddredssForm!.showSuburb == true ? 710 : 710 - 190
+             let height : CGFloat = self.sAddredssForm!.showSuburb == true ? 710 : 710 - 270
         
             self.sAddredssForm?.frame = CGRectMake( viewContentOptions.bounds.minX ,  viewContentOptions.bounds.minY , viewContentOptions.frame.width , height)
         
