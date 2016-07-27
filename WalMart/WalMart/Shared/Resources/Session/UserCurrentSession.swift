@@ -175,57 +175,35 @@ class UserCurrentSession : NSObject {
         
         let date = NSDate()
         usr.lastLogin = date
+        
         if let idProfile = loginProfile["idUser"] as? String{
             profile.idProfile = idProfile
-        }
-        profile.name = loginProfile["name"] as! String
-        profile.lastName = loginProfile["lastName"] as? String ?? ""
-        
-        profile.lastName2 = loginProfile["lastName2"] as! String
-        profile.allowMarketingEmail = userProfile["receivePromoEmail"] as! String
-        if let valueProfile =  loginProfile["allowTransfer"] as? String {
-            profile.allowTransfer = valueProfile
-        }else {
-             profile.allowTransfer = "\(false)"
         }
         
         if let minimumAmount = loginProfile["minimumAmount"] as? Double{
             profile.minimumAmount = minimumAmount
         }
         
-        if let birthDateVal = userProfile["dateOfBirth"] as? String {
-            profile.birthDate = birthDateVal
-        } else {
-            profile.birthDate = "01/01/2015"
-        }
-        if let cellPhone = userProfile["mobileNumber"] as? String {
-            profile.cellPhone = cellPhone
-        }else{
-            profile.cellPhone = ""
-        }
-        if let homeNumberExtensio =  userProfile["phoneExtension"] as? String {
-            profile.homeNumberExtension = homeNumberExtensio
-        }else{
-            profile.homeNumberExtension =  ""
-        }
+        profile.name = loginProfile["name"] as! String
+        profile.lastName = loginProfile["lastName"] as? String ?? ""
         
-        if let phoneHomeNumber = userProfile["phoneNumber"] as? String{
-            profile.phoneHomeNumber = phoneHomeNumber
-        }else{
-            profile.phoneHomeNumber = ""
-        }
+        profile.lastName2 = loginProfile["lastName2"] as! String
         
-        if let profession = userProfile["occupation"] as? String {
-            profile.profession = profession
-        }else{
-            profile.profession = ""
-        }
-
-        if let genderVal = userProfile["gender"] as? String{
-            profile.sex = genderVal
-        } else {
-            profile.sex = "Male"
-        }
+        profile.allowMarketingEmail = userProfile["receivePromoEmail"] as! String
+        
+        profile.allowTransfer = loginProfile["allowTransfer"] as? String ?? "\(false)"
+        
+        profile.birthDate = userProfile["dateOfBirth"] as? String ?? "01/01/2015"
+        
+        profile.cellPhone = userProfile["mobileNumber"] as? String ?? ""
+        
+        profile.homeNumberExtension = userProfile["phoneExtension"] as? String ?? ""
+        
+        profile.phoneHomeNumber = userProfile["phoneNumber"] as? String ?? ""
+        
+        profile.profession = userProfile["occupation"] as? String ?? ""
+        
+        profile.sex = userProfile["gender"] as? String ?? "Male"
         
         //Associate
         profile.associateNumber = userProfile["associateNumber"] as? String ?? ""
@@ -242,7 +220,7 @@ class UserCurrentSession : NSObject {
         self.userSigned = usr
         
         updatePhoneProfile(true)
-        self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
+        UserCurrentSession.sharedInstance().isAssociated = (profile.associateNumber != "" ? 1 : 0)
         //TODO No llega en servicio de mustang  de registro
         //UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
         //UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
