@@ -54,6 +54,7 @@
 		04DE95DD1A8152730056ED12 /* GRPaymentTypeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */; };
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
+		4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26BC831D47C03600714FF5 /* ListHelpView.swift */; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
 		4A5A9CFE1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFC1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m */; };
 		4A5A9D4A1C84A99B00A2A7F4 /* ABCalendarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D2A1C84A99B00A2A7F4 /* ABCalendarPicker.m */; };
@@ -681,6 +682,7 @@
 		04DE95DC1A8152730056ED12 /* GRPaymentTypeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRPaymentTypeService.swift; path = Shared/Services/checkout/GRPaymentTypeService.swift; sourceTree = "<group>"; };
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
+		4A26BC831D47C03600714FF5 /* ListHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHelpView.swift; sourceTree = "<group>"; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
 		4A5A9CFB1C84A02600A2A7F4 /* CustomCalendarStyleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarStyleProvider.h; sourceTree = "<group>"; };
@@ -1421,6 +1423,7 @@
 				041CC49E1A85807C00750B5E /* NewListView.swift */,
 				04B640D31A8C14A300D5835E /* DetailListViewCell.swift */,
 				4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */,
+				4A26BC831D47C03600714FF5 /* ListHelpView.swift */,
 			);
 			name = UserList;
 			path = iPhone/View/UserList;
@@ -4061,6 +4064,7 @@
 				AC37F6BD19B90E48000BB80D /* AddShippingAddressService.swift in Sources */,
 				56679E801B3228DE003A8CB9 /* MoreSectionView.swift in Sources */,
 				85A40BA01C223AE40036C78A /* DDTTYLogger.m in Sources */,
+				4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */,
 				6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */,
 				0424BA6F1A78303F0069323B /* GRProductDetailButtonBarCollectionViewCell.swift in Sources */,
 				04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */,
