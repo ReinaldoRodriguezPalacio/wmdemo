@@ -111,14 +111,15 @@ class UserCurrentSession : NSObject {
                 self.userSigned = userSigned
                 self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
                 
-                let loginService = LoginWithEmailService()
+                let loginService = LoginWithIdService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
+                let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
                 
                 //MercuryUser
                 MercuryService.sharedInstance().setActiveUserName(emailUser as String)
 
                 
-                loginService.callService(["email":emailUser], successBlock: { (result:NSDictionary) -> Void in
+                loginService.callService(["idUser":idUser], successBlock: { (result:NSDictionary) -> Void in
                     print("User signed")
                     }, errorBlock: { (error:NSError) -> Void in
                 })
@@ -202,10 +203,28 @@ class UserCurrentSession : NSObject {
         } else {
             profile.birthDate = "01/01/2015"
         }
-        profile.cellPhone = userProfile["mobileNumber"] as! String
-        profile.homeNumberExtension = userProfile["phoneExtension"] as! String
-        profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
-        profile.profession = userProfile["occupation"] as! String
+        if let cellPhone = userProfile["mobileNumber"] as? String {
+            profile.cellPhone = cellPhone
+        }else{
+            profile.cellPhone = ""
+        }
+        if let homeNumberExtensio =  userProfile["phoneExtension"] as? String {
+            profile.homeNumberExtension = homeNumberExtensio
+        }else{
+            profile.homeNumberExtension =  ""
+        }
+        
+        if let phoneHomeNumber = userProfile["phoneNumber"] as? String{
+            profile.phoneHomeNumber = phoneHomeNumber
+        }else{
+            profile.phoneHomeNumber = ""
+        }
+        
+        if let profession = userProfile["occupation"] as? String {
+            profile.profession = profession
+        }else{
+            profile.profession = ""
+        }
 
         if let genderVal = userProfile["gender"] as? String{
             profile.sex = genderVal
@@ -229,8 +248,9 @@ class UserCurrentSession : NSObject {
         
         updatePhoneProfile(true)
         self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
-        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
+        //TODO No llega en servicio de mustang  de registro
+        //UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
+        //UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
         
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)

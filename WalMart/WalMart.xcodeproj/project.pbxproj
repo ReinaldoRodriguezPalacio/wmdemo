@@ -71,6 +71,7 @@
 		4A6DF5B71C7F6881006227EF /* LineViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B61C7F6881006227EF /* LineViewController.swift */; };
 		4A6DF5B91C7F8373006227EF /* IPOLinesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */; };
 		4A7DE2291D1224E900150C94 /* IPOWMAlertRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */; };
+		4A8C992F1D493C3900DEBB87 /* LoginWithIdService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8C992E1D493C3900DEBB87 /* LoginWithIdService.swift */; };
 		4A8DCB8D1C86576D002F5A02 /* AddProductTolistView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */; };
 		4AA10BC41D1DCAEE0068083A /* WalMart.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4AA10BBE1D1DCAEE0068083A /* WalMart.xcdatamodeld */; };
 		4AB27A0E1D1DB29C002C37BE /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB27A0D1D1DB29C002C37BE /* FBSDKCoreKit.framework */; };
@@ -714,6 +715,7 @@
 		4A6DF5B61C7F6881006227EF /* LineViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineViewController.swift; path = iPhone/Controller/Categories/LineViewController.swift; sourceTree = "<group>"; };
 		4A6DF5B81C7F8373006227EF /* IPOLinesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPOLinesViewController.swift; sourceTree = "<group>"; };
 		4A7DE2281D1224E900150C94 /* IPOWMAlertRatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOWMAlertRatingViewController.swift; path = Shared/Controller/Common/IPOWMAlertRatingViewController.swift; sourceTree = "<group>"; };
+		4A8C992E1D493C3900DEBB87 /* LoginWithIdService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginWithIdService.swift; sourceTree = "<group>"; };
 		4A8DCB8C1C86576D002F5A02 /* AddProductTolistView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductTolistView.swift; sourceTree = "<group>"; };
 		4AA10BBF1D1DCAEE0068083A /* WalMart.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart.xcdatamodel; sourceTree = "<group>"; };
 		4AA10BC01D1DCAEE0068083A /* WalMart2.1.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WalMart2.1.0.xcdatamodel; sourceTree = "<group>"; };
@@ -2536,6 +2538,7 @@
 				AC536D4519DB4DB6007D2D42 /* ForgotPasswordService.swift */,
 				56CCEA0219DB33840071D990 /* LoginWithEmailService.swift */,
 				6C822E9F1D46D3EC006A098C /* UserProfileService.swift */,
+				4A8C992E1D493C3900DEBB87 /* LoginWithIdService.swift */,
 			);
 			name = LoginSignUp;
 			sourceTree = "<group>";
@@ -4173,6 +4176,7 @@
 				56703B681A8186EB000684C2 /* GRShoppingCartTotalsTableViewCell.swift in Sources */,
 				56253D8719D20963002E128A /* PreviousOrdersTableViewCell.swift in Sources */,
 				568A42AE19ED8C9D00608297 /* IPAProductCrossSellView.swift in Sources */,
+				4A8C992F1D493C3900DEBB87 /* LoginWithIdService.swift in Sources */,
 				04D15BCB1A96503D00860919 /* FilterOrderViewCell.swift in Sources */,
 				04D2A39B1A2FD70E008DAE37 /* StoreLocatorService.swift in Sources */,
 				56E806B11B45943A007D6C6D /* IPADefaultListViewController.swift in Sources */,

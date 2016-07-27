@@ -228,6 +228,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.LoginWithIdService</key>
+			<string>http://192.168.43.192:9080/walmartmg/login/loginById</string>
 			<key>WalmartMG.UserProfileService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/displayUserProfile</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
@@ -264,8 +266,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login</string>
-			<key>WalmartMG.GRLoginWithEmailService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/loginByEmail</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
@@ -451,8 +451,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getLinesForSearch</string>
 			<key>WalmartMG.GRLoginService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login</string>
-			<key>WalmartMG.GRLoginWithEmailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/loginByEmail</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
