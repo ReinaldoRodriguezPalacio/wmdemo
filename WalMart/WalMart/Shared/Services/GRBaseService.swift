@@ -35,7 +35,7 @@ class GRBaseService : BaseService {
     }
 
     override func getManager() -> AFHTTPSessionManager {
-        if UserCurrentSession.hasLoggedUser() && shouldIncludeHeaders() {
+        if shouldIncludeHeaders() { // UserCurrentSession.hasLoggedUser() &&
             let timeInterval = NSDate().timeIntervalSince1970
             let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue) // Time in milis "1400705132881"//
             let uuid  = NSUUID().UUIDString //"e0fe3951-963e-4edf-a655-4ec3922b1116"//
