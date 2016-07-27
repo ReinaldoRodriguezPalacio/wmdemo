@@ -319,6 +319,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
                 }
                 self.reminderService?.scheduleNotifications(forOption: self.selectedPeriodicity!, withDate: self.currentOriginalFireDate!, forTime:self.hourField!.text!)
                 self.delegate?.notifyReminderWillClose(forceValidation: true, value: true)
+                self.reminderService?.findNotificationForCurrentList()
                 self.alertController!.setMessage("Tu recordatorio se ha guardado.")
                 self.alertController!.showDoneIcon()
                 if IS_IPAD{

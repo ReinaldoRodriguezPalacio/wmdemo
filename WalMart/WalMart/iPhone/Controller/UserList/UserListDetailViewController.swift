@@ -178,6 +178,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
             
             self.reminderService = ReminderNotificationService(listId: self.listId!, listName: self.listName!)
+            self.reminderService?.findNotificationForCurrentList()
             self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
             self.view.addSubview(self.addProductsView!)
 
@@ -1391,7 +1392,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.reminderButton?.selected = selected
         
         if selected{
-            self.reminderButton?.setImage(UIImage(named: "reminder_full"), forState: .Normal)
+            self.reminderButton?.setImage(UIImage(named: "reminder_full"), forState: .Selected)
             //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
             //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Normal)
         }else{
@@ -1407,6 +1408,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         reminderViewController.listName = self.listName!
         reminderViewController.delegate = self
         if  selected {
+            reminderViewController.reminderService?.findNotificationForCurrentList()
             reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
             reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
         }
@@ -1420,6 +1422,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }else{
             setReminderSelected(false)
         }
+        self.reminderService?.findNotificationForCurrentList()
     }
     
     //MARK: AddProductTolistViewDelegate

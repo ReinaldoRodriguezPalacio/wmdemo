@@ -80,17 +80,21 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.deleteAllBtn!.frame = CGRectMake(self.editBtn!.frame.minX - (90.0 + 8.0), (headerBounds.height - buttonHeight)/2, 90.0, buttonHeight)
         }
         
-        let x = self.shareButton!.frame.maxX + 16.0
+        var x = self.shareButton!.frame.maxX + 16.0
         let y = (self.footerSection!.frame.height - 34.0)/2
         
-        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)//self.footerSection!.frame.width - (x + 16.0)
+        addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)
         self.customLabel?.frame  = self.addToCartButton!.bounds
         if !isShared {
             if showReminderButton{
-                self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
-                //self.reminderImage?.frame = CGRectMake(self.view.frame.width - 28, self.header!.frame.maxY + 8, 12.0, 12.0)
+                //self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
                 
-                self.addProductsView!.frame = CGRectMake(0,self.openEmpty ? self.header!.frame.maxY : self.reminderButton!.frame.maxY, self.view.frame.width, 64.0)
+                self.reminderButton?.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, self.shareButton!.frame.minY, 34, 34)
+                x = self.reminderButton!.frame.maxX + 16.0
+                self.addToCartButton?.frame = CGRectMake(x, y, 256, 34.0)
+                self.customLabel?.frame  = self.addToCartButton!.bounds
+                
+                self.addProductsView!.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width, 64.0)
                 
                 self.tableView?.frame = CGRectMake(0, self.addProductsView!.frame.maxY, self.view.frame.width, self.view.frame.height - self.addProductsView!.frame.maxY)
             }else{
@@ -246,15 +250,16 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         labelOne.text = NSLocalizedString("list.detail.empty.header", comment:"")
         self.emptyView!.addSubview(labelOne)
         
-        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, self.view.bounds.width, 16))
+        let labelTwo = UILabel(frame: CGRectMake(0.0, labelOne.frame.maxY + 12.0, self.view.bounds.width, 48))
         labelTwo.textAlignment = .Center
         labelTwo.textColor = WMColor.light_blue
+        labelTwo.numberOfLines =  5
         labelTwo.font = WMFont.fontMyriadProRegularOfSize(14.0)
         labelTwo.text = NSLocalizedString("list.detail.empty.text", comment:"")
         self.emptyView!.addSubview(labelTwo)
         
         let icon = UIImageView(image: UIImage(named: "empty_list_icon"))
-        icon.frame = CGRectMake(280.0, labelOne.frame.maxY + 12.0, 16.0, 16.0)
+        icon.frame = CGRectMake(242.0, labelTwo.frame.maxY - 18.0, 16.0, 16.0)
         self.emptyView!.addSubview(icon)
     }
 
@@ -442,8 +447,9 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             reminderViewController.listName = self.listName!
             reminderViewController.delegate = self
             if  selected {
-                reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
-                reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
+                reminderViewController.reminderService?.findNotificationForCurrentList()
+                reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig?["type"] as? Int
+                reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig?["originalFireDate"] as? NSDate
             }
             reminderViewController.view.frame = CGRectMake(self.view.bounds.maxX, 0.0, self.view.bounds.width, self.view.bounds.height)
             self.addChildViewController(reminderViewController)

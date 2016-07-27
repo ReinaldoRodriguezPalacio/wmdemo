@@ -54,6 +54,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var cellEditing: SWTableViewCell? = nil
     var selectedIndex: NSIndexPath? = nil
     
+    var listHelView : ListHelpView?
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
     }
@@ -125,6 +127,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.tableuserlist?.allowsMultipleSelection = false
         self.tableuserlist?.separatorStyle = .None
         hiddenSearchField()
+        
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -139,11 +143,26 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.reloadList(
             success:{() -> Void in
                 self.removeLoadingView()
+                self.showFirstHelpView()
             },
             failure: {(error:NSError) -> Void in
                 self.removeLoadingView()
             }
         )
+        
+    }
+    
+    func showFirstHelpView(){
+        
+        listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InControllerList )
+        listHelView?.onClose  = {() in
+            self.removeHelpView()
+        }
+        
+        let window = UIApplication.sharedApplication().keyWindow
+        if let customBar = window!.rootViewController as? CustomBarViewController {
+            customBar.view.addSubview(listHelView!)
+        }
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -185,6 +204,22 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.searchField!.frame = CGRectMake(16.0, 12.0, bounds.width - 32.0, 40.0)
         
         self.viewSeparator.frame = CGRectMake(0, searchContainer!.frame.height  - AppDelegate.separatorHeigth() , searchContainer!.frame.width,   AppDelegate.separatorHeigth())
+    }
+    
+    func removeHelpView() {
+        if self.listHelView != nil {
+            UIView.animateWithDuration(0.5,
+                                       animations: { () -> Void in
+                                        self.listHelView!.alpha = 0.0
+                },
+                                       completion: { (finished:Bool) -> Void in
+                                        if finished {
+                                            self.listHelView!.removeFromSuperview()
+                                            self.listHelView = nil
+                                        }
+                }
+            )
+        }
     }
     
     /**
@@ -571,7 +606,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             })
                             self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                             CATransaction.commit()
-                            
+                            self.showHelpView()
                             //                        self.enabledHelpView = true
                             //                        self.editBtn!.enabled = false
                     })
@@ -618,6 +653,24 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         if self.itemsUserList?.count == 0 {
             self.hiddenSearchField()
         }
+    }
+    
+    /**
+     HelpView--
+     */
+    func showHelpView(){
+
+        listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
+        listHelView?.onClose  = {() in
+            self.removeHelpView()
+        }
+        
+        let window = UIApplication.sharedApplication().keyWindow
+        if let customBar = window!.rootViewController as? CustomBarViewController {
+            listHelView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
+            customBar.view.addSubview(listHelView!)
+        }
+        
     }
     
     //MARK: - NewListTableViewCellDelegate

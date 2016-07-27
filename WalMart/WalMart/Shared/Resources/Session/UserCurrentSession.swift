@@ -164,7 +164,7 @@ class UserCurrentSession : NSObject {
         usr.email = userDictionaryMG["email"] as! String
         usr.idUser = userDictionaryMG["idUser"] as! String
         usr.cartId = userDictionaryMG["cartId"] as! String
-        usr.login = userDictionaryMG["login"] as! String
+        //usr.login = userDictionaryMG["login"] as! String
         if let token = userDictionaryMG["token"] as? String{
             usr.token = token
         }
