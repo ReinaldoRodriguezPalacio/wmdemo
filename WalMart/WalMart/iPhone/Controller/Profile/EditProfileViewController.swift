@@ -324,7 +324,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
             let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
             
-            let params  = service.buildParamsWithMembership(self.email!.text!, password: passCurrent!, newPassword:passNew!, name: self.name!.text!, lastName: self.lastName!.text!,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
+            let params  = service.buildParamsWithMembership(self.email!.text!, password: passCurrent!, newPassword:passNew!, name: self.name!.text!, lastName: self.lastName!.text!,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String,associateStore: "",joinDate: "",associateNumber: "")
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))

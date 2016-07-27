@@ -143,7 +143,7 @@ class ChangeInfoLegalViewController : NavigationViewController {
             UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer = allowTransfer
             
             
-            let params  = service.buildParamsWithMembership(mail as String, password: "", newPassword: "", name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer,allowMarketingEmail:allowMarketing)
+            let params  = service.buildParamsWithMembership(mail as String, password: "", newPassword: "", name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer,allowMarketingEmail:allowMarketing,associateStore: "",joinDate: "",associateNumber: "")
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))

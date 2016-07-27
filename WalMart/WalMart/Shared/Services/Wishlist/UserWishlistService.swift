@@ -156,40 +156,7 @@ class UserWishlistService : BaseService {
     
     
     func synchronizeWishListFromCoreData(successBlock:(() -> Void), errorBlock:((NSError) -> Void)?){
-        let predicateDeleted = NSPredicate(format: "status == %@", NSNumber(integer:WishlistStatus.Deleted.rawValue))
-        let deteted = Array(UserCurrentSession.sharedInstance().userSigned!.wishlist.filteredSetUsingPredicate(predicateDeleted)) as! [Wishlist]
-        if deteted.count > 0 {
-            let serviceDelete = DeleteItemWishlistService()
-            for itemDeleted in deteted {
-                serviceDelete.callServiceWithParams(["parameter":[itemDeleted.product.upc]], successBlock: { (result:NSDictionary) -> Void in
-                    let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                    let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-                    
-                    for wl in deteted {
-                        context.deleteObject(wl)
-                    }
-                    do {
-                        try context.save()
-                    } catch let error1 as NSError {
-                        print(error1.description)
-                    } catch {
-                        fatalError()
-                    }
-                    
-                    
-                    self.synchronizeAddedWishlistFromCoreData(successBlock, errorBlock:errorBlock)
-                    
-                    }, errorBlock: { (error:NSError) -> Void in
-                        if error.code != -100 {
-                            self.synchronizeAddedWishlistFromCoreData (successBlock, errorBlock:errorBlock)
-                        }
-                })
-            }
-            
-        } else {
-           synchronizeAddedWishlistFromCoreData (successBlock, errorBlock:errorBlock)
-        }
-        
+        synchronizeAddedWishlistFromCoreData (successBlock, errorBlock:errorBlock)
     }
     
     func synchronizeAddedWishlistFromCoreData (successBlock:(() -> Void), errorBlock:((NSError) -> Void)?) {

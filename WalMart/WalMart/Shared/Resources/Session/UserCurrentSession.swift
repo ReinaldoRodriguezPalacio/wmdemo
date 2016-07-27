@@ -13,11 +13,8 @@ import CoreData
 class UserCurrentSession : NSObject {
     
     var userSigned : User? = nil
-    
     var userSignedOnService  = false
-    
     var phoneNumber : String! = ""
-    var workNumber : String! = ""
     var cellPhone : String! = ""
     var mustUpdatePhone : Bool = false
     
@@ -104,7 +101,7 @@ class UserCurrentSession : NSObject {
             
             if let userSigned = fetchedResult?[0] as? User {
                 
-                let cadUserId : NSString? = userSigned.idUserGR
+                let cadUserId : NSString? = userSigned.idUser
                 if cadUserId == nil || cadUserId == "" || cadUserId?.length == 0 {
                     UserCurrentSession.sharedInstance().userSigned = nil
                     UserCurrentSession.sharedInstance().deleteAllUsers()
@@ -131,19 +128,16 @@ class UserCurrentSession : NSObject {
     }
     
   
-    func createUpdateUser(userDictionaryMG:NSDictionary, userDictionaryGR:NSDictionary) {
+    func createUpdateUser(loginResult:NSDictionary, profileResult:NSDictionary) {
         
-        let resultProfileJSONMG = userDictionaryMG["profile"] as! NSDictionary
-        var resultProfileJSONGR : [String:AnyObject]? = nil
-        if let userDictPrGR = userDictionaryGR["profile"] as? [String:AnyObject] {
-            resultProfileJSONGR = userDictPrGR
-        }
+        let loginProfile = loginResult["profile"] as! NSDictionary
+        let userProfile = profileResult["profile"] as! NSDictionary
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var usr : User
-        let idUser = userDictionaryMG["idUser"] as! String
+        let idUser = loginResult["idUser"] as! String
         let predicate = NSPredicate(format: "idUser == %@ ", idUser)
         
         let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
@@ -160,76 +154,64 @@ class UserCurrentSession : NSObject {
         usr.profile = profile
         usr.idUser = idUser
         
-        //Fill user MG
-        usr.email = userDictionaryMG["email"] as! String
-        usr.idUser = userDictionaryMG["idUser"] as! String
-        usr.cartId = userDictionaryMG["cartId"] as! String
-        //usr.login = userDictionaryMG["login"] as! String
-        if let token = userDictionaryMG["token"] as? String{
-            usr.token = token
-        }
-        //usr.token = userDictionaryMG["token"] as String
+        usr.email = loginResult["email"] as! String
+        usr.idUser = loginResult["idUser"] as! String
+        usr.cartId = loginResult["cartId"] as! String
+        usr.login = userProfile["login"] as! String
     
-        //Fill user GR
-        if let usrGR = userDictionaryGR["idUser"] as? String {
-            usr.idUserGR = usrGR
+        if let addressArray = profileResult["address"] as? NSArray {
+            for address in addressArray{
+                let prefered = address["preferred"] as! String
+                if prefered == "true"{
+                    self.addressId = address["id"] as? String
+                    self.storeId = userProfile["storeId"] as? String
+                    self.storeName = profileResult["nameStore"] as? String
+                    break
+                }
+            }
+            
         }
-        if let cartGR = userDictionaryGR["cartId"] as? String {
-            usr.cartIdGR = cartGR
-        }
-        if let address = userDictionaryGR["address"] as? NSDictionary{
-            self.getStoreByAddress(address)
-        }
-        
         
         let date = NSDate()
         usr.lastLogin = date
-        
-        //Fill profile MG
-        if let idProfile = resultProfileJSONMG["id"] as? String{
+        if let idProfile = loginProfile["idUser"] as? String{
             profile.idProfile = idProfile
         }
-        profile.name = resultProfileJSONMG["name"] as! String
-        profile.lastName = resultProfileJSONMG["lastName"] as! String
-        profile.lastName2 = resultProfileJSONMG["lastName2"] as! String
-        profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as! String
-        if let valueProfile =  resultProfileJSONMG["allowTransfer"] as? String {
+        profile.name = loginProfile["name"] as! String
+        profile.lastName = loginProfile["lastName"] as! String
+        profile.lastName2 = loginProfile["lastName2"] as! String
+        profile.allowMarketingEmail = userProfile["receivePromoEmail"] as! String
+        if let valueProfile =  loginProfile["allowTransfer"] as? String {
             profile.allowTransfer = valueProfile
         }else {
              profile.allowTransfer = "\(false)"
         }
         
-        if let minimumAmount = resultProfileJSONMG["minimumAmount"] as? Double{
+        if let minimumAmount = loginProfile["minimumAmount"] as? Double{
             profile.minimumAmount = minimumAmount
         }
-        if let token = resultProfileJSONMG["token"] as? String{
-            profile.token = token
+        
+        if let birthDateVal = userProfile["dateOfBirth"] as? String {
+            profile.birthDate = birthDateVal
+        } else {
+            profile.birthDate = "01/01/2015"
         }
-        
-        
-        if resultProfileJSONGR != nil {
-            //Fill profile GR
-            profile.allowMarketingEmail = resultProfileJSONMG["allowMarketingEmail"] as! String
-            if let birthDateVal = resultProfileJSONMG["birthdate"] as? String {
-                profile.birthDate = birthDateVal
-            } else {
-                profile.birthDate = "01/01/2015"
-            }
-            profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
-            profile.homeNumberExtension = resultProfileJSONGR!["homeNumberExtension"] as! String
-            profile.maritalStatus = resultProfileJSONGR!["maritalStatus"] as! String
-            profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
-            profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
-            profile.profession = resultProfileJSONGR!["profession"] as! String
+        profile.cellPhone = userProfile["mobileNumber"] as! String
+        profile.homeNumberExtension = userProfile["phoneExtension"] as! String
+        profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
+        profile.profession = userProfile["occupation"] as! String
 
-            
-            if let genderVal = resultProfileJSONMG["gender"] as? String{
-                profile.sex = genderVal
-            } else {
-                profile.sex = "Male"
-            }
-            profile.workNumberExtension = resultProfileJSONGR!["workNumberExtension"] as! String
+        if let genderVal = userProfile["gender"] as? String{
+            profile.sex = genderVal
+        } else {
+            profile.sex = "Male"
         }
+        
+        //Associate
+        profile.associateNumber = userProfile["associateNumber"] as? String ?? ""
+        profile.associateStore = userProfile["associateStore"] as? String ?? ""
+        profile.joinDate = userProfile["joinDate"] as? String ?? ""
+        profile.locale = userProfile["locale"] as? String ?? ""
         
         do {
             try context.save()
@@ -241,22 +223,8 @@ class UserCurrentSession : NSObject {
         
         updatePhoneProfile(true)
         self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
-        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
-
-        
-        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = resultProfileJSONGR!["cellPhone"] as! String
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
-        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
-        
-        let homeNumber = resultProfileJSONGR!["phoneHomeNumber"] as! String
-        if homeNumber !=  "" {
-            UserCurrentSession.sharedInstance().cellPhone = resultProfileJSONGR!["cellPhone"] as! String
-            UserCurrentSession.sharedInstance().workNumber = resultProfileJSONGR!["phoneWorkNumber"] as! String
-            UserCurrentSession.sharedInstance().phoneNumber = homeNumber
-        }
-
+        UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
+        UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
         
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)
@@ -787,10 +755,9 @@ class UserCurrentSession : NSObject {
     }
     
     
-    func setMustUpdatePhoneProfile(home:String,work:String,cellPhone:String) {
+    func setMustUpdatePhoneProfile(home:String,cellPhone:String) {
         self.mustUpdatePhone = true
         self.phoneNumber = home
-        self.workNumber = work
         self.cellPhone = cellPhone
         
         if userSigned != nil {
@@ -831,34 +798,16 @@ class UserCurrentSession : NSObject {
     
     func updatePhoneProfile(newProfile:Bool) {
         if self.mustUpdatePhone {
-            
-            let svcProfile = GRUpdateUserProfileService()
-            let profileParams = svcProfile.buildParams(
-                UserCurrentSession.sharedInstance().userSigned!.profile.name as String,
-                lastName: UserCurrentSession.sharedInstance().userSigned!.profile.lastName as String,
-                sex: "",
-                birthDate: UserCurrentSession.sharedInstance().userSigned!.profile.birthDate as String,
-                maritalStatus: "",
-                profession: "",
-                phoneWorkNumber:  self.workNumber,
-                workNumberExtension: "",
-                phoneHomeNumber: self.phoneNumber,
-                homeNumberExtension: "",
-                cellPhone: self.cellPhone ,
-                allowMarketingEmail: "false",
-                user: "",
-                password: "",
-                newPassword: "",
-                maximumAmount: 0,device:IS_IPAD ? "25" : "24")
-            
-            svcProfile.callService(requestParams: profileParams, successBlock: { (result:NSDictionary) -> Void in
+            //TODO: Meter los datos del update
+            let svcProfile = UpdateUserProfileService()
+            let profileParams = [:]
+            svcProfile.callService(profileParams, successBlock: { (result:NSDictionary) -> Void in
                 print("Se actualizo el perfil")
                 
                 
                 //if !newProfile {
                     if UserCurrentSession.hasLoggedUser() {
                         UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = self.cellPhone
-                        UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber = self.workNumber
                         UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = self.phoneNumber
                     }
                 //}

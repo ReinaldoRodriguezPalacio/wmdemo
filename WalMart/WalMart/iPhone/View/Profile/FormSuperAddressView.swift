@@ -218,7 +218,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
         
         if UserCurrentSession.hasLoggedUser() {
             self.cellPhone!.text = UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone as String
-            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
+            self.phoneWorkNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
             self.phoneHomeNumber!.text = UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String
         }
 
@@ -584,7 +584,7 @@ class FormSuperAddressView : UIView, AlertPickerViewDelegate,UITextFieldDelegate
             }
         }
         
-        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text!, work: self.phoneWorkNumber.text!, cellPhone: self.cellPhone.text!)
+        UserCurrentSession.sharedInstance().setMustUpdatePhoneProfile(self.phoneHomeNumber.text!, cellPhone: self.cellPhone.text!)
         
         let resultDictVal = JSON(resultDict)
         

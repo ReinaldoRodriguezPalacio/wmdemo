@@ -266,7 +266,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
      Shows SignUpViewController for users registration
      */
     func registryUser() {
-        //self.showAddressView()
         
         if self.signUp == nil{
             
@@ -316,12 +315,12 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
                     self.viewAnimated = false
                 }
         })
+        
     }
    
     
     
-    //TODO: Borrar 
-    
+    //TODO: Borrar
     func showAddressView() {
         var alertAddress: GRFormAddressAlertView? = nil
         
@@ -521,7 +520,6 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
     
     /**
      Calls forgot password service
-     
      - parameter sender: UIButton
      */
     func forgot(sender:UIButton) {

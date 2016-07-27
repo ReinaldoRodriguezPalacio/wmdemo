@@ -2132,14 +2132,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                         value: UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber as String,
                         ext:UserCurrentSession.sharedInstance().userSigned!.profile.homeNumberExtension as String)
                 }
-                
-                let workNumber = UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String
-                if !workNumber.isEmpty {
-                    delivery.addContactInfo(ContactMean.Work,
-                        value: UserCurrentSession.sharedInstance().userSigned!.profile.phoneWorkNumber as String,
-                        ext:UserCurrentSession.sharedInstance().userSigned!.profile.workNumberExtension as String)
-                }
-                
+
                 let slotSel = self.slotsItems![self.selectedTimeSlotTypeIx.row]  as! NSDictionary
                 let slotSelectedId = slotSel["id"] as! Int
                 

@@ -10,7 +10,6 @@ import CoreData
 
 class Profile : NSManagedObject {
     
-    //Walmart MG
     @NSManaged var allowMarketingEmail: NSString
     @NSManaged var allowTransfer: NSString
     @NSManaged var idProfile: NSString
@@ -18,21 +17,19 @@ class Profile : NSManagedObject {
     @NSManaged var lastName2: NSString
     @NSManaged var minimumAmount: NSNumber
     @NSManaged var name: NSString
-    @NSManaged var token: NSString
     
     @NSManaged var user : User
-    
-    
-    //Groceries
+
     @NSManaged var birthDate: NSString
     @NSManaged var cellPhone: NSString
     @NSManaged var homeNumberExtension: NSString
-    @NSManaged var maritalStatus: NSString
     @NSManaged var phoneHomeNumber: NSString
-    @NSManaged var phoneWorkNumber: NSString
     @NSManaged var profession: NSString
     @NSManaged var sex: NSString
-    @NSManaged var workNumberExtension: NSString
+    @NSManaged var locale: NSString
     
-    
+    //Asociate
+    @NSManaged var associateNumber: NSString
+    @NSManaged var associateStore: NSString
+    @NSManaged var joinDate: NSString
 }
