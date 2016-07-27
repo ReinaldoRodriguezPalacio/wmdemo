@@ -179,7 +179,6 @@ class BaseService : NSObject {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
                         let loginService = LoginWithIdService()
-                        loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUser as String
                         let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
                         loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
                             self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
@@ -229,10 +228,9 @@ class BaseService : NSObject {
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode()   {
                     if UserCurrentSession.hasLoggedUser() {
-                        let loginService = LoginWithEmailService()
-                        //loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUserGR
-                        let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                        loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                        let loginService = LoginWithIdService()
+                        let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                        loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
                             self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance().userSigned = nil
@@ -467,10 +465,9 @@ class BaseService : NSObject {
                 if let errorResult = self.validateCodeMessage(resultJSON) {
                     if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                         if UserCurrentSession.hasLoggedUser() {
-                            let loginService = LoginWithEmailService()
-                            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUser as String
-                            let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-                            loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+                            let loginService = LoginWithIdService()
+                            let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
+                            loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
                                 self.callPOSTService(params, successBlock: successBlock, errorBlock: errorBlock)
                                 }, errorBlock: { (error:NSError) -> Void in
                                     UserCurrentSession.sharedInstance().userSigned = nil

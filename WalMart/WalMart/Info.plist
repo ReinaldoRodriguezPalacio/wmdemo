@@ -214,7 +214,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
@@ -416,7 +416,9 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.UserProfileService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/displayUserProfile</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/responseProfile.txt</string>
+			<key>WalmartMG.LoginWithIdService</key>
+			<string>https://dl.dropboxusercontent.com/u/29004009/responseLogin.txt</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -449,8 +451,6 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getItemByTicket</string>
 			<key>WalmartMG.GRLinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getLinesForSearch</string>
-			<key>WalmartMG.GRLoginService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login</string>
 			<key>WalmartMG.GROrderByEmailService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRPayPalFuturePaymentService</key>
@@ -552,9 +552,9 @@
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/responseLogin.txt</string>
 			<key>WalmartMG.LoginWithEmailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/loginByEmail</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/responseLogin.txt</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>
