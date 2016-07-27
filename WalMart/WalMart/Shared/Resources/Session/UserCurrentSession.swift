@@ -178,12 +178,7 @@ class UserCurrentSession : NSObject {
             profile.idProfile = idProfile
         }
         profile.name = loginProfile["name"] as! String
-        
-        var lastName = ""
-        if let lastNamenew  = loginProfile["lastName"] as? String{
-            lastName =  lastNamenew
-        }
-        profile.lastName = lastName
+        profile.lastName = loginProfile["lastName"] as? String ?? ""
         
         profile.lastName2 = loginProfile["lastName2"] as! String
         profile.allowMarketingEmail = userProfile["receivePromoEmail"] as! String
