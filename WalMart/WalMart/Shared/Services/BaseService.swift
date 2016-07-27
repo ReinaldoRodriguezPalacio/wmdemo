@@ -106,7 +106,7 @@ class BaseService : NSObject {
         
         let lockQueue = dispatch_queue_create("com.test.LockQueue", nil)
         dispatch_sync(lockQueue) {
-            if UserCurrentSession.hasLoggedUser() && self.shouldIncludeHeaders() {
+            if self.shouldIncludeHeaders() { //UserCurrentSession.hasLoggedUser() && 
                 let timeInterval = NSDate().timeIntervalSince1970
                 let timeStamp  = String(NSNumber(double:(timeInterval * 1000)).integerValue)
                 let uuid  = NSUUID().UUIDString
@@ -174,6 +174,7 @@ class BaseService : NSObject {
    
         let task = afManager.POST(url, parameters: params, success: {(request:NSURLSessionDataTask!, json:AnyObject!) in
             let resultJSON = json as! NSDictionary
+            self.jsonFromObject(resultJSON)
             if let errorResult = self.validateCodeMessage(resultJSON) {
                 if errorResult.code == self.needsToLoginCode() && self.needsLogin() {
                     if UserCurrentSession.hasLoggedUser() {
@@ -263,10 +264,14 @@ class BaseService : NSObject {
     
     func validateCodeMessage(response:NSDictionary) -> NSError? {
         if let codeMessage = response["codeMessage"] as? NSNumber {
-            let message = response["message"] as! NSString
+            var messages =  ""
+            if  let message = response["message"] as? NSString{
+                messages = message as String
+            }
+            
             if codeMessage.integerValue != 0  {
-                print("error : Response with error \(message)")
-                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:message])
+                print("error : Response with error \(messages)")
+                return NSError(domain: ERROR_SERIVCE_DOMAIN, code: codeMessage.integerValue, userInfo: [NSLocalizedDescriptionKey:messages])
             }
         }
         return nil

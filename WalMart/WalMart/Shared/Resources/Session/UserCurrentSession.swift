@@ -157,7 +157,7 @@ class UserCurrentSession : NSObject {
         usr.email = loginResult["email"] as! String
         usr.idUser = loginResult["idUser"] as! String
         usr.cartId = loginResult["cartId"] as! String
-        usr.login = userProfile["login"] as! String
+        //usr.login = userProfile["login"] as! String
     
         if let addressArray = profileResult["address"] as? NSArray {
             for address in addressArray{
@@ -178,7 +178,13 @@ class UserCurrentSession : NSObject {
             profile.idProfile = idProfile
         }
         profile.name = loginProfile["name"] as! String
-        profile.lastName = loginProfile["lastName"] as! String
+        
+        var lastName = ""
+        if let lastNamenew  = loginProfile["lastName"] as? String{
+            lastName =  lastNamenew
+        }
+        profile.lastName = lastName
+        
         profile.lastName2 = loginProfile["lastName2"] as! String
         profile.allowMarketingEmail = userProfile["receivePromoEmail"] as! String
         if let valueProfile =  loginProfile["allowTransfer"] as? String {

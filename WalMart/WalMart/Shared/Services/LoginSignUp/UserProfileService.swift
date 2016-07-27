@@ -24,8 +24,6 @@ class UserProfileService : BaseService {
                 }
                 else{
                     let errorDom = NSError(domain: "com.bcg.service.error", code: 0, userInfo: nil)
-                    //let message = resultCall["message"] as! String
-                    //errorDom(message, forKey:codeMessage)
                     errorBlock!(errorDom)
                 }
             }

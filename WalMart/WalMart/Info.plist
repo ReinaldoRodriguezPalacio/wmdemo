@@ -228,8 +228,10 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.UserProfileService</key>
+			<string>http://192.168.43.192:9080/walmartmg/list/displayUserProfile</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
-			<string>http:/192.168.43.192:9080/walmartmg/list/addReferedCustomer</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getPractilist</string>
 			<key>WalmartMG.GRAddItemListService</key>
@@ -337,7 +339,7 @@
 			<key>WalmartMG.CategoryService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getCategories_ant</string>
 			<key>WalmartMG.ConfigService</key>
-			<string>https://www.walmart.com.mx/images/m_webParts/banners/Carrusel/config1.txt</string>
+			<string>http://192.168.43.192:9080/walmartmg/site/config.txt</string>
 			<key>WalmartMG.CrossSellingProductService</key>
 			<string>http://192.168.43.192:9080/walmartmg/ogin/getCrossSelling</string>
 			<key>WalmartMG.DeleteAddressesByUserService</key>
@@ -413,6 +415,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.UserProfileService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/displayUserProfile</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
