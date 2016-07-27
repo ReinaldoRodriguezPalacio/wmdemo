@@ -207,7 +207,7 @@ class ChangePasswordViewController : NavigationViewController, TPKeyboardAvoidin
             let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
             let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
             
-            let params  = service.buildParamsWithMembership(mail as String, password: passCurrent, newPassword:passNew, name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String)
+            let params  = service.buildParamsWithMembership(mail as String, password: passCurrent, newPassword:passNew, name: name as String, lastName: lastMame as String,birthdate:birthDate as String,gender:gender as String,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String,associateStore: "",joinDate: "",associateNumber: "")
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
