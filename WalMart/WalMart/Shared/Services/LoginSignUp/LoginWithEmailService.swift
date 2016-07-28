@@ -19,7 +19,7 @@ class LoginWithEmailService : BaseService {
         return ["email":lowCaseUser]
     }
   
-    
+   
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         if !UserCurrentSession.sharedInstance().userSignedOnService {
             UserCurrentSession.sharedInstance().userSignedOnService = true

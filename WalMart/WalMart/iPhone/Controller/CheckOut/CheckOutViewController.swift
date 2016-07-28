@@ -253,10 +253,10 @@ class CheckOutViewController : NavigationViewController,UIWebViewDelegate {
             //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: self.username.lowercaseString, userName: self.username.lowercaseString, gender: "", idUser: "", itesShop: items,total:newTotal,refId:"")
             
             
-            let loginService = LoginWithEmailService()
-            loginService.loginIdGR = UserCurrentSession.sharedInstance().userSigned!.idUser as String
+            let loginService = LoginWithIdService()
+            let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
             let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
-            loginService.callService(["email":emailUser], successBlock: { (response:NSDictionary) -> Void in
+            loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
                 print(response)
                 }, errorBlock: { (error:NSError) -> Void in
             })

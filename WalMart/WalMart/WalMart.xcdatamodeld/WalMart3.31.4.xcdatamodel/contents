@@ -78,7 +78,6 @@
         <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idUser" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="lastLogin" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="login" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="maximumAmount" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="lists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="List" inverseName="user" inverseEntity="List" syncable="YES"/>
         <relationship name="params" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Param" inverseName="user" inverseEntity="Param" syncable="YES"/>
@@ -98,7 +97,7 @@
         <element name="Product" positionX="169" positionY="-72" width="128" height="270"/>
         <element name="Profile" positionX="-657" positionY="-199" width="128" height="315"/>
         <element name="Store" positionX="-189" positionY="-27" width="128" height="223"/>
-        <element name="User" positionX="-396" positionY="-99" width="128" height="210"/>
+        <element name="User" positionX="-396" positionY="-99" width="128" height="195"/>
         <element name="Wishlist" positionX="63" positionY="315" width="128" height="90"/>
     </elements>
 </model>
