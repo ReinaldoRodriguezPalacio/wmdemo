@@ -76,7 +76,58 @@ class IPAUserListViewController: UserListViewController {
     }
     */
     
+    
+    
     // MARK: - Actions
+    
+    
+   override func showFirstHelpView(){
+        
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("controllerHelp") {
+            requiredHelp = !(param.value == "false")
+        }
+        let  showhelpView = (requiredHelp && self.helpView == nil)
+        if showhelpView {
+            listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InControllerList )
+            listHelView?.onClose  = {() in
+                self.removeHelpView()
+            }
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? IPACustomBarViewController  {
+                listHelView?.frame = CGRectMake(0,0 , customBar.view.bounds.width, customBar.view.frame.height)
+                customBar.view.addSubview(listHelView!)
+                CustomBarViewController.addOrUpdateParam("controllerHelp", value: "false")
+            }
+        }
+    }
+    
+    /**
+     Show helview where is new list, only one time
+     */
+    override func showHelpView(){
+        
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("detailHelp") {
+            requiredHelp = !(param.value == "false")
+        }
+        let  showDetailHelp = (requiredHelp && self.helpView == nil)
+        if showDetailHelp {
+            listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
+            listHelView?.onClose  = {() in
+                self.removeHelpView()
+            }
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? IPACustomBarViewController {
+                listHelView?.frame = CGRectMake(0,0 , customBar.view.bounds.width, customBar.view.frame.height)
+                customBar.view.addSubview(listHelView!)
+                CustomBarViewController.addOrUpdateParam("detailHelp", value: "false")
+            }
+        }
+        
+    }
     
     override func showSearchField(aditionalAnimations:(()->Void)?, atFinished action:(()->Void)?, animated:Bool) {
         self.isToggleBarEnabled = false

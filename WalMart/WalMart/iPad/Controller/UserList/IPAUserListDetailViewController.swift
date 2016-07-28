@@ -132,6 +132,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                         }
                     }
                 self.updateTotalLabel()
+                    self.showHelpViewDetail()
                 }
                 
             }, reloadList: false)
@@ -161,6 +162,28 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     */
 
     //MARK: - Actions
+    
+    override func showHelpViewDetail(){
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("reminderListHelp") {
+            requiredHelp = !(param.value == "false")
+        }
+        let  showReminderHelp = (requiredHelp && self.listDetailHelView == nil)
+        
+        if showReminderHelp {
+            listDetailHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InReminderList )
+            listDetailHelView?.onClose  = {() in
+                self.removeHelpView()
+            }
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? IPACustomBarViewController {
+                listDetailHelView?.frame = CGRectMake(0,0 , customBar.view.bounds.width, customBar.view.frame.height)
+                customBar.view.addSubview(listDetailHelView!)
+                CustomBarViewController.addOrUpdateParam("reminderListHelp", value: "false")
+            }
+        }
+    }
     
     override func showEditionMode() {
         if !self.isEdditing {

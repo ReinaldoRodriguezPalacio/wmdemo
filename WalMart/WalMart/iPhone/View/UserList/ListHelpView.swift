@@ -59,7 +59,7 @@ class ListHelpView: UIView {
     
     func helpListController(){
         
-        let labelButton =  UIButton(frame: CGRectMake(self.frame.width - 72, 75, 56, 22))
+        let labelButton =  UIButton(frame: CGRectMake(self.frame.width - 72, IS_IPAD ? 121 :75, 56, 22))
         labelButton.backgroundColor =  WMColor.green
         labelButton.setTitle("nueva", forState: .Normal)
         labelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
@@ -68,12 +68,12 @@ class ListHelpView: UIView {
         labelButton.titleEdgeInsets = UIEdgeInsetsMake(1.0, 0, 1, 0.0)
         self.addSubview(labelButton)
         
-        let arrowImage = UIImageView(frame: CGRectMake(self.frame.midX , 75, 66, 46))
+        let arrowImage = UIImageView(frame: CGRectMake(self.frame.midX , IS_IPAD ? 121 : 75, 66, 46))
         arrowImage.image = UIImage(named:"help1")
         arrowImage.contentMode = .Center
         self.addSubview(arrowImage)
         
-        let descriptionHelp =  UILabel(frame: CGRectMake(self.frame.midX - 100 , 138, 200, 28))
+        let descriptionHelp =  UILabel(frame: CGRectMake(self.frame.midX - 100 , IS_IPAD ? arrowImage.frame.maxY : 138, 200, 28))
         descriptionHelp.backgroundColor = UIColor.clearColor()
         descriptionHelp.text = "Crea una lista nueva aquí."
         descriptionHelp.textAlignment = .Center
@@ -86,7 +86,7 @@ class ListHelpView: UIView {
     func helpReminder(){
         
         
-        let descriptionHelp =  UILabel(frame: CGRectMake(16, self.frame.maxY -  (TabBarHidden.isTabBarHidden ? 80 : 127), self.frame.width - 32, 28))
+        let descriptionHelp =  UILabel(frame: CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16, IS_IPAD ? self.frame.maxY - 30  : self.frame.maxY -  (TabBarHidden.isTabBarHidden ? 80 : 127), self.frame.width - 32, 28))
         descriptionHelp.backgroundColor = UIColor.clearColor()
         descriptionHelp.text = "Crea y edita recordatorios aquí."
         descriptionHelp.numberOfLines =  2
@@ -95,7 +95,7 @@ class ListHelpView: UIView {
         descriptionHelp.textColor =  UIColor.whiteColor()
         self.addSubview(descriptionHelp)
         
-        let arrowImage = UIImageView(frame: CGRectMake(65, descriptionHelp.frame.maxY + 5, 66, 58))
+        let arrowImage = UIImageView(frame: CGRectMake(IS_IPAD ? self.bounds.midX + 195 : 65, descriptionHelp.frame.maxY + 5, 66, 58))
         arrowImage.image = UIImage(named:"help3")
         arrowImage.contentMode = .Center
         self.addSubview(arrowImage)
@@ -111,10 +111,10 @@ class ListHelpView: UIView {
         
         
         let icon = UIImageView(image: UIImage(named: "list_scan_ticket"))
-        icon.frame = CGRectMake(16.0, 134, 40.0, 40.0)
+        icon.frame = CGRectMake(16.0, IS_IPAD ? 167: 134, 40.0, 40.0)
         self.addSubview(icon)
         
-        let labelButton =  UILabel(frame: CGRectMake(72, 134, 184, 40))
+        let labelButton =  UILabel(frame: CGRectMake(72, icon.frame.minY, IS_IPAD ?  206: 184, 40))
         
         let maskFirst =  UIBezierPath(roundedRect:labelButton.bounds , byRoundingCorners: [.TopLeft ,.BottomLeft], cornerRadii:CGSizeMake(4.0,4.0))
         
