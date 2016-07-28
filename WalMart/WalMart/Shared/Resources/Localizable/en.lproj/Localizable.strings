@@ -236,7 +236,7 @@
 "profile.address.new" = "nueva";
 "profile.address.new.title" = "Nueva Dirección";
 "profile.registration" = "Registro";
-"profile.title" = "Perfil";
+"profile.title" = "Información de mi cuenta";
 "profile.change.password" = "Cambiar Contraseña";
 "profile.save" = "guardar";
 "profile.password.current" = "Contraseña Actual";
