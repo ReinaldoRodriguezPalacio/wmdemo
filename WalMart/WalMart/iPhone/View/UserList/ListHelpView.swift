@@ -84,7 +84,27 @@ class ListHelpView: UIView {
     }
     
     func helpReminder(){
+        
+        
+        let descriptionHelp =  UILabel(frame: CGRectMake(16, self.frame.maxY -  (TabBarHidden.isTabBarHidden ? 80 : 127), self.frame.width - 32, 28))
+        descriptionHelp.backgroundColor = UIColor.clearColor()
+        descriptionHelp.text = "Crea y edita recordatorios aquí."
+        descriptionHelp.numberOfLines =  2
+        descriptionHelp.textAlignment = .Center
+        descriptionHelp.font = WMFont.fontMyriadProRegularOfSize(16)
+        descriptionHelp.textColor =  UIColor.whiteColor()
+        self.addSubview(descriptionHelp)
+        
+        let arrowImage = UIImageView(frame: CGRectMake(65, descriptionHelp.frame.maxY + 5, 66, 58))
+        arrowImage.image = UIImage(named:"help3")
+        arrowImage.contentMode = .Center
+        self.addSubview(arrowImage)
+        
+        let icon = UIImageView(image: UIImage(named: "reminder"))
+        icon.frame = CGRectMake(arrowImage.frame.maxX - 14, arrowImage.frame.maxY , 34.0, 34.0)
+        self.addSubview(icon)
     
+        
     }
     
     func detailListController(){

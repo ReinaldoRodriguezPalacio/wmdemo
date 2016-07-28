@@ -143,25 +143,35 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.reloadList(
             success:{() -> Void in
                 self.removeLoadingView()
-                self.showFirstHelpView()
+               // self.showFirstHelpView()
             },
             failure: {(error:NSError) -> Void in
                 self.removeLoadingView()
             }
         )
+         self.showFirstHelpView()//TODO : quitar para pruebas de servicios
         
     }
     
     func showFirstHelpView(){
         
-        listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InControllerList )
-        listHelView?.onClose  = {() in
-            self.removeHelpView()
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("controllerHelp") {
+            requiredHelp = !(param.value == "false")
         }
-        
-        let window = UIApplication.sharedApplication().keyWindow
-        if let customBar = window!.rootViewController as? CustomBarViewController {
-            customBar.view.addSubview(listHelView!)
+        let  showTurial = (requiredHelp && self.helpView == nil)
+        if showTurial {
+            listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InControllerList )
+            listHelView?.onClose  = {() in
+                self.removeHelpView()
+            }
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                listHelView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
+                customBar.view.addSubview(listHelView!)
+                 CustomBarViewController.addOrUpdateParam("controllerHelp", value: "false")
+            }
         }
     }
     
@@ -659,16 +669,24 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
      HelpView--
      */
     func showHelpView(){
-
-        listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
-        listHelView?.onClose  = {() in
-            self.removeHelpView()
-        }
         
-        let window = UIApplication.sharedApplication().keyWindow
-        if let customBar = window!.rootViewController as? CustomBarViewController {
-            listHelView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
-            customBar.view.addSubview(listHelView!)
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("detailHelp") {
+            requiredHelp = !(param.value == "false")
+        }
+        let  showTurial = (requiredHelp && self.helpView == nil)
+        if showTurial {
+            listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
+            listHelView?.onClose  = {() in
+                self.removeHelpView()
+            }
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                listHelView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
+                customBar.view.addSubview(listHelView!)
+                CustomBarViewController.addOrUpdateParam("detailHelp", value: "false")
+            }
         }
         
     }
@@ -1181,7 +1199,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 1 {
-            return self.itemsUserList!.count
+            return   self.itemsUserList!.count
         }
         var size = (self.newListEnabled ? 1 : 0)
         size = size + (self.isShowingSuperlists ? 1 : 0)

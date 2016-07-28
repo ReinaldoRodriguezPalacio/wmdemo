@@ -214,7 +214,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>DEVWM</string>
+	<string>PRODUCTION</string>
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
@@ -415,6 +415,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.LoginWithIdService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/login/loginById</string>
 			<key>WalmartMG.UserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/displayUserProfile</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
@@ -492,9 +494,9 @@
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListById</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/detalleLista.txt</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getListsByUser</string>
+			<string>https://dl.dropboxusercontent.com/u/29004009/getListUser.txt</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>

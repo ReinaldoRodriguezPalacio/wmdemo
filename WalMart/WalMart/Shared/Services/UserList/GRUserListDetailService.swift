@@ -30,7 +30,7 @@ class GRUserListDetailService: GRBaseService {
     }
     
     override func serviceUrl() -> String {
-        return super.serviceUrl() + "/"  + (self.listId == nil ? "" : self.listId!) //TODO pruebas mustang
+        return super.serviceUrl() //+ "/"  + (self.listId == nil ? "" : self.listId!) //TODO pruebas mustang
     }
 
 /*

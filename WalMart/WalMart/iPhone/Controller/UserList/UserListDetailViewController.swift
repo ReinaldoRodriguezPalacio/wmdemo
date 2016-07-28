@@ -58,6 +58,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     var retunrFromSearch =  false
     
+    var listDetailHelView : ListHelpView?
+    
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
@@ -181,7 +183,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.reminderService?.findNotificationForCurrentList()
             self.setReminderSelected(self.reminderService!.existNotificationForCurrentList())
             self.view.addSubview(self.addProductsView!)
-
+            
         }
         
         // self.showLoadingView()
@@ -235,6 +237,49 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         
     }
+    /**
+     Present helpView  in detail
+     */
+    func showHelpViewDetail(){
+        var requiredHelp = true
+        if let param = CustomBarViewController.retrieveParam("reminderListHelp") {
+            requiredHelp = !(param.value == "false")
+        }
+        let  showTurial = (requiredHelp && self.listDetailHelView == nil)
+        
+        if showTurial {
+            listDetailHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InReminderList )
+            listDetailHelView?.onClose  = {() in
+                self.removeHelpView()
+            }
+            
+            let window = UIApplication.sharedApplication().keyWindow
+            if let customBar = window!.rootViewController as? CustomBarViewController {
+                listDetailHelView?.frame = CGRectMake(0,0 , self.view.bounds.width, customBar.view.frame.height)
+                customBar.view.addSubview(listDetailHelView!)
+                CustomBarViewController.addOrUpdateParam("reminderListHelp", value: "false")
+            }
+        }
+    }
+    
+    /**
+     Removehelp view
+     */
+    func removeHelpView() {
+        if self.listDetailHelView != nil {
+            UIView.animateWithDuration(0.5,
+                                       animations: { () -> Void in
+                                        self.listDetailHelView!.alpha = 0.0
+                },
+                                       completion: { (finished:Bool) -> Void in
+                                        if finished {
+                                            self.listDetailHelView!.removeFromSuperview()
+                                            self.listDetailHelView = nil
+                                        }
+                }
+            )
+        }
+    }
 
     /**
      Load items from service
@@ -258,6 +303,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         self.selectedItems?.addObject(i)
                     }
                     self.updateTotalLabel()
+                    self.showHelpViewDetail()
                 }
                 
                 complete?()
