@@ -62,6 +62,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var selectDelegate: Bool = false
     var showCancelButton: Bool = false
     var layerLine: CALayer?
+    var contentHeight: CGFloat?
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -88,8 +89,9 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         
         bgView = UIView(frame: self.bounds)
         self.addSubview(bgView)
+        self.contentHeight = 316
         
-        viewContent = UIView(frame: CGRectMake(0, 0, 286, 316))
+        viewContent = UIView(frame: CGRectMake(0, 0, 286, self.contentHeight!))
         viewContent.layer.cornerRadius = 6.0
         viewContent.backgroundColor = UIColor.whiteColor()
         viewContent.clipsToBounds = true
@@ -110,7 +112,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         titleLabel.numberOfLines = 2
         
         headerView.addSubview(titleLabel)
-        
+
         viewContentOptions = UIView(frame: CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height))
         
         tableData = UITableView(frame: CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64))
@@ -163,10 +165,15 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     
     override func layoutSubviews() {
-        viewContent.center = self.center
+        
+        viewContent.frame = CGRectMake(0, 0, 286, self.contentHeight!)
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
+        viewContentOptions.frame = CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height)
+        tableData.frame = CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64)
+        viewContent.center = self.center
         closeButton?.frame = CGRectMake(2, 0, 28,  self.headerView.frame.height)
         layerLine?.frame = CGRectMake(0, 1, viewContent.frame.width, 1)
+        viewFooter?.frame = CGRectMake(0, self.viewContentOptions.frame.height - 64, self.frame.width, 64)
         if !isNewAddres {
             titleLabel.frame = headerView.bounds
         }
@@ -222,7 +229,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         }
         else
         {
-            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            self.tableData.separatorStyle = UITableViewCellSeparatorStyle.None
             let cell = tableView.dequeueReusableCellWithIdentifier("cellSelItem") as! SelectItemTableViewCell!
             cell.selectionStyle = .None
             cell.textLabel?.text = itemsToShow[indexPath.row]

@@ -53,6 +53,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var saveButton: UIButton?
     var cancelButton: UIButton?
     var legalInformation: UIButton?
+    var legalInformationLabel: UILabel?
     
     var dateFmt: NSDateFormatter?
     var parseFmt: NSDateFormatter?
@@ -65,6 +66,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var associateDateSelected : NSDate!
     var picker : AlertPickerView!
     var selectedGender: NSIndexPath!
+    var previewHelp : PreviewHelpViewController? = nil
+    var previewHelpBackground: UIView?
+    var viewClose : ((hidden: Bool ) -> Void)? = nil
+    var close: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
@@ -72,6 +77,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = UIColor.whiteColor()
         self.titleLabel!.text = NSLocalizedString("profile.title", comment: "")
         
         self.dateFmt = NSDateFormatter()
@@ -366,11 +372,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.view.addSubview(saveButton!)
     
         self.legalInformation = UIButton()
-        self.legalInformation!.setTitle(NSLocalizedString("profile.change.legalinfo", comment: ""), forState: UIControlState.Normal)
+        self.legalInformation!.setTitle(NSLocalizedString("profile.terms.privacy", comment: ""), forState: UIControlState.Normal)
         self.legalInformation!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
-        self.legalInformation!.addTarget(self, action: #selector(EditProfileViewController.infolegal), forControlEvents: .TouchUpInside)
+        self.legalInformation!.addTarget(self, action: #selector(EditProfileViewController.noticePrivacy), forControlEvents: .TouchUpInside)
         self.legalInformation!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.legalInformation!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.content?.addSubview(self.legalInformation!)
+        
+        self.legalInformationLabel = UILabel()
+        self.legalInformationLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.legalInformationLabel!.textColor = WMColor.gray
+        self.legalInformationLabel!.text = "Consulta nuestro"
+        self.content?.addSubview(self.legalInformationLabel!)
         
         self.content.backgroundColor = UIColor.whiteColor()
         
@@ -380,7 +393,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.view.bringSubviewToFront(self.header!)
         self.showTabbar = !TabBarHidden.isTabBarHidden
         
-        self.picker = AlertPickerView.initPickerWithDefaultCancelButton()
+        self.picker = AlertPickerView.initPickerWithDefault()
+        self.picker.contentHeight = 220.0 
         self.selectedGender = NSIndexPath(forRow: 0, inSection: 0)
         self.gender?.onBecomeFirstResponder = { () in
             self.picker!.selected = self.selectedGender
@@ -389,8 +403,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.picker!.setValues("Genero", values: ["Masculino","Femenino"])
             self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
-            self.picker?.tableData?.separatorStyle = .None
             self.picker!.showPicker()
+            self.view.endEditing(true)
         }
     }
 
@@ -406,7 +420,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.setValues()
     }
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.tabBarActions()
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
+        self.closeNoticePrivacy()
     }
     
     //MARK: - Actions
@@ -451,9 +471,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDate!.frame = CGRectMake(horSpace, self.associateDeterminant!.frame.maxY + topSpace, fieldWidth, fieldHeight)
         
         if self.showAssociateInfo {
-            self.legalInformation!.frame = CGRectMake(horSpace, self.associateDate!.frame.maxY + horSpace, fieldWidth, 14)
+            self.legalInformationLabel!.frame = CGRectMake(horSpace, self.associateDate!.frame.maxY + horSpace, 103, 14)
+            self.legalInformation!.frame = CGRectMake(self.legalInformationLabel!.frame.maxX, self.associateDate!.frame.maxY + horSpace, fieldWidth - 103, 14)
         }else{
-            self.legalInformation!.frame = CGRectMake(horSpace, self.isAssociateButton!.frame.maxY + horSpace, fieldWidth, 14)
+            self.legalInformationLabel!.frame = CGRectMake(horSpace, self.isAssociateButton!.frame.maxY + horSpace, 103, 14)
+            self.legalInformation!.frame = CGRectMake(self.legalInformationLabel!.frame.maxX, self.isAssociateButton!.frame.maxY + horSpace, fieldWidth - 103, 14)
         }
         
         let downSpace: CGFloat = self.showTabbar ? CGFloat(156.0) : CGFloat(110.0)
@@ -518,7 +540,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    
     func textFieldDidEndEditing(textField: UITextField!) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
@@ -750,12 +771,53 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.willShowTabbar()
         }
     }
-
-    func infolegal() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_OPEN_LEGAL_INFORMATION.rawValue , label:"")
-        let changeInfoLegal = ChangeInfoLegalViewController()
-        self.navigationController!.pushViewController(changeInfoLegal, animated: true)
-
+    
+    /**
+     Shows Privacy Notice
+     
+     - parameter recognizer: UITapGestureRecognizer
+     */
+    func noticePrivacy() {
+        if errorView != nil{
+            if errorView?.superview != nil {
+                errorView?.removeFromSuperview()
+            }
+            errorView!.focusError = nil
+            errorView = nil
+        }
+        self.view.endEditing(true)
+        self.viewClose = {(hidden : Bool) in
+            self.close!.hidden = hidden
+        }
+        if previewHelp == nil {
+            previewHelp = PreviewHelpViewController()
+            self.previewHelp!.resource = "privacy"
+            self.previewHelp!.type = "pdf"
+            self.previewHelp!.view.frame =  CGRectMake(self.name!.frame.minX ,  50, self.content!.frame.width - (self.name!.frame.minX * 2) , self.content!.frame.height - 50)
+            self.close = UIButton(type: .Custom)
+            self.close!.setImage(UIImage(named: "termsClose"), forState: .Normal)
+            self.close!.addTarget(self, action: #selector(EditProfileViewController.closeNoticePrivacy), forControlEvents: .TouchUpInside)
+            self.close!.backgroundColor = UIColor.clearColor()
+            self.close!.frame = CGRectMake(self.content!.frame.width - 40.0, 50, 40.0, 40.0)
+            self.previewHelpBackground = UIView(frame: self.view.bounds)
+            self.previewHelpBackground?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
+            let tapEvent = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.closeNoticePrivacy))
+            self.previewHelpBackground?.addGestureRecognizer(tapEvent)
+        } else {
+            self.previewHelp!.loadPreview()
+        }
+        self.view.addSubview(self.previewHelpBackground!)
+        self.previewHelpBackground!.addSubview(self.previewHelp!.view)
+        self.previewHelpBackground!.addSubview(self.close!)
+        self.viewClose!(hidden: false)
+    }
+    
+    /**
+     Closes Privacy Notice
+     */
+    func closeNoticePrivacy() {
+        self.previewHelpBackground!.removeFromSuperview()
+        self.viewClose!(hidden: false)
     }
     
     

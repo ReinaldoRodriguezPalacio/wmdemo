@@ -165,7 +165,7 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
             self.hourField?.text = self.timeDisplay!.stringFromDate(self.currentOriginalFireDate!)
         }
         
-        self.picker = AlertPickerView.initPickerWithDefaultCancelButton()
+        self.picker = AlertPickerView.initPickerWithDefault()
         
         self.frequencyField?.onBecomeFirstResponder = { () in
             self.picker!.selected = NSIndexPath(forRow: self.selectedPeriodicity ?? 0, inSection: 0)
