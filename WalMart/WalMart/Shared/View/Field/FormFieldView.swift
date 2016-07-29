@@ -63,6 +63,7 @@ class FormFieldView : UIEdgeTextField {
         self.layer.cornerRadius = 5
         self.backgroundColor =  WMColor.light_light_gray
         self.font = WMFont.fontMyriadProRegularOfSize(14)
+        self.textColor = WMColor.dark_gray
         self.isValid = true
     }
    

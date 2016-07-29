@@ -118,6 +118,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
         tableData.registerClass(TextboxTableViewCell.self, forCellReuseIdentifier: "textboxItem")
         tableData.delegate = self
         tableData.dataSource = self
+        tableData.separatorStyle = .None
 
         self.viewContentOptions.addSubview(tableData)
         

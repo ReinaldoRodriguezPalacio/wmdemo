@@ -13,7 +13,7 @@ protocol EditProfileViewControllerDelegate {
 }
 
 
-class EditProfileViewController: NavigationViewController,  UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate  {
+class EditProfileViewController: NavigationViewController,  UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, AlertPickerSelectOptionDelegate  {
 
     var content: TPKeyboardAvoidingScrollView!
     var personalInfoLabel: UILabel!
@@ -44,6 +44,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var associateNumber: FormFieldView?
     var associateDeterminant: FormFieldView?
     var associateDate: FormFieldView?
+    var inputAssociateDateView: UIDatePicker?
     
     var errorView: FormFieldErrorView?
     var alertView: IPOWMAlertViewController?
@@ -61,6 +62,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var showAssociateInfo: Bool = false
     var showTabbar:Bool = false
     var dateSelected : NSDate!
+    var associateDateSelected : NSDate!
+    var picker : AlertPickerView!
+    var selectedGender: NSIndexPath!
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
@@ -192,11 +196,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.birthDate!.disablePaste = true
         self.content?.addSubview(self.birthDate!)
         
-        self.gender = FormFieldView()
+        self.gender = FormFieldView(frame:CGRectMake(16, 0, self.view.frame.width - 32, 40))
         self.gender!.isRequired = false
         self.gender!.setCustomPlaceholder(NSLocalizedString("Genero",comment:""))
         self.gender!.typeField = TypeField.List
         self.gender!.nameField = "Genero"
+        self.gender!.setImageTypeField()
         self.content?.addSubview(self.gender!)
         
         self.ocupation = FormFieldView()
@@ -211,6 +216,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
             if field != nil {
                 self.dateChanged()
+                self.associateDateChanged()
                 field?.resignFirstResponder()
             }
         })
@@ -243,7 +249,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.phoneHome = FormFieldView()
         self.phoneHome!.isRequired = true
-        self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.house",comment:""))
+        self.phoneHome!.setCustomPlaceholder("Telefono 8-10 digitos incluyendo LADA")
         self.phoneHome!.typeField = TypeField.Phone
         self.phoneHome!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHome!.minLength = 10
@@ -254,9 +260,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         //self.phoneHome!.delegate =  self
         
         self.phoneHomeExtension = FormFieldView()
-        self.phoneHomeExtension!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.office",comment:""))
-        self.phoneHomeExtension!.typeField = TypeField.Phone
-        self.phoneHomeExtension!.nameField = NSLocalizedString("profile.address.field.telephone.office",comment:"")
+        self.phoneHomeExtension!.isRequired = false
+        self.phoneHomeExtension!.setCustomPlaceholder("Extensión")
+        self.phoneHomeExtension!.typeField = TypeField.Number
+        self.phoneHomeExtension!.nameField = "Extensión"
         self.phoneHomeExtension!.minLength = 3
         self.phoneHomeExtension!.maxLength = 5
         self.phoneHomeExtension!.keyboardType = UIKeyboardType.NumberPad
@@ -264,7 +271,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content?.addSubview(self.phoneHomeExtension!)
         
         self.cellPhone = FormFieldView()
-        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.address.field.telephone.cell",comment:""))
+        self.cellPhone!.isRequired = false
+        self.cellPhone!.setCustomPlaceholder("Teléfono móvil 10-15 Dígitos")
         self.cellPhone!.typeField = TypeField.Phone
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
@@ -318,6 +326,17 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDate!.disablePaste = true
         self.associateDate!.alpha = 0.0
         self.content?.addSubview(self.associateDate!)
+        
+        self.inputAssociateDateView = UIDatePicker()
+        self.inputAssociateDateView!.datePickerMode = .Date
+        self.inputAssociateDateView!.date = NSDate()
+        self.inputAssociateDateView!.maximumDate = maxDate
+        self.inputAssociateDateView!.minimumDate = minDate
+        
+        self.inputAssociateDateView!.addTarget(self, action: #selector(EditProfileViewController.associateDateChanged), forControlEvents: .ValueChanged)
+        self.associateDate!.inputView = self.inputAssociateDateView!
+        self.associateDate!.inputAccessoryView = viewAccess
+        //self.associateDateChanged()
     
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = 4
@@ -332,13 +351,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.light_blue
+        self.cancelButton!.backgroundColor = WMColor.light_gray
         self.cancelButton!.layer.cornerRadius = 17
         self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
-        self.saveButton!.setTitle(NSLocalizedString("profile.create.an.continue", comment:""), forState:.Normal)
+        self.saveButton!.setTitle(NSLocalizedString("profile.save", comment:""), forState:.Normal)
         self.saveButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.saveButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.saveButton!.backgroundColor = WMColor.green
@@ -360,6 +379,19 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.content.clipsToBounds = true
         self.view.bringSubviewToFront(self.header!)
         self.showTabbar = !TabBarHidden.isTabBarHidden
+        
+        self.picker = AlertPickerView.initPickerWithDefaultCancelButton()
+        self.selectedGender = NSIndexPath(forRow: 0, inSection: 0)
+        self.gender?.onBecomeFirstResponder = { () in
+            self.picker!.selected = self.selectedGender
+            self.picker!.sender = self.gender!
+            self.picker!.selectOptionDelegate = self
+            self.picker!.setValues("Genero", values: ["Masculino","Femenino"])
+            self.picker!.hiddenRigthActionButton(true)
+            self.picker!.cellType = TypeField.Check
+            self.picker?.tableData?.separatorStyle = .None
+            self.picker!.showPicker()
+        }
     }
 
     override func viewWillLayoutSubviews() {
@@ -438,10 +470,29 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.name!.text = user.profile.name as String
             self.email!.text = user.email as String
             self.lastName!.text = user.profile.lastName as String
+            self.gender!.text = user.profile.sex as String
+            self.selectedGender = NSIndexPath(forRow:(self.gender!.text == "Masculino" ? 0 : 1), inSection: 0)
+            self.ocupation!.text = user.profile.profession as String
             if let date = self.parseFmt!.dateFromString(user.profile.birthDate as String) {
                 self.birthDate!.text = self.dateFmt!.stringFromDate(date)
                 self.dateSelected = date
                 self.inputBirthdateView!.date = date
+            }
+            self.phoneHome!.text = user.profile.phoneHomeNumber as String
+            self.phoneHomeExtension!.text = user.profile.homeNumberExtension as String
+            self.cellPhone!.text = user.profile.cellPhone as String
+            
+            if user.profile.associateNumber as String != "" {
+                self.showAssociateInfo = true
+                self.isAssociateButton?.selected = true
+                self.associateNumber!.text = user.profile.associateNumber as String
+                self.associateDeterminant!.text = user.profile.associateStore as String
+                if let associateDate = self.parseFmt!.dateFromString(user.profile.joinDate as String) {
+                    self.associateDate!.text = self.dateFmt!.stringFromDate(associateDate)
+                    self.associateDateSelected = associateDate
+                    self.inputAssociateDateView!.date = associateDate
+                }
+
             }
         }
     }
@@ -454,26 +505,16 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
           return CGSizeMake(self.view.frame.width, content.contentSize.height)
     }
     
-    func changePassword() {
-        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_OPEN_FORM_CHANGE_PASSWORD.rawValue , label:"")
-        let changePassword = ChangePasswordViewController()
-        self.navigationController!.pushViewController(changePassword, animated: true)
-    }
-    
     func dateChanged() {
         let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
         self.dateSelected = date
-        if self.saveButton != nil {
-        self.saveButton!.hidden = false
-            UIView.animateWithDuration(0.4, animations: {
-                self.saveButton!.alpha = 1.0
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        self.saveButton!.alpha = 1.0
-                    }
-            })
-        }
+    }
+    
+    func associateDateChanged(){
+        let date = self.inputAssociateDateView!.date
+        self.associateDate!.text = self.dateFmt!.stringFromDate(date)
+        self.associateDateSelected = date
     }
     
     //MARK: - TPKeyboardAvoidingScrollViewDelegate
@@ -506,19 +547,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         if validateUser() {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
             let service = UpdateUserProfileService()
-            let passCurrent = (self.passworCurrent==nil ? "" : self.passworCurrent!.text)
-            let passNew = (self.password==nil ? "" : self.password!.text)
-            
-            let dateSlectedStr = self.parseFmt!.stringFromDate(self.dateSelected)
-            let gender =  "Male"
-           
-            UserCurrentSession.sharedInstance().userSigned!.profile.birthDate = dateSlectedStr
-            UserCurrentSession.sharedInstance().userSigned!.profile.sex = gender
-            
-            let allowMarketing =  UserCurrentSession.sharedInstance().userSigned?.profile.allowMarketingEmail
-            let allowTransfer = UserCurrentSession.sharedInstance().userSigned?.profile.allowTransfer
-            
-            let params  = service.buildParamsWithMembership(self.email!.text!, password: passCurrent!, newPassword:passNew!, name: self.name!.text!, lastName: self.lastName!.text!,birthdate:dateSlectedStr,gender:gender,allowTransfer:allowTransfer! as String,allowMarketingEmail:allowMarketing! as String,associateStore: "",joinDate: "",associateNumber: "")
+            let profileId = UserCurrentSession.sharedInstance().userSigned?.profile.idProfile as! String
+            let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.associateDate!.text!, associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
@@ -565,6 +595,61 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     
+    func validatePhoneInfo() -> Bool{
+        var error = viewError(phoneHome!)
+        if !error{
+            error = viewError(phoneHomeExtension!)
+        }
+        if !error{
+            error = viewError(cellPhone!)
+        }
+        if error{
+            return false
+        }
+        return true
+    }
+    
+    func validateAssociateInfo() -> Bool {
+        var error = viewError(associateNumber!)
+        if !error{
+            error = viewError(associateDeterminant!)
+        }
+        if !error{
+            error = viewError(associateDate!)
+        }
+        if error{
+            return false
+        }
+        return true
+    }
+    
+    func validateChangePassword() -> Bool{
+        var error = viewError(confirmPassword!)
+        if !error{
+            error = viewError(password!)
+        }
+        if !error{
+            error = viewError(passworCurrent!)
+        }
+        if error{
+            return false
+        }
+        var field = FormFieldView()
+        var message = ""
+        if password!.text != confirmPassword!.text{
+            field = confirmPassword!
+            message = NSLocalizedString("field.validate.confirmpassword.equal", comment: "")
+        }
+        if message.characters.count > 0 {
+            if self.errorView == nil{
+                self.errorView = FormFieldErrorView()
+            }
+            SignUpViewController.presentMessage(field,  nameField:field.nameField ,  message: message ,errorView:self.errorView!,  becomeFirstResponder: true )
+            return false
+        }
+        return true
+    }
+    
     func validateUser() -> Bool{
         var error = viewError(name!)
         if !error{
@@ -574,32 +659,28 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             error = viewError(email!)
         }
         
-        if self.passworCurrent != nil{
-            
-            if self.passworCurrent!.text!.characters.count > 0 ||
-                self.password!.text!.characters.count > 0 ||
-                self.confirmPassword!.text!.characters.count > 0 {
-                if !error{
-                    error = viewError(passworCurrent!)
-                }
-                if !error{
-                    error = viewError(password!)
-                }
-                if !error{
-                    error = viewError(confirmPassword!)
-                }
-                if !error{
-                    if self.password!.text !=  self.confirmPassword!.text{
-                        if self.errorView == nil{
-                            self.errorView = FormFieldErrorView()
-                        }
-                        SignUpViewController.presentMessage(self.confirmPassword!, nameField:self.confirmPassword!.nameField , message: NSLocalizedString("field.validate.confirm.password", comment: ""), errorView:self.errorView!,  becomeFirstResponder: true )
-                        error = true
-                    }
-                }
-            }
+        if self.showPasswordInfo && !self.validateChangePassword() {
+            return false
+        }
+        
+        if !error{
+            error = viewError(gender!)
+        }
+        if !error{
+            error = viewError(birthDate!)
+        }
+        if !error{
+            error = viewError(ocupation!)
         }
         if error{
+            return false
+        }
+        
+        if !self.validatePhoneInfo() {
+            return false
+        }
+        
+        if self.showAssociateInfo && !self.validateAssociateInfo() {
             return false
         }
         return true
@@ -681,6 +762,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     override func back() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         super.back()
+    }
+    
+    //MARK: - AlertPickerSelectOptionDelegate
+    func didSelectOptionAtIndex(indexPath: NSIndexPath){
+        if self.errorView != nil{
+            self.errorView!.removeFromSuperview()
+            self.errorView!.focusError = nil
+            self.errorView = nil
+        }
+        self.selectedGender = indexPath
+        self.gender?.text = indexPath.row == 0 ? "Masculino" : "Femenino"
+        self.gender?.layer.borderWidth = 0
     }
     
     

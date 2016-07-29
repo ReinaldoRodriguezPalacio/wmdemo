@@ -11,9 +11,9 @@ import CoreData
 
 class UpdateUserProfileService : BaseService {
     
-    func buildParamsWithMembership(email:String,password:String,newPassword: String,name:String,lastName:String,birthdate:String,gender:String,allowTransfer:String,allowMarketingEmail:String,associateStore:String,joinDate:String,associateNumber:String) -> NSDictionary {
+    func buildParamsWithMembership(profileId:String,name:String,lastName:String,email:String,gender:String,ocupation:String,phoneNumber:String,phoneExtension:String,mobileNumber:String,updateAssociate:Bool,associateStore:String,joinDate:String,associateNumber:String,updatePassword:Bool,oldPassword:String,newPassword:String) -> NSDictionary {
         
-     return ["email": email,"password": password,"profile": ["birthdate": birthdate,"allowMarketingEmail": allowMarketingEmail,"gender": gender,"allowTransfer": allowTransfer,"lastName":lastName,"name": name,"associateNumber": associateNumber,"associateStore": associateStore,"joinDate": joinDate],"newPassword": newPassword]
+        return ["profileId":profileId,"firstName":name,"lastName":lastName,"email":email,"gender":gender,"occupation":ocupation,"phoneNumber":phoneNumber,"phoneExtension":phoneExtension,"mobileNumber":mobileNumber,"associateCheckBox":updateAssociate ? "true" : "false","associateNumber":associateNumber,"associateStore":associateStore,"joinDate":joinDate,"passwordCheckBox":updatePassword ? "true" : "false","oldPassword":oldPassword,"newPassword":newPassword]
     }
     
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {

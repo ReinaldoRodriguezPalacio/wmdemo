@@ -238,7 +238,7 @@
 "profile.registration" = "Registro";
 "profile.title" = "Información de mi cuenta";
 "profile.change.password" = "Cambiar Contraseña";
-"profile.save" = "guardar";
+"profile.save" = "Guardar";
 "profile.password.current" = "Contraseña Actual";
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
 "profile.login.welcome"= "¡Bienvenido a Walmart!";
