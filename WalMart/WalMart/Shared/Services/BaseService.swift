@@ -231,7 +231,8 @@ class BaseService : NSObject {
                         let loginService = LoginWithIdService()
                         let idUser = UserCurrentSession.sharedInstance().userSigned!.idUser
                         loginService.callService(["idUser":idUser], successBlock: { (response:NSDictionary) -> Void in
-                            self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
+                            //TODO:QUITAR IMPORTANTE DESCOMENTAR
+                            //self.callGETService(params, successBlock: successBlock, errorBlock: errorBlock)
                             }, errorBlock: { (error:NSError) -> Void in
                                 UserCurrentSession.sharedInstance().userSigned = nil
                                 NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UserLogOut.rawValue, object: nil)

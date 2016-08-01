@@ -1764,5 +1764,4 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         }
         return result
     }
-    
 }

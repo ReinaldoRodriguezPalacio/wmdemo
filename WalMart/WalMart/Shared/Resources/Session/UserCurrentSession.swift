@@ -156,8 +156,8 @@ class UserCurrentSession : NSObject {
         usr.idUser = idUser
         
         usr.email = loginResult["email"] as! String
-        usr.idUser = "42445342-9b6c-4e27-b19f-6f16077d10b8"//loginResult["idUser"] as! String
-        usr.cartId =  "c092b49a-6615-4e61-a1a8-5e0dfa64d413"//loginResult["cartId"] as! String
+        usr.idUser = loginResult["idUser"] as! String
+        usr.cartId = loginResult["cartId"] as! String
     
         if let addressArray = profileResult["address"] as? NSArray {
             for address in addressArray{
@@ -176,7 +176,7 @@ class UserCurrentSession : NSObject {
         usr.lastLogin = date
         
         if let idProfile = loginProfile["idUser"] as? String{
-            profile.idProfile = idProfile
+            profile.idProfile = idProfile //"42445342-9b6c-4e27-b19f-6f16077d10b8"
         }
         
         if let minimumAmount = loginProfile["minimumAmount"] as? Double{

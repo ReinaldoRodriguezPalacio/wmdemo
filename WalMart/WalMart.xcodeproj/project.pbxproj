@@ -193,7 +193,6 @@
 		565F1D4F1A1D73D100120953 /* IPASearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 565F1D4E1A1D73D100120953 /* IPASearchView.swift */; };
 		56603D2919B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56603D2819B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift */; };
 		56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56603D2A19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift */; };
-		5662252B1B5EBBA1000DE420 /* ChangePasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */; };
 		5662252F1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */; };
 		5663A62419DA11AC00EF0B17 /* Wishlist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5663A62319DA11AC00EF0B17 /* Wishlist.swift */; };
 		56679E801B3228DE003A8CB9 /* MoreSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56679E7F1B3228DE003A8CB9 /* MoreSectionView.swift */; };
@@ -865,7 +864,6 @@
 		565F1D4E1A1D73D100120953 /* IPASearchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPASearchView.swift; path = iPad/View/Search/IPASearchView.swift; sourceTree = "<group>"; };
 		56603D2819B8D8700094ED47 /* ProductDetrailNavCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetrailNavCollectionReusableView.swift; path = Shared/View/Product/ProductDetrailNavCollectionReusableView.swift; sourceTree = "<group>"; };
 		56603D2A19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductDetailCurrencyCollectionView.swift; path = Shared/View/Product/ProductDetailCurrencyCollectionView.swift; sourceTree = "<group>"; };
-		5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangePasswordViewController.swift; path = iPhone/Controller/Profile/ChangePasswordViewController.swift; sourceTree = "<group>"; };
 		5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChangeInfoLegalViewController.swift; path = iPhone/Controller/Profile/ChangeInfoLegalViewController.swift; sourceTree = "<group>"; };
 		5663A62319DA11AC00EF0B17 /* Wishlist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Wishlist.swift; path = Shared/Model/Entity/Wishlist.swift; sourceTree = "<group>"; };
 		56679E7F1B3228DE003A8CB9 /* MoreSectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoreSectionView.swift; path = iPhone/View/MoreView/MoreSectionView.swift; sourceTree = "<group>"; };
@@ -2706,7 +2704,6 @@
 				AC6AAE9819CCB648004081C4 /* MyAddressViewController.swift */,
 				AC6AAE9F19CCF3A5004081C4 /* AddressViewController.swift */,
 				ACD9F76E19D0A30B006CC9F3 /* EditProfileViewController.swift */,
-				5662252A1B5EBBA1000DE420 /* ChangePasswordViewController.swift */,
 				5662252E1B5ECBA2000DE420 /* ChangeInfoLegalViewController.swift */,
 			);
 			name = Profile;
@@ -4184,7 +4181,6 @@
 				565E5A6C19C0B01400444DF7 /* ImageScrollView.swift in Sources */,
 				4AE7FA921C802033007C43B3 /* IPALinesViewController.swift in Sources */,
 				AC0918C419D1D59900BF48CA /* AddressView.swift in Sources */,
-				5662252B1B5EBBA1000DE420 /* ChangePasswordViewController.swift in Sources */,
 				56AAFF971A92584B007B8D91 /* FormSuperAddressView.swift in Sources */,
 				56603D2B19B8E5580094ED47 /* ProductDetailCurrencyCollectionView.swift in Sources */,
 				56E54E4919EC6B570004161C /* IPASearchProductViewController.swift in Sources */,
