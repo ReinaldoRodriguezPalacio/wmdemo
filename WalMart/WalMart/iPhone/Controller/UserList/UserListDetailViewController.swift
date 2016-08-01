@@ -300,7 +300,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.selectedItems = NSMutableArray()
                 if self.products != nil  && self.products!.count > 0  {
                     for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.addObject(i)
+                        let item =  self.products![i] as? [String:AnyObject]
+                        self.selectedItems?.addObject(item!["upc"] as! String )
+                        //self.selectedItems?.addObject(i)
                     }
                     self.updateTotalLabel()
                     self.showHelpViewDetail()
@@ -316,7 +318,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             } else {
                 self.selectedItems = NSMutableArray()
                 for i in 0...self.products!.count - 1 {
-                    self.selectedItems?.addObject(i)
+                    let item =  self.products![i] as? [String:AnyObject]
+                    self.selectedItems?.addObject(item!["upc"] as! String )
+                    //self.selectedItems?.addObject(i)
                 }
                 self.updateTotalLabel()
             }
@@ -692,7 +696,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func updateTotalLabel() {
         var total: Double = 0.0
-        if self.products != nil && self.products!.count > 0 {
+        if self.newArrayProducts != nil && self.newArrayProducts!.count > 0 {
             total = self.calculateTotalAmount()
         }
         
@@ -708,34 +712,66 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
+        
         if selectedItems != nil {
-            for idxVal  in selectedItems! {
-                let idx = idxVal as! Int
-                if let item = self.products![idx] as? [String:AnyObject] {
-                    if let typeProd = item["type"] as? NSString {
-                        let quantity = item["quantity"] as! NSNumber
-                        let price = item["price"] as! NSNumber
-                        
-                        if typeProd.integerValue == 0 {
-                            total += (quantity.doubleValue * price.doubleValue)
+
+            for upcSelected in selectedItems! {
+                var index = 0
+                for lines in self.newArrayProducts! {
+                    let array =  lines[linesArray[index] as! String] as! NSArray
+                    for product in array {
+                        let upc = upcSelected as! String
+                        if  product["upc"] as! String  == upc {
+                            
+                            if let typeProd = product["type"] as? NSString {
+                                let quantity = product["quantity"] as! NSNumber
+                                let price = product["price"] as! NSNumber
+                                
+                                if typeProd.integerValue == 0 {
+                                    total += (quantity.doubleValue * price.doubleValue)
+                                }
+                                else {
+                                    let kgrams = quantity.doubleValue / 1000.0
+                                    total += (kgrams * price.doubleValue)
+                                }
+                            }
                         }
-                        else {
-                            let kgrams = quantity.doubleValue / 1000.0
-                            total += (kgrams * price.doubleValue)
-                        }
                     }
+                    
+                    index = index+1
                 }
-                else if let item = self.products![idx] as? Product {
-                    let quantity = item.quantity
-                    let price:Double = item.price.doubleValue
-                    if item.type.integerValue == 0 {
-                        total += (quantity.doubleValue * price)
-                    }
-                    else {
-                        let kgrams = quantity.doubleValue / 1000.0
-                        total += (kgrams * price)
-                    }
-                }
+               
+                    
+//                    if let item = self.newArrayProducts![index] as? [String:AnyObject] {
+//                        
+//                       let  product = item[linesArray[index] as! String]
+//                        let dicProduct = product![index] as?  NSDictionary
+//                        if let typeProd = dicProduct!["type"] as? NSString {
+//                            let quantity = dicProduct!["quantity"] as! NSNumber
+//                            let price = dicProduct!["price"] as! NSNumber
+//                            print("price \(price)")
+//                            if typeProd.integerValue == 0 {
+//                                total += (quantity.doubleValue * price.doubleValue)
+//                            }
+//                            else {
+//                                let kgrams = quantity.doubleValue / 1000.0
+//                                total += (kgrams * price.doubleValue)
+//                            }
+//                        }
+//                    }
+//                    else if let item = self.newArrayProducts![index] as? Product {
+//                        let quantity = item.quantity
+//                        let price:Double = item.price.doubleValue
+//                        if item.type.integerValue == 0 {
+//                            total += (quantity.doubleValue * price)
+//                        }
+//                        else {
+//                            let kgrams = quantity.doubleValue / 1000.0
+//                            total += (kgrams * price)
+//                        }
+//                    }
+                
+                
             }
         }
         return total
@@ -785,19 +821,91 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //    }
     
     //MARK: - UITableViewDataSource
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var size = 0
-        if self.products != nil {
-            size = self.products!.count
-            if size > 0 {
-                size += 1
+    let linesArray : NSMutableArray = []
+    var newArrayProducts : [[String:AnyObject]]! = []
+    func counSections(){
+        
+        for items in self.products! {
+            let line = items["line"] as? NSDictionary
+            let lineId = line!["name"] as? String
+           if  !linesArray.containsObject(lineId!) {
+            print("se agrega")
+                linesArray.addObject(lineId!)
             }
         }
+        
+        for lineArray in linesArray {
+            var arrayitems : [AnyObject] = []
+            for  items in self.products!  {
+                let line = items["line"] as? NSDictionary
+                let lineId = line!["name"] as? String
+                
+                if lineId! == lineArray as! String {
+                
+                    arrayitems.append(items)
+                }
+            }
+            
+            newArrayProducts.append ([lineArray as! String:arrayitems])
+        }
+        self.newArrayProducts = newArrayProducts.sort({ (first:[String:AnyObject], second:[String:AnyObject]) -> Bool in
+            let dicFirst = first.first!.0 as String
+            let dicSecond = second.first!.0 as String
+            return dicFirst < dicSecond
+        })
+        
+        
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return  linesArray.count == 0 ? 1 : linesArray.count + 1
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+      
+        if section == self.newArrayProducts.count {
+           return nil
+        }
+        
+        let header = UIView(frame: CGRectMake(0.0, 0.0, self.view.frame.width, 26.0))
+        header.backgroundColor = UIColor.whiteColor()
+        if linesArray.count > 0 {
+            let title = UILabel(frame: CGRectMake(16.0, (header.frame.height - 12) / 2 , self.view.frame.width - 32.0, 12.0))
+            title.textColor = WMColor.light_blue
+            title.font = WMFont.fontMyriadProRegularOfSize(11)
+            title.text = linesArray[section] as? String
+            header.addSubview(title)
+            
+        }
+        
+        return header
+
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        var size = 0
+//        if self.products != nil {
+//            size = self.products!.count
+//            if size > 0 {
+//                size += 1
+//            }
+//        }
+        let detailService = GRUserListDetailService()//TODO: TEST
+        if section == self.newArrayProducts.count  {
+            return 1
+        }
+        if self.newArrayProducts != nil  && self.newArrayProducts.count > 0 {
+            let items = self.newArrayProducts![section]
+            let listProduct = items[linesArray[section] as! String] as? NSArray
+            size = listProduct!.count
+        }
+        
         return size
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if indexPath.row == self.products!.count {
+
+        if indexPath.section == self.newArrayProducts.count {
             let totalCell = tableView.dequeueReusableCellWithIdentifier(self.TOTAL_CELL_ID, forIndexPath: indexPath) as! GRShoppingCartTotalsTableViewCell
             let total = self.calculateTotalAmount()
             totalCell.setValues("", iva: "", total: "\(total)", totalSaving: "", numProds:"")
@@ -810,12 +918,24 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         listCell.defaultList = false
         listCell.detailDelegate = self
         listCell.delegate = self
-        if let item = self.products![indexPath.row] as? [String : AnyObject] {
-            listCell.setValuesDictionary(item,disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(indexPath.row))
+        
+        if self.newArrayProducts!.count > 0{
+            let items = self.newArrayProducts![indexPath.section]
+            let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
+            let product =  listProduct.objectAtIndex(indexPath.row)
+
+            listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
+      
         }
-        else if let item = self.products![indexPath.row] as? Product {
-            listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
-        }
+        
+        
+//        if let item = self.self.newArrayProducts![indexPath.row] as? [String : AnyObject] {
+//            listCell.setValuesDictionary(item,disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(indexPath.row))
+//        }
+//        else if let item = self.self.newArrayProducts![indexPath.row] as? Product {
+//            listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
+//        }
+        
         if self.isEdditing {
             listCell.showLeftUtilityButtonsAnimated(false)
         }
@@ -824,7 +944,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     }
 
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == self.products!.count ? 56.0 : 109.0
+      
+        if indexPath.section == self.newArrayProducts.count {
+            return 56.0
+        }
+        return  109.0
     }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -1022,11 +1146,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         self.fromDelete =  false
                         self.selectedItems = NSMutableArray()
                         for i in 0...self.products!.count - 1 {
-                            self.selectedItems?.addObject(i)
+                           let item =  self.products![i] as? [String:AnyObject]
+                            self.selectedItems?.addObject(item!["upc"] as! String )
                         }
                     }
                     self.openEmpty =  false
                      self.removeEmpyView()
+                    self.counSections()
                 }
                 
                 //self.layoutTitleLabel()
@@ -1325,13 +1451,13 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func didDisable(disaable:Bool,cell:DetailListViewCell) {
         let indexPath = self.tableView?.indexPathForCell(cell)
         if disaable {
-            self.selectedItems?.removeObject(indexPath!.row)
+            self.selectedItems?.removeObject(cell.upcVal!)//(indexPath!.row)
         } else {
-            self.selectedItems?.addObject(indexPath!.row)
+            self.selectedItems?.addObject(cell.upcVal!)//(indexPath!.row)
         }
         self.updateTotalLabel()
         if self.selectedItems != nil {
-            self.tableView?.reloadRowsAtIndexPaths([NSIndexPath(forRow: self.products!.count, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Fade)
+            self.tableView?.reloadRowsAtIndexPaths([NSIndexPath(forRow: indexPath!.row, inSection: indexPath!.section)], withRowAnimation: UITableViewRowAnimation.Fade)
         }
     }
     
