@@ -174,9 +174,9 @@ class UserCurrentSession : NSObject {
         
         let date = NSDate()
         usr.lastLogin = date
-        
+
         if let idProfile = loginProfile["idUser"] as? String{
-            profile.idProfile = idProfile //"42445342-9b6c-4e27-b19f-6f16077d10b8"
+            profile.idProfile = idProfile
         }
         
         if let minimumAmount = loginProfile["minimumAmount"] as? Double{
