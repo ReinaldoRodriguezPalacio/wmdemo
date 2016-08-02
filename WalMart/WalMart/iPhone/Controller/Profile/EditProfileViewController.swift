@@ -138,12 +138,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.passwordInfoLabel = UILabel()
         self.passwordInfoLabel.font = WMFont.fontMyriadProRegularOfSize(12)
         self.passwordInfoLabel.textColor = WMColor.dark_gray
-        self.passwordInfoLabel.text = "La contraseña debe contener mínimo 8 caracteres."
+        self.passwordInfoLabel.text =  NSLocalizedString("profile.edit.password.min",comment:"")
         self.passwordInfoLabel.alpha = 0.0
         self.content?.addSubview(self.passwordInfoLabel!)
         
         self.changuePasswordButton = UIButton()
-        self.changuePasswordButton?.setTitle("Deseo modificar mi contraseña", forState: UIControlState.Normal)
+        self.changuePasswordButton?.setTitle(NSLocalizedString("profile.edit.password.button",comment:""), forState: UIControlState.Normal)
         self.changuePasswordButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.changuePasswordButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.changuePasswordButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)

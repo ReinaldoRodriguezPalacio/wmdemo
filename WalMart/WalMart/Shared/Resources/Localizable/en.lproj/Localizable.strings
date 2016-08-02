@@ -262,6 +262,8 @@
 "profile.edit.dateAdmission" = "Fecha Ingreso";
 "profile.edit.determinant" = "Determinante";
 "profile.legalinfo.label" = "Consulta nuestro";
+"profile.edit.password.min" = "La contraseña debe contener mínimo 8 caracteres.";
+"profile.edit.password.button" = "Deseo modificar mi contraseña";
 
 //Preious orders
 "previousorder.status" = "Status";
