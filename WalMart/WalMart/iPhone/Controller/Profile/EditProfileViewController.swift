@@ -427,6 +427,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     //MARK: - Actions
+    
+    /**
+      builds component elements
+     */
     func buildComponetViews() {
         let bounds = self.view.bounds
         let topSpace: CGFloat = 8.0
@@ -484,6 +488,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.saveButton!.frame = CGRectMake((self.view.frame.width/2) + 8 , self.layerLine.frame.maxY + 16, 140, 34)
     }
     
+    /**
+     Set the user profile values
+     */
     func setValues() {
         if let user = UserCurrentSession.sharedInstance().userSigned {
             self.name!.text = user.profile.name as String
@@ -516,12 +523,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         }
     }
     
+    /**
+     saves the new date from birth date field
+     */
     func dateChanged() {
         let date = self.inputBirthdateView!.date
         self.birthDate!.text = self.dateFmt!.stringFromDate(date)
         self.dateSelected = date
     }
     
+    /**
+     saves the associate date f¡ield
+     */
     func associateDateChanged(){
         let date = self.inputAssociateDateView!.date
         self.associateDate!.text = self.dateFmt!.stringFromDate(date)
@@ -534,7 +547,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     }
     
     //MARK: - TextFieldDelegate
-    
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
         let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
@@ -554,8 +566,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return true
     }
 
-    
-    
     func textFieldDidEndEditing(textField: UITextField) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
@@ -566,20 +576,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             }
         }
     }
-    
-    func textModify(textField: UITextField!) {
-        if self.saveButton!.hidden {
-            self.saveButton!.hidden = false
-            UIView.animateWithDuration(0.4, animations: {
-                self.saveButton!.alpha = 1.0
-                }, completion: {(bool : Bool) in
-                    if bool {
-                        self.saveButton!.alpha = 1.0
-                    }
-            })
-        }
-    }
-
+    /**
+     Saves new profile settings
+     
+     - parameter sender: save button
+     */
     func save(sender:UIButton) {
         if validateUser() {
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
@@ -631,7 +632,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         }
     }
     
-    
+    /**
+     Validates phone fields
+     
+     - returns: bool
+     */
     func validatePhoneInfo() -> Bool{
         var error = viewError(phoneHome!)
         if !error{
@@ -646,6 +651,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return true
     }
     
+    /**
+     Validates associateInfo
+     
+     - returns: Bool
+     */
     func validateAssociateInfo() -> Bool {
         var error = viewError(associateNumber!)
         if !error{
@@ -660,6 +670,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return true
     }
     
+    /**
+     Validates password info
+     
+     - returns: Bool
+     */
     func validateChangePassword() -> Bool{
         var error = viewError(confirmPassword!)
         if !error{
@@ -687,6 +702,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return true
     }
     
+    /**
+     Validates user infromation
+     
+     - returns: Bool
+     */
     func validateUser() -> Bool{
         var error = viewError(name!)
         if !error{
@@ -723,6 +743,13 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return true
     }
     
+    /**
+     Shows the view error
+     
+     - parameter field: field to show error
+     
+     - returns: Bool
+     */
     func viewError(field: FormFieldView)-> Bool{
         let message = field.validate()
         if message != nil{
@@ -740,7 +767,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return false
     }
     
-    
+    /**
+     Animation to show associate fields
+     
+     - parameter sender: UIButton
+     */
     func showAssociateData(sender:UIButton) {
         self.isAssociateButton!.selected = !self.isAssociateButton!.selected
         
@@ -753,6 +784,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         })
     }
     
+    /**
+     Animation to show password fields
+     
+     - parameter sender: UIButton
+     */
     func showPasswordData(sender:UIButton) {
         self.changuePasswordButton!.selected = !self.changuePasswordButton!.selected
         self.showPasswordInfo = self.changuePasswordButton!.selected
@@ -765,6 +801,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         })
     }
     
+    //MARK: Tabbar Notification
     override func willShowTabbar() {
         self.showTabbar = true
         UIView.animateWithDuration(0.2, animations: { () -> Void in
@@ -788,6 +825,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         }
     }
     
+    /**
+     Push Notice Privacy view controller
+     */
     func noticePrivacy() {
         let controller = PreviewHelpViewController()
         let name = "Aviso de Privacidad"
@@ -798,6 +838,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
+    /**
+     Retuns to more options view controller
+     */
     override func back() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
         super.back()
