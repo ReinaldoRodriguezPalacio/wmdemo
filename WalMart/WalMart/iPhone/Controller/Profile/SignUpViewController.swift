@@ -367,7 +367,7 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
 //            let gender = femaleButton!.selected ? "Female" : "Male"
             let allowTransfer = "\(self.acceptSharePersonal!.selected)"
             let allowPub = "\(self.promoAccept!.selected)"
-            let params = service.buildParamsWithMembershipAndBirthDate(email!.text!, password: password!.text!, name: name!.text!, lastName:  lastName!.text!, allowMarketingEmail: allowPub, birthdate: "10/04/1990", gender: "Male", allowTransfer: allowTransfer)
+            let params = service.buildParamsWithMembership(email!.text!, password: password!.text!, name: name!.text!, lastName:  lastName!.text!, allowMarketingEmail: allowPub, allowTransfer: allowTransfer)
             self.view.endEditing(true)
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
@@ -384,25 +384,13 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                             self.showAddressView()
                         }, isNewFrame: false)
                     }, errorBlock: { (error:NSError) -> Void in
-//                        self.backRegistry(self.backButton!)
-//                        self.alertView!.setMessage(error.localizedDescription)
-//                        self.alertView!.showErrorIcon("Ok")
-                        //TODO: quitar
-                        let message = "\(NSLocalizedString("profile.login.welcome",comment:""))\n\n\(NSLocalizedString("profile.login.addAddress",comment:""))"
-                        self.alertView!.setMessage(message)
-                        self.alertView!.showDoneIconWithoutClose()
-                        self.alertView!.addActionButtonsWithCustomText("Más tarde", leftAction: {
-                            self.successCallBack?()
-                            self.backRegistry(self.backButton!)
-                            }, rightText: "Crear Dirección", rightAction: {
-                                self.showAddressView()
-                            }, isNewFrame: false)
-                    })
+                        self.backRegistry(self.backButton!)
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon("Ok")
                 }
                 , errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
-                    
             })
         }
     }
