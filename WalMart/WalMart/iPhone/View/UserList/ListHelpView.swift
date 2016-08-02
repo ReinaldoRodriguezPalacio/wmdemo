@@ -86,7 +86,10 @@ class ListHelpView: UIView {
     func helpReminder(){
         
         
-        let descriptionHelp =  UILabel(frame: CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16, IS_IPAD ? self.frame.maxY - 30  : self.frame.maxY -  (TabBarHidden.isTabBarHidden ? 80 : 127), self.frame.width - 32, 28))
+        let descriptionHelp =  UILabel(frame: CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,
+            IS_IPAD ? self.frame.maxY - 30  : (self.frame.maxY -  (TabBarHidden.isTabBarHidden ? 140 : 187)),
+            self.frame.width - 32,
+            28))
         descriptionHelp.backgroundColor = UIColor.clearColor()
         descriptionHelp.text = "Crea y edita recordatorios aquí."
         descriptionHelp.numberOfLines =  2

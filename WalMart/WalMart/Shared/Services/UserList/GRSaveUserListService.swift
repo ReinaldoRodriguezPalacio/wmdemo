@@ -32,6 +32,11 @@ class GRSaveUserListService : GRBaseService {
         return ["upc":upc, "quantity":quantity]
     }
     
+    func buildParamsMustang(name:String?) -> [String:AnyObject]! {
+        return ["profileId":UserCurrentSession.sharedInstance().userSigned!.idUser,"name":name!,"description":"","comments":"","instructions":""]
+    }
+    
+    
     func buildProductObject(upc upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:AnyObject] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
@@ -74,7 +79,7 @@ class GRSaveUserListService : GRBaseService {
             self.callPOSTService(cleaned,
                 successBlock: { (resultCall:NSDictionary) -> Void in
                     //self.jsonFromObject(resultCall)
-                    self.manageListData(resultCall)
+                    // self.manageListData(resultCall) -  mustang
                     successBlock?(resultCall)
                     return
                 },

@@ -146,7 +146,7 @@ class GRUserListService : GRBaseService {
         
         //Delete list deleting in other
         for serviceList in list {
-            arryListLocal.addObject(serviceList["id"] as! String)
+            arryListLocal.addObject(serviceList["repositoryId"] as! String)
         }
         
         if let userList = self.retrieveUserList() {
@@ -165,7 +165,7 @@ class GRUserListService : GRBaseService {
                 
                 
                 for serviceList in list {
-                    let listId = serviceList["id"] as! String
+                    let listId = serviceList["repositoryId"] as! String
                     if entity.idList == listId {
                         exist = true
                         break
@@ -182,7 +182,7 @@ class GRUserListService : GRBaseService {
         
 
         for serviceList in list {
-            let listId = serviceList["id"] as! String
+            let listId = serviceList["repositoryId"] as! String
             
             var toUseList : List?  = nil
             if user!.lists != nil {
@@ -209,10 +209,12 @@ class GRUserListService : GRBaseService {
             }
             
             var updateDetailList = false
-            if let countItems = serviceList["countItem"] as? NSNumber {
-                toUseList!.countItem = countItems
-                updateDetailList = countItems.integerValue > 0
-            }
+            let countItems = serviceList["giftlistItems"] as? NSArray
+            
+            //if let countItems = countItems!.count {
+                toUseList!.countItem = countItems!.count
+                updateDetailList = countItems!.count > 0
+            //}
             
             var error: NSError? = nil
             do {
@@ -246,12 +248,13 @@ class GRUserListService : GRBaseService {
                         print("error at delete details: \(error!.localizedDescription)")
                     }
                 }
+                                /// items from getlist
+//                let detailService = GRUserListDetailService()
+//                detailService.buildParams(listId)
+//                detailService.callService([:],
+//                    successBlock: { (result:NSDictionary) -> Void in
                 
-                let detailService = GRUserListDetailService()
-                detailService.buildParams(listId)
-                detailService.callService([:],
-                    successBlock: { (result:NSDictionary) -> Void in
-                        if let items = result["items"] as? NSArray {
+                        if let items =  serviceList["giftlistItems"] as? NSArray{
                             
                             let parentList = self.findListById(listId)
                             if parentList == nil {
@@ -262,6 +265,8 @@ class GRUserListService : GRBaseService {
                             for idx in 0 ..< items.count {
                                 var item = items[idx] as! [String:AnyObject]
                                 let detail = NSEntityDescription.insertNewObjectForEntityForName("Product", inManagedObjectContext: self.managedContext!) as? Product
+                                print("UPC:::")
+                                print(item["upc"] as! String)
                                 detail!.upc = item["upc"] as! String
                                 detail!.img = item["imageUrl"] as! String
                                 detail!.desc = item["description"] as! String
@@ -299,11 +304,11 @@ class GRUserListService : GRBaseService {
                                 }
                             }
                         }
-                    },
-                    errorBlock: { (error:NSError) -> Void in
-                        print("Error at retrieve list detail")
-                    }
-                )
+//                    },
+//                    errorBlock: { (error:NSError) -> Void in
+//                        print("Error at retrieve list detail")
+//                    }
+                //)
             }
             
         }
