@@ -19,43 +19,33 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         
-        let detailService = GRUserListDetailService()
-        detailService.buildParams(listId)
-        detailService.callService([:],
-            successBlock: { (result:NSDictionary) -> Void in
-                
-                let service = GRSaveUserListService()
-                var items: [AnyObject] = []
-                if let products = result["items"] as? NSArray {
-                    for idx in 0 ..< products.count {
-                        var product = products[idx] as! [String:AnyObject]
-                        let quantity = product["quantity"] as! NSNumber
-                        if let upc = product["upc"] as? String {
-                            let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
-                            items.append(item)
-                        }
-                    }
-                }
-                
-                let copyName = self.buildDuplicateNameList(listName, forListId: listId)
-                service.callService(service.buildParams(copyName, items: items),
-                    successBlock: { (result:NSDictionary) -> Void in
-                        successDuplicateList()
-                    },
-                    errorBlock: { (error:NSError) -> Void in
-                        print("Error at duplicate list")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-                    }
-                )
-                
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print("Error at retrieve list detail")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-            }
-        )
+        //TODO: pasar itms para duplicar
+//                let service = GRSaveUserListService()
+//                var items: [AnyObject] = []
+//                if let products = result["items"] as? NSArray {
+//                    for idx in 0 ..< products.count {
+//                        var product = products[idx] as! [String:AnyObject]
+//                        let quantity = product["quantity"] as! NSNumber
+//                        if let upc = product["upc"] as? String {
+//                            let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
+//                            items.append(item)
+//                        }
+//                    }
+//                }
+//                
+//                let copyName = self.buildDuplicateNameList(listName, forListId: listId)
+//                service.callService(service.buildParams(copyName, items: items),
+//                    successBlock: { (result:NSDictionary) -> Void in
+//                        successDuplicateList()
+//                    },
+//                    errorBlock: { (error:NSError) -> Void in
+//                        print("Error at duplicate list")
+//                        self.alertView!.setMessage(error.localizedDescription)
+//                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+//                    }
+//                )
+        
+
         
     }
     

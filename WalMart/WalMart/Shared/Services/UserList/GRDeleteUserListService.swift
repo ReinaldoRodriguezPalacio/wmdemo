@@ -11,13 +11,13 @@ import UIKit
 class GRDeleteUserListService: GRBaseService {
 
     var listId: String?
-
-    func buildParams(idList:String?) {
-        self.listId = idList
+    
+    func buildParams(idList:String) -> [String:AnyObject]! {
+        return ["idList":idList]
     }
     
     func callService(params:NSDictionary?, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
-        self.callGETService([:],
+        self.callPOSTService([:],
             successBlock: { (resultCall:NSDictionary) -> Void in
                 successBlock?(resultCall)
                 return
@@ -28,8 +28,5 @@ class GRDeleteUserListService: GRBaseService {
         )
     }
 
-    override func serviceUrl() -> String {
-        return super.serviceUrl() + "/"  + self.listId!
-    }
-
+    
 }

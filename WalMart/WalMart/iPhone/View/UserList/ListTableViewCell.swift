@@ -160,8 +160,9 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.listName!.text = title
         self.textField!.text = title
         
-        if let countItem = object["countItem"] as? NSNumber {
-            self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), countItem)
+        if let countItem = object["giftlistItems"] as? NSArray {
+            print(countItem.count)
+            self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), "\(countItem.count)")
         }
         self.iconView!.image = UIImage(named: "list")
         self.listId = object["id"] as? String

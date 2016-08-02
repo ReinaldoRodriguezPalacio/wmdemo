@@ -434,7 +434,7 @@
 			<key>WalmartMG.GRDeleteItemListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/deleteItem</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/deleteList</string>
+			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountActiveService</key>
@@ -470,7 +470,7 @@
 			<key>WalmartMG.GRRecentProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getMyBasic</string>
 			<key>WalmartMG.GRSaveUserListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/saveList</string>
+			<string>https://dl.dropboxusercontent.com/s/8kkaxd2cq3u0axr/resposeSucces.txt?dl=0</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>

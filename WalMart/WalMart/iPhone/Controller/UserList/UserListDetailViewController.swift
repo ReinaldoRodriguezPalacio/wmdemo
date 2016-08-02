@@ -247,7 +247,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         let  showTurial = (requiredHelp && self.listDetailHelView == nil)
         
-        if showTurial {
+        if true {
             listDetailHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InReminderList )
             listDetailHelView?.onClose  = {() in
                 self.removeHelpView()
@@ -890,7 +890,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //                size += 1
 //            }
 //        }
-        let detailService = GRUserListDetailService()//TODO: TEST
         if section == self.newArrayProducts.count  {
             return 1
         }
@@ -1133,12 +1132,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     //MARK: - Services
     func invokeDetailListService(action:(()->Void)? , reloadList : Bool) {
-        let detailService = GRUserListDetailService()
-        detailService.buildParams(self.listId)
-        detailService.callService([:],
-            successBlock: { (result:NSDictionary) -> Void in
-                self.products = result["items"] as? [AnyObject]
-                self.titleLabel?.text = result["name"] as? String
+//        let detailService = GRUserListDetailService()
+//        detailService.buildParams(self.listId)
+//        detailService.callService([:],
+//            successBlock: { (result:NSDictionary) -> Void in
+        
+//                self.products = result["items"] as? [AnyObject]
+//                self.titleLabel?.text = result["name"] as? String
+        
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
                 } else {
@@ -1175,20 +1176,21 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 
                 action?()
-            },
-            errorBlock: { (error:NSError) -> Void in
-                print("Error at retrieve list detail")
-                self.back()
-            }
-        )
+//            },
+//            errorBlock: { (error:NSError) -> Void in
+//                print("Error at retrieve list detail")
+//                self.back()
+//            }
+//        )
     }
     
     func invokeDeleteProductFromListService(upc:String,succesDelete:(()->Void)) {
         if !self.deleteProductServiceInvoked {
             
-            let detailService = GRUserListDetailService()
-            detailService.buildParams(listId!)
-            detailService.callService([:], successBlock: { (result:NSDictionary) -> Void in
+//            let detailService = GRUserListDetailService()
+//            detailService.buildParams(listId!)
+//            detailService.callService([:], successBlock: { (result:NSDictionary) -> Void in
+            
                 self.deleteProductServiceInvoked = true
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
@@ -1226,11 +1228,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         self.deleteProductServiceInvoked = false
                     }
                 )
-                }, errorBlock: { (error:NSError) -> Void in
-                    self.alertView!.setMessage(error.localizedDescription)
-                    self.alertView!.showErrorIcon("Ok")
-                    self.deleteProductServiceInvoked = false
-            })
+                
+//                }, errorBlock: { (error:NSError) -> Void in
+//                    self.alertView!.setMessage(error.localizedDescription)
+//                    self.alertView!.showErrorIcon("Ok")
+//                    self.deleteProductServiceInvoked = false
+//            })
             
             
            
@@ -1518,10 +1521,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
-            let detailService = GRUserListDetailService()
-            detailService.buildParams(self.listId == nil ? "" : self.listId!)
-            detailService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
+//            let detailService = GRUserListDetailService()
+//            detailService.buildParams(self.listId == nil ? "" : self.listId!)
+//            detailService.callService([:],
+//                successBlock: { (result:NSDictionary) -> Void in
+            
                     let service = GRUpdateListService()
                     service.callService(self.nameField!.text!,
                         successBlock: { (result:NSDictionary) -> Void in
@@ -1535,15 +1539,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         errorBlock: { (error:NSError) -> Void in
                                 self.alertView!.setMessage(error.localizedDescription)
                                 self.alertView!.showErrorIcon("Ok")
-                        }
-                    )
-                },
-                errorBlock: { (error:NSError) -> Void in
-                    
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                }
-            )
+                        })
+            
+//                },
+//                errorBlock: { (error:NSError) -> Void in
+//                    
+//                        self.alertView!.setMessage(error.localizedDescription)
+//                        self.alertView!.showErrorIcon("Ok")
+//                }
+//            )
         }
     }
     

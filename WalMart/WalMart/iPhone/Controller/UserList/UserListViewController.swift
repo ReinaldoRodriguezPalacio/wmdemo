@@ -54,6 +54,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var cellEditing: SWTableViewCell? = nil
     var selectedIndex: NSIndexPath? = nil
     
+    var itemsList : [[String:AnyObject]] = []
+    
     var listHelView : ListHelpView?
     
     override func getScreenGAIName() -> String {
@@ -160,7 +162,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         let  showTurial = (requiredHelp && self.helpView == nil)
-        if showTurial {
+        if true {
             listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InControllerList )
             listHelView?.onClose  = {() in
                 self.removeHelpView()
@@ -675,7 +677,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         let  showTurial = (requiredHelp && self.helpView == nil)
-        if showTurial {
+        if true {
             listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
             listHelView?.onClose  = {() in
                 self.removeHelpView()
@@ -712,7 +714,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
         
         let svcList = GRSaveUserListService()
-        svcList.callService(svcList.buildParams(value),
+        print(svcList.buildParamsMustang(value))
+        svcList.callService(svcList.buildParamsMustang(value),
             successBlock: { (result:NSDictionary) -> Void in
                 
                 
@@ -911,7 +914,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
-                    if let listId = listItem["id"] as? String {
+                    if let listId = listItem["repositoryId"] as? String {
                       self.deleteListInDB(listId)
                         
                         self.invokeDeleteListService(listId)
@@ -1187,6 +1190,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 controller.listId = self.selectedListId
                 controller.listName = self.selectedListName
                 controller.listEntity = self.selectedEntityList
+                controller.products = self.itemsList 
             }
         }
     }
@@ -1288,13 +1292,15 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //            return
 //        }
         
+        
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_TAPPED_VIEW_DETAILS_MYLIST.rawValue, label: "")
         
         if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
-            if let listId = listItem["id"] as? String {
+            if let listId = listItem["repositoryId"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
                 self.selectedIndex = indexPath
+                self.itemsList =  listItem["giftlistItems"] as! [[String:AnyObject]]
 
                 self.performSegueWithIdentifier("showListDetail", sender: self)
             }
@@ -1465,10 +1471,11 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             
             self.view.endEditing(true)
-            let detailService = GRUserListDetailService()
-            detailService.buildParams(firstKey!)
-            detailService.callService([:],
-                successBlock: { (result:NSDictionary) -> Void in
+//            let detailService = GRUserListDetailService()
+//            detailService.buildParams(firstKey!)
+//            detailService.callService([:],
+//                successBlock: { (result:NSDictionary) -> Void in
+            
                     let service = GRUpdateListService()
                     service.callService(name!,
                         successBlock: { (result:NSDictionary) -> Void in
@@ -1506,18 +1513,18 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             }
                         }
                     )
-                },
-                errorBlock: { (error:NSError) -> Void in
-                    self.listToUpdate!.removeValueForKey(firstKey!)
-                    if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
-                        self.invokeUpdateListService()
-                    }
-                    else {
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                    }
-                }
-            )
+//                },
+//                errorBlock: { (error:NSError) -> Void in
+//                    self.listToUpdate!.removeValueForKey(firstKey!)
+//                    if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
+//                        self.invokeUpdateListService()
+//                    }
+//                    else {
+//                        self.alertView!.setMessage(error.localizedDescription)
+//                        self.alertView!.showErrorIcon("Ok")
+//                    }
+//                }
+//            )
             
         }
     }

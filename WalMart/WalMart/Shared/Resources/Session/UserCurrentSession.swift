@@ -227,9 +227,9 @@ class UserCurrentSession : NSObject {
         //MercuryUser
         MercuryService.sharedInstance().setActiveUserName(usr.email as String)
 
-        self.loadShoppingCarts { () -> Void in
-            self.invokeGroceriesUserListService()
-        }
+//        self.loadShoppingCarts { () -> Void in
+//            self.invokeGroceriesUserListService()
+//        }
     }
     
     func deleteAllUsers() {
