@@ -246,6 +246,22 @@
 "profile.login"= "Ingresa a tu cuenta";
 "field.validate.password.length" = "Texto no permitido";
 "profile.change.legalinfo" = "Información legal";
+"profile.gender" = "Género";
+"profile.gender.male" = "Masculino";
+"profile.gender.female" = "Femenino";
+"profile.edit.title" = "Actualiza tus datos personales";
+"profile.edit.adtionalinfo" = "Información adicional";
+"profile.edit.ocupation" = "Ocupación";
+"profile.edit.phoneInfo" = "Referncia Telefónica";
+"profile.edit.phoneDesc" = "Telefono 8-10 digitos incluyendo LADA";
+"profile.edit.extension" = "Extensión";
+"profile.edit.cellphoneDesc" = "Teléfono móvil 10-15 Dígitos";
+"profile.edit.associate" = "Asociado";
+"profile.edit.associate.button" = "Soy asociado";
+"profile.edit.associateNumber" = "Numero Asociado";
+"profile.edit.dateAdmission" = "Fecha Ingreso";
+"profile.edit.determinant" = "Determinante";
+"profile.legalinfo.label" = "Consulta nuestro";
 
 //Preious orders
 "previousorder.status" = "Status";
@@ -396,10 +412,6 @@
 "checkout.title.confirmation" = "Confirmación";
 "checkout.field.confirmation" = "Confirmación";
 "checkout.title.discounts" = "Descuentos";
-"checkout.field.discountAssociate" = "Descuento de Asociado";
-"checkout.discount.associateNumber" = "Numero Asociado";
-"checkout.discount.dateAdmission" = "Fecha Ingreso";
-"checkout.discount.determinant" = "Determinante";
 "checkout.discount.total" = "Total";
 "checkout.title.date" = "Fecha y Hora";
 "checkout.title.tooltip" = "¿Por qué no hay más horarios disponibles?";

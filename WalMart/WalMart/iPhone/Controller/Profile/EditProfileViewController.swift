@@ -99,7 +99,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.personalInfoLabel = UILabel()
         self.personalInfoLabel.font = WMFont.fontMyriadProLightOfSize(14)
         self.personalInfoLabel.textColor = WMColor.light_blue
-        self.personalInfoLabel.text = "Actualiza tus datos personales"
+        self.personalInfoLabel.text = NSLocalizedString("profile.edit.title",comment:"")
         self.content?.addSubview(self.personalInfoLabel!)
         
         self.name = FormFieldView()
@@ -132,7 +132,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.changePasswordLabel = UILabel()
         self.changePasswordLabel.font = WMFont.fontMyriadProLightOfSize(14)
         self.changePasswordLabel.textColor = WMColor.light_blue
-        self.changePasswordLabel.text = "Contraseña"
+        self.changePasswordLabel.text = NSLocalizedString("profile.password",comment:"")
         self.content?.addSubview(self.changePasswordLabel!)
         
         self.passwordInfoLabel = UILabel()
@@ -187,7 +187,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.aditionalInfoLabel = UILabel()
         self.aditionalInfoLabel.font = WMFont.fontMyriadProLightOfSize(14)
         self.aditionalInfoLabel.textColor = WMColor.light_blue
-        self.aditionalInfoLabel.text = "Información adicional"
+        self.aditionalInfoLabel.text = NSLocalizedString("profile.edit.adtionalinfo",comment:"")
         self.content?.addSubview(self.aditionalInfoLabel!)
 
         self.birthDate = FormFieldView()
@@ -200,19 +200,19 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.gender = FormFieldView(frame:CGRectMake(16, 0, self.view.frame.width - 32, 40))
         self.gender!.isRequired = false
-        self.gender!.setCustomPlaceholder(NSLocalizedString("Genero",comment:""))
+        self.gender!.setCustomPlaceholder(NSLocalizedString("profile.gender",comment:""))
         self.gender!.typeField = TypeField.List
-        self.gender!.nameField = "Genero"
+        self.gender!.nameField = NSLocalizedString("profile.gender",comment:"")
         self.gender!.setImageTypeField()
         self.content?.addSubview(self.gender!)
         
         self.ocupation = FormFieldView()
         self.ocupation!.isRequired = false
-        self.ocupation!.setCustomPlaceholder(NSLocalizedString("Ocupación",comment:""))
+        self.ocupation!.setCustomPlaceholder(NSLocalizedString("profile.edit.ocupation",comment:""))
         self.ocupation!.typeField = TypeField.String
         self.ocupation!.minLength = 3
         self.ocupation!.maxLength = 25
-        self.ocupation!.nameField = "Ocupación"
+        self.ocupation!.nameField = NSLocalizedString("profile.edit.ocupation",comment:"")
         self.content?.addSubview(self.ocupation!)
         
         let viewAccess = FieldInputView(frame: CGRectMake(0, 0, self.view.frame.width , 44), inputViewStyle: .Keyboard , titleSave:"Ok", save: { (field:UITextField?) -> Void in
@@ -246,12 +246,12 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneInformationLabel = UILabel()
         self.phoneInformationLabel.font = WMFont.fontMyriadProLightOfSize(14)
         self.phoneInformationLabel.textColor = WMColor.light_blue
-        self.phoneInformationLabel.text = "Referncia Telefónica"
+        self.phoneInformationLabel.text = NSLocalizedString("profile.edit.phoneInfo",comment:"")
         self.content?.addSubview(self.phoneInformationLabel!)
         
         self.phoneHome = FormFieldView()
         self.phoneHome!.isRequired = true
-        self.phoneHome!.setCustomPlaceholder("Telefono 8-10 digitos incluyendo LADA")
+        self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile..edit.phoneDesc",comment:""))
         self.phoneHome!.typeField = TypeField.Phone
         self.phoneHome!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHome!.minLength = 10
@@ -263,9 +263,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.phoneHomeExtension = FormFieldView()
         self.phoneHomeExtension!.isRequired = false
-        self.phoneHomeExtension!.setCustomPlaceholder("Extensión")
+        self.phoneHomeExtension!.setCustomPlaceholder(NSLocalizedString("profile.edit.extension",comment:""))
         self.phoneHomeExtension!.typeField = TypeField.Number
-        self.phoneHomeExtension!.nameField = "Extensión"
+        self.phoneHomeExtension!.nameField = NSLocalizedString("profile.edit.extension",comment:"")
         self.phoneHomeExtension!.minLength = 3
         self.phoneHomeExtension!.maxLength = 5
         self.phoneHomeExtension!.keyboardType = UIKeyboardType.NumberPad
@@ -275,7 +275,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.cellPhone = FormFieldView()
         self.cellPhone!.isRequired = false
-        self.cellPhone!.setCustomPlaceholder("Teléfono móvil 10-15 Dígitos")
+        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile..edit.cellphoneDesc",comment:""))
         self.cellPhone!.typeField = TypeField.Phone
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
@@ -288,11 +288,11 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateLabel = UILabel()
         self.associateLabel.font = WMFont.fontMyriadProLightOfSize(14)
         self.associateLabel.textColor = WMColor.light_blue
-        self.associateLabel.text = "Asociado"
+        self.associateLabel.text = NSLocalizedString("profile.edit.associate",comment:"")
         self.content?.addSubview(self.associateLabel!)
         
         self.isAssociateButton = UIButton()
-        self.isAssociateButton?.setTitle("Soy asociado", forState: UIControlState.Normal)
+        self.isAssociateButton?.setTitle(NSLocalizedString("profile.edit.associate.button",comment:""), forState: UIControlState.Normal)
         self.isAssociateButton!.setImage(UIImage(named:"filter_check_blue"), forState: UIControlState.Normal)
         self.isAssociateButton!.setImage(UIImage(named:"check_blue"), forState: UIControlState.Selected)
         self.isAssociateButton!.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
@@ -304,29 +304,29 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.associateNumber = FormFieldView()
         self.associateNumber!.isRequired = true
-        self.associateNumber!.setCustomPlaceholder("Numero de asociado")
+        self.associateNumber!.setCustomPlaceholder(NSLocalizedString("profile.edit.associateNumber",comment:""))
         self.associateNumber!.typeField = TypeField.String
         self.associateNumber!.minLength = 3
         self.associateNumber!.maxLength = 25
-        self.associateNumber!.nameField = "Numero de asociado"
+        self.associateNumber!.nameField = NSLocalizedString("profile.edit.associateNumber",comment:"")
         self.associateNumber!.alpha = 0.0
         self.content?.addSubview(self.associateNumber!)
         
         self.associateDeterminant = FormFieldView()
         self.associateDeterminant!.isRequired = true
-        self.associateDeterminant!.setCustomPlaceholder("Determinante")
+        self.associateDeterminant!.setCustomPlaceholder(NSLocalizedString("profile.edit.determinant",comment:""))
         self.associateDeterminant!.typeField = TypeField.String
         self.associateDeterminant!.minLength = 3
         self.associateDeterminant!.maxLength = 25
-        self.associateDeterminant!.nameField = "Determinante"
+        self.associateDeterminant!.nameField = NSLocalizedString("profile.edit.determinant",comment:"")
         self.associateDeterminant!.alpha = 0.0
         self.content?.addSubview(self.associateDeterminant!)
         
         self.associateDate = FormFieldView()
         self.associateDate!.isRequired = true
-        self.associateDate!.setCustomPlaceholder("Fecha de ingreso")
+        self.associateDate!.setCustomPlaceholder(NSLocalizedString("profile.edit.dateAdmissionr",comment:""))
         self.associateDate!.typeField = .None
-        self.associateDate!.nameField = "Fecha de ingreso"
+        self.associateDate!.nameField = NSLocalizedString("profile.edit.dateAdmissionr",comment:"")
         self.associateDate!.disablePaste = true
         self.associateDate!.alpha = 0.0
         self.content?.addSubview(self.associateDate!)
@@ -355,9 +355,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.cancelButton!.setTitle(NSLocalizedString("productdetail.cancel", comment:""), forState:.Normal)
         self.cancelButton!.titleLabel!.textColor = UIColor.whiteColor()
         self.cancelButton!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
-        self.cancelButton!.backgroundColor = WMColor.light_gray
+        self.cancelButton!.backgroundColor = WMColor.empty_gray_btn
         self.cancelButton!.layer.cornerRadius = 17
-        self.cancelButton!.addTarget(self, action: Selector("back"), forControlEvents: UIControlEvents.TouchUpInside)
+        self.cancelButton!.addTarget(self, action: #selector(EditProfileViewController.back), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(cancelButton!)
         
         self.saveButton = UIButton()
@@ -380,7 +380,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.legalInformationLabel = UILabel()
         self.legalInformationLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.legalInformationLabel!.textColor = WMColor.gray
-        self.legalInformationLabel!.text = "Consulta nuestro"
+        self.legalInformationLabel!.text = NSLocalizedString("profile.legalinfo.label", comment: "")
         self.content?.addSubview(self.legalInformationLabel!)
         
         self.content.backgroundColor = UIColor.whiteColor()
@@ -398,7 +398,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.picker!.selected = self.selectedGender
             self.picker!.sender = self.gender!
             self.picker!.selectOptionDelegate = self
-            self.picker!.setValues("Genero", values: ["Masculino","Femenino"])
+            self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.male",comment:""),NSLocalizedString("profile.gender.female",comment:"")])
             self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
@@ -497,7 +497,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.email!.text = user.email as String
             self.lastName!.text = user.profile.lastName as String
             self.gender!.text = user.profile.sex as String
-            self.selectedGender = NSIndexPath(forRow:(self.gender!.text == "Masculino" ? 0 : 1), inSection: 0)
+            self.selectedGender = NSIndexPath(forRow:(self.gender!.text == NSLocalizedString("profile.gender.male",comment:"") ? 0 : 1), inSection: 0)
             self.ocupation!.text = user.profile.profession as String
             if let date = self.parseFmt!.dateFromString(user.profile.birthDate as String) {
                 self.birthDate!.text = self.dateFmt!.stringFromDate(date)
@@ -854,7 +854,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.errorView = nil
         }
         self.selectedGender = indexPath
-        self.gender?.text = indexPath.row == 0 ? "Masculino" : "Femenino"
+        self.gender?.text = indexPath.row == 0 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
         self.gender?.layer.borderWidth = 0
     }
     
