@@ -324,9 +324,9 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.associateDate = FormFieldView()
         self.associateDate!.isRequired = true
-        self.associateDate!.setCustomPlaceholder(NSLocalizedString("profile.edit.dateAdmissionr",comment:""))
+        self.associateDate!.setCustomPlaceholder(NSLocalizedString("profile.edit.dateAdmission",comment:""))
         self.associateDate!.typeField = .None
-        self.associateDate!.nameField = NSLocalizedString("profile.edit.dateAdmissionr",comment:"")
+        self.associateDate!.nameField = NSLocalizedString("profile.edit.dateAdmission",comment:"")
         self.associateDate!.disablePaste = true
         self.associateDate!.alpha = 0.0
         self.content?.addSubview(self.associateDate!)
