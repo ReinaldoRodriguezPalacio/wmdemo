@@ -387,8 +387,8 @@ class SignUpViewController : BaseController, UICollectionViewDelegate , TPKeyboa
                         self.backRegistry(self.backButton!)
                         self.alertView!.setMessage(error.localizedDescription)
                         self.alertView!.showErrorIcon("Ok")
-                }
-                , errorBlock: {(error: NSError) in
+                    })
+                }, errorBlock: {(error: NSError) in
                     self.alertView!.setMessage(error.localizedDescription)
                     self.alertView!.showErrorIcon("Ok")
             })
