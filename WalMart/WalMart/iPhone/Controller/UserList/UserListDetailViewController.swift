@@ -497,8 +497,39 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if self.products != nil && self.products!.count > 0 {
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
-                let idx = idxVal as! Int
-                var params: [String:AnyObject] = [:]
+               var params: [String:AnyObject] = [:]
+                var index = 0
+                for lines in self.products! {
+                    if lines["upc"] as! String == idxVal as! String{
+                        params["upc"] = lines["upc"] as! String
+                        params["desc"] = lines["description"] as! String
+                        params["imgUrl"] = lines["imageUrl"] as! String
+                        if let price = lines["price"] as? NSNumber {
+                            params["price"] = "\(price)"
+                        }
+                        if let quantity = lines["quantity"] as? NSNumber {
+                            params["quantity"] = "\(quantity)"
+                        }
+                        
+                        params["pesable"] = lines["type"] as? NSString
+                        params["wishlist"] = false
+                        params["type"] = ResultObjectType.Groceries.rawValue
+                        params["comments"] = ""
+                        if let type = lines["type"] as? String {
+                            if Int(type)! == 0 { //Piezas
+                                params["onHandInventory"] = "99"
+                            }
+                            else { //Gramos
+                                params["onHandInventory"] = "20000"
+                            }
+                        }
+                    }
+                 
+                }
+                
+                //--
+               /* let idx = idxVal as! Int
+                
                 if let item = self.products![idx] as? [String:AnyObject] {
                     params["upc"] = item["upc"] as! String
                     params["desc"] = item["description"] as! String
@@ -540,7 +571,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     else { //Gramos
                         params["onHandInventory"] = "20000"
                     }
-                }
+                }*/
                 upcs.append(params)
             }
             if upcs.count > 0 {
