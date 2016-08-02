@@ -302,7 +302,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {//TuneDelegate
         
         let idDevice = UIDevice.currentDevice().identifierForVendor!.UUIDString
         let notService = NotificationService()
-        let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: true)
+        
+        let showNotificationParam = CustomBarViewController.retrieveParam("showNotification", forUser: false)
+        let showNotification = showNotificationParam == nil ? true : (showNotificationParam!.value == "true")
+        
+        let params = notService.buildParams(deviceTokenString, identifierDevice: idDevice, enablePush: !showNotification)
+        print("AppDelegate")
+            print(notService.jsonFromObject(params))
         if UserCurrentSession.sharedInstance().finishConfig {
             notService.callPOSTService(params, successBlock: { (result:NSDictionary) -> Void in
                 //println( "Registrado para notificaciones")
