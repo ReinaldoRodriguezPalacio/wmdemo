@@ -416,11 +416,9 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.LoginWithIdService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/login/loginById</string>
+			<string>https://www.dropbox.com/s/hp7jsgl01sdas4e/login_output.txt</string>
 			<key>WalmartMG.UserProfileService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/responseProfile.txt</string>
-			<key>WalmartMG.LoginWithIdService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/responseLogin.txt</string>
+			<string>https://www.dropbox.com/s/3j7vxwwy3pqkd6v/output_Profile.txt</string>
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
@@ -554,9 +552,9 @@
 			<key>WalmartMG.LinesForSearchService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getLinesForSearch</string>
 			<key>WalmartMG.LoginService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/responseLogin.txt</string>
+			<string>https://www.dropbox.com/s/hp7jsgl01sdas4e/login_output.txt</string>
 			<key>WalmartMG.LoginWithEmailService</key>
-			<string>https://dl.dropboxusercontent.com/u/29004009/responseLogin.txt</string>
+			<string>https://www.dropbox.com/s/hp7jsgl01sdas4e/login_output.txt</string>
 			<key>WalmartMG.NotificationService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/saveToken</string>
 			<key>WalmartMG.PreviousOrderDetailService</key>

@@ -13,7 +13,7 @@ protocol EditProfileViewControllerDelegate {
 }
 
 
-class EditProfileViewController: NavigationViewController,  UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, AlertPickerSelectOptionDelegate  {
+class EditProfileViewController: NavigationViewController,  UICollectionViewDelegate , TPKeyboardAvoidingScrollViewDelegate, AlertPickerSelectOptionDelegate, UITextFieldDelegate  {
 
     var content: TPKeyboardAvoidingScrollView!
     var personalInfoLabel: UILabel!
@@ -66,10 +66,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var associateDateSelected : NSDate!
     var picker : AlertPickerView!
     var selectedGender: NSIndexPath!
-    var previewHelp : PreviewHelpViewController? = nil
-    var previewHelpBackground: UIView?
-    var viewClose : ((hidden: Bool ) -> Void)? = nil
-    var close: UIButton?
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
@@ -262,8 +258,8 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneHome!.maxLength = 10
         self.phoneHome!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHome!.inputAccessoryView = viewAccess
+        self.phoneHome!.delegate =  self
         self.content?.addSubview(self.phoneHome!)
-        //self.phoneHome!.delegate =  self
         
         self.phoneHomeExtension = FormFieldView()
         self.phoneHomeExtension!.isRequired = false
@@ -274,6 +270,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.phoneHomeExtension!.maxLength = 5
         self.phoneHomeExtension!.keyboardType = UIKeyboardType.NumberPad
         self.phoneHomeExtension!.inputAccessoryView = viewAccess
+        self.phoneHomeExtension!.delegate =  self
         self.content?.addSubview(self.phoneHomeExtension!)
         
         self.cellPhone = FormFieldView()
@@ -285,6 +282,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.cellPhone!.maxLength = 10
         self.cellPhone!.keyboardType = UIKeyboardType.NumberPad
         self.cellPhone!.inputAccessoryView = viewAccess
+        self.cellPhone!.delegate =  self
         self.content?.addSubview(self.cellPhone!)
         
         self.associateLabel = UILabel()
@@ -426,7 +424,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     
     override func viewDidDisappear(animated: Bool) {
         super.viewDidDisappear(animated)
-        self.closeNoticePrivacy()
     }
     
     //MARK: - Actions
@@ -518,14 +515,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             }
         }
     }
-
-    func checkSelected(sender:UIButton) {
-        sender.selected = !(sender.selected)
-    }
-    
-    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
-          return CGSizeMake(self.view.frame.width, content.contentSize.height)
-    }
     
     func dateChanged() {
         let date = self.inputBirthdateView!.date
@@ -539,8 +528,35 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.associateDateSelected = date
     }
     
-    //MARK: - TPKeyboardAvoidingScrollViewDelegate
-    func textFieldDidEndEditing(textField: UITextField!) {
+    //MARK: TPKeyboardAvoidingScrollViewDelegate
+    func contentSizeForScrollView(sender:AnyObject) -> CGSize {
+        return CGSizeMake(self.view.frame.width, content.contentSize.height)
+    }
+    
+    //MARK: - TextFieldDelegate
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let strNSString : NSString = textField.text!
+        let fieldString = strNSString.stringByReplacingCharactersInRange(range, withString: string)
+        
+        if textField == self.phoneHome! && fieldString.length() > 10 {
+            return false
+        }
+        
+        if textField == self.phoneHomeExtension! && fieldString.length() > 4 {
+            return false
+        }
+        
+        if textField == self.cellPhone! && fieldString.length() > 10 {
+            return false
+        }
+        
+        return true
+    }
+
+    
+    
+    func textFieldDidEndEditing(textField: UITextField) {
         if errorView != nil{
             if errorView!.focusError == textField &&  errorView?.superview != nil {
                 errorView?.removeFromSuperview()
@@ -772,54 +788,15 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         }
     }
     
-    /**
-     Shows Privacy Notice
-     
-     - parameter recognizer: UITapGestureRecognizer
-     */
     func noticePrivacy() {
-        if errorView != nil{
-            if errorView?.superview != nil {
-                errorView?.removeFromSuperview()
-            }
-            errorView!.focusError = nil
-            errorView = nil
-        }
-        self.view.endEditing(true)
-        self.viewClose = {(hidden : Bool) in
-            self.close!.hidden = hidden
-        }
-        if previewHelp == nil {
-            previewHelp = PreviewHelpViewController()
-            self.previewHelp!.resource = "privacy"
-            self.previewHelp!.type = "pdf"
-            self.previewHelp!.view.frame =  CGRectMake(self.name!.frame.minX ,  50, self.content!.frame.width - (self.name!.frame.minX * 2) , self.content!.frame.height - 50)
-            self.close = UIButton(type: .Custom)
-            self.close!.setImage(UIImage(named: "termsClose"), forState: .Normal)
-            self.close!.addTarget(self, action: #selector(EditProfileViewController.closeNoticePrivacy), forControlEvents: .TouchUpInside)
-            self.close!.backgroundColor = UIColor.clearColor()
-            self.close!.frame = CGRectMake(self.content!.frame.width - 40.0, 50, 40.0, 40.0)
-            self.previewHelpBackground = UIView(frame: self.view.bounds)
-            self.previewHelpBackground?.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.6)
-            let tapEvent = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.closeNoticePrivacy))
-            self.previewHelpBackground?.addGestureRecognizer(tapEvent)
-        } else {
-            self.previewHelp!.loadPreview()
-        }
-        self.view.addSubview(self.previewHelpBackground!)
-        self.previewHelpBackground!.addSubview(self.previewHelp!.view)
-        self.previewHelpBackground!.addSubview(self.close!)
-        self.viewClose!(hidden: false)
-    }
+        let controller = PreviewHelpViewController()
+        let name = "Aviso de Privacidad"
+        controller.titleText = NSLocalizedString(name, comment: "")
+        controller.resource = "privacy"
+        controller.type = "pdf"
     
-    /**
-     Closes Privacy Notice
-     */
-    func closeNoticePrivacy() {
-        self.previewHelpBackground!.removeFromSuperview()
-        self.viewClose!(hidden: false)
+        self.navigationController!.pushViewController(controller, animated: true)
     }
-    
     
     override func back() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
