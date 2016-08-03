@@ -91,8 +91,20 @@ class DefaultListViewController : NavigationViewController, UITableViewDataSourc
         let items = itemList["items"] as? [[String:AnyObject]]
         var totalInList = 0.0
         for itmProduct in items! {
-            if let itmPrice = itmProduct["price"] as? NSNumber {
-                totalInList +=  itmPrice.doubleValue
+            
+            if let typeProd = itmProduct["isWeighable"] as? NSString {
+                
+                let quantity = itmProduct["quantity"] as! NSNumber
+                let price = itmProduct["price"] as! NSNumber
+                //piezas
+                if typeProd == "false" {
+                    totalInList += (quantity.doubleValue * price.doubleValue)
+                }
+                    //gramos
+                else {
+                    let kgrams = quantity.doubleValue / 1000.0
+                    totalInList += (kgrams * price.doubleValue)
+                }
             }
         }
             

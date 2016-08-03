@@ -237,7 +237,7 @@ class DetailListViewCell: ProductTableViewCell {
         var text: String? = ""
         var total: Double = 0.0
         //Piezas
-        if product.type == "false" { //mustang
+        if product.type == 0 { //mustang
             if quantity.integerValue == 1 {
                 text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
             }
@@ -258,6 +258,7 @@ class DetailListViewCell: ProductTableViewCell {
             }
             let kgrams = quantity.doubleValue / 1000.0
             total = (kgrams * price)
+            
         }
         self.quantityIndicator!.setTitle(text!, forState: .Normal)
         let formatedPrice = CurrencyCustomLabel.formatString("\(total)")

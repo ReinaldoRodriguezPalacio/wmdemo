@@ -87,7 +87,7 @@ class ListHelpView: UIView {
         
         
         let descriptionHelp =  UILabel(frame: CGRectMake(IS_IPAD ? self.frame.midX - 20 : 16,
-            IS_IPAD ? self.frame.maxY - 30  : (self.frame.maxY -  (TabBarHidden.isTabBarHidden ? 140 : 187)),
+            IS_IPAD ? self.frame.maxY - 30  : (self.frame.height -  (TabBarHidden.isTabBarHidden ? 145 : 190)),
             self.frame.width - 32,
             28))
         descriptionHelp.backgroundColor = UIColor.clearColor()
@@ -104,7 +104,7 @@ class ListHelpView: UIView {
         self.addSubview(arrowImage)
         
         let icon = UIImageView(image: UIImage(named: "reminder"))
-        icon.frame = CGRectMake(arrowImage.frame.maxX - 14, arrowImage.frame.maxY , 34.0, 34.0)
+        icon.frame = CGRectMake(arrowImage.frame.maxX - 15, arrowImage.frame.maxY , 34.0, 34.0)
         self.addSubview(icon)
     
         
@@ -117,7 +117,7 @@ class ListHelpView: UIView {
         icon.frame = CGRectMake(16.0, IS_IPAD ? 167: 134, 40.0, 40.0)
         self.addSubview(icon)
         
-        let labelButton =  UILabel(frame: CGRectMake(72, icon.frame.minY, IS_IPAD ?  206: 184, 40))
+        let labelButton =  WMLabel(frame: CGRectMake(72, icon.frame.minY, IS_IPAD ?  206: 184, 40))
         
         let maskFirst =  UIBezierPath(roundedRect:labelButton.bounds , byRoundingCorners: [.TopLeft ,.BottomLeft], cornerRadii:CGSizeMake(4.0,4.0))
         
@@ -131,6 +131,7 @@ class ListHelpView: UIView {
         labelButton.font  = WMFont.fontMyriadProRegularOfSize(11)
         labelButton.textColor =  WMColor.gray
         labelButton.layer.mask = maskFirstLayer
+        
         self.addSubview(labelButton)
         
 
@@ -168,6 +169,12 @@ class ListHelpView: UIView {
     
     }
     
+    class WMLabel: UILabel {
+        override func drawTextInRect(rect: CGRect) {
+            let newRect = CGRectOffset(rect, 10, 0)
+            super.drawTextInRect(newRect)
+        }
+    }
     
     func closeView(){
         if onClose != nil {
