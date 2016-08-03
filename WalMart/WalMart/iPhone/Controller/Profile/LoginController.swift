@@ -110,7 +110,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
         self.titleLabel!.textColor =  UIColor.whiteColor()
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
         self.titleLabel!.numberOfLines = 2
-        self.titleLabel!.text = "Ingresa a tu cuenta"
+        self.titleLabel!.text = "Inicia Sesión"
         self.titleLabel!.textAlignment = NSTextAlignment.Center
         
         self.viewLine = UIView()
@@ -199,7 +199,7 @@ class LoginController : IPOBaseController, UICollectionViewDelegate , TPKeyboard
             self.password?.frame = CGRectMake(leftRightPadding, email!.frame.maxY+1, self.email!.frame.width , fieldHeight)
             self.viewLine?.frame = CGRectMake(leftRightPadding, email!.frame.maxY, self.email!.frame.width, 1)
             self.viewbg?.frame = CGRectMake(leftRightPadding, email!.frame.maxY-5, self.email!.frame.width, 10)
-            self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 150 , password!.frame.maxY+15, 150 - leftRightPadding, 28)
+            self.forgotPasswordButton?.frame = CGRectMake(self.content.frame.width - 170 , password!.frame.maxY+15, 170 - leftRightPadding, 28)
             self.signInButton?.frame = CGRectMake(leftRightPadding, password!.frame.maxY+56, self.password!.frame.width, 40)
             self.noAccount?.frame = CGRectMake(leftRightPadding, self.signInButton!.frame.maxY + 24, self.password!.frame.width, 20)
             self.loginFacebookButton?.frame = CGRectMake(32,  self.noAccount!.frame.maxY + 24 , 40, 40)
