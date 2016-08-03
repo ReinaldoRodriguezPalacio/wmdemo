@@ -499,80 +499,73 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             var upcs: [AnyObject] = []
             for idxVal  in selectedItems! {
                var params: [String:AnyObject] = [:]
-                var index = 0
-                for lines in self.products! {
-                    if lines["upc"] as! String == idxVal as! String{
-                        params["upc"] = lines["upc"] as! String
-                        params["desc"] = lines["description"] as! String
-                        params["imgUrl"] = lines["imageUrl"] as! String
-                        if let price = lines["price"] as? NSNumber {
-                            params["price"] = "\(price)"
-                        }
-                        if let quantity = lines["quantity"] as? NSNumber {
-                            params["quantity"] = "\(quantity)"
-                        }
-                        
-                        params["pesable"] = lines["type"] as? NSString
-                        params["wishlist"] = false
-                        params["type"] = ResultObjectType.Groceries.rawValue
-                        params["comments"] = ""
-                        if let type = lines["type"] as? String {
-                            if Int(type)! == 0 { //Piezas
-                                params["onHandInventory"] = "99"
+                //validar session
+                if  UserCurrentSession.hasLoggedUser() {
+                    var index = 0
+                    for lines in self.products! {
+                        if lines["upc"] as! String == idxVal as! String{
+                            params["upc"] = lines["upc"] as! String
+                            params["desc"] = lines["description"] as! String
+                            params["imgUrl"] = lines["imageUrl"] as! String
+                            if let price = lines["price"] as? NSNumber {
+                                params["price"] = "\(price)"
                             }
-                            else { //Gramos
-                                params["onHandInventory"] = "20000"
+                            if let quantity = lines["quantity"] as? NSNumber {
+                                params["quantity"] = "\(quantity)"
+                            }
+                            
+                            params["pesable"] = lines["type"] as? NSString
+                            params["wishlist"] = false
+                            params["type"] = ResultObjectType.Groceries.rawValue
+                            params["comments"] = ""
+                            if let type = lines["type"] as? String {
+                                if Int(type)! == 0 { //Piezas
+                                    params["onHandInventory"] = "99"
+                                }
+                                else { //Gramos
+                                    params["onHandInventory"] = "20000"
+                                }
                             }
                         }
                     }
-                 
+                }else{
+                    var index = 0
+                    
+                    
+                    
+                    for lines in self.products!{
+                        //let arrayItems =  lines[linesArray[index] as! String] as! NSArray
+                        //for item  in  arrayItems {
+                            let productItem = lines as? Product
+                            if selectedItems!.containsObject(productItem!.upc){
+                                //let productItem = item as? Product
+                                params["upc"] = productItem!.upc
+                                params["desc"] = productItem!.desc
+                                params["imgUrl"] = productItem!.img
+                                params["price"] = productItem!.price
+                                params["quantity"] = "\(productItem!.quantity)"
+                                params["wishlist"] = false
+                                params["comments"] = ""
+                                let isPesable = productItem!.type.boolValue
+                                params["pesable"] = isPesable ? "1" : "0"
+                                params["type"] = ResultObjectType.Groceries.rawValue //validar Type
+                                if productItem!.type.integerValue == 0 { //Piezas
+                                    params["onHandInventory"] = "99"
+                                }
+                                else { //Gramos
+                                    params["onHandInventory"] = "20000"
+                                }
+                                
+                            }
+                        //}
+                        index = index+1
+                    }
+                    print("params sin session")
+                    print(params)
+                    
+                    
                 }
                 
-                //--
-               /* let idx = idxVal as! Int
-                
-                if let item = self.products![idx] as? [String:AnyObject] {
-                    params["upc"] = item["upc"] as! String
-                    params["desc"] = item["description"] as! String
-                    params["imgUrl"] = item["imageUrl"] as! String
-                    if let price = item["price"] as? NSNumber {
-                        params["price"] = "\(price)"
-                    }
-                    if let quantity = item["quantity"] as? NSNumber {
-                        params["quantity"] = "\(quantity)"
-                    }
-                 
-                    params["pesable"] = item["type"] as? NSString
-                    params["wishlist"] = false
-                    params["type"] = ResultObjectType.Groceries.rawValue
-                    params["comments"] = ""
-                    if let type = item["type"] as? String {
-                        if Int(type)! == 0 { //Piezas
-                            params["onHandInventory"] = "99"
-                        }
-                        else { //Gramos
-                            params["onHandInventory"] = "20000"
-                        }
-                    }
-                }
-                else if let item = self.products![idx] as? Product {
-                    params["upc"] = item.upc
-                    params["desc"] = item.desc
-                    params["imgUrl"] = item.img
-                    params["price"] = item.price
-                    params["quantity"] = "\(item.quantity)"
-                    params["wishlist"] = false
-                    params["type"] = ResultObjectType.Groceries.rawValue
-                    params["comments"] = ""
-                    let isPesable = item.type.boolValue
-                    params["pesable"] = isPesable ? "1" : "0"
-                    if item.type.integerValue == 0 { //Piezas
-                        params["onHandInventory"] = "99"
-                    }
-                    else { //Gramos
-                        params["onHandInventory"] = "20000"
-                    }
-                }*/
                 upcs.append(params)
             }
             if upcs.count > 0 {
@@ -729,6 +722,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func updateTotalLabel() {
         var total: Double = 0.0
         if self.newArrayProducts != nil && self.newArrayProducts!.count > 0 {
+            print("updateTotalLabel::")
             total = self.calculateTotalAmount()
         }
         
@@ -744,11 +738,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func calculateTotalAmount() -> Double {
         var total: Double = 0.0
-        
+        print("calculateTotalAmount:::")
         if selectedItems != nil {
-            
-            for upcSelected in selectedItems! {
-                if UserCurrentSession.hasLoggedUser() {
+    
+            if UserCurrentSession.hasLoggedUser() {
+                for upcSelected in selectedItems! {
                     var index = 0
                     for lines in self.newArrayProducts! {
                         let array =  lines[linesArray[index] as! String] as! NSArray
@@ -773,31 +767,36 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         
                         index = index+1
                     }
-                }else{// if UserCurrentSession.hasLoggedUser()
+                }//for upcSelected in selectedItems!
+                
+            }else{// if UserCurrentSession.hasLoggedUser()
+
+               // for upcSelected in selectedItems! {
                     var index = 0
-                    for lines in self.newArrayProducts! {
-                        let arrayItems =  lines[linesArray[index] as! String] as! NSArray
-                        
-                        for itemProduct in arrayItems {
-                            let item  = itemProduct as! Product
-                            let quantity = item.quantity
-                            let price:Double = item.price.doubleValue
-                            if item.type == "false" {
+                    
+                for lines in self.newArrayProducts!{
+                    let arrayItems =  lines[linesArray[index] as! String] as! NSArray
+                    for item  in  arrayItems {
+                        let productItem = item as? Product
+                        if selectedItems!.containsObject(productItem!.upc){
+                            print("suma: \(productItem!.price.doubleValue)")
+                            let quantity = productItem!.quantity
+                            let price:Double = productItem!.price.doubleValue
+                            if productItem!.type == 0 {
                                 total += (quantity.doubleValue * price)
                             }
                             else {
                                 let kgrams = quantity.doubleValue / 1000.0
                                 total += (kgrams * price)
                             }
+                            
                         }
-                        
-                        
-                        index = index+1
                     }
-                    
+                    index = index+1
                 }
+
                 
-            }//for upcSelected in selectedItems!
+            }//close else
             
             
         }

@@ -162,7 +162,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         let  showTurial = (requiredHelp && self.helpView == nil)
-        if true {
+        if showTurial {
             listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InControllerList )
             listHelView?.onClose  = {() in
                 self.removeHelpView()
@@ -677,7 +677,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             requiredHelp = !(param.value == "false")
         }
         let  showTurial = (requiredHelp && self.helpView == nil)
-        if true {
+        if showTurial {
             listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
             listHelView?.onClose  = {() in
                 self.removeHelpView()
