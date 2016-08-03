@@ -216,7 +216,8 @@
 "profile.email" = "Correo Electrónico";
 "profile.birthDate" = "Fecha de Nacimiento";
 "profile.password" = "Contraseña";
-"profile.confirmpassword" = "Confirmar Contraseña";
+"profile.newpassword" = "Nueva contraseña";
+"profile.confirmpassword" = "Confirmar nueva contraseña";
 "profile.terms" = "Por favor marca el siguiente recuadro si aceptas el envío de publicidad y/o promociones. Te informamos que los datos personales que nos proporciones serán tratados de acuerdo con los términos y condiciones establecidos en el presente ";
 "profile.terms.privacy" = "Aviso de Privacidad.";
 "profile.create.an.account" = "Crear una Cuenta";

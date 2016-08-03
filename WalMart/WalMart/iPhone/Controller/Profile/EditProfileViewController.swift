@@ -275,7 +275,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.cellPhone = FormFieldView()
         self.cellPhone!.isRequired = false
-        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile..edit.cellphoneDesc",comment:""))
+        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.edit.cellphoneDesc",comment:""))
         self.cellPhone!.typeField = TypeField.Phone
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
