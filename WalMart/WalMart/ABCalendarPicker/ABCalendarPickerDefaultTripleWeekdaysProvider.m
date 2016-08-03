@@ -21,7 +21,7 @@
     if ([[self.dateOwner highlightedDate] compare:mainWeekEnd] > 0)
         shift = 1;
     
-    NSInteger weekNumber = [self.calendar ordinalityOfUnit:NSWeekCalendarUnit inUnit:NSMonthCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSInteger weekNumber = [self.calendar ordinalityOfUnit:NSCalendarUnitWeekOfMonth inUnit:NSCalendarUnitMonth forDate:[self.dateOwner highlightedDate]];
     return ABCalendarPickerAnimationScrollUpOrDownBase - (weekNumber + shift);
 }
 */

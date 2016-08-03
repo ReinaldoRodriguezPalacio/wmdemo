@@ -20,44 +20,41 @@ public class RSUnifiedCodeGenerator: RSCodeGenerator {
     
     public func generateCode(contents: String, machineReadableCodeObjectType: String) -> UIImage? {
         var codeGenerator:RSCodeGenerator?
-        if #available(iOS 8.0, *) {
-            switch machineReadableCodeObjectType {
-            case AVMetadataObjectTypeQRCode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeAztecCode:
+
+        switch machineReadableCodeObjectType {
+        case AVMetadataObjectTypeQRCode, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeAztecCode:
+            return RSAbstractCodeGenerator.generateCode(contents, filterName: RSAbstractCodeGenerator.filterName(machineReadableCodeObjectType))
+        case AVMetadataObjectTypeCode39Code:
+            codeGenerator = RSCode39Generator()
+        case AVMetadataObjectTypeCode39Mod43Code:
+            codeGenerator = RSCode39Mod43Generator()
+        case AVMetadataObjectTypeEAN8Code:
+            codeGenerator = RSEAN8Generator()
+        case AVMetadataObjectTypeEAN13Code:
+            codeGenerator = RSEAN13Generator()
+        case AVMetadataObjectTypeInterleaved2of5Code:
+            codeGenerator = RSITFGenerator()
+        case AVMetadataObjectTypeITF14Code:
+            codeGenerator = RSITF14Generator()
+        case AVMetadataObjectTypeUPCECode:
+            codeGenerator = RSUPCEGenerator()
+        case AVMetadataObjectTypeCode93Code:
+            codeGenerator = RSCode93Generator()
+            // iOS 8 included, but my implementation's performance is better :)
+        case AVMetadataObjectTypeCode128Code:
+            if self.useBuiltInCode128Generator {
                 return RSAbstractCodeGenerator.generateCode(contents, filterName: RSAbstractCodeGenerator.filterName(machineReadableCodeObjectType))
-            case AVMetadataObjectTypeCode39Code:
-                codeGenerator = RSCode39Generator()
-            case AVMetadataObjectTypeCode39Mod43Code:
-                codeGenerator = RSCode39Mod43Generator()
-            case AVMetadataObjectTypeEAN8Code:
-                codeGenerator = RSEAN8Generator()
-            case AVMetadataObjectTypeEAN13Code:
-                codeGenerator = RSEAN13Generator()
-            case AVMetadataObjectTypeInterleaved2of5Code:
-                codeGenerator = RSITFGenerator()
-            case AVMetadataObjectTypeITF14Code:
-                codeGenerator = RSITF14Generator()
-            case AVMetadataObjectTypeUPCECode:
-                codeGenerator = RSUPCEGenerator()
-            case AVMetadataObjectTypeCode93Code:
-                codeGenerator = RSCode93Generator()
-                // iOS 8 included, but my implementation's performance is better :)
-            case AVMetadataObjectTypeCode128Code:
-                if self.useBuiltInCode128Generator {
-                    return RSAbstractCodeGenerator.generateCode(contents, filterName: RSAbstractCodeGenerator.filterName(machineReadableCodeObjectType))
-                } else {
-                    codeGenerator = RSCode128Generator()
-                }
-            case RSBarcodesTypeISBN13Code:
-                codeGenerator = RSISBN13Generator()
-            case RSBarcodesTypeISSN13Code:
-                codeGenerator = RSISSN13Generator()
-            case RSBarcodesTypeExtendedCode39Code:
-                codeGenerator = RSExtendedCode39Generator()
-            default:
-                print("No code generator selected.")
+            } else {
+                codeGenerator = RSCode128Generator()
             }
-        } else {
-            // Fallback on earlier versions
+        case RSBarcodesTypeISBN13Code:
+            codeGenerator = RSISBN13Generator()
+        case RSBarcodesTypeISSN13Code:
+            codeGenerator = RSISSN13Generator()
+        case RSBarcodesTypeExtendedCode39Code:
+            codeGenerator = RSExtendedCode39Generator()
+        default:
+            print("No code generator selected.")
         }
         
         if let g = codeGenerator {

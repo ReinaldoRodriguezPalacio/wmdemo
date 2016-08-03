@@ -96,7 +96,7 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
                             return 1
                         }
                     case 4 :
-                        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+                        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
                         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
                         calendar!.timeZone = NSTimeZone.localTimeZone()
                         let closedDateComponents = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: closedDate!)
@@ -144,7 +144,7 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      - returns: Bool returns true if the difference of days between the dates is equals to days parameter
      */
     func isDate(theDate:NSDate, partOfIntervalOfDays days:Int, fromDate:NSDate) -> Bool {
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
         calendar!.timeZone = NSTimeZone.localTimeZone()
         let components = calendar!.components(NSCalendarUnit.Day, fromDate: fromDate, toDate: theDate, options: [])
@@ -199,7 +199,7 @@ class CalendarView: UIView,ABCalendarPickerDelegateProtocol, ABCalendarPickerDat
      - returns: NSDate with date, hours and minutes
      */
     func createDateFrom(date:NSDate, forHour hour:Int, andMinute minute:Int) -> NSDate? {
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         //calendar.timeZone = NSTimeZone(abbreviation: "UTC")
         calendar!.timeZone = NSTimeZone.localTimeZone()
         let components = calendar!.components([NSCalendarUnit.Year , NSCalendarUnit.Month , NSCalendarUnit.Day], fromDate: date)

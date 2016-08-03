@@ -70,7 +70,7 @@
 - (NSString*)titleText
 {
     NSDate * firstDate = [self dateForRow:0 andColumn:0];
-    NSInteger firstYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:firstDate];
+    NSInteger firstYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:firstDate];
     NSInteger lastYear = firstYear + [self rowsCount]*[self columnsCount]*20 - 1;
     return [NSString stringWithFormat:@"%ld - %ld вв", firstYear/20, lastYear/20, nil];
 }
@@ -78,10 +78,10 @@
 - (NSDate*)dateForRow:(NSInteger)row
             andColumn:(NSInteger)column
 {
-    NSInteger components = (NSEraCalendarUnit
-                            | NSYearCalendarUnit 
-                            | NSMonthCalendarUnit 
-                            | NSDayCalendarUnit);
+    NSInteger components = (NSCalendarUnitEra
+                            | NSCalendarUnitYear
+                            | NSCalendarUnitMonth 
+                            | NSCalendarUnitDay);
     
     NSDateComponents * dateComponents = [self.calendar components:components fromDate:[self.dateOwner highlightedDate]];
     NSInteger yearOffset = dateComponents.year / 20;
@@ -91,15 +91,15 @@
 
 - (NSString*)labelForDate:(NSDate*)date
 {
-    NSInteger year = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:date];
+    NSInteger year = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:date];
     return [NSString stringWithFormat:@"%ld-%ld",(year/20)+1,(year/20)+19,nil];
 }
 
 - (UIControlState)controlStateForDate:(NSDate*)date
 {
-    NSUInteger currentYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:date];
-    NSUInteger selectedYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner selectedDate]];
-    NSUInteger highlightedYear = [self.calendar ordinalityOfUnit:NSYearCalendarUnit inUnit:NSEraCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    NSUInteger currentYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:date];
+    NSUInteger selectedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner selectedDate]];
+    NSUInteger highlightedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner highlightedDate]];
     
     BOOL isSelected = (currentYear == selectedYear);
     BOOL isHilighted = (currentYear == highlightedYear); 

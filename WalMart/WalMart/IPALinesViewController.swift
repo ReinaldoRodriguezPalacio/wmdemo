@@ -139,12 +139,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         lineController.families = self.linesCamp!
         lineController.selectedFamily = nil
         lineController.delegate = self
-    
-        if #available(iOS 8.0, *) {
-            lineController.modalPresentationStyle = .Popover
-        } else {
-            lineController.modalPresentationStyle = .FormSheet
-        }
+        lineController.modalPresentationStyle = .Popover
         lineController.preferredContentSize = CGSizeMake(320, 322)
         
         if popover ==  nil {
@@ -188,11 +183,7 @@ class IPALinesViewController : IPACategoriesResultViewController,IPALinesListVie
         
         let pointPop =  searchProduct.viewHeader.convertPoint(CGPointMake(self.view.frame.width / 2, 245), toView:self.view)
         print(pointPop)
-        if #available(iOS 8.0, *) {
-            lineController.modalPresentationStyle = .Popover
-        } else {
-            lineController.modalPresentationStyle = .FormSheet
-        }
+        lineController.modalPresentationStyle = .Popover
         //lineController.preferredContentSize = CGSizeMake(320, 322)
         
         popover = UIPopoverController(contentViewController: lineController)

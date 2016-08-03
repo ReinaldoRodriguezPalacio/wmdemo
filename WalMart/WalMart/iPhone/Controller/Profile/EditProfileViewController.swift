@@ -225,7 +225,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         })
         
         
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let currentDate = NSDate()
         let comps = NSDateComponents()
         comps.year = -18
@@ -276,7 +276,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.cellPhone = FormFieldView()
         self.cellPhone!.isRequired = false
-        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile..edit.cellphoneDesc",comment:""))
+        self.cellPhone!.setCustomPlaceholder(NSLocalizedString("profile.edit.cellphoneDesc",comment:""))
         self.cellPhone!.typeField = TypeField.Phone
         self.cellPhone!.nameField = NSLocalizedString("profile.address.field.telephone.cell",comment:"")
         self.cellPhone!.minLength = 10
@@ -370,11 +370,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.saveButton!.addTarget(self, action: #selector(EditProfileViewController.save(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         self.view.addSubview(saveButton!)
     
+        
+        let attrs = [
+            NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14),
+            NSForegroundColorAttributeName : WMColor.light_blue,
+            NSUnderlineStyleAttributeName : 1]
+        let attributedString = NSMutableAttributedString(string:"")
+        let buttonTitleStr = NSMutableAttributedString(string:NSLocalizedString("profile.terms.privacy", comment: ""), attributes:attrs)
+        attributedString.appendAttributedString(buttonTitleStr)
+        
         self.legalInformation = UIButton()
-        self.legalInformation!.setTitle(NSLocalizedString("profile.terms.privacy", comment: ""), forState: UIControlState.Normal)
-        self.legalInformation!.setTitleColor(WMColor.light_blue, forState: UIControlState.Normal)
+        self.legalInformation!.setAttributedTitle(attributedString, forState: .Normal)
         self.legalInformation!.addTarget(self, action: #selector(EditProfileViewController.noticePrivacy), forControlEvents: .TouchUpInside)
-        self.legalInformation!.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(14)
         self.legalInformation!.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         self.content?.addSubview(self.legalInformation!)
         
