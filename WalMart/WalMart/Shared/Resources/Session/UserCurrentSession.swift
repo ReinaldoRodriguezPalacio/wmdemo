@@ -631,7 +631,7 @@ class UserCurrentSession : NSObject {
         let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
         if arrayCart != nil {
             for prodCart in arrayCart! {
-                if  prodCart.product.type == 0 {
+                if  prodCart.product.type == "false" {
                     totalGR += prodCart.quantity.doubleValue * prodCart.product.price.doubleValue
                 } else {
                     totalGR += (prodCart.quantity.doubleValue / 1000.0) * prodCart.product.price.doubleValue

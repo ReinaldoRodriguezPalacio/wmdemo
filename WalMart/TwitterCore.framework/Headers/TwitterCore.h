@@ -20,9 +20,9 @@
 #import <Cocoa/Cocoa.h>
 #endif
 
-#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
-#error "TwitterCore doesn't support iOS 7.x and lower. Please, change your minimum deployment target to iOS 8.0"
-#endif
+//#if __IPHONE_OS_VERSION_MIN_REQUIRED < 80000
+//#error "TwitterCore doesn't support iOS 7.x and lower. Please, change your minimum deployment target to iOS 8.0"
+//#endif
 
 #import <TwitterCore/TWTRAPIErrorCode.h>
 #import <TwitterCore/TWTRAuthConfig.h>
@@ -32,3 +32,4 @@
 #import <TwitterCore/TWTRGuestSession.h>
 #import <TwitterCore/TWTRSession.h>
 #import <TwitterCore/TWTRSessionStore.h>
+

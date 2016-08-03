@@ -37,7 +37,7 @@ class GRSaveUserListService : GRBaseService {
     }
     
     
-    func buildProductObject(upc upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?) -> [String:AnyObject] {
+    func buildProductObject(upc upc:String, quantity:Int, image:String?, description:String?, price:String?, type:String?,nameLine:String?) -> [String:AnyObject] {
         //Este JSON de ejemplo es tomado del servicio de addItemToList
         //{"longDescription":"","quantity":1.0,"upc":"0065024002180","pesable":"","equivalenceByPiece":"","promoDescription":"","productIsInStores":""}
         //Los argumentos: image, description y price son usados solo localmente
@@ -54,6 +54,9 @@ class GRSaveUserListService : GRBaseService {
         }
         if type != nil {
             base["type"] = type!
+        }
+        if nameLine != nil {
+            base["nameLine"] = nameLine
         }
         return base
     }
@@ -141,11 +144,11 @@ class GRSaveUserListService : GRBaseService {
                     detail!.price = price
                 }
                 if let type = item["type"] as? String {
-                    detail!.type = NSNumber(integer: Int(type)!)
+                    detail!.type =  NSNumber(integer: Int(type)!)
                 }
-                else if let type = item["type"] as? NSNumber {
-                    detail!.type = type
-                }
+//                else if let type = item["type"] as? NSNumber {
+//                    detail!.type = type
+//                }
                 detail!.list = entity!
             }
         }
@@ -196,16 +199,24 @@ class GRSaveUserListService : GRBaseService {
                     detail!.quantity = NSNumber(integer: Int(quantity)!)
                 }
                 if let type = item["type"] as? String {
-                    detail!.type = NSNumber(integer: Int(type)!)
+                    detail!.type = type == "false" ? 0 : 1 //NSNumber(integer: Int(type)!)
                 }
-                else if let type = item["type"] as? NSNumber {
-                    detail!.type = type
-                }
+//                else if let type = item["type"] as? NSNumber {
+//                    detail!.type = type
+//                }
                 if let stock = item["stock"] as? Bool {
                     detail!.isActive = stock == true ? "true" : "false"
                 }
                detail!.list = localList!
+                
+                if let nameLine = item["nameLine"] as? String {
+                    detail!.nameLine = nameLine
+                }
+                
+                
             }
+            
+            
         }
         localList!.countItem = NSNumber(integer: countItem)
 

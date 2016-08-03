@@ -264,7 +264,7 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             detail!.desc = item["description"] as! String
             detail!.price = "\(price)"
             detail!.quantity = NSNumber(integer: quantity)
-            detail!.type = NSNumber(integer: typeProdVal)
+            detail!.type =  NSNumber(integer: typeProdVal)
             detail!.list = list
             detail!.img = item["imageUrl"] as! String
         }
@@ -386,7 +386,13 @@ class IPAGRCheckOutViewController : GRCheckOutDeliveryViewController,ListSelecto
             let description = item["description"] as? String
             let type = item["type"] as! String
             
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
+            var  nameLine = ""
+            if let line = item["line"] as? NSDictionary {
+                nameLine = line["name"] as! String
+            }
+            
+            
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,nameLine: nameLine)
             products.append(serviceItem)
         }
         

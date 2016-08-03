@@ -15,35 +15,41 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     var itemsUserList: [AnyObject]? = []
     var alertView: IPOWMAlertViewController?
     
-    func invokeSaveListToDuplicateService(forListId listId:String, andName listName:String,successDuplicateList:(() -> Void)) {
+    func invokeSaveListToDuplicateService(forListId products:[AnyObject], andName listName:String,successDuplicateList:(() -> Void)) {
         alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError:UIImage(named:"list_alert_error"))
         alertView!.setMessage(NSLocalizedString("list.copy.inProcess", comment:""))
         
-        //TODO: pasar itms para duplicar
-//                let service = GRSaveUserListService()
-//                var items: [AnyObject] = []
-//                if let products = result["items"] as? NSArray {
-//                    for idx in 0 ..< products.count {
-//                        var product = products[idx] as! [String:AnyObject]
-//                        let quantity = product["quantity"] as! NSNumber
-//                        if let upc = product["upc"] as? String {
-//                            let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil)
-//                            items.append(item)
-//                        }
-//                    }
-//                }
-//                
-//                let copyName = self.buildDuplicateNameList(listName, forListId: listId)
-//                service.callService(service.buildParams(copyName, items: items),
-//                    successBlock: { (result:NSDictionary) -> Void in
-//                        successDuplicateList()
-//                    },
-//                    errorBlock: { (error:NSError) -> Void in
-//                        print("Error at duplicate list")
-//                        self.alertView!.setMessage(error.localizedDescription)
-//                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
-//                    }
-//                )
+        
+                let service = GRSaveUserListService()
+                var items: [AnyObject] = []
+                //if let products = result["items"] as? NSArray {
+                    for idx in 0 ..< products.count {
+                        var product = products[idx] as! [String:AnyObject]
+                        let quantity = product["quantity"] as! NSNumber
+                        var  nameLine = ""
+                        if let line = product["line"] as? NSDictionary {
+                            nameLine = line["name"] as! String
+                        }
+                        if let upc = product["upc"] as? String {
+                            let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: nil, description: nil, price: nil, type:nil,nameLine: nameLine)
+                            items.append(item)
+                        }
+                    }
+                //}
+                
+                let copyName = self.buildDuplicateNameList(listName)
+                print("duplicate::List")
+                print(service.jsonFromObject(service.buildParams(copyName, items: items)))
+                service.callService(service.buildParams(copyName, items: items),
+                    successBlock: { (result:NSDictionary) -> Void in
+                        successDuplicateList()
+                    },
+                    errorBlock: { (error:NSError) -> Void in
+                        print("Error at duplicate list")
+                        self.alertView!.setMessage(error.localizedDescription)
+                        self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
+                    }
+                )
         
 
         
@@ -51,7 +57,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
     
     
     
-    func buildDuplicateNameList(theName:String, forListId listId:String?) -> String {
+    func buildDuplicateNameList(theName:String) -> String {
         var listName = "\(theName)" //Se crea una nueva instancia
         let whitespaceset = NSCharacterSet.whitespaceCharacterSet()
         var arrayOfIndex: [Int] = []
