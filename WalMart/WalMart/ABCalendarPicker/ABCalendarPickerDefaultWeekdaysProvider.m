@@ -148,7 +148,7 @@
     
     NSInteger currentYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:date];
     NSInteger selectedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner selectedDate]];
-    //NSInteger highlightedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSEraCalendarUnit forDate:[self.dateOwner highlightedDate]];
+    //NSInteger highlightedYear = [self.calendar ordinalityOfUnit:NSCalendarUnitYear inUnit:NSCalendarUnitEra forDate:[self.dateOwner highlightedDate]];
     
     NSInteger dayOfweek = [self.calendar ordinalityOfUnit:NSCalendarUnitWeekday inUnit:NSCalendarUnitWeekOfMonth forDate:date];
     BOOL isWeekend = dayOfweek == 1 || dayOfweek == 7;
