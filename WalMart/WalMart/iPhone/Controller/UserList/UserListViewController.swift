@@ -786,13 +786,13 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 self.alertView!.showErrorIcon("Ok")
             }
             else if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
-                let listId = listItem["id"] as! String
+                //let listId = listItem["id"] as! String
                 let listName = listItem["name"] as! String
 //                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
 //                    println("pase por acas")
 //                }, itemsUserList: self.itemsUserList!)
                 //self.invokeSaveListToDuplicateService(forListId: listId, andName: listName,succ)
-                self.invokeSaveListToDuplicateService(forListId: listId, andName: listName, successDuplicateList: { () -> Void in
+                self.invokeSaveListToDuplicateService(forListId: self.itemsList, andName: listName, successDuplicateList: { () -> Void in
                     self.newListEnabled = false
                     self.isShowingSuperlists = true
                     self.newListBtn!.selected = false
@@ -813,7 +813,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                     self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                     self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
                     
-                    let copyName = self.buildDuplicateNameList(listItem.name, forListId: nil)
+                    let copyName = self.buildDuplicateNameList(listItem.name)
                     let clist = NSEntityDescription.insertNewObjectForEntityForName("List", inManagedObjectContext: self.managedContext!) as? List
                     clist!.name = copyName
                     clist!.registryDate = NSDate()

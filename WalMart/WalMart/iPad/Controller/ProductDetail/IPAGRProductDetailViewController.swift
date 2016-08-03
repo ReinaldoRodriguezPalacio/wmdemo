@@ -582,7 +582,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
             detail!.desc = self.name as String
             detail!.price = self.price
             detail!.quantity = NSNumber(integer: Int(quantity)!)
-            detail!.type = NSNumber(bool: self.isPesable)
+            detail!.type = NSNumber(bool: self.isPesable) 
             detail!.list = list
             if self.imageUrl.count > 0 {
                 detail!.img = self.imageUrl[0] as! NSString as String

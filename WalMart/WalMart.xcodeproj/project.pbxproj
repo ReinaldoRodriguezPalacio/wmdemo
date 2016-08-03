@@ -55,6 +55,8 @@
 		04E139B51A9CFCF800D5BD4F /* Param.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E139B41A9CFCF800D5BD4F /* Param.swift */; };
 		04FD738C1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */; };
 		4A26BC841D47C03600714FF5 /* ListHelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A26BC831D47C03600714FF5 /* ListHelpView.swift */; };
+		4A4E7B271D5161B5001514BD /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E7B261D5161B5001514BD /* CFNetwork.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4A4E7B2B1D516361001514BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4A4E7B2A1D516361001514BD /* UIKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		4A5A9CFD1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */; };
 		4A5A9CFE1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9CFC1C84A02600A2A7F4 /* CustomCalendarStyleProvider.m */; };
 		4A5A9D4A1C84A99B00A2A7F4 /* ABCalendarPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 4A5A9D2A1C84A99B00A2A7F4 /* ABCalendarPicker.m */; };
@@ -387,7 +389,7 @@
 		5ADA68D11BA0EE9D006F1C01 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D01BA0EE9D006F1C01 /* NotificationViewController.swift */; };
 		5ADA68D31BA0FD31006F1C01 /* NotificationFileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADA68D21BA0FD31006F1C01 /* NotificationFileService.swift */; };
 		6C1E263F1D3EA4AA00D3B606 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */; };
-		6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */; };
+		6C1E26401D3EA4AA00D3B606 /* TwitterKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		6C1E26411D3EA4AA00D3B606 /* TwitterKitResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */; };
 		6C1E26421D3EA4AA00D3B606 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6C1E263E1D3EA4AA00D3B606 /* TwitterCore.framework */; };
 		6C3092D41B990C9600D00349 /* GRPayPalUpdateOrderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3092D31B990C9600D00349 /* GRPayPalUpdateOrderService.swift */; };
@@ -681,6 +683,9 @@
 		04E139B41A9CFCF800D5BD4F /* Param.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Param.swift; path = Shared/Model/Entity/Param.swift; sourceTree = "<group>"; };
 		04FD738B1A4A03ED00180748 /* LoadingProductCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LoadingProductCollectionViewCell.swift; path = Shared/View/Search/LoadingProductCollectionViewCell.swift; sourceTree = "<group>"; };
 		4A26BC831D47C03600714FF5 /* ListHelpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListHelpView.swift; sourceTree = "<group>"; };
+		4A4E7B261D5161B5001514BD /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		4A4E7B281D51627F001514BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		4A4E7B2A1D516361001514BD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		4A5A9CF91C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarPickerDefaultDaysProvider.h; sourceTree = "<group>"; };
 		4A5A9CFA1C84A02600A2A7F4 /* CustomCalendarPickerDefaultDaysProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCalendarPickerDefaultDaysProvider.m; sourceTree = "<group>"; };
 		4A5A9CFB1C84A02600A2A7F4 /* CustomCalendarStyleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCalendarStyleProvider.h; sourceTree = "<group>"; };
@@ -1357,6 +1362,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A4E7B2B1D516361001514BD /* UIKit.framework in Frameworks */,
+				4A4E7B271D5161B5001514BD /* CFNetwork.framework in Frameworks */,
 				6C31809B1B87CA320015FC2E /* SystemConfiguration.framework in Frameworks */,
 				6CA0688D1D3D82B60051200E /* SafariServices.framework in Frameworks */,
 				6CA0688B1D3D82AA0051200E /* AddressBook.framework in Frameworks */,
@@ -3480,6 +3487,9 @@
 		ACBA55C519BF583700393E02 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4A4E7B2A1D516361001514BD /* UIKit.framework */,
+				4A4E7B281D51627F001514BD /* Foundation.framework */,
+				4A4E7B261D5161B5001514BD /* CFNetwork.framework */,
 				6C1E263B1D3EA4AA00D3B606 /* Fabric.framework */,
 				6C1E263C1D3EA4AA00D3B606 /* TwitterKit.framework */,
 				6C1E263D1D3EA4AA00D3B606 /* TwitterKitResources.bundle */,
@@ -4322,7 +4332,7 @@
 					"$(DT_HEADER_PATH)",
 				);
 				INFOPLIST_FILE = WalMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4380,7 +4390,7 @@
 					"$(DT_HEADER_PATH)",
 				);
 				INFOPLIST_FILE = WalMart/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

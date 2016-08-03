@@ -80,7 +80,7 @@ class GRShoppingCartProductsService : GRBaseService {
                                 carProductItem.baseprice = baseprice
                                 carProductItem.img = imageUrl
                                 if let pesable = shoppingCartProduct["type"] as?  NSString {
-                                    carProductItem.type = NSNumber(integer:pesable.integerValue)
+                                    carProductItem.type =  NSNumber(integer:pesable.integerValue)
                                 }
 
                                 
@@ -376,7 +376,7 @@ class GRShoppingCartProductsService : GRBaseService {
             carProductItem.baseprice = baseprice
             carProductItem.img = imageUrl
             if let pesable = shoppingCartProduct["type"] as?  NSString {
-                carProductItem.type = NSNumber(integer:pesable.integerValue)
+                carProductItem.type = NSNumber(integer:pesable.integerValue) 
             }
             
             if let active = shoppingCartProduct["isActive"] as? String {

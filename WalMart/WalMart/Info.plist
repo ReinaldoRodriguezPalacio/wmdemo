@@ -420,7 +420,7 @@
 			<key>WalmartMG.AddReferedCustumerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addReferedCustomer</string>
 			<key>WalmartMG.DefaultListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getPractilist</string>
+			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
 			<key>WalmartMG.GRAddItemListService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/addItemToList</string>
 			<key>WalmartMG.GRAddressAddService</key>
@@ -615,7 +615,7 @@
 		<key>PRODUCTION</key>
 		<dict>
 			<key>WalmartMG.DefaultListService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getPractilist</string>
+			<string>https://dl.dropboxusercontent.com/s/3cba54l7nn66k6l/getPractiList.txt?dl=0</string>
 			<key>WalmartMG.GRFacets</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getFacets</string>
 			<key>WalmartMG.GRLinesForSearchService</key>

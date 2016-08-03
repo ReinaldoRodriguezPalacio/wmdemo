@@ -131,13 +131,15 @@ class DetailListViewCell: ProductTableViewCell {
             }
         }
         
-        if let type = product["type"] as? String {
+        if let type = product["isWeighable"] as? String {
+            
             let quantity = product["quantity"] as! NSNumber
             let price = product["price"] as! NSNumber
             var text: String? = ""
             var total: Double = 0.0
+            
             //Piezas
-            if Int(type)! == 0 {
+            if type  == "false" {
                 if quantity.integerValue == 1 {
                     text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
                 }
@@ -235,7 +237,7 @@ class DetailListViewCell: ProductTableViewCell {
         var text: String? = ""
         var total: Double = 0.0
         //Piezas
-        if product.type.integerValue == 0 {
+        if product.type == "false" { //mustang
             if quantity.integerValue == 1 {
                 text = String(format: NSLocalizedString("list.detail.quantity.piece", comment:""), quantity)
             }

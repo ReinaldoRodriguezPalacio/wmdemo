@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10171" systemVersion="15G31" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15E65" minimumToolsVersion="Xcode 4.3">
     <entity name="Cart" representedClassName="WalmartMG.Cart" syncable="YES">
         <attribute name="note" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -30,6 +30,7 @@
         <attribute name="isActive" optional="YES" attributeType="String" defaultValueString="true" syncable="YES"/>
         <attribute name="isPreorderable" optional="YES" attributeType="String" defaultValueString="false" syncable="YES"/>
         <attribute name="iva" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="nameLine" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="onHandInventory" optional="YES" attributeType="String" defaultValueString="5" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="quantity" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
@@ -94,7 +95,7 @@
         <element name="Cart" positionX="-155" positionY="-180" width="128" height="135"/>
         <element name="List" positionX="-279" positionY="351" width="128" height="133"/>
         <element name="Param" positionX="-180" positionY="218" width="128" height="105"/>
-        <element name="Product" positionX="169" positionY="-72" width="128" height="270"/>
+        <element name="Product" positionX="169" positionY="-72" width="128" height="285"/>
         <element name="Profile" positionX="-657" positionY="-199" width="128" height="315"/>
         <element name="Store" positionX="-189" positionY="-27" width="128" height="223"/>
         <element name="User" positionX="-396" positionY="-99" width="128" height="195"/>

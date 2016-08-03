@@ -23,6 +23,8 @@ class Product : NSManagedObject {
     @NSManaged var quantity : NSNumber
     @NSManaged var type : NSNumber
     @NSManaged var department : String
+    @NSManaged var nameLine : String
+    
     
     @NSManaged var cart : Cart
     @NSManaged var list: List

@@ -1057,8 +1057,13 @@ class GRShoppingCartViewController : BaseController, UITableViewDelegate, UITabl
             let imgUrl = item["imageUrl"] as? String
             let description = item["description"] as? String
             let type = item["type"] as? String
+            
+            var  nameLine = ""
+            if let line = item["line"] as? NSDictionary {
+                nameLine = line["name"] as! String
+            }
 
-            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type)
+            let serviceItem = service.buildProductObject(upc: upc, quantity: quantity, image: imgUrl!, description: description!, price: price!, type: type,nameLine:nameLine)
             products.append(serviceItem)
         }
         

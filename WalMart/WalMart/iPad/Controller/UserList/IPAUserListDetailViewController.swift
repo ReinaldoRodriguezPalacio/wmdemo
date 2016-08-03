@@ -410,7 +410,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             }else{
                 let service = GRUserListService()
                 self.itemsUserList = service.retrieveUserList()
-                self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+                self.invokeSaveListToDuplicateService(forListId: self.products!, andName: listName!, successDuplicateList: { () -> Void in
                     self.delegate?.reloadTableListUser()
                     self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                     self.alertView!.showDoneIcon()

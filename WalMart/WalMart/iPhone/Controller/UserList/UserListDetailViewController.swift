@@ -316,10 +316,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             if self.products == nil  || self.products!.count == 0 {
                 self.selectedItems = []
             } else {
+                self.counSections()
                 self.selectedItems = NSMutableArray()
                 for i in 0...self.products!.count - 1 {
-                    let item =  self.products![i] as? [String:AnyObject]
-                    self.selectedItems?.addObject(item!["upc"] as! String )
+                    let item =  self.products![i] as? Product
+                    self.selectedItems?.addObject(item!.upc )
                     //self.selectedItems?.addObject(i)
                 }
                 self.updateTotalLabel()
@@ -745,65 +746,60 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         var total: Double = 0.0
         
         if selectedItems != nil {
-
+            
             for upcSelected in selectedItems! {
-                var index = 0
-                for lines in self.newArrayProducts! {
-                    let array =  lines[linesArray[index] as! String] as! NSArray
-                    for product in array {
-                        let upc = upcSelected as! String
-                        if  product["upc"] as! String  == upc {
-                            
-                            if let typeProd = product["type"] as? NSString {
-                                let quantity = product["quantity"] as! NSNumber
-                                let price = product["price"] as! NSNumber
+                if UserCurrentSession.hasLoggedUser() {
+                    var index = 0
+                    for lines in self.newArrayProducts! {
+                        let array =  lines[linesArray[index] as! String] as! NSArray
+                        for product in array {
+                            let upc = upcSelected as! String
+                            if  product["upc"] as! String  == upc {
                                 
-                                if typeProd.integerValue == 0 {
-                                    total += (quantity.doubleValue * price.doubleValue)
-                                }
-                                else {
-                                    let kgrams = quantity.doubleValue / 1000.0
-                                    total += (kgrams * price.doubleValue)
+                                if let typeProd = product["type"] as? NSString {
+                                    let quantity = product["quantity"] as! NSNumber
+                                    let price = product["price"] as! NSNumber
+                                    
+                                    if typeProd.integerValue == 0 {
+                                        total += (quantity.doubleValue * price.doubleValue)
+                                    }
+                                    else {
+                                        let kgrams = quantity.doubleValue / 1000.0
+                                        total += (kgrams * price.doubleValue)
+                                    }
                                 }
                             }
                         }
+                        
+                        index = index+1
+                    }
+                }else{// if UserCurrentSession.hasLoggedUser()
+                    var index = 0
+                    for lines in self.newArrayProducts! {
+                        let arrayItems =  lines[linesArray[index] as! String] as! NSArray
+                        
+                        for itemProduct in arrayItems {
+                            let item  = itemProduct as! Product
+                            let quantity = item.quantity
+                            let price:Double = item.price.doubleValue
+                            if item.type == "false" {
+                                total += (quantity.doubleValue * price)
+                            }
+                            else {
+                                let kgrams = quantity.doubleValue / 1000.0
+                                total += (kgrams * price)
+                            }
+                        }
+                        
+                        
+                        index = index+1
                     }
                     
-                    index = index+1
                 }
-               
-                    
-//                    if let item = self.newArrayProducts![index] as? [String:AnyObject] {
-//                        
-//                       let  product = item[linesArray[index] as! String]
-//                        let dicProduct = product![index] as?  NSDictionary
-//                        if let typeProd = dicProduct!["type"] as? NSString {
-//                            let quantity = dicProduct!["quantity"] as! NSNumber
-//                            let price = dicProduct!["price"] as! NSNumber
-//                            print("price \(price)")
-//                            if typeProd.integerValue == 0 {
-//                                total += (quantity.doubleValue * price.doubleValue)
-//                            }
-//                            else {
-//                                let kgrams = quantity.doubleValue / 1000.0
-//                                total += (kgrams * price.doubleValue)
-//                            }
-//                        }
-//                    }
-//                    else if let item = self.newArrayProducts![index] as? Product {
-//                        let quantity = item.quantity
-//                        let price:Double = item.price.doubleValue
-//                        if item.type.integerValue == 0 {
-//                            total += (quantity.doubleValue * price)
-//                        }
-//                        else {
-//                            let kgrams = quantity.doubleValue / 1000.0
-//                            total += (kgrams * price)
-//                        }
-//                    }
                 
-                
-            }
+            }//for upcSelected in selectedItems!
+            
+            
         }
         return total
     }
@@ -830,7 +826,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             else if let item = self.products![idx] as? Product {
                 let quantity = item.quantity
-                if item.type.integerValue == 0 {
+                if item.type == "false" {
                     count += quantity.integerValue
                 }
                 else {
@@ -841,49 +837,66 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         return count
     }
     
-//    func layoutTitleLabel() {
-//        if !isEdditing {
-//            var rect: CGRect = self.titleLabel!.text!.boundingRectWithSize(CGSizeMake(self.view.bounds.width, CGFloat.max), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:self.titleLabel!.font], context: nil)
-//            var size = CGSizeMake(ceil(rect.size.width), ceil(rect.size.height))
-//            
-//            self.titleLabel!.frame = CGRectMake(0, 0, size.width, size.height)
-//            self.titleLabel!.center = CGPointMake(self.header!.frame.width/2, self.header!.frame.height/2)
-//        }
-//    }
+
     
     //MARK: - UITableViewDataSource
     let linesArray : NSMutableArray = []
     var newArrayProducts : [[String:AnyObject]]! = []
+    
+    /**
+     Find any lines and organized by sections
+     */
     func counSections(){
-        
-        for items in self.products! {
-            let line = items["line"] as? NSDictionary
-            let lineId = line!["name"] as? String
-           if  !linesArray.containsObject(lineId!) {
-            print("se agrega")
-                linesArray.addObject(lineId!)
-            }
-        }
-        
-        for lineArray in linesArray {
-            var arrayitems : [AnyObject] = []
-            for  items in self.products!  {
+        if UserCurrentSession.hasLoggedUser() {
+            for items in self.products! {
                 let line = items["line"] as? NSDictionary
                 let lineId = line!["name"] as? String
-                
-                if lineId! == lineArray as! String {
-                
-                    arrayitems.append(items)
+                if  !linesArray.containsObject(lineId!) {
+                    print("se agrega")
+                    linesArray.addObject(lineId!)
                 }
             }
+            for lineArray in linesArray {
+                var arrayitems : [AnyObject] = []
+                for  items in self.products!  {
+                    let line = items["line"] as? NSDictionary
+                    let lineId = line!["name"] as? String
+                    
+                    if lineId! == lineArray as! String {
+                        arrayitems.append(items)
+                    }
+                }
+                newArrayProducts.append ([lineArray as! String:arrayitems])
+            }
+            self.newArrayProducts = newArrayProducts.sort({ (first:[String:AnyObject], second:[String:AnyObject]) -> Bool in
+                let dicFirst = first.first!.0 as String
+                let dicSecond = second.first!.0 as String
+                return dicFirst < dicSecond
+            })
+        }else{//Product - Entity
             
-            newArrayProducts.append ([lineArray as! String:arrayitems])
+            for items in self.products! {
+                let productItem =  items as! Product
+                
+                if  !linesArray.containsObject(productItem.nameLine) {
+                    print("se agrega sin session ")
+                    linesArray.addObject(productItem.nameLine)
+                }
+            }
+    
+            for lineArray in linesArray {
+                var arrayitems : [AnyObject] = []
+                for  items in self.products!  {
+                    let productItem =  items as! Product
+                    if productItem.nameLine == lineArray as! String {
+                        arrayitems.append(productItem)
+                    }
+                }
+                newArrayProducts.append ([lineArray as! String:arrayitems])
+            }
+            print(newArrayProducts)
+        
         }
-        self.newArrayProducts = newArrayProducts.sort({ (first:[String:AnyObject], second:[String:AnyObject]) -> Bool in
-            let dicFirst = first.first!.0 as String
-            let dicSecond = second.first!.0 as String
-            return dicFirst < dicSecond
-        })
         
         
     }
@@ -953,8 +966,14 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             let items = self.newArrayProducts![indexPath.section]
             let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
             let product =  listProduct.objectAtIndex(indexPath.row)
-
-            listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
+            if UserCurrentSession.hasLoggedUser() {
+                listCell.setValuesDictionary(product as! [String : AnyObject],disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(product["upc"]))
+            }else{
+                 let listProduct = items[linesArray[indexPath.section] as! String] as! NSArray
+                let product =  listProduct.objectAtIndex(indexPath.row) as! Product
+                print(product.upc)
+                listCell.setValues(product,disabled:!self.selectedItems!.containsObject(product.upc))
+            }
       
         }
         
@@ -1097,7 +1116,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 price = item["price"] as? NSNumber
             }
             else if let item = self.products![indexPath!.row] as? Product {
-                isPesable = item.type.boolValue
+                isPesable = item.type == "false" ?  false : true //mustang
                 price = NSNumber(double: item.price.doubleValue)
             }
             
@@ -1375,8 +1394,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             
            
                 if self.products != nil  && self.products!.count > 0  {
-                    for i in 0...self.products!.count - 1 {
-                        self.selectedItems?.addObject(i)
+                    //for i in 0...self.products!.count - 1 {
+                    for product in self.products!{
+                        let item =  product as! Product
+                        self.selectedItems?.addObject(item.upc)
                     }
                     self.updateTotalLabel()
                 }
@@ -1531,7 +1552,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 self.alertView!.setMessage(NSLocalizedString("list.error.validation.max", comment: ""))
                 self.alertView!.showErrorIcon(NSLocalizedString("Ok", comment:""))
             }else{
-                self.invokeSaveListToDuplicateService(forListId: listId!, andName: listName!, successDuplicateList: { () -> Void in
+                self.invokeSaveListToDuplicateService(forListId: self.products!, andName: listName!, successDuplicateList: { () -> Void in
                     self.alertView!.setMessage(NSLocalizedString("list.copy.done", comment:""))
                     self.alertView!.showDoneIcon()
                 })

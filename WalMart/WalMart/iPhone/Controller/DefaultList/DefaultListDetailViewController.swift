@@ -444,13 +444,15 @@ DetailListViewCellDelegate,UIActivityItemSource {
         for idxVal  in selectedItems! {
             let idx = idxVal as! Int
             let item = self.detailItems![idx]
-            if let typeProd = item["type"] as? NSString {
+            if let typeProd = item["isWeighable"] as? NSString {
+                
                 let quantity = item["quantity"] as! NSNumber
                 let price = item["price"] as! NSNumber
-                
-                if typeProd.integerValue == 0 {
+                //piezas
+                if typeProd == "false" {
                     total += (quantity.doubleValue * price.doubleValue)
                 }
+                //gramos
                 else {
                     let kgrams = quantity.doubleValue / 1000.0
                     total += (kgrams * price.doubleValue)
@@ -550,10 +552,14 @@ DetailListViewCellDelegate,UIActivityItemSource {
                 let imageUrl = product["imageUrl"] as! String
                 let price = product["price"] as! NSNumber
                 let dsc = product["description"] as! String
-                let type = product["type"] as! String
+                let type = product["isWeighable"] as! String //type
+                var  nameLine = ""
+                if let line = product["line"] as? NSDictionary {
+                    nameLine = line["name"] as! String
+                }
                 
                 if let upc = product["upc"] as? String {
-                    let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type)
+                    let item = service.buildProductObject(upc: upc, quantity: quantity.integerValue, image: imageUrl, description: dsc, price: price.stringValue, type:type,nameLine: nameLine)
                     items.append(item)
                 }
             }
@@ -591,7 +597,7 @@ DetailListViewCellDelegate,UIActivityItemSource {
                     var name:String? = nil
                     var stringIndex: String? = nil
                     if let innerList = itemsUserList![idx] as? [String:AnyObject] {
-                        let innerListId = innerList["id"] as! String
+                        let innerListId = innerList["repositoryId"] as! String
                         if innerListId == listId! {
                             continue
                         }
