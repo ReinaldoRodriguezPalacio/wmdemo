@@ -877,7 +877,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             let idx = self.newListEnabled ? indexPath.row - 1 : indexPath.row
             if let listItem = self.itemsUserList![idx] as? NSDictionary {
-                let listId = listItem["id"] as! String
+                let listId = listItem["repositoryId"] as! String
                 
 //                if text == nil || text!.isEmpty {
 //                    self.listToUpdate!.removeValueForKey(listId)
@@ -1390,8 +1390,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             self.alertView!.setMessage(NSLocalizedString("list.message.deletingList", comment:""))
             
             let service = GRDeleteUserListService()
-            service.buildParams(listId)
-            service.callService(nil,
+           
+            service.callService(service.buildParams(listId),
                 successBlock:{ (result:NSDictionary) -> Void in
                     self.reloadList(
                         success: { () -> Void in
@@ -1477,7 +1477,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
 //                successBlock: { (result:NSDictionary) -> Void in
             
                     let service = GRUpdateListService()
-                    service.callService(name!,
+            
+                    service.callService(service.buildParams(firstKey!, name: name!),
                         successBlock: { (result:NSDictionary) -> Void in
                             let reminderService = ReminderNotificationService()
                             reminderService.listId = firstKey!

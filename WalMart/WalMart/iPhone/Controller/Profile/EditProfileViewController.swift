@@ -66,6 +66,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     var associateDateSelected : NSDate!
     var picker : AlertPickerView!
     var selectedGender: NSIndexPath!
+    var dateBriday  = ""
     
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_EDITPROFILE.rawValue
@@ -535,10 +536,16 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
     /**
      saves the associate date f¡ield
      */
+
     func associateDateChanged(){
         let date = self.inputAssociateDateView!.date
         self.associateDate!.text = self.dateFmt!.stringFromDate(date)
         self.associateDateSelected = date
+        //TODO: validar al entrar al perfil que se mande con el formato correcto.
+        let dateFormatter = NSDateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        self.dateBriday = dateFormatter.stringFromDate(date)
+       
     }
     
     //MARK: TPKeyboardAvoidingScrollViewDelegate
@@ -586,7 +593,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_SAVE.rawValue, label: "")
             let service = UpdateUserProfileService()
             let profileId = UserCurrentSession.sharedInstance().userSigned?.profile.idProfile as! String
-            let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.associateDate!.text!, associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
+            let params  = service.buildParamsWithMembership(profileId, name: self.name.text!, lastName: self.lastName!.text!, email: self.email!.text!, gender: self.gender.text!, ocupation: self.ocupation!.text!, phoneNumber: self.phoneHome!.text!, phoneExtension: self.phoneHomeExtension!.text!, mobileNumber: self.cellPhone!.text!, updateAssociate: self.showAssociateInfo, associateStore: self.associateDeterminant!.text!, joinDate: self.dateBriday , associateNumber: self.associateNumber!.text!, updatePassword: self.showPasswordInfo, oldPassword: self.passworCurrent!.text!, newPassword: self.password!.text!)
             
             if sender.tag == 100 {
                 self.alertView = IPAWMAlertViewController.showAlert(UIImage(named:"user_waiting"),imageDone:UIImage(named:"done"),imageError:UIImage(named:"user_error"))

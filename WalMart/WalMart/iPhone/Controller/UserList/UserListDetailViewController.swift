@@ -379,7 +379,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         else {
             UIView.animateWithDuration(0.3, animations: { () -> Void in
-                self.updateLustName()
+                self.updateListName()
                 UIView.animateWithDuration(0.5,
                     animations: { () -> Void in
                         self.titleLabel!.alpha = 1.0
@@ -1565,7 +1565,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     
     
-    func updateLustName() {
+    func updateListName() {
         if self.nameField?.text != self.titleLabel?.text {
             
             self.nameField?.resignFirstResponder()
@@ -1578,7 +1578,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //                successBlock: { (result:NSDictionary) -> Void in
             
                     let service = GRUpdateListService()
-                    service.callService(self.nameField!.text!,
+            
+                    service.callService(service.buildParams(self.listId!, name: self.nameField!.text!),
                         successBlock: { (result:NSDictionary) -> Void in
                            self.titleLabel?.text = self.nameField?.text
                             self.reminderService!.updateListName(self.nameField!.text!)

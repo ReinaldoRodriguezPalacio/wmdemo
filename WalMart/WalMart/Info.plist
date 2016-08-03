@@ -214,7 +214,7 @@
 		<string>kqztaudKJXB05OO8nHbY-w</string>
 	</dict>
 	<key>WMEnvironment</key>
-	<string>PRODUCTION</string>
+	<string>DEVWM</string>
 	<key>WMPayPalEnvironment</key>
 	<dict>
 		<key>PayPalEnvironment</key>
@@ -249,7 +249,7 @@
 			<key>WalmartMG.GRDeleteItemListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/deleteItem</string>
 			<key>WalmartMG.GRDeleteUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/deleteList</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/deleteListByUser</string>
 			<key>WalmartMG.GRDeliveryTypeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getDeliveryTypes</string>
 			<key>WalmartMG.GRDiscountActiveService</key>
@@ -287,7 +287,7 @@
 			<key>WalmartMG.GRRecentProductsService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getMyBasic</string>
 			<key>WalmartMG.GRSaveUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/saveList</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/createListByUser</string>
 			<key>WalmartMG.GRSendOrderService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/sendOrderWithSlotPromo</string>
 			<key>WalmartMG.GRShoppingCartAddProductsService</key>
@@ -303,13 +303,13 @@
 			<key>WalmartMG.GRUpdateItemListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateItem</string>
 			<key>WalmartMG.GRUpdateListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/updateList</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/updateListByUser</string>
 			<key>WalmartMG.GRUpdateUserProfileService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.GRUserListDetailService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getListsByUser</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/getListByUser</string>
 			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
@@ -323,7 +323,7 @@
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addShippingAddress</string>
 			<key>WalmartMG.AddressByUserService</key>
-			<string>http://192.168.43.192:9080/walmartmg/list/getAddressesByUser</string>
+			<string>http://192.168.43.192:9080/walmartmg/list/displayShippingAddress</string>
 			<key>WalmartMG.BannerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getBannersMGSuper</string>
 			<key>WalmartMG.CamFindService</key>

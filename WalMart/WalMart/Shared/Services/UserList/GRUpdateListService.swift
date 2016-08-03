@@ -10,11 +10,11 @@ import UIKit
 
 class GRUpdateListService: GRBaseService {
     
-    func buildParams(name:String) -> [AnyObject] {
+    func buildParams(idList:String,name:String) -> NSDictionary {
         //{"newName":"PentonVillet30Mayo2014_Update"}
         //return ["newName":name]
-        //{"CualquierOtroNombre"}
-        return [name]
+        //{"CualquierOtroNombre"}{    "idList":"gl5510205",    "newName":"Nuevo Nombre"}
+        return ["idList":idList,"newName":name]
     }
 
     func callService(params:AnyObject, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {

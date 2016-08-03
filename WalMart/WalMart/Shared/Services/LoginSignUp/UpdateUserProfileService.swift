@@ -33,10 +33,10 @@ class UpdateUserProfileService : BaseService {
                     if array.count > 0{
                         usr = array[0] as! User
                         
-                        let resultProfileJSON = params["profile"] as! NSDictionary
+                        //let resultProfileJSON = params["profile"] as! NSDictionary
                         
-                        usr.profile.name = resultProfileJSON["name"] as! String
-                        usr.profile.lastName = resultProfileJSON["lastName"] as! String
+                        usr.profile.name = params["firstName"] as! String
+                        usr.profile.lastName = params["lastName"] as! String
                         do {
                             try context.save()
                         } catch let error1 as NSError {

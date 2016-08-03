@@ -132,13 +132,13 @@ class UserCurrentSession : NSObject {
     func createUpdateUser(loginResult:NSDictionary, profileResult:NSDictionary) {
         
         let loginProfile = loginResult["profile"] as! NSDictionary
-        let userProfile = profileResult["profile"] as! NSDictionary
+        let userProfile = loginResult["profile"] as! NSDictionary
         
         let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var usr : User
-        let idUser = loginResult["idUser"] as! String
+        let idUser = loginResult["profileId"] as! String
         let predicate = NSPredicate(format: "idUser == %@ ", idUser)
         
         let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
@@ -175,7 +175,7 @@ class UserCurrentSession : NSObject {
         let date = NSDate()
         usr.lastLogin = date
 
-        if let idProfile = loginProfile["idUser"] as? String{
+        if let idProfile = loginResult["idUser"] as? String{
             profile.idProfile = idProfile
         }
         
