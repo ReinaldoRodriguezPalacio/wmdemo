@@ -367,19 +367,11 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
         var row = 0
         for item in self.datesItems! {
             let itemDate = item["date"] as! NSDate
-            if #available(iOS 8.0, *) {
                 if NSCalendar.currentCalendar().compareDate(itemDate, toDate: date,
                     toUnitGranularity: .Day) == NSComparisonResult.OrderedSame {
                     aviableDate = item
                     break
                 }
-            } else {
-                let dateFmt = NSDateFormatter()
-                dateFmt.timeZone = NSTimeZone.defaultTimeZone()
-                dateFmt.dateFormat = "EEEE dd, MMMM"
-                aviableDate =  ["dateString":dateFmt.stringFromDate(date).capitalizedString,"date":date]
-                break
-            }
             row += 1
         }
         self.selectedDateTypeIx = NSIndexPath(forRow: row, inSection: 0)
@@ -419,7 +411,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
             return
         }
         let nextController = GRCheckOutCommentsViewController()
-        let components : NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.NSYearCalendarUnit, NSCalendarUnit.NSMonthCalendarUnit, NSCalendarUnit.NSDayCalendarUnit], fromDate: self.selectedDate)
+        let components : NSDateComponents = NSCalendar.currentCalendar().components([NSCalendarUnit.Year, NSCalendarUnit.Month, NSCalendarUnit.Day], fromDate: self.selectedDate)
         let dateMonth = components.month
         let dateYear = components.year
         let dateDay = components.day

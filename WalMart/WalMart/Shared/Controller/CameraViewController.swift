@@ -291,10 +291,10 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
         previewLayer!.frame = self.view.frame
         
         if IS_IPAD{
-            if self.interfaceOrientation == UIInterfaceOrientation.LandscapeLeft {
+            if UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeLeft {
                 previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft;
             }
-            else if self.interfaceOrientation == UIInterfaceOrientation.LandscapeRight {
+            else if UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeRight {
                 previewLayer!.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight;
             }
             
@@ -629,7 +629,7 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     override func preferredInterfaceOrientationForPresentation() -> UIInterfaceOrientation {
         if IS_IPAD {
-            return self.interfaceOrientation
+            return UIApplication.sharedApplication().statusBarOrientation
         }
         else{
             return UIInterfaceOrientation.Portrait
@@ -638,10 +638,10 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     
     override func willAnimateRotationToInterfaceOrientation(toInterfaceOrientation: UIInterfaceOrientation, duration: NSTimeInterval) {
         if IS_IPAD {
-            if self.interfaceOrientation == UIInterfaceOrientation.LandscapeLeft {
+            if UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeLeft {
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeLeft;
             }
-            else if self.interfaceOrientation == UIInterfaceOrientation.LandscapeRight {
+            else if UIApplication.sharedApplication().statusBarOrientation == UIInterfaceOrientation.LandscapeRight {
                 previewLayer?.connection.videoOrientation = AVCaptureVideoOrientation.LandscapeRight;
             }
         }
@@ -659,12 +659,8 @@ class CameraViewController : BaseController, UIAlertViewDelegate,UIImagePickerCo
     //MARK: Alert delegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex == 1 {
-            if #available(iOS 8.0, *) {
-                if !UIApplicationOpenSettingsURLString.isEmpty {
-                    UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
-                }
-            } else {
-                // Fallback on earlier versions
+            if !UIApplicationOpenSettingsURLString.isEmpty {
+                UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
             }
         }
         self.closeCamera()

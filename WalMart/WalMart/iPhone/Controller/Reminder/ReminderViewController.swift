@@ -358,24 +358,17 @@ class ReminderViewController: NavigationViewController,CalendarViewDelegate, TPK
      
      - returns: Bool returns true if the data is valid and complete
      */
-    func validateReminderForm() -> Bool{
+    func validateReminderForm() -> Bool {
         var field = FormFieldView()
         var message = ""
         let frequencyMessage = self.frequencyField!.validate()
         let timeMessage = self.hourField!.validate()
         self.currentOriginalFireDate = self.currentOriginalFireDate ?? NSDate()
-        if #available(iOS 8.0, *) {
-            let compare = NSCalendar.currentCalendar().compareDate(NSDate(), toDate: self.currentOriginalFireDate!,
-                toUnitGranularity: .Second)
-            if  compare != NSComparisonResult.OrderedAscending {
-                field = hourField!
-                message = "Selecciona una hora superior a la actual"
-            }
-        } else {
-            if NSDate().compare(self.currentOriginalFireDate!) != NSComparisonResult.OrderedAscending {
-                    field = hourField!
-                    message = "Selecciona una hora superior a la actual"
-            }
+        let compare = NSCalendar.currentCalendar().compareDate(NSDate(), toDate: self.currentOriginalFireDate!,
+            toUnitGranularity: .Second)
+        if  compare != NSComparisonResult.OrderedAscending {
+            field = hourField!
+            message = "Selecciona una hora superior a la actual"
         }
         if !hourField!.isValid
         {

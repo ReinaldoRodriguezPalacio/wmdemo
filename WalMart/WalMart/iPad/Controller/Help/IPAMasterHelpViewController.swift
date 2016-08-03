@@ -37,12 +37,8 @@ class IPAMasterHelpViewController: UISplitViewController, UISplitViewControllerD
         
         if(self.respondsToSelector(Selector("maximumPrimaryColumnWidth")))
         {
-            if #available(iOS 8.0, *) {
-                self.maximumPrimaryColumnWidth = 342
-                self.minimumPrimaryColumnWidth = 342
-            } else {
-                // Fallback on earlier versions
-            }
+            self.maximumPrimaryColumnWidth = 342
+            self.minimumPrimaryColumnWidth = 342
         }
     }
     

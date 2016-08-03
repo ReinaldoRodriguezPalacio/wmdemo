@@ -26,16 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: false)
         
         //Push notifications
-         if #available(iOS 8.0, *) {
-          if application.respondsToSelector(#selector(UIApplication.registerUserNotificationSettings(_:))) {
-                let type: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
-                let setting = UIUserNotificationSettings(forTypes: type, categories: nil);
-                UIApplication.sharedApplication().registerUserNotificationSettings(setting);
-                UIApplication.sharedApplication().registerForRemoteNotifications();
-            }
-        }
-         else {
-           application.registerForRemoteNotificationTypes( [UIRemoteNotificationType.Badge, UIRemoteNotificationType.Sound, UIRemoteNotificationType.Alert] )
+        if application.respondsToSelector(#selector(UIApplication.registerUserNotificationSettings(_:))) {
+            let type: UIUserNotificationType = [UIUserNotificationType.Badge, UIUserNotificationType.Alert, UIUserNotificationType.Sound]
+            let setting = UIUserNotificationSettings(forTypes: type, categories: nil);
+            UIApplication.sharedApplication().registerUserNotificationSettings(setting);
+            UIApplication.sharedApplication().registerForRemoteNotifications();
         }
         
         //Facebook

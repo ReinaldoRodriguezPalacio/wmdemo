@@ -69,11 +69,7 @@ class StoreLocatorViewController: NavigationViewController, MKMapViewDelegate, C
         self.coreLocationManager = CLLocationManager()
         if(CLLocationManager.instancesRespondToSelector(Selector("requestWhenInUseAuthorization")))
         {
-            if #available(iOS 8.0, *) {
-                self.coreLocationManager.requestWhenInUseAuthorization()
-            } else {
-                // Fallback on earlier versions
-            }
+            self.coreLocationManager.requestWhenInUseAuthorization()
         }
         
         

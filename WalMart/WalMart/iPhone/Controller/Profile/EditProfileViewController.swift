@@ -224,7 +224,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         })
         
         
-        let calendar = NSCalendar(calendarIdentifier: NSGregorianCalendar)
+        let calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierGregorian)
         let currentDate = NSDate()
         let comps = NSDateComponents()
         comps.year = -18
