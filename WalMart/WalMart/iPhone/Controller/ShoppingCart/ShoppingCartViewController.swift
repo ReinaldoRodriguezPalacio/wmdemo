@@ -29,10 +29,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var delegate : ShoppingCartViewControllerDelegate!
     var titleView : UILabel!
     var buttonWishlist : UIButton!
-    var buttonAsociate : UIButton!
     //var addProductToShopingCart : UIButton? = nil
-
-    var isEmployeeDiscount: Bool = false
     
     var closeButton : UIButton!
     
@@ -131,17 +128,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         viewFooter = UIView()
         viewFooter.backgroundColor = UIColor.whiteColor()
         
-        var x:CGFloat = 16
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
-                buttonAsociate = UIButton(frame: CGRectMake(16, 16, 40, 40))
-                buttonAsociate.setImage(UIImage(named:"active_dis"), forState: UIControlState.Normal)
-                buttonAsociate.setImage(UIImage(named:"active_discount"), forState: UIControlState.Highlighted)
-                buttonAsociate.addTarget(self, action: #selector(ShoppingCartViewController.validateAsociate), forControlEvents: UIControlEvents.TouchUpInside)
-                viewFooter.addSubview(buttonAsociate)
-                x =  buttonAsociate.frame.maxX + 16
-            }
-        }
+        let x:CGFloat = 16
         
         buttonWishlist = UIButton(frame: CGRectMake(x, 16, 34, 34))
         buttonWishlist.setImage(UIImage(named:"detail_wishlistOff"), forState: UIControlState.Normal)
@@ -254,12 +241,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         self.editButton.frame = CGRectMake(self.view.frame.width - 71, 12, 55, 22)
         self.closeButton.frame = CGRectMake(0, 0, viewHerader.frame.height, viewHerader.frame.height)
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
-                    self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
-            }
-        }
-            
+        
         
     }
     
@@ -495,10 +477,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                  var newTotal  = total
                  var newTotalSavings = totalSaving
-                if self.isEmployeeDiscount {
-                    newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-                    newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-                }
                 
                 cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
                 cell = cellTotals
@@ -1109,7 +1087,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     self.checkVC.afterclose = {() -> Void in self.checkVC = nil }
                     self.checkVC.username = loginController.email?.text
                     self.checkVC.password = loginController.password?.text
-                    self.checkVC.isEmployeeDiscount = self.isEmployeeDiscount
                     self.checkVC.itemsMG = itemsMG!["items"] as! NSArray
                     self.checkVC.total = total
                     self.checkVC.finishLoadCheckOut = {() in
@@ -1250,14 +1227,9 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             buttonShop.addSubview(customlabel)
             buttonShop.sendSubviewToBack(customlabel)
         }
-        var newTotal  = total
-        if self.isEmployeeDiscount {
-            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-            self.totalest = (newTotal as NSString).doubleValue
-        }
         
         let shopStr = NSLocalizedString("shoppingcart.shop",comment:"")
-        let fmtTotal = CurrencyCustomLabel.formatString(newTotal)
+        let fmtTotal = CurrencyCustomLabel.formatString(total)
         let shopStrComplete = "\(shopStr) \(fmtTotal)"
         customlabel.updateMount(shopStrComplete, font: WMFont.fontMyriadProRegularOfSize(14), color: UIColor.whiteColor(), interLine: false)
         
@@ -1408,33 +1380,25 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         if response["codeMessage"] as? Int == 0 {
                             //Mostrar alerta y continua
                             self.alertView?.setMessage("Datos correctos")
-                            self.buttonAsociate.highlighted =  true
                             self.alertView?.close()
-                            self.isEmployeeDiscount =  true
                             self.loadShoppingCartService()
                             self.viewShoppingCart.reloadData()
                             self.updateTotalItemsRow()
                             //self.showloginshop()
                         }else{
-                            self.isEmployeeDiscount =  false
                             self.alertView?.setMessage("Error en los datos del asociado")
                             self.alertView!.showErrorIcon("Ok")
-                            self.buttonAsociate.highlighted =  false
                         }
                         
                     }) { (error:NSError) -> Void in
                         // mostrar alerta de error de info
-                        self.isEmployeeDiscount =  false
                         self.alertView?.setMessage("Error en los datos del asociado")
                         self.alertView!.showErrorIcon("Ok")
-                         self.buttonAsociate.highlighted =  false
                         print(error)
                 }
             }else{
-                self.isEmployeeDiscount =  false
                 self.alertView?.setMessage("Error en los datos del asociado\(result)")
                 self.alertView!.showErrorIcon("Ok")
-                 self.buttonAsociate.highlighted =  false
             }
         
     })
@@ -1444,7 +1408,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func closeAlertPk() {
-        self.buttonAsociate.highlighted =  isEmployeeDiscount
     }
     
     /**
@@ -1488,74 +1451,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     func buttomViewSelected(sender: UIButton) {
         
-    }
-
-    var  imageView : UIView?
-    var  viewContents : UIView?
-    var lblError : UILabel?
-    var imageIco : UIImageView?
-    
-    /**
-     Present view if discount associate mg is active, 
-     width message.
-     
-     - parameter message: text to present in alert
-     */
-    func associateDiscount (message: String ){
-        if !visibleLabel  {
-            
-            visibleLabel = true
-            
-            imageView =  UIView(frame:CGRectMake((self.view.frame.width/2) - 150 ,  viewFooter.frame.minY - 90, 190, 38))
-            viewContents = UIView(frame: imageView!.bounds)
-            viewContents!.layer.cornerRadius = 5.0
-            viewContents!.backgroundColor = WMColor.light_blue
-            imageView!.addSubview(viewContents!)
-            self.viewContent.addSubview(imageView!)
-            
-            lblError = UILabel(frame:CGRectMake (15, 0 , viewContents!.frame.width - 30, 38))
-            lblError!.font = WMFont.fontMyriadProRegularOfSize(12)
-            
-            lblError!.textColor = UIColor.whiteColor()
-            lblError!.backgroundColor = UIColor.clearColor()
-            lblError!.text = message
-            lblError!.textAlignment = NSTextAlignment.Left
-            lblError!.numberOfLines = 2
-            viewContents!.addSubview(lblError!)
-            
-            
-            imageIco = UIImageView(image:UIImage(named:"tooltip_cart"))
-            imageIco!.frame = CGRectMake( 24 , viewContents!.frame.maxY - 1, 8, 6)
-            self.viewContents!.addSubview(imageIco!)
-            NSTimer.scheduledTimerWithTimeInterval(1.8, target: self, selector: #selector(ShoppingCartViewController.animationClose), userInfo: nil, repeats: false)
-            
-        }
-        
-    }
-    /**
-     Create animation after close shopping cart
-     */
-    func animationClose () {
-        
-        UIView.animateWithDuration(0.9,
-            animations: { () -> Void in
-                self.viewContents!.alpha = 0.0
-                self.imageView!.alpha = 0.0
-                self.lblError!.alpha = 0.0
-                self.imageIco!.alpha = 0.0
-                
-            }, completion: { (finished:Bool) -> Void in
-                if finished {
-                    self.viewContents!.removeFromSuperview()
-                    self.imageView!.removeFromSuperview()
-                    self.lblError!.removeFromSuperview()
-                    self.imageIco!.removeFromSuperview()
-                    self.viewContents = nil
-                    self.imageView = nil
-                    self.lblError = nil
-                    self.imageIco = nil
-                }
-        })
     }
     
     /**
