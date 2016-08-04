@@ -596,6 +596,21 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         }
     }
     /**
+     Calls updatePassword service
+     */
+    func updatePassword(message: String){
+        let service = UpdatePasswordService()
+        let params = service.buildParams(self.passworCurrent!.text!,newPassword:self.password!.text!)
+        service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+            self.alertView!.setMessage("\(message)")
+            self.alertView!.showDoneIcon()
+            }, errorBlock: {(error: NSError) in
+                //self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.setMessage(NSLocalizedString("conection.error", comment: ""))
+                self.alertView!.showErrorIcon("Ok")
+        })
+    }
+    /**
      Saves new profile settings
      
      - parameter sender: save button
@@ -624,22 +639,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {
-                    self.alertView!.setMessage("\(message)")
-                    self.alertView!.showDoneIcon()
-                }//if let message = resultCall!["message"] as? String {
-                self.saveButton!.hidden = true
-                
+                    if self.showPasswordInfo {
+                        self.updatePassword(message)
+                    }else{
+                        self.alertView!.setMessage("\(message)")
+                        self.alertView!.showDoneIcon()
+                    }
+                }
                 if self.delegate == nil {
                     self.navigationController!.popViewControllerAnimated(true)
                     NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
                 }
                 else{
-                    
-                    if self.passworCurrent != nil{
-                        self.passworCurrent!.removeFromSuperview()
-                        self.password!.removeFromSuperview()
-                        self.confirmPassword!.removeFromSuperview()
-                    }
                     self.delegate.finishSave()
                 }
                 }
