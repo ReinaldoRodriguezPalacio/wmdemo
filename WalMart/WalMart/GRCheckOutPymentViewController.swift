@@ -51,7 +51,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
     var promotionsDesc: [[String:String]]! = []
     var showDiscountAsociate : Bool = false
     var promotionButtons: [UIView]! = []
-    var discountAssociateAply:Double = 0.0 //descuento del Asociado
     var discountAssociate: FormFieldView?
     var picker : AlertPickerView!
     var selectedConfirmation : NSIndexPath!
@@ -230,7 +229,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
         self.content.addSubview(payPalFuturePaymentField!)
         
         //Services
-        self.invokeDiscountActiveService { () -> Void in
+    
             self.shipmentAmount = self.paramsToOrder!["shipmentAmount"] as! Double
             self.invokeGetPromotionsService([:], discountAssociateItems: []) { (finish:Bool) -> Void in
                
@@ -256,7 +255,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
                 }
             }
             
-        }
+        
         
         self.addViewLoad()
         
@@ -418,7 +417,7 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             
             //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
             
-            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
+            let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR()  * 0 //* self.discountAssociateAply
             
             
             if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {
@@ -751,33 +750,6 @@ class GRCheckOutPymentViewController : NavigationViewController,UIWebViewDelegat
             }, errorBlock: {(error: NSError) -> Void in
                 endCallPromotions(false)
                 print("Error at invoke address user service")
-        })
-    }
-    
-    
-    /**
-    Validate if the associate discount is showing in display
-    
-    - parameter endCallDiscountActive: finish to call service
-    */
-    func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
-        let discountActive  = GRDiscountActiveService()
-        discountActive.callService({ (result:NSDictionary) -> Void in
-            
-            if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = res // TODO
-            }
-            if let listPromotions = result["listPromotions"] as? [AnyObject]{
-                for promotionln in listPromotions {
-                    let promotionDiscount = promotionln["promotionDiscount"] as! Int
-                    self.discountAssociateAply = Double(promotionDiscount) / 100.0
-                    print("promotionDiscount: \(self.discountAssociateAply)")
-                }
-            }
-            
-            endCallDiscountActive()
-            }, errorBlock: { (error:NSError) -> Void in
-                endCallDiscountActive()
         })
     }
     

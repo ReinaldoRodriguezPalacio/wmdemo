@@ -282,8 +282,6 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
         
         self.addViewLoad()
         
-        
-        self.invokeDiscountActiveService { () -> Void in
             self.invokePaymentService { () -> Void in
                 self.paymentOptions!.onBecomeFirstResponder = {() in
                     if self.paymentOptionsItems != nil && self.paymentOptionsItems!.count > 0 {
@@ -333,7 +331,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
             }
             //PayPal
             PayPalMobile.preconnectWithEnvironment(self.getPayPalEnvironment())
-        }
+        
         
     
         
@@ -706,27 +704,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     }
 
     //MARK: - Services
-    var discountAssociateAply:Double = 0.0
-    func invokeDiscountActiveService(endCallDiscountActive:(() -> Void)) {
-        let discountActive  = GRDiscountActiveService()
-        discountActive.callService({ (result:NSDictionary) -> Void in
 
-            if let res = result["discountsAssociated"] as? Bool {
-                self.showDiscountAsociate = res//TODO validar flujo
-            }
-            if let listPromotions = result["listPromotions"] as? [AnyObject]{
-                for promotionln in listPromotions {
-                    let promotionDiscount = promotionln["promotionDiscount"] as! Int
-                    self.discountAssociateAply = Double(promotionDiscount) / 100.0
-                    print("promotionDiscount: \(self.discountAssociateAply)")
-                }
-            }
-            
-            endCallDiscountActive()
-            }, errorBlock: { (error:NSError) -> Void in
-                endCallDiscountActive()
-        })
-    }
     
     func invokePaymentService(endCallPaymentOptions:(() -> Void)) {
         //self.addViewLoad()
@@ -1615,7 +1593,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
                 
                 //BaseController.sendTuneAnalytics(TUNE_EVENT_PURCHASE, email: userEmail, userName:userName, gender: "", idUser: idUser, itesShop: items,total:total,refId:trakingNumber)
                 
-                let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * self.discountAssociateAply //
+                let discountsAssociated:Double = UserCurrentSession.sharedInstance().estimateTotalGR() * 0//self.discountAssociateAply //Cambiara para mustang
                 
                 
                 if let authorizationIdVal = purchaseOrder["authorizationId"] as? String {

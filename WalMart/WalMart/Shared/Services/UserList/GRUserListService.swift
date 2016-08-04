@@ -248,11 +248,7 @@ class GRUserListService : GRBaseService {
                         print("error at delete details: \(error!.localizedDescription)")
                     }
                 }
-                                /// items from getlist
-//                let detailService = GRUserListDetailService()
-//                detailService.buildParams(listId)
-//                detailService.callService([:],
-//                    successBlock: { (result:NSDictionary) -> Void in
+
                 
                         if let items =  serviceList["giftlistItems"] as? NSArray{
                             
@@ -304,11 +300,7 @@ class GRUserListService : GRBaseService {
                                 }
                             }
                         }
-//                    },
-//                    errorBlock: { (error:NSError) -> Void in
-//                        print("Error at retrieve list detail")
-//                    }
-                //)
+
             }
             
         }

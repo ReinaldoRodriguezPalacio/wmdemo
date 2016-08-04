@@ -30,9 +30,6 @@ class UserCurrentSession : NSObject {
     
     var isReviewActive : Bool = false
     
-    var isAssociated : Int! = 0
-    var porcentageAssociate : Double! =  0.0
-    
     var deviceToken = ""
     var finishConfig = false
     
@@ -109,7 +106,7 @@ class UserCurrentSession : NSObject {
                 }
                 
                 self.userSigned = userSigned
-                self.validateUserAssociate(UserCurrentSession.sharedInstance().isAssociated == 0 ? true : false)
+                
                 
                 let loginService = LoginWithIdService()
                 let emailUser = UserCurrentSession.sharedInstance().userSigned!.email
@@ -138,8 +135,8 @@ class UserCurrentSession : NSObject {
         let context: NSManagedObjectContext = appDelegate.managedObjectContext!
         
         var usr : User
-        let idUser = loginResult["profileId"] as! String
-        let predicate = NSPredicate(format: "idUser == %@ ", idUser)
+        let idUser = loginResult["idUser"] as? String//profileId
+        let predicate = NSPredicate(format: "idUser == %@ ", idUser!)
         
         let array =  self.retrieve("User",sortBy:nil,isAscending:true,predicate:predicate) as! NSArray
         
@@ -153,7 +150,7 @@ class UserCurrentSession : NSObject {
         }
         
         usr.profile = profile
-        usr.idUser = idUser
+        usr.idUser = idUser!
         
         usr.email = loginResult["email"] as! String
         usr.idUser = loginResult["idUser"] as! String
@@ -188,7 +185,7 @@ class UserCurrentSession : NSObject {
         
         profile.lastName2 = loginProfile["lastName2"] as! String
         
-        profile.allowMarketingEmail = userProfile["receivePromoEmail"] as! String
+        profile.allowMarketingEmail = userProfile["receivePromoEmail"] as? String ?? ""
         
         profile.allowTransfer = loginProfile["allowTransfer"] as? String ?? "\(false)"
         
@@ -219,7 +216,7 @@ class UserCurrentSession : NSObject {
         self.userSigned = usr
         
         updatePhoneProfile(true)
-        UserCurrentSession.sharedInstance().isAssociated = (profile.associateNumber != "" ? 1 : 0)
+
         //TODO No llega en servicio de mustang  de registro
         //UserCurrentSession.sharedInstance().userSigned!.profile.cellPhone = userProfile["mobileNumber"] as! String
         //UserCurrentSession.sharedInstance().userSigned!.profile.phoneHomeNumber = userProfile["phoneNumber"] as! String
@@ -763,36 +760,6 @@ class UserCurrentSession : NSObject {
         }
         
     }
-    
-    func validateUserAssociate(validate:Bool){
-        
-        if  UserCurrentSession.hasLoggedUser() {
-           // if UserCurrentSession.sharedInstance().isAssociated == 0 {
-            if validate {
-                let servicePromotion = PromotionsMgService()
-                let paramsRec = Dictionary<String, String>()
-                servicePromotion.callService(paramsRec,
-                    successBlock: { (response:NSDictionary) -> Void in
-                        let promotions = response["responseArray"] as! NSArray
-                        let promo = promotions[0] as! NSDictionary
-                        let isActive = promo["isActive"] as! Int
-                        let porcentangeDiscount = promo["percentageDiscount"] as! Double
-                        
-                        print(isActive)
-                        UserCurrentSession.sharedInstance().isAssociated = isActive
-                        UserCurrentSession.sharedInstance().porcentageAssociate = porcentangeDiscount
-                        
-                    }) { (error:NSError) -> Void in
-                        // mostrar alerta de error de info
-                          UserCurrentSession.sharedInstance().isAssociated = 0
-                         UserCurrentSession.sharedInstance().porcentageAssociate = 0.0
-                        print(error)
-                }
-            }
-        }
-    
-    }
-    
     
     func updatePhoneProfile(newProfile:Bool) {
         if self.mustUpdatePhone {

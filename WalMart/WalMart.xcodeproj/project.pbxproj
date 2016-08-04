@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		041A73A81A7ADA4000AED884 /* ClubLocatorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041A73A71A7ADA4000AED884 /* ClubLocatorTableViewCell.swift */; };
 		041CC49F1A85807C00750B5E /* NewListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041CC49E1A85807C00750B5E /* NewListView.swift */; };
-		04203FDB1A6F019400008366 /* GRUserListDetailService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04203FDA1A6F019400008366 /* GRUserListDetailService.swift */; };
 		04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04203FDC1A6F077900008366 /* UserListDetailViewController.swift */; };
 		04203FDF1A6F247400008366 /* GRDeleteUserListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04203FDE1A6F247400008366 /* GRDeleteUserListService.swift */; };
 		04203FE11A6F2B2800008366 /* GRDeleteItemListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04203FE01A6F2B2800008366 /* GRDeleteItemListService.swift */; };
@@ -117,7 +116,6 @@
 		56152F7F19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */; };
 		561657D919B1423900DA056A /* FamilyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561657D819B1423900DA056A /* FamilyViewController.swift */; };
 		561657DD19B143C300DA056A /* IPOFamilyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 561657DC19B143C300DA056A /* IPOFamilyTableViewCell.swift */; };
-		5618F0411B7D4C0F000338C7 /* GRDiscountActiveService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5618F0401B7D4C0F000338C7 /* GRDiscountActiveService.swift */; };
 		56253D8419D2066A002E128A /* PreviousOrdersService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56253D8319D2066A002E128A /* PreviousOrdersService.swift */; };
 		56253D8719D20963002E128A /* PreviousOrdersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56253D8619D20963002E128A /* PreviousOrdersTableViewCell.swift */; };
 		56253D8919D211A5002E128A /* OrderDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56253D8819D211A5002E128A /* OrderDetailViewController.swift */; };
@@ -636,7 +634,6 @@
 /* Begin PBXFileReference section */
 		041A73A71A7ADA4000AED884 /* ClubLocatorTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClubLocatorTableViewCell.swift; path = iPhone/Controller/StoreLocator/ClubLocatorTableViewCell.swift; sourceTree = "<group>"; };
 		041CC49E1A85807C00750B5E /* NewListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListView.swift; sourceTree = "<group>"; };
-		04203FDA1A6F019400008366 /* GRUserListDetailService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRUserListDetailService.swift; path = Shared/Services/UserList/GRUserListDetailService.swift; sourceTree = "<group>"; };
 		04203FDC1A6F077900008366 /* UserListDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserListDetailViewController.swift; path = iPhone/Controller/UserList/UserListDetailViewController.swift; sourceTree = "<group>"; };
 		04203FDE1A6F247400008366 /* GRDeleteUserListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRDeleteUserListService.swift; path = Shared/Services/UserList/GRDeleteUserListService.swift; sourceTree = "<group>"; };
 		04203FE01A6F2B2800008366 /* GRDeleteItemListService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRDeleteItemListService.swift; path = Shared/Services/UserList/GRDeleteItemListService.swift; sourceTree = "<group>"; };
@@ -771,7 +768,6 @@
 		56152F7E19BF7DEE009F50E4 /* ShoppingCartDeleteProductsService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShoppingCartDeleteProductsService.swift; path = Shared/Services/ShoppingCart/ShoppingCartDeleteProductsService.swift; sourceTree = "<group>"; };
 		561657D819B1423900DA056A /* FamilyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyViewController.swift; path = iPhone/Controller/Categories/FamilyViewController.swift; sourceTree = "<group>"; };
 		561657DC19B143C300DA056A /* IPOFamilyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOFamilyTableViewCell.swift; path = iPhone/View/Categories/IPOFamilyTableViewCell.swift; sourceTree = "<group>"; };
-		5618F0401B7D4C0F000338C7 /* GRDiscountActiveService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRDiscountActiveService.swift; sourceTree = "<group>"; };
 		56253D8319D2066A002E128A /* PreviousOrdersService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviousOrdersService.swift; path = Shared/Services/PreviousOrders/PreviousOrdersService.swift; sourceTree = "<group>"; };
 		56253D8619D20963002E128A /* PreviousOrdersTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviousOrdersTableViewCell.swift; path = iPhone/View/Order/PreviousOrdersTableViewCell.swift; sourceTree = "<group>"; };
 		56253D8819D211A5002E128A /* OrderDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OrderDetailViewController.swift; path = iPhone/Controller/Order/OrderDetailViewController.swift; sourceTree = "<group>"; };
@@ -1654,7 +1650,6 @@
 		5614A6621A6887450048B71A /* Checkout */ = {
 			isa = PBXGroup;
 			children = (
-				5618F0401B7D4C0F000338C7 /* GRDiscountActiveService.swift */,
 				5614A6631A6887860048B71A /* GRDeliveryTypeService.swift */,
 				56B044AD1A6DB5E300BA173A /* GRTimeBands.swift */,
 				5614A6691A69CA740048B71A /* GROrderByEmailService.swift */,
@@ -2466,7 +2461,6 @@
 				5684E9B11A65CB5A00765833 /* GRUserListService.swift */,
 				5684E9B31A65DDA000765833 /* GRSaveUserListService.swift */,
 				04203FDE1A6F247400008366 /* GRDeleteUserListService.swift */,
-				04203FDA1A6F019400008366 /* GRUserListDetailService.swift */,
 				04203FE01A6F2B2800008366 /* GRDeleteItemListService.swift */,
 				04C628241A7174E3002BF858 /* GRAddItemListService.swift */,
 				04B538A01A8D2B6200B9F340 /* GRUpdateItemListService.swift */,
@@ -4071,7 +4065,6 @@
 				04203FDD1A6F077900008366 /* UserListDetailViewController.swift in Sources */,
 				4A5A9D531C84A99B00A2A7F4 /* ABViewPool.m in Sources */,
 				5696079319B4E8BC005D20DC /* IPOSplashViewController.swift in Sources */,
-				5618F0411B7D4C0F000338C7 /* GRDiscountActiveService.swift in Sources */,
 				56AD99171BED1CE800B0EB5D /* ValidateActiveReferedService.swift in Sources */,
 				569607A119B5139D005D20DC /* ProductDetailBannerMediaCollectionViewCell.swift in Sources */,
 				6CBCCFAF1C8795EF002D7717 /* CalendarView.swift in Sources */,
@@ -4176,7 +4169,6 @@
 				56DFE4D319D057C9001811F5 /* SWUtilityButtonView.m in Sources */,
 				AC88FA6B19C9FB2A003BD859 /* UIEdgeTextField.swift in Sources */,
 				5673D1431A9D500400DCD20B /* RSUPCEGenerator.swift in Sources */,
-				04203FDB1A6F019400008366 /* GRUserListDetailService.swift in Sources */,
 				56054B8C1B211CCF003F8536 /* KeyboardWeightViewController.swift in Sources */,
 				5605B25D1B2B986F00238B39 /* UpdateViewController.swift in Sources */,
 				56A242D41A7AAD5400CC8006 /* PreShoppingCartAnimationController.swift in Sources */,
