@@ -228,6 +228,8 @@
 	<dict>
 		<key>DEVWM</key>
 		<dict>
+			<key>WalmartMG.UpdatePasswordService</key>
+			<string>http://localhost:9080/walmartmg/list/changePassword</string>
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/loginById</string>
 			<key>WalmartMG.UserProfileService</key>
@@ -405,6 +407,8 @@
 		</dict>
 		<key>PRODUCTION</key>
 		<dict>
+			<key>WalmartMG.UpdatePasswordService</key>
+			<string>https://www.walmartmobile.com.mx/walmartmg/list/changePassword</string>
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>https://dl.dropboxusercontent.com/s/lsnkwozi84teul2/responseLogin.txt?dl=0</string>
 			<key>WalmartMG.UserProfileService</key>

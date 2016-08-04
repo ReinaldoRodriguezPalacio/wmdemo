@@ -128,6 +128,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         self.email!.typeField = TypeField.Email
         self.email!.maxLength = 45
         self.email!.nameField = NSLocalizedString("profile.email",comment:"")
+        self.email!.enabled = false
         self.content?.addSubview(self.email!)
         
         self.changePasswordLabel = UILabel()
@@ -165,10 +166,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.password = FormFieldView()
         self.password!.isRequired = true
-        self.password!.setCustomPlaceholder(NSLocalizedString("profile.password",comment:""))
+        self.password!.setCustomPlaceholder(NSLocalizedString("profile.newpassword",comment:""))
         self.password!.secureTextEntry = true
         self.password!.typeField = TypeField.Password
-        self.password!.nameField = NSLocalizedString("profile.password",comment:"")
+        self.password!.nameField = NSLocalizedString("profile.newpassword",comment:"")
         self.password!.minLength = 8
         self.password!.maxLength = 20
         self.password!.alpha = 0.0
@@ -176,10 +177,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.confirmPassword = FormFieldView()
         self.confirmPassword!.isRequired = true
-        self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmpassword",comment:""))
+        self.confirmPassword!.setCustomPlaceholder(NSLocalizedString("profile.confirmnewpassword",comment:""))
         self.confirmPassword!.secureTextEntry = true
         self.confirmPassword!.typeField = TypeField.Password
-        self.confirmPassword!.nameField = NSLocalizedString("profile.confirmpassword",comment:"")
+        self.confirmPassword!.nameField = NSLocalizedString("profile.confirmnewpassword",comment:"")
         self.confirmPassword!.minLength = 8
         self.confirmPassword!.maxLength = 20
         self.confirmPassword!.alpha = 0.0
@@ -252,7 +253,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         
         self.phoneHome = FormFieldView()
         self.phoneHome!.isRequired = true
-        self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile..edit.phoneDesc",comment:""))
+        self.phoneHome!.setCustomPlaceholder(NSLocalizedString("profile.edit.phoneDesc",comment:""))
         self.phoneHome!.typeField = TypeField.Phone
         self.phoneHome!.nameField = NSLocalizedString("profile.address.field.telephone.house",comment:"")
         self.phoneHome!.minLength = 10
@@ -406,7 +407,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.picker!.selected = self.selectedGender
             self.picker!.sender = self.gender!
             self.picker!.selectOptionDelegate = self
-            self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.male",comment:""),NSLocalizedString("profile.gender.female",comment:"")])
+            self.picker!.setValues(NSLocalizedString("profile.gender",comment:""), values: [NSLocalizedString("profile.gender.female",comment:""),NSLocalizedString("profile.gender.male",comment:"")])
             self.picker!.hiddenRigthActionButton(true)
             self.picker!.cellType = TypeField.Check
             self.picker!.showPicker()
@@ -505,7 +506,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.email!.text = user.email as String
             self.lastName!.text = user.profile.lastName as String
             self.gender!.text = user.profile.sex as String
-            self.selectedGender = NSIndexPath(forRow:(self.gender!.text == NSLocalizedString("profile.gender.male",comment:"") ? 0 : 1), inSection: 0)
+            self.selectedGender = NSIndexPath(forRow:(self.gender!.text == NSLocalizedString("profile.gender.male",comment:"") ? 1 : 0), inSection: 0)
             self.ocupation!.text = user.profile.profession as String
             if let date = self.parseFmt!.dateFromString(user.profile.birthDate as String) {
                 self.birthDate!.text = self.dateFmt!.stringFromDate(date)
@@ -560,6 +561,10 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         return CGSizeMake(self.view.frame.width, content.contentSize.height)
     }
     
+    override func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+        self.view.endEditing(true)
+    }
+    
     //MARK: - TextFieldDelegate
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
         let strNSString : NSString = textField.text!
@@ -591,6 +596,21 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         }
     }
     /**
+     Calls updatePassword service
+     */
+    func updatePassword(message: String){
+        let service = UpdatePasswordService()
+        let params = service.buildParams(self.passworCurrent!.text!,newPassword:self.password!.text!)
+        service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
+            self.alertView!.setMessage("\(message)")
+            self.alertView!.showDoneIcon()
+            }, errorBlock: {(error: NSError) in
+                //self.alertView!.setMessage(error.localizedDescription)
+                self.alertView!.setMessage(NSLocalizedString("conection.error", comment: ""))
+                self.alertView!.showErrorIcon("Ok")
+        })
+    }
+    /**
      Saves new profile settings
      
      - parameter sender: save button
@@ -619,22 +639,18 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.alertView!.setMessage(NSLocalizedString("profile.message.save",comment:""))
             service.callService(params,  successBlock:{ (resultCall:NSDictionary?) in
                 if let message = resultCall!["message"] as? String {
-                    self.alertView!.setMessage("\(message)")
-                    self.alertView!.showDoneIcon()
-                }//if let message = resultCall!["message"] as? String {
-                self.saveButton!.hidden = true
-                
+                    if self.showPasswordInfo {
+                        self.updatePassword(message)
+                    }else{
+                        self.alertView!.setMessage("\(message)")
+                        self.alertView!.showDoneIcon()
+                    }
+                }
                 if self.delegate == nil {
                     self.navigationController!.popViewControllerAnimated(true)
                     NSNotificationCenter.defaultCenter().postNotificationName("RELOAD_PROFILE", object: nil)
                 }
                 else{
-                    
-                    if self.passworCurrent != nil{
-                        self.passworCurrent!.removeFromSuperview()
-                        self.password!.removeFromSuperview()
-                        self.confirmPassword!.removeFromSuperview()
-                    }
                     self.delegate.finishSave()
                 }
                 }
@@ -868,7 +884,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
             self.errorView = nil
         }
         self.selectedGender = indexPath
-        self.gender?.text = indexPath.row == 0 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
+        self.gender?.text = indexPath.row == 1 ? NSLocalizedString("profile.gender.male",comment:"") : NSLocalizedString("profile.gender.female",comment:"")
         self.gender?.layer.borderWidth = 0
     }
     

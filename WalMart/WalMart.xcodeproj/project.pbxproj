@@ -409,6 +409,7 @@
 		6C4DAC851D2D7817005CFE22 /* IPAHelpHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */; };
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
+		6C6001471D5395250027835E /* UpdatePasswordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6001461D5395250027835E /* UpdatePasswordService.swift */; };
 		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
 		6C6AC1EE1CF51A650072FBB7 /* FamilyByCategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */; };
 		6C6AC1F21CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */; };
@@ -1095,6 +1096,7 @@
 		6C4DAC841D2D7817005CFE22 /* IPAHelpHomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPAHelpHomeView.swift; path = iPad/View/Home/IPAHelpHomeView.swift; sourceTree = "<group>"; };
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
+		6C6001461D5395250027835E /* UpdatePasswordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdatePasswordService.swift; path = Shared/Services/LoginSignUp/UpdatePasswordService.swift; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyByCategoryService.swift; path = Shared/Services/BackToSchool/FamilyByCategoryService.swift; sourceTree = "<group>"; };
 		6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackToSchoolCategoryViewController.swift; path = iPhone/Controller/Categories/BackToSchoolCategoryViewController.swift; sourceTree = "<group>"; };
@@ -2538,6 +2540,7 @@
 				56CCEA0219DB33840071D990 /* LoginWithEmailService.swift */,
 				6C822E9F1D46D3EC006A098C /* UserProfileService.swift */,
 				4A8C992E1D493C3900DEBB87 /* LoginWithIdService.swift */,
+				6C6001461D5395250027835E /* UpdatePasswordService.swift */,
 			);
 			name = LoginSignUp;
 			sourceTree = "<group>";
@@ -3774,6 +3777,7 @@
 				569733E81A71A62600C9A09F /* MoreMenuViewCell.swift in Sources */,
 				85A40B801C223AE40036C78A /* PaymentMethod.swift in Sources */,
 				85A40B901C223AE40036C78A /* Request.swift in Sources */,
+				6C6001471D5395250027835E /* UpdatePasswordService.swift in Sources */,
 				AC87F45819F6CA2C00E66D47 /* IPASignUpViewController.swift in Sources */,
 				563C955119E59DB2001AB7D4 /* Product.swift in Sources */,
 				56FE0EE619C0E8CC00C8687C /* UserWishlistService.swift in Sources */,
