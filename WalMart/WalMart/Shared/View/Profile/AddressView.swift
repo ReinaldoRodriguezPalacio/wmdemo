@@ -560,8 +560,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
         viewLoad.startAnnimating(false)
         
         
-        service.buildParams(padding + zipCode)
-        service.callService(NSDictionary(),  successBlock:{ (resultCall:NSDictionary?) in
+        
+        service.callService(service.buildParams(padding + zipCode),  successBlock:{ (resultCall:NSDictionary?) in
             self.viewLoad.stopAnnimating()
             if let city = resultCall!["city"] as? String {
                 self.city!.text = city
@@ -580,11 +580,11 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
                     }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 }//if self.suburb!.text == "" &&  self.idSuburb != nil &&  self.listSuburb.count == 0  {
                 
-                self.neighborhoodsDic = resultCall!["neighborhoods"] as! [NSDictionary]
+                self.neighborhoodsDic = resultCall!["neighbourhoods"] as! [NSDictionary]
                 self.neighborhoods =  []
                 
-                for dic in  resultCall!["neighborhoods"] as! [NSDictionary]{
-                    self.neighborhoods.append(dic["name"] as! String!)
+                for dic in  resultCall!["neighbourhoods"] as! [NSDictionary]{
+                    self.neighborhoods.append(dic["neighbourhoodName"] as! String!)
                 }//for dic in  resultCall!["neighborhoods"] as [NSDictionary]{
                 
                 self.storesDic = resultCall!["stores"] as! [NSDictionary]

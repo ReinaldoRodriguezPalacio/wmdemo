@@ -310,8 +310,6 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/getListById</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getListByUser</string>
-			<key>WalmartMG.GRZipCodeService</key>
-			<string>http://192.168.43.192:9080/walmartmg/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/getReferedCustomer</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
@@ -408,7 +406,7 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/updateUserProfile</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.ZipCodeService</key>
+			<key>WalmartMG.GRZipCodeService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 		<key>PRODUCTION</key>
@@ -493,8 +491,6 @@
 			<string>https://dl.dropboxusercontent.com/s/3tk0zsbgacuguvb/detalleLista.txt?dl=0</string>
 			<key>WalmartMG.GRUserListService</key>
 			<string>https://dl.dropboxusercontent.com/s/ovfimwatv4esnhs/getListUser.txt?dl=0</string>
-			<key>WalmartMG.GRZipCodeService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/login/getInfoByZipCode</string>
 			<key>WalmartMG.ReferedCustomerService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/walmartgroceries/list/getReferedCustomer</string>
 			<key>WalmartMG.ValidateActiveReferedService</key>
@@ -591,7 +587,7 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/2/updateUserProfile</string>
 			<key>WalmartMG.ValidateAssociateService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/isAssociated</string>
-			<key>WalmartMG.ZipCodeService</key>
+			<key>WalmartMG.GRZipCodeService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/login/getInfoByZipCode</string>
 		</dict>
 	</dict>
