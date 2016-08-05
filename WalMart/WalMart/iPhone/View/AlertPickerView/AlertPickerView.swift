@@ -62,7 +62,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     var selectDelegate: Bool = false
     var showCancelButton: Bool = false
     var layerLine: CALayer?
-    var contentHeight: CGFloat?
+    var contentHeight: CGFloat! = 316
     
     override init(frame: CGRect) {
         super.init(frame:frame)
@@ -166,7 +166,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     override func layoutSubviews() {
         
-        viewContent.frame = CGRectMake(0, 0, 286, 316)
+        viewContent.frame = CGRectMake(0, 0, 286, self.contentHeight)
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
         viewContentOptions.frame = CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height)
         tableData.frame = CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64)
