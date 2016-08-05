@@ -295,7 +295,7 @@ class InvoiceComplementViewController : NavigationViewController, TPKeyboardAvoi
     }
     
     func callServiceAddress(){
-        let addressService = AddressByUserService()
+        let addressService = ShippingAddressByUserService()
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             self.arrayAddressFiscal = []
             

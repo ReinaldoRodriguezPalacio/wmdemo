@@ -412,6 +412,7 @@
 		6C512F511BC319E000EA47ED /* GRFormSuperAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */; };
 		6C512F531BC6CD6300EA47ED /* AlertModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C512F521BC6CD6200EA47ED /* AlertModalView.swift */; };
 		6C6001471D5395250027835E /* UpdatePasswordService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6001461D5395250027835E /* UpdatePasswordService.swift */; };
+		6C6001491D53B5250027835E /* InvoiceAddressByUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6001481D53B5250027835E /* InvoiceAddressByUserService.swift */; };
 		6C6294FD1BEA84B200613FB3 /* TouristInformationForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */; };
 		6C6AC1EE1CF51A650072FBB7 /* FamilyByCategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */; };
 		6C6AC1F21CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */; };
@@ -558,7 +559,7 @@
 		AC37F6BD19B90E48000BB80D /* AddShippingAddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6BC19B90E48000BB80D /* AddShippingAddressService.swift */; };
 		AC37F6BF19B90E7B000BB80D /* DeleteAddressesByUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6BE19B90E7B000BB80D /* DeleteAddressesByUserService.swift */; };
 		AC37F6C119B90E9F000BB80D /* UpdateShippingAddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6C019B90E9F000BB80D /* UpdateShippingAddressService.swift */; };
-		AC37F6C319B90EC7000BB80D /* AddressByUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6C219B90EC7000BB80D /* AddressByUserService.swift */; };
+		AC37F6C319B90EC7000BB80D /* ShippingAddressByUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6C219B90EC7000BB80D /* ShippingAddressByUserService.swift */; };
 		AC37F6C519B917C7000BB80D /* AddFiscalAddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6C419B917C7000BB80D /* AddFiscalAddressService.swift */; };
 		AC37F6C719B91907000BB80D /* UpdateFiscalAddressService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC37F6C619B91907000BB80D /* UpdateFiscalAddressService.swift */; };
 		AC3B64ED19BE646000564845 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC3B64EC19BE646000564845 /* SearchViewController.swift */; };
@@ -1101,6 +1102,7 @@
 		6C512F501BC319E000EA47ED /* GRFormSuperAddressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GRFormSuperAddressView.swift; sourceTree = "<group>"; };
 		6C512F521BC6CD6200EA47ED /* AlertModalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AlertModalView.swift; path = iPhone/View/AlertPickerView/AlertModalView.swift; sourceTree = "<group>"; };
 		6C6001461D5395250027835E /* UpdatePasswordService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdatePasswordService.swift; path = Shared/Services/LoginSignUp/UpdatePasswordService.swift; sourceTree = "<group>"; };
+		6C6001481D53B5250027835E /* InvoiceAddressByUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InvoiceAddressByUserService.swift; path = Shared/Services/LoginSignUp/Address/InvoiceAddressByUserService.swift; sourceTree = "<group>"; };
 		6C6294FC1BEA84B200613FB3 /* TouristInformationForm.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouristInformationForm.swift; path = iPhone/View/Invoice/TouristInformationForm.swift; sourceTree = "<group>"; };
 		6C6AC1ED1CF51A650072FBB7 /* FamilyByCategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FamilyByCategoryService.swift; path = Shared/Services/BackToSchool/FamilyByCategoryService.swift; sourceTree = "<group>"; };
 		6C6AC1F11CF5E8020072FBB7 /* BackToSchoolCategoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BackToSchoolCategoryViewController.swift; path = iPhone/Controller/Categories/BackToSchoolCategoryViewController.swift; sourceTree = "<group>"; };
@@ -1265,7 +1267,7 @@
 		AC37F6BC19B90E48000BB80D /* AddShippingAddressService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddShippingAddressService.swift; path = Shared/Services/LoginSignUp/Address/AddShippingAddressService.swift; sourceTree = "<group>"; };
 		AC37F6BE19B90E7B000BB80D /* DeleteAddressesByUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DeleteAddressesByUserService.swift; path = Shared/Services/LoginSignUp/Address/DeleteAddressesByUserService.swift; sourceTree = "<group>"; };
 		AC37F6C019B90E9F000BB80D /* UpdateShippingAddressService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateShippingAddressService.swift; path = Shared/Services/LoginSignUp/Address/UpdateShippingAddressService.swift; sourceTree = "<group>"; };
-		AC37F6C219B90EC7000BB80D /* AddressByUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddressByUserService.swift; path = Shared/Services/LoginSignUp/Address/AddressByUserService.swift; sourceTree = "<group>"; };
+		AC37F6C219B90EC7000BB80D /* ShippingAddressByUserService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShippingAddressByUserService.swift; path = Shared/Services/LoginSignUp/Address/ShippingAddressByUserService.swift; sourceTree = "<group>"; };
 		AC37F6C419B917C7000BB80D /* AddFiscalAddressService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFiscalAddressService.swift; path = Shared/Services/LoginSignUp/Address/AddFiscalAddressService.swift; sourceTree = "<group>"; };
 		AC37F6C619B91907000BB80D /* UpdateFiscalAddressService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UpdateFiscalAddressService.swift; path = Shared/Services/LoginSignUp/Address/UpdateFiscalAddressService.swift; sourceTree = "<group>"; };
 		AC3B64EC19BE646000564845 /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchViewController.swift; path = iPhone/Controller/Search/SearchViewController.swift; sourceTree = "<group>"; };
@@ -3203,12 +3205,13 @@
 				AC37F6BC19B90E48000BB80D /* AddShippingAddressService.swift */,
 				AC37F6BE19B90E7B000BB80D /* DeleteAddressesByUserService.swift */,
 				AC37F6C019B90E9F000BB80D /* UpdateShippingAddressService.swift */,
-				AC37F6C219B90EC7000BB80D /* AddressByUserService.swift */,
+				AC37F6C219B90EC7000BB80D /* ShippingAddressByUserService.swift */,
 				AC37F6C419B917C7000BB80D /* AddFiscalAddressService.swift */,
 				AC37F6C619B91907000BB80D /* UpdateFiscalAddressService.swift */,
 				AC7A0BED19D9D99B004ED6CC /* AddPreferedAddress.swift */,
 				AC96C9491D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift */,
 				AC96C94B1D3EE29200C3CBD7 /* DeleteAddressesInvoiceService.swift */,
+				6C6001481D53B5250027835E /* InvoiceAddressByUserService.swift */,
 			);
 			name = Address;
 			sourceTree = "<group>";
@@ -3732,7 +3735,7 @@
 				564118681B5FD6BA0009C6CD /* PrivacyViewController.swift in Sources */,
 				04312C9B1A6EF4160009A940 /* NewListTableViewCell.swift in Sources */,
 				85A40B941C223AE40036C78A /* ServerTrustPolicy.swift in Sources */,
-				AC37F6C319B90EC7000BB80D /* AddressByUserService.swift in Sources */,
+				AC37F6C319B90EC7000BB80D /* ShippingAddressByUserService.swift in Sources */,
 				85A40B841C223AE40036C78A /* AsyncSocket.m in Sources */,
 				AC3B64ED19BE646000564845 /* SearchViewController.swift in Sources */,
 				56DFE4D119D057C9001811F5 /* SWTableViewCell.m in Sources */,
@@ -3815,6 +3818,7 @@
 				85A40B8B1C223AE40036C78A /* Error.swift in Sources */,
 				AC96C94A1D3EDFF200C3CBD7 /* AddPreferedAddressInvoice.swift in Sources */,
 				56E1DFA81B5561A6001F42DF /* NMRangeSlider.m in Sources */,
+				6C6001491D53B5250027835E /* InvoiceAddressByUserService.swift in Sources */,
 				04B538A11A8D2B6200B9F340 /* GRUpdateItemListService.swift in Sources */,
 				AC59118A19DE0D4D00EB095C /* UIScrollView+TPKeyboardAvoidingAdditions.m in Sources */,
 				569E005219BE45F100756B88 /* ShoppingCartTotalsTableViewCell.swift in Sources */,

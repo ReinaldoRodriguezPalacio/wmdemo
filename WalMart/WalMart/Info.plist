@@ -230,6 +230,8 @@
 		<dict>
 			<key>WalmartMG.UpdatePasswordService</key>
 			<string>http://localhost:9080/walmartmg/list/changePassword</string>
+			<key>WalmartMG.InvoiceAddressByUserService</key>
+			<string>https://dl.dropboxusercontent.com/s/q4ikvaeaafoltnb/getAddres.txt</string>
 			<key>WalmartMG.LoginWithIdService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/loginById</string>
 			<key>WalmartMG.UserProfileService</key>
@@ -322,7 +324,7 @@
 			<string>http://192.168.43.192:9080/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/addShippingAddress</string>
-			<key>WalmartMG.AddressByUserService</key>
+			<key>WalmartMG.ShippingAddressByUserService</key>
 			<string>http://192.168.43.192:9080/walmartmg/list/displayShippingAddress</string>
 			<key>WalmartMG.BannerService</key>
 			<string>http://192.168.43.192:9080/walmartmg/login/getBannersMGSuper</string>
@@ -505,8 +507,10 @@
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addPreferredAddress</string>
 			<key>WalmartMG.AddShippingAddressService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/addShippingAddress</string>
-			<key>WalmartMG.AddressByUserService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getAddressesByUser</string>
+			<key>WalmartMG.ShippingAddressByUserService</key>
+			<string>https://dl.dropboxusercontent.com/s/q4ikvaeaafoltnb/getAddres.txt</string>
+			<key>WalmartMG.InvoiceAddressByUserService</key>
+			<string>https://dl.dropboxusercontent.com/s/brqndy57lqnru9l/getAddressInvoice.txt</string>
 			<key>WalmartMG.BannerService</key>
 			<string>https://dl.dropboxusercontent.com/s/qlwvo7kjj8dx5e3/bannerTerms.txt?dl=0</string>
 			<key>WalmartMG.CamFindService</key>

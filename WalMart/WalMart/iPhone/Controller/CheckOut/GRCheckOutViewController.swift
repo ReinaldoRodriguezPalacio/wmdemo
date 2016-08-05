@@ -978,7 +978,7 @@ class GRCheckOutViewController : NavigationViewController, TPKeyboardAvoidingScr
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
         //--self.addViewLoad()
         // Implementar validacion de direccion
-        let service = AddressByUserService()
+        let service = ShippingAddressByUserService()
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {
