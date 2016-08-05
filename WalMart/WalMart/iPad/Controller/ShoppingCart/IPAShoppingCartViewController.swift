@@ -75,15 +75,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         self.viewSeparator.frame = CGRectMake(0,self.viewShoppingCart.frame.maxY,self.viewShoppingCart.frame.width,AppDelegate.separatorHeigth())
         
-        var x : CGFloat = 16
-        var wShop : CGFloat =  341 - 82
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
-                buttonAsociate.frame =  CGRectMake(16, 16, 40, 40)
-                x = buttonAsociate.frame.maxX + 16
-                wShop = 341 - 135
-            }
-        }
+        let x : CGFloat = 16
+        let wShop : CGFloat =  341 - 82
         
         self.buttonWishlist.frame = CGRectMake(x,self.buttonWishlist.frame.minY,40,self.buttonWishlist.frame.height)
         
@@ -99,13 +92,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         if self.deleteall != nil {
             self.deleteall.frame = CGRectMake(editButton.frame.minX - 82, 12, 75, 22)
         }
-        if UserCurrentSession.sharedInstance().userSigned != nil {
-            if UserCurrentSession.sharedInstance().isAssociated == 1{
-                self.associateDiscount("Si tienes descuento de asociado captura aquí tus datos")
-
-            }
-        }
-    
+       
     }
 
     
@@ -117,14 +104,8 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         let totalSaving = totalsItems["totalSaving"] as String!
         self.updateShopButton(total)
         
-        var newTotal = total
-        var newTotalSavings = totalSaving
-        if self.isEmployeeDiscount {
-            newTotal = "\((total as NSString).doubleValue - ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-            newTotalSavings = "\((totalSaving as NSString).doubleValue + ((total as NSString).doubleValue *  UserCurrentSession.sharedInstance().porcentageAssociate))"
-        }
         
-        totalsView.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
+        totalsView.setValues(subTotalText, iva: iva, total:total,totalSaving:totalSaving)
     }
     
     override func loadShoppingCartService() {
@@ -454,8 +435,4 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         return IPACheckOutViewController()
     }
    
-   //alerta
-    override func associateDiscount (message: String ){
-        super.associateDiscount(message)
-        self.imageView?.frame = CGRectMake((self.view.frame.width/2) + 178, viewFooter.frame.minY - 28, self.viewFooter.frame.minY - 100, 38)  }
 }

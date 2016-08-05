@@ -540,10 +540,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
     func listSelectorDidDeleteProduct(inList listId:String) {
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone:UIImage(named:"done"),imageError:UIImage(named:"list_alert_error"))
         self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
-//        let detailService = GRUserListDetailService()
-//        detailService.buildParams(listId)
-//        detailService.callService([:],
-//            successBlock: { (result:NSDictionary) -> Void in
+
                 let service = GRDeleteItemListService()
                 service.callService(service.buildParams(self.upc as String),
                     successBlock: { (result:NSDictionary) -> Void in
@@ -561,11 +558,7 @@ class IPAGRProductDetailViewController : IPAProductDetailViewController, ListSel
                         }
                     }
                 )
-//            },
-//            errorBlock: { (error:NSError) -> Void in
-//                print("Error at retrieve list detail")
-//            }
-//        )
+
     }
     
     func listSelectorDidAddProductLocally(inList list:List) {

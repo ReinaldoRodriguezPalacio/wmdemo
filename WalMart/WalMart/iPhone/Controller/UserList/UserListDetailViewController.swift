@@ -247,7 +247,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         let  showTurial = (requiredHelp && self.listDetailHelView == nil)
         
-        if true {
+        if showTurial {
             listDetailHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InReminderList )
             listDetailHelView?.onClose  = {() in
                 self.removeHelpView()
@@ -750,11 +750,11 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                             let upc = upcSelected as! String
                             if  product["upc"] as! String  == upc {
                                 
-                                if let typeProd = product["type"] as? NSString {
+                                if let typeProd = product["isWeighable"] as? NSString {
                                     let quantity = product["quantity"] as! NSNumber
                                     let price = product["price"] as! NSNumber
                                     
-                                    if typeProd.integerValue == 0 {
+                                    if typeProd == "false" {
                                         total += (quantity.doubleValue * price.doubleValue)
                                     }
                                     else {
@@ -1181,13 +1181,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     //MARK: - Services
     func invokeDetailListService(action:(()->Void)? , reloadList : Bool) {
-//        let detailService = GRUserListDetailService()
-//        detailService.buildParams(self.listId)
-//        detailService.callService([:],
-//            successBlock: { (result:NSDictionary) -> Void in
-        
-//                self.products = result["items"] as? [AnyObject]
-//                self.titleLabel?.text = result["name"] as? String
+
         
                 if self.products == nil || self.products!.count == 0  {
                     self.selectedItems = []
@@ -1225,20 +1219,12 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 }
                 
                 action?()
-//            },
-//            errorBlock: { (error:NSError) -> Void in
-//                print("Error at retrieve list detail")
-//                self.back()
-//            }
-//        )
+
     }
     
     func invokeDeleteProductFromListService(upc:String,succesDelete:(()->Void)) {
         if !self.deleteProductServiceInvoked {
-            
-//            let detailService = GRUserListDetailService()
-//            detailService.buildParams(listId!)
-//            detailService.callService([:], successBlock: { (result:NSDictionary) -> Void in
+
             
                 self.deleteProductServiceInvoked = true
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
@@ -1277,13 +1263,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                         self.deleteProductServiceInvoked = false
                     }
                 )
-                
-//                }, errorBlock: { (error:NSError) -> Void in
-//                    self.alertView!.setMessage(error.localizedDescription)
-//                    self.alertView!.showErrorIcon("Ok")
-//                    self.deleteProductServiceInvoked = false
-//            })
-            
             
            
         }
@@ -1572,11 +1551,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
-//            let detailService = GRUserListDetailService()
-//            detailService.buildParams(self.listId == nil ? "" : self.listId!)
-//            detailService.callService([:],
-//                successBlock: { (result:NSDictionary) -> Void in
-            
                     let service = GRUpdateListService()
             
                     service.callService(service.buildParams(self.listId!, name: self.nameField!.text!),
@@ -1593,13 +1567,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                                 self.alertView!.showErrorIcon("Ok")
                         })
             
-//                },
-//                errorBlock: { (error:NSError) -> Void in
-//                    
-//                        self.alertView!.setMessage(error.localizedDescription)
-//                        self.alertView!.showErrorIcon("Ok")
-//                }
-//            )
         }
     }
     

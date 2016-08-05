@@ -158,8 +158,6 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
     //Open from home
     func openShoppingCart(){
         
-        UserCurrentSession.sharedInstance().validateUserAssociate(true)
-        
         self.view.userInteractionEnabled = false
         
         self.navigationController!.view.frame = CGRectMake(self.navigationController!.view.frame.minX,-self.navigationController!.view.frame.height , self.navigationController!.view.frame.width,  self.navigationController!.view.frame.height + 4)

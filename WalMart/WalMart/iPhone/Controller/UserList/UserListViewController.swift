@@ -1471,10 +1471,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             
             
             self.view.endEditing(true)
-//            let detailService = GRUserListDetailService()
-//            detailService.buildParams(firstKey!)
-//            detailService.callService([:],
-//                successBlock: { (result:NSDictionary) -> Void in
             
                     let service = GRUpdateListService()
             
@@ -1514,18 +1510,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             }
                         }
                     )
-//                },
-//                errorBlock: { (error:NSError) -> Void in
-//                    self.listToUpdate!.removeValueForKey(firstKey!)
-//                    if self.listToUpdate != nil && self.listToUpdate!.count > 0 {
-//                        self.invokeUpdateListService()
-//                    }
-//                    else {
-//                        self.alertView!.setMessage(error.localizedDescription)
-//                        self.alertView!.showErrorIcon("Ok")
-//                    }
-//                }
-//            )
+
             
         }
     }
