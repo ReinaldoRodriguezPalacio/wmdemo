@@ -860,7 +860,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      */
     func noticePrivacy() {
         let controller = PreviewHelpViewController()
-        let name = "Aviso de Privacidad"
+        let name = NSLocalizedString("profile.terms.privacy", comment: "")
         controller.titleText = NSLocalizedString(name, comment: "")
         controller.resource = "privacy"
         controller.type = "pdf"

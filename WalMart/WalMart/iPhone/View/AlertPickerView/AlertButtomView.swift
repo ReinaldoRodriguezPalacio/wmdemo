@@ -18,7 +18,6 @@ class AlertButtomView : AlertPickerView {
     
     
     override  func setup() {
-        
         self.backgroundColor = UIColor.clearColor()
         
         bgView = UIView(frame: self.bounds)
@@ -77,7 +76,7 @@ class AlertButtomView : AlertPickerView {
     }
     
     override func layoutSubviews() {
-     super.layoutSubviews()
+        viewContent.center = self.center
         buttonGroceries.frame =  CGRectMake(38, 30, 210, 34)
          buttonMG.frame =  CGRectMake(38, buttonGroceries.frame.maxY + 20, 210, 34)
         

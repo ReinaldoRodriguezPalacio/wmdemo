@@ -247,7 +247,7 @@
 "profile.title" = "Información de mi cuenta";
 "profile.change.password" = "Cambiar Contraseña";
 "profile.save" = "Guardar";
-"profile.password.current" = "Contraseña Actual";
+"profile.password.current" = "Contraseña actual";
 "profile.password.login.wishlits" = "Ingresa a tu cuenta para agregar productos a tu Wishlist";
 "profile.login.welcome"= "¡Bienvenido a Walmart!";
 "profile.login.addAddress" = "Para realizar una compra es necesario registrar una dirección. Puedes crearla en cualquier momento desde tu perfil.";
@@ -260,13 +260,13 @@
 "profile.edit.title" = "Actualiza tus datos personales";
 "profile.edit.adtionalinfo" = "Información adicional";
 "profile.edit.ocupation" = "Ocupación";
-"profile.edit.phoneInfo" = "Referncia Telefónica";
+"profile.edit.phoneInfo" = "Referencia Telefónica";
 "profile.edit.phoneDesc" = "Telefono 8-10 digitos incluyendo LADA";
 "profile.edit.extension" = "Extensión";
-"profile.edit.cellphoneDesc" = "Teléfono móvil 10-15 Dígitos";
+"profile.edit.cellphoneDesc" = "Teléfono móvil 10-15 dígitos";
 "profile.edit.associate" = "Asociado";
 "profile.edit.associate.button" = "Soy Asociado";
-"profile.edit.associateNumber" = "Numero asociado";
+"profile.edit.associateNumber" = "Número de asociado";
 "profile.edit.dateAdmission" = "Fecha de ingreso";
 "profile.edit.determinant" = "Determinante";
 "profile.legalinfo.label" = "Consulta nuestro";
