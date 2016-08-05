@@ -52,7 +52,7 @@ class AddProductTolistView: UIView,UITextFieldDelegate {
         self.textFindProduct!.returnKeyType = .Search
         self.textFindProduct!.autocapitalizationType = .None
         self.textFindProduct!.autocorrectionType = .No
-        self.textFindProduct!.placeholder = NSLocalizedString("Agrega Artículo", comment:"")
+        self.textFindProduct!.placeholder = NSLocalizedString("list.message.add.item.in.list", comment:"")
         self.addSubview(self.textFindProduct!)
         
         self.camButtom = UIButton(type: .Custom)

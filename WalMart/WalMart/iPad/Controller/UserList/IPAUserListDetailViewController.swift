@@ -59,6 +59,10 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             self.header!.addGestureRecognizer(gestureSwipeLeft)
         }
         self.reminderButton?.titleLabel?.font = WMFont.fontMyriadProRegularOfSize(14)
+        if !UserCurrentSession.hasLoggedUser() {
+            self.retrieveProductsLocally(false)
+            self.counSections()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -134,6 +138,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
                 self.updateTotalLabel()
                     self.showHelpViewDetail()
                 }
+                 self.tableView!.reloadData()
                 
             }, reloadList: false)
         }
@@ -142,9 +147,12 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
             if self.products == nil  || self.products!.count == 0  {
                 self.selectedItems = []
             } else {
+            self.counSections()
             self.selectedItems = NSMutableArray()
             for i in 0...self.products!.count - 1 {
-                self.selectedItems?.addObject(i)
+                
+                let item =  self.products![i] as? Product
+                self.selectedItems?.addObject(item!.upc )
             }
             }
             self.updateTotalLabel()
