@@ -56,7 +56,9 @@ class ListHelpView: UIView {
     override func layoutSubviews() {
         
     }
-    
+    /**
+     Help view when create new list ,the first time
+     */
     func helpListController(){
         
         let labelButton =  UIButton(frame: CGRectMake(self.frame.width - 72, IS_IPAD ? 121 :75, 56, 22))
@@ -82,7 +84,9 @@ class ListHelpView: UIView {
         self.addSubview(descriptionHelp)
     
     }
-    
+    /**
+     Reminder helpview
+     */
     func helpReminder(){
         
         
@@ -90,6 +94,10 @@ class ListHelpView: UIView {
             IS_IPAD ? self.frame.maxY - 30  : (self.frame.height -  (TabBarHidden.isTabBarHidden ? 145 : 190)),
             self.frame.width - 32,
             28))
+        if IS_IPHONE_4_OR_LESS || IS_IPOD {
+            descriptionHelp.frame = CGRectMake(descriptionHelp.frame.origin.x,descriptionHelp.frame.maxY + 37,descriptionHelp.frame.width ,descriptionHelp.frame.height)
+        }
+        
         descriptionHelp.backgroundColor = UIColor.clearColor()
         descriptionHelp.text = NSLocalizedString("list.message.create.reminder", comment: "")
         descriptionHelp.numberOfLines =  2
@@ -110,6 +118,9 @@ class ListHelpView: UIView {
         
     }
     
+    /**
+     First help view list
+     */
     func detailListController(){
         
         

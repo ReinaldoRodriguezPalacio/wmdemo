@@ -57,7 +57,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var itemsList : [[String:AnyObject]] = []
     
     var listHelView : ListHelpView?
-        
+    
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
     }
@@ -145,13 +145,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.reloadList(
             success:{() -> Void in
                 self.removeLoadingView()
-               // self.showFirstHelpView()
+                self.showFirstHelpView()
             },
             failure: {(error:NSError) -> Void in
                 self.removeLoadingView()
             }
         )
-         self.showFirstHelpView()//TODO : quitar para pruebas de servicios
         
     }
     
@@ -579,12 +578,18 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.editBtn!.enabled = false
         if !self.newListEnabled {
             if self.itemsUserList!.count >= 12{
+                
                 self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"),imageError: UIImage(named:"list_alert_error"))
                 self.alertView!.setMessage(NSLocalizedString("list.error.validation.max",comment:""))
                 self.alertView!.showErrorIcon("Ok")
                 self.newListBtn!.enabled = true
                 self.editBtn!.enabled = true
                 return
+            }
+            if self.searchField?.text != "" {
+                self.searchField?.text = ""
+                self.itemsUserList = self.searchForItems("")
+                self.tableuserlist!.reloadData()
             }
             self.stateEdit =  true
             BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_MY_LISTS.rawValue, action: WMGAIUtils.ACTION_NEW_LIST.rawValue, label: "")

@@ -1580,11 +1580,8 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         
         if selected{
             self.reminderButton?.setImage(UIImage(named: "reminder_full"), forState: .Selected)
-            //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Selected)
-            //self.reminderButton!.setTitle("Recordatorio: \(self.reminderService!.getNotificationPeriod())", forState: .Normal)
         }else{
             self.reminderButton?.setImage(UIImage(named: "reminder"), forState: .Normal)
-            //self.reminderButton!.setTitle("Crear recordatorio para esta lista", forState: .Normal)
         }
     }
     
