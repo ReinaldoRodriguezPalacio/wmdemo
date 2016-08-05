@@ -103,25 +103,29 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             viewLoad.startAnnimating(self.isVisibleTab)
         }
         
-        let addressService = AddressByUserService()
+        let addressService = ShippingAddressByUserService()
+        addressService.callService({ (resultCall:NSDictionary) -> Void in
+            self.arrayAddressShipping = []
+            if let shippingAddress = resultCall["responseArray"] as? NSArray {
+                self.arrayAddressShipping = shippingAddress
+            }
+             self.getInvoiceAddress()
+            }, errorBlock: { (error:NSError) -> Void in
+               self.getInvoiceAddress()
+        })
+    }
+  
+    func getInvoiceAddress(){
+        let addressService = InvoiceAddressByUserService()
         addressService.callService({ (resultCall:NSDictionary) -> Void in
             
             self.arrayAddressFiscal = []
-            self.arrayAddressShipping = []
             
-            if let fiscalAddress = resultCall["fiscalAddresses"] as? NSArray {
+            if let fiscalAddress = resultCall["responseArray"] as? NSArray {
                 self.arrayAddressFiscal = fiscalAddress
             }
-            if let shippingAddress = resultCall["shippingAddresses"] as? NSArray {
-                self.arrayAddressShipping = shippingAddress
-            }
-            
             self.emptyView.hidden = (self.arrayAddressFiscal.count > 0 || self.arrayAddressShipping.count > 0)
-            
-  
-            
             self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
-  
             
             self.table.delegate = self
             self.table.dataSource = self
@@ -132,14 +136,23 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             }
             self.viewLoad = nil
             }, errorBlock: { (error:NSError) -> Void in
-                if self.viewLoad != nil{
-                    self.viewLoad.stopAnnimating()
+                if (self.arrayAddressShipping.count > 0) {
+                    self.emptyView.hidden = (self.arrayAddressFiscal.count > 0 || self.arrayAddressShipping.count > 0)
+                    self.newAddressButton!.hidden = !self.emptyView!.hidden || (self.arrayAddressFiscal.count >= 12 && self.arrayAddressShipping.count >= 12)
+                    self.table.delegate = self
+                    self.table.dataSource = self
+                    self.table.reloadData()
+                }else{
+                    if self.viewLoad != nil{
+                        self.viewLoad.stopAnnimating()
+                    }
+                    self.viewLoad = nil
+                    print("errorBlock")
                 }
-                self.viewLoad = nil
-                print("errorBlock")
         })
+
     }
-  
+    
     
     //MARK: - UITableView
     /*
@@ -179,7 +192,14 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             item = self.arrayAddressFiscal![indexPath.item] as! NSDictionary
             isFisicalAddress = true
         }
-        let name = item["name"] as! String
+        
+        var addressName = ""
+        if let name = item["name"] as? String {
+            addressName = name
+        }
+        if let name = item["addressName"] as? String {
+            addressName = name
+        }
         if let pref = item["preferred"] as? NSNumber{
             if pref.integerValue == 1 {
                 prefered = true
@@ -195,7 +215,7 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
             addressId = addId
         }
         
-        cell!.setValues(name, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray, padding: 12,align:NSTextAlignment.Left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId, isFisicalAddress: isFisicalAddress)
+        cell!.setValues(addressName, font: WMFont.fontMyriadProRegularOfSize(14), numberOfLines: 2, textColor: WMColor.gray, padding: 12,align:NSTextAlignment.Left, isViewLine:isViewLine, isPrefered:prefered, addressID: addressId, isFisicalAddress: isFisicalAddress)
         
         cell!.delegateAddres = self
         cell!.delegate = self
@@ -299,6 +319,8 @@ class MyAddressViewController: NavigationViewController,  UITableViewDelegate, U
                 }else{
                     self.addressController!.typeAddress = TypeAddress.FiscalMoral
                 }
+            }else{
+                self.addressController!.typeAddress = TypeAddress.FiscalPerson
             }
         }
         self.addressController!.item = item!

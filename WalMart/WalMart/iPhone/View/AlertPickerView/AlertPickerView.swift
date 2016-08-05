@@ -166,7 +166,7 @@ class AlertPickerView : UIView, UITableViewDataSource, UITableViewDelegate, UITe
     
     override func layoutSubviews() {
         
-        viewContent.frame = CGRectMake(0, 0, 286, self.contentHeight!)
+        viewContent.frame = CGRectMake(0, 0, 286, 316)
         headerView.frame = CGRectMake(0, 0, viewContent.frame.width, 46)
         viewContentOptions.frame = CGRectMake(0, headerView.frame.height, viewContent.frame.width, viewContent.frame.height - headerView.frame.height)
         tableData.frame = CGRectMake(0, 5, viewContentOptions.frame.width,viewContentOptions.frame.height - 64)

@@ -864,7 +864,6 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
         controller.titleText = NSLocalizedString(name, comment: "")
         controller.resource = "privacy"
         controller.type = "pdf"
-    
         self.navigationController!.pushViewController(controller, animated: true)
     }
     
@@ -873,6 +872,7 @@ class EditProfileViewController: NavigationViewController,  UICollectionViewDele
      */
     override func back() {
         BaseController.sendAnalytics(WMGAIUtils.CATEGORY_EDIT_PROFILE.rawValue, action:WMGAIUtils.ACTION_BACK_TO_MORE_OPTIONS.rawValue, label: "")
+        //NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearSearch.rawValue, object: nil)
         super.back()
     }
     

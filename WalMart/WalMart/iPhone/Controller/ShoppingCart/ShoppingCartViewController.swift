@@ -981,7 +981,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         self.buttonShop.enabled = false
         self.buttonShop.alpha = 0.7
         //let storyboard = self.loadStoryboardDefinition()
-        let addressService = AddressByUserService()
+        let addressService = ShippingAddressByUserService()
         
         self.buttonShop.enabled = true
         self.buttonShop.alpha = 1.0

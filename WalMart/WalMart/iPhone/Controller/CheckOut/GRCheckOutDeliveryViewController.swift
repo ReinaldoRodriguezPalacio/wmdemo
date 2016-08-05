@@ -609,7 +609,7 @@ class GRCheckOutDeliveryViewController : NavigationViewController, TPKeyboardAvo
     func invokeAddressUserService(endCallAddress:(() -> Void)) {
         //TODO: Implementar validacion de direccion.
         
-        let service = AddressByUserService()
+        let service = ShippingAddressByUserService()
         service.callService(
             { (result:NSDictionary) -> Void in
                 if let items = result["responseArray"] as? NSArray {

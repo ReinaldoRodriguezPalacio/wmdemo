@@ -9,7 +9,7 @@
 import Foundation
 
 
-class AddressByUserService : BaseService {
+class ShippingAddressByUserService : BaseService {
     
     let JSON_RESULT = "responseObject"
     

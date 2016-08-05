@@ -456,7 +456,8 @@ class AddressView: UIView, AlertPickerViewDelegate,UITextFieldDelegate{
     func setItemWithDictionary(itemValues: NSDictionary) {
         self.item = itemValues
         if self.item != nil{
-            if let id = self.item!["addressID"] as! String?{
+            //TODO:Checar por que las direcciones no traen Id
+            if let id = self.item!["addressId"] as! String?{
                 idAddress = id
                 self.shortNameField!.text  = self.item!["name"] as? String
                 self.street!.text = self.item!["street"] as? String

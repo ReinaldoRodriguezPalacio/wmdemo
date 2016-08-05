@@ -227,7 +227,7 @@
 "profile.confirmnewpassword" = "Confirmar nueva contraseña";
 "profile.terms" = "Por favor marca el siguiente recuadro si aceptas el envío de publicidad y/o promociones. Te informamos que los datos personales que nos proporciones serán tratados de acuerdo con los términos y condiciones establecidos en el presente ";
 "profile.terms.privacy" = "Aviso de Privacidad.";
-"profile.create.an.account" = "Crear una Cuenta";
+"profile.create.an.account" = "Crear una cuenta";
 "profile.create.an.continue" = "Continuar";
 "profile.create.an.cancel" = "Cancelar";
 "profile.signIn" = "Ingresar";
