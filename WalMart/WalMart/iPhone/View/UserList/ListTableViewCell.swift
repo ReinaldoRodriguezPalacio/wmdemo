@@ -41,6 +41,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
     
     var viewBgSel : UIView?
     
+    var reminderLabel: UILabel?
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
@@ -92,6 +94,14 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.copyBtn!.hidden = true
         self.copyBtn!.titleEdgeInsets = UIEdgeInsetsMake(2.0, 0, 0, 0.0);
         self.contentView.addSubview(self.copyBtn!)
+        
+        self.reminderLabel = UILabel()
+        self.reminderLabel!.font = WMFont.fontMyriadProRegularOfSize(12)
+        self.reminderLabel!.textColor = WMColor.orange
+        self.reminderLabel!.hidden =  true
+        self.reminderLabel?.adjustsFontSizeToFitWidth =  true
+        self.reminderLabel?.textAlignment =  .Right
+        self.contentView.addSubview(self.reminderLabel!)
 
         self.separatorView = UIView()
         self.separatorView!.backgroundColor  = WMColor.light_light_gray
@@ -115,6 +125,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         buttonDelete.backgroundColor = UIColor.whiteColor()
 
         self.setLeftUtilityButtons([buttonDelete], withButtonWidth: self.leftBtnWidth)
+        
+
         
         viewBgSel = UIView()
         viewBgSel?.backgroundColor = WMColor.light_light_gray
@@ -145,7 +157,8 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         }
         
         self.listName!.frame = CGRectMake(x, sep, width, 20.0)
-        self.articlesTitle!.frame = CGRectMake(x, self.listName!.frame.maxY, width, 20.0)
+        self.articlesTitle!.frame = CGRectMake(x, self.listName!.frame.maxY, self.frame.midX - x, 20.0)
+        self.reminderLabel!.frame = CGRectMake(self.articlesTitle!.frame.maxX, self.listName!.frame.maxY, self.frame.midX - 16, 20.0)
         self.viewBgSel?.frame =  CGRectMake(0.0, 0.0, bounds.width, bounds.height - 1.0)
     }
     
@@ -165,8 +178,20 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
             self.articlesTitle!.text = String(format: NSLocalizedString("list.articles", comment:""), "\(countItem.count)")
         }
         self.iconView!.image = UIImage(named: "list")
-        self.listId = object["id"] as? String
-        
+        self.listId = object["repositoryId"] as? String
+        if self.listId != nil{
+            let reminderService = ReminderNotificationService(listId: self.listId!, listName: title)
+            reminderService.findNotificationForCurrentList()
+            if reminderService.existNotificationForCurrentList() {
+                print("print::: \(reminderService.getNotificationPeriod())")
+                self.reminderLabel?.text = "Recordatorio \(reminderService.getNotificationPeriod())"
+                self.reminderLabel?.hidden =  false
+            }else{
+                print("print::: No tiene recordatorios")
+                self.reminderLabel?.hidden =  true
+                self.reminderLabel?.text = ""
+            }
+        }
         
         let editLenghtList : String = self.listName!.text!
         self.lenghtNameList = editLenghtList.length()
@@ -217,11 +242,13 @@ class ListTableViewCell : SWTableViewCell, UITextFieldDelegate {
         self.isCopyEnabled = flag
         self.copyBtn!.alpha = flag ? 1.0 : 0.0
         self.setNeedsLayout()
+        self.reminderLabel?.hidden = flag
     }
 
     func enableEditListAnimated(flag:Bool) {
         if self.enableEditing {
             self.textField!.hidden = !flag
+             self.reminderLabel?.hidden = flag
             UIView.animateWithDuration(0.25,
                 animations: { () -> Void in
                     self.listName!.alpha = flag ? 0.0 : 1.0

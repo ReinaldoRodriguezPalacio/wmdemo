@@ -75,7 +75,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.view.backgroundColor = UIColor.whiteColor()
         
         let iconImage = UIImage(color: WMColor.light_blue, size: CGSizeMake(110, 44), radius: 22)
         let iconSelected = UIImage(color: WMColor.green, size: CGSizeMake(110, 44), radius: 22)
@@ -170,7 +170,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         self.isSharing = false
         buildEditNameSection()
         self.showReminderButton = UserCurrentSession.hasLoggedUser() && ReminderNotificationService.isEnableLocalNotificationForApp() && self.listId != nil && self.listName != nil
-        self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : 46.0)
+        self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : self.header!.frame.height)
         self.addProductsView = AddProductTolistView()
         self.addProductsView!.backgroundColor =  UIColor.whiteColor()
         self.addProductsView!.delegate =  self
@@ -198,6 +198,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
             loadServiceItems(nil)
         }
+        
         
     }
     override func viewDidAppear(animated: Bool) {
@@ -302,7 +303,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     for i in 0...self.products!.count - 1 {
                         let item =  self.products![i] as? [String:AnyObject]
                         self.selectedItems?.addObject(item!["upc"] as! String )
-                        //self.selectedItems?.addObject(i)
                     }
                     self.updateTotalLabel()
                     self.showHelpViewDetail()
@@ -321,9 +321,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 for i in 0...self.products!.count - 1 {
                     let item =  self.products![i] as? Product
                     self.selectedItems?.addObject(item!.upc )
-                    //self.selectedItems?.addObject(i)
                 }
                 self.updateTotalLabel()
+
             }
             complete?()
         }
@@ -399,7 +399,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     }
                 }
                 }, completion: { (completition:Bool) -> Void in
-                    self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : self.header!.frame.maxY)
+                    self.tableConstraint?.constant = (self.showReminderButton ? 110.0 : 0.0)
                     self.containerEditName!.alpha = 0
                     self.reminderButton?.alpha = 1.0
                     self.footerSection!.alpha = 1
@@ -933,12 +933,15 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
 //                size += 1
 //            }
 //        }
+        print("secction:::")
+        print(section)
         if section == self.newArrayProducts.count  {
             return 1
         }
+        
         if self.newArrayProducts != nil  && self.newArrayProducts.count > 0 {
             let items = self.newArrayProducts![section]
-            let listProduct = items[linesArray[section] as! String] as? NSArray
+            let listProduct = items[linesArray[section ] as! String] as? NSArray
             size = listProduct!.count
         }
         
@@ -973,16 +976,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                 print(product.upc)
                 listCell.setValues(product,disabled:!self.selectedItems!.containsObject(product.upc))
             }
-      
         }
-        
-        
-//        if let item = self.self.newArrayProducts![indexPath.row] as? [String : AnyObject] {
-//            listCell.setValuesDictionary(item,disabled:self.retunrFromSearch ? !self.retunrFromSearch : !self.selectedItems!.containsObject(indexPath.row))
-//        }
-//        else if let item = self.self.newArrayProducts![indexPath.row] as? Product {
-//            listCell.setValues(item,disabled:!self.selectedItems!.containsObject(indexPath.row))
-//        }
         
         if self.isEdditing {
             listCell.showLeftUtilityButtonsAnimated(false)
@@ -1058,6 +1052,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
                     self.retrieveProductsLocally(true)
                     self.editBtn!.hidden = count == 0
                     self.deleteAllBtn!.hidden = count == 0
+                    
                     //self.editBtn!.hidden = true
                 }
             }
@@ -1178,93 +1173,91 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             )
         }
     }
-
+    let serviceBase = GRZipCodeService()
     //MARK: - Services
     func invokeDetailListService(action:(()->Void)? , reloadList : Bool) {
-
         
-                if self.products == nil || self.products!.count == 0  {
-                    self.selectedItems = []
-                } else {
-                    if self.fromDelete {
-                        self.fromDelete =  false
-                        self.selectedItems = NSMutableArray()
-                        for i in 0...self.products!.count - 1 {
-                           let item =  self.products![i] as? [String:AnyObject]
-                            self.selectedItems?.addObject(item!["upc"] as! String )
-                        }
-                    }
-                    self.openEmpty =  false
-                     self.removeEmpyView()
-                    self.counSections()
+        if self.products == nil || self.products!.count == 0  {
+            self.selectedItems = []
+        } else {
+            if self.fromDelete {
+                self.fromDelete =  false
+                self.selectedItems = NSMutableArray()
+                for i in 0...self.products!.count - 1 {
+                    let item =  self.products![i] as? [String:AnyObject]
+                    self.selectedItems?.addObject(item!["upc"] as! String )
                 }
-                
-                //self.layoutTitleLabel()
-                self.tableView!.reloadData()
-                if reloadList {
-                    self.reloadTableListUserSelectedRow()
-                }
-                self.updateTotalLabel()
-                if self.products == nil || self.products!.count == 0 {
-                    self.editBtn!.hidden = true
-                    self.deleteAllBtn!.hidden = true
-                    self.isEdditing = true
-                    self.showEditionMode()
-                    self.showEmptyView()
-                }
-                else {
-                    self.editBtn!.hidden = false
-                    self.deleteAllBtn!.hidden = false
-                    self.removeEmpyView()
-                }
-                
-                action?()
-
+            }
+            self.openEmpty =  false
+            self.removeEmpyView()
+            self.counSections()
+        }
+        
+        //self.layoutTitleLabel()
+        self.tableView!.reloadData()
+        if reloadList {
+            self.reloadTableListUserSelectedRow()
+        }
+        self.updateTotalLabel()
+        if self.products == nil || self.products!.count == 0 {
+            self.editBtn!.hidden = true
+            self.deleteAllBtn!.hidden = true
+            self.isEdditing = true
+            self.showEditionMode()
+            self.showEmptyView()
+        }
+        else {
+            self.editBtn!.hidden = false
+            self.deleteAllBtn!.hidden = false
+            self.removeEmpyView()
+        }
+        
+        action?()
+        
     }
     
     func invokeDeleteProductFromListService(upc:String,succesDelete:(()->Void)) {
         if !self.deleteProductServiceInvoked {
-
             
-                self.deleteProductServiceInvoked = true
-                self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-                self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
-                let service = GRDeleteItemListService()
-                service.callService(service.buildParams(upc),
-                    successBlock:{ (result:NSDictionary) -> Void in
-                        self.invokeDetailListService({ () -> Void in
-                            
-                            
-                            
-                            self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
-                            self.alertView!.showDoneIcon()
-                            self.deleteProductServiceInvoked = false
-                            self.alertView!.afterRemove = {
-                                self.removeSelector()
-                                return
-                            }
-                            
-                            if self.products == nil || self.products!.count == 0 {
-                                self.editBtn!.hidden = true
-                                self.deleteAllBtn!.hidden = true
-                                self.isEdditing = true
-                                self.showEditionMode()
-                                self.showEmptyView()
-                            } else {
-                                self.editBtn!.hidden = false
-                            }
-                            }, reloadList: true)
-                        succesDelete()
-                    },
-                    errorBlock:{ (error:NSError) -> Void in
-                        print("Error at delete product from user")
-                        self.alertView!.setMessage(error.localizedDescription)
-                        self.alertView!.showErrorIcon("Ok")
-                        self.deleteProductServiceInvoked = false
-                    }
-                )
+            self.deleteProductServiceInvoked = true
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToList", comment:""))
+            let service = GRDeleteItemListService()
+            service.callService(service.buildParams(upc),
+                                successBlock:{ (result:NSDictionary) -> Void in
+                                    self.invokeDetailListService({ () -> Void in
+                                        
+                                        
+                                        
+                                        self.alertView!.setMessage(NSLocalizedString("list.message.deleteProductToListDone", comment:""))
+                                        self.alertView!.showDoneIcon()
+                                        self.deleteProductServiceInvoked = false
+                                        self.alertView!.afterRemove = {
+                                            self.removeSelector()
+                                            return
+                                        }
+                                        
+                                        if self.products == nil || self.products!.count == 0 {
+                                            self.editBtn!.hidden = true
+                                            self.deleteAllBtn!.hidden = true
+                                            self.isEdditing = true
+                                            self.showEditionMode()
+                                            self.showEmptyView()
+                                        } else {
+                                            self.editBtn!.hidden = false
+                                        }
+                                        }, reloadList: true)
+                                    succesDelete()
+                },
+                                errorBlock:{ (error:NSError) -> Void in
+                                    print("Error at delete product from user")
+                                    self.alertView!.setMessage(error.localizedDescription)
+                                    self.alertView!.showErrorIcon("Ok")
+                                    self.deleteProductServiceInvoked = false
+                }
+            )
             
-           
+            
         }
     }
     
@@ -1301,29 +1294,27 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
         
         if quantity <= 20000 {
-        
-        self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
             
-                    
-        
-        let service = GRUpdateItemListService()
-        service.callService(service.buildParams(upc: upc, quantity: quantity),
-            successBlock: { (result:NSDictionary) -> Void in
-                self.invokeDetailListService({ () -> Void in
-                    self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
-                    self.alertView!.showDoneIcon()
-                    self.alertView!.afterRemove = {
-                        self.removeSelector()
-                        return
-                    }
-                }, reloadList: true)
-            }, errorBlock: { (error:NSError) -> Void in
-                print("Error at delete product from user")
-                self.alertView!.setMessage(error.localizedDescription)
-                self.alertView!.showErrorIcon("Ok")
-            }
-        )
+            self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
+            self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInList", comment:""))
+            
+            let service = GRUpdateItemListService()
+            service.callService(service.buildParams(upc: upc, quantity: quantity),
+                                successBlock: { (result:NSDictionary) -> Void in
+                                    self.invokeDetailListService({ () -> Void in
+                                        self.alertView!.setMessage(NSLocalizedString("list.message.updatingProductInListDone", comment:""))
+                                        self.alertView!.showDoneIcon()
+                                        self.alertView!.afterRemove = {
+                                            self.removeSelector()
+                                            return
+                                        }
+                                        }, reloadList: true)
+                }, errorBlock: { (error:NSError) -> Void in
+                    print("Error at delete product from user")
+                    self.alertView!.setMessage(error.localizedDescription)
+                    self.alertView!.showErrorIcon("Ok")
+                }
+            )
         }else{
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
@@ -1357,6 +1348,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             }
             self.products = products
             self.titleLabel?.text = self.listEntity?.name
+             
             //self.layoutTitleLabel()
             self.tableView!.reloadData()
             if reloadList {
@@ -1406,8 +1398,6 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.deleteAllBtn!.hidden = false
             self.removeEmpyView()
         }
-        
-      
         
     }
     
@@ -1541,9 +1531,9 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         }
     }
     
-
-    
-    
+    /**
+     call service update name list
+     */
     func updateListName() {
         if self.nameField?.text != self.titleLabel?.text {
             
@@ -1551,26 +1541,28 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
             self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNames", comment:""))
             
-                    let service = GRUpdateListService()
+            let service = GRUpdateListService()
             
-                    service.callService(service.buildParams(self.listId!, name: self.nameField!.text!),
-                        successBlock: { (result:NSDictionary) -> Void in
-                           self.titleLabel?.text = self.nameField?.text
-                            self.reminderService!.updateListName(self.nameField!.text!)
-                            self.loadServiceItems({ () -> Void in
-                                self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
-                                self.alertView!.showDoneIcon()
-                            })
-                        },
-                        errorBlock: { (error:NSError) -> Void in
-                                self.alertView!.setMessage(error.localizedDescription)
-                                self.alertView!.showErrorIcon("Ok")
-                        })
+            service.callService(service.buildParams(self.listId!, name: self.nameField!.text!),
+                                successBlock: { (result:NSDictionary) -> Void in
+                                    self.titleLabel?.text = self.nameField?.text
+                                    self.reminderService!.updateListName(self.nameField!.text!)
+                                    self.loadServiceItems({ () -> Void in
+                                        self.alertView!.setMessage(NSLocalizedString("list.message.updatingListNamesDone", comment:""))
+                                        self.alertView!.showDoneIcon()
+                                    })
+                },
+                                errorBlock: { (error:NSError) -> Void in
+                                    self.alertView!.setMessage(error.localizedDescription)
+                                    self.alertView!.showErrorIcon("Ok")
+            })
             
         }
     }
     
-    
+    /**
+     return to listview where is empty view
+     */
     func backEmpty() {
         super.back()
          BaseController.sendAnalytics(WMGAIUtils.CATEGORY_MY_LISTS_DETAIL_EMPTY.rawValue, action:WMGAIUtils.ACTION_BACK_MY_LIST.rawValue, label: "")

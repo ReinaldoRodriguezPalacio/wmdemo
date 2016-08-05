@@ -61,7 +61,7 @@ class ListHelpView: UIView {
         
         let labelButton =  UIButton(frame: CGRectMake(self.frame.width - 72, IS_IPAD ? 121 :75, 56, 22))
         labelButton.backgroundColor =  WMColor.green
-        labelButton.setTitle("nueva", forState: .Normal)
+        labelButton.setTitle(NSLocalizedString("list.new", comment: "") , forState: .Normal)
         labelButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         labelButton.titleLabel?.font  = WMFont.fontMyriadProRegularOfSize(11)
         labelButton.layer.cornerRadius = 11.0
@@ -75,7 +75,7 @@ class ListHelpView: UIView {
         
         let descriptionHelp =  UILabel(frame: CGRectMake(self.frame.midX - 100 , IS_IPAD ? arrowImage.frame.maxY : 138, 200, 28))
         descriptionHelp.backgroundColor = UIColor.clearColor()
-        descriptionHelp.text = "Crea una lista nueva aquí."
+        descriptionHelp.text = NSLocalizedString("list.message.create.list", comment: "")
         descriptionHelp.textAlignment = .Center
         descriptionHelp.font = WMFont.fontMyriadProRegularOfSize(16)
         descriptionHelp.textColor =  UIColor.whiteColor()
@@ -91,7 +91,7 @@ class ListHelpView: UIView {
             self.frame.width - 32,
             28))
         descriptionHelp.backgroundColor = UIColor.clearColor()
-        descriptionHelp.text = "Crea y edita recordatorios aquí."
+        descriptionHelp.text = NSLocalizedString("list.message.create.reminder", comment: "")
         descriptionHelp.numberOfLines =  2
         descriptionHelp.textAlignment = .Center
         descriptionHelp.font = WMFont.fontMyriadProRegularOfSize(16)
@@ -127,9 +127,9 @@ class ListHelpView: UIView {
         
         
         labelButton.backgroundColor =  UIColor.whiteColor()
-        labelButton.text = "Nueva Lista"
-        labelButton.font  = WMFont.fontMyriadProRegularOfSize(11)
-        labelButton.textColor =  WMColor.gray
+        labelButton.text =   NSLocalizedString("list.message.new.list", comment: "")
+        labelButton.font  = WMFont.fontMyriadProLightOfSize(16)
+        labelButton.textColor =  WMColor.empty_gray_btn
         labelButton.layer.mask = maskFirstLayer
         
         self.addSubview(labelButton)
@@ -143,7 +143,7 @@ class ListHelpView: UIView {
         maskLayer.path = mask.CGPath
         
         labelCreate.backgroundColor = WMColor.green
-        labelCreate.text = "Crear"
+        labelCreate.text = NSLocalizedString("list.new.keyboard.save", comment: "")
         labelCreate.font  = WMFont.fontMyriadProRegularOfSize(11)
         labelCreate.textColor =  UIColor.whiteColor()
         labelCreate.textAlignment = .Center
@@ -159,7 +159,7 @@ class ListHelpView: UIView {
        
         let descriptionHelp =  UILabel(frame: CGRectMake(arrowImage.frame.maxX , arrowImage.frame.maxY - 5, 200, 46))
         descriptionHelp.backgroundColor = UIColor.clearColor()
-        descriptionHelp.text = "¡También puedes crear una lista usando tu ticket!"
+        descriptionHelp.text = NSLocalizedString("list.message.ticket.list", comment: "")
         descriptionHelp.numberOfLines =  2
         descriptionHelp.textAlignment = .Center
         descriptionHelp.font = WMFont.fontMyriadProRegularOfSize(16)

@@ -33,7 +33,7 @@ class GRSaveUserListService : GRBaseService {
     }
     
     func buildParamsMustang(name:String?) -> [String:AnyObject]! {
-        return ["profileId":UserCurrentSession.sharedInstance().userSigned!.idUser,"name":name!,"description":"","comments":"","instructions":""]
+        return ["profileId":UserCurrentSession.hasLoggedUser() ?  UserCurrentSession.sharedInstance().userSigned!.idUser : "","name":name!,"description":"","comments":"","instructions":""]
     }
     
     

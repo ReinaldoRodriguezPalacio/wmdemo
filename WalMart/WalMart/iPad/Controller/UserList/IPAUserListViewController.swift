@@ -268,11 +268,13 @@ class IPAUserListViewController: UserListViewController {
             return
         }
         
-        if self.didShowBackground {
-            let cell = tableView.cellForRowAtIndexPath(indexPath)
-            cell?.selected = false
-            return
-        }
+        
+        
+//        if self.didShowBackground {
+//            let cell = tableView.cellForRowAtIndexPath(indexPath)
+//            cell?.selected = false
+//            return
+//        }
         
         self.rowSelected = self.rowSelected ?? NSIndexPath(forRow: 0, inSection: 0)
         let cell = self.tableuserlist?.cellForRowAtIndexPath(self.rowSelected!)
@@ -306,10 +308,11 @@ class IPAUserListViewController: UserListViewController {
         
         selectedItem = indexPath
         if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
-            if let listId = listItem["id"] as? String {
+            if let listId = listItem["repositoryId"] as? String {
                 self.selectedListId = listId
                 self.selectedListName = listItem["name"] as? String
                 self.selectedId = listId
+                self.itemsList =  listItem["giftlistItems"] as! [[String:AnyObject]]
                 self.delegate?.showListDetailAnimated(forId: self.selectedListId, orEntity: nil, andName: self.selectedListName)
                 
                 
@@ -541,7 +544,7 @@ class IPAUserListViewController: UserListViewController {
         case 1://Delete list
             if let indexPath = self.tableuserlist!.indexPathForCell(cell) {
                 if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
-                    if let listId = listItem["id"] as? String {
+                    if let listId = listItem["repositoryId"] as? String {
                         self.deleteListInDB(listId)
                         
                         self.invokeDeleteListService(listId)

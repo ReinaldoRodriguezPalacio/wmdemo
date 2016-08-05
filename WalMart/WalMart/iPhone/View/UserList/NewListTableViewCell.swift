@@ -72,7 +72,7 @@ class NewListTableViewCell : UITableViewCell, UITextFieldDelegate {
             self.inputNameList!.frame = CGRectMake(16.0, (bounds.height - 40.0)/2, bounds.width - 32.0, 40.0)
             self.scanTicketBtn!.hidden = true
         }
-        self.separatorView!.frame = CGRectMake(72.0, bounds.height - 1.0, self.contentView.frame.size.width - 72.0, 1.0)
+        self.separatorView!.frame = CGRectMake(0.0, bounds.height - 1.0, self.contentView.frame.size.width, 1.0)
     }
     
     //MAR: - UITextFieldDelegate

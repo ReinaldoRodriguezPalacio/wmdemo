@@ -136,7 +136,7 @@
 "list.new.keyboard.save" = "Crear";
 "list.articles" = "%@ artículos";
 "list.empty" = "Aún no haz creado una Lista de Súper";
-"list.search.placeholder" = "Buscar en Listas";
+"list.search.placeholder" = "Buscar en mis Listas";
 "list.selector.title" = "Añadir a Lista de Súper";
 "list.selector.openDetail" = "Abrir";
 "list.selector.new.placeholder" = "Nueva Lista";
@@ -182,6 +182,12 @@
 "list.new.validation.name.notvalid" = "El nombre de la lista no puede contener caracteres especiales";
 "list.error.validation.max" = "Se ha alcanzado el máximo de listas del usuario, elimine ó actualice las existentes.";
 "list.message.addingProductToList.fromList" = "Agregando producto a tu lista";
+
+"list.message.add.item.in.list"="Agregar artículo a esta lista";
+"list.message.create.list"="Crea una lista nueva aquí.";
+"list.message.create.reminder"="Crea y edita recordatorios aquí.";
+"list.message.new.list"="Nueva Lista";
+"list.message.ticket.list"="¡También puedes crear una lista usando tu ticket!";
 
 //ShoppingCart
 "shoppingcart.additem" = "Añadiendo";

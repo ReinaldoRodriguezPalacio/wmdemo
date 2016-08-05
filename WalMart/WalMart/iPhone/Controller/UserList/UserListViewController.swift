@@ -57,7 +57,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     var itemsList : [[String:AnyObject]] = []
     
     var listHelView : ListHelpView?
-    
+        
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
     }
@@ -573,6 +573,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     /**
         Present field to add new list, valid if can add more
      */
+    
     func showNewListField() {
         self.newListBtn!.enabled = false
         self.editBtn!.enabled = false
@@ -605,10 +606,12 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                                         if let cell = cells[idx] as? ListTableViewCell {
                                             cell.enableDuplicateList(true)
                                             cell.canDelete = false
+                                            
                                         }
                                     }
                                     self.newListBtn!.enabled = true
                                     self.editBtn!.enabled = true
+                                    self.showHelpView()
                                 })
                                 CATransaction.commit()
                                 
@@ -618,7 +621,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                             })
                             self.tableuserlist!.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Top)
                             CATransaction.commit()
-                            self.showHelpView()
+                           
                             //                        self.enabledHelpView = true
                             //                        self.editBtn!.enabled = false
                     })
@@ -681,6 +684,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
             listHelView =  ListHelpView(frame: CGRectMake(0,0,self.view.bounds.width,self.view.bounds.height),context:ListHelpContextType.InDetailList )
             listHelView?.onClose  = {() in
                 self.removeHelpView()
+                
             }
             
             let window = UIApplication.sharedApplication().keyWindow
@@ -689,7 +693,9 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
                 customBar.view.addSubview(listHelView!)
                 CustomBarViewController.addOrUpdateParam("detailHelp", value: "false")
             }
+             self.view.endEditing(true)
         }
+       
         
     }
     
@@ -714,7 +720,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         self.alertView!.setMessage(NSLocalizedString("list.message.creatingList", comment:""))
         
         let svcList = GRSaveUserListService()
-        print(svcList.buildParamsMustang(value))
         svcList.callService(svcList.buildParamsMustang(value),
             successBlock: { (result:NSDictionary) -> Void in
                 
@@ -1202,6 +1207,7 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("numberOfRowsInSection::::")
         if section == 1 {
             return   self.itemsUserList!.count
         }
@@ -1212,7 +1218,6 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        //WishList
         if  indexPath.section == 0 {
             
             if indexPath.row == 0 && self.newListEnabled {
@@ -1246,6 +1251,8 @@ class UserListViewController : UserListNavigationBaseViewController, UITableView
         let listCell = tableView.dequeueReusableCellWithIdentifier(self.CELL_ID) as! ListTableViewCell
         listCell.delegate = self
         listCell.listDelegate = self
+        
+      
         
         if let listItem = self.itemsUserList![indexPath.row] as? NSDictionary {
             listCell.setValues(listObject:listItem)
