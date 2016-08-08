@@ -252,12 +252,7 @@ class IPOSplashViewController : IPOBaseController,UIWebViewDelegate,NSURLConnect
             successBlock: { (response:NSDictionary) -> Void in print("Call service CategoryService success") },
             errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
         )
-        
-        let categoryGRService = GRCategoryService()
-        categoryGRService.callService(Dictionary<String, String>(),
-            successBlock: { (response:NSDictionary) -> Void in print("Call service GRCategoryService success") },
-            errorBlock: { (error:NSError) -> Void in print("Call service CategoryService error \(error)") }
-        )
+
         
         let defaultlist = DefaultListService()
         defaultlist.callService({ (result:NSDictionary) -> Void in

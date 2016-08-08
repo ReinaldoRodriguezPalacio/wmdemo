@@ -71,11 +71,6 @@ class GRLinesForSearchService: GRBaseService {
 
         printTimestamp("buildResponse GRLinesForSearchService")
         
-        //let service = GRCategoryService()
-        //var categories = service.getCategoriesContent() as NSArray
-        
-        //var tmpArray : [[String:AnyObject]] = []
-        
         var strInLines : String = ""
         for i in 0 ..< response.count {
             var responseObject = response[i] as! [String:AnyObject]

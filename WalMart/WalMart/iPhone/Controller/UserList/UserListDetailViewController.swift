@@ -60,7 +60,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     var listDetailHelView : ListHelpView?
     
-    
+    var openDetailOrReminder =  false
     override func getScreenGAIName() -> String {
         return WMGAIUtils.SCREEN_MYLIST.rawValue
         
@@ -195,8 +195,10 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         NSNotificationCenter.defaultCenter().removeObserver(self, name: CustomBarNotification.TapBarFinish.rawValue, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self,selector: #selector(UserListDetailViewController.tabBarActions),name:CustomBarNotification.TapBarFinish.rawValue, object: nil)
         //Solo para presentar los resultados al presentar el controlador sin delay
-        if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            loadServiceItems(nil)
+        if !openDetailOrReminder {
+            if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
+                loadServiceItems(nil)
+            }
         }
         
         
@@ -996,7 +998,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let cell = tableView.cellForRowAtIndexPath(indexPath)
         if cell!.isKindOfClass(DetailListViewCell) {
-
+            self.openDetailOrReminder =  true
             let controller = ProductDetailPageViewController()
             var productsToShow:[AnyObject] = []
             for idx in 0 ..< self.products!.count {
@@ -1596,6 +1598,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
             reminderViewController.selectedPeriodicity = self.reminderService!.currentNotificationConfig!["type"] as? Int
             reminderViewController.currentOriginalFireDate = self.reminderService!.currentNotificationConfig!["originalFireDate"] as? NSDate
         }
+        self.openDetailOrReminder =  true
         self.navigationController?.pushViewController(reminderViewController, animated: true)
     }
     

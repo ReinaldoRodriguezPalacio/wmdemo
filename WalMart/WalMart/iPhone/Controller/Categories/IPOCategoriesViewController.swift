@@ -65,7 +65,7 @@ class IPOCategoriesViewController : BaseCategoryViewController, BaseCategoryView
     
     func loadDepartments() ->  [AnyObject]? {
         let serviceCategory = CategoryService()
-        items = serviceCategory.getCategoriesContent()
+        items = serviceCategory.getCategoriesContent(from: "mg")
         return items
     }
     

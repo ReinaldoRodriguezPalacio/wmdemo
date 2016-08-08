@@ -18,7 +18,6 @@ class CategoryService : BaseService {
     func callService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         self.callGETService(params,
             successBlock: { (resultCall:NSDictionary) -> Void in
-                self.jsonFromObject(resultCall)
                 self.saveDictionaryToFile(resultCall, fileName:self.fileName)
                 successBlock?(resultCall)
                 
@@ -34,11 +33,19 @@ class CategoryService : BaseService {
     }
     
     
-    func getCategoriesContent() -> [[String:AnyObject]] {
+    func getCategoriesContent(from type:String) -> [[String:AnyObject]] {
         var response : [[String:AnyObject]] = []
+        var filterResponse : [[String:AnyObject]] = []
         let values = self.getDataFromFile(fileName)
         if values != nil {
             response = values![JSON_KEY_RESPONSEARRAY] as! [[String:AnyObject]]
+            for category in response {
+                if category["bussines"] as! String == type{
+                    filterResponse.append(category)
+                }
+            }
+            response = filterResponse
+            
              response = response.sort({ (obj1:[String : AnyObject], obj2:[String : AnyObject]) -> Bool in
                 let firstString = obj1["description"] as! String?
                 let secondString = obj2["description"] as! String?
@@ -46,6 +53,7 @@ class CategoryService : BaseService {
 
             })
         }
+        
         return response
     }
     

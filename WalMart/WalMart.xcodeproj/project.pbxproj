@@ -20,7 +20,6 @@
 		04448A381A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */; };
 		04448A391A9E74AF006AFEC4 /* IPAUserListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448A371A9E74AF006AFEC4 /* IPAUserListViewController.swift */; };
 		04448A3B1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04448A3A1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift */; };
-		04678D031A48D0B900190685 /* GRCategoryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04678D021A48D0B900190685 /* GRCategoryService.swift */; };
 		04678D061A48D30500190685 /* IPOGRCategoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04678D051A48D30500190685 /* IPOGRCategoriesViewController.swift */; };
 		04678D081A48DD0F00190685 /* IPOGRDepartmentCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04678D071A48DD0F00190685 /* IPOGRDepartmentCollectionViewCell.swift */; };
 		0477EA911A707094008142D7 /* List.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0477EA901A707094008142D7 /* List.swift */; };
@@ -647,7 +646,6 @@
 		04448A361A9E74AF006AFEC4 /* IPAUserListViewContainerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAUserListViewContainerController.swift; sourceTree = "<group>"; };
 		04448A371A9E74AF006AFEC4 /* IPAUserListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAUserListViewController.swift; sourceTree = "<group>"; };
 		04448A3A1A9E83C3006AFEC4 /* IPAUserListDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IPAUserListDetailViewController.swift; sourceTree = "<group>"; };
-		04678D021A48D0B900190685 /* GRCategoryService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GRCategoryService.swift; path = Shared/Services/Home/GRCategoryService.swift; sourceTree = "<group>"; };
 		04678D051A48D30500190685 /* IPOGRCategoriesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOGRCategoriesViewController.swift; path = iPhone/Controller/Categories/IPOGRCategoriesViewController.swift; sourceTree = "<group>"; };
 		04678D071A48DD0F00190685 /* IPOGRDepartmentCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IPOGRDepartmentCollectionViewCell.swift; path = iPhone/View/Categories/IPOGRDepartmentCollectionViewCell.swift; sourceTree = "<group>"; };
 		0477EA901A707094008142D7 /* List.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = List.swift; path = Shared/Model/Entity/List.swift; sourceTree = "<group>"; };
@@ -2397,7 +2395,6 @@
 		5680A0921A48C567009C5515 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				04678D021A48D0B900190685 /* GRCategoryService.swift */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -4148,7 +4145,6 @@
 				AC536D4319DB43CF007D2D42 /* HelpViewCell.swift in Sources */,
 				567D62DA1A23A0CA00F07881 /* IPAProductDetailBundleTableViewCell.swift in Sources */,
 				85A40B831C223AE40036C78A /* RatingAlertViewController.swift in Sources */,
-				04678D031A48D0B900190685 /* GRCategoryService.swift in Sources */,
 				5670FFF31A532BD000C29A5E /* IPOGRDepartmentSpecialTableViewCell.swift in Sources */,
 				85A40B931C223AE40036C78A /* Result.swift in Sources */,
 				5601716B1A9549590029786B /* GRSendOrderService.swift in Sources */,

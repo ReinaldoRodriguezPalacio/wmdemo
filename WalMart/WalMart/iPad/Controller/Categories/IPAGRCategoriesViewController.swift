@@ -63,8 +63,8 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     }
     
     func loadDepartments() -> [AnyObject]? {
-        let serviceCategory = GRCategoryService()
-        self.items = serviceCategory.getCategoriesContent()
+        let serviceCategory = CategoryService()
+        self.items = serviceCategory.getCategoriesContent(from: "gr")
         colCategories.delegate = self
         colCategories.dataSource = self
         return self.items

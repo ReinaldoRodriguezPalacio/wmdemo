@@ -100,8 +100,8 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     }
     
     func loadDepartments() -> [AnyObject]? {
-        let serviceCategory = GRCategoryService()
-        self.items = serviceCategory.getCategoriesContent()
+        let serviceCategory = CategoryService()
+        self.items = serviceCategory.getCategoriesContent(from: "gr")
         return self.items
     }
     

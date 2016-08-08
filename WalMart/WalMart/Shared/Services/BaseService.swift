@@ -411,6 +411,8 @@ class BaseService : NSObject {
                     let name = item["description"] as! String
                     let idDepto = item["idDepto"] as! String
                     let famArray : AnyObject = item["family"] as AnyObject!
+                    let bussines = item["bussines"] as! String
+                    
                     
                     for itemFamily in famArray as! [AnyObject] {
                         let idFamily = itemFamily["id"] as! String
@@ -419,7 +421,7 @@ class BaseService : NSObject {
                         for itemLine in lineArray as! [AnyObject] {
                             let idLine =  itemLine["id"] as! String
                             let nameLine =  itemLine["name"] as! String
-                            let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:type, idLine:idLine)
+                            let select = WalMartSqliteDB.instance.buildFindCategoriesKeywordQuery(categories: nameLine, departament: "\(name) > \(namefamily)", type:bussines, idLine:idLine)
                             if let rs = db.executeQuery(select, withArgumentsInArray:nil) {
                                 var exist = false
                                 while rs.next() {
@@ -433,7 +435,7 @@ class BaseService : NSObject {
                                 }
                             }
                             
-                            let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:type, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
+                            let query = WalMartSqliteDB.instance.buildInsertCategoriesKeywordQuery(forCategorie: nameLine, andDepartament: name, andType:bussines, andLine:idLine, andFamily:idFamily, andDepto:idDepto,family:namefamily,line:nameLine)
                             db.executeUpdate(query, withArgumentsInArray: nil)
                             
                             

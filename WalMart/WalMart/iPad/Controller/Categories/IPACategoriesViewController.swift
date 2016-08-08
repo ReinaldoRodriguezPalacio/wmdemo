@@ -45,7 +45,7 @@ class IPACategoriesViewController : BaseController ,UICollectionViewDataSource, 
         
         
         let serviceCategory = CategoryService()
-        items = serviceCategory.getCategoriesContent()
+        items = serviceCategory.getCategoriesContent(from: "mg")
         
         categories.registerClass(IPACategoryCollectionViewClass.self, forCellWithReuseIdentifier: "categoryCell")
         categories.delegate = self
