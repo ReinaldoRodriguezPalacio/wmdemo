@@ -26,6 +26,16 @@ class GRAddItemListService: GRBaseService {
         return ["longDescription" : "", "quantity" : quantity, "upc" : upc, "pesable" : pesable, "equivalenceByPiece" : "", "promoDescription" : "", "productIsInStores" : ""]
     }
     
+    func buildItemMustang(upc:String,sku:String,quantity:Int) -> NSDictionary {
+        return ["upc":upc,"skuId":sku,"quantity":quantity]
+    
+    }
+    
+    func buildItemMustangObject(idList idList:String, upcs:[AnyObject]) -> NSDictionary {
+        return ["profileId":UserCurrentSession.hasLoggedUser() ?  UserCurrentSession.sharedInstance().userSigned!.idUser : "","idList":idList,"items":upcs]
+    }
+    
+    
     func callService(params:NSDictionary, successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)?) {
         var toSneditem : [String:AnyObject] = [:]
         let arrayItems = params["itemArrImp"] as! NSArray
