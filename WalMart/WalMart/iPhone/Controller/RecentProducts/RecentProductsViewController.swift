@@ -16,7 +16,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     
     var recentProducts : UITableView!
     var recentProductItems : [AnyObject] = []
-    var recentLineItems : [AnyObject] = []
+    
     var viewLoad : WMLoadingView!
     var emptyView : IPOGenericEmptyView!
     var invokeStop  = false
@@ -77,7 +77,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
     func invokeRecentProducts(){
         let service = GRRecentProductsService()
         service.callService({ (resultado:NSDictionary) -> Void in
-            self.adjustDictionary(resultado)
+            self.contResult(resultado)
+            self.recentProductItems = RecentProductsViewController.adjustDictionary(resultado["responseArray"]!) as! [AnyObject]
             self.recentProducts.reloadData()
             if self.viewLoad != nil {
                 self.viewLoad.stopAnnimating()
@@ -92,22 +93,29 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         })
     }
     
+    func contResult(resultDictionary: NSDictionary) {
+        let productItemsOriginal = resultDictionary["responseArray"] as! [AnyObject]
+        
+        if productItemsOriginal.count > 0{
+            let titleBasic = self.titleLabel?.text
+            self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
+        }
+    }
+    
     /**
      Create a dictionary of items by grouping them sections
      
      - parameter resultDictionary: NSDictionary recent products service
      */
-    func adjustDictionary(resultDictionary: NSDictionary){
-        var productItemsOriginal = resultDictionary["responseArray"] as! [AnyObject]
+    class func adjustDictionary(resultDictionary: AnyObject) -> AnyObject {
+        var recentLineItems : [AnyObject] = []
+        
+        let productItemsOriginal = resultDictionary//["responseArray"] as! [AnyObject]
         var objectsFinal : [NSDictionary] = []
         var indi = 0
     
         //search different lines and add in NSDictionary
         if productItemsOriginal.count > 0 {
-            
-            let titleBasic = self.titleLabel?.text
-            self.titleLabel?.text = productItemsOriginal.count == 1 ? titleBasic! + " (\(productItemsOriginal.count))" : titleBasic! + " (\(productItemsOriginal.count))"
-            
             var flagOther = false
             
             for idx in 0 ..< productItemsOriginal.count {
@@ -116,17 +124,20 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                 if objProduct["line"] != nil {
                     let lineObj = objProduct["line"] as! NSDictionary
                     
+                    
                     if indi == 0 {
                         //self.recentLineItems.insert(lineObj, atIndex: indi)
-                        self.recentLineItems.append(lineObj["name"] as! String)
+                        recentLineItems.append(lineObj["name"] as! String == "" ? "Otros" : lineObj["name"] as! String)
                         indi = indi + 1
+                        flagOther = false
                     } else {
                         //Compare
                         var flagInsert = true
-                        for indx in 0 ..< self.recentLineItems.count {
-                            let obj =  self.recentLineItems[indx]
+                        for indx in 0 ..< recentLineItems.count {
+                            let obj =  recentLineItems[indx]
                             //if obj["name"] as! String == lineObj["name"] as! String{
                             if obj as! String == lineObj["name"] as! String{
+                                flagOther = false
                                 flagInsert = false
                             }
                             if lineObj["name"] as! String == "Otros" || lineObj["name"] as! String == ""{//obj
@@ -136,7 +147,7 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
                         }
                         if flagInsert {
                             //self.recentLineItems.insert(lineObj, atIndex: indi)
-                            self.recentLineItems.append(lineObj["name"] as! String)
+                            recentLineItems.append(lineObj["name"] as! String)
                             indi = indi + 1
                         }
                     }
@@ -146,24 +157,26 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
             }
             
             //Order Ascending array final
-            let sortedArray = self.recentLineItems.sort {$0.localizedCaseInsensitiveCompare($1 as! String) == NSComparisonResult.OrderedAscending }
-            self.recentLineItems = sortedArray
+            let sortedArray = recentLineItems.sort {$0.localizedCaseInsensitiveCompare($1 as! String) == NSComparisonResult.OrderedAscending }
+            recentLineItems = sortedArray
             
             if flagOther{
                 //self.recentLineItems.append(["id" : 0, "name" : "Otros"])
-                self.recentLineItems.append("Otros")
+                if recentLineItems[0] as! String != "" && recentLineItems.count != 1 {
+                    recentLineItems.append("Otros")
+                }
             }
         }
         
         //add products NSDictionary in each lines
-        for indx in 0 ..< self.recentLineItems.count {
+        for indx in 0 ..< recentLineItems.count {
             var objectsLine : [NSDictionary] = []
             var indLine = 0
             var lineString = ""
             
             for idx in 0 ..< productItemsOriginal.count {
                 let objProduct = productItemsOriginal[idx] as! NSDictionary
-                let obj = self.recentLineItems[indx]
+                let obj = recentLineItems[indx]
                 
                 if obj as? String == "Otros"{
                     if objProduct["line"] != nil {
@@ -194,7 +207,8 @@ class RecentProductsViewController : NavigationViewController, UITableViewDataSo
         }
         
         //Add Dictionay final in self.recentProductItems
-        self.recentProductItems = objectsFinal
+        //self.recentProductItems = objectsFinal
+        return objectsFinal
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

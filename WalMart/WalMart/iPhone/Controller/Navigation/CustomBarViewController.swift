@@ -1225,6 +1225,11 @@ class CustomBarViewController: BaseController, UITabBarDelegate, ShoppingCartVie
     }
     
     func addtoShopingCar(){
+        /*
+        let shoppingController = ShoppingCartViewController()
+        shoppingController.delegate = self
+        self.presentViewController(shoppingController, animated: true, completion: nil)
+        */
         self.addChildViewController(shoppingCartVC)
         shoppingCartVC.view.frame = self.container!.frame
         self.view.addSubview(shoppingCartVC.view)

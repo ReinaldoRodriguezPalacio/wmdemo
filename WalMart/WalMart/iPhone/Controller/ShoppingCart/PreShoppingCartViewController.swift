@@ -100,6 +100,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
             let articlesStr = NSLocalizedString("shoppingcart.articles",comment:"")
             //let noArticlesStr = NSLocalizedString("shoppingcart.noarticles",comment:"")
             let noArticlesGrStr = NSLocalizedString("shoppingcart.noarticles.gr",comment:"")
+            
             let totArticlesGR = UserCurrentSession.sharedInstance().numberOfArticlesGR()
             let articlesInCart = totArticlesGR > 0 ? "\(totArticlesGR) \(articlesStr)" : noArticlesGrStr
             self.viewSuper.setValues(WMColor.green,imgBgName:"preCart_super_banner", imgIconName: "preCart_super_icon",title:self.optionsShoppingCart[0],articles:articlesInCart,total:"\(UserCurrentSession.sharedInstance().estimateTotalGR())",totalColor:WMColor.green,empty:totArticlesGR == 0)
@@ -111,7 +112,9 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
 //            }
             
             self.viewSuper.tapAction =  { () -> Void in
-                if totArticlesGR > 0 {
+                
+                //No action by Super
+                /*if totArticlesGR > 0 {
                     //Event
                     BaseController.sendAnalytics(WMGAIUtils.CATEGORY_PRE_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_GR_OPEN_SHOPPING_CART.rawValue, label: "")
                     
@@ -121,7 +124,7 @@ class PreShoppingCartViewController : IPOBaseController,UIDynamicAnimatorDelegat
                     //Event
                     BaseController.sendAnalytics(WMGAIUtils.GR_CATEGORY_EMPTY_SHOPPING_CART.rawValue, action: WMGAIUtils.ACTION_OPEN_SHOPPING_CART_SUPER.rawValue, label: "")
                     NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.ClearShoppingCartGR.rawValue, object: nil)
-                }
+                }*/
             }
             
             

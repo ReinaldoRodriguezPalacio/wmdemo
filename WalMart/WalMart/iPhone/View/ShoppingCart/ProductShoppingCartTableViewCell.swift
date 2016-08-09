@@ -34,6 +34,13 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
     var imagePresale : UIImageView!
     var productDeparment: String = ""
     
+    var equivalenceByPiece: NSNumber! = NSNumber(int:0)
+    var typeProd : Int = 0
+    var comments : String! = ""
+    var pesable : Bool = false
+    
+    
+    
     override func setup() {
         super.setup()
         imagePresale =  UIImageView(image: UIImage(named: "preventa_home"))
@@ -117,6 +124,56 @@ class ProductShoppingCartTableViewCell : ProductTableViewCell,SelectorBandDelega
         }
         let size = ShoppingCartButton.sizeForQuantityWithoutIcon(quantity,pesable:false,hasNote:false)
         self.priceSelector.frame = CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
+    }
+    
+    func setValuesGR(upc:String,productImageURL:String,productShortDescription:String,productPrice:NSString,saving:NSString,quantity:Int,onHandInventory:NSString,typeProd:Int, comments:NSString,equivalenceByPiece:NSNumber) {
+        self.equivalenceByPiece = equivalenceByPiece
+        self.priceProduct = productPrice.doubleValue
+        self.upc = upc
+        self.desc = productShortDescription
+        self.price = productPrice
+        self.imageurl = productImageURL
+        self.onHandInventory = onHandInventory
+        self.quantity = quantity
+        self.typeProd = typeProd
+        self.comments = comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        
+        var totalInProducts = productPrice.doubleValue * Double(quantity)
+        if self.typeProd == 1 {
+            totalInProducts = (productPrice.doubleValue / 1000.0) * Double(quantity)
+            pesable = true
+        } else {
+            pesable = false
+        }
+        
+        let totalPrice = NSString(format: "%.2f", totalInProducts)
+        
+        super.setValues(productImageURL, productShortDescription: productShortDescription, productPrice: totalPrice as String)
+        let formatedPrice = CurrencyCustomLabel.formatString(totalPrice)
+        productPriceLabel!.updateMount(formatedPrice, font: WMFont.fontMyriadProSemiboldSize(18), color: WMColor.orange, interLine: false)
+        
+        priceSelector.setValues(self.upc, quantity: quantity, hasNote: self.comments != "", aviable: true, pesable: typeProd == 1)
+        
+        if saving != "" {
+            //productPriceSavingLabel.text = saving as String
+            productPriceSavingLabel!.updateMount(saving as String, font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
+            
+            productPriceSavingLabel.hidden = true
+        }else{
+            self.savingProduct = 0
+            productPriceSavingLabel!.updateMount("", font: WMFont.fontMyriadProSemiboldSize(14), color:  WMColor.green, interLine: false)
+            productPriceSavingLabel.hidden = true
+        }
+        
+        
+        //        if self.quantity != nil &&  width == 0 {
+        //            let sizeQ = priceSelector.sizeForQuantity(self.quantity, pesable: self.pesable,hasNote:self.comments != "")
+        //            self.width = sizeQ.width
+        //        }
+        
+        // priceSelector.frame =  CGRectMake((self.frame.width - 16) -  width!, self.productPriceLabel!.frame.minY, width!, 30)
+        let size = ShoppingCartButton.sizeForQuantity(quantity,pesable:pesable,hasNote:self.comments != "")
+        priceSelector.frame =  CGRectMake((self.frame.width - 16) -  size.width, self.productPriceLabel!.frame.minY, size.width, 30)
     }
     
     func addProductQuantity(quantity:Int) {

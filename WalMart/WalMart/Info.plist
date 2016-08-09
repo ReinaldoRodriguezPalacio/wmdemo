@@ -562,7 +562,7 @@
 			<key>WalmartMG.ShoppingCartDeleteProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/deleteShoppingCartItem</string>
 			<key>WalmartMG.ShoppingCartProductsService</key>
-			<string>https://www.walmartmobile.com.mx/walmartmg/list/getShoppingCartByUser</string>
+			<string>https://dl.dropboxusercontent.com/u/49807601/shoppingCartAll.json</string>
 			<key>WalmartMG.ShoppingCartUpdateProductsService</key>
 			<string>https://www.walmartmobile.com.mx/walmartmg/list/updateShoppingCartItem</string>
 			<key>WalmartMG.SignUpService</key>

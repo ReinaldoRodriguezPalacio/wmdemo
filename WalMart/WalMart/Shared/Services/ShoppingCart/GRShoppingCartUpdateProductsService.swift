@@ -31,12 +31,12 @@ class GRShoppingCartUpdateProductsService : GRShoppingCartAddProductsService {
             }
             self.callPOSTService(itemsSvc, successBlock: { (resultCall:NSDictionary) -> Void in
                 
-                if updateSC {
+                /*if updateSC {
                     let shoppingService = GRShoppingCartProductsService()
                     shoppingService.callService(requestParams: [:], successBlock: successBlock, errorBlock: errorBlock)
-                }else{
+                }else{*/
                     successBlock!([:])
-                }
+                //}
                 }) { (error:NSError) -> Void in
                     errorBlock!(error)
             }

@@ -18,6 +18,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var viewLoad : WMLoadingView!
     
     var itemsInShoppingCart : [AnyObject]! = []
+    var itemsInCartOrderSection : [AnyObject]! = []
     var subtotal : NSNumber!
     var ivaprod : NSNumber!
     var totalest : NSNumber!
@@ -30,6 +31,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     var titleView : UILabel!
     var buttonWishlist : UIButton!
     //var addProductToShopingCart : UIButton? = nil
+    
+    var listObj : NSDictionary!
+    var productObje : NSArray!
+    
+    var heightHeaderTable : CGFloat = IS_IPAD ? 40.0 : 26.0
+    var itemSelect = 0
     
     var closeButton : UIButton!
     
@@ -61,7 +68,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     
     var emptyView : IPOShoppingCartEmptyView!
     var totalShop: Double = 0.0
-    var selectQuantity: ShoppingCartQuantitySelectorView?
+    var selectQuantity: GRShoppingCartQuantitySelectorView?
 
     
     override func getScreenGAIName() -> String {
@@ -253,9 +260,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
         idexesPath = []
         
-        self.itemsInShoppingCart =  []
+        //self.itemsInShoppingCart =  []
+        self.itemsInCartOrderSection = []
+        
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject]) as! [AnyObject]
+            self.arrayItems()
         }
         
         if self.itemsInShoppingCart.count == 0 {
@@ -368,6 +380,25 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     /**
+    Add array items products in self.itemsInShoppingCart
+     */
+    func arrayItems(){
+        self.itemsInShoppingCart =  []
+        var ind = 0
+        
+        for itemSection in 0 ..< self.itemsInCartOrderSection.count {
+            listObj = self.itemsInCartOrderSection[itemSection] as! NSDictionary
+
+                productObje = listObj["products"] as! [AnyObject]
+                
+            for prodSection in 0 ..< productObje.count {
+                self.itemsInShoppingCart.insert(productObje[prodSection], atIndex: ind)//as! NSArray
+                    ind = ind + 1
+                }
+            }
+        }
+    
+    /**
      Animation from whislist icon
      
      - parameter view:      view icon
@@ -386,57 +417,126 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
     }
     
-    //MARK : TableviewDelegate
+    //MARK: - TableviewDelegate
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if itemsInShoppingCart.count > 0{
-            if itemsUPC.count > 0 {
-                return itemsInShoppingCart.count + 2
-            }else {
-                return itemsInShoppingCart.count + 1
-            }
+        listObj = self.itemsInCartOrderSection[section] as! NSDictionary
+            productObje = listObj["products"] as! NSArray
+            
+        if section == (self.itemsInCartOrderSection.count - 1) {
+            return productObje!.count + 2
+            } else {
+            return productObje!.count
         }
-        return 1
+        //return 1
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return heightHeaderTable
+        }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    
+        //let headerView = UIView(frame: CGRectMake(0.0, -30.0, self.view.frame.width, heightHeaderTable))
+        let headerView : UIView = UIView(frame: CGRectMake(0.0, -30.0, self.view.frame.width, heightHeaderTable))
+        headerView.backgroundColor = UIColor.whiteColor()
+        let titleLabel = UILabel(frame: CGRectMake(15.0, 0.0, self.view.frame.width, heightHeaderTable))
+        
+        listObj = self.itemsInCartOrderSection[section] as! NSDictionary
+        titleLabel.text = listObj["name"] as? String
+        titleLabel.textColor = WMColor.light_blue
+        titleLabel.font = WMFont.fontMyriadProRegularOfSize(12)
+        headerView.addSubview(titleLabel)
+        
+        return headerView
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return self.itemsInCartOrderSection.count
     }
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         var cell : UITableViewCell? = nil
-        if itemsInShoppingCart.count > indexPath.row {
+        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+            productObje = listObj["products"] as! NSArray
+            
+        var flagSectionCel = false
+        if (itemsInCartOrderSection.count - 1) != indexPath.section {
+            flagSectionCel = true
+        } else {
+            flagSectionCel = productObje.count > indexPath.row ? true : false
+        }
+        
+        //var flagSection = itemsInCartOrderSection.count != indexPath.section ? true : false
+        if flagSectionCel{
             let cellProduct = viewShoppingCart.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! ProductShoppingCartTableViewCell
             cellProduct.delegateProduct = self
             cellProduct.delegate = self
             cellProduct.rightUtilityButtons = getRightButtonDelete()
             cellProduct.setLeftUtilityButtons(getLeftDelete(), withButtonWidth: 36.0)
-            let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
+            //let shoppingCartProduct = self.itemsInShoppingCart![indexPath.row] as! [String:AnyObject]
+            //let listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+            //let prodObj = listObj["products"] as! NSArray
+            let shoppingCartProduct = productObje[indexPath.row] //as! NSDictionary
             let upc = shoppingCartProduct["upc"] as! String
             let desc = shoppingCartProduct["description"] as! String
-            let price = shoppingCartProduct["price"] as! String
-            let quantity = shoppingCartProduct["quantity"] as! NSString
+            var price : NSString = ""
+            if let priceValue = shoppingCartProduct["price"] as? NSNumber{
+                price = priceValue.stringValue
+            }
+            if let priceValueS = shoppingCartProduct["price"] as? NSString{
+                price = priceValueS
+            }
+            //let quantity = shoppingCartProduct["quantity"] as! NSString
+            var quantity : NSString = ""
+            if let quantityValue = shoppingCartProduct["quantity"] as? NSNumber{
+                quantity = quantityValue.stringValue
+            }
+            if let quantityValueS = shoppingCartProduct["quantity"] as? NSString{
+                quantity = quantityValueS
+            }
             
             var onHandInventory = "0"
             if let inventory = shoppingCartProduct["onHandInventory"] as? String {
                 onHandInventory = inventory
             }
             
-            
             var isPreorderable = "false"
             if let preorderable = shoppingCartProduct["isPreorderable"] as? String {
                 isPreorderable = preorderable
             }
-
-
-            let imageArray = shoppingCartProduct["imageUrl"] as! NSArray
+            
             var imageUrl = ""
-            if imageArray.count > 0 {
-                imageUrl = imageArray.objectAtIndex(0) as! String
+            if let imageVal = shoppingCartProduct["imageUrl"] as? String {
+                imageUrl = imageVal
             }
             
-            let savingIndex = shoppingCartProduct.indexForKey("saving")
+            //let savingIndex = shoppingCartProduct.indexForKey("saving")
             var savingVal = "0.0"
-            if savingIndex != nil {
-                savingVal = shoppingCartProduct["saving"]  as! String
+             if let savingIndex =  shoppingCartProduct["saving"]  as? String {
+                savingVal = savingIndex
             }
+            
+            //promoDescription of GR
+            if  let savingProd = shoppingCartProduct["promoDescription"] as? String {
+                savingVal = savingProd
+            }
+            
+            //equivalenceByPiece GR
+            var equivalenceByPiece = NSNumber(int:0)
+            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSNumber {
+                equivalenceByPiece = equivalence
+            }
+            
+            if let equivalence = shoppingCartProduct["equivalenceByPiece"] as? NSString {
+                if equivalence != "" {
+                    equivalenceByPiece =  NSNumber(int: equivalence.intValue)
+                }
+            }
+            
+            //comments GR
+            let comments = shoppingCartProduct["comments"] as? String
             
             var productDeparment = ""
             if let category = shoppingCartProduct["category"] as? String{
@@ -445,7 +545,27 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             
             //updateItemSavingForUPC(indexPath,upc:upc)
             
-            cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment)
+            //type of GR
+            var typeProdVal : Int = 0
+            var flagSuper = false
+            if shoppingCartProduct["type"] as? NSNumber == 1{
+                typeProdVal = (shoppingCartProduct["type"] as? Int)!
+                flagSuper = true
+            }
+            
+            //SetValues
+            if flagSuper {
+                // GR typeProdVal
+                if typeProdVal != 1 {
+                    cellProduct.setValuesGR(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal, quantity: quantity.integerValue, onHandInventory: "99", typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
+                } else {
+                    cellProduct.setValuesGR(upc, productImageURL: imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal, quantity: quantity.integerValue, onHandInventory: "20000", typeProd:typeProdVal, comments:comments == nil ? "" : comments!,equivalenceByPiece:equivalenceByPiece)
+                }
+            } else {
+                //tecnologia
+                cellProduct.setValues(upc,productImageURL:imageUrl, productShortDescription: desc, productPrice: price, saving: savingVal,quantity:quantity.integerValue,onHandInventory:onHandInventory,isPreorderable: isPreorderable, category:productDeparment)
+            }
+            
             //
             //cellProduct.priceSelector.closeBand()
             //cellProduct.endEdditingQuantity()
@@ -457,13 +577,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 cellProduct.setEditing(false, animated: false)
                 cellProduct.hideUtilityButtonsAnimated(false)
                 cellProduct.moveRightImagePresale(false)
-                
             }
             
             cell = cellProduct
         }
         else {
-            if itemsInShoppingCart.count == indexPath.row  {
+            if productObje.count == indexPath.row  {
                 let cellTotals = viewShoppingCart.dequeueReusableCellWithIdentifier("productTotalsCell", forIndexPath: indexPath) as! ShoppingCartTotalsTableViewCell
                 
                 let totalsItems = totalItems()
@@ -480,9 +599,7 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
                 cell = cellTotals
-            }
-            if itemsInShoppingCart.count < indexPath.row  {
-                
+            } else { //if productObje.count < indexPath.row
                 let cellPromotion = viewShoppingCart.dequeueReusableCellWithIdentifier("crossSellCell", forIndexPath: indexPath) as? ShoppingCartCrossSellCollectionViewCell
                 cellPromotion!.delegate = self
                 cellPromotion!.itemsUPC = itemsUPC
@@ -499,12 +616,21 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+        productObje = listObj["products"] as! NSArray
+
+        if indexPath.section == (itemsInCartOrderSection.count - 1) {
+            if productObje.count <= indexPath.row {
+                return
+            }
+        }
+        
         if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
             let controller = ProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems()
-            controller.ixSelected = indexPath.row
+            controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+            controller.ixSelected = self.itemSelect//indexPath.row
             
-            let item = self.itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+            let item = productObje[indexPath.row] as! [String:AnyObject]
             let  name = item["description"] as! String
             let upc = item["upc"] as! String
             //EVENT
@@ -523,13 +649,23 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
 
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if itemsInShoppingCart.count > indexPath.row {
+        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+            productObje = listObj["products"] as! NSArray
+
+        var flagSectionCel = false
+        if (itemsInCartOrderSection.count - 1) != indexPath.section {
+            flagSectionCel = true
+        } else {
+            flagSectionCel = productObje.count > indexPath.row ? true : false
+        }
+        
+        if flagSectionCel {
             return 110
         }else{
-            if itemsInShoppingCart.count == indexPath.row  {
+            if productObje.count == indexPath.row  {
                 return 100
             }
-            if itemsInShoppingCart.count < indexPath.row  {
+            if productObje.count < indexPath.row  {
                 return 207
             }
         }
@@ -675,8 +811,86 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
     func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
             let frameDetail = CGRectMake(0,0, self.view.frame.width,self.view.frame.height)
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
-            let text = String(cell.quantity).characters.count < 2 ? "0" : ""
+            
+            //GRShoppingCartWeightSelectorView
+            //cell.typeProd
+            
+            if cell.typeProd == 1 {
+                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+            } else {
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            }
+            
+            selectQuantity?.addToCartAction = { (quantity:String) in
+                //let quantity : Int = quantity.toInt()!
+                
+                if cell.onHandInventory.integerValue >= Int(quantity) {
+                    self.selectQuantity?.closeAction()
+                    
+                    if cell.typeProd == 0 {
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_PIECES.rawValue, label: "")
+                    } else {
+                        BaseController.sendAnalytics(WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, categoryNoAuth: WMGAIUtils.CATEGORY_SHOPPING_CART_SUPER.rawValue, action: WMGAIUtils.ACTION_CHANGE_NUMER_OF_KG.rawValue, label: "")
+                    }
+                    
+                    let params = self.buildParamsUpdateShoppingCart(cell,quantity: quantity)
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.AddUPCToShopingCart.rawValue, object: self, userInfo: params)
+                } else {
+                    let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
+                    
+                    let firstMessage = NSLocalizedString("productdetail.notaviableinventory",comment:"")
+                    
+                    var secondMessage = NSLocalizedString("productdetail.notaviableinventoryart",comment:"")
+                    
+                    if cell.pesable {
+                        secondMessage = NSLocalizedString("productdetail.notaviableinventorywe",comment:"")
+                    }
+                    
+                    let msgInventory = "\(firstMessage)\(cell.onHandInventory) \(secondMessage)"
+                    alert!.setMessage(msgInventory)
+                    alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
+                }
+                
+                
+            }
+            
+            selectQuantity?.addUpdateNote = {() in
+                let vc : UIViewController? = UIApplication.sharedApplication().keyWindow!.rootViewController
+                let frame = vc!.view.frame
+                
+                
+                let addShopping = ShoppingCartUpdateController()
+                let paramsToSC = self.buildParamsUpdateShoppingCart(cell,quantity: "\(cell.quantity)")
+                addShopping.params = paramsToSC
+                vc!.addChildViewController(addShopping)
+                addShopping.view.frame = frame
+                vc!.view.addSubview(addShopping.view)
+                addShopping.didMoveToParentViewController(vc!)
+                addShopping.typeProduct = ResultObjectType.Groceries
+                addShopping.comments = cell.comments
+                addShopping.goToShoppingCart = {() in }
+                addShopping.removeSpinner()
+                addShopping.addActionButtons()
+                addShopping.addNoteToProduct(nil)
+                
+                
+                
+            }
+            selectQuantity?.userSelectValue(String(cell.quantity))
+            selectQuantity?.first = true
+            if cell.comments.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()) != "" {
+                selectQuantity!.setTitleCompleteButton(NSLocalizedString("shoppingcart.updateNote",comment:""))
+            }else {
+                selectQuantity!.setTitleCompleteButton(NSLocalizedString("shoppingcart.addNote",comment:""))
+            }
+            selectQuantity?.showNoteButtonComplete()
+            selectQuantity?.closeAction = { () in
+                self.selectQuantity!.removeFromSuperview()
+                
+            }
+            
+            /*let text = String(cell.quantity).characters.count < 2 ? "0" : ""
             self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
             self.selectQuantity!.updateQuantityBtn()
             selectQuantity!.closeAction = { () in
@@ -700,9 +914,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                     alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
                     self.selectQuantity!.lblQuantity?.text = maxProducts < 10 ? "0\(maxProducts)" : "\(maxProducts)"
                 }
-            }
+            }*/
             self.view.addSubview(selectQuantity!)
         }
+    }
+    
+    func buildParamsUpdateShoppingCart(cell:ProductShoppingCartTableViewCell,quantity:String) -> [String:AnyObject] {
+        let pesable = cell.pesable ? "1" : "0"
+        return ["upc":cell.upc,"desc":cell.desc,"imgUrl":cell.imageurl,"price":cell.price,"quantity":quantity,"comments":cell.comments,"onHandInventory":cell.onHandInventory,"wishlist":false,"type":ResultObjectType.Groceries.rawValue,"pesable":pesable]
     }
     
     //MARK: SWTableViewCellDelegate
@@ -760,17 +979,41 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      - parameter indexPath: selected row
      */
     func deleteRowAtIndexPath(indexPath : NSIndexPath){
-        let itemWishlist = itemsInShoppingCart[indexPath.row] as! [String:AnyObject]
+        //getUPCItems
+        self.showLoadingView()
+        listObj = self.itemsInCartOrderSection[indexPath.section] as! NSDictionary
+        productObje = listObj["products"] as! NSArray
+        let itemWishlist = productObje[indexPath.row] as! [String:AnyObject]
         let upc = itemWishlist["upc"] as! String
         let deleteShoppingCartService = ShoppingCartDeleteProductsService()
         let descriptions =  itemWishlist["description"] as! String
         BaseController.sendAnalytics(WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, categoryNoAuth: WMGAIUtils.MG_CATEGORY_SHOPPING_CART_AUTH.rawValue, action: WMGAIUtils.ACTION_DELETE_PRODUCT_CART.rawValue, label: "\(descriptions) - \(upc)")
         
         deleteShoppingCartService.callCoreDataService(upc, successBlock: { (result:NSDictionary) -> Void in
-            self.itemsInShoppingCart.removeAtIndex(indexPath.row)
+            //self.idexesPath = []
             
-            self.viewShoppingCart.reloadData()
+            //self.viewShoppingCart.beginUpdates()
+            self.itemsInCartOrderSection = []
+
+            if UserCurrentSession.sharedInstance().itemsMG != nil {
+                //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+                let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+                self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject]) as! [AnyObject]
+                self.arrayItems()
+            }
+            /*self.itemsInShoppingCart.removeAtIndex(indexPath.row)
+             self.itemsInCartOrderSection.removeAtIndex(indexPath.row)
+             */
+            
+            //self.viewShoppingCart.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Left)
+            
+            
+            self.loadShoppingCartService()
+            
             self.updateTotalItemsRow()
+            self.viewShoppingCart.reloadData()
+            
+            //self.viewShoppingCart.endUpdates()
             
             if self.itemsInShoppingCart.count == 0 {
                 self.navigationController!.popToRootViewControllerAnimated(true)
@@ -805,7 +1048,14 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         
         for shoppingCartProduct in  itemsInShoppingCart {
             let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
-            let price = shoppingCartProduct["price"] as! NSString
+            
+            var price : NSString = ""
+            if let priceValue = shoppingCartProduct["price"] as? NSNumber{
+                price = priceValue.stringValue
+            }
+            if let priceValueS = shoppingCartProduct["price"] as? NSString{
+                price = priceValueS
+            }
             
             var iva : NSString = ""
             if let ivabase = shoppingCartProduct["ivaAmount"] as? NSString {
@@ -829,8 +1079,6 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
             if let quantityN = shoppingCartProduct["quantity"] as? NSNumber {
                 quantity = quantityN.stringValue
             }
-
-
             //let quantity = shoppingCartProduct["quantity"] as NSString
             
             let savingIndex = dictShoppingCartProduct.indexForKey("saving")
@@ -839,7 +1087,12 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 savingVal = shoppingCartProduct["saving"]  as! String
                 totalSavings += (savingVal.doubleValue * quantity.doubleValue)
             }
-            total +=  (price.doubleValue * quantity.doubleValue)
+            if shoppingCartProduct["type"] as? NSNumber == 0 {
+                total +=  (price.doubleValue * quantity.doubleValue)
+            } else {
+                total +=  ((quantity.doubleValue / 1000.0 ) * price.doubleValue)
+            }
+            
             if showIva {
                 if iva != "" {
                     subtotal +=  (baseprice.doubleValue * quantity.doubleValue)
@@ -876,7 +1129,13 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
         var upc = ""
            for shoppingCartProduct in  itemsInShoppingCart {
             //let dictShoppingCartProduct = shoppingCartProduct as! [String:AnyObject]
-            let price = shoppingCartProduct["price"] as! NSString
+            var price : NSString = ""
+            if let priceValue = shoppingCartProduct["price"] as? NSNumber{
+                price = priceValue.stringValue
+            }
+            if let priceValueS = shoppingCartProduct["price"] as? NSString{
+                price = priceValueS
+            }
             if price.doubleValue < priceLasiItem {
                 continue
             }
@@ -890,13 +1149,24 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      
      - returns: array products in cart
      */
-    func getUPCItems() -> [[String:String]] {
+    func getUPCItems(section: Int, row: Int) -> [[String:String]] {
 
         var upcItems : [[String:String]] = []
-        for shoppingCartProduct in  itemsInShoppingCart {
-            let upc = shoppingCartProduct["upc"] as! String
-            let desc = shoppingCartProduct["description"] as! String
-            upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
+        var countItems = 0
+        
+        //Get UPC of All items
+         for sect in 0 ..< self.itemsInCartOrderSection.count {
+            let lineItems = self.itemsInCartOrderSection[sect]
+            let productsline = lineItems["products"]
+            for idx in 0 ..< productsline!.count {
+                if section == sect && row == idx {
+                    self.itemSelect = countItems
+                }
+                let upc = productsline![idx]["upc"] as! String
+                let desc = productsline![idx]["description"] as! String
+                upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
+                countItems = countItems + 1
+            }
         }
         return upcItems
     }
@@ -1250,14 +1520,18 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
      Invoke cross Selling service, present related products in car
      */
     func loadCrossSell() {
-        if self.itemsInShoppingCart.count >  0 {
+         if self.itemsInCartOrderSection.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
             crossService.callService(upcValue, successBlock: { (result:NSArray?) -> Void in
                 if result != nil {
                     
                     var isShowingBeforeLeave = false
-                    if self.tableView(self.viewShoppingCart, numberOfRowsInSection: 0) == self.itemsInShoppingCart.count + 2 {
+                    let sectionMax = (self.itemsInCartOrderSection.count - 1)
+                    self.listObj = self.itemsInCartOrderSection[sectionMax] as! NSDictionary
+                    self.productObje = self.listObj["products"] as! NSArray
+                    
+                    if self.tableView(self.viewShoppingCart, numberOfRowsInSection: sectionMax) == self.productObje.count + 2{// + 2
                         isShowingBeforeLeave = true
                     }
                     
@@ -1276,11 +1550,11 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                         self.itemsUPC = NSArray(array:resultArray)
                         
                     }
-                    if self.itemsInShoppingCart.count >  0  {
+                     if self.itemsInCartOrderSection.count >  0  {
                         if self.itemsUPC.count > 0  && !isShowingBeforeLeave {
-                            self.viewShoppingCart.insertRowsAtIndexPaths([NSIndexPath(forItem: self.itemsInShoppingCart.count + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            self.viewShoppingCart.insertRowsAtIndexPaths([NSIndexPath(forItem: self.productObje.count + 1, inSection: sectionMax)], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }else{
-                            self.viewShoppingCart.reloadRowsAtIndexPaths([NSIndexPath(forItem: self.itemsInShoppingCart.count + 1, inSection: 0)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                            self.viewShoppingCart.reloadRowsAtIndexPaths([NSIndexPath(forItem: self.productObje.count + 1, inSection: sectionMax)], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }
                     }
                     //self.collection.reloadData()

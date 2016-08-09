@@ -112,9 +112,12 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         
         idexesPath = []
         
-        self.itemsInShoppingCart =  []
+        self.itemsInCartOrderSection =  []
         if UserCurrentSession.sharedInstance().itemsMG != nil {
-            self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            //self.itemsInShoppingCart = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            let itemsUserCurren = UserCurrentSession.sharedInstance().itemsMG!["items"] as! NSArray as [AnyObject]
+            self.itemsInCartOrderSection = RecentProductsViewController.adjustDictionary(itemsUserCurren as [AnyObject]) as! [AnyObject]
+            self.arrayItems()
         }
         if self.itemsInShoppingCart.count == 0 {
             self.navigationController?.popToRootViewControllerAnimated(true)
@@ -271,7 +274,9 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     }
 
    override func loadCrossSell() {
-        if self.itemsInShoppingCart.count >  0 {
+    for itemSection in 0 ..< itemsInShoppingCart.count {
+        let listObj = self.itemsInShoppingCart[itemSection] as! NSDictionary
+        if listObj.count >  0 {
             let upcValue = getExpensive()
             let crossService = CrossSellingProductService()
             crossService.callService(upcValue, successBlock: { (result:NSArray?) -> Void in
@@ -315,12 +320,14 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
         }
     }
     
+    }
+    
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if itemsInShoppingCart.count > indexPath.row && !isSelectingProducts  {
+        if itemsInCartOrderSection.count > indexPath.row && !isSelectingProducts  {
             let controller = IPAProductDetailPageViewController()
-            controller.itemsToShow = getUPCItems()
-            controller.ixSelected = indexPath.row
+            controller.itemsToShow = getUPCItems(indexPath.section, row: indexPath.row)
+            controller.ixSelected = self.itemSelect //indexPath.row
             //self.navigationController!.delegate = nil
             self.navigationController!.pushViewController(controller, animated: true)
         }
@@ -328,13 +335,23 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
        
     }
     
-    override func getUPCItems() -> [[String:String]] {
+    override func getUPCItems(section: Int, row: Int) -> [[String:String]] {
         
         var upcItems : [[String:String]] = []
-        for shoppingCartProduct in  itemsInShoppingCart {
-            let upc = shoppingCartProduct["upc"] as! String
-            let desc = shoppingCartProduct["description"] as! String
-            upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
+        var countItems = 0
+        //Get UPC of All items
+        for sect in 0 ..< self.itemsInCartOrderSection.count {
+            let lineItems = self.itemsInCartOrderSection[sect]
+            let productsline = lineItems["products"]
+            for idx in 0 ..< productsline!.count {
+                if section == sect && row == idx {
+                    self.itemSelect = countItems
+                    }
+                let upc = productsline![idx]["upc"] as! String
+                let desc = productsline![idx]["description"] as! String
+                upcItems.append(["upc":upc,"description":desc,"type":ResultObjectType.Mg.rawValue])
+                countItems = countItems + 1
+            }
         }
         
         
@@ -352,7 +369,11 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     override func userShouldChangeQuantity(cell:ProductShoppingCartTableViewCell) {
         if self.isEdditing == false {
             let frameDetail = CGRectMake(0, 0, 320, 568)
-            selectQuantity = ShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            if cell.typeProd == 1 {
+                selectQuantity = GRShoppingCartWeightSelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),quantity:cell.quantity,equivalenceByPiece:cell.equivalenceByPiece,upcProduct:cell.upc)
+            } else {
+                selectQuantity = GRShoppingCartQuantitySelectorView(frame:frameDetail,priceProduct:NSNumber(double:cell.price.doubleValue),upcProduct:cell.upc as String)
+            }
             let text = String(cell.quantity).characters.count < 2 ? "0" : ""
             self.selectQuantity!.lblQuantity.text = "\(text)"+"\(cell.quantity)"
             self.selectQuantity!.updateQuantityBtn()
@@ -399,7 +420,7 @@ class IPAShoppingCartViewController : ShoppingCartViewController {
     override func deleteAll() {
         let serviceSCDelete = ShoppingCartDeleteProductsService()
         var upcs : [String] = []
-        for itemSClist in self.itemsInShoppingCart {
+        for itemSClist in self.itemsInCartOrderSection {
             let upc = itemSClist["upc"] as! String
             upcs.append(upc)
         }
