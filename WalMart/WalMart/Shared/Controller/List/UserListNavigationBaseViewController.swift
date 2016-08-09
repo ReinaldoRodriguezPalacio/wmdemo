@@ -99,7 +99,7 @@ class UserListNavigationBaseViewController :  NavigationViewController {
         }
         let listIndexes = Set([1,2,3,4,5,6,7,8,9,10,11,12])
         let dispinibleIndex = listIndexes.subtract(arrayOfIndex).minElement()
-        let idxTxt = dispinibleIndex! == 1 ? NSLocalizedString("list.copy", comment: "") : "\(NSLocalizedString("list.copy", comment: "")) \(dispinibleIndex!)"
+        let idxTxt = dispinibleIndex! == 1 ? NSLocalizedString("list.copy.name", comment: "") : "\(NSLocalizedString("list.copy.name", comment: "")) \(dispinibleIndex!)"
         
         /*if self.existnameList("\(listName) \(idxTxt)"){
             idxTxt = lastIdx == 1 ? "copia" : "copia \(lastIdx++)"

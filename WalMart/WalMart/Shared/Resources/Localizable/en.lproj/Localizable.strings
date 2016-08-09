@@ -193,7 +193,7 @@
 "list.message.add.products.to.list" = "Agregando los productos a tu lista";
 "list.message.write.word.search" = "Escriba una palabra a buscar";
 "list.message.validation.characters" = "La longitud no puede ser mayor a 50 caracteres";
-"list.copy" = "copia";
+"list.copy.name" = "copia";
 
 //ShoppingCart
 "shoppingcart.additem" = "Añadiendo";
