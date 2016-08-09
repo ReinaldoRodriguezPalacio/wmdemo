@@ -72,9 +72,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
     
     override func viewWillLayoutSubviews() {
         self.header!.frame = CGRectMake(0, 0, self.view.bounds.width, 46.0)
-//        if CGRectEqualToRect(self.titleLabel!.frame, CGRectZero) {
-//            self.layoutTitleLabel()
-//        }
+
         self.backButton?.frame = CGRectMake(0, (self.header!.frame.height - 46.0)/2, 46.0, 46.0)
         if CGRectEqualToRect(self.editBtn!.frame, CGRectZero) {
             let headerBounds = self.header!.frame.size
@@ -91,7 +89,6 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         self.customLabel?.frame  = self.addToCartButton!.bounds
         if !isShared {
             if showReminderButton{
-                //self.reminderButton?.frame = CGRectMake(0, self.header!.frame.maxY, self.view.frame.width,  28.0)
                 
                 self.reminderButton?.frame = CGRectMake(self.shareButton!.frame.maxX + 16.0, self.shareButton!.frame.minY, 34, 34)
                 x = self.reminderButton!.frame.maxX + 16.0
@@ -118,7 +115,7 @@ class IPAUserListDetailViewController: UserListDetailViewController, UIPopoverCo
         if self.loading != nil {
             self.loading!.stopAnnimating()
         }
-        //super.viewWillAppear(animated)
+        
         if UserCurrentSession.hasLoggedUser() {
             self.showLoadingView()
             self.invokeDetailListService({ () -> Void in

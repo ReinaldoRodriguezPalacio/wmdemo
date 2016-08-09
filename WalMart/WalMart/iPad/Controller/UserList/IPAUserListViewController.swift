@@ -125,6 +125,7 @@ class IPAUserListViewController: UserListViewController {
                 customBar.view.addSubview(listHelView!)
                 CustomBarViewController.addOrUpdateParam("detailHelp", value: "false")
             }
+             self.view.endEditing(true)
         }
         
     }

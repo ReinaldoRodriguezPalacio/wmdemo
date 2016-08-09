@@ -491,7 +491,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         if !hasActive {
             
             let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-            let msgInventory = "No existen productos disponibles para agregar al carrito"
+            let msgInventory = NSLocalizedString("list.message.no.aviable.products", comment: "")
             alert!.setMessage(msgInventory)
             alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
             return
@@ -588,7 +588,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      */
     func noProductsAvailableAlert(){
         let alert = IPOWMAlertViewController.showAlert(UIImage(named:"noAvaliable"),imageDone:nil,imageError:UIImage(named:"noAvaliable"))
-        let msgInventory = "No existen productos disponibles para agregar al carrito"
+        let msgInventory = NSLocalizedString("list.message.no.aviable.products", comment: "")
         alert!.setMessage(msgInventory)
         alert!.showErrorIcon(NSLocalizedString("shoppingcart.keepshopping",comment:""))
     }
@@ -848,6 +848,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
      Find any lines and organized by sections
      */
     func counSections(){
+        self.newArrayProducts = []
         if UserCurrentSession.hasLoggedUser() {
             for items in self.products! {
                 let line = items["line"] as? NSDictionary
@@ -929,22 +930,17 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         var size = 0
-//        if self.products != nil {
-//            size = self.products!.count
-//            if size > 0 {
-//                size += 1
-//            }
-//        }
-        print("secction:::")
+
+        print("self.newArrayProducts.count::: \(self.newArrayProducts.count)")
         print(section)
         if section == self.newArrayProducts.count  {
             return 1
         }
         
         if self.newArrayProducts != nil  && self.newArrayProducts.count > 0 {
-            let items = self.newArrayProducts![section]
-            let listProduct = items[linesArray[section ] as! String] as? NSArray
-            size = listProduct!.count
+                let items = self.newArrayProducts![section]
+                let listProduct = items[linesArray[section] as! String] as? NSArray
+                size = listProduct!.count
         }
         
         return size
@@ -1676,7 +1672,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     //MARK:  Actions
     func findProdutFromUpc(upc:String){
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("Agregando el producto a tu lista", comment:""))
+        self.alertView!.setMessage(NSLocalizedString("list.message.add.product.list", comment:""))
         
         let useSignalsService : NSDictionary = NSDictionary(dictionary: ["signals" : GRBaseService.getUseSignalServices()])
         let svcValidate = GRProductDetailService(dictionary: useSignalsService)
@@ -1756,7 +1752,7 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
     func invokeServicefromTicket(ticket:String){
         
         self.alertView = IPOWMAlertViewController.showAlert(UIImage(named:"list_alert"), imageDone: UIImage(named:"done"), imageError: UIImage(named:"list_alert_error"))
-        self.alertView!.setMessage(NSLocalizedString("Agregando los productos a tu lista", comment:""))
+        self.alertView!.setMessage(NSLocalizedString("list.message.add.products.to.list", comment:""))
         
         let service = GRProductByTicket()
         service.callService(service.buildParams(ticket),
@@ -1812,16 +1808,16 @@ class UserListDetailViewController: UserListNavigationBaseViewController, UITabl
         let toValidate : NSString = search
         let trimValidate = toValidate.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         if toValidate.isEqualToString(""){
-            message = "Escriba una palabra a buscar"
+            message = NSLocalizedString("list.message.write.word.search", comment: "")
         }
         if trimValidate.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) < 2 {
             message = NSLocalizedString("product.search.minimum",comment:"")
         }
         if !validateSearch(search)  {
-           message = "Texto no permitido"
+           message = NSLocalizedString("field.validate.text", comment: "")
         }
         if search.lengthOfBytesUsingEncoding(NSUTF8StringEncoding) > 50  {
-            message = "La longitud no puede ser mayor a 50 caracteres"
+            message = NSLocalizedString("list.message.validation.characters", comment: "")
         }
         return message
     }

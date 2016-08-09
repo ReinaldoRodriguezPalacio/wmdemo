@@ -38,7 +38,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
         super.viewDidLoad()
         self.backButton?.hidden = true
         self.titleLabel!.font = WMFont.fontMyriadProRegularOfSize(16)
-        self.titleLabel?.text = "Walmart Buenavista"
+        self.titleLabel?.text = NSLocalizedString("profile.default.store", comment: "")
         self.titleLabel?.textAlignment = .Center
         
         colCategories.backgroundColor = WMColor.light_light_gray
@@ -305,7 +305,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance().addressId == nil{
+        if titleLabel!.text! == NSLocalizedString("profile.default.store", comment: "")  && UserCurrentSession.sharedInstance().addressId == nil{
             let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,338,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,338,self.view.frame.height - 90))
@@ -314,9 +314,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                     self.newModalView!.closePicker()
                     self.setStoreName()
                 }
-                self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+                self.newModalView!.resizeViewContent(NSLocalizedString("gr.address.title", comment: ""),view: addAddress)
             }
-            self.newModalView = AlertModalView.initModalWithView("Ver inventario de tienda", innerView: noAddressView)
+            self.newModalView = AlertModalView.initModalWithView(NSLocalizedString("gr.category.view.inventory", comment: ""), innerView: noAddressView)
             self.newModalView!.showPicker()
         }else{
             self.addressView = GRAddressView(frame: CGRectMake(0,0,338,365))
@@ -328,7 +328,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                     self.newModalView!.closePicker()
                     self.setStoreName()
                 }
-                self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+                self.newModalView!.resizeViewContent(NSLocalizedString("gr.address.title", comment: ""),view: addAddress)
             }
             
             self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
@@ -347,9 +347,9 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
                     self.addressView!.blockRows = false
                     self.newModalView!.closeNew()
                 }
-                self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
+                self.newModalView!.resizeViewContent("\(NSLocalizedString("gr.category.title", comment: "")) \(addressName)",view: storeView)
             }
-            self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+            self.newModalView = AlertModalView.initModalWithView(NSLocalizedString("profile.view.inventory", comment: ""), innerView: addressView!)
             self.newModalView!.onReturnPicker = { void in
                 self.addressView!.blockRows = false
             }
@@ -365,7 +365,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
             var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance().storeName == "" {
-                boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
+                boldString = NSMutableAttributedString(string:NSLocalizedString("profile.default.store", comment: ""), attributes:attrs)
             }
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.numberOfLines = 2;
@@ -375,7 +375,7 @@ class IPAGRCategoriesViewController :  NavigationViewController, UICollectionVie
             self.titleLabel?.addGestureRecognizer(tapGesture)
             self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
         }else{
-            self.titleLabel?.text = "Walmart Buenavista"
+            self.titleLabel?.text = NSLocalizedString("profile.default.store", comment: "")
             self.titleLabel!.frame = CGRectMake(0, 0, self.header!.frame.width, self.header!.frame.maxY)
         }
         

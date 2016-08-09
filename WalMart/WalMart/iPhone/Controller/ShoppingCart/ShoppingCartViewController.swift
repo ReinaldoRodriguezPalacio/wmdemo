@@ -475,8 +475,8 @@ class ShoppingCartViewController : BaseController ,UITableViewDelegate,UITableVi
                 
                 updateShopButton(total)
                 
-                 var newTotal  = total
-                 var newTotalSavings = totalSaving
+                 let newTotal  = total
+                 let newTotalSavings = totalSaving
                 
                 cellTotals.setValues(subTotalText, iva: iva, total:newTotal,totalSaving:newTotalSavings)
                 cell = cellTotals

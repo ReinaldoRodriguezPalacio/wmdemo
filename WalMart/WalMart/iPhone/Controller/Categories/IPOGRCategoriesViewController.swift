@@ -68,7 +68,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
         
         self.header?.addSubview(buttonCollapse)
         
-        self.titleLabel?.text = "Walmart Buenavista"
+        self.titleLabel?.text = NSLocalizedString("profile.default.store", comment: "")
         self.titleLabel?.textAlignment = .Left
         
         self.viewFamily = UIView()
@@ -442,7 +442,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
     
     //MARK changeStore
     func changeStore(){
-        if titleLabel!.text! == "Walmart Buenavista ￼" && UserCurrentSession.sharedInstance().addressId == nil {
+        if titleLabel!.text! == NSLocalizedString("profile.default.store", comment: "") && UserCurrentSession.sharedInstance().addressId == nil {
             let noAddressView = GRAddressNoStoreView(frame: CGRectMake(0,0,288,210))
             noAddressView.newAdressForm = { void in
                 let addAddress = GRAddAddressView(frame: CGRectMake(0,49,288,self.view.frame.height - 90))
@@ -451,9 +451,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     self.newModalView!.closePicker()
                     self.setStoreName()
                 }
-               self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+               self.newModalView!.resizeViewContent(NSLocalizedString("gr.address.title", comment: ""),view: addAddress)
             }
-            self.newModalView = AlertModalView.initModalWithView("Ver inventario de tienda", innerView: noAddressView)
+            self.newModalView = AlertModalView.initModalWithView(NSLocalizedString("gr.category.view.inventory", comment: ""), innerView: noAddressView)
             self.newModalView!.showPicker()
         }else{
             self.addressView = GRAddressView(frame: CGRectMake(0,0,288,365))
@@ -465,7 +465,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     self.newModalView!.closePicker()
                     self.setStoreName()
                 }
-                self.newModalView!.resizeViewContent("Nueva Dirección",view: addAddress)
+                self.newModalView!.resizeViewContent(NSLocalizedString("gr.address.title", comment: ""),view: addAddress)
             }
         
             self.addressView?.addressSelected = {(addressId:String,addressName:String,selectedStore:String,stores:[NSDictionary]) in
@@ -484,9 +484,9 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
                     self.addressView!.blockRows = false
                     self.newModalView!.closeNew()
                 }
-                self.newModalView!.resizeViewContent("Tiendas \(addressName)",view: storeView)
+                self.newModalView!.resizeViewContent("\(NSLocalizedString("gr.category.title", comment: "")) \(addressName)",view: storeView)
             }
-            self.newModalView = AlertModalView.initModalWithView("Ver inventario de otra tienda", innerView: addressView!)
+            self.newModalView = AlertModalView.initModalWithView(NSLocalizedString("profile.view.inventory", comment: ""), innerView: addressView!)
             self.newModalView!.onReturnPicker = { void in
                self.addressView!.blockRows = false
             }
@@ -502,7 +502,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let attrs = [NSFontAttributeName : WMFont.fontMyriadProRegularOfSize(14)]
             var boldString = NSMutableAttributedString(string:"Walmart \(UserCurrentSession.sharedInstance().storeName!.capitalizedString)  ", attributes:attrs)
             if UserCurrentSession.sharedInstance().storeName == "" {
-                 boldString = NSMutableAttributedString(string:"Walmart Buenavista ", attributes:attrs)
+                 boldString = NSMutableAttributedString(string:NSLocalizedString("profile.default.store", comment: ""), attributes:attrs)
             }
             boldString.appendAttributedString(attachmentString)
             self.titleLabel?.adjustsFontSizeToFitWidth = true
@@ -513,7 +513,7 @@ class IPOGRCategoriesViewController: NavigationViewController, UITableViewDataSo
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(IPOGRCategoriesViewController.changeStore))
             self.titleLabel?.addGestureRecognizer(tapGesture)
         }else{
-            self.titleLabel?.text = "Walmart Buenavista"
+            self.titleLabel?.text = NSLocalizedString("profile.default.store", comment: "")
         }
         
     }

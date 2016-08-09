@@ -24,10 +24,6 @@ class GRZipCodeService : GRBaseService {
         }
     }
     
-    override func serviceUrl() -> (String){
-        return super.serviceUrl() //+ "/"  + self.code!
-    }
-    
     
     override func needsLogin() -> Bool {
         return false
