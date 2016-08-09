@@ -222,6 +222,19 @@ class ShoppingCartAddProductsService : BaseService {
             cartProduct.product.iva = ""
             cartProduct.product.baseprice = ""
             cartProduct.product.isPreorderable =  product["isPreorderable"]  as? String == nil ? "false" : product["isPreorderable"] as! String
+            //new items
+            cartProduct.product.comments = "" //product["comments"] as! String
+            cartProduct.product.equivalenceByPiece = "" //product["equivalenceByPiece"] as! String
+            cartProduct.product.promoDescription = "" //product["onHandInventory"] as! String
+            cartProduct.product.saving = "" //product["savingsAmount"] as! String
+            cartProduct.product.stock = true //product["lowStock"] as! String
+            //  cartProduct.product.idLine = ""
+            var nameLine = "Otros"
+            if let lineObj = product["line"] as? NSDictionary {
+                nameLine = lineObj["name"] as! String
+            }
+            cartProduct.product.nameLine = nameLine
+            //
             cartProduct.status = NSNumber(integer: statusForProduct())
             cartProduct.type = ResultObjectType.Mg.rawValue
             if let category = product["category"] as? String {

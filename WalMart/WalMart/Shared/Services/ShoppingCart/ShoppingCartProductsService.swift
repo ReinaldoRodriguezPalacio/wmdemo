@@ -56,9 +56,17 @@ class ShoppingCartProductsService : BaseService {
                         var carProduct : Cart!
                         var carProductItem : Product!
                         let upc = shoppingCartProduct["upc"] as! String
-                        let quantity = shoppingCartProduct["quantity"] as! NSString
+                        //let quantity = shoppingCartProduct["quantity"] as! NSNumber
+                        var quantiValue = 0
+                        if let quantity = shoppingCartProduct["quantity"] as? NSNumber {
+                           quantiValue = quantity.integerValue
+                        }
+                        
                         let desc = shoppingCartProduct["description"] as! String
-                        let price = shoppingCartProduct["price"] as! String
+                        var price = "" //shoppingCartProduct["price"] as! String
+                        if  let priceValue = shoppingCartProduct["price"] as? NSNumber {
+                            price = priceValue.stringValue
+                        }
                         var baseprice = ""
                         if  let base = shoppingCartProduct["basePrice"] as? String {
                             baseprice = base
@@ -77,7 +85,19 @@ class ShoppingCartProductsService : BaseService {
                         if  let departmentBase = shoppingCartProduct["department"] as? String {
                             department = departmentBase
                         }
-                        
+                        var comments = ""
+                        if let commentBase = shoppingCartProduct["comments"] as? String {
+                            comments = commentBase
+                        }
+                        let equivalenceByPiece = ""
+                        let promoDescription = ""
+                        let saving = ""
+                        let stock = true
+                        let idLine = ""
+                        var nameLine = ""
+                        if let nameLineBase = shoppingCartProduct["line"] as? AnyObject {
+                            nameLine = (nameLineBase["name"] as? String)!
+                        }
                         
                         var imageUrl = ""
                         if let images = shoppingCartProduct["imageUrl"] as? NSArray {
@@ -95,6 +115,15 @@ class ShoppingCartProductsService : BaseService {
                         carProductItem.baseprice = baseprice
                         carProductItem.img = imageUrl
                         carProductItem.department = department
+                        //New items
+                        carProductItem.comments = comments
+                        carProductItem.equivalenceByPiece = equivalenceByPiece
+                        carProductItem.promoDescription = promoDescription
+                        carProductItem.saving = saving
+                        carProductItem.stock = stock
+                        //carProductItem.idLine = idLine
+                        carProductItem.nameLine = nameLine
+                        //
                         
                         if let active = shoppingCartProduct["isActive"] as? String {
                             carProductItem.isActive = active
@@ -106,13 +135,13 @@ class ShoppingCartProductsService : BaseService {
                             carProductItem.isPreorderable = preorderable
                         }
 
-                        carProduct.quantity = NSNumber(integer: quantity.integerValue)
+                        carProduct.quantity = NSNumber(integer: quantiValue)
                         carProduct.product = carProductItem
                         carProduct.type = ResultObjectType.Mg.rawValue
                         carProduct.user = user!
                         carProduct.status = NSNumber(integer:CartStatus.Synchronized.rawValue)
                         
-                        currentQuantity += quantity.integerValue
+                        currentQuantity += quantiValue
                         
                     }
                     
@@ -160,9 +189,14 @@ class ShoppingCartProductsService : BaseService {
     func callCoreDataService(params:NSDictionary,successBlock:((NSDictionary) -> Void)?, errorBlock:((NSError) -> Void)? ) {
         //let appDelegate: AppDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         //let context: NSManagedObjectContext = appDelegate.managedObjectContext!
-        var predicate = NSPredicate(format: "user == nil AND status != %@ AND type == %@",NSNumber(integer: WishlistStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
+        
+        //  Quitar type para tomar todos los articulos
+        
+        var predicate = NSPredicate(format: "user == nil AND status != %@",NSNumber(integer: WishlistStatus.Deleted.rawValue))
+        // AND type == %@  .ResultObjectType.Mg.rawValue
         if UserCurrentSession.hasLoggedUser() {
-            predicate = NSPredicate(format: "user == %@ AND status != %@ AND type == %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue),ResultObjectType.Mg.rawValue)
+            predicate = NSPredicate(format: "user == %@ AND status != %@", UserCurrentSession.sharedInstance().userSigned!,NSNumber(integer: CartStatus.Deleted.rawValue))
+            //AND type == %@    ,ResultObjectType.Mg.rawValue
         }
         let array  =  self.retrieve("Cart",sortBy:nil,isAscending:true,predicate:predicate) as! [Cart]
         var returnDictionary = [:]
@@ -176,10 +210,7 @@ class ShoppingCartProductsService : BaseService {
             
             //let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory]
             
-            let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":[itemSC.product.img],"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department]
-            
-            
-            
+            let dictItem = ["upc":itemSC.product.upc,"description":itemSC.product.desc,"price":itemSC.product.price,"quantity":itemSC.quantity.stringValue,"imageUrl":itemSC.product.img,"ivaAmount":itemSC.product.iva,"basePrice":itemSC.product.baseprice,"onHandInventory":itemSC.product.onHandInventory,"line":["id" :"0","name":itemSC.product.nameLine],"isPreorderable":itemSC.product.isPreorderable,"category": itemSC.product.department, "type": itemSC.product.type]
             
             let price = itemSC.product.price as NSString
             let ivaprod = itemSC.product.iva as NSString

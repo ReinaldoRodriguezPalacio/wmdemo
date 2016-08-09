@@ -519,16 +519,14 @@ class UserCurrentSession : NSObject {
     func loadShoppingCarts(result:(() -> Void)) {
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateShoppingCartBegin.rawValue, object: nil)
         self.loadMGShoppingCart { () -> Void in
-            self.loadGRShoppingCart({ () -> Void in
+            //self.loadGRShoppingCart({ () -> Void in
                 //TODO: Decide shop preShopping Cart, Empty or cart
-                
-                
               result()
-                
-            })
+            //})
         }
     }
     
+    //Shopping Cart para combinar
     func loadMGShoppingCart(endLoadSC:(() -> Void)) {
         let service = ShoppingCartProductsService()
         service.callService([:], successBlock: { (result:NSDictionary) -> Void in
@@ -581,7 +579,7 @@ class UserCurrentSession : NSObject {
     
     func numberOfArticlesMG() -> Int {
         var countItems = 0
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)
+        let arrayCart : [Cart]? = self.userCartByType()//ResultObjectType.Mg.rawValue
         if arrayCart != nil {
             countItems = arrayCart!.count
             
@@ -593,7 +591,7 @@ class UserCurrentSession : NSObject {
     
     func identicalMG() -> Bool {
         var countItems = false
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Mg.rawValue)
+        let arrayCart : [Cart]? = self.userCartByType()//ResultObjectType.Mg.rawValue
         if arrayCart != nil {
             for product in arrayCart!{
                 if product.product.isPreorderable == "true"{
@@ -625,7 +623,7 @@ class UserCurrentSession : NSObject {
     func estimateTotalGR() -> Double {
         var totalGR = 0.0
         
-        let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
+        let arrayCart : [Cart]? = self.userCartByType()//ResultObjectType.Groceries.rawValue
         if arrayCart != nil {
             for prodCart in arrayCart! {
                 if  prodCart.product.type == "false" {
@@ -654,23 +652,23 @@ class UserCurrentSession : NSObject {
     
     func numberOfArticlesGR() -> Int {
         var countItems = 0
-        if self.itemsGR != nil {
+        /*if self.itemsGR != nil {
             let arrayCart = self.itemsGR!["items"] as? [AnyObject]
             countItems = arrayCart!.count
         }else{
-           let arrayCart : [Cart]? = self.userCartByType(ResultObjectType.Groceries.rawValue)
+           let arrayCart : [Cart]? = self.userCartByType()//ResultObjectType.Groceries.rawValue
             if arrayCart != nil {
                 countItems = arrayCart!.count
             }
         }
-        self.updateTotalItemsInCarts(itemsInGR:countItems)
+        self.updateTotalItemsInCarts(itemsInGR:countItems)*/
         return countItems
     }
     
     
     
     func updateTotalItemsInCarts() {
-        let countItems = self.numberOfArticlesMG() + numberOfArticlesGR()
+        let countItems = self.numberOfArticlesMG()// + numberOfArticlesGR()
         let params = ["quantity":countItems]
         NSNotificationCenter.defaultCenter().postNotificationName(CustomBarNotification.UpdateBadge.rawValue, object: params)
     }
@@ -713,14 +711,16 @@ class UserCurrentSession : NSObject {
 
     }
     
-    func userCartByType(type:String) -> [Cart]? {
+    func userCartByType() -> [Cart]? {//type:String
         var  predicate  : NSPredicate? = nil
         if userSigned != nil {
-            predicate = NSPredicate(format: "user == %@ && type == %@ && status != %@",userSigned!, type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            //predicate = NSPredicate(format: "user == %@ && type == %@ && status != %@",userSigned!, type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            predicate = NSPredicate(format: "user == %@ && status != %@",userSigned!,NSNumber(integer:WishlistStatus.Deleted.rawValue))
             //let setItems = userSigned?.productsInCart.filteredSetUsingPredicate(predicate!)
             //return setItems?.count != 0
         }else{
-            predicate = NSPredicate(format: "user == nil && type == %@ && status != %@", type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            //predicate = NSPredicate(format: "user == nil && type == %@ && status != %@", type,NSNumber(integer:WishlistStatus.Deleted.rawValue))
+            predicate = NSPredicate(format: "user == nil && status != %@", NSNumber(integer:WishlistStatus.Deleted.rawValue))
             
         }
         
